@@ -6,7 +6,7 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
-const report = path.resolve("test-results", "prove-failing.json");
+const report = path.resolve("test-results", process.env.GD_RUN ?? "default", "prove-failing.json");
 fs.mkdirSync(path.dirname(report), { recursive: true });
 
 const result = spawnSync(

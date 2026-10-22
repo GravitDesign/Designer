@@ -1,0 +1,50 @@
+{
+ "equalsSame": true,
+ "equalsClose": true,
+ "equalsFar": false,
+ "equalsEps": true,
+ "equalsEpsMiss": false,
+ "equalsNull": false,
+ "equalsOneNull": false,
+ "equalsNullOne": false,
+ "min": {
+  "P": [
+   -2,
+   -1
+  ]
+ },
+ "max": {
+  "P": [
+   3,
+   5
+  ]
+ },
+ "minOne": {
+  "P": [
+   7,
+   8
+  ]
+ },
+ "minNone": {
+  "P": [
+   null,
+   null
+  ]
+ },
+ "finiteNaN": false,
+ "finiteInf": false,
+ "finiteString": false,
+ "finiteUndef": false,
+ "minRandom": {
+  "P": [
+   -93.91202828846872,
+   -99.56012843176723
+  ]
+ },
+ "maxRandom": {
+  "P": [
+   99.49562503024936,
+   88.27208806760609
+  ]
+ }
+}

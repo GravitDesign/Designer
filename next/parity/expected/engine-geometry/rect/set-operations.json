@@ -1,0 +1,8150 @@
+[
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   20,
+   20,
+   5,
+   5
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     0,
+     25,
+     25
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     25,
+     25
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     25,
+     25
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     20,
+     20,
+     5,
+     5
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": 10,
+    "y": 10
+   },
+   {
+    "x": 10,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 10
+   },
+   {
+    "x": 10,
+    "y": 10
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   10,
+   0,
+   5,
+   10
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   true,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     0,
+     15,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     15,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     15,
+     10
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     10,
+     0,
+     5,
+     10
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": 0,
+    "y": null
+   },
+   {
+    "leftDist": 10,
+    "rightDist": 5,
+    "x": 0,
+    "y": null
+   },
+   {
+    "bottomDist": 0,
+    "topDist": 0,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 0,
+    "leftDist": 10,
+    "rightDist": 5,
+    "topDist": 0,
+    "x": 0,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   0,
+   10,
+   10,
+   5
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   true,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     15
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     15
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     15
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     10,
+     10,
+     5
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": 0
+   },
+   {
+    "leftDist": 0,
+    "rightDist": 0,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 5,
+    "topDist": 10,
+    "x": null,
+    "y": 0
+   },
+   {
+    "bottomDist": 5,
+    "leftDist": 0,
+    "rightDist": 0,
+    "topDist": 10,
+    "x": null,
+    "y": 0
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   5,
+   5,
+   10,
+   10
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     0,
+     15,
+     15
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     15,
+     15
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     15,
+     15
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   [
+    {
+     "R": [
+      0,
+      0,
+      5,
+      10
+     ]
+    },
+    {
+     "R": [
+      5,
+      0,
+      5,
+      5
+     ]
+    }
+   ],
+   [
+    {
+     "R": [
+      5,
+      10,
+      5,
+      5
+     ]
+    },
+    {
+     "R": [
+      10,
+      5,
+      5,
+      10
+     ]
+    }
+   ]
+  ],
+  "intersected": [
+   {
+    "R": [
+     5,
+     5,
+     5,
+     5
+    ]
+   },
+   {
+    "R": [
+     5,
+     5,
+     5,
+     5
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": 5,
+    "rightDist": 5,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 5,
+    "topDist": 5,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 5,
+    "leftDist": 5,
+    "rightDist": 5,
+    "topDist": 5,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   -5,
+   -5,
+   10,
+   10
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     -5,
+     -5,
+     15,
+     15
+    ]
+   },
+   {
+    "R": [
+     -5,
+     -5,
+     15,
+     15
+    ]
+   },
+   {
+    "R": [
+     -5,
+     -5,
+     15,
+     15
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   [
+    {
+     "R": [
+      0,
+      5,
+      5,
+      5
+     ]
+    },
+    {
+     "R": [
+      5,
+      0,
+      5,
+      10
+     ]
+    }
+   ],
+   [
+    {
+     "R": [
+      -5,
+      -5,
+      5,
+      10
+     ]
+    },
+    {
+     "R": [
+      0,
+      -5,
+      5,
+      5
+     ]
+    }
+   ]
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     5,
+     5
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     5,
+     5
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": -5,
+    "rightDist": -5,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -5,
+    "topDist": -5,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -5,
+    "leftDist": -5,
+    "rightDist": -5,
+    "topDist": -5,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   2,
+   2,
+   4,
+   4
+  ],
+  "containsRect": [
+   true,
+   true,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   [
+    {
+     "R": [
+      0,
+      0,
+      10,
+      2
+     ]
+    },
+    {
+     "R": [
+      0,
+      2,
+      2,
+      4
+     ]
+    },
+    {
+     "R": [
+      6,
+      2,
+      4,
+      4
+     ]
+    },
+    {
+     "R": [
+      0,
+      6,
+      10,
+      4
+     ]
+    }
+   ],
+   {
+    "R": [
+     2,
+     2,
+     0,
+     0
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     2,
+     2,
+     4,
+     4
+    ]
+   },
+   {
+    "R": [
+     2,
+     2,
+     4,
+     4
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": 2,
+    "rightDist": -4,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -4,
+    "topDist": 2,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -4,
+    "leftDist": 2,
+    "rightDist": -4,
+    "topDist": 2,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   2,
+   2,
+   4,
+   4,
+   0,
+   0,
+   10,
+   10
+  ],
+  "containsRect": [
+   false,
+   false,
+   true
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     2,
+     2,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     2,
+     2,
+     0,
+     0
+    ]
+   },
+   [
+    {
+     "R": [
+      0,
+      0,
+      10,
+      2
+     ]
+    },
+    {
+     "R": [
+      0,
+      2,
+      2,
+      4
+     ]
+    },
+    {
+     "R": [
+      6,
+      2,
+      4,
+      4
+     ]
+    },
+    {
+     "R": [
+      0,
+      6,
+      10,
+      4
+     ]
+    }
+   ]
+  ],
+  "intersected": [
+   {
+    "R": [
+     2,
+     2,
+     4,
+     4
+    ]
+   },
+   {
+    "R": [
+     2,
+     2,
+     4,
+     4
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": -2,
+    "rightDist": 4,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 4,
+    "topDist": -2,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 4,
+    "leftDist": -2,
+    "rightDist": 4,
+    "topDist": -2,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   0,
+   0,
+   10,
+   10
+  ],
+  "containsRect": [
+   true,
+   true,
+   true
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": 0,
+    "rightDist": 0,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 0,
+    "topDist": 0,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 0,
+    "leftDist": 0,
+    "rightDist": 0,
+    "topDist": 0,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   3,
+   -2,
+   4,
+   20
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     -2,
+     10,
+     20
+    ]
+   },
+   {
+    "R": [
+     0,
+     -2,
+     10,
+     20
+    ]
+   },
+   {
+    "R": [
+     0,
+     -2,
+     10,
+     20
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     3,
+     -2,
+     4,
+     20
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     3,
+     0,
+     4,
+     10
+    ]
+   },
+   {
+    "R": [
+     3,
+     0,
+     4,
+     10
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": 3,
+    "rightDist": -3,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 8,
+    "topDist": -2,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 8,
+    "leftDist": 3,
+    "rightDist": -3,
+    "topDist": -2,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   -2,
+   3,
+   20,
+   4
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     -2,
+     0,
+     20,
+     10
+    ]
+   },
+   {
+    "R": [
+     -2,
+     0,
+     20,
+     10
+    ]
+   },
+   {
+    "R": [
+     -2,
+     0,
+     20,
+     10
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     -2,
+     3,
+     20,
+     4
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     3,
+     10,
+     4
+    ]
+   },
+   {
+    "R": [
+     0,
+     3,
+     10,
+     4
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": -2,
+    "rightDist": 8,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -3,
+    "topDist": 3,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -3,
+    "leftDist": -2,
+    "rightDist": 8,
+    "topDist": 3,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   -2,
+   -2,
+   5,
+   20
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     -2,
+     -2,
+     12,
+     20
+    ]
+   },
+   {
+    "R": [
+     -2,
+     -2,
+     12,
+     20
+    ]
+   },
+   {
+    "R": [
+     -2,
+     -2,
+     12,
+     20
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     3,
+     0,
+     7,
+     10
+    ]
+   },
+   {
+    "R": [
+     3,
+     0,
+     7,
+     10
+    ]
+   },
+   [
+    {
+     "R": [
+      -2,
+      -2,
+      5,
+      2
+     ]
+    },
+    {
+     "R": [
+      -2,
+      0,
+      2,
+      10
+     ]
+    },
+    {
+     "R": [
+      -2,
+      10,
+      5,
+      8
+     ]
+    }
+   ]
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     3,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     3,
+     10
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": -2,
+    "rightDist": -7,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 8,
+    "topDist": -2,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 8,
+    "leftDist": -2,
+    "rightDist": -7,
+    "topDist": -2,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   7,
+   -2,
+   5,
+   20
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     -2,
+     12,
+     20
+    ]
+   },
+   {
+    "R": [
+     0,
+     -2,
+     12,
+     20
+    ]
+   },
+   {
+    "R": [
+     0,
+     -2,
+     12,
+     20
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     7,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     7,
+     10
+    ]
+   },
+   [
+    {
+     "R": [
+      7,
+      -2,
+      5,
+      2
+     ]
+    },
+    {
+     "R": [
+      10,
+      0,
+      2,
+      10
+     ]
+    },
+    {
+     "R": [
+      7,
+      10,
+      5,
+      8
+     ]
+    }
+   ]
+  ],
+  "intersected": [
+   {
+    "R": [
+     7,
+     0,
+     3,
+     10
+    ]
+   },
+   {
+    "R": [
+     7,
+     0,
+     3,
+     10
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": 7,
+    "rightDist": 2,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 8,
+    "topDist": -2,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 8,
+    "leftDist": 7,
+    "rightDist": 2,
+    "topDist": -2,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   -2,
+   -2,
+   20,
+   5
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     -2,
+     -2,
+     20,
+     12
+    ]
+   },
+   {
+    "R": [
+     -2,
+     -2,
+     20,
+     12
+    ]
+   },
+   {
+    "R": [
+     -2,
+     -2,
+     20,
+     12
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     3,
+     10,
+     7
+    ]
+   },
+   {
+    "R": [
+     0,
+     3,
+     10,
+     7
+    ]
+   },
+   [
+    {
+     "R": [
+      -2,
+      -2,
+      2,
+      5
+     ]
+    },
+    {
+     "R": [
+      0,
+      -2,
+      10,
+      2
+     ]
+    },
+    {
+     "R": [
+      10,
+      -2,
+      8,
+      5
+     ]
+    }
+   ]
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     3
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     3
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": -2,
+    "rightDist": 8,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -7,
+    "topDist": -2,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -7,
+    "leftDist": -2,
+    "rightDist": 8,
+    "topDist": -2,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   -2,
+   7,
+   20,
+   5
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     -2,
+     0,
+     20,
+     12
+    ]
+   },
+   {
+    "R": [
+     -2,
+     0,
+     20,
+     12
+    ]
+   },
+   {
+    "R": [
+     -2,
+     0,
+     20,
+     12
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     7
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     7
+    ]
+   },
+   [
+    {
+     "R": [
+      -2,
+      7,
+      2,
+      5
+     ]
+    },
+    {
+     "R": [
+      0,
+      10,
+      10,
+      2
+     ]
+    },
+    {
+     "R": [
+      10,
+      7,
+      8,
+      5
+     ]
+    }
+   ]
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     7,
+     10,
+     3
+    ]
+   },
+   {
+    "R": [
+     0,
+     7,
+     10,
+     3
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": -2,
+    "rightDist": 8,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 2,
+    "topDist": 7,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 2,
+    "leftDist": -2,
+    "rightDist": 8,
+    "topDist": 7,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   3,
+   -2,
+   4,
+   5
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     -2,
+     10,
+     12
+    ]
+   },
+   {
+    "R": [
+     0,
+     -2,
+     10,
+     12
+    ]
+   },
+   {
+    "R": [
+     0,
+     -2,
+     10,
+     12
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   [
+    {
+     "R": [
+      0,
+      0,
+      3,
+      10
+     ]
+    },
+    {
+     "R": [
+      3,
+      3,
+      4,
+      7
+     ]
+    },
+    {
+     "R": [
+      7,
+      0,
+      3,
+      10
+     ]
+    }
+   ],
+   {
+    "R": [
+     3,
+     -2,
+     4,
+     2
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     3,
+     0,
+     4,
+     3
+    ]
+   },
+   {
+    "R": [
+     3,
+     0,
+     4,
+     3
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": 3,
+    "rightDist": -3,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -7,
+    "topDist": -2,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -7,
+    "leftDist": 3,
+    "rightDist": -3,
+    "topDist": -2,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   3,
+   7,
+   4,
+   5
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     12
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     12
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     12
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   [
+    {
+     "R": [
+      0,
+      0,
+      3,
+      10
+     ]
+    },
+    {
+     "R": [
+      3,
+      0,
+      4,
+      7
+     ]
+    },
+    {
+     "R": [
+      7,
+      0,
+      3,
+      10
+     ]
+    }
+   ],
+   {
+    "R": [
+     3,
+     10,
+     4,
+     2
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     3,
+     7,
+     4,
+     3
+    ]
+   },
+   {
+    "R": [
+     3,
+     7,
+     4,
+     3
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": 3,
+    "rightDist": -3,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 2,
+    "topDist": 7,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 2,
+    "leftDist": 3,
+    "rightDist": -3,
+    "topDist": 7,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   -2,
+   3,
+   5,
+   4
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     -2,
+     0,
+     12,
+     10
+    ]
+   },
+   {
+    "R": [
+     -2,
+     0,
+     12,
+     10
+    ]
+   },
+   {
+    "R": [
+     -2,
+     0,
+     12,
+     10
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   [
+    {
+     "R": [
+      0,
+      0,
+      10,
+      3
+     ]
+    },
+    {
+     "R": [
+      3,
+      3,
+      7,
+      4
+     ]
+    },
+    {
+     "R": [
+      0,
+      7,
+      10,
+      3
+     ]
+    }
+   ],
+   {
+    "R": [
+     -2,
+     3,
+     2,
+     4
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     3,
+     3,
+     4
+    ]
+   },
+   {
+    "R": [
+     0,
+     3,
+     3,
+     4
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": -2,
+    "rightDist": -7,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -3,
+    "topDist": 3,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -3,
+    "leftDist": -2,
+    "rightDist": -7,
+    "topDist": 3,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   7,
+   3,
+   5,
+   4
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     0,
+     12,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     12,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     12,
+     10
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   [
+    {
+     "R": [
+      0,
+      0,
+      10,
+      3
+     ]
+    },
+    {
+     "R": [
+      0,
+      3,
+      7,
+      4
+     ]
+    },
+    {
+     "R": [
+      0,
+      7,
+      10,
+      3
+     ]
+    }
+   ],
+   {
+    "R": [
+     10,
+     3,
+     2,
+     4
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     7,
+     3,
+     3,
+     4
+    ]
+   },
+   {
+    "R": [
+     7,
+     3,
+     3,
+     4
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": 7,
+    "rightDist": 2,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -3,
+    "topDist": 3,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -3,
+    "leftDist": 7,
+    "rightDist": 2,
+    "topDist": 3,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   3,
+   3,
+   0,
+   0
+  ],
+  "containsRect": [
+   false,
+   true,
+   false
+  ],
+  "intersects": [
+   false,
+   true,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   }
+  ],
+  "unitedSame": [
+   true,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": 3,
+    "rightDist": -7,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -7,
+    "topDist": 3,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -7,
+    "leftDist": 3,
+    "rightDist": -7,
+    "topDist": 3,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   0,
+   0,
+   3,
+   3,
+   5,
+   5
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     0,
+     8,
+     8
+    ]
+   },
+   {
+    "R": [
+     3,
+     3,
+     5,
+     5
+    ]
+   },
+   {
+    "R": [
+     3,
+     3,
+     5,
+     5
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   true
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     3,
+     3,
+     5,
+     5
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": 3,
+    "y": 3
+   },
+   {
+    "x": 3,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 3
+   },
+   {
+    "x": 3,
+    "y": 3
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   0,
+   3,
+   -3,
+   5,
+   5
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   true,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     -3,
+     10,
+     5
+    ]
+   },
+   {
+    "R": [
+     3,
+     -3,
+     5,
+     5
+    ]
+   },
+   {
+    "R": [
+     3,
+     -3,
+     5,
+     5
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   true
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     3,
+     -3,
+     5,
+     5
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": 3,
+    "rightDist": -2,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 2,
+    "topDist": -3,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 2,
+    "leftDist": 3,
+    "rightDist": -2,
+    "topDist": -3,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   10,
+   10,
+   -10,
+   -10,
+   5,
+   5,
+   10,
+   10
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     0,
+     15,
+     15
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     15,
+     15
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     15,
+     15
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     -10,
+     -10
+    ]
+   },
+   [
+    {
+     "R": [
+      0,
+      0,
+      5,
+      -10
+     ]
+    },
+    {
+     "R": [
+      5,
+      0,
+      5,
+      5
+     ]
+    }
+   ],
+   [
+    {
+     "R": [
+      5,
+      10,
+      5,
+      5
+     ]
+    },
+    {
+     "R": [
+      10,
+      5,
+      5,
+      10
+     ]
+    }
+   ]
+  ],
+  "intersected": [
+   {
+    "R": [
+     5,
+     5,
+     5,
+     5
+    ]
+   },
+   {
+    "R": [
+     5,
+     5,
+     5,
+     5
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": -5,
+    "rightDist": 15,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 15,
+    "topDist": -5,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 15,
+    "leftDist": -5,
+    "rightDist": 15,
+    "topDist": -5,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   0,
+   0,
+   10,
+   10,
+   15,
+   15,
+   -10,
+   -10
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     0,
+     0,
+     15,
+     15
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     15,
+     15
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     15,
+     15
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     0,
+     0,
+     10,
+     10
+    ]
+   },
+   [
+    {
+     "R": [
+      0,
+      0,
+      5,
+      10
+     ]
+    },
+    {
+     "R": [
+      5,
+      0,
+      5,
+      5
+     ]
+    }
+   ],
+   [
+    {
+     "R": [
+      5,
+      10,
+      5,
+      5
+     ]
+    },
+    {
+     "R": [
+      10,
+      5,
+      5,
+      -10
+     ]
+    }
+   ]
+  ],
+  "intersected": [
+   {
+    "R": [
+     5,
+     5,
+     5,
+     5
+    ]
+   },
+   {
+    "R": [
+     5,
+     5,
+     5,
+     5
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": 15,
+    "rightDist": -5,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -5,
+    "topDist": 15,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -5,
+    "leftDist": 15,
+    "rightDist": -5,
+    "topDist": 15,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   -5,
+   -5,
+   2,
+   2,
+   -5,
+   -5,
+   2,
+   2
+  ],
+  "containsRect": [
+   true,
+   true,
+   true
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     -5,
+     -5,
+     2,
+     2
+    ]
+   },
+   {
+    "R": [
+     -5,
+     -5,
+     2,
+     2
+    ]
+   },
+   {
+    "R": [
+     -5,
+     -5,
+     2,
+     2
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -5,
+     -5,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     -5,
+     -5,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     -5,
+     -5,
+     0,
+     0
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     -5,
+     -5,
+     2,
+     2
+    ]
+   },
+   {
+    "R": [
+     -5,
+     -5,
+     2,
+     2
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": 0,
+    "rightDist": 0,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 0,
+    "topDist": 0,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 0,
+    "leftDist": 0,
+    "rightDist": 0,
+    "topDist": 0,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   6.890244642272592,
+   13.43784149736166,
+   9.986418122425675,
+   -18.043314469978213,
+   -3.33042673766613,
+   -6.174889085814357,
+   -16.98992971330881,
+   17.261619111523032
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -20.32035645097494,
+     -6.174889085814357,
+     37.19701921567321,
+     19.612730583176017
+    ]
+   },
+   {
+    "R": [
+     -20.32035645097494,
+     -6.174889085814357,
+     37.19701921567321,
+     19.612730583176017
+    ]
+   },
+   {
+    "R": [
+     -20.32035645097494,
+     -6.174889085814357,
+     37.19701921567321,
+     19.612730583176017
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     6.890244642272592,
+     13.43784149736166,
+     9.986418122425675,
+     -18.043314469978213
+    ]
+   },
+   {
+    "R": [
+     6.890244642272592,
+     13.43784149736166,
+     9.986418122425675,
+     -18.043314469978213
+    ]
+   },
+   {
+    "R": [
+     -3.33042673766613,
+     -6.174889085814357,
+     -16.98992971330881,
+     17.261619111523032
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -10.220671379938722,
+    "y": null
+   },
+   {
+    "x": -10.220671379938722,
+    "y": null
+   },
+   {
+    "bottomDist": 15.692202998325229,
+    "topDist": -19.612730583176017,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 15.692202998325229,
+    "topDist": -19.612730583176017,
+    "x": -10.220671379938722,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   12.498878352344036,
+   6.542908251285553,
+   -7.183042569085956,
+   9.20954478904605,
+   2.907604118809104,
+   -3.125801645219326,
+   8.7678427901119,
+   -18.098786557093263
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     2.907604118809104,
+     -21.22458820231259,
+     9.591274233534932,
+     36.97704124264419
+    ]
+   },
+   {
+    "R": [
+     2.907604118809104,
+     -21.22458820231259,
+     9.591274233534932,
+     36.97704124264419
+    ]
+   },
+   {
+    "R": [
+     2.907604118809104,
+     -21.22458820231259,
+     9.591274233534932,
+     36.97704124264419
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     12.498878352344036,
+     6.542908251285553,
+     -7.183042569085956,
+     9.20954478904605
+    ]
+   },
+   {
+    "R": [
+     12.498878352344036,
+     6.542908251285553,
+     -7.183042569085956,
+     9.20954478904605
+    ]
+   },
+   {
+    "R": [
+     2.907604118809104,
+     -3.125801645219326,
+     8.7678427901119,
+     -18.098786557093263
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": -9.668709896504879
+   },
+   {
+    "leftDist": -9.591274233534932,
+    "rightDist": 6.359611125662923,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": -9.668709896504879
+   },
+   {
+    "leftDist": -9.591274233534932,
+    "rightDist": 6.359611125662923,
+    "x": null,
+    "y": -9.668709896504879
+   }
+  ]
+ },
+ {
+  "in": [
+   8.557592695578933,
+   10.413256594911218,
+   13.783731805160642,
+   -8.656357526779175,
+   15.188523698598146,
+   13.327759793028235,
+   10.893335407599807,
+   12.152863573282957
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     8.557592695578933,
+     1.7568990681320429,
+     17.52426641061902,
+     23.72372429817915
+    ]
+   },
+   {
+    "R": [
+     8.557592695578933,
+     1.7568990681320429,
+     17.52426641061902,
+     23.72372429817915
+    ]
+   },
+   {
+    "R": [
+     8.557592695578933,
+     1.7568990681320429,
+     17.52426641061902,
+     23.72372429817915
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     8.557592695578933,
+     10.413256594911218,
+     13.783731805160642,
+     -8.656357526779175
+    ]
+   },
+   {
+    "R": [
+     8.557592695578933,
+     10.413256594911218,
+     13.783731805160642,
+     -8.656357526779175
+    ]
+   },
+   {
+    "R": [
+     15.188523698598146,
+     13.327759793028235,
+     10.893335407599807,
+     12.152863573282957
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": 2.9145031981170177
+   },
+   {
+    "leftDist": 6.630931003019214,
+    "rightDist": 3.740534605458379,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 2.9145031981170177
+   },
+   {
+    "leftDist": 6.630931003019214,
+    "rightDist": 3.740534605458379,
+    "x": null,
+    "y": 2.9145031981170177
+   }
+  ]
+ },
+ {
+  "in": [
+   18.27957016415894,
+   6.200357303023338,
+   5.3914400935173035,
+   -18.601212333887815,
+   -13.080928521230817,
+   -12.820988949388266,
+   8.127807192504406,
+   -8.845617305487394
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -13.080928521230817,
+     -21.66660625487566,
+     36.75193877890706,
+     27.866963557899
+    ]
+   },
+   {
+    "R": [
+     -13.080928521230817,
+     -21.66660625487566,
+     36.75193877890706,
+     27.866963557899
+    ]
+   },
+   {
+    "R": [
+     -13.080928521230817,
+     -21.66660625487566,
+     36.75193877890706,
+     27.866963557899
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     18.27957016415894,
+     6.200357303023338,
+     5.3914400935173035,
+     -18.601212333887815
+    ]
+   },
+   {
+    "R": [
+     18.27957016415894,
+     6.200357303023338,
+     5.3914400935173035,
+     -18.601212333887815
+    ]
+   },
+   {
+    "R": [
+     -13.080928521230817,
+     -12.820988949388266,
+     8.127807192504406,
+     -8.845617305487394
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -23.23269149288535,
+    "y": -0.42013391852378845
+   },
+   {
+    "x": -23.23269149288535,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": -0.42013391852378845
+   },
+   {
+    "x": -23.23269149288535,
+    "y": -0.42013391852378845
+   }
+  ]
+ },
+ {
+  "in": [
+   -8.89928100630641,
+   6.948254136368632,
+   5.9757817722857,
+   19.323055939748883,
+   12.742177573964,
+   13.35854827426374,
+   15.344831915572286,
+   -6.758367037400603
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -8.89928100630641,
+     6.600181236863136,
+     36.986290495842695,
+     19.67112883925438
+    ]
+   },
+   {
+    "R": [
+     -8.89928100630641,
+     6.600181236863136,
+     36.986290495842695,
+     19.67112883925438
+    ]
+   },
+   {
+    "R": [
+     -8.89928100630641,
+     6.600181236863136,
+     36.986290495842695,
+     19.67112883925438
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -8.89928100630641,
+     6.948254136368632,
+     5.9757817722857,
+     19.323055939748883
+    ]
+   },
+   {
+    "R": [
+     -8.89928100630641,
+     6.948254136368632,
+     5.9757817722857,
+     19.323055939748883
+    ]
+   },
+   {
+    "R": [
+     12.742177573964,
+     13.35854827426374,
+     15.344831915572286,
+     -6.758367037400603
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": 15.66567680798471,
+    "y": null
+   },
+   {
+    "x": 15.66567680798471,
+    "y": null
+   },
+   {
+    "bottomDist": -19.67112883925438,
+    "topDist": 6.410294137895107,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -19.67112883925438,
+    "topDist": 6.410294137895107,
+    "x": 15.66567680798471,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   -4.65466171503067,
+   -5.040278723463416,
+   -17.27278145030141,
+   13.403276344761252,
+   -19.679028429090977,
+   -3.745891125872731,
+   -18.18712511099875,
+   -2.0197386760264635
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     -37.86615354008973,
+     -5.765629801899195,
+     33.211491825059056,
+     14.128627423197031
+    ]
+   },
+   {
+    "R": [
+     -37.86615354008973,
+     -5.765629801899195,
+     33.211491825059056,
+     14.128627423197031
+    ]
+   },
+   {
+    "R": [
+     -37.86615354008973,
+     -5.765629801899195,
+     33.211491825059056,
+     14.128627423197031
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -21.92744316533208,
+     -5.040278723463416,
+     -17.27278145030141,
+     13.403276344761252
+    ]
+   },
+   [
+    {
+     "R": [
+      -21.92744316533208,
+      -3.745891125872731,
+      2.248414736241102,
+      12.108888747170568
+     ]
+    },
+    {
+     "R": [
+      -19.679028429090977,
+      -5.040278723463416,
+      15.024366714060307,
+      13.403276344761252
+     ]
+    }
+   ],
+   [
+    {
+     "R": [
+      -37.86615354008973,
+      -5.765629801899195,
+      15.938710374757648,
+      -2.0197386760264635
+     ]
+    },
+    {
+     "R": [
+      -21.92744316533208,
+      -5.765629801899195,
+      2.248414736241102,
+      0.7253510784357786
+     ]
+    }
+   ]
+  ],
+  "intersected": [
+   {
+    "R": [
+     -21.92744316533208,
+     -5.040278723463416,
+     2.248414736241102,
+     1.294387597590685
+    ]
+   },
+   {
+    "R": [
+     -21.92744316533208,
+     -5.040278723463416,
+     2.248414736241102,
+     1.294387597590685
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": -15.024366714060307,
+    "rightDist": -15.938710374757648,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -14.128627423197031,
+    "topDist": 1.294387597590685,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -14.128627423197031,
+    "leftDist": -15.024366714060307,
+    "rightDist": -15.938710374757648,
+    "topDist": 1.294387597590685,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   15.4830136988312,
+   18.96286086179316,
+   6.218671342357993,
+   12.687400747090578,
+   1.5250271372497082,
+   -4.5710592065006495,
+   -14.00502659380436,
+   18.273653173819184
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -12.479999456554651,
+     -4.5710592065006495,
+     34.181684497743845,
+     36.22132081538439
+    ]
+   },
+   {
+    "R": [
+     -12.479999456554651,
+     -4.5710592065006495,
+     34.181684497743845,
+     36.22132081538439
+    ]
+   },
+   {
+    "R": [
+     -12.479999456554651,
+     -4.5710592065006495,
+     34.181684497743845,
+     36.22132081538439
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     15.4830136988312,
+     18.96286086179316,
+     6.218671342357993,
+     12.687400747090578
+    ]
+   },
+   {
+    "R": [
+     15.4830136988312,
+     18.96286086179316,
+     6.218671342357993,
+     12.687400747090578
+    ]
+   },
+   {
+    "R": [
+     1.5250271372497082,
+     -4.5710592065006495,
+     -14.00502659380436,
+     18.273653173819184
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -13.957986561581492,
+    "y": -5.260266894474626
+   },
+   {
+    "x": -13.957986561581492,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": -5.260266894474626
+   },
+   {
+    "x": -13.957986561581492,
+    "y": -5.260266894474626
+   }
+  ]
+ },
+ {
+  "in": [
+   8.999686455354095,
+   18.505598278716207,
+   12.625487828627229,
+   -9.211846748366952,
+   11.997478045523167,
+   -3.6777927353978157,
+   14.81474244967103,
+   11.825714707374573
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     8.999686455354095,
+     -3.6777927353978157,
+     17.812534039840102,
+     22.183391014114022
+    ]
+   },
+   {
+    "R": [
+     8.999686455354095,
+     -3.6777927353978157,
+     17.812534039840102,
+     22.183391014114022
+    ]
+   },
+   {
+    "R": [
+     8.999686455354095,
+     -3.6777927353978157,
+     17.812534039840102,
+     22.183391014114022
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     8.999686455354095,
+     18.505598278716207,
+     12.625487828627229,
+     -9.211846748366952
+    ]
+   },
+   {
+    "R": [
+     8.999686455354095,
+     18.505598278716207,
+     12.625487828627229,
+     -9.211846748366952
+    ]
+   },
+   {
+    "R": [
+     11.997478045523167,
+     -3.6777927353978157,
+     14.81474244967103,
+     11.825714707374573
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": -1.1458295583724976
+   },
+   {
+    "leftDist": 2.997791590169072,
+    "rightDist": 5.1870462112128735,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": -1.1458295583724976
+   },
+   {
+    "leftDist": 2.997791590169072,
+    "rightDist": 5.1870462112128735,
+    "x": null,
+    "y": -1.1458295583724976
+   }
+  ]
+ },
+ {
+  "in": [
+   16.845830846577883,
+   -1.1164045333862305,
+   -5.207119891420007,
+   14.596215542405844,
+   -11.038134656846523,
+   11.103540882468224,
+   -4.801099114120007,
+   12.38388454541564
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -15.83923377096653,
+     -1.1164045333862305,
+     32.68506461754441,
+     24.603829961270094
+    ]
+   },
+   {
+    "R": [
+     -15.83923377096653,
+     -1.1164045333862305,
+     32.68506461754441,
+     24.603829961270094
+    ]
+   },
+   {
+    "R": [
+     -15.83923377096653,
+     -1.1164045333862305,
+     32.68506461754441,
+     24.603829961270094
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     16.845830846577883,
+     -1.1164045333862305,
+     -5.207119891420007,
+     14.596215542405844
+    ]
+   },
+   {
+    "R": [
+     16.845830846577883,
+     -1.1164045333862305,
+     -5.207119891420007,
+     14.596215542405844
+    ]
+   },
+   {
+    "R": [
+     -11.038134656846523,
+     11.103540882468224,
+     -4.801099114120007,
+     12.38388454541564
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -22.6768456120044,
+    "y": null
+   },
+   {
+    "x": -22.6768456120044,
+    "y": null
+   },
+   {
+    "bottomDist": 10.00761441886425,
+    "topDist": 12.219945415854454,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 10.00761441886425,
+    "topDist": 12.219945415854454,
+    "x": -22.6768456120044,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   -15.636386210098863,
+   17.066670302301645,
+   -13.611337905749679,
+   13.565596239641309,
+   1.3275223225355148,
+   17.368455855175853,
+   -0.7188881747424603,
+   -1.3841051794588566
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -29.24772411584854,
+     15.984350675716996,
+     30.575246438384056,
+     14.647915866225958
+    ]
+   },
+   {
+    "R": [
+     -29.24772411584854,
+     15.984350675716996,
+     30.575246438384056,
+     14.647915866225958
+    ]
+   },
+   {
+    "R": [
+     -29.24772411584854,
+     15.984350675716996,
+     30.575246438384056,
+     14.647915866225958
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -15.636386210098863,
+     17.066670302301645,
+     -13.611337905749679,
+     13.565596239641309
+    ]
+   },
+   {
+    "R": [
+     -15.636386210098863,
+     17.066670302301645,
+     -13.611337905749679,
+     13.565596239641309
+    ]
+   },
+   {
+    "R": [
+     1.3275223225355148,
+     17.368455855175853,
+     -0.7188881747424603,
+     -1.3841051794588566
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": 16.245020357891917,
+    "y": null
+   },
+   {
+    "x": 16.245020357891917,
+    "y": null
+   },
+   {
+    "bottomDist": -14.647915866225958,
+    "topDist": 0.3017855528742075,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -14.647915866225958,
+    "topDist": 0.3017855528742075,
+    "x": 16.245020357891917,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   -0.7439037039875984,
+   -6.742375520989299,
+   -15.246069710701704,
+   4.097470846027136,
+   -1.4225700497627258,
+   0.6413262896239758,
+   0.07856620475649834,
+   2.6434672717005014
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -15.989973414689302,
+     -6.742375520989299,
+     15.246069710701704,
+     10.027169082313776
+    ]
+   },
+   {
+    "R": [
+     -15.989973414689302,
+     -6.742375520989299,
+     15.246069710701704,
+     10.027169082313776
+    ]
+   },
+   {
+    "R": [
+     -15.989973414689302,
+     -6.742375520989299,
+     15.246069710701704,
+     10.027169082313776
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -0.7439037039875984,
+     -6.742375520989299,
+     -15.246069710701704,
+     4.097470846027136
+    ]
+   },
+   {
+    "R": [
+     -0.7439037039875984,
+     -6.742375520989299,
+     -15.246069710701704,
+     4.097470846027136
+    ]
+   },
+   {
+    "R": [
+     -1.4225700497627258,
+     0.6413262896239758,
+     0.07856620475649834,
+     2.6434672717005014
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": 3.2862309645861387
+   },
+   {
+    "leftDist": -0.6786663457751274,
+    "rightDist": 14.645969569683075,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 3.2862309645861387
+   },
+   {
+    "leftDist": -0.6786663457751274,
+    "rightDist": 14.645969569683075,
+    "x": null,
+    "y": 3.2862309645861387
+   }
+  ]
+ },
+ {
+  "in": [
+   -12.705899514257908,
+   1.432679109275341,
+   15.002266271039844,
+   -1.4141777995973825,
+   -1.8486481066793203,
+   12.048612190410495,
+   3.3345699310302734,
+   -15.36146611906588
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   true,
+   true,
+   true
+  ],
+  "intersectsXYWH": [
+   true,
+   true
+  ],
+  "united": [
+   {
+    "R": [
+     -12.705899514257908,
+     -3.312853928655386,
+     15.002266271039844,
+     15.36146611906588
+    ]
+   },
+   {
+    "R": [
+     -12.705899514257908,
+     -3.312853928655386,
+     15.002266271039844,
+     15.36146611906588
+    ]
+   },
+   {
+    "R": [
+     -12.705899514257908,
+     -3.312853928655386,
+     15.002266271039844,
+     15.36146611906588
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -12.705899514257908,
+     1.432679109275341,
+     15.002266271039844,
+     -1.4141777995973825
+    ]
+   },
+   {
+    "R": [
+     -12.705899514257908,
+     1.432679109275341,
+     15.002266271039844,
+     -1.4141777995973825
+    ]
+   },
+   {
+    "R": [
+     -1.8486481066793203,
+     12.048612190410495,
+     3.3345699310302734,
+     -15.36146611906588
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     -1.8486481066793203,
+     0.01850130967795849,
+     3.3345699310302734,
+     1.4141777995973825
+    ]
+   },
+   {
+    "R": [
+     -1.8486481066793203,
+     0.01850130967795849,
+     3.3345699310302734,
+     1.4141777995973825
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": null
+   },
+   {
+    "leftDist": 10.857251407578588,
+    "rightDist": -0.8104449324309826,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -3.3313552383333445,
+    "topDist": 10.615933081135154,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -3.3313552383333445,
+    "leftDist": 10.857251407578588,
+    "rightDist": -0.8104449324309826,
+    "topDist": 10.615933081135154,
+    "x": null,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   -6.914300341159105,
+   -12.767053097486496,
+   16.52546428143978,
+   -5.391961066052318,
+   -18.820735905319452,
+   -6.697818962857127,
+   4.4025772996246815,
+   -2.681646076962352
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -18.820735905319452,
+     -18.159014163538814,
+     28.431899845600128,
+     11.461195200681686
+    ]
+   },
+   {
+    "R": [
+     -18.820735905319452,
+     -18.159014163538814,
+     28.431899845600128,
+     11.461195200681686
+    ]
+   },
+   {
+    "R": [
+     -18.820735905319452,
+     -18.159014163538814,
+     28.431899845600128,
+     11.461195200681686
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -6.914300341159105,
+     -12.767053097486496,
+     16.52546428143978,
+     -5.391961066052318
+    ]
+   },
+   {
+    "R": [
+     -6.914300341159105,
+     -12.767053097486496,
+     16.52546428143978,
+     -5.391961066052318
+    ]
+   },
+   {
+    "R": [
+     -18.820735905319452,
+     -6.697818962857127,
+     4.4025772996246815,
+     -2.681646076962352
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -7.5038582645356655,
+    "y": 3.387588057667017
+   },
+   {
+    "x": -7.5038582645356655,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 3.387588057667017
+   },
+   {
+    "x": -7.5038582645356655,
+    "y": 3.387588057667017
+   }
+  ]
+ },
+ {
+  "in": [
+   -3.7322246842086315,
+   -15.692309960722923,
+   -17.113240882754326,
+   8.121411502361298,
+   -0.43374335393309593,
+   2.8082942590117455,
+   -1.7739163246005774,
+   -4.44220308214426
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -20.845465566962957,
+     -15.692309960722923,
+     20.41172221302986,
+     18.50060421973467
+    ]
+   },
+   {
+    "R": [
+     -20.845465566962957,
+     -15.692309960722923,
+     20.41172221302986,
+     18.50060421973467
+    ]
+   },
+   {
+    "R": [
+     -20.845465566962957,
+     -15.692309960722923,
+     20.41172221302986,
+     18.50060421973467
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -3.7322246842086315,
+     -15.692309960722923,
+     -17.113240882754326,
+     8.121411502361298
+    ]
+   },
+   {
+    "R": [
+     -3.7322246842086315,
+     -15.692309960722923,
+     -17.113240882754326,
+     8.121411502361298
+    ]
+   },
+   {
+    "R": [
+     -0.43374335393309593,
+     2.8082942590117455,
+     -1.7739163246005774,
+     -4.44220308214426
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": 1.5245650056749582,
+    "y": 5.936989635229111
+   },
+   {
+    "x": 1.5245650056749582,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 5.936989635229111
+   },
+   {
+    "x": 1.5245650056749582,
+    "y": 5.936989635229111
+   }
+  ]
+ },
+ {
+  "in": [
+   17.693091705441475,
+   4.634578116238117,
+   -1.1875671986490488,
+   -6.088836621493101,
+   17.29493777267635,
+   7.375203417614102,
+   -19.72944363951683,
+   6.954377582296729
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -2.4345058668404818,
+     -1.454258505254984,
+     20.127597572281957,
+     15.783839505165815
+    ]
+   },
+   {
+    "R": [
+     -2.4345058668404818,
+     -1.454258505254984,
+     20.127597572281957,
+     15.783839505165815
+    ]
+   },
+   {
+    "R": [
+     -2.4345058668404818,
+     -1.454258505254984,
+     20.127597572281957,
+     15.783839505165815
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     17.693091705441475,
+     4.634578116238117,
+     -1.1875671986490488,
+     -6.088836621493101
+    ]
+   },
+   {
+    "R": [
+     17.693091705441475,
+     4.634578116238117,
+     -1.1875671986490488,
+     -6.088836621493101
+    ]
+   },
+   {
+    "R": [
+     17.29493777267635,
+     7.375203417614102,
+     -19.72944363951683,
+     6.954377582296729
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": 2.740625301375985
+   },
+   {
+    "leftDist": -0.39815393276512623,
+    "rightDist": -18.940030373632908,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 2.740625301375985
+   },
+   {
+    "leftDist": -0.39815393276512623,
+    "rightDist": -18.940030373632908,
+    "x": null,
+    "y": 2.740625301375985
+   }
+  ]
+ },
+ {
+  "in": [
+   -11.746915448457003,
+   13.499816302210093,
+   -0.27405659668147564,
+   8.414885122328997,
+   -3.770008524879813,
+   -9.319706596434116,
+   -12.646970376372337,
+   3.562734927982092
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -16.41697890125215,
+     -9.319706596434116,
+     12.646970376372337,
+     31.234408020973206
+    ]
+   },
+   {
+    "R": [
+     -16.41697890125215,
+     -9.319706596434116,
+     12.646970376372337,
+     31.234408020973206
+    ]
+   },
+   {
+    "R": [
+     -16.41697890125215,
+     -9.319706596434116,
+     12.646970376372337,
+     31.234408020973206
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -11.746915448457003,
+     13.499816302210093,
+     -0.27405659668147564,
+     8.414885122328997
+    ]
+   },
+   {
+    "R": [
+     -11.746915448457003,
+     13.499816302210093,
+     -0.27405659668147564,
+     8.414885122328997
+    ]
+   },
+   {
+    "R": [
+     -3.770008524879813,
+     -9.319706596434116,
+     -12.646970376372337,
+     3.562734927982092
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": -19.256787970662117
+   },
+   {
+    "leftDist": 7.9769069235771894,
+    "rightDist": -4.396006856113672,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": -19.256787970662117
+   },
+   {
+    "leftDist": 7.9769069235771894,
+    "rightDist": -4.396006856113672,
+    "x": null,
+    "y": -19.256787970662117
+   }
+  ]
+ },
+ {
+  "in": [
+   -17.724346294999123,
+   -19.191037816926837,
+   6.627336274832487,
+   4.672147473320365,
+   -11.031873868778348,
+   15.249404227361083,
+   10.959814228117466,
+   -1.2887842673808336
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -17.724346294999123,
+     -19.191037816926837,
+     17.65228665433824,
+     34.44044204428792
+    ]
+   },
+   {
+    "R": [
+     -17.724346294999123,
+     -19.191037816926837,
+     17.65228665433824,
+     34.44044204428792
+    ]
+   },
+   {
+    "R": [
+     -17.724346294999123,
+     -19.191037816926837,
+     17.65228665433824,
+     34.44044204428792
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -17.724346294999123,
+     -19.191037816926837,
+     6.627336274832487,
+     4.672147473320365
+    ]
+   },
+   {
+    "R": [
+     -17.724346294999123,
+     -19.191037816926837,
+     6.627336274832487,
+     4.672147473320365
+    ]
+   },
+   {
+    "R": [
+     -11.031873868778348,
+     15.249404227361083,
+     10.959814228117466,
+     -1.2887842673808336
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": 0.06513615138828754,
+    "y": 28.47951030358672
+   },
+   {
+    "x": 0.06513615138828754,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 28.47951030358672
+   },
+   {
+    "x": 0.06513615138828754,
+    "y": 28.47951030358672
+   }
+  ]
+ },
+ {
+  "in": [
+   -19.43424353376031,
+   -19.018101198598742,
+   -9.838950550183654,
+   -9.73277484998107,
+   3.77628649584949,
+   -12.004177328199148,
+   15.891417358070612,
+   19.378848588094115
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -29.273194083943963,
+     -28.750876048579812,
+     48.940897937864065,
+     36.12554730847478
+    ]
+   },
+   {
+    "R": [
+     -29.273194083943963,
+     -28.750876048579812,
+     48.940897937864065,
+     36.12554730847478
+    ]
+   },
+   {
+    "R": [
+     -29.273194083943963,
+     -28.750876048579812,
+     48.940897937864065,
+     36.12554730847478
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -19.43424353376031,
+     -19.018101198598742,
+     -9.838950550183654,
+     -9.73277484998107
+    ]
+   },
+   {
+    "R": [
+     -19.43424353376031,
+     -19.018101198598742,
+     -9.838950550183654,
+     -9.73277484998107
+    ]
+   },
+   {
+    "R": [
+     3.77628649584949,
+     -12.004177328199148,
+     15.891417358070612,
+     19.378848588094115
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": 23.2105300296098,
+    "y": 7.013923870399594
+   },
+   {
+    "x": 23.2105300296098,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 7.013923870399594
+   },
+   {
+    "x": 23.2105300296098,
+    "y": 7.013923870399594
+   }
+  ]
+ },
+ {
+  "in": [
+   -3.491589967161417,
+   -6.234068991616368,
+   -0.6283355318009853,
+   19.272830681875348,
+   -13.665626915171742,
+   2.3641149885952473,
+   -4.613478230312467,
+   4.131173733621836
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -18.27910514548421,
+     -6.234068991616368,
+     14.787515178322792,
+     19.272830681875348
+    ]
+   },
+   {
+    "R": [
+     -18.27910514548421,
+     -6.234068991616368,
+     14.787515178322792,
+     19.272830681875348
+    ]
+   },
+   {
+    "R": [
+     -18.27910514548421,
+     -6.234068991616368,
+     14.787515178322792,
+     19.272830681875348
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -3.491589967161417,
+     -6.234068991616368,
+     -0.6283355318009853,
+     19.272830681875348
+    ]
+   },
+   {
+    "R": [
+     -3.491589967161417,
+     -6.234068991616368,
+     -0.6283355318009853,
+     19.272830681875348
+    ]
+   },
+   {
+    "R": [
+     -13.665626915171742,
+     2.3641149885952473,
+     -4.613478230312467,
+     4.131173733621836
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -9.54570141620934,
+    "y": null
+   },
+   {
+    "x": -9.54570141620934,
+    "y": null
+   },
+   {
+    "bottomDist": -6.543472968041897,
+    "topDist": 8.598183980211616,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -6.543472968041897,
+    "topDist": 8.598183980211616,
+    "x": -9.54570141620934,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   9.259966751560569,
+   9.955190103501081,
+   -7.436838457360864,
+   -16.54058744199574,
+   0.20217142067849636,
+   -14.503686111420393,
+   -0.5687352921813726,
+   13.106937455013394
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -0.3665638715028763,
+     -14.503686111420393,
+     9.626530623063445,
+     24.458876214921474
+    ]
+   },
+   {
+    "R": [
+     -0.3665638715028763,
+     -14.503686111420393,
+     9.626530623063445,
+     24.458876214921474
+    ]
+   },
+   {
+    "R": [
+     -0.3665638715028763,
+     -14.503686111420393,
+     9.626530623063445,
+     24.458876214921474
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     9.259966751560569,
+     9.955190103501081,
+     -7.436838457360864,
+     -16.54058744199574
+    ]
+   },
+   {
+    "R": [
+     9.259966751560569,
+     9.955190103501081,
+     -7.436838457360864,
+     -16.54058744199574
+    ]
+   },
+   {
+    "R": [
+     0.20217142067849636,
+     -14.503686111420393,
+     -0.5687352921813726,
+     13.106937455013394
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -1.6209568735212088,
+    "y": null
+   },
+   {
+    "x": -1.6209568735212088,
+    "y": null
+   },
+   {
+    "bottomDist": 5.18864868208766,
+    "topDist": -24.458876214921474,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 5.18864868208766,
+    "topDist": -24.458876214921474,
+    "x": -1.6209568735212088,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   6.118608703836799,
+   19.30384073406458,
+   -15.962010333314538,
+   9.321659542620182,
+   -8.790461970493197,
+   -15.93895697966218,
+   -18.51182117126882,
+   -12.132011409848928
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -27.302283141762018,
+     -28.07096838951111,
+     33.42089184559882,
+     56.69646866619587
+    ]
+   },
+   {
+    "R": [
+     -27.302283141762018,
+     -28.07096838951111,
+     33.42089184559882,
+     56.69646866619587
+    ]
+   },
+   {
+    "R": [
+     -27.302283141762018,
+     -28.07096838951111,
+     33.42089184559882,
+     56.69646866619587
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     6.118608703836799,
+     19.30384073406458,
+     -15.962010333314538,
+     9.321659542620182
+    ]
+   },
+   {
+    "R": [
+     6.118608703836799,
+     19.30384073406458,
+     -15.962010333314538,
+     9.321659542620182
+    ]
+   },
+   {
+    "R": [
+     -8.790461970493197,
+     -15.93895697966218,
+     -18.51182117126882,
+     -12.132011409848928
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": -35.24279771372676
+   },
+   {
+    "leftDist": -14.909070674329996,
+    "rightDist": -17.45888151228428,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": -35.24279771372676
+   },
+   {
+    "leftDist": -14.909070674329996,
+    "rightDist": -17.45888151228428,
+    "x": null,
+    "y": -35.24279771372676
+   }
+  ]
+ },
+ {
+  "in": [
+   12.207895051687956,
+   -13.420786103233695,
+   5.383837269619107,
+   -1.774974251165986,
+   13.265326684340835,
+   0.32157248817384243,
+   -7.311519654467702,
+   -6.2098736222833395
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     5.953807029873133,
+     -15.195760354399681,
+     11.63792529143393,
+     15.517332842573524
+    ]
+   },
+   {
+    "R": [
+     5.953807029873133,
+     -15.195760354399681,
+     11.63792529143393,
+     15.517332842573524
+    ]
+   },
+   {
+    "R": [
+     5.953807029873133,
+     -15.195760354399681,
+     11.63792529143393,
+     15.517332842573524
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     12.207895051687956,
+     -13.420786103233695,
+     5.383837269619107,
+     -1.774974251165986
+    ]
+   },
+   {
+    "R": [
+     12.207895051687956,
+     -13.420786103233695,
+     5.383837269619107,
+     -1.774974251165986
+    ]
+   },
+   {
+    "R": [
+     13.265326684340835,
+     0.32157248817384243,
+     -7.311519654467702,
+     -6.2098736222833395
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": 7.532484969124198
+   },
+   {
+    "leftDist": 1.0574316326528788,
+    "rightDist": -11.63792529143393,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 7.532484969124198
+   },
+   {
+    "leftDist": 1.0574316326528788,
+    "rightDist": -11.63792529143393,
+    "x": null,
+    "y": 7.532484969124198
+   }
+  ]
+ },
+ {
+  "in": [
+   -11.747723640874028,
+   -7.059480398893356,
+   -6.2789161037653685,
+   1.8115269672125578,
+   -4.249497605487704,
+   -16.61392569541931,
+   -15.299986563622952,
+   -0.9659597277641296
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -19.549484169110656,
+     -17.57988542318344,
+     15.299986563622952,
+     12.331931991502643
+    ]
+   },
+   {
+    "R": [
+     -19.549484169110656,
+     -17.57988542318344,
+     15.299986563622952,
+     12.331931991502643
+    ]
+   },
+   {
+    "R": [
+     -19.549484169110656,
+     -17.57988542318344,
+     15.299986563622952,
+     12.331931991502643
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -11.747723640874028,
+     -7.059480398893356,
+     -6.2789161037653685,
+     1.8115269672125578
+    ]
+   },
+   {
+    "R": [
+     -11.747723640874028,
+     -7.059480398893356,
+     -6.2789161037653685,
+     1.8115269672125578
+    ]
+   },
+   {
+    "R": [
+     -4.249497605487704,
+     -16.61392569541931,
+     -15.299986563622952,
+     -0.9659597277641296
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": -9.554445296525955
+   },
+   {
+    "leftDist": 7.498226035386324,
+    "rightDist": -1.5228444244712591,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": -9.554445296525955
+   },
+   {
+    "leftDist": 7.498226035386324,
+    "rightDist": -1.5228444244712591,
+    "x": null,
+    "y": -9.554445296525955
+   }
+  ]
+ },
+ {
+  "in": [
+   6.716492250561714,
+   -9.082572599872947,
+   1.393813081085682,
+   9.44268493913114,
+   -0.5231740511953831,
+   -14.507116610184312,
+   10.241104532033205,
+   -10.513867335394025
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -0.5231740511953831,
+     -25.020983945578337,
+     10.241104532033205,
+     25.38109628483653
+    ]
+   },
+   {
+    "R": [
+     -0.5231740511953831,
+     -25.020983945578337,
+     10.241104532033205,
+     25.38109628483653
+    ]
+   },
+   {
+    "R": [
+     -0.5231740511953831,
+     -25.020983945578337,
+     10.241104532033205,
+     25.38109628483653
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     6.716492250561714,
+     -9.082572599872947,
+     1.393813081085682,
+     9.44268493913114
+    ]
+   },
+   {
+    "R": [
+     6.716492250561714,
+     -9.082572599872947,
+     1.393813081085682,
+     9.44268493913114
+    ]
+   },
+   {
+    "R": [
+     -0.5231740511953831,
+     -14.507116610184312,
+     10.241104532033205,
+     -10.513867335394025
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": -5.424544010311365
+   },
+   {
+    "leftDist": -7.239666301757097,
+    "rightDist": 1.6076251491904259,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": -5.424544010311365
+   },
+   {
+    "leftDist": -7.239666301757097,
+    "rightDist": 1.6076251491904259,
+    "x": null,
+    "y": -5.424544010311365
+   }
+  ]
+ },
+ {
+  "in": [
+   9.025705307722092,
+   -10.335369314998388,
+   -8.553219586610794,
+   -8.332420913502574,
+   -2.8955460991710424,
+   4.716247403994203,
+   -13.076896434649825,
+   14.049416147172451
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -15.972442533820868,
+     -18.667790228500962,
+     24.99814784154296,
+     37.433453779667616
+    ]
+   },
+   {
+    "R": [
+     -15.972442533820868,
+     -18.667790228500962,
+     24.99814784154296,
+     37.433453779667616
+    ]
+   },
+   {
+    "R": [
+     -15.972442533820868,
+     -18.667790228500962,
+     24.99814784154296,
+     37.433453779667616
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     9.025705307722092,
+     -10.335369314998388,
+     -8.553219586610794,
+     -8.332420913502574
+    ]
+   },
+   {
+    "R": [
+     9.025705307722092,
+     -10.335369314998388,
+     -8.553219586610794,
+     -8.332420913502574
+    ]
+   },
+   {
+    "R": [
+     -2.8955460991710424,
+     4.716247403994203,
+     -13.076896434649825,
+     14.049416147172451
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -3.36803182028234,
+    "y": 15.051616718992591
+   },
+   {
+    "x": -3.36803182028234,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 15.051616718992591
+   },
+   {
+    "x": -3.36803182028234,
+    "y": 15.051616718992591
+   }
+  ]
+ },
+ {
+  "in": [
+   -5.676359608769417,
+   -19.309080466628075,
+   18.906739689409733,
+   -7.537205992266536,
+   -9.398988978937268,
+   -8.869234845042229,
+   7.399136815220118,
+   3.8932001031935215
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -9.398988978937268,
+     -26.84628645889461,
+     22.629369059577584,
+     21.870251717045903
+    ]
+   },
+   {
+    "R": [
+     -9.398988978937268,
+     -26.84628645889461,
+     22.629369059577584,
+     21.870251717045903
+    ]
+   },
+   {
+    "R": [
+     -9.398988978937268,
+     -26.84628645889461,
+     22.629369059577584,
+     21.870251717045903
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -5.676359608769417,
+     -19.309080466628075,
+     18.906739689409733,
+     -7.537205992266536
+    ]
+   },
+   {
+    "R": [
+     -5.676359608769417,
+     -19.309080466628075,
+     18.906739689409733,
+     -7.537205992266536
+    ]
+   },
+   {
+    "R": [
+     -9.398988978937268,
+     -8.869234845042229,
+     7.399136815220118,
+     3.8932001031935215
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": 10.439845621585846
+   },
+   {
+    "leftDist": -3.7226293701678514,
+    "rightDist": -15.230232244357467,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 10.439845621585846
+   },
+   {
+    "leftDist": -3.7226293701678514,
+    "rightDist": -15.230232244357467,
+    "x": null,
+    "y": 10.439845621585846
+   }
+  ]
+ },
+ {
+  "in": [
+   5.125365350395441,
+   -11.404671361669898,
+   14.75838284008205,
+   3.1913954950869083,
+   -12.533516800031066,
+   -1.8410236667841673,
+   -11.848787572234869,
+   -10.407187407836318
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -24.382304372265935,
+     -12.248211074620485,
+     44.266052562743425,
+     10.407187407836318
+    ]
+   },
+   {
+    "R": [
+     -24.382304372265935,
+     -12.248211074620485,
+     44.266052562743425,
+     10.407187407836318
+    ]
+   },
+   {
+    "R": [
+     -24.382304372265935,
+     -12.248211074620485,
+     44.266052562743425,
+     10.407187407836318
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     5.125365350395441,
+     -11.404671361669898,
+     14.75838284008205,
+     3.1913954950869083
+    ]
+   },
+   {
+    "R": [
+     5.125365350395441,
+     -11.404671361669898,
+     14.75838284008205,
+     3.1913954950869083
+    ]
+   },
+   {
+    "R": [
+     -12.533516800031066,
+     -1.8410236667841673,
+     -11.848787572234869,
+     -10.407187407836318
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -17.658882150426507,
+    "y": null
+   },
+   {
+    "x": -17.658882150426507,
+    "y": null
+   },
+   {
+    "bottomDist": -4.034935208037496,
+    "topDist": 9.56364769488573,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -4.034935208037496,
+    "topDist": 9.56364769488573,
+    "x": -17.658882150426507,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   19.495970541611314,
+   -5.581473838537931,
+   -14.612897960469127,
+   -16.57386874780059,
+   -19.396327594295144,
+   1.0576476156711578,
+   1.6304292436689138,
+   7.67179342918098
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -19.396327594295144,
+     -22.15534258633852,
+     38.89229813590646,
+     30.884783631190658
+    ]
+   },
+   {
+    "R": [
+     -19.396327594295144,
+     -22.15534258633852,
+     38.89229813590646,
+     30.884783631190658
+    ]
+   },
+   {
+    "R": [
+     -19.396327594295144,
+     -22.15534258633852,
+     38.89229813590646,
+     30.884783631190658
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     19.495970541611314,
+     -5.581473838537931,
+     -14.612897960469127,
+     -16.57386874780059
+    ]
+   },
+   {
+    "R": [
+     19.495970541611314,
+     -5.581473838537931,
+     -14.612897960469127,
+     -16.57386874780059
+    ]
+   },
+   {
+    "R": [
+     -19.396327594295144,
+     1.0576476156711578,
+     1.6304292436689138,
+     7.67179342918098
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -22.648970931768417,
+    "y": 6.639121454209089
+   },
+   {
+    "x": -22.648970931768417,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 6.639121454209089
+   },
+   {
+    "x": -22.648970931768417,
+    "y": 6.639121454209089
+   }
+  ]
+ },
+ {
+  "in": [
+   17.79641266912222,
+   16.61482243798673,
+   -5.308816684409976,
+   5.295316157862544,
+   11.536904266104102,
+   6.764233577996492,
+   10.254207458347082,
+   1.060054749250412
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     11.536904266104102,
+     6.764233577996492,
+     10.254207458347082,
+     15.145905017852783
+    ]
+   },
+   {
+    "R": [
+     11.536904266104102,
+     6.764233577996492,
+     10.254207458347082,
+     15.145905017852783
+    ]
+   },
+   {
+    "R": [
+     11.536904266104102,
+     6.764233577996492,
+     10.254207458347082,
+     15.145905017852783
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     17.79641266912222,
+     16.61482243798673,
+     -5.308816684409976,
+     5.295316157862544
+    ]
+   },
+   {
+    "R": [
+     17.79641266912222,
+     16.61482243798673,
+     -5.308816684409976,
+     5.295316157862544
+    ]
+   },
+   {
+    "R": [
+     11.536904266104102,
+     6.764233577996492,
+     10.254207458347082,
+     1.060054749250412
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": -8.790534110739827
+   },
+   {
+    "leftDist": -6.259508403018117,
+    "rightDist": 9.303515739738941,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": -8.790534110739827
+   },
+   {
+    "leftDist": -6.259508403018117,
+    "rightDist": 9.303515739738941,
+    "x": null,
+    "y": -8.790534110739827
+   }
+  ]
+ },
+ {
+  "in": [
+   -18.46075906418264,
+   -19.510473245754838,
+   7.49251876026392,
+   10.52309200167656,
+   -19.799907123669982,
+   -12.345351483672857,
+   -16.07897026464343,
+   18.379307379946113
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -35.87887738831341,
+     -19.510473245754838,
+     24.910637084394693,
+     25.544429142028093
+    ]
+   },
+   {
+    "R": [
+     -35.87887738831341,
+     -19.510473245754838,
+     24.910637084394693,
+     25.544429142028093
+    ]
+   },
+   {
+    "R": [
+     -35.87887738831341,
+     -19.510473245754838,
+     24.910637084394693,
+     25.544429142028093
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -18.46075906418264,
+     -19.510473245754838,
+     7.49251876026392,
+     10.52309200167656
+    ]
+   },
+   {
+    "R": [
+     -18.46075906418264,
+     -19.510473245754838,
+     7.49251876026392,
+     10.52309200167656
+    ]
+   },
+   {
+    "R": [
+     -19.799907123669982,
+     -12.345351483672857,
+     -16.07897026464343,
+     18.379307379946113
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -1.3391480594873428,
+    "y": null
+   },
+   {
+    "x": -1.3391480594873428,
+    "y": null
+   },
+   {
+    "bottomDist": 15.021337140351534,
+    "topDist": 7.165121762081981,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 15.021337140351534,
+    "topDist": 7.165121762081981,
+    "x": -1.3391480594873428,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   2.4191558733582497,
+   17.305348189547658,
+   16.627672808244824,
+   -8.279973343014717,
+   -18.51492714136839,
+   2.346910070627928,
+   -16.485184943303466,
+   -4.546238938346505
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -35.000112084671855,
+     -2.1993288677185774,
+     54.04694076627493,
+     19.504677057266235
+    ]
+   },
+   {
+    "R": [
+     -35.000112084671855,
+     -2.1993288677185774,
+     54.04694076627493,
+     19.504677057266235
+    ]
+   },
+   {
+    "R": [
+     -35.000112084671855,
+     -2.1993288677185774,
+     54.04694076627493,
+     19.504677057266235
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     2.4191558733582497,
+     17.305348189547658,
+     16.627672808244824,
+     -8.279973343014717
+    ]
+   },
+   {
+    "R": [
+     2.4191558733582497,
+     17.305348189547658,
+     16.627672808244824,
+     -8.279973343014717
+    ]
+   },
+   {
+    "R": [
+     -18.51492714136839,
+     2.346910070627928,
+     -16.485184943303466,
+     -4.546238938346505
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -20.93408301472664,
+    "y": -6.678464775905013
+   },
+   {
+    "x": -20.93408301472664,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": -6.678464775905013
+   },
+   {
+    "x": -20.93408301472664,
+    "y": -6.678464775905013
+   }
+  ]
+ },
+ {
+  "in": [
+   -4.413680490106344,
+   5.749026499688625,
+   -18.503262167796493,
+   -18.267797529697418,
+   15.964248515665531,
+   8.930671429261565,
+   -12.673896653577685,
+   -13.112614005804062
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -22.916942657902837,
+     -12.518771030008793,
+     38.88119117356837,
+     21.449442459270358
+    ]
+   },
+   {
+    "R": [
+     -22.916942657902837,
+     -12.518771030008793,
+     38.88119117356837,
+     21.449442459270358
+    ]
+   },
+   {
+    "R": [
+     -22.916942657902837,
+     -12.518771030008793,
+     38.88119117356837,
+     21.449442459270358
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -4.413680490106344,
+     5.749026499688625,
+     -18.503262167796493,
+     -18.267797529697418
+    ]
+   },
+   {
+    "R": [
+     -4.413680490106344,
+     5.749026499688625,
+     -18.503262167796493,
+     -18.267797529697418
+    ]
+   },
+   {
+    "R": [
+     15.964248515665531,
+     8.930671429261565,
+     -12.673896653577685,
+     -13.112614005804062
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": 7.70403235219419,
+    "y": null
+   },
+   {
+    "x": 7.70403235219419,
+    "y": null
+   },
+   {
+    "bottomDist": 8.336828453466296,
+    "topDist": 3.18164492957294,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": 8.336828453466296,
+    "topDist": 3.18164492957294,
+    "x": 7.70403235219419,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   14.693989120423794,
+   0.9277170524001122,
+   18.247283389791846,
+   -11.118231378495693,
+   -1.0028651263564825,
+   -8.635855512693524,
+   -6.503978725522757,
+   -14.095426732674241
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -7.506843851879239,
+     -22.731282245367765,
+     40.44811636209488,
+     23.658999297767878
+    ]
+   },
+   {
+    "R": [
+     -7.506843851879239,
+     -22.731282245367765,
+     40.44811636209488,
+     23.658999297767878
+    ]
+   },
+   {
+    "R": [
+     -7.506843851879239,
+     -22.731282245367765,
+     40.44811636209488,
+     23.658999297767878
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     14.693989120423794,
+     0.9277170524001122,
+     18.247283389791846,
+     -11.118231378495693
+    ]
+   },
+   {
+    "R": [
+     14.693989120423794,
+     0.9277170524001122,
+     18.247283389791846,
+     -11.118231378495693
+    ]
+   },
+   {
+    "R": [
+     -1.0028651263564825,
+     -8.635855512693524,
+     -6.503978725522757,
+     -14.095426732674241
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -15.696854246780276,
+    "y": null
+   },
+   {
+    "x": -15.696854246780276,
+    "y": null
+   },
+   {
+    "bottomDist": -12.540767919272184,
+    "topDist": -9.563572565093637,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -12.540767919272184,
+    "topDist": -9.563572565093637,
+    "x": -15.696854246780276,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   8.033092431724072,
+   -7.149958843365312,
+   8.05802546441555,
+   18.794681141152978,
+   -18.235000930726528,
+   19.078786503523588,
+   -18.29407813027501,
+   -10.221518790349364
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -36.52907906100154,
+     -7.149958843365312,
+     52.62019695714116,
+     26.2287453468889
+    ]
+   },
+   {
+    "R": [
+     -36.52907906100154,
+     -7.149958843365312,
+     52.62019695714116,
+     26.2287453468889
+    ]
+   },
+   {
+    "R": [
+     -36.52907906100154,
+     -7.149958843365312,
+     52.62019695714116,
+     26.2287453468889
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     8.033092431724072,
+     -7.149958843365312,
+     8.05802546441555,
+     18.794681141152978
+    ]
+   },
+   {
+    "R": [
+     8.033092431724072,
+     -7.149958843365312,
+     8.05802546441555,
+     18.794681141152978
+    ]
+   },
+   {
+    "R": [
+     -18.235000930726528,
+     19.078786503523588,
+     -18.29407813027501,
+     -10.221518790349364
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": -26.2680933624506,
+    "y": null
+   },
+   {
+    "x": -26.2680933624506,
+    "y": null
+   },
+   {
+    "bottomDist": -2.7874545846134424,
+    "topDist": 26.2287453468889,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -2.7874545846134424,
+    "topDist": 26.2287453468889,
+    "x": -26.2680933624506,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   6.956658195704222,
+   -6.674850229173899,
+   -6.331660412251949,
+   8.957647364586592,
+   15.986943738535047,
+   -16.834775181487203,
+   15.605604499578476,
+   -19.38704365864396
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     0.6249977834522724,
+     -36.221818840131164,
+     30.96755045466125,
+     38.50461597554386
+    ]
+   },
+   {
+    "R": [
+     0.6249977834522724,
+     -36.221818840131164,
+     30.96755045466125,
+     38.50461597554386
+    ]
+   },
+   {
+    "R": [
+     0.6249977834522724,
+     -36.221818840131164,
+     30.96755045466125,
+     38.50461597554386
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     6.956658195704222,
+     -6.674850229173899,
+     -6.331660412251949,
+     8.957647364586592
+    ]
+   },
+   {
+    "R": [
+     6.956658195704222,
+     -6.674850229173899,
+     -6.331660412251949,
+     8.957647364586592
+    ]
+   },
+   {
+    "R": [
+     15.986943738535047,
+     -16.834775181487203,
+     15.605604499578476,
+     -19.38704365864396
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": 9.030285542830825,
+    "y": -10.159924952313304
+   },
+   {
+    "x": 9.030285542830825,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": -10.159924952313304
+   },
+   {
+    "x": 9.030285542830825,
+    "y": -10.159924952313304
+   }
+  ]
+ },
+ {
+  "in": [
+   7.555514695122838,
+   -0.8797608781605959,
+   11.108973668888211,
+   -16.175869749858975,
+   -3.107605455443263,
+   9.206217974424362,
+   14.005473051220179,
+   1.0429739579558372
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -3.107605455443263,
+     -17.05563062801957,
+     21.772093819454312,
+     27.30482256039977
+    ]
+   },
+   {
+    "R": [
+     -3.107605455443263,
+     -17.05563062801957,
+     21.772093819454312,
+     27.30482256039977
+    ]
+   },
+   {
+    "R": [
+     -3.107605455443263,
+     -17.05563062801957,
+     21.772093819454312,
+     27.30482256039977
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     7.555514695122838,
+     -0.8797608781605959,
+     11.108973668888211,
+     -16.175869749858975
+    ]
+   },
+   {
+    "R": [
+     7.555514695122838,
+     -0.8797608781605959,
+     11.108973668888211,
+     -16.175869749858975
+    ]
+   },
+   {
+    "R": [
+     -3.107605455443263,
+     9.206217974424362,
+     14.005473051220179,
+     1.0429739579558372
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": 10.085978852584958
+   },
+   {
+    "leftDist": -10.663120150566101,
+    "rightDist": -7.766620768234134,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 10.085978852584958
+   },
+   {
+    "leftDist": -10.663120150566101,
+    "rightDist": -7.766620768234134,
+    "x": null,
+    "y": 10.085978852584958
+   }
+  ]
+ },
+ {
+  "in": [
+   -4.899672511965036,
+   -19.38503202982247,
+   -12.653186367824674,
+   17.378233959898353,
+   -4.21706915833056,
+   2.2634784784168005,
+   9.092208109796047,
+   -4.6795393619686365
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -17.55285887978971,
+     -19.38503202982247,
+     22.427997831255198,
+     21.64851050823927
+    ]
+   },
+   {
+    "R": [
+     -17.55285887978971,
+     -19.38503202982247,
+     22.427997831255198,
+     21.64851050823927
+    ]
+   },
+   {
+    "R": [
+     -17.55285887978971,
+     -19.38503202982247,
+     22.427997831255198,
+     21.64851050823927
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -4.899672511965036,
+     -19.38503202982247,
+     -12.653186367824674,
+     17.378233959898353
+    ]
+   },
+   {
+    "R": [
+     -4.899672511965036,
+     -19.38503202982247,
+     -12.653186367824674,
+     17.378233959898353
+    ]
+   },
+   {
+    "R": [
+     -4.21706915833056,
+     2.2634784784168005,
+     9.092208109796047,
+     -4.6795393619686365
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": 0.6826033536344767,
+    "y": null
+   },
+   {
+    "x": 0.6826033536344767,
+    "y": null
+   },
+   {
+    "bottomDist": -0.4092628136277199,
+    "topDist": 21.64851050823927,
+    "x": null,
+    "y": null
+   },
+   {
+    "bottomDist": -0.4092628136277199,
+    "topDist": 21.64851050823927,
+    "x": 0.6826033536344767,
+    "y": null
+   }
+  ]
+ },
+ {
+  "in": [
+   -6.738369315862656,
+   -8.705630153417587,
+   -10.308499755337834,
+   2.14817026630044,
+   -14.949316419661045,
+   14.91856130771339,
+   -13.495795847848058,
+   -5.778753943741322
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -28.445112267509103,
+     -8.705630153417587,
+     21.706742951646447,
+     23.624191461130977
+    ]
+   },
+   {
+    "R": [
+     -28.445112267509103,
+     -8.705630153417587,
+     21.706742951646447,
+     23.624191461130977
+    ]
+   },
+   {
+    "R": [
+     -28.445112267509103,
+     -8.705630153417587,
+     21.706742951646447,
+     23.624191461130977
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -6.738369315862656,
+     -8.705630153417587,
+     -10.308499755337834,
+     2.14817026630044
+    ]
+   },
+   {
+    "R": [
+     -6.738369315862656,
+     -8.705630153417587,
+     -10.308499755337834,
+     2.14817026630044
+    ]
+   },
+   {
+    "R": [
+     -14.949316419661045,
+     14.91856130771339,
+     -13.495795847848058,
+     -5.778753943741322
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": 15.697267251089215
+   },
+   {
+    "leftDist": -8.21094710379839,
+    "rightDist": -11.398243196308613,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": 15.697267251089215
+   },
+   {
+    "leftDist": -8.21094710379839,
+    "rightDist": -11.398243196308613,
+    "x": null,
+    "y": 15.697267251089215
+   }
+  ]
+ },
+ {
+  "in": [
+   -0.1498720422387123,
+   17.76094059459865,
+   -8.458340894430876,
+   -19.965772228315473,
+   -10.792417908087373,
+   -15.005713915452361,
+   12.236068230122328,
+   -13.109507914632559
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -10.792417908087373,
+     -28.11522183008492,
+     12.236068230122328,
+     45.87616242468357
+    ]
+   },
+   {
+    "R": [
+     -10.792417908087373,
+     -28.11522183008492,
+     12.236068230122328,
+     45.87616242468357
+    ]
+   },
+   {
+    "R": [
+     -10.792417908087373,
+     -28.11522183008492,
+     12.236068230122328,
+     45.87616242468357
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -0.1498720422387123,
+     17.76094059459865,
+     -8.458340894430876,
+     -19.965772228315473
+    ]
+   },
+   {
+    "R": [
+     -0.1498720422387123,
+     17.76094059459865,
+     -8.458340894430876,
+     -19.965772228315473
+    ]
+   },
+   {
+    "R": [
+     -10.792417908087373,
+     -15.005713915452361,
+     12.236068230122328,
+     -13.109507914632559
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": null,
+    "y": -12.80088228173554
+   },
+   {
+    "leftDist": -10.64254586584866,
+    "rightDist": 10.051863258704543,
+    "x": null,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": -12.80088228173554
+   },
+   {
+    "leftDist": -10.64254586584866,
+    "rightDist": 10.051863258704543,
+    "x": null,
+    "y": -12.80088228173554
+   }
+  ]
+ },
+ {
+  "in": [
+   -14.274812545627356,
+   13.443590709939599,
+   0.4131725523620844,
+   -5.020470144227147,
+   6.269948054105043,
+   5.48828867264092,
+   -9.707073364406824,
+   -3.4283039532601833
+  ],
+  "containsRect": [
+   false,
+   false,
+   false
+  ],
+  "intersects": [
+   false,
+   false,
+   false
+  ],
+  "intersectsXYWH": [
+   false,
+   false
+  ],
+  "united": [
+   {
+    "R": [
+     -14.274812545627356,
+     2.0599847193807364,
+     20.5447605997324,
+     11.383605990558863
+    ]
+   },
+   {
+    "R": [
+     -14.274812545627356,
+     2.0599847193807364,
+     20.5447605997324,
+     11.383605990558863
+    ]
+   },
+   {
+    "R": [
+     -14.274812545627356,
+     2.0599847193807364,
+     20.5447605997324,
+     11.383605990558863
+    ]
+   }
+  ],
+  "unitedSame": [
+   false,
+   false
+  ],
+  "subtracted": [
+   {
+    "R": [
+     -14.274812545627356,
+     13.443590709939599,
+     0.4131725523620844,
+     -5.020470144227147
+    ]
+   },
+   {
+    "R": [
+     -14.274812545627356,
+     13.443590709939599,
+     0.4131725523620844,
+     -5.020470144227147
+    ]
+   },
+   {
+    "R": [
+     6.269948054105043,
+     5.48828867264092,
+     -9.707073364406824,
+     -3.4283039532601833
+    ]
+   }
+  ],
+  "intersected": [
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "R": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "xyOffset": [
+   {
+    "x": 10.42451468296349,
+    "y": -2.9348318930715322
+   },
+   {
+    "x": 10.42451468296349,
+    "y": null
+   },
+   {
+    "x": null,
+    "y": -2.9348318930715322
+   },
+   {
+    "x": 10.42451468296349,
+    "y": -2.9348318930715322
+   }
+  ]
+ }
+]

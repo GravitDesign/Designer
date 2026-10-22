@@ -1,0 +1,125 @@
+{
+ "uuidShape": [
+  [
+   32,
+   true
+  ],
+  [
+   6,
+   true
+  ],
+  [
+   1,
+   true
+  ]
+ ],
+ "xss": [
+  "&lt;b&gt;x&lt;/b&gt;",
+  "",
+  null,
+  "a & b",
+  "&lt;&lt;&gt;&gt;"
+ ],
+ "escape": "&lt;a href=&quot;x&quot;&gt;&#039;&amp;&#039;&lt;/a&gt;",
+ "unescape": "<a> &lt; \"'",
+ "replaceAll": "a/b/c",
+ "unique": [
+  [
+   1,
+   2,
+   3
+  ],
+  null
+ ],
+ "uniqueObj": 3,
+ "hash": [
+  0,
+  97,
+  1794106052,
+  2140957611
+ ],
+ "equals": [
+  true,
+  true,
+  false,
+  true,
+  false,
+  true,
+  false,
+  true,
+  true,
+  false,
+  false,
+  true,
+  true,
+  false,
+  true,
+  true,
+  false,
+  false,
+  true,
+  true,
+  false,
+  false
+ ],
+ "indexOfEquals": [
+  1,
+  0,
+  -1
+ ],
+ "extend": [
+  {
+   "a": 1,
+   "b": {
+    "d": 3
+   },
+   "e": 4
+  },
+  {
+   "a": 1,
+   "b": {
+    "d": 3
+   },
+   "e": 4
+  },
+  {
+   "a": [
+    1,
+    2
+   ],
+   "b": 5
+  }
+ ],
+ "contains": [
+  true,
+  false,
+  true,
+  true,
+  false
+ ],
+ "bubbleSort": [
+  1,
+  3,
+  3,
+  5,
+  7,
+  9
+ ],
+ "base64": [
+  "R3LDvMOfZSDinJM=",
+  "Grüße ✓"
+ ],
+ "compress": [
+  "eMKcS0xKTgQjwoXDg0sObzvCvEfDgcOQw4jDmMOEVCFxeAkDAMODw4dbw6E=",
+  true
+ ],
+ "lineFeed": [
+  "a\nb\n",
+  5
+ ],
+ "sanitize": [
+  "a_b_c_d_e_f_g_h_i_j",
+  "normal.gvdesign",
+  "_"
+ ]
+}
