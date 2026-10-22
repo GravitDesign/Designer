@@ -51,6 +51,13 @@ export interface Scenario<A = unknown> {
   timeout?: number;
   /** File extension of the expected file, e.g. ".pdf" for kind "bytes". */
   extension?: string;
+  /**
+   * Only for features the rewrite removes on purpose (license checks,
+   * subscriptions, cloud). The old app is still recorded as usual; for the
+   * new app this runs instead of the comparison and must throw if any
+   * trace of the feature is left (e.g. assert a route answers 404).
+   */
+  removedInNewApp?: (context: ScenarioContext, args: A) => Promise<void>;
 }
 
 export function defineScenarios<A>(list: Scenario<A>[]): Scenario<A>[] {

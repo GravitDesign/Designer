@@ -64,6 +64,11 @@ paritySuite(
   without `open` and without `driver` share one page and get a fresh
   document each.
 
+- `removedInNewApp` is for features the rewrite removes on purpose
+  (license, subscription, cloud). The old app is recorded as usual; for
+  the new app the function runs instead of the comparison and throws if
+  the feature is still there.
+
 ## Commands
 
 ```sh

@@ -97,6 +97,13 @@ function defineSide(kind: AppKind, scenarios: readonly Scenario[]): void {
           owned = true;
         }
         try {
+          if (kind === "new" && scenario.removedInNewApp) {
+            // The task removes this feature (license, subscription, cloud):
+            // the new app must show no trace of it instead of matching.
+            if (SABOTAGE) throw new Error(`${scenario.id}: sabotaged`);
+            await scenario.removedInNewApp({ page, kind }, scenario.args);
+            return;
+          }
           let actual = await runScenario(page, kind, scenario);
           if (SABOTAGE) actual = sabotage(actual, scenario);
           if (kind === "old" && RECORDING) {
