@@ -1,0 +1,207 @@
+# Modules no inventory item cites
+
+Written by the phase 1 reviewer. Each module larger than 2 KB that no
+item in INVENTORY.md cites, with a verdict on why it needs no item.
+
+One line per module over 2 KB that no inventory line cites by id or line range. "Internal of X" means the module is a helper of a feature that item X already covers.
+
+- module 53 (chunk.vendor.js:10486-10586, 3.4 KB): Tool class export map (GConnectorTool … GPathsGraphTool). Index only; tools covered by EDT-TOOLMGR-001 and EDT-TOOL-*.
+- module 77 (chunk.vendor.js:19509-19614, 3.9 KB): GMouseEvent: button constants, isDragEvent, Down/Release/Move/Drag*/DblClick/Wheel classes. Input event model; added as ADD-TOOLMGR-001.
+- module 176 (chunk.vendor.js:37510-37633, 4.3 KB): GSystem: OS (Unix/Windows/OSX_IOS) and hardware (Desktop/Tablet/Phone) detection, language. Internal; used by UI-SHELL-031 and ACT-KEY-027.
+- module 195 (chunk.vendor.js:39055-39195, 5.3 KB): Text run drawing helpers (getFontString with super/sub 0.8 size, applyRunStyle, list marker drawing). Internal of ENG-TEXT-009/011.
+- module 224 (chunk.vendor.js:44289-44391, 3.3 KB): GTranslation / GTranslationEvents for locale loading. Internal of UI-I18N-*.
+- module 230 (chunk.vendor.js:45074-45146, 2.3 KB): Small rect helper (l,t,w,h,r,b) for the text layout engine. Internal of ENG-TEXT-011.
+- module 253 (chunk.vendor.js:46349-46497, 4.6 KB): Analytics event/product property names (product_id, coupon, file.save-as.pdf…). Telemetry, drop.
+- module 254 (chunk.vendor.js:46498-46608, 3.9 KB): GCommonNames-based name sanitizing for cloud users (unknown-user, googledrive_/sharepoint_ prefixes). Cloud, drop.
+- module 261 (chunk.vendor.js:46615-46720, 3.9 KB): Second copy of GObject type system (getTypeId, hasMixin) bundled with the translation lib. Duplicate of ENG-NODE-001.
+- module 267 (chunk.vendor.js:51109-51218, 3.4 KB): Text layout node navigation (byCoordinate, byOrdinal, children, draw). Internal of ENG-TEXT-011.
+- module 269 (chunk.vendor.js:51394-51505, 4.0 KB): Third copy of GObject type system. Duplicate of ENG-NODE-001.
+- module 287 (chunk.vendor.js:55339-55506, 4.5 KB): GShareRoles (viewer, developer, reviewer, approver, co-author, no-access). Cloud sharing, drop.
+- module 293 (chunk.vendor.js:55613-55855, 7.7 KB): PDF content stream writer (fill/stroke, text, graphics-state resources). Internal of FMT-EXPORT-014..020.
+- module 326 (chunk.vendor.js:56427-56597, 5.6 KB): opentype.js Path class (moveTo/lineTo/toPathData). Third-party (opentype.js).
+- module 372 (chunk.vendor.js:64893-64997, 3.3 KB): GTranslation copy used by the cloud UI chunk. Internal of UI-I18N-*.
+- module 373 (chunk.vendor.js:64998-65102, 3.7 KB): DateAPI date helpers (startOfDay, addTime, lte). Used by trial reminders and paywall. Cloud/licensing, drop.
+- module 416 (chunk.vendor.js:69190-69303, 4.1 KB): Canvas text measuring/drawing for text runs (super/sub, font). Internal of ENG-TEXT-011.
+- module 431 (chunk.vendor.js:70475-70549, 3.3 KB): Analytics event names (document.created/opened/saved/exported, trial events). Telemetry, drop.
+- module 439 (chunk.vendor.js:70800-70926, 4.2 KB): Sketch import shapeGroup converter. Internal of FMT-IMPORT-015.
+- module 456 (chunk.vendor.js:70956-70960, 2.5 KB): Locale JSON (de-DE etc., template header/footer strings) for the cloud UI chunk. Locale data, cloud.
+- module 509 (chunk.vendor.js:73810-74033, 6.0 KB): Text layout list/array helpers (forEach, first, last, flatten). Internal of ENG-TEXT-009/011.
+- module 510 (chunk.vendor.js:74034-74132, 3.2 KB): Inline text element measure/draw (DefaultInline). Internal of ENG-TEXT-011.
+- module 525 (chunk.vendor.js:74481-74485, 2.5 KB): Locale JSON copy for cloud dialogs. Locale data, cloud.
+- module 526 (chunk.vendor.js:74486-74695, 7.4 KB): GServerTranslations for offer dialog v1 topics. Paywall, drop.
+- module 559 (chunk.vendor.js:81306-81369, 2.1 KB): CMYK-aware color array helpers for PDF/EPS. Internal of FMT-EXPORT-014 (cmyk).
+- module 574 (chunk.vendor.js:81572-81644, 2.3 KB): Analytics helper. Telemetry, drop.
+- module 584 (chunk.vendor.js:81887-81947, 2.0 KB): Analytics event dispatch for login dialog. Telemetry, drop.
+- module 633 (chunk.vendor.js:82867-82965, 3.6 KB): OS/device detection copy (OperatingSystem enum, iPhone/iPad/Android). Duplicate of module 176.
+- module 634 (chunk.vendor.js:82966-83065, 3.8 KB): Translation loader glue. Internal of UI-I18N-*.
+- module 645 (chunk.vendor.js:84267-84457, 6.6 KB): GInputRecorder: records/replays raw DOM input events (serialize type, keyCode, client/page xy…). Only reached through the gdb_initrecordgravitaction dev hook. Dev tool, drop (note in ACT-CLOUD-021).
+- module 650 (chunk.vendor.js:86961-87042, 2.6 KB): Text transformer helpers (inverseTransform, box origin) for path/direction text transformers. Internal of ENG-TEXT-012/013.
+- module 655 (chunk.vendor.js:90644-91421, 30.0 KB): GTL canvas 2D drawing context for text (vertices, styles, image smoothing). Internal of ENG-TEXT-011 and PDF/SVG text export.
+- module 686 (chunk.vendor.js:94087-94197, 3.8 KB): OS/device detection copy. Duplicate of module 176.
+- module 699 (chunk.vendor.js:94210-94311, 3.9 KB): Translation glue for cloud UI chunk. Locale, cloud.
+- module 706 (chunk.vendor.js:94389-94499, 3.2 KB): GReminderDialog (continue as free). Paywall, drop.
+- module 707 (chunk.vendor.js:94500-94683, 6.5 KB): GPaywallDialog (trial/pretrial/subscribe). Paywall, drop.
+- module 779 (chunk.vendor.js:107575-107831, 9.4 KB): GStyleEdManager: activates/deactivates style (gradient) sub-editors, overlay lock, editor events. Covered by EDT-ELEDIT-047/048 and EDT-EDITOR-029 (no own id cited).
+- module 794 (chunk.vendor.js:109352-109451, 3.5 KB): Sketch import group/shapeGroup handler. Internal of FMT-IMPORT-015.
+- module 795 (chunk.vendor.js:109452-109520, 2.3 KB): Sketch import element base (text/rect/path mapping). Internal of FMT-IMPORT-015.
+- module 796 (chunk.vendor.js:109521-109725, 6.9 KB): Sketch import style/transform conversion. Internal of FMT-IMPORT-015.
+- module 818 (chunk.vendor.js:109957-110153, 7.6 KB): GGraph (edges, anchors, color map) used by GPathsGraph and PDF export. Internal of ENG-NODE-043.
+- module 829 (chunk.vendor.js:110215-110464, 7.9 KB): License types (Legacy, Trial, Subscriber, TrialDelayed, PreTrial, Expired) and quotas. Licensing, drop.
+- module 830 (chunk.vendor.js:110465-110531, 2.3 KB): User display name sanitizing. Cloud, drop.
+- module 831 (chunk.vendor.js:110532-110536, 8.3 KB): Template category JSON (template.social-media, business, marketing…). Cloud templates (UI-WELCOME-009), drop.
+- module 852 (chunk.vendor.js:112046-112155, 3.6 KB): SVG export attribute/CSS/RGBA formatting helpers. Internal of FMT-EXPORT-006..013.
+- module 886 (chunk.vendor.js:112281-112285, 27.8 KB): Locale JSON (all languages) for the cloud UI chunk. Locale data, cloud.
+- module 892 (chunk.vendor.js:112644-112710, 2.4 KB): Event target copy for translation lib. Duplicate of ENG-EVENT base.
+- module 929 (chunk.vendor.js:121202-121263, 2.2 KB): GEdge (source/destination/anchors). Internal of ENG-NODE-043 paths graph.
+- module 935 (chunk.vendor.js:122050-122316, 9.7 KB): Render cache rect matcher (yStrips, intervals, subtract, merge). Internal of EDT-RENDER cache (module 934).
+- module 936 (chunk.vendor.js:122317-122445, 4.4 KB): Render cache tile grid (drawFragmentTo/From, clear). Internal of EDT-RENDER cache (module 934).
+- module 942 (chunk.vendor.js:122544-122548, 27.8 KB): Locale JSON copy. Locale data, cloud.
+- module 948 (chunk.vendor.js:122912-122979, 2.4 KB): Event/translation glue copy. Duplicate.
+- module 975 (chunk.vendor.js:123534-123646, 3.7 KB): GReminderDialogFactory (subscription expired, remaining days). Paywall, drop.
+- module 976 (chunk.vendor.js:123647-123729, 3.0 KB): GOfferDialogV1 (money-back, topics). Paywall, drop.
+- module 977 (chunk.vendor.js:123730-125236, 54.9 KB): GLoginDialog (sign in/up, discontinued notices, forgot password). Cloud account, drop.
+- module 980 (chunk.vendor.js:125298-125382, 3.1 KB): GOfflineDialog (retry connection). Cloud, drop.
+- module 1000 (chunk.vendor.js:232698-232833, 6.4 KB): Green circle "A" editor annotation that opens the inline text editor. Not required by any module (no i(1000) call). Dead code, drop.
+- module 1079 (chunk.vendor.js:235752-236290, 19.9 KB): Knife cut algorithm (performCut, sides, break apart, close path). Internal of EDT-TOOL-063..066 (GKnifeTool).
+- module 1095 (chunk.vendor.js:238099-238773, 24.5 KB): Corel UTS/CDA converters and "annlst" annotation conversion, atob/btoa polyfill. CorelDRAW/cloud interop, drop.
+- module 1096 (chunk.vendor.js:238774-239039, 8.5 KB): Embedded GSuite/Corel annotation status library (Common, Reopened, Resolved). Cloud, drop.
+- module 1097 (chunk.vendor.js:239040-239201, 4.9 KB): Embedded annotation type library (anarr, ancotext). Cloud annotations interop, drop.
+- module 1130 (chunk.vendor.js:240030-240090, 2.1 KB): Sketch import gradient conversion. Internal of FMT-IMPORT-015.
+- module 1132 (chunk.vendor.js:240117-240187, 3.5 KB): Sketch import image fill (canvas). Internal of FMT-IMPORT-015.
+- module 1134 (chunk.vendor.js:240210-240337, 4.2 KB): Sketch import rectangle with cornerRadius. Internal of FMT-IMPORT-015.
+- module 1136 (chunk.vendor.js:240356-240660, 11.4 KB): Sketch import text (NSAttributedString, alignment, italic). Internal of FMT-IMPORT-015.
+- module 1138 (chunk.vendor.js:240718-240893, 6.1 KB): bplist (binary plist) reader for Sketch text archives. Internal of FMT-IMPORT-015.
+- module 1139 (chunk.vendor.js:240894-241110, 8.4 KB): Sketch import symbols (symbolID, MSJSONFileReference, image data). Internal of FMT-IMPORT-015.
+- module 1142 (chunk.vendor.js:241134-241269, 4.9 KB): Import font resolver (queryFirst, default Open Sans, font events). Internal of FMT-IMPORT-028.
+- module 1144 (chunk.vendor.js:241307-241376, 2.3 KB): GPDFString encoding. Internal of FMT-EXPORT-014.
+- module 1147 (chunk.vendor.js:241417-241478, 2.0 KB): PDF path writer (moveTo/lineTo/curves). Internal of FMT-EXPORT-014.
+- module 1148 (chunk.vendor.js:241479-241664, 7.0 KB): SVG export gradients (linear/radial, userSpaceOnUse, stops). Internal of FMT-EXPORT-006..013.
+- module 1202 (chunk.vendor.js:241775-241898, 4.4 KB): SVG export image defs (img_ ids, data URLs). Internal of FMT-EXPORT-013.
+- module 1203 (chunk.vendor.js:241899-242609, 16.3 KB): List of ~1000 Google Fonts family names (ABeeZee…) used by PDF import font matching. Internal of FMT-IMPORT-028.
+- module 1204 (chunk.vendor.js:242610-242683, 2.1 KB): Font style keyword mapping (Thin, ExtraLight … ExtraBold) for import. Internal of FMT-IMPORT-028.
+- module 1205 (chunk.vendor.js:242684-242759, 2.7 KB): Sketch/PDF import image element parse. Internal of FMT-IMPORT-009/015.
+- module 1213 (chunk.vendor.js:242824-243031, 7.5 KB): Import compound/clip shape merge (evenodd, _merge, clip). Internal of FMT-IMPORT-009/015 and the import optimiser FMT-IMPORT-030.
+- module 1223 (chunk.vendor.js:243950-244109, 5.6 KB): PDF text writer (words, origin). Internal of FMT-EXPORT-017.
+- module 1226 (chunk.vendor.js:244169-244233, 2.3 KB): PDF pattern resources. Internal of FMT-EXPORT-014.
+- module 1227 (chunk.vendor.js:244234-244307, 2.7 KB): PDF gradient resources. Internal of FMT-EXPORT-014.
+- module 1235 (chunk.vendor.js:244454-244530, 2.4 KB): Export compatibility checks (hasUnsupportedEffect, hasBackgroundFill, isCustomBlendMode). Internal of FMT-EXPORT-011/012/016.
+- module 1236 (chunk.vendor.js:244531-244638, 4.1 KB): SVG export mask creation (destination-out masks, clipPath). Internal of FMT-EXPORT-006..013.
+- module 1392 (chunk.vendor.js:248852-248999, 4.8 KB): canvg arcToBezier helper. Internal of FMT-IMPORT-006 (canvg-derived).
+- module 1396 (chunk.vendor.js:250070-250495, 15.0 KB): PDF import text merging (horizontal/vertical runs, alignment). Internal of FMT-IMPORT-009.
+- module 1420 (chunk.vendor.js:252149-252227, 2.9 KB): PDF/EPS path command objects. Internal of FMT-EXPORT-014 / FMT-IMPORT-012.
+- module 1423 (chunk.vendor.js:252526-252647, 4.7 KB): PDF document trailer/xref writer. Internal of FMT-EXPORT-014.
+- module 1429 (chunk.vendor.js:252791-252856, 2.5 KB): PDF font lookup (getOpenTypeFont). Internal of FMT-EXPORT-017.
+- module 1432 (chunk.vendor.js:252995-253269, 5.8 KB): PDF font Unicode/CID encoding. Internal of FMT-EXPORT-017.
+- module 1445 (chunk.vendor.js:253633-253733, 3.5 KB): PDF paint context canvas bridge (createCanvas, drawCanvas, fillVertices). Internal of EDT-PCTX-008.
+- module 1446 (chunk.vendor.js:253734-254097, 14.0 KB): GPDFTLRender: PDF text renderer. Internal of FMT-EXPORT-017.
+- module 1451 (chunk.vendor.js:254482-254590, 3.9 KB): PDF raster export of non-vectorable nodes. Internal of FMT-EXPORT-016.
+- module 1453 (chunk.vendor.js:254620-254759, 5.0 KB): PDF border painting (inside/outside borders, markers). Internal of FMT-EXPORT-014.
+- module 1454 (chunk.vendor.js:254760-254825, 2.2 KB): PDF master page / rasterizable node processing. Internal of FMT-EXPORT-014/016.
+- module 1462 (chunk.vendor.js:256694-256990, 10.9 KB): SVG filter builder (feBlend, feMerge, feComponentTransfer). Internal of FMT-EXPORT-011.
+- module 1465 (chunk.vendor.js:257051-257260, 7.9 KB): GSVGContext (SVG paint context, composite ops). Internal of FMT-EXPORT-006..013.
+- module 1466 (chunk.vendor.js:257261-257529, 10.6 KB): GSVGTLRender: SVG text/shape renderer. Internal of FMT-EXPORT-009.
+- module 1467 (chunk.vendor.js:257530-257758, 9.3 KB): SVG text attributes (font-family, letter-spacing, decorations). Internal of FMT-EXPORT-009.
+- module 34 (designer.browser.dev.js:793-880, 2.5 KB): core-js String.prototype.replace polyfill. Third-party (core-js).
+- module 55 (designer.browser.dev.js:2477-2697, 8.2 KB): crypto-js core. Third-party (crypto-js).
+- module 98 (designer.browser.dev.js:3667-3917, 8.6 KB): crypto-js bundle entry. Third-party (crypto-js).
+- module 152 (designer.browser.dev.js:5398-5542, 3.9 KB): core-js typed array helpers. Third-party (core-js).
+- module 156 (designer.browser.dev.js:5546-5771, 7.2 KB): GCloudSettings (Google Drive/SharePoint permissions: open, copy, rename, cutPaste). Cloud storage, drop.
+- module 177 (designer.browser.dev.js:8592-8713, 3.6 KB): GRegex (mention, email patterns). Used by cloud/annotations. Cloud, drop.
+- module 183 (designer.browser.dev.js:8776-8890, 3.1 KB): process shim (browser). Third-party.
+- module 221 (designer.browser.dev.js:9900-11005, 38.7 KB): buffer polyfill. Third-party (buffer).
+- module 247 (designer.browser.dev.js:11799-11890, 2.8 KB): core-js split polyfill. Third-party (core-js).
+- module 250 (designer.browser.dev.js:11896-11985, 2.8 KB): base64-js. Third-party.
+- module 255 (designer.browser.dev.js:12026-12533, 19.6 KB): GFontManager (designer side): providers, missing-font events, load more, offline probe. Covered by UI-FONT-002..011 and FMT-IMPORT-029.
+- module 263 (designer.browser.dev.js:12751-12779, 19.1 KB): GRegex definitions (NOTIFICATION_USER_MENTION_REGEX). Cloud mentions, drop.
+- module 273 (designer.browser.dev.js:12880-13044, 6.6 KB): crypto-js module. Third-party (crypto-js).
+- module 306 (designer.browser.dev.js:13410-13499, 2.5 KB): core-js regexp exec polyfill. Third-party.
+- module 312 (designer.browser.dev.js:13597-13706, 3.4 KB): pako utils. Third-party (pako).
+- module 324 (designer.browser.dev.js:13779-13986, 6.3 KB): core-js ArrayBuffer polyfill. Third-party.
+- module 328 (designer.browser.dev.js:13990-14095, 2.6 KB): core-js array sort polyfill. Third-party.
+- module 353 (designer.browser.dev.js:14936-15127, 5.6 KB): core-js typed array constructors. Third-party.
+- module 356 (designer.browser.dev.js:15145-15309, 5.0 KB): core-js RegExp flags polyfill. Third-party.
+- module 358 (designer.browser.dev.js:15319-15632, 10.4 KB): GAnnotationsUtils: resolve all comments, cloud annotation merge, permissions. Collaboration/comments; cloud parts drop, local annotation behaviour already in EDT-TOOL-087..095 and ANNOT items.
+- module 381 (designer.browser.dev.js:15748-15811, 2.1 KB): GFontsProvider base class. Internal of UI-FONT-002.
+- module 388 (designer.browser.dev.js:15856-15967, 3.7 KB): GExternalStorage (CDRAPP, file can't be null). Corel/cloud external storage, drop.
+- module 409 (designer.browser.dev.js:16879-16972, 2.2 KB): core-js task/microtask polyfill. Third-party.
+- module 418 (designer.browser.dev.js:17091-17172, 2.2 KB): core-js array iterator. Third-party.
+- module 424 (designer.browser.dev.js:17284-17689, 11.6 KB): whatwg-fetch / URLSearchParams polyfill. Third-party.
+- module 433 (designer.browser.dev.js:17751-17832, 2.2 KB): ShareRoles helpers. Cloud sharing, drop.
+- module 443 (designer.browser.dev.js:18815-18911, 3.2 KB): Runtime/platform detection (Desktop, Android, MS Teams). Covered by UI-SHELL / FMT runtime items.
+- module 462 (designer.browser.dev.js:20984-21101, 3.7 KB): pako lib/deflate. Third-party (pako).
+- module 464 (designer.browser.dev.js:21966-22375, 13.1 KB): pako trees. Third-party (pako).
+- module 465 (designer.browser.dev.js:22376-22504, 4.5 KB): pako lib/inflate. Third-party (pako).
+- module 466 (designer.browser.dev.js:22505-23346, 28.2 KB): pako zlib/inflate. Third-party (pako).
+- module 467 (designer.browser.dev.js:23347-23510, 5.0 KB): pako inffast. Third-party (pako).
+- module 468 (designer.browser.dev.js:23511-23621, 3.4 KB): pako inftrees. Third-party (pako).
+- module 515 (designer.browser.dev.js:23682-23744, 2.0 KB): ieee754. Third-party.
+- module 537 (designer.browser.dev.js:24011-24087, 2.5 KB): crypto-js module. Third-party.
+- module 610 (designer.browser.dev.js:27411-28124, 27.7 KB): ua-parser-js. Third-party.
+- module 618 (designer.browser.dev.js:28205-28424, 5.8 KB): core-js Promise / unhandledrejection polyfill. Third-party.
+- module 673 (designer.browser.dev.js:28929-29807, 28.1 KB): core-js URL polyfill. Third-party.
+- module 676 (designer.browser.dev.js:29875-29953, 2.5 KB): punycode (core-js). Third-party.
+- module 737 (designer.browser.dev.js:30668-30968, 10.7 KB): crypto-js module. Third-party.
+- module 815 (designer.browser.dev.js:52395-52399, 47.8 KB): English locale JSON (GLoggedIn, login, email templates). Locale data; cloud strings drop.
+- module 819 (designer.browser.dev.js:52497-52825, 12.6 KB): node XMLHttpRequest shim. Third-party.
+- module 821 (designer.browser.dev.js:52827-52831, 169.7 KB): English locale JSON for the whole UI (169 KB). Locale data; the source of every UI string (covered by UI-I18N-*).
+- module 822 (designer.browser.dev.js:52832-52836, 47.8 KB): English locale JSON copy (cloud dialogs). Locale data, cloud.
+- module 824 (designer.browser.dev.js:52840-53248, 15.2 KB): URL / URLSearchParams polyfill. Third-party.
+- module 845 (designer.browser.dev.js:53599-53746, 4.9 KB): Cloud file update API (POST, include credentials). Cloud, drop.
+- module 848 (designer.browser.dev.js:53870-54432, 19.8 KB): GoogleDrive client (resumable upload, file listing). Cloud, drop.
+- module 860 (designer.browser.dev.js:54709-54976, 9.2 KB): GEmbeddedLogin (cross-frame login, purchase flow). Cloud, drop.
+- module 865 (designer.browser.dev.js:56152-56249, 3.0 KB): core-js Number.toFixed polyfill. Third-party.
+- module 882 (designer.browser.dev.js:58087-58264, 6.3 KB): Collaboration mentions/assign helpers (getMentions). Cloud comments, drop.
+- module 1048 (designer.browser.dev.js:59050-59209, 5.6 KB): crypto-js module. Third-party.
+- module 1049 (designer.browser.dev.js:59210-59377, 6.2 KB): crypto-js module. Third-party.
+- module 1062 (designer.browser.dev.js:59676-59851, 6.2 KB): crypto-js module. Third-party.
+- module 1063 (designer.browser.dev.js:59852-60507, 21.4 KB): crypto-js module. Third-party.
+- module 1065 (designer.browser.dev.js:60574-60717, 5.4 KB): crypto-js module. Third-party.
+- module 1066 (designer.browser.dev.js:60718-60860, 5.3 KB): crypto-js module. Third-party.
+- module 1068 (designer.browser.dev.js:60932-60998, 2.4 KB): Permission object (grant, revoke, lockPermissions, canSync). Role permissions, cloud; drop with sharing.
+- module 1102 (designer.browser.dev.js:62371-62463, 2.5 KB): core-js WeakMap. Third-party.
+- module 1106 (designer.browser.dev.js:62513-62612, 2.7 KB): core-js collection helpers. Third-party.
+- module 1107 (designer.browser.dev.js:62613-62719, 3.0 KB): core-js weak collection. Third-party.
+- module 1108 (designer.browser.dev.js:62720-62847, 5.1 KB): Google Drive resumable upload with backoff. Cloud, drop.
+- module 1116 (designer.browser.dev.js:66984-67106, 4.2 KB): setImmediate polyfill. Third-party.
+- module 1154 (designer.browser.dev.js:72124-72237, 3.7 KB): downloadActiveFile, downloadDataURI, GUtil.sanitizeFilename, dataUrlToBlob, readACVFile. User-visible: added ADD-IMPORT-001 (ACV parser) and ADD-EXPORT-001 (file name sanitizing).
+- module 1157 (designer.browser.dev.js:72306-72436, 4.6 KB): Active-menu manager (Esc / outside mousedown / mouseup closes, createActionMenu). Added ADD-MENU-001.
+- module 1165 (designer.browser.dev.js:75074-75266, 7.2 KB): GFileReviewManager (review/approval status). Cloud review flow, drop.
+- module 1166 (designer.browser.dev.js:75267-75342, 2.5 KB): Microsoft Graph user preview avatars. Cloud, drop.
+- module 1188 (designer.browser.dev.js:76806-76873, 2.7 KB): Software update events (CheckingForUpdate…). Covered by UI-NOTIFY-005 / ACT-HELP-009.
+- module 1200 (designer.browser.dev.js:77714-77908, 6.4 KB): GOpenTypeUtil font style naming (regular, variants). Internal of UI-FONT-005.
+- module 1210 (designer.browser.dev.js:77918-78458, 21.2 KB): Buffer/DataView reader (used by readACVFile). Third-party-style helper; part of ADD-IMPORT-001.
+- module 1252 (designer.browser.dev.js:80354-80465, 4.0 KB): Cross-frame purchase/settings messages. Cloud purchase, drop.
+- module 1258 (designer.browser.dev.js:81144-81644, 20.8 KB): jQuery UI widget factory. Third-party (jQuery UI).
+- module 1348 (designer.browser.dev.js:107039-107280, 8.5 KB): GCollabTextEditor (collaborative text editing). Cloud collaboration, drop.
+- module 1353 (designer.browser.dev.js:107510-107650, 4.3 KB): Annotation panel collaborator rows (owner, all). Cloud comments, drop.
+- module 1355 (designer.browser.dev.js:107670-107860, 7.1 KB): Annotation list tree rows (GSimpleTreeNodeNamed). Comments panel UI; cloud parts drop, local list covered by ANNOT items.
+- module 1356 (designer.browser.dev.js:107861-108670, 29.5 KB): Annotation comment rows (copy permalink, resolve, reopen, delete, mentions). Cloud comments, drop.
+- module 1357 (designer.browser.dev.js:108671-108916, 8.9 KB): Annotation reply docker (add reply, mention, assign). Cloud comments, drop.
+- module 1358 (designer.browser.dev.js:108917-109217, 10.1 KB): jquery.mentionsInput-like widget. Third-party, cloud mentions.
+- module 1379 (designer.browser.dev.js:109712-109938, 8.1 KB): Browser web-font provider loading (previews, resolveFont). Internal of UI-FONT-006.
+- module 1385 (designer.browser.dev.js:110454-110514, 2.1 KB): Browser storage item (file name/extension, canSave/canDownload, text.image). Internal of FMT-STORAGE-*.
+- module 1400 (designer.browser.dev.js:110606-110714, 4.1 KB): webpack context map for ./effects/sketch*effect (Sketch import effects). Internal of FMT-IMPORT-015.
+- module 1401 (designer.browser.dev.js:110715-112156, 57.0 KB): inflate implementation (zip.js). Third-party.
+- module 1480 (designer.browser.dev.js:115065-118895, 151.9 KB): Microsoft Teams JS SDK. Third-party, cloud, drop.
+- module 1489 (designer.browser.dev.js:120961-121528, 23.3 KB): AbortController polyfill. Third-party.
+- module 1494 (designer.browser.dev.js:125388-125526, 5.4 KB): Analytics pageview/event wrapper. Telemetry, drop.
+- module 1515 (designer.browser.dev.js:133670-134114, 16.0 KB): zip.js zip-fs. Third-party (zip.js).
+- module 1518 (designer.browser.dev.js:134266-135508, 54.8 KB): jQuery UI sortable. Third-party (used by UI-TABS-005).
+- module 1519 (designer.browser.dev.js:135509-135697, 7.9 KB): jQuery UI mouse. Third-party.
+- module 1548 (designer.browser.dev.js:146549-146777, 7.9 KB): Cloud files panel folder tree. Cloud, drop.
+- module 1550 (designer.browser.dev.js:146787-147004, 7.3 KB): Cloud files panel info/share view. Cloud, drop.
+- module 1554 (designer.browser.dev.js:147942-148010, 2.1 KB): Simple stack class used by the loading-failure handler. Internal helper.
+- module 1564 (designer.browser.dev.js:149613-149733, 4.0 KB): Analytics user/document properties. Telemetry, drop.
+- module 1568 (designer.browser.dev.js:151301-151451, 5.1 KB): GCloudCommunicationManager. Cloud, drop.
+- module 1569 (designer.browser.dev.js:151452-151634, 6.4 KB): App state manager (hasRole, isEditingEnabled, isExportEnabled, isCopyPasteEnabled, isDocumentTabManagementEnabled). Role/licence gating; keep only the local defaults (all enabled), cloud roles drop.
+- module 1571 (designer.browser.dev.js:151678-151760, 2.9 KB): Document event relay (attach/detach document). Internal helper.
+- module 1577 (designer.browser.dev.js:151943-152007, 2.1 KB): Paywall action launcher. Paywall, drop.
+- module 1579 (designer.browser.dev.js:152038-152111, 2.2 KB): Reminder/trial-expired action launcher. Paywall, drop.
+- module 1618 (designer.browser.dev.js:155831-155953, 3.9 KB): screenfull (fullscreen API wrapper) used by GPlayAction. Third-party; behaviour covered by ACT-VIEW-045.
+- module 1670 (designer.browser.dev.js:164313-164387, 2.2 KB): Plugin/loader with init/load/start/unload. Internal startup helper (covered by RUN-START flow).
+- module 1679 (designer.browser.dev.js:164887-165017, 4.4 KB): Purchase cart events. Paywall, drop.
+- module 1682 (designer.browser.dev.js:165137-165269, 4.5 KB): In-app purchase (MS Store "Durable" product). Paywall, drop.
+- module 1710 (designer.browser.dev.js:169152-169222, 3.1 KB): GVirtualTree drag-and-drop helper (drop upper/lower/inside). Internal of UI-LAYERS-016.
+- module 1712 (designer.browser.dev.js:169426-170618, 41.5 KB): GAnnotationPanel (comments panel: discard/remove empty annotation, assigned rows). Cloud comments; local annotation creation covered by EDT-TOOL-087..095.
+- module 1713 (designer.browser.dev.js:170619-170714, 3.5 KB): Annotation panel scrollIntoView helper. Cloud comments, drop.
+- module 1734 (designer.browser.dev.js:174581-174721, 5.6 KB): Role selector overlay. Cloud sharing, drop.
