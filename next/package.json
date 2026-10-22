@@ -44,6 +44,12 @@
     "zustand": "^5.0.15"
   },
   "scripts": {
+    "dev": "vite",
+    "build": "npm run build:client && npm run build:electron",
+    "build:client": "tsc -p tsconfig.json && vite build",
+    "build:electron": "vite build --config vite.electron.config.ts",
+    "start": "node server/main.ts",
+    "electron": "npm run build && electron .",
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
     "typecheck": "tsc -p tsconfig.json",
@@ -53,5 +59,6 @@
     "parity:prove": "node scripts/prove-failing.ts",
     "inventory:check": "node scripts/inventory-check.ts",
     "parity:mutations": "node scripts/prove-mutations.ts"
-  }
+  },
+  "main": "dist-electron/main.js"
 }
