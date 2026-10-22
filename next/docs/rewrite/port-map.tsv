@@ -1,0 +1,1722 @@
+bundle	module	bytes	classes	decision	target	cluster	inventory
+chunk.vendor.js	0	3951	GObject	port	next/src/engine/core/type-system.ts	engine-core	ENG-NODE-001
+chunk.vendor.js	1	5012		port	next/src/engine/index.ts	editor-tools-base	EDT-GL-014
+chunk.vendor.js	2	45860	GNode	port	next/src/engine/scene/node.ts	engine-scene-node	ENG-NODE-002,ENG-NODE-003,ENG-NODE-004
+chunk.vendor.js	5	3200	GPoint	port	next/src/engine/math/point.ts	engine-math	ENG-GEOM-001
+chunk.vendor.js	6	17820	GRect	port	next/src/engine/math/rect.ts	engine-math	ENG-GEOM-002
+chunk.vendor.js	7	13927	GTransform	port	next/src/engine/math/transform.ts	engine-math	ENG-GEOM-003,ENG-SER-007,EDT-XFORM-003
+chunk.vendor.js	9	124	GLocale	port	next/src/engine/core/locale/locale.ts	engine-locale	
+chunk.vendor.js	11	11858	GUtil	port	next/src/engine/core/util.ts	engine-core	ENG-GEOM-004
+chunk.vendor.js	12	44272	GMath	port	next/src/engine/math/math.ts	engine-math	ENG-GEOM-005
+chunk.vendor.js	14	41591	GPaintCanvas	port	next/src/engine/paint/paint-canvas.ts	engine-paint	ENG-BORDER-003,ENG-BLEND-001,ENG-BLEND-002
+chunk.vendor.js	15	271		port	next/src/editor/input-index.ts	editor-tools-base	
+chunk.vendor.js	17	11945	GRGBColor	port	next/src/engine/color/rgb-color.ts	engine-color	ENG-COLOR-002
+chunk.vendor.js	22	29544	GElement	port	next/src/engine/scene/element.ts	engine-scene-node	ENG-NODE-012,ENG-NODE-013,ENG-EVENT-007
+chunk.vendor.js	24	7104	GEditorOptions	port	next/src/editor/editor-options.ts	editor-core	EDT-RENDER-051,EDT-TOOLMGR-031,EDT-EDITOR-027
+chunk.vendor.js	28	20372	GStylable	port	next/src/engine/style/stylable.ts	engine-style	ENG-STYLE-001,ENG-STYLE-002,ENG-STYLE-003
+chunk.vendor.js	36	15012	GElementEditor	port	next/src/editor/element-editors/element-editor.ts	editor-element-editors	EDT-EDITOR-010,EDT-DND-004,EDT-DND-005
+chunk.vendor.js	39	15803	GBaseEditor	port	next/src/editor/element-editors/base-editor.ts	editor-element-editors	EDT-ELEDIT-005,EDT-ELEDIT-006,EDT-ELEDIT-007
+chunk.vendor.js	42	32789		port	next/src/engine/paint/webgl/shader.ts	engine-paint	EDT-GL-005,EDT-GL-006
+chunk.vendor.js	45	65346	GPathBase	port	next/src/engine/scene/path-base.ts	engine-shapes-path	ENG-NODE-021,ENG-NODE-022,ENG-NODE-023
+chunk.vendor.js	47	83	GLocaleKey	port	next/src/engine/core/locale/locale-key.ts	engine-locale	
+chunk.vendor.js	48	307	GVertex	port	next/src/engine/geometry/vertex.ts	engine-geometry-vertex	ENG-GEOM-006
+chunk.vendor.js	50	2495	GPattern	port	next/src/engine/style/pattern.ts	engine-color	ENG-PATTERN-001,ENG-SER-005,EDT-CLIP-001
+chunk.vendor.js	51	4006	GWebGLEffect	port	next/src/engine/style/webgl/webgl-effect.ts	engine-effects-webgl	ENG-EFFECT-015,EDT-GL-009,EDT-GL-016
+chunk.vendor.js	52	3417		port	next/src/editor/cursor.ts	editor-core	EDT-CURSOR-001,EDT-CURSOR-002,EDT-CURSOR-003
+chunk.vendor.js	53	3393		port	next/src/editor/index.ts	editor-tools-base	
+chunk.vendor.js	54	7589	GVertexContainer	port	next/src/engine/geometry/vertex-container.ts	engine-geometry-vertex	ENG-GEOM-008
+chunk.vendor.js	56	58295	GShape	port	next/src/engine/scene/shape.ts	engine-shapes-path	ENG-NODE-020,ENG-FILL-003,ENG-BORDER-004
+chunk.vendor.js	59	40909	GVertexInfo	port	next/src/engine/geometry/vertex-info.ts	engine-geometry-vertex	ENG-GEOM-009
+chunk.vendor.js	60	20577	GPath	port	next/src/engine/scene/path.ts	engine-shapes-path	ENG-NODE-025,ENG-PATHOP-005,ENG-SER-017
+chunk.vendor.js	63	1571	GVertexTransformer	port	next/src/engine/geometry/vertex-transformer.ts	engine-geometry-vertex	ENG-GEOM-010,EDT-XFORM-026
+chunk.vendor.js	64	15780	GPlatform	port	next/src/engine/core/platform.ts	engine-core	EDT-TOOLMGR-032,FMT-GVD-011,FMT-IMPORT-017
+chunk.vendor.js	66	30280	GBoxEditor	port	next/src/editor/element-editors/box-editor.ts	editor-element-editors	EDT-HANDLE-004,EDT-HANDLE-005,EDT-HANDLE-006
+chunk.vendor.js	68	16765	GColor	port	next/src/engine/color/color.ts	engine-color	ENG-COLOR-001,ENG-COLOR-005,ENG-COLOR-006
+chunk.vendor.js	69	8305	GBlock	port	next/src/engine/scene/block.ts	engine-scene-node	ENG-NODE-017,ENG-NODE-018
+chunk.vendor.js	70	114267	GText	port	next/src/engine/text/text.ts	engine-text-node	ENG-NODE-033,ENG-TEXT-001,ENG-TEXT-002
+chunk.vendor.js	72	252	GEvent	port	next/src/engine/core/event.ts	engine-core	ENG-EVENT-001
+chunk.vendor.js	73	12668	GRectangle	port	next/src/engine/scene/rectangle.ts	engine-shapes-primitives	ENG-NODE-028
+chunk.vendor.js	75	3148	GEventTarget	port	next/src/engine/core/event-target.ts	engine-core	ENG-EVENT-001
+chunk.vendor.js	76	4901		port	next/src/engine/scene/scene-node.ts	engine-scene-node	ENG-NODE-011
+chunk.vendor.js	77	3941	GMouseEvent	port	next/src/engine/core/mouse-event.ts	engine-core	ADD-TOOLMGR-001
+chunk.vendor.js	81	4237	GEditorAnnotation	port	next/src/editor/handles/editor-annotation.ts	editor-core	EDT-HANDLE-001,EDT-HANDLE-002,EDT-ANNOT-001
+chunk.vendor.js	82	110504	GEditor	port	next/src/editor/editor.ts	editor-core	EDT-TOOLMGR-033,EDT-EDITOR-001,EDT-EDITOR-002
+chunk.vendor.js	83	38396	GPage	port	next/src/engine/scene/page.ts	engine-scene-document	ENG-NODE-038,ENG-SCENE-004,ENG-SCENE-005
+chunk.vendor.js	84	4740	GAnnotation	port	next/src/engine/scene/annotations/annotation.ts	engine-annotations-model	ENG-NODE-049,EDT-ANNOT-004
+chunk.vendor.js	87	3921	GVertexSource	port	next/src/engine/geometry/vertex-source.ts	engine-geometry-vertex	ENG-GEOM-007
+chunk.vendor.js	89	15023		port	next/src/engine/text/opentype/parse.ts	engine-opentype-fork	
+chunk.vendor.js	90	669	GPDFObject	port	next/src/io/export/pdf/pdf-object.ts	io-export-pdf	
+chunk.vendor.js	95	36665	GImage	port	next/src/engine/scene/image.ts	engine-symbols-images	ENG-NODE-034,ENG-NODE-035,ENG-SER-017
+chunk.vendor.js	99	3445	GGuide	port	next/src/editor/guides/guide.ts	editor-guides	ENG-SCENE-003,EDT-GUIDE-006,EDT-SNAP-003
+chunk.vendor.js	103	36508		port	next/src/engine/paint/render-scheduler.ts	engine-paint	EDT-RENDER-052,EDT-RENDER-053,EDT-RENDER-054
+chunk.vendor.js	104	2947	GItem	port	next/src/engine/scene/item.ts	engine-scene-node	ENG-NODE-019,ENG-BORDER-006
+chunk.vendor.js	105	237		port	next/src/engine/text/opentype/check.ts	engine-opentype-fork	
+chunk.vendor.js	108	5411	GFont	port	next/src/engine/text/fonts/font.ts	engine-fonts	ENG-TEXT-007,ENG-TEXT-017,ENG-FONT-001
+chunk.vendor.js	111	23268	GRendererCtx	drop:GRendererCtx command recorder; the port issues the same Canvas 2D calls directly (confirm with corpus render scenarios)		engine-paint	EDT-RENDER-056,EDT-RENDER-057,EDT-RENDER-058
+chunk.vendor.js	112	208		port	next/src/engine/paint/element-data.ts	engine-paint	EDT-PAINT-052
+chunk.vendor.js	113	19285	GCompoundPath	port	next/src/engine/scene/compound-path.ts	engine-shapes-path	ENG-NODE-026
+chunk.vendor.js	115	7543		port	next/src/engine/text/opentype/table-utils.ts	engine-opentype-fork	
+chunk.vendor.js	118	175		port	next/src/engine/paint/destroyable.ts	engine-paint	EDT-PAINT-053
+chunk.vendor.js	122	9957	GGroup	port	next/src/engine/scene/group.ts	engine-shapes-primitives	ENG-NODE-036
+chunk.vendor.js	127	70689	GPathEditor	port	next/src/editor/element-editors/path-editor.ts	editor-path-editors	EDT-HANDLE-015,EDT-HANDLE-016,EDT-HANDLE-017
+chunk.vendor.js	128	5970	GShapeEditor	port	next/src/editor/element-editors/shape-editor.ts	editor-element-editors	EDT-DND-006,EDT-ELEDIT-025,EDT-ELEDIT-026
+chunk.vendor.js	132	15053	GLength	port	next/src/engine/math/length.ts	engine-math	ENG-GEOM-012,UI-FIELD-164
+chunk.vendor.js	133	2880	GScenePaintConfiguration	port	next/src/engine/paint/scene-paint-configuration.ts	engine-paint	ENG-SCENE-012,EDT-RENDER-002,EDT-RENDER-003
+chunk.vendor.js	138	6504	GGradient	port	next/src/engine/style/gradient.ts	engine-color	ENG-GRAD-001,ENG-GRAD-005,ENG-SER-013
+chunk.vendor.js	139	19418	GTexturePattern	port	next/src/engine/style/texture-pattern.ts	engine-style	ENG-FILL-002,ENG-PATTERN-002,ENG-EVENT-013
+chunk.vendor.js	140	5880		port	next/src/engine/geometry/quadtree.ts	engine-geometry-vertex	ENG-NODE-016
+chunk.vendor.js	141	4674	GVertexPixelAligner	port	next/src/engine/geometry/vertex-pixel-aligner.ts	engine-geometry-vertex	ENG-GEOM-010,EDT-SNAP-015
+chunk.vendor.js	142	170	GDate	port	next/src/engine/core/date.ts	engine-core	
+chunk.vendor.js	147	1755	GLinearGradient	port	next/src/engine/style/linear-gradient.ts	engine-color	ENG-GRAD-002
+chunk.vendor.js	148	6227		port	next/src/engine/text/gtl/formatting.ts	engine-text-gtl	ENG-TEXT-006
+chunk.vendor.js	150	367	GModifiersChangedEvent	port	next/src/engine/core/modifiers-changed-event.ts	engine-core	
+chunk.vendor.js	153	26339	GBBoxGuide	port	next/src/editor/guides/bbox-guide.ts	editor-guides	EDT-GUIDE-007,EDT-GUIDE-008,EDT-GUIDE-009
+chunk.vendor.js	154	5130	GBlockEditor	port	next/src/editor/element-editors/block-editor.ts	editor-element-editors	EDT-ELEDIT-021,EDT-ELEDIT-022,EDT-ELEDIT-023
+chunk.vendor.js	155	3585	GPathBaseEditor	port	next/src/editor/element-editors/path-base-editor.ts	editor-path-editors	EDT-ELEDIT-028,EDT-PATHEDIT-018
+chunk.vendor.js	158	2046	GRadialGradient	port	next/src/engine/style/radial-gradient.ts	engine-color	ENG-GRAD-003
+chunk.vendor.js	159	11246	GLayer	port	next/src/engine/scene/layer.ts	engine-scene-document	ENG-NODE-037
+chunk.vendor.js	160	65464	GScene	port	next/src/engine/scene/scene.ts	engine-scene-document	ENG-NODE-048,ENG-BORDER-006,ENG-COLOR-007
+chunk.vendor.js	161	4539	GTLUtil	port	next/src/engine/text/gtl/tl-util.ts	engine-text-gtl	ENG-TEXT-011
+chunk.vendor.js	162	62243	GPathsGraph	port	next/src/engine/scene/paths-graph/paths-graph.ts	engine-paths-graph	ENG-NODE-043,ENG-SER-008
+chunk.vendor.js	164	13261	GKey	port	next/src/engine/core/key.ts	engine-core	ACT-KEY-027
+chunk.vendor.js	166	1597	GRendererConfig	port	next/src/engine/paint/renderer-config.ts	engine-paint	EDT-RENDER-006,EDT-VIEW-006,EDT-VIEW-007
+chunk.vendor.js	167	1401		port	next/src/engine/core/key-event.ts	engine-core	
+chunk.vendor.js	170	101	GLocale	drop:GLocale instance for the cloud project		drop-engine-cloud	
+chunk.vendor.js	172	2666	GAnnotationEditor	port	next/src/editor/annotations/annotation-editor.ts	editor-paths-graph-annotations	EDT-ANNOT-016
+chunk.vendor.js	176	4342	GSystem	port	next/src/engine/core/system.ts	engine-core	
+chunk.vendor.js	179	5064	GPathUtil	port	next/src/engine/geometry/path-util.ts	engine-shapes-path	ENG-GEOM-011
+chunk.vendor.js	182	1432		port	next/src/io/export/pdf/pdf-array.ts	io-export-pdf	
+chunk.vendor.js	187	41784		port	next/src/engine/geometry/boolean/poly-segments.ts	engine-geometry-boolean	ENG-BOOL-002
+chunk.vendor.js	188	1065	GCMYKColor	port	next/src/engine/color/cmyk-color.ts	engine-color	ENG-COLOR-003
+chunk.vendor.js	195	5283		port	next/src/engine/text/gtl/run-draw.ts	engine-text-gtl	
+chunk.vendor.js	197	1109		port	next/src/io/export/pdf/pdf-dictionary.ts	io-export-pdf	
+chunk.vendor.js	205	38178	GRendererCtxDbg	drop:GRendererCtxDbg debug dump of the command recorder		engine-paint	EDT-RENDER-061
+chunk.vendor.js	206	3020		port	next/src/engine/style/webgl/shaders/gl-blur-shader.ts	engine-effects-webgl	EDT-GL-011
+chunk.vendor.js	207	236	GSceneOptions	port	next/src/engine/scene/scene-options.ts	engine-scene-node	ENG-SCENE-004
+chunk.vendor.js	209	194		drop:locale barrel of the cloud translation lib		engine-core	
+chunk.vendor.js	210	31728	GGuides	port	next/src/editor/guides/guides.ts	editor-guides	ENG-SCENE-003,ENG-EVENT-013,EDT-GUIDE-001
+chunk.vendor.js	211	2561	GTool	port	next/src/editor/tools/tool.ts	editor-tools-base	EDT-TOOLMGR-013,EDT-TOOLMGR-014
+chunk.vendor.js	212	250	GAnnotationTool	port	next/src/editor/annotations/annotation-tool.ts	editor-paths-graph-annotations	EDT-TOOLMGR-015,EDT-ANNOT-016
+chunk.vendor.js	214	11305	GEllipse	port	next/src/engine/scene/ellipse.ts	engine-shapes-primitives	ENG-NODE-029
+chunk.vendor.js	215	9887	GTLPathTextTransformer	port	next/src/engine/text/tl-path-text-transformer.ts	engine-text-gtl	ENG-TEXT-012,EDT-TEXTEDIT-029
+chunk.vendor.js	216	94441	GSymbol	port	next/src/engine/scene/symbol.ts	engine-symbols-images	ENG-NODE-039,ENG-SYMBOL-001,ENG-SYMBOL-002
+chunk.vendor.js	224	3255	GTranslation	port	next/src/engine/core/locale/translation.ts	engine-locale	
+chunk.vendor.js	226	16332		port	next/src/engine/paint/webgl/gl-context.ts	engine-paint	EDT-GL-001,EDT-GL-002,EDT-GL-003
+chunk.vendor.js	227	4476	GDictionary	port	next/src/engine/style/dictionary.ts	engine-style	ENG-PATTERN-005,FMT-GVD-010
+chunk.vendor.js	228	2629	GPaintContext	port	next/src/engine/paint/paint-context.ts	engine-paint	EDT-PCTX-001,EDT-PCTX-002,EDT-PCTX-003
+chunk.vendor.js	229	254	GHitResult	port	next/src/engine/scene/hit-result.ts	engine-scene-node	ENG-GEOM-015
+chunk.vendor.js	230	2313		port	next/src/engine/text/gtl/rect.ts	engine-text-gtl	
+chunk.vendor.js	233	15239	GCompoundShape	port	next/src/engine/scene/compound-shape.ts	engine-shapes-path	ENG-NODE-027,ENG-BOOL-004,ENG-SER-017
+chunk.vendor.js	235	14190	GCompoundPathEditor	port	next/src/editor/element-editors/compound-path-editor.ts	editor-path-editors	EDT-PATHEDIT-023
+chunk.vendor.js	236	13022	GShapeTool	port	next/src/editor/tools/shape-tool.ts	editor-tools-base	EDT-TOOLMGR-018,EDT-TOOLMGR-019,EDT-TOOLMGR-020
+chunk.vendor.js	249	3377	GBlurEffect	port	next/src/engine/style/effects/blur-effect.ts	engine-effects-canvas	ENG-EFFECT-003,EDT-GL-015,UI-FIELD-081
+chunk.vendor.js	253	4614		drop:analytics event properties		drop-engine-cloud	
+chunk.vendor.js	254	3913		drop:cloud user name sanitizing		drop-engine-cloud	
+chunk.vendor.js	261	3864		drop:second copy of the GObject type system inside the translation lib; use engine/core/type-system		engine-locale	
+chunk.vendor.js	264	80987	GVertexPolyBoolean	port	next/src/engine/geometry/boolean/vertex-poly-boolean.ts	engine-geometry-boolean	ENG-BOOL-001
+chunk.vendor.js	265	1115	GBackground	port	next/src/engine/style/background.ts	engine-style	ENG-PATTERN-004
+chunk.vendor.js	266	41617	GTLDirectionTextTransformer	port	next/src/engine/text/tl-direction-text-transformer.ts	engine-text-gtl	ENG-TEXT-013,EDT-TEXTEDIT-030
+chunk.vendor.js	267	3448		port	next/src/engine/text/gtl/node.ts	engine-text-gtl	
+chunk.vendor.js	268	6236	GConnector	port	next/src/engine/scene/connector.ts	engine-shapes-primitives	ENG-NODE-041
+chunk.vendor.js	269	3971		drop:third GObject copy used by the cloud translation lib		drop-engine-cloud	
+chunk.vendor.js	270	270		drop:barrel of cloud dialogs		engine-core	
+chunk.vendor.js	274	2898	GItemEditor	port	next/src/editor/element-editors/item-editor.ts	editor-element-editors	EDT-ELEDIT-024,EDT-HANDLE-023
+chunk.vendor.js	275	90308	GPathsGraphEditor	port	next/src/editor/paths-graph/paths-graph-editor.ts	editor-paths-graph-annotations	EDT-PATHEDIT-024,EDT-PATHEDIT-025,EDT-PATHEDIT-026
+chunk.vendor.js	276	14878	GGradientStyleEditor	port	next/src/editor/element-editors/gradient-style-editor.ts	editor-text-style-editors	EDT-ELEDIT-048,EDT-ELEDIT-049,EDT-ELEDIT-050
+chunk.vendor.js	280	3785	GWorkspace	port	next/src/engine/scene/workspace.ts	engine-scene-document	ENG-SCENE-013,ENG-EVENT-013
+chunk.vendor.js	281	6585	GFontManager	port	next/src/engine/text/fonts/font-manager.ts	engine-fonts	ENG-FONT-002,ENG-EVENT-012
+chunk.vendor.js	282	2639	GGLBlurEffect	port	next/src/engine/style/webgl/effects/gl-blur-effect.ts	engine-effects-webgl	ENG-EFFECT-016,EDT-GL-012,EDT-GL-014
+chunk.vendor.js	283	4212	GAngularGradient	port	next/src/engine/style/angular-gradient.ts	engine-effects-webgl	ENG-GRAD-004,ENG-SER-013
+chunk.vendor.js	284	7779	GPolygon	port	next/src/engine/scene/polygon.ts	engine-shapes-primitives	ENG-NODE-030
+chunk.vendor.js	285	7835	GCommentAnnotation	port	next/src/engine/scene/annotations/comment-annotation.ts	engine-annotations-model	ENG-NODE-058,EDT-ANNOT-007
+chunk.vendor.js	287	4457		drop:cloud share roles		drop-engine-cloud	
+chunk.vendor.js	289	3469	GSlice	port	next/src/engine/scene/slice.ts	engine-shapes-primitives	ENG-NODE-040,EDT-RENDER-007,FMT-EXPORT-044
+chunk.vendor.js	293	7730		port	next/src/io/export/pdf/content-stream.ts	io-export-pdf	
+chunk.vendor.js	315	6481		port	next/src/engine/style/webgl/shaders/gl-bend-blur-shader.ts	engine-effects-webgl	
+chunk.vendor.js	316	2308	GRectangleAnnotation	port	next/src/engine/scene/annotations/rectangle-annotation.ts	engine-annotations-model	ENG-NODE-052,EDT-ANNOT-008
+chunk.vendor.js	317	2307	GEllipseAnnotation	port	next/src/engine/scene/annotations/ellipse-annotation.ts	engine-annotations-model	ENG-NODE-053,EDT-ANNOT-009
+chunk.vendor.js	318	2436	GHighlighterAnnotation	port	next/src/engine/scene/annotations/highlighter-annotation.ts	engine-annotations-model	ENG-NODE-054,EDT-ANNOT-012
+chunk.vendor.js	319	2462	GArrowAnnotation	port	next/src/engine/scene/annotations/arrow-annotation.ts	engine-annotations-model	ENG-NODE-055,EDT-ANNOT-010
+chunk.vendor.js	320	2431	GPencilAnnotation	port	next/src/engine/scene/annotations/pencil-annotation.ts	engine-annotations-model	ENG-NODE-056,EDT-ANNOT-011
+chunk.vendor.js	321	4825	GDropShadowEffect	port	next/src/engine/style/effects/drop-shadow-effect.ts	engine-effects-canvas	ENG-EFFECT-004,EDT-GL-013,UI-FIELD-076
+chunk.vendor.js	325	104	GLocaleKey	drop:GLocaleKey of the cloud translation lib		drop-engine-cloud	
+chunk.vendor.js	326	5614		port	next/src/engine/text/opentype/path.ts	engine-opentype-fork	
+chunk.vendor.js	327	2189	GActionable	port	next/src/engine/scene/annotations/actionable.ts	engine-annotations-model	ENG-NODE-047
+chunk.vendor.js	329	26510	GImageEditor	port	next/src/editor/element-editors/image-editor.ts	editor-element-editors	EDT-CROP-001,EDT-CROP-002,EDT-CROP-003
+chunk.vendor.js	330	13992	GRectangleEditor	port	next/src/editor/element-editors/rectangle-editor.ts	editor-element-editors	EDT-HANDLE-010,EDT-HANDLE-011
+chunk.vendor.js	331	9708	GPageEditor	port	next/src/editor/element-editors/page-editor.ts	editor-element-editors	EDT-ELEDIT-032,EDT-ELEDIT-033,EDT-ELEDIT-034
+chunk.vendor.js	332	794	GItemTool	port	next/src/editor/tools/item-tool.ts	editor-tools-base	EDT-TOOLMGR-016
+chunk.vendor.js	333	3629		port	next/src/editor/view/panning.ts	editor-view	EDT-TOOLMGR-017,EDT-VIEW-008
+chunk.vendor.js	334	112823	GSelectTool	port	next/src/editor/tools/select-tool.ts	editor-tools-select	EDT-TOOL-002,EDT-TOOL-003,EDT-TOOL-004
+chunk.vendor.js	335	20489	GFreehandTool	port	next/src/editor/tools/freehand-tool.ts	editor-tools-path	EDT-TOOL-056,EDT-TOOL-057,EDT-TOOL-058
+chunk.vendor.js	338	664		port	next/src/io/export/pdf/pdf-number.ts	io-export-pdf	
+chunk.vendor.js	345	10564	GBitmap	port	next/src/engine/paint/bitmap.ts	engine-paint	ENG-GEOM-013,EDT-PAINT-049,EDT-PAINT-050
+chunk.vendor.js	346	5734		port	next/src/engine/paint/webgl/blend-shader.ts	engine-paint	ENG-BLEND-002,EDT-PAINT-048
+chunk.vendor.js	347	17289	GPGEdge	port	next/src/engine/scene/paths-graph/pg-edge.ts	engine-paths-graph	ENG-NODE-045
+chunk.vendor.js	352	336		drop:cloud share permissions		drop-engine-cloud	
+chunk.vendor.js	354	1313		drop:in-app marketing campaign params		drop-engine-cloud	
+chunk.vendor.js	359	1711		port	next/src/io/export/pdf/color-spaces.ts	io-export-pdf	
+chunk.vendor.js	363	54577	GSceneWidget	port	next/src/editor/view/scene-widget.ts	editor-view	EDT-RENDER-022,EDT-RENDER-023,EDT-RENDER-024
+chunk.vendor.js	364	5337		port	next/src/engine/style/webgl/shaders/gl-angular-gradient-shader.ts	engine-effects-webgl	
+chunk.vendor.js	365	3922		port	next/src/engine/style/webgl/shaders/gl-clip-blur-shader.ts	engine-effects-webgl	
+chunk.vendor.js	366	2797	GComment	port	next/src/engine/scene/annotations/comment.ts	engine-annotations-model	ENG-NODE-050
+chunk.vendor.js	367	33047		port	next/src/engine/text/gtl/tl-core.ts	engine-text-gtl	ENG-TEXT-011
+chunk.vendor.js	368	261		port	next/src/engine/text/gtl/tl-code.ts	engine-text-gtl	ENG-TEXT-010
+chunk.vendor.js	369	625		port	next/src/engine/text/gtl/render-flags.ts	engine-text-gtl	
+chunk.vendor.js	370	2307	GTextAnnotation	port	next/src/engine/scene/annotations/text-annotation.ts	engine-annotations-model	ENG-NODE-057,EDT-ANNOT-013
+chunk.vendor.js	372	3333		drop:translation lib copy for the cloud project		drop-engine-cloud	
+chunk.vendor.js	373	3719		drop:DateAPI for trial reminders		drop-engine-cloud	
+chunk.vendor.js	374	1164		drop:cloud storage providers (SharePoint, Google Drive)		drop-engine-cloud	
+chunk.vendor.js	375	1858		drop:analytics page stats events		drop-engine-cloud	
+chunk.vendor.js	376	27555		port	next/src/engine/text/opentype/encoding.ts	engine-opentype-fork	
+chunk.vendor.js	377	14950		port	next/src/engine/text/opentype/types.ts	engine-opentype-fork	
+chunk.vendor.js	378	11129		port	next/src/engine/text/opentype/tokenizer.ts	engine-opentype-fork	
+chunk.vendor.js	379	910		port	next/src/engine/text/opentype/char.ts	engine-opentype-fork	
+chunk.vendor.js	380	13083	GVertexFitter	port	next/src/engine/geometry/vertex-fitter.ts	engine-geometry-vertex	ENG-PATHOP-003
+chunk.vendor.js	383	5378		port	next/src/editor/handles/icon-annotation.ts	editor-core	EDT-ANNOT-003
+chunk.vendor.js	384	2363	GPolygonTool	port	next/src/editor/tools/polygon-tool.ts	editor-tools-base	EDT-TOOL-072
+chunk.vendor.js	385	2515	GStyleEditor	port	next/src/editor/element-editors/style-editor.ts	editor-text-style-editors	EDT-ELEDIT-047
+chunk.vendor.js	386	3331	GSubSelectTool	port	next/src/editor/tools/sub-select-tool.ts	editor-tools-select	EDT-TOOL-027,EDT-TOOL-028,EDT-TOOL-029
+chunk.vendor.js	387	39624	GTextEditor	port	next/src/editor/element-editors/text-editor.ts	editor-text-style-editors	EDT-DND-007,EDT-HANDLE-019,EDT-HANDLE-020
+chunk.vendor.js	390	994		port	next/src/io/export/pdf/pdf-color.ts	io-export-pdf	
+chunk.vendor.js	391	642		port	next/src/io/export/pdf/indirect-reference.ts	io-export-pdf	
+chunk.vendor.js	416	4092		port	next/src/engine/text/gtl/measure.ts	engine-text-gtl	
+chunk.vendor.js	417	38427		drop:gApi cloud REST client		drop-engine-cloud	UI-STORAGE-014,FMT-SERVER-006,FMT-SERVER-007
+chunk.vendor.js	430	202		drop:licence types		drop-engine-cloud	
+chunk.vendor.js	431	3278		drop:analytics event names		drop-engine-cloud	
+chunk.vendor.js	432	4408	GInnerShadowEffect	port	next/src/engine/style/effects/inner-shadow-effect.ts	engine-effects-canvas	ENG-EFFECT-005,UI-FIELD-077
+chunk.vendor.js	437	120		port	next/src/engine/core/base-object.ts	engine-core	
+chunk.vendor.js	438	3757		port	next/src/io/export/svg/svg-util.ts	io-export-svg	FMT-EXPORT-008
+chunk.vendor.js	439	4209		port	next/src/io/import/sketch/shape-group.ts	io-import-sketch	
+chunk.vendor.js	440	171		port	next/src/io/export/pdf/op-cm.ts	io-export-pdf	
+chunk.vendor.js	455	175		drop:analytics project names		drop-engine-cloud	
+chunk.vendor.js	456	2490		drop:empty German table for cloud UI		engine-locale	
+chunk.vendor.js	457	88	GLocaleLanguage	port	next/src/engine/core/locale/locale-language.ts	engine-locale	
+chunk.vendor.js	470	2234		port	next/src/engine/paint/gl-textures.ts	engine-paint	EDT-GL-004
+chunk.vendor.js	471	11797	GTransactionRecorder	port	next/src/engine/undo/transaction-recorder.ts	engine-scene-document	ENG-SCENE-014,EDT-UNDO-001,EDT-UNDO-002
+chunk.vendor.js	472	437		port	next/src/engine/scene/reference-event.ts	engine-scene-node	ENG-SCENE-008
+chunk.vendor.js	473	10787	GWebGLRenderer	port	next/src/engine/paint/webgl/webgl-renderer.ts	engine-paint	EDT-GL-007,EDT-GL-008
+chunk.vendor.js	474	998		port	next/src/engine/style/webgl/shaders/gl-bend-shader.ts	engine-effects-webgl	
+chunk.vendor.js	475	3542		port	next/src/engine/style/webgl/shaders/gl-bloom-shader.ts	engine-effects-webgl	
+chunk.vendor.js	476	960		port	next/src/engine/style/webgl/shaders/gl-brightness-contrast-shader.ts	engine-effects-webgl	
+chunk.vendor.js	477	1409		port	next/src/engine/style/webgl/shaders/gl-bulge-pinch-shader.ts	engine-effects-webgl	
+chunk.vendor.js	478	2013		port	next/src/engine/style/webgl/shaders/gl-color-adjust-shader.ts	engine-effects-webgl	
+chunk.vendor.js	479	1818		port	next/src/engine/style/webgl/shaders/gl-color-halftone-shader.ts	engine-effects-webgl	
+chunk.vendor.js	480	1471		port	next/src/engine/style/webgl/shaders/gl-denoise-shader.ts	engine-effects-webgl	
+chunk.vendor.js	481	1430		port	next/src/engine/style/webgl/shaders/gl-dot-screen-shader.ts	engine-effects-webgl	
+chunk.vendor.js	482	1004		port	next/src/engine/style/webgl/shaders/gl-drunk-shader.ts	engine-effects-webgl	
+chunk.vendor.js	483	3113		port	next/src/engine/style/webgl/shaders/gl-edge-work-shader.ts	engine-effects-webgl	
+chunk.vendor.js	484	1853		port	next/src/engine/style/webgl/shaders/gl-fisheye-shader.ts	engine-effects-webgl	
+chunk.vendor.js	485	2279		port	next/src/engine/style/webgl/shaders/gl-hexagonal-shader.ts	engine-effects-webgl	
+chunk.vendor.js	486	1616		port	next/src/engine/style/webgl/shaders/gl-hue-saturation-shader.ts	engine-effects-webgl	
+chunk.vendor.js	487	1645		port	next/src/engine/style/webgl/shaders/gl-ink-shader.ts	engine-effects-webgl	
+chunk.vendor.js	488	2957		port	next/src/engine/style/webgl/shaders/gl-inner-glow-shader.ts	engine-effects-webgl	
+chunk.vendor.js	489	4030		port	next/src/engine/style/webgl/shaders/gl-lens-blur-shader.ts	engine-effects-webgl	
+chunk.vendor.js	490	1665		port	next/src/engine/style/webgl/shaders/gl-noise-shader.ts	engine-effects-webgl	
+chunk.vendor.js	491	2835		port	next/src/engine/style/webgl/shaders/gl-outer-glow-shader.ts	engine-effects-webgl	
+chunk.vendor.js	492	1670		port	next/src/engine/style/webgl/shaders/gl-recolour-shader.ts	engine-effects-webgl	
+chunk.vendor.js	493	1066		port	next/src/engine/style/webgl/shaders/gl-sepia-shader.ts	engine-effects-webgl	
+chunk.vendor.js	494	2236		port	next/src/engine/style/webgl/shaders/gl-sketch-shader.ts	engine-effects-webgl	
+chunk.vendor.js	495	8409		port	next/src/engine/style/webgl/shaders/gl-stroke-layer-shader.ts	engine-effects-webgl	
+chunk.vendor.js	496	1591		port	next/src/engine/style/webgl/shaders/gl-swirl-shader.ts	engine-effects-webgl	
+chunk.vendor.js	497	5545		port	next/src/engine/style/webgl/shaders/gl-tilt-shift-shader.ts	engine-effects-webgl	
+chunk.vendor.js	498	2572		port	next/src/engine/style/webgl/shaders/gl-toon-shader.ts	engine-effects-webgl	
+chunk.vendor.js	499	2239		port	next/src/engine/style/webgl/shaders/gl-true-blur-shader.ts	engine-effects-webgl	
+chunk.vendor.js	500	1828		port	next/src/engine/style/webgl/shaders/gl-unsharp-mask-shader.ts	engine-effects-webgl	
+chunk.vendor.js	501	885		port	next/src/engine/style/webgl/shaders/gl-vibrance-shader.ts	engine-effects-webgl	
+chunk.vendor.js	502	1215		port	next/src/engine/style/webgl/shaders/gl-vignette-shader.ts	engine-effects-webgl	
+chunk.vendor.js	503	590		port	next/src/engine/style/webgl/shaders/gl-warp-shader.ts	engine-effects-webgl	
+chunk.vendor.js	504	2053		port	next/src/engine/style/webgl/shaders/gl-zoom-blur-shader.ts	engine-effects-webgl	
+chunk.vendor.js	505	352		port	next/src/engine/core/input-event.ts	engine-core	
+chunk.vendor.js	506	13788	GAnnotationsList	port	next/src/engine/scene/annotations/annotations-list.ts	engine-annotations-model	ENG-NODE-051,EDT-ANNOT-005
+chunk.vendor.js	507	17117		port	next/src/engine/scene/selector.ts	engine-scene-document	ENG-NODE-010
+chunk.vendor.js	508	545		port	next/src/engine/text/gtl/measurement.ts	engine-text-gtl	
+chunk.vendor.js	509	6050		port	next/src/engine/text/gtl/list-util.ts	engine-text-gtl	
+chunk.vendor.js	510	3223		port	next/src/engine/text/gtl/inline.ts	engine-text-gtl	
+chunk.vendor.js	511	2035	GStyle	port	next/src/engine/style/style.ts	engine-style	ENG-STYLE-007
+chunk.vendor.js	512	781	GAnchorLink	port	next/src/engine/scene/anchor-link.ts	engine-scene-node	
+chunk.vendor.js	513	381		port	next/src/engine/core/uid.ts	engine-core	
+chunk.vendor.js	514	589	GModifiers	port	next/src/engine/core/modifiers.ts	engine-core	
+chunk.vendor.js	517	2550	GSwatch	port	next/src/engine/style/swatch.ts	engine-style	ENG-STYLE-009
+chunk.vendor.js	518	4423	GNoisePattern	port	next/src/engine/style/noise-pattern.ts	engine-effects-webgl	ENG-PATTERN-003
+chunk.vendor.js	524	199		drop:analytics project names (copy)		drop-engine-cloud	
+chunk.vendor.js	525	2490		drop:cloud dialog locale table		drop-engine-cloud	
+chunk.vendor.js	526	7412		drop:offer dialog server translations (paywall)		drop-engine-cloud	
+chunk.vendor.js	528	9995	GParameterizedVertexProcessor	port	next/src/engine/scene/parameterized-vertex-processor.ts	engine-shapes-primitives	ENG-NODE-032
+chunk.vendor.js	529	2121		port	next/src/engine/text/opentype/glyph.ts	engine-opentype-fork	
+chunk.vendor.js	530	7681	GSimpleShape	port	next/src/engine/scene/simple-shape.ts	engine-shapes-primitives	ENG-NODE-031,ENG-SER-018
+chunk.vendor.js	531	3662	GCollabText	port	next/src/engine/scene/annotations/collab-text.ts	engine-annotations-model	ENG-NODE-047
+chunk.vendor.js	532	590	GAnnotable	port	next/src/engine/scene/annotations/annotable.ts	engine-annotations-model	ENG-NODE-060
+chunk.vendor.js	533	3547	GCollaborativeTextAnnotation	port	next/src/engine/scene/annotations/collaborative-text-annotation.ts	engine-annotations-model	ENG-NODE-060,EDT-ANNOT-014
+chunk.vendor.js	534	14458	GImageGrid	port	next/src/engine/scene/image-grid.ts	engine-symbols-images	ENG-NODE-042
+chunk.vendor.js	535	6705	GMultiEffect	port	next/src/engine/style/effects/multi-effect.ts	engine-effects-canvas	ENG-EFFECT-012
+chunk.vendor.js	539	33523	GPenTool	port	next/src/editor/tools/pen-tool.ts	editor-tools-path	EDT-TOOL-038,EDT-TOOL-039,EDT-TOOL-041
+chunk.vendor.js	540	50771		port	next/src/editor/guides/distance-helper.ts	editor-guides	EDT-GUIDE-021
+chunk.vendor.js	541	37780	GPathTool	port	next/src/editor/tools/path-tool.ts	editor-tools-path	EDT-TOOL-039,EDT-TOOL-040,EDT-TOOL-041
+chunk.vendor.js	542	305	GRotateAnnotation	port	next/src/editor/handles/rotate-annotation.ts	editor-core	EDT-HANDLE-024,EDT-ANNOT-003
+chunk.vendor.js	543	318	GPreserveAspectRatioAnnotation	port	next/src/editor/handles/preserve-aspect-ratio-annotation.ts	editor-core	EDT-HANDLE-024,EDT-ANNOT-003
+chunk.vendor.js	544	1511	GFullPixelsGuide	port	next/src/editor/guides/full-pixels-guide.ts	editor-guides	EDT-SNAP-003,EDT-SNAP-008
+chunk.vendor.js	545	17746	GSceneEditor	port	next/src/editor/element-editors/scene-editor.ts	editor-element-editors	EDT-ELEDIT-036,EDT-XFORM-019,EDT-XFORM-020
+chunk.vendor.js	546	24086	GTransformBox	port	next/src/editor/element-editors/transform-box.ts	editor-element-editors	EDT-XFORM-008,EDT-XFORM-009,EDT-XFORM-010
+chunk.vendor.js	547	10094	GTextTool	port	next/src/editor/tools/text-tool.ts	editor-tools-base	EDT-TOOL-076,EDT-TOOL-077,EDT-TOOL-078
+chunk.vendor.js	548	2633	GPointerTool	port	next/src/editor/tools/pointer-tool.ts	editor-tools-base	EDT-TOOL-001,EDT-TOOL-017,EDT-TOOL-019
+chunk.vendor.js	549	1202	GRectangleTool	port	next/src/editor/tools/rectangle-tool.ts	editor-tools-base	EDT-TOOL-070
+chunk.vendor.js	550	2154	GLineTool	port	next/src/editor/tools/line-tool.ts	editor-tools-base	EDT-TOOL-069
+chunk.vendor.js	551	1201	GEllipseTool	port	next/src/editor/tools/ellipse-tool.ts	editor-tools-base	EDT-TOOL-071
+chunk.vendor.js	552	7923	GEllipseEditor	port	next/src/editor/element-editors/ellipse-editor.ts	editor-element-editors	EDT-HANDLE-012,EDT-HANDLE-013
+chunk.vendor.js	553	12666	GToolManager	port	next/src/editor/tools/tool-manager.ts	editor-tools-base	EDT-TOOLMGR-001,EDT-TOOLMGR-002,EDT-TOOLMGR-003
+chunk.vendor.js	559	2101		port	next/src/io/export/pdf/cmyk-color-array.ts	io-export-pdf	
+chunk.vendor.js	560	849		port	next/src/io/export/pdf/pdf-name.ts	io-export-pdf	
+chunk.vendor.js	561	1857		port	next/src/io/import/sketch/registry.ts	io-import-sketch	
+chunk.vendor.js	562	617		port	next/src/io/import/sketch/element.ts	io-import-sketch	
+chunk.vendor.js	563	910		port	next/src/io/import/sketch/shape-path.ts	io-import-sketch	
+chunk.vendor.js	564	201		port	next/src/io/export/pdf/operators.ts	io-export-pdf	
+chunk.vendor.js	568	692		port	next/src/engine/text/fonts/font-entry.ts	engine-fonts	ENG-FONT-005
+chunk.vendor.js	569	1115	GAnchor	port	next/src/engine/scene/anchor.ts	engine-scene-node	
+chunk.vendor.js	574	2279		drop:analytics helper		drop-engine-cloud	
+chunk.vendor.js	575	1685		drop:share permission settings		drop-engine-cloud	
+chunk.vendor.js	577	164		drop:payment providers		drop-engine-cloud	
+chunk.vendor.js	578	1803		drop:HTTP status codes for gApi		drop-engine-cloud	
+chunk.vendor.js	579	730		drop:cloud file lock model		drop-engine-cloud	
+chunk.vendor.js	580	209		drop:passwordless auth actions		drop-engine-cloud	
+chunk.vendor.js	581	368		drop:password rules		drop-engine-cloud	
+chunk.vendor.js	582	1025		drop:runtime/store codes for licensing		drop-engine-cloud	
+chunk.vendor.js	583	291		drop:cloud name/mention regexes		drop-engine-cloud	
+chunk.vendor.js	584	2011		drop:login analytics		drop-engine-cloud	
+chunk.vendor.js	585	793		drop:cloud annotation action codes		drop-engine-cloud	
+chunk.vendor.js	586	199		drop:review status codes		drop-engine-cloud	
+chunk.vendor.js	587	20845	GOpenTypeFont	port	next/src/engine/text/fonts/open-type-font.ts	engine-fonts	ENG-TEXT-008,ENG-TEXT-017,ENG-TEXT-019
+chunk.vendor.js	588	3242	GGLColorAdjustEffect	port	next/src/engine/style/webgl/effects/gl-color-adjust-effect.ts	engine-effects-webgl	ENG-EFFECT-017,UI-FIELD-085
+chunk.vendor.js	597	750		port	next/src/io/import/sketch/effect.ts	io-import-sketch	
+chunk.vendor.js	598	311		port	next/src/io/import/sketch/point-parse.ts	io-import-sketch	
+chunk.vendor.js	599	738		port	next/src/io/import/sketch/color-fill.ts	io-import-sketch	
+chunk.vendor.js	600	312		port	next/src/io/import/sketch/fill.ts	io-import-sketch	
+chunk.vendor.js	601	634		port	next/src/io/import/sketch/rect-parse.ts	io-import-sketch	
+chunk.vendor.js	602	1097		port	next/src/io/export/pdf/object-collection.ts	io-export-pdf	
+chunk.vendor.js	632	1153		port	next/src/engine/core/locale/extend.ts	engine-locale	
+chunk.vendor.js	633	3557		drop:duplicate of GSystem OS detection (engine module 176)		engine-locale	
+chunk.vendor.js	634	3768		port	next/src/engine/core/locale/translation-loader.ts	engine-locale	
+chunk.vendor.js	635	195		port	next/src/engine/core/locale/class-reference.ts	engine-locale	
+chunk.vendor.js	636	399		port	next/src/engine/core/locale/locale-language.ts	engine-locale	
+chunk.vendor.js	637	352		port	next/src/engine/core/locale/locale-key.ts	engine-locale	
+chunk.vendor.js	638	528	GTranslationNotificationEvent	port	next/src/engine/core/locale/translation-notification-event.ts	engine-locale	
+chunk.vendor.js	639	129		port	next/src/engine/core/locale/translation-events.ts	engine-locale	
+chunk.vendor.js	640	2424		port	next/src/engine/core/async-executor.ts	engine-core	
+chunk.vendor.js	641	9324		port	next/src/engine/color/icc-profile.ts	engine-color	ENG-COLOR-006,FMT-LIB-008
+chunk.vendor.js	642	907		port	next/src/engine/color/icc-header.ts	engine-color	
+chunk.vendor.js	643	11196	GBlender	port	next/src/engine/paint/blender.ts	engine-paint	EDT-PAINT-046,EDT-PAINT-047,EDT-GL-016
+chunk.vendor.js	644	20050	GWidget	port	next/src/editor/view/widget.ts	editor-view	EDT-CURSOR-002,ADD-TOOLMGR-001
+chunk.vendor.js	645	6566	GInputRecorder	drop:dev-only input recorder (gdb_initrecordgravitaction hook)		editor-core	
+chunk.vendor.js	646	428		port	next/src/engine/geometry/boolean/intersection-point.ts	engine-geometry-boolean	
+chunk.vendor.js	647	85000		port	next/src/engine/geometry/boolean/intersection.ts	engine-geometry-boolean	ENG-BOOL-003
+chunk.vendor.js	648	665	GColorHelper	port	next/src/engine/color/color-helper.ts	engine-color	ENG-COLOR-007
+chunk.vendor.js	649	814	GHSVColor	port	next/src/engine/color/hsv-color.ts	engine-color	ENG-COLOR-004
+chunk.vendor.js	650	2635		port	next/src/engine/text/gtl/transformer-util.ts	engine-text-gtl	
+chunk.vendor.js	651	96238	GVertexOffsetter	port	next/src/engine/geometry/vertex-offsetter.ts	engine-geometry-offset-trace	ENG-PATHOP-001
+chunk.vendor.js	652	22446		port	next/src/engine/text/gtl/document.ts	engine-text-gtl	ENG-TEXT-011
+chunk.vendor.js	653	7953		port	next/src/engine/text/gtl/frame.ts	engine-text-gtl	
+chunk.vendor.js	654	5067		port	next/src/engine/text/gtl/line.ts	engine-text-gtl	
+chunk.vendor.js	655	30023		port	next/src/engine/text/tl-canvas-context.ts	engine-text-gtl	
+chunk.vendor.js	656	14379	GPGFacet	port	next/src/engine/scene/paths-graph/pg-facet.ts	engine-paths-graph	ENG-NODE-046
+chunk.vendor.js	657	12211	GPGAnchor	port	next/src/engine/scene/paths-graph/pg-anchor.ts	engine-paths-graph	ENG-NODE-044
+chunk.vendor.js	658	8492	GSceneDictionary	port	next/src/engine/style/scene-dictionary.ts	engine-symbols-images	ENG-PATTERN-005,ENG-EVENT-013
+chunk.vendor.js	659	33167		port	next/src/engine/color/jpeg-decoder.ts	engine-color	
+chunk.vendor.js	661	705	GGLNoiseEffect	port	next/src/engine/style/webgl/effects/gl-noise-effect.ts	engine-effects-webgl	ENG-EFFECT-018,UI-FIELD-101
+chunk.vendor.js	662	473	GSwatches	port	next/src/engine/style/swatches.ts	engine-style	ENG-STYLE-009
+chunk.vendor.js	663	18507		port	next/src/engine/paint/tile-renderer.ts	engine-paint	EDT-RENDER-042
+chunk.vendor.js	664	9063	GDirtyList	port	next/src/engine/paint/dirty-list.ts	engine-paint	EDT-RENDER-045,EDT-RENDER-046
+chunk.vendor.js	685	1240		drop:cloud translation lib copy		drop-engine-cloud	
+chunk.vendor.js	686	3759		drop:cloud translation lib OS detection copy		drop-engine-cloud	
+chunk.vendor.js	699	3853		drop:cloud translation glue		drop-engine-cloud	
+chunk.vendor.js	700	221		drop:cloud translation lib copy		drop-engine-cloud	
+chunk.vendor.js	701	423		drop:cloud translation lib copy		drop-engine-cloud	
+chunk.vendor.js	703	373		drop:cloud translation lib copy		drop-engine-cloud	
+chunk.vendor.js	704	562	GTranslationNotificationEvent	drop:cloud translation lib copy		drop-engine-cloud	
+chunk.vendor.js	705	150		drop:cloud translation lib copy		drop-engine-cloud	
+chunk.vendor.js	706	3212	GReminderDialog	drop:reminder dialog (paywall)		drop-engine-cloud	
+chunk.vendor.js	707	6512	GPaywallDialog	drop:paywall dialog		drop-engine-cloud	
+chunk.vendor.js	708	10079		port	next/src/engine/text/opentype/opentype.ts	engine-opentype-fork	FMT-LIB-004
+chunk.vendor.js	709	3023		port	next/src/engine/text/opentype/draw.ts	engine-opentype-fork	
+chunk.vendor.js	710	9394		port	next/src/engine/text/opentype/tables/cmap.ts	engine-opentype-fork	
+chunk.vendor.js	711	38690		port	next/src/engine/text/opentype/tables/cff.ts	engine-opentype-fork	
+chunk.vendor.js	712	7234		port	next/src/engine/text/opentype/glyphset.ts	engine-opentype-fork	
+chunk.vendor.js	713	3968		port	next/src/engine/text/opentype/tables/head.ts	engine-opentype-fork	
+chunk.vendor.js	714	3306		port	next/src/engine/text/opentype/tables/hhea.ts	engine-opentype-fork	
+chunk.vendor.js	715	965		port	next/src/engine/text/opentype/tables/hmtx.ts	engine-opentype-fork	
+chunk.vendor.js	716	1878		port	next/src/engine/text/opentype/tables/ltag.ts	engine-opentype-fork	
+chunk.vendor.js	717	1384		port	next/src/engine/text/opentype/tables/maxp.ts	engine-opentype-fork	
+chunk.vendor.js	718	17583		port	next/src/engine/text/opentype/tables/name.ts	engine-opentype-fork	
+chunk.vendor.js	719	18580		port	next/src/engine/text/opentype/tables/os2.ts	engine-opentype-fork	
+chunk.vendor.js	720	2887		port	next/src/engine/text/opentype/tables/post.ts	engine-opentype-fork	
+chunk.vendor.js	721	12017		port	next/src/engine/text/opentype/tables/gsub.ts	engine-opentype-fork	
+chunk.vendor.js	722	2079		port	next/src/engine/text/opentype/tables/meta.ts	engine-opentype-fork	
+chunk.vendor.js	723	6432		port	next/src/engine/text/opentype/layout.ts	engine-opentype-fork	
+chunk.vendor.js	724	964		port	next/src/engine/text/opentype/util.ts	engine-opentype-fork	
+chunk.vendor.js	725	7571		port	next/src/engine/text/opentype/font.ts	engine-opentype-fork	
+chunk.vendor.js	726	26905	GOpenTypeUtil	port	next/src/engine/text/fonts/open-type-util.ts	engine-fonts	ENG-FONT-004,FMT-LIB-004
+chunk.vendor.js	727	345	GActionItem	port	next/src/engine/scene/annotations/action-item.ts	engine-annotations-model	ENG-NODE-047
+chunk.vendor.js	728	1126	GGLSepiaEffect	port	next/src/engine/style/webgl/effects/gl-sepia-effect.ts	engine-effects-webgl	ENG-EFFECT-019,UI-FIELD-102
+chunk.vendor.js	729	3519	GOverlayEffect	port	next/src/engine/style/effects/overlay-effect.ts	engine-effects-canvas	ENG-EFFECT-006,UI-FIELD-082
+chunk.vendor.js	730	1617	GGLBrightnessContrastEffect	port	next/src/engine/style/webgl/effects/gl-brightness-contrast-effect.ts	engine-effects-webgl	ENG-EFFECT-020,UI-FIELD-091
+chunk.vendor.js	731	978	GGLDotScreenEffect	port	next/src/engine/style/webgl/effects/gl-dot-screen-effect.ts	engine-effects-webgl	ENG-EFFECT-021,UI-FIELD-090
+chunk.vendor.js	732	1508	GGLHueSaturationEffect	port	next/src/engine/style/webgl/effects/gl-hue-saturation-effect.ts	engine-effects-webgl	ENG-EFFECT-022,UI-FIELD-097
+chunk.vendor.js	738	3238	GConnectorTool	port	next/src/editor/tools/connector-tool.ts	editor-tools-base	EDT-TOOL-062
+chunk.vendor.js	739	2768	GGuideLinesGuide	port	next/src/editor/guides/guide-lines-guide.ts	editor-guides	EDT-GUIDE-010,EDT-SNAP-009
+chunk.vendor.js	740	13516	GGridGuide	port	next/src/editor/guides/grid-guide.ts	editor-guides	EDT-GUIDE-013,EDT-SNAP-007
+chunk.vendor.js	741	10984	GPointsGuide	port	next/src/editor/guides/points-guide.ts	editor-guides	EDT-GUIDE-015,EDT-SNAP-011
+chunk.vendor.js	742	4394	GPageGuide	port	next/src/editor/guides/page-guide.ts	editor-guides	EDT-GUIDE-016,EDT-SNAP-011
+chunk.vendor.js	743	4376	GPageLabelGuide	port	next/src/editor/guides/page-label-guide.ts	editor-guides	EDT-GUIDE-017
+chunk.vendor.js	744	3049	GLabelGuide	port	next/src/editor/guides/label-guide.ts	editor-guides	EDT-GUIDE-018
+chunk.vendor.js	745	9426	GSelectionPositionEditor	port	next/src/editor/element-editors/selection-position-editor.ts	editor-element-editors	EDT-SEL-008,EDT-ELEDIT-037
+chunk.vendor.js	746	364	GTriangleTool	port	next/src/editor/tools/triangle-tool.ts	editor-tools-base	EDT-TOOL-073
+chunk.vendor.js	747	7691	GPolygonEditor	port	next/src/editor/element-editors/polygon-editor.ts	editor-element-editors	EDT-HANDLE-014
+chunk.vendor.js	748	7767	GLassoTool	port	next/src/editor/tools/lasso-tool.ts	editor-tools-select	EDT-TOOL-033
+chunk.vendor.js	749	315	GSkewHorizontalAnnotation	port	next/src/editor/handles/skew-horizontal-annotation.ts	editor-core	EDT-HANDLE-024,EDT-ANNOT-003
+chunk.vendor.js	750	315	GSkewVerticalAnnotation	port	next/src/editor/handles/skew-vertical-annotation.ts	editor-core	EDT-HANDLE-024,EDT-ANNOT-003
+chunk.vendor.js	751	5616	GGroupEditor	port	next/src/editor/element-editors/group-editor.ts	editor-element-editors	EDT-ELEDIT-029,EDT-ELEDIT-030
+chunk.vendor.js	752	34903	GInlineTextEditor	port	next/src/editor/element-editors/inline-text-editor.ts	editor-text-style-editors	EDT-TEXTEDIT-013,EDT-TEXTEDIT-014,EDT-TEXTEDIT-015
+chunk.vendor.js	753	39243	GPathsGraphTool	port	next/src/editor/paths-graph/paths-graph-tool.ts	editor-paths-graph-annotations	EDT-TOOL-061
+chunk.vendor.js	754	586	GStarTool	port	next/src/editor/tools/star-tool.ts	editor-tools-base	EDT-TOOL-074
+chunk.vendor.js	755	6194	GZoomTool	port	next/src/editor/tools/zoom-tool.ts	editor-tools-base	EDT-TOOL-081,EDT-TOOL-082,EDT-TOOL-083
+chunk.vendor.js	756	1751	GHandTool	port	next/src/editor/tools/hand-tool.ts	editor-tools-base	EDT-TOOL-080
+chunk.vendor.js	757	37227	GKnifeTool	port	next/src/editor/tools/knife-tool.ts	editor-tools-path	EDT-TOOL-063,EDT-TOOL-064,EDT-TOOL-065
+chunk.vendor.js	758	5126	GFillTool	port	next/src/editor/tools/fill-tool.ts	editor-tools-base	EDT-TOOL-084,EDT-CURSOR-009
+chunk.vendor.js	759	1514	GLayerTool	port	next/src/editor/tools/layer-tool.ts	editor-tools-base	EDT-TOOL-035
+chunk.vendor.js	760	3424	GLayerEditor	port	next/src/editor/element-editors/layer-editor.ts	editor-element-editors	EDT-ELEDIT-031
+chunk.vendor.js	761	15776	GBezigonTool	port	next/src/editor/tools/bezigon-tool.ts	editor-tools-path	EDT-TOOL-052,EDT-TOOL-053,EDT-TOOL-054
+chunk.vendor.js	762	3487	GSimpleShapeTool	port	next/src/editor/tools/simple-shape-tool.ts	editor-tools-base	EDT-TOOL-075
+chunk.vendor.js	763	6989	GSliceTool	port	next/src/editor/tools/slice-tool.ts	editor-tools-base	EDT-TOOL-036,EDT-TOOL-037
+chunk.vendor.js	764	5624	GMagicTool	port	next/src/editor/tools/magic-tool.ts	editor-tools-base	EDT-TOOL-067,EDT-TOOL-068
+chunk.vendor.js	765	691	GEllipseAnnotationTool	port	next/src/editor/annotations/ellipse-annotation-tool.ts	editor-paths-graph-annotations	EDT-TOOL-088,EDT-ANNOT-009
+chunk.vendor.js	766	1489	GEllipseAnnotationEditor	port	next/src/editor/annotations/ellipse-annotation-editor.ts	editor-paths-graph-annotations	EDT-ANNOT-009,EDT-ANNOT-017
+chunk.vendor.js	767	695	GRectangleAnnotationTool	port	next/src/editor/annotations/rectangle-annotation-tool.ts	editor-paths-graph-annotations	EDT-TOOL-089,EDT-ANNOT-008
+chunk.vendor.js	768	1500	GRectangleAnnotationEditor	port	next/src/editor/annotations/rectangle-annotation-editor.ts	editor-paths-graph-annotations	EDT-ANNOT-008
+chunk.vendor.js	769	687	GArrowAnnotationTool	port	next/src/editor/annotations/arrow-annotation-tool.ts	editor-paths-graph-annotations	EDT-TOOL-090,EDT-ANNOT-010
+chunk.vendor.js	770	1355	GArrowAnnotationEditor	port	next/src/editor/annotations/arrow-annotation-editor.ts	editor-paths-graph-annotations	EDT-ANNOT-010
+chunk.vendor.js	771	1857	GCommentAnnotationTool	port	next/src/editor/annotations/comment-annotation-tool.ts	editor-paths-graph-annotations	EDT-TOOL-091,EDT-ANNOT-007
+chunk.vendor.js	772	5886	GCommentAnnotationEditor	port	next/src/editor/annotations/comment-annotation-editor.ts	editor-paths-graph-annotations	EDT-ANNOT-017
+chunk.vendor.js	773	1181	GPencilAnnotationTool	port	next/src/editor/annotations/pencil-annotation-tool.ts	editor-paths-graph-annotations	EDT-TOOL-092,EDT-ANNOT-011
+chunk.vendor.js	774	1446	GPencilAnnotationEditor	port	next/src/editor/annotations/pencil-annotation-editor.ts	editor-paths-graph-annotations	EDT-ANNOT-011
+chunk.vendor.js	775	1187	GHighlighterAnnotationTool	port	next/src/editor/annotations/highlighter-annotation-tool.ts	editor-paths-graph-annotations	EDT-TOOL-093,EDT-ANNOT-012
+chunk.vendor.js	776	1451	GHighlighterAnnotationEditor	port	next/src/editor/annotations/highlighter-annotation-editor.ts	editor-paths-graph-annotations	EDT-ANNOT-012
+chunk.vendor.js	777	694	GEditorPaintConfiguration	port	next/src/editor/editor-paint-configuration.ts	editor-core	EDT-RENDER-005,EDT-EDITOR-030,EDT-VIEW-025
+chunk.vendor.js	778	611	GEditorWorkspace	port	next/src/editor/editor-workspace.ts	editor-core	EDT-EDITOR-029
+chunk.vendor.js	779	9446	GStyleEdManager	port	next/src/editor/style-ed-manager.ts	editor-core	
+chunk.vendor.js	780	23459	GRadialGradientEditor	port	next/src/editor/element-editors/radial-gradient-editor.ts	editor-text-style-editors	EDT-ELEDIT-052
+chunk.vendor.js	781	14093	GAngularGradientEditor	port	next/src/editor/element-editors/angular-gradient-editor.ts	editor-text-style-editors	EDT-ELEDIT-053
+chunk.vendor.js	782	12178	GLinearGradientEditor	port	next/src/editor/element-editors/linear-gradient-editor.ts	editor-text-style-editors	EDT-ELEDIT-051
+chunk.vendor.js	783	1422	GTextAnnotationEditor	port	next/src/editor/annotations/text-annotation-editor.ts	editor-paths-graph-annotations	EDT-ANNOT-013
+chunk.vendor.js	793	885		port	next/src/io/import/sketch/gradient-fill.ts	io-import-sketch	
+chunk.vendor.js	794	3487		port	next/src/io/import/sketch/group.ts	io-import-sketch	
+chunk.vendor.js	795	2318		port	next/src/io/import/sketch/element-base.ts	io-import-sketch	
+chunk.vendor.js	796	6868		port	next/src/io/import/sketch/style.ts	io-import-sketch	
+chunk.vendor.js	797	150		port	next/src/io/export/index.ts	io-export-bitmap	FMT-EXPORT-001
+chunk.vendor.js	798	3781	GBitmapExport	port	next/src/io/export/bitmap-export.ts	io-export-bitmap	FMT-EXPORT-002,FMT-EXPORT-003
+chunk.vendor.js	799	1543		port	next/src/io/export/pdf/resource.ts	io-export-pdf	
+chunk.vendor.js	800	928		port	next/src/io/export/pdf/pdf-stream.ts	io-export-pdf	
+chunk.vendor.js	801	564		port	next/src/io/export/pdf/number-format.ts	io-export-pdf	
+chunk.vendor.js	818	7621	GGraph	port	next/src/engine/scene/paths-graph/graph.ts	engine-paths-graph	
+chunk.vendor.js	820	507		drop:Google Tag Manager ids		drop-engine-cloud	
+chunk.vendor.js	825	214		drop:cloud preview suffixes		drop-engine-cloud	
+chunk.vendor.js	826	147		drop:purchase endpoints		drop-engine-cloud	
+chunk.vendor.js	827	138		drop:order status		drop-engine-cloud	
+chunk.vendor.js	828	243		drop:subscription status		drop-engine-cloud	
+chunk.vendor.js	829	7925		drop:licence quotas		drop-engine-cloud	
+chunk.vendor.js	830	2307		drop:cloud user name display		drop-engine-cloud	
+chunk.vendor.js	831	8327		drop:cloud template categories		drop-engine-cloud	
+chunk.vendor.js	832	5377		drop:remote asset library on cloudfront (library panel categories)		drop-engine-cloud	UI-LIBRARY-004
+chunk.vendor.js	833	1263		drop:Google Drive picker		drop-engine-cloud	
+chunk.vendor.js	834	489		drop:cloud annotation action model		drop-engine-cloud	
+chunk.vendor.js	835	614		drop:review status map		drop-engine-cloud	
+chunk.vendor.js	836	281		drop:review actions		drop-engine-cloud	
+chunk.vendor.js	838	16532		port	next/src/engine/text/fonts/harfbuzz.ts	engine-fonts	ENG-TEXT-018
+chunk.vendor.js	839	1245	GGLZoomBlurEffect	port	next/src/engine/style/webgl/effects/gl-zoom-blur-effect.ts	engine-effects-webgl	ENG-EFFECT-023,UI-FIELD-111
+chunk.vendor.js	840	6156	GMirrorEffect	port	next/src/engine/style/effects/mirror-effect.ts	engine-effects-canvas	ENG-EFFECT-007,UI-FIELD-084
+chunk.vendor.js	849	28449		port	next/src/io/export/jpeg-encoder.ts	io-export-bitmap	FMT-LIB-009
+chunk.vendor.js	850	1356		port	next/src/io/export/byte-buffer.ts	io-export-bitmap	
+chunk.vendor.js	852	3593		port	next/src/io/export/svg/svg-format.ts	io-export-svg	
+chunk.vendor.js	853	210		port	next/src/io/export/pdf/stroke-pattern.ts	io-export-pdf	
+chunk.vendor.js	854	395		port	next/src/io/export/pdf/path-holder.ts	io-export-pdf	
+chunk.vendor.js	855	208		port	next/src/io/export/pdf/fill-pattern.ts	io-export-pdf	
+chunk.vendor.js	856	753	GPDFFlateDecode	port	next/src/io/export/pdf/flate-decode.ts	io-export-pdf	
+chunk.vendor.js	884	809		port	next/src/engine/core/locale/projects.ts	engine-locale	
+chunk.vendor.js	885	129816		drop:Corel in-app messaging strings (WelcomeScreen, TrialReminder, MiniCourse)		engine-locale	UI-I18N-002
+chunk.vendor.js	886	27828		drop:German cloud-dialog strings		engine-locale	
+chunk.vendor.js	887	409		drop:server error strings for cloud signup		engine-locale	
+chunk.vendor.js	888	1877		data:English strings for sub-action shortcut hints (en-US only)	next/src/engine/core/locale/sub-actions.en-US.json	engine-locale	
+chunk.vendor.js	889	11336	GLocale	port	next/src/engine/core/locale/locale.ts	engine-locale	UI-I18N-003,UI-I18N-004
+chunk.vendor.js	890	463		port	next/src/engine/core/locale/date-format.ts	engine-locale	
+chunk.vendor.js	891	254		port	next/src/engine/core/locale/translation-event.ts	engine-locale	
+chunk.vendor.js	892	2378		port	next/src/engine/core/locale/translation-event-target.ts	engine-locale	
+chunk.vendor.js	893	8857	GRulerWidget	port	next/src/editor/view/ruler-widget.ts	editor-view	EDT-VIEW-019
+chunk.vendor.js	894	1897		port	next/src/engine/serialize/deserialize-async.ts	engine-scene-node	FMT-GVD-006
+chunk.vendor.js	895	3312		port	next/src/engine/paint/png-chunks.ts	engine-paint	FMT-LIB-010
+chunk.vendor.js	896	630		port	next/src/engine/paint/png-dpi.ts	engine-paint	
+chunk.vendor.js	897	31790		drop:Canvas 2D half of the command recorder (see engine module 111)		engine-paint	EDT-RENDER-059
+chunk.vendor.js	898	3638		port	next/src/engine/paint/render-job.ts	engine-paint	EDT-RENDER-055
+chunk.vendor.js	899	50132		drop:WebGL half of the command recorder (see engine module 111)		engine-paint	EDT-RENDER-060
+chunk.vendor.js	900	6690		port	next/src/engine/style/paint-layer.ts	engine-style	ENG-STYLE-004,ENG-FILL-002,ENG-BLEND-005
+chunk.vendor.js	901	2528		port	next/src/engine/style/fill-paint-layer.ts	engine-style	ENG-STYLE-005,ENG-FILL-001
+chunk.vendor.js	902	6594		port	next/src/engine/style/border-paint-layer.ts	engine-style	ENG-BORDER-001,ENG-SER-012
+chunk.vendor.js	903	641	GVertexTarget	port	next/src/engine/geometry/vertex-target.ts	engine-geometry-vertex	ENG-GEOM-007
+chunk.vendor.js	904	5785		port	next/src/engine/style/paint-layers.ts	engine-style	ENG-STYLE-006,ENG-SCENE-010,ENG-SER-011
+chunk.vendor.js	905	6113		port	next/src/engine/style/effects.ts	engine-style	ENG-EFFECT-001
+chunk.vendor.js	906	5972		port	next/src/engine/style/effect.ts	engine-style	ENG-EFFECT-002
+chunk.vendor.js	907	179	GPaintConfiguration	port	next/src/engine/paint/paint-configuration.ts	engine-paint	EDT-RENDER-001
+chunk.vendor.js	908	3233		port	next/src/engine/scene/element-transform.ts	engine-scene-node	ENG-NODE-014
+chunk.vendor.js	909	3262		port	next/src/engine/scene/element-layout.ts	engine-scene-node	ENG-NODE-015
+chunk.vendor.js	910	37033		port	next/src/engine/scene/element-anchor.ts	engine-scene-node	ENG-SCENE-009,UI-FIELD-007
+chunk.vendor.js	911	27330		port	next/src/engine/style/element-stylable.ts	engine-style	ENG-STYLE-007,ENG-STYLE-010,ENG-EFFECT-048
+chunk.vendor.js	912	8930		port	next/src/engine/scene/element-accelerated.ts	engine-scene-node	ENG-NODE-016
+chunk.vendor.js	913	16375		npm:big.js@6.2.2		engine-core	
+chunk.vendor.js	914	1278		port	next/src/engine/scene/element-linkable.ts	engine-scene-node	ENG-NODE-061
+chunk.vendor.js	915	14382		port	next/src/engine/style/default-styles.ts	engine-scene-document	ENG-STYLE-008,ENG-SER-016
+chunk.vendor.js	916	14546		port	next/src/engine/text/gtl/range.ts	engine-text-gtl	ENG-TEXT-009
+chunk.vendor.js	917	6521		port	next/src/engine/text/gtl/word.ts	engine-text-gtl	
+chunk.vendor.js	918	6774		port	next/src/engine/text/gtl/line-buffer.ts	engine-text-gtl	
+chunk.vendor.js	919	4624		port	next/src/engine/text/gtl/positioned-word.ts	engine-text-gtl	
+chunk.vendor.js	920	11087		port	next/src/engine/text/gtl/tl-codes.ts	engine-text-gtl	ENG-TEXT-010
+chunk.vendor.js	921	2554		port	next/src/engine/text/gtl/code-node.ts	engine-text-gtl	
+chunk.vendor.js	922	542		port	next/src/engine/text/gtl/string-part.ts	engine-text-gtl	
+chunk.vendor.js	923	251		port	next/src/engine/text/gtl/path-number.ts	engine-text-gtl	
+chunk.vendor.js	924	1459		port	next/src/engine/text/gtl/vertex-source-part.ts	engine-text-gtl	
+chunk.vendor.js	925	12405		port	next/src/engine/text/gtl/list-markers.ts	engine-text-gtl	ENG-TEXT-009
+chunk.vendor.js	926	2362		port	next/src/engine/text/gtl/runs.ts	engine-text-gtl	
+chunk.vendor.js	927	3845		port	next/src/engine/text/gtl/characters.ts	engine-text-gtl	
+chunk.vendor.js	928	995		port	next/src/engine/text/gtl/default-font-measure.ts	engine-text-gtl	
+chunk.vendor.js	929	2154	GEdge	port	next/src/engine/scene/paths-graph/edge.ts	engine-paths-graph	
+chunk.vendor.js	930	763	GEdgeLink	port	next/src/engine/scene/paths-graph/edge-link.ts	engine-paths-graph	
+chunk.vendor.js	931	8365		port	next/src/engine/style/effects/stack-blur.ts	engine-effects-canvas	ENG-EFFECT-003
+chunk.vendor.js	932	819		port	next/src/engine/color/jpeg-decoder-factory.ts	engine-color	
+chunk.vendor.js	933	7070		port	next/src/engine/style/symbol-dictionary.ts	engine-symbols-images	ENG-SYMBOL-006
+chunk.vendor.js	934	10844		port	next/src/engine/paint/tile-cache.ts	engine-paint	EDT-RENDER-044
+chunk.vendor.js	935	9667		port	next/src/engine/paint/rect-matcher.ts	engine-paint	
+chunk.vendor.js	936	4427		port	next/src/engine/paint/tile-grid.ts	engine-paint	
+chunk.vendor.js	937	391		port	next/src/engine/paint/render-request.ts	engine-paint	EDT-RENDER-043
+chunk.vendor.js	938	984		drop:cloud quota stats		drop-engine-cloud	
+chunk.vendor.js	939	193		drop:cloud translation factory		drop-engine-cloud	
+chunk.vendor.js	940	830		drop:cloud locale projects		drop-engine-cloud	
+chunk.vendor.js	941	129816		drop:copy of engine module 885 (Corel in-app messaging strings)		drop-engine-cloud	UI-I18N-002
+chunk.vendor.js	942	27828		drop:copy of engine module 886		drop-engine-cloud	
+chunk.vendor.js	943	409		drop:copy of engine module 887		drop-engine-cloud	
+chunk.vendor.js	944	1877		drop:copy of engine module 888 (cloud project)		drop-engine-cloud	
+chunk.vendor.js	945	11414	GLocale	drop:GLocale copy for the cloud project		drop-engine-cloud	UI-I18N-003
+chunk.vendor.js	946	489		drop:cloud translation lib copy		drop-engine-cloud	
+chunk.vendor.js	947	275		drop:cloud translation lib copy		drop-engine-cloud	
+chunk.vendor.js	948	2399		drop:cloud translation lib copy		drop-engine-cloud	
+chunk.vendor.js	949	109	GLocaleLanguage	drop:cloud translation lib copy		drop-engine-cloud	
+chunk.vendor.js	950	1505		drop:share permission sets		drop-engine-cloud	
+chunk.vendor.js	951	945		drop:cloud user settings		drop-engine-cloud	
+chunk.vendor.js	952	653		drop:subscription error codes		drop-engine-cloud	
+chunk.vendor.js	953	459		drop:collaboration socket events		drop-engine-cloud	
+chunk.vendor.js	954	120		drop:collaboration socket events		drop-engine-cloud	
+chunk.vendor.js	955	126		drop:payment socket events		drop-engine-cloud	
+chunk.vendor.js	956	640		drop:gApi sync fetch		drop-engine-cloud	
+chunk.vendor.js	957	3394		drop:collaboration websocket client		drop-engine-cloud	
+chunk.vendor.js	958	563		drop:websocket close codes		drop-engine-cloud	
+chunk.vendor.js	959	728		drop:gApi realtime		drop-engine-cloud	
+chunk.vendor.js	960	943		drop:gApi file lock		drop-engine-cloud	
+chunk.vendor.js	961	791		drop:gApi Microsoft store		drop-engine-cloud	
+chunk.vendor.js	962	578		drop:gApi QA		drop-engine-cloud	
+chunk.vendor.js	963	356		drop:gApi token issuer		drop-engine-cloud	
+chunk.vendor.js	964	912		drop:gApi magic link		drop-engine-cloud	
+chunk.vendor.js	965	233		drop:gApi guest signup		drop-engine-cloud	
+chunk.vendor.js	966	253		drop:gApi file access		drop-engine-cloud	
+chunk.vendor.js	967	374		drop:gApi marketing files		drop-engine-cloud	
+chunk.vendor.js	968	556		drop:support/subscription URLs		drop-engine-cloud	
+chunk.vendor.js	969	557		drop:gApi passwordless auth		drop-engine-cloud	
+chunk.vendor.js	970	259		drop:gApi maintenance status		drop-engine-cloud	FMT-SERVER-005
+chunk.vendor.js	971	544		drop:maintenance status model		drop-engine-cloud	
+chunk.vendor.js	972	147		drop:Intercom licence names		drop-engine-cloud	
+chunk.vendor.js	973	166		drop:account types		drop-engine-cloud	
+chunk.vendor.js	974	163	GCommonNames	drop:GCommonNames for cloud dialogs		drop-engine-cloud	
+chunk.vendor.js	975	3661	GReminderDialogFactory	drop:reminder dialog factory (paywall)		drop-engine-cloud	
+chunk.vendor.js	976	3044		drop:offer dialog (paywall)		drop-engine-cloud	
+chunk.vendor.js	977	54876	GLoginDialog	drop:login dialog (cloud account)		drop-engine-cloud	
+chunk.vendor.js	978	333		drop:reCAPTCHA		drop-engine-cloud	
+chunk.vendor.js	979	1105		drop:cloud env flags		drop-engine-cloud	
+chunk.vendor.js	980	3060	GOfflineDialog	drop:offline dialog (cloud)		drop-engine-cloud	
+chunk.vendor.js	981	21		drop:empty module		engine-core	
+chunk.vendor.js	982	15356		port	next/src/engine/text/opentype/hintingtt-glyph.ts	engine-opentype-fork	
+chunk.vendor.js	983	10084		port	next/src/engine/text/opentype/tables/sfnt.ts	engine-opentype-fork	
+chunk.vendor.js	984	171		port	next/src/engine/text/opentype/tables/table.ts	engine-opentype-fork	
+chunk.vendor.js	985	1572		port	next/src/engine/text/opentype/tables/kern-gpos.ts	engine-opentype-fork	
+chunk.vendor.js	986	7284		port	next/src/engine/text/opentype/substitution.ts	engine-opentype-fork	
+chunk.vendor.js	987	51602		port	next/src/engine/text/opentype/hintingtt.ts	engine-opentype-fork	
+chunk.vendor.js	988	3643		port	next/src/engine/text/opentype/features/arab/arabic.ts	engine-opentype-fork	
+chunk.vendor.js	989	380		port	next/src/engine/text/opentype/features/feature-query-util.ts	engine-opentype-fork	
+chunk.vendor.js	990	904		port	next/src/engine/text/opentype/features/latn.ts	engine-opentype-fork	
+chunk.vendor.js	991	2207		port	next/src/engine/text/opentype/features/arab/contextCheck.ts	engine-opentype-fork	
+chunk.vendor.js	992	1087		port	next/src/engine/text/opentype/features/arab/rlig.ts	engine-opentype-fork	
+chunk.vendor.js	993	8364		port	next/src/engine/text/opentype/features/feature-query.ts	engine-opentype-fork	
+chunk.vendor.js	994	4639		port	next/src/engine/text/opentype/tables/fvar.ts	engine-opentype-fork	
+chunk.vendor.js	995	5059		port	next/src/engine/text/opentype/tables/gpos.ts	engine-opentype-fork	
+chunk.vendor.js	996	1570		port	next/src/engine/text/opentype/tables/glyf-parse.ts	engine-opentype-fork	
+chunk.vendor.js	997	419		port	next/src/engine/text/opentype/bidi.ts	engine-opentype-fork	
+chunk.vendor.js	998	6438133		data:HarfBuzz 2.2.0 Emscripten build (rebuild harfbuzz-2.2.0 as wasm with the same hb_* exports; vendor the old asm.js module only as a fallback)	next/src/engine/text/harfbuzz/harfbuzz-2.2.0	engine-fonts	ENG-TEXT-018,FMT-LIB-005
+chunk.vendor.js	999	235		port	next/src/engine/scene/annotations/collab-text-annotation-base.ts	engine-annotations-model	
+chunk.vendor.js	1000	6384		drop:dead code (inline-text "A" annotation, never required)		editor-core	
+chunk.vendor.js	1001	1117	GSceneUtil	port	next/src/engine/scene/scene-util.ts	engine-scene-document	ENG-GEOM-014
+chunk.vendor.js	1002	9382	GVertexSimplifier	port	next/src/engine/geometry/vertex-simplifier.ts	engine-geometry-boolean	ENG-PATHOP-002
+chunk.vendor.js	1003	25364	GImageTracer	port	next/src/engine/geometry/image-tracer.ts	engine-geometry-offset-trace	ENG-PATHOP-004
+chunk.vendor.js	1004	2314	GGLBulgePinchEffect	port	next/src/engine/style/webgl/effects/gl-bulge-pinch-effect.ts	engine-effects-webgl	ENG-EFFECT-024,UI-FIELD-088
+chunk.vendor.js	1005	809	GGLEdgeWorkEffect	port	next/src/engine/style/webgl/effects/gl-edge-work-effect.ts	engine-effects-webgl	ENG-EFFECT-025,UI-FIELD-095
+chunk.vendor.js	1006	949	GGLColorHalfToneEffect	port	next/src/engine/style/webgl/effects/gl-color-half-tone-effect.ts	engine-effects-webgl	ENG-EFFECT-026,UI-FIELD-089
+chunk.vendor.js	1007	921	GGLHexagonalEffect	port	next/src/engine/style/webgl/effects/gl-hexagonal-effect.ts	engine-effects-webgl	ENG-EFFECT-027,UI-FIELD-096
+chunk.vendor.js	1008	1504	GColorGradingEffect	port	next/src/engine/style/effects/color-grading-effect.ts	engine-effects-canvas	ENG-EFFECT-008,UI-FIELD-083
+chunk.vendor.js	1009	4039		port	next/src/engine/style/effects/cubic-spline.ts	engine-effects-canvas	ENG-EFFECT-008
+chunk.vendor.js	1010	1500	GGLInnerGlowEffect	port	next/src/engine/style/webgl/effects/gl-inner-glow-effect.ts	engine-effects-webgl	ENG-EFFECT-028,UI-FIELD-113
+chunk.vendor.js	1011	773	GGLToonEffect	port	next/src/engine/style/webgl/effects/gl-toon-effect.ts	engine-effects-webgl	ENG-EFFECT-029,UI-FIELD-110
+chunk.vendor.js	1012	1075	GGLBloomEffect	port	next/src/engine/style/webgl/effects/gl-bloom-effect.ts	engine-effects-webgl	ENG-EFFECT-030,UI-FIELD-108
+chunk.vendor.js	1013	728	GGLTrueBlurEffect	port	next/src/engine/style/webgl/effects/gl-true-blur-effect.ts	engine-effects-webgl	ENG-EFFECT-031
+chunk.vendor.js	1014	809	GGLDenoiseEffect	port	next/src/engine/style/webgl/effects/gl-denoise-effect.ts	engine-effects-webgl	ENG-EFFECT-032,UI-FIELD-094
+chunk.vendor.js	1015	1519	GGLOuterGlowEffect	port	next/src/engine/style/webgl/effects/gl-outer-glow-effect.ts	engine-effects-webgl	ENG-EFFECT-033,UI-FIELD-114
+chunk.vendor.js	1016	1910	GGLSwirlEffect	port	next/src/engine/style/webgl/effects/gl-swirl-effect.ts	engine-effects-webgl	ENG-EFFECT-034,UI-FIELD-103
+chunk.vendor.js	1017	764	GGLVignetteEffect	port	next/src/engine/style/webgl/effects/gl-vignette-effect.ts	engine-effects-webgl	ENG-EFFECT-035,UI-FIELD-087
+chunk.vendor.js	1018	2209	GGLStrokeLayerEffect	port	next/src/engine/style/webgl/effects/gl-stroke-layer-effect.ts	engine-effects-webgl	ENG-EFFECT-036,UI-FIELD-112
+chunk.vendor.js	1019	703	GGLInkEffect	port	next/src/engine/style/webgl/effects/gl-ink-effect.ts	engine-effects-webgl	ENG-EFFECT-037,UI-FIELD-099
+chunk.vendor.js	1020	778	GGLUnsharpMaskEffect	port	next/src/engine/style/webgl/effects/gl-unsharp-mask-effect.ts	engine-effects-webgl	ENG-EFFECT-038,UI-FIELD-106
+chunk.vendor.js	1021	715	GGLVibranceEffect	port	next/src/engine/style/webgl/effects/gl-vibrance-effect.ts	engine-effects-webgl	ENG-EFFECT-039,UI-FIELD-107
+chunk.vendor.js	1022	712	GGLSketchEffect	port	next/src/engine/style/webgl/effects/gl-sketch-effect.ts	engine-effects-webgl	ENG-EFFECT-040,UI-FIELD-109
+chunk.vendor.js	1023	851	GGLLensBlurEffect	port	next/src/engine/style/webgl/effects/gl-lens-blur-effect.ts	engine-effects-webgl	ENG-EFFECT-041,UI-FIELD-100
+chunk.vendor.js	1024	1022	GGLTiltShiftEffect	port	next/src/engine/style/webgl/effects/gl-tilt-shift-effect.ts	engine-effects-webgl	ENG-EFFECT-042,UI-FIELD-104
+chunk.vendor.js	1025	765	GGLRecolourEffect	port	next/src/engine/style/webgl/effects/gl-recolour-effect.ts	engine-effects-webgl	ENG-EFFECT-043,UI-FIELD-086
+chunk.vendor.js	1026	3056	GColorAdjustMultiEffect	port	next/src/engine/style/effects/color-adjust-multi-effect.ts	engine-effects-canvas	ENG-EFFECT-013,UI-FIELD-098
+chunk.vendor.js	1027	577	GAdjustMultiEffect	port	next/src/engine/style/effects/adjust-multi-effect.ts	engine-effects-canvas	ENG-EFFECT-014
+chunk.vendor.js	1028	6721	GContactShadowEffect,GContactShadow	port	next/src/engine/style/effects/contact-shadow-effect.ts	engine-effects-canvas	ENG-EFFECT-009,UI-FIELD-079
+chunk.vendor.js	1029	4484	GCurvedShadowEffect	port	next/src/engine/style/effects/curved-shadow-effect.ts	engine-effects-canvas	ENG-EFFECT-010,UI-FIELD-078
+chunk.vendor.js	1030	2238		port	next/src/engine/style/webgl/effects/gl-bend-blur-effect.ts	engine-effects-webgl	ENG-EFFECT-044
+chunk.vendor.js	1031	4121	GLongShadowEffect	port	next/src/engine/style/effects/long-shadow-effect.ts	engine-effects-canvas	ENG-EFFECT-011,UI-FIELD-080
+chunk.vendor.js	1032	1602	GGLBendEffect	port	next/src/engine/style/webgl/effects/gl-bend-effect.ts	engine-effects-webgl	ENG-EFFECT-045,UI-FIELD-093
+chunk.vendor.js	1033	1175	GGLDrunkEffect	port	next/src/engine/style/webgl/effects/gl-drunk-effect.ts	engine-effects-webgl	ENG-EFFECT-046,UI-FIELD-105
+chunk.vendor.js	1034	1009	GGLFisheyeEffect	port	next/src/engine/style/webgl/effects/gl-fisheye-effect.ts	engine-effects-webgl	ENG-EFFECT-047,UI-FIELD-092
+chunk.vendor.js	1035	2223	GEmptyAnnotation	port	next/src/engine/scene/annotations/empty-annotation.ts	engine-annotations-model	ENG-NODE-059,EDT-ANNOT-015
+chunk.vendor.js	1076	3397	GActionGuide	port	next/src/editor/guides/action-guide.ts	editor-guides	EDT-GUIDE-020
+chunk.vendor.js	1077	2646	GSymbolLabelGuide	port	next/src/editor/guides/symbol-label-guide.ts	editor-guides	EDT-SYMBOL-005,EDT-GUIDE-019
+chunk.vendor.js	1078	1880		port	next/src/editor/element-editors/connector-editor.ts	editor-path-editors	EDT-ELEDIT-045
+chunk.vendor.js	1079	19903		port	next/src/engine/geometry/knife-cut.ts	engine-geometry-offset-trace	
+chunk.vendor.js	1080	1328	GActionManager	port	next/src/editor/action-manager.ts	editor-core	
+chunk.vendor.js	1081	35124	GEditorWidget	port	next/src/editor/view/editor-widget.ts	editor-view	EDT-RENDER-047,EDT-RENDER-048,EDT-RENDER-049
+chunk.vendor.js	1082	2777	GCompoundShapeEditor	port	next/src/editor/element-editors/compound-shape-editor.ts	editor-element-editors	EDT-ELEDIT-038
+chunk.vendor.js	1083	1441	GImageGridEditor	port	next/src/editor/element-editors/image-grid-editor.ts	editor-element-editors	EDT-ELEDIT-039
+chunk.vendor.js	1084	2248	GSliceEditor	port	next/src/editor/element-editors/slice-editor.ts	editor-element-editors	EDT-ELEDIT-040
+chunk.vendor.js	1085	5661	GSimpleShapeEditor	port	next/src/editor/element-editors/simple-shape-editor.ts	editor-element-editors	EDT-ELEDIT-054
+chunk.vendor.js	1086	12498	GSymbolEditor	port	next/src/editor/element-editors/symbol-editor.ts	editor-element-editors	EDT-SYMBOL-003,EDT-SYMBOL-004,EDT-ELEDIT-046
+chunk.vendor.js	1087	4360	GCollabTextEditor	drop:collaborative text editor (cloud collaboration)		editor-paths-graph-annotations	EDT-ELEDIT-044
+chunk.vendor.js	1088	465	GTextAnnotationTool	port	next/src/editor/annotations/text-annotation-tool.ts	editor-paths-graph-annotations	EDT-TOOL-094,EDT-ANNOT-013
+chunk.vendor.js	1089	811	GCollaborativeTextAnnotationEditor	drop:collaborative text annotation editor (cloud collaboration)		editor-paths-graph-annotations	EDT-ANNOT-014
+chunk.vendor.js	1095	24456		drop:Corel UTS/CDA annotation converters (Corel cloud interop)		drop-engine-cloud	
+chunk.vendor.js	1096	8494		drop:embedded GSuite/Corel annotation status library		drop-engine-cloud	
+chunk.vendor.js	1097	4860		drop:embedded annotation type library (Corel interop)		drop-engine-cloud	
+chunk.vendor.js	1109	1151		port	next/src/io/export/pdf/color-value.ts	io-export-pdf	
+chunk.vendor.js	1110	364		port	next/src/io/export/pdf/primitive.ts	io-export-pdf	
+chunk.vendor.js	1111	471		port	next/src/io/export/pdf/alpha.ts	io-export-pdf	
+chunk.vendor.js	1112	1131		port	next/src/workers/zip-encoder.ts	io-export-bitmap	
+chunk.vendor.js	1113	3970		port	next/src/workers/raster.ts	io-export-bitmap	FMT-WORKER-012
+chunk.vendor.js	1119	712		port	next/src/io/export/pdf/rounding.ts	io-export-pdf	
+chunk.vendor.js	1120	904		port	next/src/io/export/canvas-holder.ts	io-export-bitmap	
+chunk.vendor.js	1121	1186	GSketchImport	port	next/src/io/import/sketch/sketch-import.ts	io-import-sketch	FMT-IMPORT-015
+chunk.vendor.js	1122	10262		port	next/src/io/import/sketch/sketch-document.ts	io-import-sketch	FMT-WORKER-015,FMT-LIB-003
+chunk.vendor.js	1123	1653		port	next/src/io/import/sketch/effects/blur.ts	io-import-sketch	
+chunk.vendor.js	1124	817		port	next/src/io/import/sketch/effects/color-adjust.ts	io-import-sketch	
+chunk.vendor.js	1125	707		port	next/src/io/import/sketch/effects/shadow.ts	io-import-sketch	
+chunk.vendor.js	1126	707		port	next/src/io/import/sketch/effects/inner-shadow.ts	io-import-sketch	
+chunk.vendor.js	1127	966		port	next/src/io/import/sketch/curve-point.ts	io-import-sketch	
+chunk.vendor.js	1128	623		port	next/src/io/import/sketch/rectangle.ts	io-import-sketch	
+chunk.vendor.js	1129	993		port	next/src/io/import/sketch/linear-gradient.ts	io-import-sketch	
+chunk.vendor.js	1130	2110		port	next/src/io/import/sketch/radial-gradient.ts	io-import-sketch	
+chunk.vendor.js	1131	691		port	next/src/io/import/sketch/angular-gradient.ts	io-import-sketch	
+chunk.vendor.js	1132	3474		port	next/src/io/import/sketch/image-fill.ts	io-import-sketch	
+chunk.vendor.js	1133	621		port	next/src/io/import/sketch/noise-fill.ts	io-import-sketch	
+chunk.vendor.js	1134	4188		port	next/src/io/import/sketch/path.ts	io-import-sketch	
+chunk.vendor.js	1135	475		port	next/src/io/import/sketch/page.ts	io-import-sketch	
+chunk.vendor.js	1136	11426		port	next/src/io/import/sketch/text.ts	io-import-sketch	
+chunk.vendor.js	1137	1611		port	next/src/io/import/sketch/archive.ts	io-import-sketch	
+chunk.vendor.js	1138	6078		port	next/src/io/import/sketch/bplist.ts	io-import-sketch	
+chunk.vendor.js	1139	8384		port	next/src/io/import/sketch/symbols.ts	io-import-sketch	
+chunk.vendor.js	1140	181		port	next/src/io/import/sketch/artboard.ts	io-import-sketch	
+chunk.vendor.js	1141	346		port	next/src/io/import/sketch/meta.ts	io-import-sketch	
+chunk.vendor.js	1142	4891		port	next/src/io/import/fonts/import-font-resolver.ts	io-import-pdf-eps	
+chunk.vendor.js	1143	1169		port	next/src/io/export/pdf/byte-stream.ts	io-export-pdf	
+chunk.vendor.js	1144	2304	GPDFString	port	next/src/io/export/pdf/pdf-string.ts	io-export-pdf	
+chunk.vendor.js	1145	488	GPDFFilter	port	next/src/io/export/pdf/pdf-filter.ts	io-export-pdf	
+chunk.vendor.js	1146	591		port	next/src/io/export/pdf/shading.ts	io-export-pdf	
+chunk.vendor.js	1147	2021		port	next/src/io/export/pdf/path-writer.ts	io-export-pdf	
+chunk.vendor.js	1148	6963		port	next/src/io/export/svg/svg-gradients.ts	io-export-svg	
+chunk.vendor.js	1149	1327		port	next/src/io/export/svg/svg-style.ts	io-export-svg	
+chunk.vendor.js	1201	320		port	next/src/io/import/index.ts	io-import-pdf-eps	FMT-IMPORT-001,FMT-WORKER-009
+chunk.vendor.js	1202	4399		port	next/src/io/export/svg/svg-images.ts	io-export-svg	
+chunk.vendor.js	1203	16329		port	next/src/io/import/fonts/google-font-names.ts	io-import-pdf-eps	
+chunk.vendor.js	1204	2131		port	next/src/io/import/fonts/font-style-names.ts	io-import-pdf-eps	
+chunk.vendor.js	1205	2687		port	next/src/io/import/image-element.ts	io-import-pdf-eps	
+chunk.vendor.js	1206	180		port	next/src/io/import/sketch/oval.ts	io-import-sketch	
+chunk.vendor.js	1207	180		port	next/src/io/import/sketch/polygon.ts	io-import-sketch	
+chunk.vendor.js	1208	180		port	next/src/io/import/sketch/star.ts	io-import-sketch	
+chunk.vendor.js	1209	180		port	next/src/io/import/sketch/triangle.ts	io-import-sketch	
+chunk.vendor.js	1211	180		port	next/src/io/import/sketch/shape-variant.ts	io-import-sketch	
+chunk.vendor.js	1212	487		port	next/src/io/import/sketch/symbol-instance.ts	io-import-sketch	
+chunk.vendor.js	1213	7490		port	next/src/io/import/shape-merge.ts	io-import-pdf-eps	
+chunk.vendor.js	1214	346		port	next/src/io/import/sketch/user.ts	io-import-sketch	
+chunk.vendor.js	1215	1237		port	next/src/io/export/pdf/output.ts	io-export-pdf	
+chunk.vendor.js	1216	26917		port	next/src/io/export/pdf/pdf-canvas.ts	io-export-pdf	FMT-EXPORT-018
+chunk.vendor.js	1217	1041		port	next/src/io/export/pdf/operator.ts	io-export-pdf	
+chunk.vendor.js	1218	563	GPDFRawBuffer	port	next/src/io/export/pdf/raw-buffer.ts	io-export-pdf	
+chunk.vendor.js	1219	628		port	next/src/io/export/pdf/marked-content.ts	io-export-pdf	EDT-PCTX-009
+chunk.vendor.js	1220	858		port	next/src/io/export/pdf/dash.ts	io-export-pdf	
+chunk.vendor.js	1221	455		port	next/src/io/export/pdf/line-cap.ts	io-export-pdf	
+chunk.vendor.js	1222	457		port	next/src/io/export/pdf/line-join.ts	io-export-pdf	
+chunk.vendor.js	1223	5639		port	next/src/io/export/pdf/text-writer.ts	io-export-pdf	
+chunk.vendor.js	1224	524		port	next/src/io/export/pdf/group.ts	io-export-pdf	
+chunk.vendor.js	1225	1317		port	next/src/io/export/pdf/xobject.ts	io-export-pdf	
+chunk.vendor.js	1226	2326		port	next/src/io/export/pdf/pattern-resource.ts	io-export-pdf	
+chunk.vendor.js	1227	2727		port	next/src/io/export/pdf/gradient-resource.ts	io-export-pdf	
+chunk.vendor.js	1228	299		port	next/src/io/export/pdf/function.ts	io-export-pdf	
+chunk.vendor.js	1229	866		port	next/src/io/export/pdf/resource-operation.ts	io-export-pdf	
+chunk.vendor.js	1230	667		port	next/src/io/export/pdf/rect-op.ts	io-export-pdf	
+chunk.vendor.js	1231	678	GPDFFont	port	next/src/io/export/pdf/pdf-font.ts	io-export-pdf	
+chunk.vendor.js	1232	111		port	next/src/io/export/pdf/encodings.ts	io-export-pdf	
+chunk.vendor.js	1233	167		port	next/src/io/export/pdf/encoding.ts	io-export-pdf	
+chunk.vendor.js	1234	1556		port	next/src/io/export/pdf/unicode.ts	io-export-pdf	
+chunk.vendor.js	1235	2442		port	next/src/io/export/export-compat.ts	io-export-svg	
+chunk.vendor.js	1236	4096		port	next/src/io/export/svg/svg-masks.ts	io-export-svg	
+chunk.vendor.js	1237	4886	GSVGPaintContext	port	next/src/io/export/svg/svg-paint-context.ts	io-export-svg	EDT-PCTX-006
+chunk.vendor.js	1390	4154	GSVGImport	port	next/src/io/import/svg/svg-import.ts	io-import-svg	FMT-IMPORT-005
+chunk.vendor.js	1391	161839		port	next/src/io/import/svg/svg-parser.ts	io-import-svg	FMT-IMPORT-006,FMT-IMPORT-007,FMT-LIB-006
+chunk.vendor.js	1392	4813		port	next/src/io/import/svg/helpers.ts	io-import-svg	
+chunk.vendor.js	1393	6966	GPDFImport	port	next/src/io/import/pdf/pdf-import.ts	io-import-pdf-eps	FMT-IMPORT-009,FMT-IMPORT-011
+chunk.vendor.js	1394	32594		port	next/src/io/import/pdf/pdf-canvas-bridge.ts	io-import-pdf-eps	
+chunk.vendor.js	1395	407		port	next/src/io/import/pdf/embedded-font.ts	io-import-pdf-eps	
+chunk.vendor.js	1396	14994		port	next/src/io/import/pdf/text-merge.ts	io-import-pdf-eps	
+chunk.vendor.js	1397	7967		port	next/src/io/import/pdf/canvas-graphics.ts	io-import-pdf-eps	
+chunk.vendor.js	1398	269		port	next/src/io/import/pdf/tiling-pattern.ts	io-import-pdf-eps	
+chunk.vendor.js	1399	946		port	next/src/io/import/pdf/canvas-factory.ts	io-import-pdf-eps	
+chunk.vendor.js	1403	4417	GEPSImport	port	next/src/io/import/eps/eps-import.ts	io-import-pdf-eps	FMT-IMPORT-012,FMT-WORKER-002
+chunk.vendor.js	1404	20942		port	next/src/io/import/eps/eps-parser.ts	io-import-pdf-eps	FMT-WORKER-008
+chunk.vendor.js	1405	1084	GBitmapImport	port	next/src/io/import/bitmap-import.ts	io-import-pdf-eps	FMT-IMPORT-016
+chunk.vendor.js	1406	19048	GPDFExport	port	next/src/io/export/pdf/pdf-export.ts	io-export-pdf	FMT-EXPORT-014,FMT-EXPORT-015,FMT-EXPORT-016
+chunk.vendor.js	1407	653		port	next/src/io/export/pdf/gstate-ref.ts	io-export-pdf	
+chunk.vendor.js	1408	1149	GPDFImage	port	next/src/io/export/pdf/pdf-image.ts	io-export-pdf	
+chunk.vendor.js	1409	1515		port	next/src/io/export/pdf/ext-gstate.ts	io-export-pdf	
+chunk.vendor.js	1410	171		port	next/src/io/export/pdf/op-tm.ts	io-export-pdf	
+chunk.vendor.js	1411	414	GPDFShowText	port	next/src/io/export/pdf/show-text.ts	io-export-pdf	
+chunk.vendor.js	1412	548	GPDFSetLineWidthOperation	port	next/src/io/export/pdf/set-line-width.ts	io-export-pdf	
+chunk.vendor.js	1413	544		port	next/src/io/export/pdf/soft-mask.ts	io-export-pdf	
+chunk.vendor.js	1414	219		port	next/src/io/export/pdf/transparency-group.ts	io-export-pdf	
+chunk.vendor.js	1415	435		port	next/src/io/export/pdf/axial-shading.ts	io-export-pdf	
+chunk.vendor.js	1416	287		port	next/src/io/export/pdf/stitching-function.ts	io-export-pdf	
+chunk.vendor.js	1417	164		port	next/src/io/export/pdf/exponential-function.ts	io-export-pdf	
+chunk.vendor.js	1418	491		port	next/src/io/export/pdf/radial-shading.ts	io-export-pdf	
+chunk.vendor.js	1419	701		port	next/src/io/export/pdf/shading-pattern.ts	io-export-pdf	
+chunk.vendor.js	1420	2883		port	next/src/io/export/pdf/path-commands.ts	io-export-pdf	
+chunk.vendor.js	1421	709		port	next/src/io/export/pdf/dct-image.ts	io-export-pdf	
+chunk.vendor.js	1422	9959	GPDFDocument	port	next/src/io/export/pdf/pdf-document.ts	io-export-pdf	FMT-LIB-011
+chunk.vendor.js	1423	4694		port	next/src/io/export/pdf/document-writer.ts	io-export-pdf	
+chunk.vendor.js	1424	783		port	next/src/io/export/pdf/xref-entry.ts	io-export-pdf	
+chunk.vendor.js	1425	741		port	next/src/io/export/pdf/object-store.ts	io-export-pdf	
+chunk.vendor.js	1426	1576		port	next/src/io/export/pdf/info.ts	io-export-pdf	FMT-EXPORT-020
+chunk.vendor.js	1427	510		port	next/src/io/export/pdf/trailer.ts	io-export-pdf	
+chunk.vendor.js	1428	876		port	next/src/io/export/pdf/font-factory.ts	io-export-pdf	
+chunk.vendor.js	1429	2494		port	next/src/io/export/pdf/font-lookup.ts	io-export-pdf	
+chunk.vendor.js	1430	303		port	next/src/io/export/pdf/font-stream.ts	io-export-pdf	
+chunk.vendor.js	1431	5242	GPDFCIDFontType	port	next/src/io/export/pdf/cid-font-type.ts	io-export-pdf	
+chunk.vendor.js	1432	5833		port	next/src/io/export/pdf/winansi-encoding.ts	io-export-pdf	
+chunk.vendor.js	1433	1514	GPDFIdentityEncoding	port	next/src/io/export/pdf/identity-encoding.ts	io-export-pdf	
+chunk.vendor.js	1434	641	GPDFGlyph	port	next/src/io/export/pdf/glyph.ts	io-export-pdf	
+chunk.vendor.js	1435	1150		port	next/src/io/export/pdf/type1-font.ts	io-export-pdf	
+chunk.vendor.js	1436	631		port	next/src/io/export/pdf/pages.ts	io-export-pdf	
+chunk.vendor.js	1437	299		port	next/src/io/export/pdf/font-resource.ts	io-export-pdf	
+chunk.vendor.js	1438	491		port	next/src/io/export/pdf/resources.ts	io-export-pdf	
+chunk.vendor.js	1439	1729		port	next/src/io/export/pdf/page.ts	io-export-pdf	
+chunk.vendor.js	1440	836		port	next/src/io/export/pdf/media-box.ts	io-export-pdf	
+chunk.vendor.js	1441	708		port	next/src/io/export/pdf/xref.ts	io-export-pdf	
+chunk.vendor.js	1442	366		port	next/src/io/export/pdf/header.ts	io-export-pdf	
+chunk.vendor.js	1443	815		port	next/src/io/export/pdf/memory-output.ts	io-export-pdf	
+chunk.vendor.js	1444	2031	GPDFPaintContext	port	next/src/io/export/pdf/pdf-paint-context.ts	io-export-pdf	EDT-PCTX-008
+chunk.vendor.js	1445	3515		port	next/src/io/export/pdf/pdf-canvas-bridge.ts	io-export-pdf	
+chunk.vendor.js	1446	14024		port	next/src/io/export/pdf/pdf-tl-render.ts	io-export-pdf	
+chunk.vendor.js	1447	925		port	next/src/io/export/pdf/font-key.ts	io-export-pdf	
+chunk.vendor.js	1448	4637	GPDFDropShadowEffect	port	next/src/io/export/pdf/effects/drop-shadow.ts	io-export-pdf	
+chunk.vendor.js	1449	7187	GPDFInnerShadowEffect	port	next/src/io/export/pdf/effects/inner-shadow.ts	io-export-pdf	
+chunk.vendor.js	1450	477	GPDFInvokeResource	port	next/src/io/export/pdf/invoke-resource.ts	io-export-pdf	
+chunk.vendor.js	1451	3898		port	next/src/io/export/pdf/raster-fallback.ts	io-export-pdf	
+chunk.vendor.js	1452	748	GPDFRect	port	next/src/io/export/pdf/pdf-rect.ts	io-export-pdf	
+chunk.vendor.js	1453	4995		port	next/src/io/export/pdf/border-painter.ts	io-export-pdf	
+chunk.vendor.js	1454	2160		port	next/src/io/export/pdf/master-page-processor.ts	io-export-pdf	
+chunk.vendor.js	1455	64909	GSVGExport	port	next/src/io/export/svg/svg-export.ts	io-export-svg	FMT-EXPORT-006,FMT-EXPORT-007,FMT-EXPORT-009
+chunk.vendor.js	1456	4107		port	next/src/io/export/svg/svg-paint-canvas.ts	io-export-svg	EDT-PCTX-007
+chunk.vendor.js	1457	738		port	next/src/io/export/svg/svg-paint-configuration.ts	io-export-svg	
+chunk.vendor.js	1458	1153		port	next/src/io/export/svg/svg-post-process.ts	io-export-svg	
+chunk.vendor.js	1459	1515		port	next/src/io/export/svg/svg-effects.ts	io-export-svg	
+chunk.vendor.js	1460	300		port	next/src/io/export/svg/filters/blur.ts	io-export-svg	
+chunk.vendor.js	1461	1042		port	next/src/io/export/svg/filters/drop-shadow.ts	io-export-svg	
+chunk.vendor.js	1462	10904		port	next/src/io/export/svg/filter-builder.ts	io-export-svg	
+chunk.vendor.js	1463	1272		port	next/src/io/export/svg/filters/inner-shadow.ts	io-export-svg	
+chunk.vendor.js	1464	503		port	next/src/io/export/svg/filters/overlay.ts	io-export-svg	
+chunk.vendor.js	1465	7854		port	next/src/io/export/svg/svg-context.ts	io-export-svg	
+chunk.vendor.js	1466	10625		port	next/src/io/export/svg/svg-tl-render.ts	io-export-svg	
+chunk.vendor.js	1467	9309		port	next/src/io/export/svg/svg-text-attributes.ts	io-export-svg	
+designer.browser.dev.js	3	566		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	4	57		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	8	97		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	10	4989		port	next/src/app/config.ts	app-config-document	
+designer.browser.dev.js	13	57		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	16	194		drop:webpack/babel runtime helper		drop-app-runtime	
+designer.browser.dev.js	18	6142		port	next/src/app/actions/category.ts	app-actions-file-edit	ACT-MENU-003
+designer.browser.dev.js	19	1029		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	20	161		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	21	170		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	23	541		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	25	819		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	26	735		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	27	305		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	29	215		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	30	198		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	31	2837	GAction	port	next/src/app/actions/action.ts	app-actions-file-edit	ACT-KEY-024
+designer.browser.dev.js	32	57		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	33	395		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	34	2520		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	35	333		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	37	220		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	38	57		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	40	21327		port	next/src/app/util/designer-util.ts	app-config-document	UI-DIALOG-036
+designer.browser.dev.js	41	57		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	43	377		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	44	30761	GSystemDialog	port	next/src/app/dialogs/system-dialog.ts	app-widgets-dialogs	UI-DIALOG-003,UI-DIALOG-004,UI-DIALOG-005
+designer.browser.dev.js	46	160		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	49	270		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	55	8225		drop:crypto-js (only used for cloud/licensing)		drop-app-cloud	
+designer.browser.dev.js	57	148		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	58	458		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	61	219		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	62	249		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	65	221		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	67	3754	GRichTooltipConfig	port	next/src/app/widgets/rich-tooltip-config.ts	app-widgets-dialogs	UI-TOOLTIP-001
+designer.browser.dev.js	71	469		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	74	65		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	78	964	GDocumentEvent	port	next/src/app/document/document-event.ts	app-config-document	
+designer.browser.dev.js	79	690		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	80	1503		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	85	13469	GContainer	port	next/src/app/shell/container.ts	app-shell-storage	ACT-MENU-007,UI-I18N-006,UI-STORAGE-001
+designer.browser.dev.js	86	465		port	next/src/app/document/document-status.ts	app-config-document	
+designer.browser.dev.js	88	1341		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	91	254		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	92	203		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	93	146		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	94	1903		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	96	1785		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	97	57		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	98	8559		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	100	274		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	101	132		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	102	460		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	106	528	GElementAction	port	next/src/app/actions/element-action.ts	app-actions-file-edit	
+designer.browser.dev.js	107	695		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	109	243		drop:webpack/babel runtime helper		drop-app-runtime	
+designer.browser.dev.js	110	260		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	114	57		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	116	185		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	117	197		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	119	31877		port	next/src/app/document/document-images.ts	app-config-document	UI-IMAGE-002,FMT-GVD-003,FMT-GVD-011
+designer.browser.dev.js	120	271		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	121	1561		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	123	1103	GProperties	port	next/src/app/inspector/properties.ts	app-inspector-geometry	UI-INSPECT-012
+designer.browser.dev.js	124	368		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	125	57		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	126	263		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	129	140		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	130	168		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	131	830		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	134	806		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	135	547	GSettingChangedEvent	port	next/src/app/shell/setting-changed-event.ts	app-shell-storage	
+designer.browser.dev.js	136	1518		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	137	267		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	143	139		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	144	102		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	145	183		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	146	204		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	149	584		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	151	983		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	152	3926		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	156	7222		drop:cloud storage settings		drop-app-cloud	
+designer.browser.dev.js	157	94		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	163	104051		port	next/src/app/document/document.ts	app-config-document	EDT-DND-002,EDT-DND-003,FMT-GVD-002
+designer.browser.dev.js	165	129		npm:pako@1.0.11		npm-libraries	FMT-LIB-002
+designer.browser.dev.js	168	434		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	169	57		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	171	47		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
+designer.browser.dev.js	173	145		port	next/src/app/util/gobject-mixin.ts	app-config-document	
+designer.browser.dev.js	174	225		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	175	655		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	177	3648		drop:mention/email regex (cloud comments)		drop-app-cloud	
+designer.browser.dev.js	178	54		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
+designer.browser.dev.js	180	282		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	181	1008		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	183	3053		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	184	146		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	185	196		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	186	92		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	189	826		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	190	1078		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	191	1918		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	192	686		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	193	152		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	194	109		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	196	1273		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	198	226		port	next/src/app/shell/sidebar-ids.ts	app-shell-storage	UI-SIDEBAR-001
+designer.browser.dev.js	199	358		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	200	322		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	201	1105		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	202	464		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	203	65		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	204	259		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	208	520		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	213	466		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	217	384	GDocumentStatusEvent	port	next/src/app/document/document-status-event.ts	app-config-document	
+designer.browser.dev.js	218	168		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	219	871		port	next/src/app/dialogs/message-dialog.ts	app-widgets-dialogs	UI-DIALOG-011
+designer.browser.dev.js	220	18778		drop:GCloudStorage		drop-app-cloud	FMT-STORAGE-019,ADD-STORAGE-001
+designer.browser.dev.js	221	38674		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	222	479		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	223	168		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	225	323		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	231	374		drop:build env flags (IS_TRUNK/IS_LTS); the port uses Vite env		app-config-document	
+designer.browser.dev.js	232	169		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	234	1159		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	237	9275		port	next/src/app/storage/storage.ts	app-shell-storage	FMT-GVD-015,FMT-STORAGE-001
+designer.browser.dev.js	238	11858	GMenu	port	next/src/app/menus/menu.ts	app-menus-toolbar	ADD-MENU-001
+designer.browser.dev.js	239	216		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	240	334		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	241	350		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	242	227		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	243	219		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	244	216		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	245	96		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	246	334		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	247	2768		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	248	110		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	250	2788		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	251	706		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	252	124		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	255	19574		port	next/src/app/fonts/font-manager.ts	app-fonts-ui	
+designer.browser.dev.js	256	5125	GOfflineDialog	drop:offline dialog (cloud)		app-dialogs-notify	UI-DIALOG-012
+designer.browser.dev.js	257	553		drop:cloud icons		drop-app-cloud	
+designer.browser.dev.js	258	247		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	259	65		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	260	381		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	262	476		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	263	19081		drop:mention regex data		drop-app-cloud	
+designer.browser.dev.js	271	859		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	272	1852		drop:crypto-js		drop-app-cloud	FMT-LIB-016
+designer.browser.dev.js	273	6649		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	277	453		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	278	1500		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	279	438		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	286	56		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
+designer.browser.dev.js	288	361		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	290	1351		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	291	344	GNetworkAvailabilityChangedEvent	drop:network availability event (cloud)		app-dialogs-notify	
+designer.browser.dev.js	292	194		drop:user logged-in event		drop-app-cloud	
+designer.browser.dev.js	294	188		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	295	382		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	296	148		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	297	492		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	FMT-LIB-015
+designer.browser.dev.js	298	284		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	299	273		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	300	183		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	301	235		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	302	1142		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	303	183		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	304	211		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	305	238		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	306	2517		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	307	462		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	308	162		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	309	866		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	310	411		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	311	485		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	312	3448		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	313	437		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	314	696		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	322	57		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	323	247		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	324	6341		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	328	2586		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	336	605		drop:cloud storage events		drop-app-cloud	
+designer.browser.dev.js	337	94		drop:licence manager instance		drop-app-cloud	
+designer.browser.dev.js	339	21675	GMenuItem	port	next/src/app/menus/menu-item.ts	app-menus-toolbar	ACT-MENU-006
+designer.browser.dev.js	340	802	GTouchTool	port	next/src/editor/touch/touch-tool.ts	editor-touch	EDT-TOOL-095,EDT-TOUCH-015,UI-TOUCH-006
+designer.browser.dev.js	341	326		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	342	278		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	343	867		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	344	551		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	348	172		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	349	1592		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	350	367		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	351	890		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	353	5638		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	355	345		port	next/src/app/util/app-error.ts	app-config-document	
+designer.browser.dev.js	356	4967		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	357	279		drop:cloud UI overrides		drop-app-cloud	
+designer.browser.dev.js	358	10377		drop:cloud annotation utils		drop-app-cloud	
+designer.browser.dev.js	360	300		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	361	223		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	362	299		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	371	1832		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	381	2119		port	next/src/app/fonts/fonts-provider.ts	app-fonts-ui	
+designer.browser.dev.js	382	1067		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	388	3670		drop:external storage (CDRAPP)		drop-app-cloud	
+designer.browser.dev.js	389	3122		port	next/src/app/document/file-types.ts	app-config-document	FMT-GVD-001,FMT-IMPORT-002
+designer.browser.dev.js	392	399		drop:application state event (roles)		drop-app-cloud	
+designer.browser.dev.js	393	640	GCollaborationEvent	drop:collaboration event		drop-app-cloud	
+designer.browser.dev.js	394	957	GView	port	next/src/app/shell/view.ts	app-widgets-dialogs	
+designer.browser.dev.js	395	19860		port	next/src/app/shell/layout.ts	app-shell-storage	EDT-TOUCH-015,UI-SHELL-015,UI-SHELL-016
+designer.browser.dev.js	396	294		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	397	570		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	398	139		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	399	352		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	400	332		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	401	1554		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	402	423		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	403	614		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	404	85		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	405	180		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	406	116		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	407	605		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	408	225		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	409	2231		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	410	128		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	411	246		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	412	507		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	413	228		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	414	89		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	415	1610		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	418	2158		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	419	433		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	420	191		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	421	850		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	422	195		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	423	1262		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	424	11601		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	425	137		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	426	297		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	427	441		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	428	216		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	429	263		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	433	2159		drop:share roles helpers		drop-app-cloud	
+designer.browser.dev.js	434	119		drop:review actions		drop-app-cloud	
+designer.browser.dev.js	435	32590		drop:js-md5 (Content-MD5 for cloud uploads)		drop-app-cloud	FMT-LIB-013
+designer.browser.dev.js	436	988		drop:collaborative file manager		drop-app-cloud	
+designer.browser.dev.js	441	214		drop:licence event		drop-app-cloud	
+designer.browser.dev.js	442	355		port	next/src/app/export/page-clip.ts	app-config-document	FMT-EXPORT-042
+designer.browser.dev.js	443	3245		port	next/src/app/shell/runtime.ts	app-config-document	
+designer.browser.dev.js	444	120		port	next/src/app/shell/alignment-position.ts	app-shell-storage	
+designer.browser.dev.js	445	10619	GSaveAsAction	port	next/src/app/actions/file/save-as-action.ts	app-actions-file-edit	ACT-FILE-008,ACT-FILE-015,ACT-FILE-016
+designer.browser.dev.js	446	2933		drop:login panel		drop-app-cloud	UI-DIALOG-035
+designer.browser.dev.js	447	7595	GSaveAction	port	next/src/app/actions/file/save-action.ts	app-actions-file-edit	ACT-FILE-007,FMT-GVD-014,FMT-STORAGE-011
+designer.browser.dev.js	448	5003	GGravitCloudAction	drop:Gravit Cloud action		drop-app-cloud	ACT-CLOUD-001
+designer.browser.dev.js	449	2329	GFitAllAction	port	next/src/app/actions/view/fit-all-action.ts	app-actions-view	EDT-VIEW-014,ACT-VIEW-004
+designer.browser.dev.js	450	239		port	next/src/app/shell/drag-source.ts	app-shell-storage	
+designer.browser.dev.js	451	44279	GVirtualTreeNode,GVirtualTree	port	next/src/app/sidebars/virtual-tree.ts	app-sidebars-layers-pages	UI-LAYERS-017
+designer.browser.dev.js	452	160		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	453	269		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	454	237		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	458	221		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	459	245		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	460	318		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	461	266		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	462	3680		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	463	28775		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	464	13145		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	465	4493		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	466	28204		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	467	5028		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	468	3402		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	469	356		npm:pako@1.0.11		npm-libraries	
+designer.browser.dev.js	515	2012		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	516	168		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	519	4582		port	next/src/app/file-formats.ts	app-config-document	EDT-TOUCH-003,FMT-GVD-001,FMT-IMPORT-031
+designer.browser.dev.js	520	287		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	521	121		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	522	106		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	523	126		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	527	1030		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	536	937		port	next/src/app/util/async-cache.ts	app-config-document	
+designer.browser.dev.js	537	2479		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	538	1196		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	554	985		port	next/src/app/storage/image-data.ts	app-shell-storage	
+designer.browser.dev.js	555	162		port	next/src/app/storage/progress.ts	app-shell-storage	
+designer.browser.dev.js	556	20638		drop:Google Drive storage		drop-app-cloud	ADD-STORAGE-001
+designer.browser.dev.js	557	58		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	558	1760		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	565	96		port	next/src/app/shell/press-mode.ts	app-shell-storage	
+designer.browser.dev.js	566	1159	GFitSelectionAction	port	next/src/app/actions/view/fit-selection-action.ts	app-actions-view	EDT-VIEW-015,ACT-VIEW-002
+designer.browser.dev.js	567	51787	GAnnotationsSidebar	drop:annotations sidebar (review comments need the cloud)		drop-app-cloud	EDT-TOOLMGR-014,EDT-TOOLMGR-028,EDT-TOOL-087
+designer.browser.dev.js	570	55		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
+designer.browser.dev.js	571	56		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
+designer.browser.dev.js	572	57		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
+designer.browser.dev.js	573	151		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	576	234		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	589	263		drop:cloud user model		drop-app-cloud	
+designer.browser.dev.js	590	7190		port	next/src/app/fonts/noto-fonts-provider.ts	app-fonts-ui	UI-FONT-006
+designer.browser.dev.js	591	976		drop:autosave worker commands		drop-app-cloud	
+designer.browser.dev.js	592	192		port	next/src/app/util/error-code.ts	app-config-document	
+designer.browser.dev.js	593	1561		drop:cloud upload helpers		drop-app-cloud	
+designer.browser.dev.js	594	348	GError	port	next/src/app/util/error.ts	app-config-document	
+designer.browser.dev.js	595	1813		drop:cloud access token settings		drop-app-cloud	
+designer.browser.dev.js	596	373		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	603	6000		port	next/src/app/shell/windows.ts	app-shell-storage	UI-SHELL-022
+designer.browser.dev.js	604	9658		drop:profile/account dialog		drop-app-cloud	UI-DIALOG-029
+designer.browser.dev.js	605	308		drop:jQuery UI 1.12.1 (React UI; tab sorting reimplemented)		drop-app-runtime	
+designer.browser.dev.js	606	506	GPanel	port	next/src/app/inspector/panel.ts	app-widgets-dialogs	UI-INSPECT-013
+designer.browser.dev.js	607	238		port	next/src/app/inspector/panel-ids.ts	app-widgets-dialogs	
+designer.browser.dev.js	608	5702	GCreateSymbolAction	port	next/src/app/actions/modify/create-symbol-action.ts	app-actions-modify	EDT-SYMBOL-001,ACT-MODIFY-013
+designer.browser.dev.js	609	2699	GSelectByAction	port	next/src/app/actions/edit/select-by-action.ts	app-actions-file-edit	EDT-SEL-015
+designer.browser.dev.js	610	27691		npm:ua-parser-js@0.7.33		engine-core	
+designer.browser.dev.js	611	450		drop:webpack/babel runtime helper		drop-app-runtime	
+designer.browser.dev.js	614	469		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	615	331		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	616	218		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	617	421		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	618	5835		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	619	227		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	620	234		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	621	138		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	622	141		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	623	1454		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	624	143		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	625	112		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	626	196		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	627	907		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	628	560		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	629	607		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	630	306		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	631	402		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	660	65		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
+designer.browser.dev.js	665	255		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	666	781		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	667	1309		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	668	1359		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	669	768		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	670	719		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	671	254		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	672	437		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	673	28129		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	674	597		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	675	1004		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	676	2549		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	677	755		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	678	592		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	679	764		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	680	820		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	681	865		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	682	928		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	683	1159		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	684	764		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	687	281		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	688	392		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	689	190		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	690	139		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	691	1904		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	692	169		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	693	521		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	694	215		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	695	181		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	696	965		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	697	189		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	698	263		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	702	567		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	733	646		drop:cloud role model		drop-app-cloud	
+designer.browser.dev.js	734	375		drop:external file settings error		drop-app-cloud	
+designer.browser.dev.js	735	206		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	736	3841		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	737	10697		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	784	56		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
+designer.browser.dev.js	785	1381		drop:licence cache		drop-app-cloud	UI-STORAGE-005
+designer.browser.dev.js	786	172		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	787	617		drop:Google role map		drop-app-cloud	
+designer.browser.dev.js	788	396		drop:Google roles		drop-app-cloud	
+designer.browser.dev.js	789	665		drop:Google role map		drop-app-cloud	
+designer.browser.dev.js	790	97		port	next/src/app/document/thumbnail.ts	app-config-document	
+designer.browser.dev.js	791	354		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	792	853311		npm:pdfjs-dist@2.1.266 plus the Gravit CMYK patch (2.1.286 is not on npm; or vendor the old build as-is)		io-import-pdf-eps	FMT-WORKER-010,FMT-WORKER-011,FMT-LIB-001
+designer.browser.dev.js	802	15203		drop:cloud window/file events		drop-app-cloud	
+designer.browser.dev.js	803	210		drop:store vendor / Teams env		drop-app-cloud	
+designer.browser.dev.js	804	283	GMenuOpenEvent	port	next/src/app/menus/menu-open-event.ts	app-menus-toolbar	
+designer.browser.dev.js	805	194		drop:user event		drop-app-cloud	
+designer.browser.dev.js	806	1488	GSidebar	port	next/src/app/shell/sidebar.ts	app-shell-storage	UI-SIDEBAR-002
+designer.browser.dev.js	807	520		port	next/src/app/shell/sidebar-event.ts	app-shell-storage	
+designer.browser.dev.js	808	374	GApplicationStatusEvent	port	next/src/app/shell/application-status-event.ts	app-shell-storage	
+designer.browser.dev.js	809	3193	GClipAction	port	next/src/app/actions/modify/clip-action.ts	app-actions-modify	EDT-DUP-008,ACT-MODIFY-002
+designer.browser.dev.js	810	2473	GConvertToPathAction	port	next/src/app/actions/modify/convert-to-path-action.ts	app-actions-modify	ACT-PATH-003
+designer.browser.dev.js	811	3573	GGroupAction	port	next/src/app/actions/modify/group-action.ts	app-actions-modify	ACT-MODIFY-001
+designer.browser.dev.js	812	2249	GMergeMainAction	port	next/src/app/actions/modify/merge-main-action.ts	app-actions-modify	ACT-MODIFY-007
+designer.browser.dev.js	813	1892	GOpenAction	port	next/src/app/actions/file/open-action.ts	app-actions-file-edit	ACT-FILE-004,FMT-STORAGE-005
+designer.browser.dev.js	814	169650		data:English UI strings (360 classes); only en-US is populated	next/src/app/locale/en-US.json	engine-locale	UI-I18N-001,UI-I18N-009
+designer.browser.dev.js	815	47813		drop:cloud/login strings (GLoggedIn, GLoginDialog); keep any key still referenced by ported UI		engine-locale	
+designer.browser.dev.js	816	54		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	817	3005		port	next/src/engine/style/webgl/shaders/index.ts	engine-effects-webgl	ENG-EFFECT-015,EDT-GL-010
+designer.browser.dev.js	819	12573		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	821	169650		drop:identical copy of app module 814		engine-locale	
+designer.browser.dev.js	822	47813		drop:identical copy of app module 815		engine-locale	
+designer.browser.dev.js	823	54		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	824	15152		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	837	1149		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	841	7632		port	next/src/app/dialogs/missing-fonts-dialog.ts	app-dialogs-notify	UI-FONT-011,FMT-IMPORT-029
+designer.browser.dev.js	842	268		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	843	872	GOpenRecentAction	port	next/src/app/actions/file/open-recent-action.ts	app-actions-file-edit	ACT-FILE-006
+designer.browser.dev.js	844	3917		port	next/src/app/menus/action-icons.ts	app-menus-toolbar	
+designer.browser.dev.js	845	4868		drop:cloud file update API		drop-app-cloud	
+designer.browser.dev.js	846	1465		drop:offline licence countdown		drop-app-cloud	
+designer.browser.dev.js	847	2338		drop:CDR export helpers (Corel interop)		drop-app-cloud	FMT-EXPORT-052
+designer.browser.dev.js	848	19764	GoogleDriveException	drop:Google Drive client		drop-app-cloud	
+designer.browser.dev.js	851	820		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	857	5964		port	next/src/app/color/opacity-slider.ts	app-color-ui	UI-FIELD-167
+designer.browser.dev.js	858	979		drop:cloud files panel enums		drop-app-cloud	
+designer.browser.dev.js	859	1261		drop:store/runtime vendor detection		drop-app-cloud	
+designer.browser.dev.js	860	9206		drop:embedded login		drop-app-cloud	
+designer.browser.dev.js	861	7025	GExportAction	port	next/src/app/actions/file/export-action.ts	app-actions-file-edit	ACT-FILE-014,ACT-FILE-022,FMT-EXPORT-039
+designer.browser.dev.js	862	17051		drop:cloud files panel storage types		drop-app-cloud	
+designer.browser.dev.js	863	477		port	next/src/app/shell/layout-ids.ts	app-shell-storage	UI-SHELL-002
+designer.browser.dev.js	864	17881	GInspectorSidebar	port	next/src/app/inspector/inspector-sidebar.ts	app-inspector-geometry	UI-INSPECT-001,UI-INSPECT-003,UI-INSPECT-004
+designer.browser.dev.js	865	2950		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	866	7547	GAlignAction	port	next/src/app/actions/modify/align-action.ts	app-actions-modify	EDT-DUP-006,ACT-ALIGN-001,ACT-ALIGN-002
+designer.browser.dev.js	867	8670	GDistributeAction	port	next/src/app/actions/modify/distribute-action.ts	app-actions-modify	ACT-ALIGN-009,ACT-ALIGN-010
+designer.browser.dev.js	868	242		port	next/src/app/actions/modify/arrange-type.ts	app-actions-modify	
+designer.browser.dev.js	869	4004	GArrangeAction	port	next/src/app/actions/modify/arrange-action.ts	app-actions-modify	EDT-EDITOR-021,ACT-ARRANGE-001,ACT-ARRANGE-002
+designer.browser.dev.js	870	4518	GSplitAction	port	next/src/app/actions/modify/split-action.ts	app-actions-modify	ACT-MODIFY-003
+designer.browser.dev.js	871	7782	GTransformAction	port	next/src/app/actions/modify/transform-action.ts	app-actions-modify	EDT-DUP-005,ACT-ARRANGE-005,ACT-ARRANGE-006
+designer.browser.dev.js	872	5808	GVectorizeBorderAction	port	next/src/app/actions/modify/vectorize-border-action.ts	app-actions-modify	ACT-PATH-007
+designer.browser.dev.js	873	2353	GSplitPathAction	port	next/src/app/actions/modify/split-path-action.ts	app-actions-modify	ACT-PATH-002
+designer.browser.dev.js	874	2380	GDetachSymbolAction	port	next/src/app/actions/modify/detach-symbol-action.ts	app-actions-modify	EDT-SYMBOL-002,ACT-MODIFY-014
+designer.browser.dev.js	875	2857	GPasteStyleAction	port	next/src/app/actions/edit/paste-style-action.ts	app-actions-file-edit	EDT-CLIP-015,ACT-EDIT-010,FMT-CLIP-014
+designer.browser.dev.js	876	4350	GPasteAndReplaceAction	port	next/src/app/actions/edit/paste-and-replace-action.ts	app-actions-file-edit	EDT-CLIP-016,ACT-EDIT-007
+designer.browser.dev.js	877	2096	GPasteAction	port	next/src/app/actions/edit/paste-action.ts	app-actions-file-edit	EDT-CLIP-007,ACT-EDIT-005,FMT-CLIP-013
+designer.browser.dev.js	878	4227		port	next/src/editor/touch/touch-target.ts	editor-touch	EDT-TOUCH-003
+designer.browser.dev.js	879	3851		port	next/src/editor/touch/tap-gesture.ts	editor-touch	EDT-TOUCH-007
+designer.browser.dev.js	880	1124		port	next/src/editor/touch/gesture.ts	editor-touch	
+designer.browser.dev.js	881	60		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
+designer.browser.dev.js	882	6350		drop:collaboration mentions		drop-app-cloud	
+designer.browser.dev.js	883	1515		drop:contact model for mentions		drop-app-cloud	
+designer.browser.dev.js	1036	7971		drop:Google API loader		drop-app-cloud	UI-STORAGE-009
+designer.browser.dev.js	1037	2319		port	next/src/app/locale/language.ts	app-widgets-dialogs	UI-I18N-005
+designer.browser.dev.js	1038	227		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1039	252		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1040	328		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1041	170		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1042	747		port	next/src/app/util/base64.ts	app-config-document	
+designer.browser.dev.js	1043	588		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1044	1179		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1045	1630		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1046	718		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1047	1058		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1048	5600		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1049	6207		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1050	1371		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1051	1093		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1052	734		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1053	1308		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1054	672		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1055	487		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1056	551		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1057	512		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1058	395		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1059	525		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1060	189		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1061	431		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1062	6218		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1063	21416		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1064	1901		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1065	5449		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1066	5324		drop:crypto-js		drop-app-cloud	
+designer.browser.dev.js	1067	1909		drop:role definitions		drop-app-cloud	
+designer.browser.dev.js	1068	2402		drop:permission object		drop-app-cloud	
+designer.browser.dev.js	1069	1293		drop:permission resource map		drop-app-cloud	
+designer.browser.dev.js	1070	315		drop:cloud settings model		drop-app-cloud	
+designer.browser.dev.js	1071	1008		drop:review permissions		drop-app-cloud	
+designer.browser.dev.js	1072	335		drop:comment annotation actions		drop-app-cloud	
+designer.browser.dev.js	1073	830		drop:cloud UI constants		drop-app-cloud	
+designer.browser.dev.js	1074	143		drop:cloud icon map		drop-app-cloud	
+designer.browser.dev.js	1075	10654		data:Noto font family list	next/src/app/fonts/noto-fonts.json	app-fonts-ui	UI-FONT-007
+designer.browser.dev.js	1090	596		drop:cloud storage item factory		drop-app-cloud	
+designer.browser.dev.js	1091	508		drop:cloud storage item helper		drop-app-cloud	
+designer.browser.dev.js	1092	1285		drop:cloud storage item conversion		drop-app-cloud	
+designer.browser.dev.js	1093	32735		drop:login dialog		drop-app-cloud	UI-DIALOG-034
+designer.browser.dev.js	1094	1543	GCloudAnnotations	drop:cloud annotations		drop-app-cloud	EDT-ANNOT-019
+designer.browser.dev.js	1098	1869		drop:licence checker		drop-app-cloud	
+designer.browser.dev.js	1099	432		drop:licence model		drop-app-cloud	
+designer.browser.dev.js	1100	775		drop:commercial product model		drop-app-cloud	
+designer.browser.dev.js	1101	590		drop:CDR export error codes (Corel interop)		drop-app-cloud	
+designer.browser.dev.js	1102	2526		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1103	535		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1104	368		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1105	279		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1106	2693		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1107	2974		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1108	5115		drop:Google Drive resumable upload		drop-app-cloud	
+designer.browser.dev.js	1114	175013		drop:bluebird 2.11.0; native Promise		drop-app-runtime	FMT-LIB-014
+designer.browser.dev.js	1115	1753		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	1116	4156		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	1117	5117		drop:FileSaver.js; use an a[download] helper (same bytes)		app-shell-storage	FMT-STORAGE-009,FMT-LIB-012
+designer.browser.dev.js	1118	16270		port	next/src/app/fonts/imported-fonts-provider.ts	app-fonts-ui	UI-FONT-008
+designer.browser.dev.js	1150	132012		port	next/src/app/color/color-chooser.ts	app-color-ui	EDT-GUIDE-022,UI-COLOR-001,UI-COLOR-002
+designer.browser.dev.js	1151	327	GSwatchesChangedEvent	port	next/src/app/color/swatches-changed-event.ts	app-color-ui	UI-SWATCH-007
+designer.browser.dev.js	1152	17621		drop:SharePoint storage		drop-app-cloud	
+designer.browser.dev.js	1153	22967		port	next/src/app/welcome/presets.ts	app-welcome-settings	UI-NEWDOC-005,UI-NEWDOC-006,UI-NEWDOC-007
+designer.browser.dev.js	1154	3678		port	next/src/app/util/download.ts	app-config-document	ADD-IMPORT-001,ADD-EXPORT-001
+designer.browser.dev.js	1155	1511		port	next/src/app/shell/condition.ts	app-shell-storage	
+designer.browser.dev.js	1156	284	GMenuCloseEvent	port	next/src/app/menus/menu-close-event.ts	app-menus-toolbar	
+designer.browser.dev.js	1157	4643		port	next/src/app/menus/active-menu-manager.ts	app-menus-toolbar	ADD-MENU-001
+designer.browser.dev.js	1158	1373		drop:purchase pro action		drop-app-cloud	ACT-CLOUD-012
+designer.browser.dev.js	1159	323		drop:cloud file enable event		drop-app-cloud	
+designer.browser.dev.js	1160	20823	GAppearanceProperties	port	next/src/app/inspector/appearance-properties.ts	app-inspector-paint	UI-INSPECT-017,UI-FIELD-020,UI-FIELD-021
+designer.browser.dev.js	1161	657		port	next/src/app/widgets/drag-delete.ts	app-shell-storage	
+designer.browser.dev.js	1162	77564		port	next/src/app/inspector/border-properties.ts	app-inspector-paint	UI-INSPECT-029,UI-FIELD-061,UI-FIELD-062
+designer.browser.dev.js	1163	734		drop:version date formats		drop-app-cloud	
+designer.browser.dev.js	1164	541		drop:cloud worker file update		drop-app-cloud	
+designer.browser.dev.js	1165	7189		drop:file review manager		drop-app-cloud	
+designer.browser.dev.js	1166	2462		drop:Microsoft Graph avatars		drop-app-cloud	
+designer.browser.dev.js	1167	2395	GMagnificationAction	port	next/src/app/actions/view/magnification-action.ts	app-actions-view	EDT-VIEW-012,ACT-VIEW-005,ACT-VIEW-006
+designer.browser.dev.js	1168	1395	GSubAction	port	next/src/app/actions/sub-action.ts	app-actions-file-edit	
+designer.browser.dev.js	1169	1745	GShowGuideLinesAction	port	next/src/app/actions/view/show-guide-lines-action.ts	app-actions-view	EDT-GUIDE-023,ACT-VIEW-026
+designer.browser.dev.js	1170	2663	GToggleSidebarAction	port	next/src/app/actions/view/toggle-sidebar-action.ts	app-actions-view	ACT-VIEW-040,ACT-VIEW-041,ACT-VIEW-042
+designer.browser.dev.js	1171	2955	GUndoAction	port	next/src/app/actions/edit/undo-action.ts	app-actions-file-edit	EDT-UNDO-009,ACT-EDIT-001
+designer.browser.dev.js	1172	2025	GInstallToDesktopAction	port	next/src/app/actions/file/install-to-desktop-action.ts	app-dialogs-notify	ACT-FILE-024,UI-STORAGE-007,FMT-PWA-005
+designer.browser.dev.js	1173	803		port	next/src/app/shell/pwa-support.ts	app-shell-storage	
+designer.browser.dev.js	1174	335		drop:files panel events		drop-app-cloud	
+designer.browser.dev.js	1175	58		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1176	3088	GAttachToPathAction	port	next/src/app/actions/modify/attach-to-path-action.ts	app-actions-modify	ACT-TEXT-001
+designer.browser.dev.js	1177	2565	GResetInstanceAction	port	next/src/app/actions/modify/reset-instance-action.ts	app-actions-modify	ACT-MODIFY-015
+designer.browser.dev.js	1178	2030	GDetachFromPathAction	port	next/src/app/actions/modify/detach-from-path-action.ts	app-actions-modify	ACT-TEXT-002
+designer.browser.dev.js	1179	2254	GJoinPathsAction	port	next/src/app/actions/modify/join-paths-action.ts	app-actions-modify	ACT-PATH-001
+designer.browser.dev.js	1180	2459	GSelectByFontTypeAction	port	next/src/app/actions/edit/select-by-font-type-action.ts	app-actions-file-edit	EDT-SEL-022,ACT-EDIT-017
+designer.browser.dev.js	1181	3733	GMaskWithShapeAction	port	next/src/app/actions/modify/mask-with-shape-action.ts	app-actions-modify	EDT-DUP-009,ACT-MODIFY-004
+designer.browser.dev.js	1182	4214	GPasteHereAction	port	next/src/app/actions/edit/paste-here-action.ts	app-actions-file-edit	EDT-CLIP-017,ACT-EDIT-009
+designer.browser.dev.js	1183	3590	GPasteInPlaceAction	port	next/src/app/actions/edit/paste-in-place-action.ts	app-actions-file-edit	EDT-CLIP-018,ACT-EDIT-006
+designer.browser.dev.js	1184	4507	GPasteInsideAction	port	next/src/app/actions/edit/paste-inside-action.ts	app-actions-file-edit	EDT-CLIP-019,ACT-EDIT-008
+designer.browser.dev.js	1185	4492	GOutlineAction	port	next/src/app/actions/modify/outline-action.ts	app-actions-modify	ACT-PATH-005,ADD-PATH-002
+designer.browser.dev.js	1186	686		drop:analytics builder stub		drop-app-cloud	
+designer.browser.dev.js	1187	218		drop:cross-frame dialog base		drop-app-cloud	
+designer.browser.dev.js	1188	2742		port	next/src/app/dialogs/software-update-events.ts	app-dialogs-notify	
+designer.browser.dev.js	1189	641		port	next/src/editor/touch/gesture-state.ts	editor-touch	
+designer.browser.dev.js	1190	434		drop:in-app purchase base		drop-app-cloud	
+designer.browser.dev.js	1191	1438		port	next/src/app/shell/children-tracker.ts	app-shell-storage	
+designer.browser.dev.js	1195	10602		port	next/src/app/storage/file-system-access.ts	app-shell-storage	UI-IMAGE-003,FMT-STORAGE-002,FMT-STORAGE-003
+designer.browser.dev.js	1196	486		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1197	65		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1198	9284		port	next/src/app/fonts/font-db.ts	app-fonts-ui	UI-STORAGE-012
+designer.browser.dev.js	1199	5940		port	next/src/app/fonts/local-font-list.ts	app-fonts-ui	UI-FONT-010
+designer.browser.dev.js	1200	6413		port	next/src/app/fonts/font-style-naming.ts	app-fonts-ui	
+designer.browser.dev.js	1210	21189		drop:jDataView; use native DataView (reads are deterministic)		app-shell-storage	
+designer.browser.dev.js	1238	3851		port	next/src/app/color/pattern-type-menu.ts	app-color-ui	UI-DIALOG-046
+designer.browser.dev.js	1239	38746	GSharePointClient	drop:SharePoint client		drop-app-cloud	
+designer.browser.dev.js	1240	578		drop:cloud file listing options		drop-app-cloud	
+designer.browser.dev.js	1241	913	GCloudRole	drop:cloud role		drop-app-cloud	
+designer.browser.dev.js	1242	11366		drop:MS Teams authenticator		drop-app-cloud	
+designer.browser.dev.js	1243	450		drop:MS Teams/SharePoint commands		drop-app-cloud	
+designer.browser.dev.js	1244	185		drop:store vendors		drop-app-cloud	
+designer.browser.dev.js	1245	5310		port	next/src/app/fonts/font-db-loader.ts	app-fonts-ui	UI-FONT-009
+designer.browser.dev.js	1246	275		drop:persona definitions		app-shell-storage	
+designer.browser.dev.js	1247	1110		drop:CDR unsupported effects (Corel interop)		drop-app-cloud	
+designer.browser.dev.js	1248	840		drop:CDR export helper		drop-app-cloud	
+designer.browser.dev.js	1249	461		drop:cloud step runner		drop-app-cloud	
+designer.browser.dev.js	1250	288		drop:persona change event		app-shell-storage	
+designer.browser.dev.js	1251	730		drop:webpack/babel runtime helper		drop-app-runtime	
+designer.browser.dev.js	1252	4018		drop:cross-frame purchase messages		drop-app-cloud	
+designer.browser.dev.js	1253	13033		port	next/src/app/export/export-document.ts	app-library-symbols-export	FMT-EXPORT-005,FMT-EXPORT-046,FMT-EXPORT-047
+designer.browser.dev.js	1254	2498	GOpenSharedFileAction	drop:open shared file action		drop-app-cloud	ACT-CLOUD-005
+designer.browser.dev.js	1255	3641		port	next/src/app/sidebars/library-document.ts	app-library-symbols-export	UI-LIBRARY-014
+designer.browser.dev.js	1256	3492	GVersionsHistoryAction	drop:version history action		drop-app-cloud	ACT-CLOUD-006
+designer.browser.dev.js	1257	367		drop:jQuery UI 1.12.1 (React UI; tab sorting reimplemented)		drop-app-runtime	
+designer.browser.dev.js	1258	20798		drop:jQuery UI 1.12.1 (React UI; tab sorting reimplemented)		drop-app-runtime	
+designer.browser.dev.js	1259	1078		drop:jQuery UI 1.12.1 (React UI; tab sorting reimplemented)		drop-app-runtime	
+designer.browser.dev.js	1260	48489	GOutlineSidebar	port	next/src/app/sidebars/outline-sidebar.ts	app-sidebars-layers-pages	UI-LAYERS-001,UI-LAYERS-002,UI-LAYERS-003
+designer.browser.dev.js	1261	46079		port	next/src/app/inspector/fill-properties.ts	app-inspector-paint	UI-INSPECT-028,UI-FIELD-056,UI-FIELD-057
+designer.browser.dev.js	1262	107679	GEffectProperties	port	next/src/app/inspector/effect-properties.ts	app-inspector-effects	UI-INSPECT-030,UI-FIELD-073,UI-FIELD-074
+designer.browser.dev.js	1263	1772		port	next/src/app/inspector/color-stops.ts	app-inspector-paint	UI-FIELD-116
+designer.browser.dev.js	1264	6399	GBoolOpProperties	port	next/src/app/inspector/bool-op-properties.ts	app-inspector-shapes	UI-INSPECT-037
+designer.browser.dev.js	1265	7891	GEllipseProperties	port	next/src/app/inspector/ellipse-properties.ts	app-inspector-shapes	UI-INSPECT-034,UI-FIELD-150,UI-FIELD-151
+designer.browser.dev.js	1266	10683	GImageProperties	port	next/src/app/inspector/image-properties.ts	app-inspector-shapes	UI-INSPECT-036
+designer.browser.dev.js	1267	15354		port	next/src/app/inspector/color-thief.ts	app-inspector-shapes	UI-FIELD-157
+designer.browser.dev.js	1268	5690		port	next/src/app/inspector/image-crop.ts	app-inspector-shapes	UI-FIELD-156
+designer.browser.dev.js	1269	32154	GPathProperties	port	next/src/app/inspector/path-properties.ts	app-inspector-shapes	UI-INSPECT-035,UI-FIELD-152,UI-FIELD-153
+designer.browser.dev.js	1270	31251	GPolygonProperties	port	next/src/app/inspector/polygon-properties.ts	app-inspector-shapes	UI-INSPECT-033,UI-FIELD-143,UI-FIELD-144
+designer.browser.dev.js	1271	21891	GRectangleProperties	port	next/src/app/inspector/rectangle-properties.ts	app-inspector-shapes	UI-INSPECT-032,UI-FIELD-139,UI-FIELD-140
+designer.browser.dev.js	1272	11921	GSliceProperties	port	next/src/app/inspector/slice-properties.ts	app-inspector-document	UI-INSPECT-024,UI-FIELD-045,UI-FIELD-046
+designer.browser.dev.js	1273	107951	GTextProperties	port	next/src/app/inspector/text-properties.ts	app-inspector-text-styles	UI-INSPECT-031,UI-FIELD-119,UI-FIELD-120
+designer.browser.dev.js	1274	5032	GAlignProperties	port	next/src/app/inspector/align-properties.ts	app-inspector-geometry	UI-INSPECT-015,UI-FIELD-011,UI-FIELD-012
+designer.browser.dev.js	1275	27203		port	next/src/app/settings/settings-dialog.ts	app-welcome-settings	UI-SETTING-001,UI-SETTING-002,UI-SETTING-003
+designer.browser.dev.js	1276	29740		drop:cloud autosave manager		drop-app-cloud	UI-DIALOG-047,UI-NOTIFY-002,FMT-WORKER-001
+designer.browser.dev.js	1277	113		port	next/src/app/settings/settings-action-id.ts	app-welcome-settings	
+designer.browser.dev.js	1278	255		port	next/src/app/settings/settings-keys.ts	app-welcome-settings	UI-FIELD-173
+designer.browser.dev.js	1279	101		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
+designer.browser.dev.js	1280	2845	GLinkImageAction	port	next/src/app/actions/file/link-image-action.ts	app-actions-file-edit	ACT-FILE-012,FMT-IMPORT-022
+designer.browser.dev.js	1281	2401	GMainAction	port	next/src/app/actions/main-action.ts	app-actions-file-edit	ACT-KEY-029
+designer.browser.dev.js	1282	1730	GOriginalViewAction	port	next/src/app/actions/view/original-view-action.ts	app-actions-view	EDT-VIEW-013,ACT-VIEW-001
+designer.browser.dev.js	1283	2730	GPlaceImportAction	port	next/src/app/actions/file/place-import-action.ts	app-actions-file-edit	ACT-FILE-010,FMT-IMPORT-021
+designer.browser.dev.js	1284	2902	GRedoAction	port	next/src/app/actions/edit/redo-action.ts	app-actions-file-edit	EDT-UNDO-010,ACT-EDIT-002
+designer.browser.dev.js	1285	1536	GShowGridAction	port	next/src/app/actions/view/show-grid-action.ts	app-actions-view	EDT-VIEW-021,ACT-VIEW-028
+designer.browser.dev.js	1286	1643	GShowSymbolLabelsAction	port	next/src/app/actions/view/show-symbol-labels-action.ts	app-actions-view	EDT-VIEW-027,ACT-VIEW-027
+designer.browser.dev.js	1287	1568	GToggleGuideAction	port	next/src/app/actions/view/toggle-guide-action.ts	app-actions-view	EDT-SNAP-004,ACT-VIEW-034,ACT-VIEW-035
+designer.browser.dev.js	1288	2126	GToggleSnapAction	port	next/src/app/actions/view/toggle-snap-action.ts	app-actions-view	EDT-SNAP-002,ACT-VIEW-032
+designer.browser.dev.js	1289	1673	GToggleSnapZonesAction	port	next/src/app/actions/view/toggle-snap-zones-action.ts	app-actions-view	EDT-SNAP-005,ACT-VIEW-033
+designer.browser.dev.js	1290	2606	GZoomInAction	port	next/src/app/actions/view/zoom-in-action.ts	app-actions-view	EDT-VIEW-009,ACT-VIEW-021
+designer.browser.dev.js	1291	2578	GZoomOutAction	port	next/src/app/actions/view/zoom-out-action.ts	app-actions-view	EDT-VIEW-010,ACT-VIEW-022
+designer.browser.dev.js	1292	4292		drop:collaborators toolbar		drop-app-cloud	UI-TOOLBAR-012
+designer.browser.dev.js	1293	7132	GCloudSynchronizationAction	drop:cloud synchronization action		drop-app-cloud	ACT-CLOUD-002
+designer.browser.dev.js	1294	53642	GDimensionProperties	port	next/src/app/inspector/dimension-properties.ts	app-inspector-geometry	UI-INSPECT-014,UI-FIELD-001,UI-FIELD-002
+designer.browser.dev.js	1295	2967	GSnapUnitAction	port	next/src/app/actions/view/snap-unit-action.ts	app-actions-view	EDT-SNAP-012,ACT-ALIGN-011,ACT-ALIGN-012
+designer.browser.dev.js	1296	1137	GNewWindowAction	port	next/src/app/actions/view/new-window-action.ts	app-actions-view	EDT-VIEW-033,ACT-WINDOW-004
+designer.browser.dev.js	1297	2818	GOutlineViewAction	port	next/src/app/actions/view/outline-view-action.ts	app-actions-view	EDT-RENDER-008,EDT-VIEW-022,ACT-VIEW-023
+designer.browser.dev.js	1298	1516	GUseCouponAction	drop:use coupon action		drop-app-cloud	ACT-CLOUD-013
+designer.browser.dev.js	1299	630		port	next/src/app/actions/file/open-safari-action.ts	app-actions-file-edit	ACT-FILE-005
+designer.browser.dev.js	1300	79275		drop:cloud files panel views		drop-app-cloud	UI-DIALOG-041
+designer.browser.dev.js	1301	778		port	next/src/app/util/type-map.ts	app-config-document	
+designer.browser.dev.js	1302	302		drop:network availability flag		drop-app-cloud	
+designer.browser.dev.js	1303	30876	GContextMenu	port	next/src/app/menus/context-menu.ts	app-menus-toolbar	ACT-CTX-001,ACT-CTX-002,ACT-CTX-003
+designer.browser.dev.js	1304	2205	GSelectByPaintLayerAction	port	next/src/app/actions/edit/select-by-paint-layer-action.ts	app-actions-file-edit	EDT-SEL-016,ACT-EDIT-018,ACT-EDIT-019
+designer.browser.dev.js	1305	896	GSelectByBorderWidthAction	port	next/src/app/actions/edit/select-by-border-width-action.ts	app-actions-file-edit	EDT-SEL-017,ACT-EDIT-021
+designer.browser.dev.js	1306	757	GSelectByTransparencyAction	port	next/src/app/actions/edit/select-by-transparency-action.ts	app-actions-file-edit	EDT-SEL-018,ACT-EDIT-022
+designer.browser.dev.js	1307	748	GSelectByBlendModeAction	port	next/src/app/actions/edit/select-by-blend-mode-action.ts	app-actions-file-edit	EDT-SEL-019,ACT-EDIT-023
+designer.browser.dev.js	1308	651	GSelectByShapeAction	port	next/src/app/actions/edit/select-by-shape-action.ts	app-actions-file-edit	EDT-SEL-020,ACT-EDIT-024
+designer.browser.dev.js	1309	766	GSelectByEffectAction	port	next/src/app/actions/edit/select-by-effect-action.ts	app-actions-file-edit	EDT-SEL-021,ACT-EDIT-025
+designer.browser.dev.js	1310	1726	GCropAction	port	next/src/app/actions/modify/crop-action.ts	app-actions-modify	EDT-CROP-005,ACT-MODIFY-005
+designer.browser.dev.js	1311	2403	GCancelCropAction	port	next/src/app/actions/modify/cancel-crop-action.ts	app-actions-modify	EDT-CROP-006,ACT-MODIFY-006
+designer.browser.dev.js	1312	2801	GEditElementActon	port	next/src/app/actions/modify/edit-element-action.ts	app-actions-modify	ACT-EDIT-013
+designer.browser.dev.js	1313	18346		port	next/src/app/clipboard/clipboard-bridge.ts	app-actions-file-edit	EDT-CLIP-008,EDT-CLIP-009,EDT-CLIP-010
+designer.browser.dev.js	1314	4801	GConvertToImageAction	port	next/src/app/actions/modify/convert-to-image-action.ts	app-actions-modify	ACT-MODIFY-016,ADD-PATH-005
+designer.browser.dev.js	1315	1625	GDuplicateAction	port	next/src/app/actions/edit/duplicate-action.ts	app-actions-file-edit	EDT-DUP-001,ACT-EDIT-012,ADD-SCENE-001
+designer.browser.dev.js	1316	2475	GCreateNestedCompoundAction	port	next/src/app/actions/modify/create-nested-compound-action.ts	app-actions-modify	ACT-MODIFY-012
+designer.browser.dev.js	1317	1690	GOffsetAction	port	next/src/app/actions/modify/offset-action.ts	app-actions-modify	ACT-PATH-006,ADD-PATH-003
+designer.browser.dev.js	1318	5547	GSimplifyAction	port	next/src/app/actions/modify/simplify-action.ts	app-actions-modify	ACT-PATH-009,ADD-PATH-001
+designer.browser.dev.js	1319	6036	GSplitLineAction	port	next/src/app/actions/modify/split-line-action.ts	app-actions-modify	ACT-PATH-011
+designer.browser.dev.js	1320	3474	GConvertToRawPathAction	port	next/src/app/actions/modify/convert-to-raw-path-action.ts	app-actions-modify	ACT-PATH-004
+designer.browser.dev.js	1321	458		port	next/src/app/dialogs/notification-event.ts	app-dialogs-notify	
+designer.browser.dev.js	1322	25605		drop:share manager		drop-app-cloud	UI-DIALOG-044
+designer.browser.dev.js	1323	393		drop:share state event		drop-app-cloud	
+designer.browser.dev.js	1324	1570		drop:collaborators list		drop-app-cloud	
+designer.browser.dev.js	1325	9878		drop:reminder manager (paywall)		drop-app-cloud	UI-SETTING-020,UI-NOTIFY-006
+designer.browser.dev.js	1326	1424		drop:paywall launcher		drop-app-cloud	FMT-SERVER-012
+designer.browser.dev.js	1327	264		drop:paywall builder		drop-app-cloud	
+designer.browser.dev.js	1328	218		port	next/src/app/shell/paint-mode-event.ts	app-shell-storage	
+designer.browser.dev.js	1329	941		port	next/src/editor/touch/pan-gesture.ts	editor-touch	EDT-TOUCH-008
+designer.browser.dev.js	1330	218		port	next/src/app/shell/fullscreen-event.ts	app-shell-storage	
+designer.browser.dev.js	1331	11747	GCutCopyAction	port	next/src/app/actions/edit/cut-copy-action.ts	app-actions-file-edit	EDT-CLIP-001,EDT-CLIP-003,EDT-CLIP-004
+designer.browser.dev.js	1332	4079	GDeleteAction	port	next/src/app/actions/edit/delete-action.ts	app-actions-file-edit	EDT-DUP-003,ACT-EDIT-011
+designer.browser.dev.js	1333	2679	GSelectAllAction	port	next/src/app/actions/edit/select-all-action.ts	app-actions-file-edit	EDT-SEL-012,ACT-EDIT-014
+designer.browser.dev.js	1334	1596	GDeselectAllAction	port	next/src/app/actions/edit/deselect-all-action.ts	app-actions-file-edit	EDT-SEL-013,ACT-EDIT-015
+designer.browser.dev.js	1335	3479	GToggleFullscreenAction	port	next/src/app/actions/view/toggle-fullscreen-action.ts	app-actions-view	EDT-VIEW-034,ACT-VIEW-046
+designer.browser.dev.js	1336	1016	GOpenQuickHelpScreenAction	port	next/src/app/actions/help/open-quick-help-action.ts	app-touch-ui	EDT-TOUCH-014,ACT-HELP-006
+designer.browser.dev.js	1337	3407		port	next/src/app/touch/orientation.ts	app-touch-ui	UI-TOUCH-014
+designer.browser.dev.js	1338	580		drop:purchase events		drop-app-cloud	
+designer.browser.dev.js	1339	52779	GPageProperties	port	next/src/app/inspector/page-properties.ts	app-inspector-document	EDT-RENDER-010,UI-INSPECT-018,UI-FIELD-023
+designer.browser.dev.js	1340	1165	GRenameLayerAction	port	next/src/app/actions/modify/rename-layer-action.ts	app-actions-modify	ACT-KEY-003
+designer.browser.dev.js	1341	2424	GChangeActivePageAction	port	next/src/app/actions/modify/change-active-page-action.ts	app-actions-modify	ACT-KEY-020,ACT-KEY-021
+designer.browser.dev.js	1342	1517	GEnhancedTooltipsAction	port	next/src/app/actions/view/enhanced-tooltips-action.ts	app-actions-view	EDT-VIEW-035,ACT-HELP-005,UI-TOOLTIP-003
+designer.browser.dev.js	1343	10065		port	next/src/app/locale/translation-manager.ts	app-widgets-dialogs	UI-I18N-008
+designer.browser.dev.js	1344	2971	GCycleThroughLayersAction	port	next/src/app/actions/modify/cycle-through-layers-action.ts	app-actions-modify	EDT-SEL-023,ACT-KEY-017,ACT-KEY-018
+designer.browser.dev.js	1345	1046	GChangeAnchorPointsJointTypeMainAction	port	next/src/app/actions/modify/change-anchor-points-joint-type-main-action.ts	app-actions-modify	ACT-KEY-006
+designer.browser.dev.js	1346	290	GUnloadEvent	port	next/src/app/shell/unload-event.ts	app-shell-storage	
+designer.browser.dev.js	1347	304		port	next/src/app/shell/in-app-link-event.ts	app-shell-storage	
+designer.browser.dev.js	1348	8479		drop:collaborative text editor		drop-app-cloud	
+designer.browser.dev.js	1349	478		port	next/src/app/dialogs/update-event-names.ts	app-dialogs-notify	
+designer.browser.dev.js	1350	1991		drop:licence status poller		drop-app-cloud	
+designer.browser.dev.js	1351	5648		port	next/src/app/sidebars/layer-item.ts	app-sidebars-layers-pages	UI-LAYERS-006,UI-LAYERS-007
+designer.browser.dev.js	1352	58		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1353	4290		drop:annotation panel collaborators		drop-app-cloud	
+designer.browser.dev.js	1354	593	GInvalidationOptions	port	next/src/app/shell/invalidation-options.ts	app-shell-storage	
+designer.browser.dev.js	1355	7117		drop:annotation list rows		drop-app-cloud	
+designer.browser.dev.js	1356	29544		drop:annotation comment rows		drop-app-cloud	
+designer.browser.dev.js	1357	8879		drop:annotation reply docker		drop-app-cloud	
+designer.browser.dev.js	1358	10116		drop:Amplitude analytics connector		drop-app-cloud	
+designer.browser.dev.js	1373	928		port	next/src/app/shell/pwa-boot.ts	app-shell-storage	FMT-PWA-003
+designer.browser.dev.js	1374	15124	GBrowserContainer	port	next/src/app/shell/browser-container.ts	app-shell-storage	FMT-STORAGE-018,FMT-SW-003,FMT-PWA-006
+designer.browser.dev.js	1375	523		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1376	201		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1377	119		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	1378	562	GMarketingFileStorageItem	drop:marketing file storage item		drop-app-cloud	
+designer.browser.dev.js	1379	8125		port	next/src/app/fonts/web-fonts-provider.ts	app-fonts-ui	
+designer.browser.dev.js	1380	18271		port	next/src/app/fonts/native-fonts.ts	app-fonts-ui	FMT-IMPORT-027
+designer.browser.dev.js	1381	75		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1382	254		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1383	84		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1384	78		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1385	2055		port	next/src/app/storage/browser-storage-item.ts	app-shell-storage	
+designer.browser.dev.js	1386	1920		port	next/src/app/storage/browser-image-storage-item.ts	app-shell-storage	
+designer.browser.dev.js	1387	188		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1388	167		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1389	56		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
+designer.browser.dev.js	1400	4080		port	next/src/io/import/sketch/effects-index.ts	io-import-sketch	
+designer.browser.dev.js	1401	57028		drop:zip.js inflate; use pako inflate (decompression is deterministic)		drop-app-runtime	
+designer.browser.dev.js	1402	31268		drop:second copy of zip.js core (same as app module 1514)		drop-app-runtime	FMT-LIB-003
+designer.browser.dev.js	1468	694		drop:service worker registration for cloud envs		drop-app-cloud	
+designer.browser.dev.js	1469	516		drop:OS name for analytics		drop-app-cloud	
+designer.browser.dev.js	1470	706		port	next/src/app/fonts/missing-font-tracker.ts	app-fonts-ui	
+designer.browser.dev.js	1471	1164		port	next/src/app/fonts/font-availability-tracker.ts	app-fonts-ui	
+designer.browser.dev.js	1472	374		port	next/src/io/import/heic.ts	app-shell-storage	FMT-IMPORT-019
+designer.browser.dev.js	1473	2846		drop:paywall dialog		drop-app-cloud	UI-DIALOG-015
+designer.browser.dev.js	1474	2845		port	next/src/app/dialogs/confirmation-dialog.ts	app-dialogs-notify	UI-DIALOG-016
+designer.browser.dev.js	1475	6066		port	next/src/app/export/document-chooser.ts	app-library-symbols-export	UI-DIALOG-017
+designer.browser.dev.js	1476	53163		drop:OAuth/token client		drop-app-cloud	
+designer.browser.dev.js	1477	1293		drop:Microsoft user		drop-app-cloud	
+designer.browser.dev.js	1478	1545	GCloudUser	drop:cloud user		drop-app-cloud	
+designer.browser.dev.js	1479	959		drop:Teams env detection		drop-app-cloud	
+designer.browser.dev.js	1480	151937		drop:Microsoft Teams SDK 1.13.1		drop-app-cloud	
+designer.browser.dev.js	1481	1454		drop:SharePoint permissions		drop-app-cloud	
+designer.browser.dev.js	1482	418		port	next/src/app/storage/downloader.ts	app-shell-storage	
+designer.browser.dev.js	1483	49329		port	next/src/app/shell/bootstrap.ts	app-designer-main	EDT-TOOLMGR-024,EDT-TOOL-001,EDT-TOOL-027
+designer.browser.dev.js	1484	1271		drop:Teams app loader		drop-app-cloud	
+designer.browser.dev.js	1485	1828		drop:Google Tag Manager		drop-app-cloud	
+designer.browser.dev.js	1486	1493		drop:debug download helpers		drop-app-cloud	
+designer.browser.dev.js	1487	299		port	next/src/app/welcome/show-welcome-setting.ts	app-welcome-settings	
+designer.browser.dev.js	1488	17103		port	next/src/app/shell/drag-drop.ts	app-shell-storage	EDT-DND-012,UI-TOUCH-020
+designer.browser.dev.js	1489	23259		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	1490	491		drop:maintenance check		drop-app-cloud	
+designer.browser.dev.js	1491	146446		port	next/src/app/shell/designer.ts	app-designer-main	EDT-TOOLMGR-007,EDT-TOOLMGR-025,EDT-TOOLMGR-026
+designer.browser.dev.js	1492	542		port	next/src/app/shell/mouse-tracker.ts	app-shell-storage	
+designer.browser.dev.js	1493	411		port	next/src/app/shell/steps.ts	app-shell-storage	
+designer.browser.dev.js	1494	5444		drop:analytics wrapper		drop-app-cloud	
+designer.browser.dev.js	1495	125473		drop:analytics event-name map		drop-app-cloud	
+designer.browser.dev.js	1496	812		drop:cloud env detection		drop-app-cloud	
+designer.browser.dev.js	1497	994		drop:access-expiry banner (licence)		app-shell-storage	UI-SHELL-012
+designer.browser.dev.js	1498	369		drop:banner container (licence)		app-shell-storage	UI-SHELL-013
+designer.browser.dev.js	1499	340	GMenuActivateEvent	port	next/src/app/menus/menu-activate-event.ts	app-menus-toolbar	
+designer.browser.dev.js	1500	33501		port	next/src/app/menus/header.ts	app-menus-toolbar	ACT-MENU-004,ACT-CTX-010,UI-SHELL-008
+designer.browser.dev.js	1501	1081	GMenuBar	port	next/src/app/menus/menu-bar.ts	app-menus-toolbar	ACT-MENU-005,UI-SHELL-010
+designer.browser.dev.js	1502	1582		drop:persona bar (marketing)		app-shell-storage	ACT-CLOUD-020,UI-SHELL-011
+designer.browser.dev.js	1503	19038		port	next/src/app/shell/window.ts	app-shell-storage	EDT-VIEW-018,UI-SHELL-023,UI-SHELL-024
+designer.browser.dev.js	1504	435		drop:webpack/babel runtime helper		drop-app-runtime	
+designer.browser.dev.js	1505	269		drop:webpack/babel runtime helper		drop-app-runtime	
+designer.browser.dev.js	1506	511		drop:webpack/babel runtime helper		drop-app-runtime	
+designer.browser.dev.js	1507	18449		drop:purchase panel		drop-app-cloud	UI-DIALOG-032
+designer.browser.dev.js	1508	12740		drop:account panel		drop-app-cloud	UI-DIALOG-030
+designer.browser.dev.js	1509	5590	GChangePasswordPanel	drop:change password panel		drop-app-cloud	UI-DIALOG-031
+designer.browser.dev.js	1510	2739		drop:cloud save chooser		drop-app-cloud	UI-DIALOG-033
+designer.browser.dev.js	1511	3618		port	next/src/app/dialogs/warn-linked-image-dialog.ts	app-dialogs-notify	UI-IMAGE-001
+designer.browser.dev.js	1512	10803		drop:second copy of app module 1195 (identical open-directory code)		app-shell-storage	
+designer.browser.dev.js	1513	58634		port	next/src/app/export/export-dialog.ts	app-library-symbols-export	UI-DIALOG-038,FMT-EXPORT-022,FMT-EXPORT-023
+designer.browser.dev.js	1514	33548		port	next/src/io/zip/zip.ts	io-export-bitmap	
+designer.browser.dev.js	1515	15953		port	next/src/io/zip/zip-fs.ts	io-export-bitmap	
+designer.browser.dev.js	1516	1845		port	next/src/io/zip/pako-codec.ts	io-export-bitmap	
+designer.browser.dev.js	1517	3441		port	next/src/app/shell/tabs-rearrange.ts	app-shell-storage	UI-TABS-005,FMT-STORAGE-016
+designer.browser.dev.js	1518	54815		drop:jQuery UI 1.12.1 (React UI; tab sorting reimplemented)		drop-app-runtime	
+designer.browser.dev.js	1519	7863		drop:jQuery UI 1.12.1 (React UI; tab sorting reimplemented)		drop-app-runtime	
+designer.browser.dev.js	1520	648		drop:jQuery UI 1.12.1 (React UI; tab sorting reimplemented)		drop-app-runtime	
+designer.browser.dev.js	1521	3294		port	next/src/app/shell/document-loading.ts	app-shell-storage	UI-SHELL-021
+designer.browser.dev.js	1522	4754	GInfo	port	next/src/app/shell/info.ts	app-shell-storage	UI-SHELL-007
+designer.browser.dev.js	1523	18773	GExportProperties	port	next/src/app/inspector/export-properties.ts	app-inspector-document	UI-INSPECT-025,UI-FIELD-048,UI-FIELD-049
+designer.browser.dev.js	1524	97		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1525	385		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1526	2147	GEffectsPanel	port	next/src/app/inspector/effects-panel.ts	app-inspector-effects	UI-FIELD-117
+designer.browser.dev.js	1527	2370	GEffectsButton	port	next/src/app/inspector/effects-button.ts	app-inspector-effects	UI-FIELD-118
+designer.browser.dev.js	1528	24961	GVersionHistoryProperties	drop:version history panel		drop-app-cloud	UI-INSPECT-026,UI-FIELD-054,UI-FIELD-055
+designer.browser.dev.js	1529	1260		drop:version history overlay (cloud)		app-shell-storage	UI-INSPECT-027
+designer.browser.dev.js	1530	3043		port	next/src/app/storage/recovery.ts	app-shell-storage	FMT-PREVIEW-005,FMT-AUTOSAVE-004
+designer.browser.dev.js	1531	3161		port	next/src/app/storage/preview-writer.ts	app-shell-storage	
+designer.browser.dev.js	1532	1218		port	next/src/app/storage/save-command.ts	app-shell-storage	
+designer.browser.dev.js	1533	1204		port	next/src/app/storage/save-command-external.ts	app-shell-storage	
+designer.browser.dev.js	1534	1261		port	next/src/app/storage/queue.ts	app-shell-storage	
+designer.browser.dev.js	1535	14120	GAnnotations	drop:annotations panel (review comments need the cloud)		drop-app-cloud	EDT-ANNOT-018,UI-SIDEBAR-004
+designer.browser.dev.js	1536	25477	GAnnotationProperties	drop:annotation properties (review comments need the cloud)		drop-app-cloud	EDT-TOOL-087
+designer.browser.dev.js	1537	16686		drop:review docker		drop-app-cloud	UI-SIDEBAR-005
+designer.browser.dev.js	1538	3934		drop:file status history dialog		drop-app-cloud	UI-DIALOG-023
+designer.browser.dev.js	1539	5121		port	next/src/app/shell/sidebar-collapse.ts	app-shell-storage	UI-SHELL-020
+designer.browser.dev.js	1540	5049		port	next/src/app/touch/touch-toolbar.ts	app-touch-ui	EDT-TOUCH-011,UI-TOUCH-005
+designer.browser.dev.js	1541	70093		port	next/src/app/toolbar/toolbar.ts	app-menus-toolbar	EDT-TOOLMGR-029,EDT-TOOLMGR-030,EDT-TOOL-075
+designer.browser.dev.js	1542	30114		data:ready-shape library (vertex expressions per shape)	next/src/engine/scene/simple-shapes.json	app-library-symbols-export	EDT-TOOL-075,ADD-TOOL-001
+designer.browser.dev.js	1543	12247		port	next/src/app/toolbar/zoom-menu.ts	app-menus-toolbar	EDT-TOUCH-013,ACT-MENU-009,UI-TOUCH-007
+designer.browser.dev.js	1544	29055		port	next/src/app/welcome/welcome-screen.ts	app-welcome-settings	UI-WELCOME-002,UI-WELCOME-003,UI-WELCOME-004
+designer.browser.dev.js	1545	64246	GFilesPanel	drop:cloud files panel		drop-app-cloud	UI-DIALOG-040,UI-STORAGE-008
+designer.browser.dev.js	1546	634		drop:files panel views		drop-app-cloud	
+designer.browser.dev.js	1547	39941		drop:files panel list		drop-app-cloud	ACT-CLOUD-019
+designer.browser.dev.js	1548	7899		drop:files panel folder tree		drop-app-cloud	
+designer.browser.dev.js	1549	187		drop:files panel renderer factory		drop-app-cloud	
+designer.browser.dev.js	1550	7341		drop:files panel info/share view		drop-app-cloud	
+designer.browser.dev.js	1551	416		drop:files panel renderer base		drop-app-cloud	
+designer.browser.dev.js	1552	355		drop:cloud drives		drop-app-cloud	
+designer.browser.dev.js	1553	33881		drop:files panel cloud views		drop-app-cloud	UI-DIALOG-043
+designer.browser.dev.js	1554	2121		port	next/src/app/shell/value-stack.ts	app-shell-storage	
+designer.browser.dev.js	1555	1571		drop:Google Drive listing		drop-app-cloud	
+designer.browser.dev.js	1556	2672		port	next/src/app/dialogs/new-file-prompt.ts	app-dialogs-notify	UI-DIALOG-018
+designer.browser.dev.js	1557	276		port	next/src/app/util/repeat-action-error.ts	app-config-document	
+designer.browser.dev.js	1558	15706		drop:cloud templates panel		drop-app-cloud	UI-WELCOME-009
+designer.browser.dev.js	1559	360		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1560	4978		drop:user name dialog (cloud)		drop-app-cloud	UI-DIALOG-019
+designer.browser.dev.js	1561	190		drop:collaboration constants		drop-app-cloud	
+designer.browser.dev.js	1562	6475	GInstallPwaDialog	port	next/src/app/dialogs/install-pwa-dialog.ts	app-dialogs-notify	UI-DIALOG-020
+designer.browser.dev.js	1563	21892		port	next/src/app/touch/touch-context-menu.ts	app-touch-ui	EDT-SYMBOL-008,EDT-TOUCH-012,ACT-CTX-011
+designer.browser.dev.js	1564	4029		drop:analytics user properties		drop-app-cloud	
+designer.browser.dev.js	1565	1040		drop:share state		drop-app-cloud	
+designer.browser.dev.js	1566	15514		drop:share dialog		drop-app-cloud	UI-DIALOG-021
+designer.browser.dev.js	1567	39013		drop:share dialog sections		drop-app-cloud	UI-DIALOG-022
+designer.browser.dev.js	1568	5107		drop:cloud communication manager		drop-app-cloud	
+designer.browser.dev.js	1569	6383		drop:role/licence app state (keep local defaults: everything enabled)		drop-app-cloud	
+designer.browser.dev.js	1570	1244		drop:application state (roles)		drop-app-cloud	
+designer.browser.dev.js	1571	2879		port	next/src/app/shell/document-event-relay.ts	app-shell-storage	
+designer.browser.dev.js	1572	645		drop:annotations fetch		drop-app-cloud	
+designer.browser.dev.js	1573	840		drop:promise manager for cloud fetches		drop-app-cloud	
+designer.browser.dev.js	1574	1499		drop:paywall cross-frame builder		drop-app-cloud	
+designer.browser.dev.js	1575	811		drop:paywall window		drop-app-cloud	
+designer.browser.dev.js	1576	1275		drop:paywall dialog builder		drop-app-cloud	
+designer.browser.dev.js	1577	2094		drop:paywall launcher		drop-app-cloud	
+designer.browser.dev.js	1578	794		drop:reminder launcher		drop-app-cloud	
+designer.browser.dev.js	1579	2237		drop:reminder dialog		drop-app-cloud	
+designer.browser.dev.js	1580	169		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
+designer.browser.dev.js	1581	1157		port	next/src/editor/touch/scene-touch-target.ts	editor-touch	
+designer.browser.dev.js	1582	3640		port	next/src/editor/touch/gesture-helper.ts	editor-touch	EDT-TOUCH-004
+designer.browser.dev.js	1583	1035		port	next/src/editor/touch/touch-event-info.ts	editor-touch	
+designer.browser.dev.js	1584	829		port	next/src/editor/touch/select-touch-target.ts	editor-touch	EDT-TOUCH-005
+designer.browser.dev.js	1585	3803		port	next/src/editor/touch/pinch-gesture.ts	editor-touch	EDT-TOUCH-006
+designer.browser.dev.js	1586	1335		port	next/src/editor/touch/long-press-gesture.ts	editor-touch	EDT-TOUCH-009,ACT-CTX-012
+designer.browser.dev.js	1587	23326		port	next/src/app/touch/virtual-key-bar.ts	app-touch-ui	EDT-TOUCH-010,UI-TOUCH-011,UI-TOUCH-012
+designer.browser.dev.js	1588	1038		port	next/src/app/touch/fullscreen-banner.ts	app-touch-ui	UI-SHELL-014
+designer.browser.dev.js	1589	11200		port	next/src/app/touch/quick-help.ts	app-touch-ui	EDT-TOUCH-014,UI-TOUCH-015
+designer.browser.dev.js	1590	387		port	next/src/editor/touch/simple-touch-target.ts	editor-touch	
+designer.browser.dev.js	1591	474		drop:Teams user error		drop-app-cloud	
+designer.browser.dev.js	1592	1357		drop:set password panel		drop-app-cloud	
+designer.browser.dev.js	1593	930		drop:reset password		drop-app-cloud	
+designer.browser.dev.js	1594	708		drop:passwordless login		drop-app-cloud	
+designer.browser.dev.js	1595	10761		npm:mousetrap@1.6.5		app-actions-file-edit	
+designer.browser.dev.js	1596	592		npm:mousetrap@1.6.5 (plugins/pause)		app-actions-file-edit	
+designer.browser.dev.js	1597	3165	GConnectLinesAction	port	next/src/app/actions/modify/connect-lines-action.ts	app-actions-modify	ACT-PATH-010
+designer.browser.dev.js	1598	1194	GFitCurrentLayerAction	port	next/src/app/actions/view/fit-current-layer-action.ts	app-actions-view	EDT-VIEW-016,ACT-VIEW-003
+designer.browser.dev.js	1599	2236	GInvertSelectionAction	port	next/src/app/actions/edit/invert-selection-action.ts	app-actions-file-edit	EDT-SEL-014,ACT-EDIT-016
+designer.browser.dev.js	1600	8895	GMergeSubAction	port	next/src/app/actions/modify/merge-sub-action.ts	app-actions-modify	ACT-MODIFY-008,ACT-MODIFY-009,ACT-MODIFY-010
+designer.browser.dev.js	1601	1316	GNewAction	port	next/src/app/actions/file/new-action.ts	app-actions-file-edit	ACT-FILE-001
+designer.browser.dev.js	1602	2701	GNewClipboardAction	port	next/src/app/actions/file/new-clipboard-action.ts	app-actions-file-edit	EDT-CLIP-020,ACT-FILE-003,FMT-CLIP-015
+designer.browser.dev.js	1603	2481		port	next/src/app/actions/view/fast-view-action.ts	app-actions-view	EDT-RENDER-009,EDT-VIEW-023,ACT-VIEW-024
+designer.browser.dev.js	1604	2703		port	next/src/app/inspector/page-properties-touch.ts	app-inspector-document	UI-TOUCH-017
+designer.browser.dev.js	1605	1870	GEnterLayerGroupAction	port	next/src/app/actions/modify/enter-layer-group-action.ts	app-actions-modify	EDT-SEL-024,ACT-KEY-014,ACT-KEY-015
+designer.browser.dev.js	1606	1210	GLockLayerAction	port	next/src/app/actions/modify/lock-layer-action.ts	app-actions-modify	ACT-KEY-005
+designer.browser.dev.js	1607	1243	GToggleLayerVisibilityAction	port	next/src/app/actions/modify/toggle-layer-visibility-action.ts	app-actions-modify	ACT-KEY-016
+designer.browser.dev.js	1608	2135	GImportFontsAction	port	next/src/app/actions/file/import-fonts-action.ts	app-actions-file-edit	ACT-FILE-013,FMT-IMPORT-025
+designer.browser.dev.js	1609	6046	GPrintAction	port	next/src/app/actions/file/print-action.ts	app-actions-file-edit	ACT-FILE-023,UI-DIALOG-039,FMT-EXPORT-051
+designer.browser.dev.js	1610	645		port	next/src/app/storage/extension-storage.ts	app-shell-storage	
+designer.browser.dev.js	1611	1768	GReverseOrderAction	port	next/src/app/actions/modify/reverse-order-action.ts	app-actions-modify	ACT-PATH-012
+designer.browser.dev.js	1612	1040	GSaveAllAction	port	next/src/app/actions/file/save-all-action.ts	app-actions-file-edit	ACT-FILE-009,FMT-STORAGE-012
+designer.browser.dev.js	1613	985	GSettingsAction	port	next/src/app/actions/edit/settings-action.ts	app-actions-file-edit	ACT-EDIT-026
+designer.browser.dev.js	1614	1908	GShowRulersAction	port	next/src/app/actions/view/show-rulers-action.ts	app-actions-view	EDT-VIEW-020,ACT-VIEW-025,UI-SHELL-030
+designer.browser.dev.js	1615	1444	GShowSlicesAction	port	next/src/app/actions/view/show-slices-action.ts	app-actions-view	EDT-VIEW-028,ACT-VIEW-029
+designer.browser.dev.js	1616	4762	GVectorizeImageAction	port	next/src/app/actions/modify/vectorize-image-action.ts	app-actions-modify	ACT-PATH-008,ADD-PATH-004
+designer.browser.dev.js	1617	8485	GPlayAction	port	next/src/app/actions/view/play-action.ts	app-actions-view	ACT-VIEW-045,ACT-KEY-036
+designer.browser.dev.js	1618	3942		drop:screenfull; use the native Fullscreen API		app-actions-view	
+designer.browser.dev.js	1619	1570	GShowEffectsAction	port	next/src/app/actions/view/show-effects-action.ts	app-actions-view	EDT-VIEW-029,ACT-VIEW-030
+designer.browser.dev.js	1620	2633	GSwitchLanguageAction	drop:language switcher (only English is bundled)		app-widgets-dialogs	ACT-HELP-010,UI-I18N-007
+designer.browser.dev.js	1621	1586	GOpenLinkAction	port	next/src/app/actions/help/open-link-action.ts	app-actions-view	
+designer.browser.dev.js	1622	793		port	next/src/app/actions/help/help-links.ts	app-actions-view	ACT-HELP-001,ACT-HELP-002,ACT-HELP-003
+designer.browser.dev.js	1623	1149	GNewFromTemplateAction	drop:new from template (cloud templates)		drop-app-cloud	ACT-FILE-002
+designer.browser.dev.js	1624	1171	GOpenWelcomeScreenAction	port	next/src/app/actions/help/open-welcome-screen-action.ts	app-actions-view	ACT-HELP-007
+designer.browser.dev.js	1625	926	GCheckForUpdatesAction	port	next/src/app/actions/help/check-for-updates-action.ts	app-actions-view	ACT-HELP-009
+designer.browser.dev.js	1626	2551		drop:cloud action wrapper		drop-app-cloud	ACT-CLOUD-016
+designer.browser.dev.js	1627	2165	GCloudSynchronizationInfoAction	drop:cloud sync info action		drop-app-cloud	ACT-CLOUD-003
+designer.browser.dev.js	1628	1027	GShareAction	drop:share action		drop-app-cloud	ACT-CLOUD-004
+designer.browser.dev.js	1629	2011	GSharePointCheckOutAction	drop:SharePoint check-out		drop-app-cloud	ACT-CLOUD-007
+designer.browser.dev.js	1630	2380	GSharePointCheckInAction	drop:SharePoint check-in		drop-app-cloud	ACT-CLOUD-008
+designer.browser.dev.js	1631	4460		drop:SharePoint check-in dialog		drop-app-cloud	UI-DIALOG-042
+designer.browser.dev.js	1632	1337	GQuitAction	port	next/src/app/actions/file/quit-action.ts	app-actions-file-edit	ACT-FILE-025
+designer.browser.dev.js	1633	1129		drop:example files (cloud)		drop-app-cloud	ACT-CLOUD-009
+designer.browser.dev.js	1634	2602	GToggleTouchAction	port	next/src/app/actions/view/toggle-touch-action.ts	app-touch-ui	EDT-TOUCH-001,ACT-VIEW-047,UI-TOUCH-002
+designer.browser.dev.js	1635	1050	GOpenAccountSettingsAction	drop:account settings action		drop-app-cloud	ACT-CLOUD-010
+designer.browser.dev.js	1636	911	GLogoutAction	drop:logout action		drop-app-cloud	ACT-CLOUD-011
+designer.browser.dev.js	1637	1345	GToggleProBETALicenseAction	drop:pro beta licence toggle		drop-app-cloud	ACT-CLOUD-014
+designer.browser.dev.js	1638	2281	GImportImageFromIOSAction	drop:iOS image import (iPad app only)		drop-app-cloud	ACT-FILE-011,FMT-IMPORT-023
+designer.browser.dev.js	1639	1214	GTranslationToolAction	drop:translation tool action		app-widgets-dialogs	ACT-HELP-011
+designer.browser.dev.js	1640	18660		drop:translation tool dialog (internal tool)		app-widgets-dialogs	UI-DIALOG-014
+designer.browser.dev.js	1641	1985	GSwitchWebcdrAction	drop:switch to web CDR (Corel)		drop-app-cloud	ACT-CLOUD-015
+designer.browser.dev.js	1642	3934	GTogglePaintLayersVisibilityAction	port	next/src/app/actions/view/toggle-paint-layers-visibility-action.ts	app-actions-view	EDT-VIEW-031,ACT-KEY-022,ACT-KEY-023
+designer.browser.dev.js	1643	845	GShowShortcutsAction	port	next/src/app/actions/help/show-shortcuts-action.ts	app-actions-view	ACT-HELP-008
+designer.browser.dev.js	1644	2068		port	next/src/app/dialogs/shortcuts-dialog.ts	app-dialogs-notify	ACT-KEY-037,UI-DIALOG-013
+designer.browser.dev.js	1645	2718	GEyeDropperAction	port	next/src/app/actions/edit/eye-dropper-action.ts	app-actions-file-edit	EDT-TOOL-085,ACT-KEY-001,ACT-KEY-002
+designer.browser.dev.js	1646	1730	GShowSelectionHandlesAction	port	next/src/app/actions/view/show-selection-handles-action.ts	app-actions-view	EDT-VIEW-030,ACT-VIEW-031
+designer.browser.dev.js	1647	3665	GChangeOpacityAction	port	next/src/app/actions/edit/change-opacity-action.ts	app-actions-file-edit	ACT-KEY-004
+designer.browser.dev.js	1648	2153	GChangeAnchorPointsJointTypeSubAction	port	next/src/app/actions/modify/change-anchor-points-joint-type-sub-action.ts	app-actions-modify	ACT-KEY-007,ACT-KEY-008,ACT-KEY-009
+designer.browser.dev.js	1649	1078	GCloseActiveWindowAction	port	next/src/app/actions/view/close-active-window-action.ts	app-actions-view	ACT-WINDOW-001
+designer.browser.dev.js	1650	904	GToggleMultiPageModeAction	port	next/src/app/actions/view/toggle-multi-page-mode-action.ts	app-actions-view	EDT-VIEW-032,ACT-KEY-019
+designer.browser.dev.js	1651	1995	GChangeActiveWindowAction	port	next/src/app/actions/view/change-active-window-action.ts	app-actions-view	ACT-WINDOW-002,ACT-WINDOW-003
+designer.browser.dev.js	1652	3103	GSwapPaintLayersAction	port	next/src/app/actions/edit/swap-paint-layers-action.ts	app-actions-file-edit	ACT-KEY-012
+designer.browser.dev.js	1653	1253	GCreateNewLayerAction	port	next/src/app/actions/modify/create-new-layer-action.ts	app-actions-modify	ACT-KEY-013
+designer.browser.dev.js	1654	5277	GFrameProperties	port	next/src/app/inspector/frame-properties.ts	app-inspector-geometry	UI-INSPECT-021,UI-FIELD-041
+designer.browser.dev.js	1655	5051	GGroupFrameProperties	port	next/src/app/inspector/group-frame-properties.ts	app-inspector-geometry	UI-INSPECT-020,UI-FIELD-040
+designer.browser.dev.js	1656	8224	GItemProperties	port	next/src/app/inspector/item-properties.ts	app-inspector-geometry	UI-INSPECT-022,UI-FIELD-042,UI-FIELD-043
+designer.browser.dev.js	1657	13811		port	next/src/app/color/pattern-chooser.ts	app-color-ui	UI-COLOR-027,UI-COLOR-028
+designer.browser.dev.js	1658	7853	GSymbolProperties	port	next/src/app/inspector/symbol-properties.ts	app-inspector-document	UI-INSPECT-023,UI-FIELD-044
+designer.browser.dev.js	1659	37301	GSceneProperties	port	next/src/app/inspector/scene-properties.ts	app-inspector-document	UI-INSPECT-019,UI-FIELD-033,UI-FIELD-034
+designer.browser.dev.js	1660	31036	GTransformProperties	port	next/src/app/inspector/transform-properties.ts	app-inspector-geometry	UI-INSPECT-016,UI-FIELD-013,UI-FIELD-014
+designer.browser.dev.js	1661	10659	GSymbolsSidebar	port	next/src/app/sidebars/symbols-sidebar.ts	app-library-symbols-export	UI-LIBRARY-010,UI-LIBRARY-011
+designer.browser.dev.js	1662	4789	GLibrarySidebar	port	next/src/app/sidebars/library-sidebar.ts	app-library-symbols-export	UI-LIBRARY-001
+designer.browser.dev.js	1663	35959		port	next/src/app/sidebars/library-panel.ts	app-library-symbols-export	UI-LIBRARY-002,UI-LIBRARY-003,UI-LIBRARY-004
+designer.browser.dev.js	1664	406		port	next/src/app/sidebars/library-elements.ts	app-library-symbols-export	
+designer.browser.dev.js	1665	13790	GSoftwareUpdatePanel	port	next/src/app/dialogs/software-update-panel.ts	app-dialogs-notify	UI-DIALOG-037,UI-NOTIFY-005
+designer.browser.dev.js	1666	8935	GNotificationPanel	port	next/src/app/dialogs/notification-panel.ts	app-dialogs-notify	UI-NOTIFY-001
+designer.browser.dev.js	1667	647		port	next/src/app/dialogs/notification.ts	app-dialogs-notify	
+designer.browser.dev.js	1668	21473	GCollaborativeTextPanel	drop:collaborative text panel		drop-app-cloud	UI-NOTIFY-004
+designer.browser.dev.js	1669	5312	GDocumentNotificationsPanel	drop:document notifications (cloud)		drop-app-cloud	UI-NOTIFY-003
+designer.browser.dev.js	1670	2246		port	next/src/app/shell/plugin-loader.ts	app-shell-storage	
+designer.browser.dev.js	1671	1007	GModule	port	next/src/app/shell/module.ts	app-shell-storage	
+designer.browser.dev.js	1672	640		port	next/src/app/shell/in-app-link.ts	app-shell-storage	
+designer.browser.dev.js	1673	3122		port	next/src/app/shell/tooltip-position.ts	app-shell-storage	UI-TOOLTIP-004
+designer.browser.dev.js	1674	349		drop:maintenance dialog glue		drop-app-cloud	
+designer.browser.dev.js	1675	523		drop:maintenance dialog		drop-app-cloud	UI-DIALOG-024
+designer.browser.dev.js	1676	10188	GSoftwareUpdateManager	port	next/src/app/dialogs/software-update-manager.ts	app-dialogs-notify	UI-STORAGE-010
+designer.browser.dev.js	1677	869	GElectronUpdateServiceClient	port	next/src/app/dialogs/electron-update-client.ts	app-dialogs-notify	
+designer.browser.dev.js	1678	398		drop:in-app purchase factory		drop-app-cloud	
+designer.browser.dev.js	1679	4447		drop:purchase cart events		drop-app-cloud	
+designer.browser.dev.js	1680	3176		drop:payment dialog		drop-app-cloud	UI-DIALOG-025
+designer.browser.dev.js	1681	379		drop:external purchase window		drop-app-cloud	
+designer.browser.dev.js	1682	4464		drop:MS Store purchase		drop-app-cloud	
+designer.browser.dev.js	1683	167		drop:in-app purchase stub		drop-app-cloud	
+designer.browser.dev.js	1684	1212		drop:marketing language links		drop-app-cloud	
+designer.browser.dev.js	1685	1194		drop:language-specific marketing links		app-widgets-dialogs	UI-DIALOG-026
+designer.browser.dev.js	1686	1380		drop:beta warning dialog		drop-app-cloud	UI-DIALOG-027
+designer.browser.dev.js	1687	3078		port	next/src/app/dialogs/memory-warning-dialog.ts	app-dialogs-notify	UI-DIALOG-028
+designer.browser.dev.js	1688	968		port	next/src/app/util/image-to-canvas.ts	app-config-document	
+designer.browser.dev.js	1689	1374		port	next/src/app/widgets/debounce.ts	app-widgets-dialogs	UI-FIELD-174
+designer.browser.dev.js	1690	99		port	next/src/app/util/prepare-for-saving.ts	app-config-document	
+designer.browser.dev.js	1691	760		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	1692	583		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	1693	7397	GLongPressEvent	port	next/src/editor/touch/long-press-event.ts	editor-touch	UI-TOUCH-018
+designer.browser.dev.js	1694	678		port	next/src/app/widgets/index.ts	app-designer-main	
+designer.browser.dev.js	1695	4313		port	next/src/app/widgets/auto-edit.ts	app-widgets-dialogs	UI-FIELD-171
+designer.browser.dev.js	1696	7940		port	next/src/app/widgets/blend-select.ts	app-inspector-paint	UI-FIELD-158
+designer.browser.dev.js	1697	5487		port	next/src/app/widgets/corner-type-select.ts	app-inspector-shapes	UI-FIELD-142
+designer.browser.dev.js	1698	10239		port	next/src/app/color/eye-dropper.ts	app-color-ui	UI-COLOR-029
+designer.browser.dev.js	1699	2655		port	next/src/app/color/drag-helper.ts	app-color-ui	UI-FIELD-172
+designer.browser.dev.js	1700	12346		port	next/src/app/fonts/fonts-button.ts	app-fonts-ui	UI-FONT-001,UI-FONT-002,UI-FONT-003
+designer.browser.dev.js	1701	12589		port	next/src/app/fonts/fonts-panel.ts	app-fonts-ui	UI-FONT-004,UI-FONT-005
+designer.browser.dev.js	1702	14760		port	next/src/app/widgets/input-box.ts	app-widgets-dialogs	UI-FIELD-159
+designer.browser.dev.js	1703	2085		port	next/src/app/widgets/input-select.ts	app-widgets-dialogs	UI-FIELD-160
+designer.browser.dev.js	1704	1480		port	next/src/app/widgets/checkbox-slider.ts	app-widgets-dialogs	UI-FIELD-161
+designer.browser.dev.js	1705	4334		port	next/src/app/widgets/unit-box.ts	app-widgets-dialogs	UI-FIELD-162
+designer.browser.dev.js	1706	33223		port	next/src/app/sidebars/layers-panel.ts	app-sidebars-layers-pages	ACT-CTX-009,UI-LAYERS-005,UI-LAYERS-008
+designer.browser.dev.js	1707	926		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1708	180		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
+designer.browser.dev.js	1709	5344		port	next/src/app/sidebars/virtual-list.ts	app-sidebars-layers-pages	UI-LAYERS-018
+designer.browser.dev.js	1710	3056		port	next/src/app/sidebars/virtual-tree-dnd.ts	app-sidebars-layers-pages	
+designer.browser.dev.js	1711	6670		port	next/src/app/sidebars/selected-panel.ts	app-sidebars-layers-pages	UI-LAYERS-020
+designer.browser.dev.js	1712	41507		drop:annotation panel (cloud comments)		drop-app-cloud	
+designer.browser.dev.js	1713	3458		drop:annotation panel scroll helper		drop-app-cloud	
+designer.browser.dev.js	1714	2686		port	next/src/app/widgets/input-event.ts	app-widgets-dialogs	UI-FIELD-169
+designer.browser.dev.js	1715	3430		port	next/src/app/widgets/elastic.ts	app-widgets-dialogs	UI-FIELD-170
+designer.browser.dev.js	1716	20290		drop:mentions input (cloud comments)		drop-app-cloud	UI-THEME-003
+designer.browser.dev.js	1717	20056		port	next/src/app/sidebars/pages-panel.ts	app-sidebars-layers-pages	UI-PAGES-004,UI-PAGES-005,UI-PAGES-006
+designer.browser.dev.js	1718	11259		port	next/src/app/sidebars/symbols-panel.ts	app-library-symbols-export	EDT-DND-010,UI-LIBRARY-012,UI-LIBRARY-013
+designer.browser.dev.js	1719	2570		drop:share button		drop-app-cloud	UI-TOOLBAR-010
+designer.browser.dev.js	1720	2741		drop:unshare button		drop-app-cloud	UI-TOOLBAR-011
+designer.browser.dev.js	1721	5005		port	next/src/app/widgets/menu-button.ts	app-menus-toolbar	UI-TOOLBAR-013
+designer.browser.dev.js	1722	8535		port	next/src/app/dialogs/dialog-container.ts	app-widgets-dialogs	UI-DIALOG-002,ADD-SHELL-001
+designer.browser.dev.js	1723	4135		port	next/src/app/color/pattern-target.ts	app-color-ui	EDT-DND-011,UI-COLOR-026
+designer.browser.dev.js	1724	1695		port	next/src/app/widgets/pivot.ts	app-widgets-dialogs	UI-FIELD-168
+designer.browser.dev.js	1725	5261		port	next/src/app/widgets/property-row.ts	app-widgets-dialogs	UI-FIELD-163
+designer.browser.dev.js	1726	2908		port	next/src/app/widgets/unit-select.ts	app-widgets-dialogs	UI-FIELD-164
+designer.browser.dev.js	1727	3789		port	next/src/app/dialogs/dialog.ts	app-widgets-dialogs	UI-DIALOG-001
+designer.browser.dev.js	1728	9036		port	next/src/app/widgets/rich-tooltip.ts	app-widgets-dialogs	UI-TOOLTIP-002
+designer.browser.dev.js	1729	2746		port	next/src/app/widgets/accordion.ts	app-widgets-dialogs	UI-FIELD-165
+designer.browser.dev.js	1730	907		port	next/src/app/widgets/input-label.ts	app-widgets-dialogs	UI-FIELD-166
+designer.browser.dev.js	1731	23225		port	next/src/app/inspector/designer-style-editor.ts	app-inspector-text-styles	UI-STYLE-003,UI-STYLE-004,UI-STYLE-005
+designer.browser.dev.js	1732	7869		drop:user details overlay		drop-app-cloud	ACT-CLOUD-018
+designer.browser.dev.js	1733	1438		drop:pro badge		drop-app-cloud	
+designer.browser.dev.js	1734	5628		drop:role selector		drop-app-cloud	
+designer.browser.dev.js	1735	4823		port	next/src/app/toolbar/pages-button.ts	app-menus-toolbar	UI-TOOLBAR-015
+designer.browser.dev.js	1736	1848		drop:share user input		drop-app-cloud	
+designer.browser.dev.js	1737	932		port	next/src/app/themes/theme-scroll.ts	app-shell-storage	UI-SIDEBAR-006
+designer.browser.dev.js	1738	21		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
+designer.browser.dev.js	1739	120441		drop:Amplitude analytics browser SDK 1.5.8		drop-app-cloud	
