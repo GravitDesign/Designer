@@ -1,0 +1,72 @@
+[
+ {
+  "tag": "ul",
+  "cls": [
+   "g-menu",
+   "g-quick-history-undo-redo-menu",
+   "g-menu-button",
+   "g-menu-bottom"
+  ],
+  "children": [
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-redo"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Redo"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Shift+Ctrl+Z"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

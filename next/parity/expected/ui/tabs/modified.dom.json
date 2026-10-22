@@ -1,0 +1,67 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "section",
+   "windows"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "tabs",
+     "ui-sortable"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "tab",
+       "g-active"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "title"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "cover"
+          ],
+          "text": "Untitled-1*"
+         },
+         {
+          "tag": "input",
+          "attrs": {
+           "type": "text"
+          },
+          "props": {
+           "value": "Untitled-1*"
+          },
+          "hidden": true
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "close"
+        ],
+        "text": "✕"
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "sync-status"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

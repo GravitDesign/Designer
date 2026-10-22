@@ -1,0 +1,508 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "properties-panel",
+   "effects-properties-panel"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "effects-panel"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "effects"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "effect-block"
+        ],
+        "attrs": {
+         "data-drag-mode": "1",
+         "draggable": "true"
+        },
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "effect-header",
+           "g-cursor-hand-open",
+           "accordion",
+           "expanded"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "gravit-icon-drag-indicator",
+             "g-cursor-hand-open",
+             "gravit-icon-touch-drag-indicator"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "effect-title",
+             "g-cursor-hand-open"
+            ],
+            "children": [
+             {
+              "tag": "label",
+              "children": [
+               {
+                "tag": "span",
+                "text": "Inner Shadow"
+               }
+              ]
+             },
+             {
+              "tag": "button",
+              "cls": [
+               "g-accordion"
+              ],
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "gravit-icon-down"
+                ]
+               }
+              ]
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "g-accordion-ghost"
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "effect-icon",
+             "effect-visibility",
+             "normal"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "effect-icon",
+             "effect-delete",
+             "normal"
+            ],
+            "attrs": {
+             "data-title": "Remove Effect"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "effect-icon",
+             "effect-setting",
+             "touch"
+            ],
+            "attrs": {
+             "data-action": "stroke-settings"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "effect-icon",
+             "effect-delete",
+             "touch"
+            ],
+            "attrs": {
+             "data-title": "Remove Effect"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "effect-icon",
+             "effect-visibility",
+             "touch"
+            ],
+            "hidden": true
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "effect-settings"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "touch-effects-shadow",
+               "g-property-row",
+               "no-label"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "columns"
+                ],
+                "children": [
+                 {
+                  "tag": "label",
+                  "cls": [
+                   "column"
+                  ],
+                  "children": [
+                   {
+                    "tag": "div",
+                    "cls": [
+                     "content"
+                    ],
+                    "children": [
+                     {
+                      "tag": "input",
+                      "cls": [
+                       "g-unitbox"
+                      ],
+                      "attrs": {
+                       "data-property": "x",
+                       "type": "text",
+                       "draggable": "false"
+                      },
+                      "props": {
+                       "value": "0"
+                      }
+                     }
+                    ]
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "label",
+                  "cls": [
+                   "column"
+                  ],
+                  "children": [
+                   {
+                    "tag": "div",
+                    "cls": [
+                     "content"
+                    ],
+                    "children": [
+                     {
+                      "tag": "input",
+                      "cls": [
+                       "g-unitbox"
+                      ],
+                      "attrs": {
+                       "data-property": "y",
+                       "type": "text",
+                       "draggable": "false"
+                      },
+                      "props": {
+                       "value": "0"
+                      }
+                     }
+                    ]
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "label",
+                  "cls": [
+                   "column"
+                  ],
+                  "children": [
+                   {
+                    "tag": "div",
+                    "cls": [
+                     "content"
+                    ],
+                    "children": [
+                     {
+                      "tag": "input",
+                      "cls": [
+                       "g-unitbox"
+                      ],
+                      "attrs": {
+                       "data-property": "r",
+                       "type": "text",
+                       "draggable": "false"
+                      },
+                      "props": {
+                       "value": "5"
+                      }
+                     }
+                    ]
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "label",
+                  "cls": [
+                   "column"
+                  ],
+                  "children": [
+                   {
+                    "tag": "div",
+                    "cls": [
+                     "content"
+                    ],
+                    "children": [
+                     {
+                      "tag": "input",
+                      "attrs": {
+                       "data-property": "opc",
+                       "type": "text",
+                       "draggable": "false"
+                      },
+                      "props": {
+                       "value": "50%"
+                      }
+                     }
+                    ]
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "column"
+                  ],
+                  "children": [
+                   {
+                    "tag": "div",
+                    "cls": [
+                     "content"
+                    ],
+                    "children": [
+                     {
+                      "tag": "div",
+                      "cls": [
+                       "g-pattern-chooser"
+                      ],
+                      "attrs": {
+                       "data-property": "pat"
+                      },
+                      "children": [
+                       {
+                        "tag": "span",
+                        "cls": [
+                         "preview",
+                         "g-button"
+                        ],
+                        "attrs": {
+                         "data-drag-mode": "1",
+                         "draggable": "true"
+                        },
+                        "children": [
+                         {
+                          "tag": "div",
+                          "cls": [
+                           "eyedropper",
+                           "eye-drop"
+                          ],
+                          "attrs": {
+                           "data-title": "Pick a color from anywhere on the canvas"
+                          },
+                          "children": [
+                           {
+                            "tag": "span",
+                            "cls": [
+                             "gravit-icon-picker"
+                            ]
+                           }
+                          ]
+                         }
+                        ]
+                       }
+                      ]
+                     }
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "labels"
+                ],
+                "children": [
+                 {
+                  "tag": "label",
+                  "children": [
+                   {
+                    "tag": "span",
+                    "text": "X"
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "label",
+                  "children": [
+                   {
+                    "tag": "span",
+                    "text": "Y"
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "label",
+                  "children": [
+                   {
+                    "tag": "span",
+                    "text": "Blur"
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "label",
+                  "children": [
+                   {
+                    "tag": "span",
+                    "text": "Opacity"
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "label",
+                  "children": [
+                   {
+                    "tag": "span",
+                    "text": "Color"
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "effects-default"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "effects-default-label"
+      ],
+      "text": "Blur"
+     },
+     {
+      "tag": "span",
+      "text": "+"
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "effects-default"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "effects-default-label"
+      ],
+      "text": "Color Adjust"
+     },
+     {
+      "tag": "span",
+      "text": "+"
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "effects-default"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "effects-default-label"
+      ],
+      "text": "Drop Shadow"
+     },
+     {
+      "tag": "span",
+      "text": "+"
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "effects-default"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "effects-default-label"
+      ],
+      "text": "Inner Shadow"
+     },
+     {
+      "tag": "span",
+      "text": "+"
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "effects-default"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "effects-default-label"
+      ],
+      "text": "More"
+     },
+     {
+      "tag": "span",
+      "text": "+"
+     }
+    ]
+   }
+  ]
+ }
+]

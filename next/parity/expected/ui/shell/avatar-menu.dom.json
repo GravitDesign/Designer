@@ -1,0 +1,98 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "g-user-login-dialog",
+   "no-padding"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-user-details"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "children": [
+       {
+        "tag": "div",
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "avatar",
+           "g-user-login-avatar"
+          ],
+          "text": "T"
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "username-div"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "username"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "name"
+              ],
+              "text": "Test"
+             },
+             {
+              "tag": "span",
+              "cls": [
+               "email"
+              ],
+              "text": "example@example.net"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "footer"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "top-section"
+          ],
+          "children": [
+           {
+            "tag": "button",
+            "cls": [
+             "highlight"
+            ],
+            "text": "Account settings"
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "signout"
+            ],
+            "text": "Log out"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

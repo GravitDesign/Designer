@@ -1,0 +1,48 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-rich-tooltip-container"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-tooltip-content-wrapper"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-header"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-tooltip-content-shortcut"
+        ],
+        "text": "Alt+Ctrl+0"
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "limit-width",
+         "g-tooltip-content-title"
+        ],
+        "text": "Fit All"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-description"
+      ],
+      "text": "Click to fit all objects in the viewport to the screen."
+     }
+    ]
+   }
+  ]
+ }
+]

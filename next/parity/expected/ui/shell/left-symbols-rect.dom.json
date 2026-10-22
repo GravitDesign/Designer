@@ -1,0 +1,57 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "toolbar",
+   "symbols-toolbar"
+  ],
+  "children": [
+   {
+    "tag": "label",
+    "text": "Symbols"
+   },
+   {
+    "tag": "button",
+    "attrs": {
+     "data-title": "Delete Symbol"
+    },
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "gravit-icon-trash"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "gravit-icon-touch-trash"
+      ],
+      "hidden": true
+     }
+    ]
+   },
+   {
+    "tag": "button",
+    "attrs": {
+     "data-title": "Create New Symbol"
+    },
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "gravit-icon-plus"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "gravit-icon-touch-plus"
+      ],
+      "hidden": true
+     }
+    ]
+   }
+  ]
+ }
+]

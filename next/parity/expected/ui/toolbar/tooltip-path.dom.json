@@ -1,0 +1,55 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-rich-tooltip-container"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-tooltip-content-wrapper"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-header"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-tooltip-content-shortcut"
+        ],
+        "text": "P"
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "limit-width",
+         "g-tooltip-content-title"
+        ],
+        "text": "Pen tool"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-description"
+      ],
+      "text": "Click and drag to create a starting point. Hold SHIFT to constrain it in 45°. Hold D to use Subselect tool."
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-video",
+       "loading"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

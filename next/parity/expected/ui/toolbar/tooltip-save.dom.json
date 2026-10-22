@@ -1,0 +1,48 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-rich-tooltip-container"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-tooltip-content-wrapper"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-header"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-tooltip-content-shortcut"
+        ],
+        "text": "Ctrl+S"
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "limit-width",
+         "g-tooltip-content-title"
+        ],
+        "text": "Save your document"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-description"
+      ],
+      "text": "Save your progress on the current file."
+     }
+    ]
+   }
+  ]
+ }
+]

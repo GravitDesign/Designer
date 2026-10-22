@@ -1,0 +1,135 @@
+[
+ {
+  "tag": "ul",
+  "cls": [
+   "g-menu",
+   "g-menu-button",
+   "g-menu-bottom"
+  ],
+  "children": [
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-icon",
+     "has-shortcut"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-scalpel"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Knife"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "K"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-freehand-shape"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Freehand shaping"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

@@ -1,0 +1,889 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-dialog",
+   "g-settings-dialog"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-content"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "setting"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "form"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "text-description"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "label"
+            ],
+            "text": "Highlight on hover"
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "description"
+            ],
+            "text": "Highlight shapes when hovering them with the mouse."
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "editor"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "g-switch"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-setting": "highlight_on_hover",
+               "type": "checkbox"
+              },
+              "props": {
+               "checked": true
+              },
+              "hidden": true
+             },
+             {
+              "tag": "div"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "setting"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "form"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "text-description"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "label"
+            ],
+            "text": "Auto expand layers"
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "description"
+            ],
+            "text": "When set auto-expands the layer tree for the current selection."
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "editor"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "g-switch"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-setting": "auto_expand_layers",
+               "type": "checkbox"
+              },
+              "props": {
+               "checked": true
+              },
+              "hidden": true
+             },
+             {
+              "tag": "div"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "setting"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "form"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "text-description"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "label"
+            ],
+            "text": "Enable auto-save"
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "description"
+            ],
+            "text": "Files are saved automatically - please choose the interval (minutes) on the right. Please note that this feature is only available for files saved or synced to Gravit Designer."
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "editor"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "g-switch"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-setting": "auto_save",
+               "type": "checkbox"
+              },
+              "props": {
+               "checked": true
+              },
+              "hidden": true
+             },
+             {
+              "tag": "div"
+             }
+            ]
+           },
+           {
+            "tag": "select",
+            "attrs": {
+             "data-setting": "auto_save_interval"
+            },
+            "props": {
+             "value": "0"
+            },
+            "children": [
+             {
+              "tag": "option",
+              "props": {
+               "selected": true
+              },
+              "text": "5"
+             },
+             {
+              "tag": "option",
+              "text": "10"
+             },
+             {
+              "tag": "option",
+              "text": "20"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "setting"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "form"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "text-description"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "label"
+            ],
+            "text": "Auto-save: Warning for unsaved/local files"
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "description"
+            ],
+            "text": "Show warning to remind about saving/syncing files to Gravit Designer to enable auto-save."
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "editor"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "g-switch"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-setting": "autosave-prompt-for-local-files-disabled",
+               "type": "checkbox"
+              },
+              "props": {
+               "checked": true
+              },
+              "hidden": true
+             },
+             {
+              "tag": "div"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "setting"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "form"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "text-description"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "label"
+            ],
+            "text": "Change the theme of Gravit Designer"
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "editor"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "g-select",
+             "g-theme-selector"
+            ],
+            "attrs": {
+             "data-setting": "theme",
+             "type": "button"
+            },
+            "text": "Light Theme (default)"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "setting",
+         "sub-setting"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "form"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "text-description"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "label"
+              ]
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "description"
+              ],
+              "text": "Left-aligned icons in the toolbar."
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "editor"
+            ],
+            "children": [
+             {
+              "tag": "label",
+              "cls": [
+               "g-switch"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-setting": "ui_toolbar_alignment",
+                 "type": "checkbox"
+                },
+                "props": {
+                 "checked": true
+                },
+                "hidden": true
+               },
+               {
+                "tag": "div"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "setting"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "form"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "text-description"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "label"
+            ],
+            "text": "Save text layers as paths"
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "description"
+            ],
+            "text": "Saving paths will increase the file size but not require the fonts to be available."
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "editor"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "g-switch"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-setting": "dont_store_textpath",
+               "type": "checkbox"
+              },
+              "props": {
+               "checked": false
+              },
+              "hidden": true
+             },
+             {
+              "tag": "div"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "setting"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "form"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "text-description"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "label"
+            ],
+            "text": "Rounding"
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "description"
+            ],
+            "text": "Please switch on to be able to define the number of decimal places where values are rounded in input fields."
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "editor"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "children": [
+             {
+              "tag": "label",
+              "cls": [
+               "g-switch"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-setting": "decimals-num-onoff",
+                 "type": "checkbox"
+                },
+                "props": {
+                 "checked": true
+                },
+                "hidden": true
+               },
+               {
+                "tag": "div"
+               }
+              ]
+             },
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-setting": "decimals-num-val",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "2"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "setting"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "form"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "text-description"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "label"
+            ],
+            "text": "Disable warning messages of unsupported features"
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "description"
+            ],
+            "text": "Whether to disable warning message about unsupported features on svg exporter or not."
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "editor"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "g-switch"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-setting": "disable_warning_unsupported_features",
+               "type": "checkbox"
+              },
+              "props": {
+               "checked": false
+              },
+              "hidden": true
+             },
+             {
+              "tag": "div"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "setting"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "form"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "text-description"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "label"
+            ],
+            "text": "Outline fonts in EPS import"
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "description"
+            ],
+            "text": "Fonts will be outlined so that they are not required to display the file correctly. Switch off to keep font information and edit text layers."
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "editor"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "g-switch"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-setting": "eps_outline_fonts",
+               "type": "checkbox"
+              },
+              "props": {
+               "checked": true
+              },
+              "hidden": true
+             },
+             {
+              "tag": "div"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "setting"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "form"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "text-description"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "label"
+            ],
+            "text": "Disable notifications"
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "description"
+            ],
+            "text": "Stop receiving email notifications for new comments or annotations (can be changed for every design individually in the comments panel)."
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "editor"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "g-switch",
+             "test"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-setting": "notifications_disabled",
+               "type": "checkbox"
+              },
+              "props": {
+               "checked": false
+              },
+              "hidden": true
+             },
+             {
+              "tag": "div"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "setting"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "form"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "text-description"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "label"
+            ],
+            "text": "Disable changing values in numeric input fields with dragging."
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "editor"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "g-switch"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-setting": "scrubbing_flag",
+               "type": "checkbox"
+              },
+              "props": {
+               "checked": false
+              },
+              "hidden": true
+             },
+             {
+              "tag": "div"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-footer"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "buttons"
+      ],
+      "children": [
+       {
+        "tag": "button",
+        "cls": [
+         "settings-button"
+        ],
+        "text": "Cancel"
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "settings-button"
+        ],
+        "text": "Save Changes"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

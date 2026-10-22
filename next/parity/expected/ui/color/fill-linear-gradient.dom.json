@@ -1,0 +1,902 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "no-padding"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "pattern-chooser"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "toolbar"
+      ],
+      "children": [
+       {
+        "tag": "select",
+        "cls": [
+         "pattern-type-select"
+        ],
+        "props": {
+         "value": "Linear Gradient"
+        },
+        "children": [
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Color Fill"
+          },
+          "text": "Color Fill"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Linear Gradient"
+          },
+          "props": {
+           "selected": true
+          },
+          "text": "Linear Gradient"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Radial Gradient"
+          },
+          "text": "Radial Gradient"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Angular Gradient"
+          },
+          "text": "Angular Gradient"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Texture Fill"
+          },
+          "text": "Texture Fill"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Noise"
+          },
+          "text": "Noise"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Background Fill"
+          },
+          "text": "Background Fill"
+         }
+        ]
+       },
+       {
+        "tag": "select",
+        "cls": [
+         "colormode-selector",
+         "has-pro-option"
+        ],
+        "props": {
+         "value": "RGB"
+        },
+        "children": [
+         {
+          "tag": "option",
+          "cls": [
+           "color-mode"
+          ],
+          "props": {
+           "selected": true
+          },
+          "text": "RGB"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "color-mode",
+           "pro"
+          ],
+          "text": "HSB"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "color-mode",
+           "pro",
+           "legacy-feature"
+          ],
+          "text": "CMYK"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "gradient-editor"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "stops"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "stop",
+           "g-active"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "stop"
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "pattern-editor"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "noise-editor"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "color-editor"
+      ],
+      "children": [
+       {
+        "tag": "input",
+        "attrs": {
+         "type": "color"
+        },
+        "props": {
+         "value": "#ebebeb"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "color-map"
+        ],
+        "children": [
+         {
+          "tag": "canvas"
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "overlay"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "marker"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "color-details"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "color-eyedropper",
+           "g-flat",
+           "eye-drop",
+           "g-button"
+          ],
+          "attrs": {
+           "data-title": "Pick a color from anywhere on the canvas"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "gravit-icon-picker"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "color-sliders"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "g-input-slider",
+             "custom"
+            ],
+            "attrs": {
+             "min": "0",
+             "max": "360"
+            },
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "g-input-slider-track",
+               "custom"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "g-input-slider-thumb",
+                 "custom"
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "g-input-slider",
+             "custom",
+             "opacity"
+            ],
+            "attrs": {
+             "min": "0",
+             "max": "100"
+            },
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "g-input-slider-track",
+               "custom"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "g-input-slider-thumb",
+                 "custom"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "color-preview-container"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "color-preview"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "color-preview-old"
+              ]
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "color-preview-new"
+              ]
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "color-preview-overlay"
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "color-components"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "children": [
+           {
+            "tag": "input",
+            "attrs": {
+             "data-long-press-delay": "500",
+             "type": "text",
+             "draggable": "false"
+            },
+            "props": {
+             "value": "#EBEBEB"
+            }
+           },
+           {
+            "tag": "span",
+            "text": "Hex"
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "children": [
+           {
+            "tag": "input",
+            "attrs": {
+             "type": "text",
+             "draggable": "false"
+            },
+            "props": {
+             "value": "235"
+            }
+           },
+           {
+            "tag": "span",
+            "text": "R"
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "children": [
+           {
+            "tag": "input",
+            "attrs": {
+             "type": "text",
+             "draggable": "false"
+            },
+            "props": {
+             "value": "235"
+            }
+           },
+           {
+            "tag": "span",
+            "text": "G"
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "children": [
+           {
+            "tag": "input",
+            "attrs": {
+             "type": "text",
+             "draggable": "false"
+            },
+            "props": {
+             "value": "235"
+            }
+           },
+           {
+            "tag": "span",
+            "text": "B"
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "children": [
+           {
+            "tag": "input",
+            "attrs": {
+             "type": "text",
+             "draggable": "false"
+            },
+            "props": {
+             "value": "100%"
+            }
+           },
+           {
+            "tag": "span",
+            "text": "A"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "gradient-actions"
+      ],
+      "children": [
+       {
+        "tag": "button",
+        "cls": [
+         "g-flat"
+        ],
+        "attrs": {
+         "data-title": "Change order of stops",
+         "data-action": "exchange"
+        },
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-exchange"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-flat"
+        ],
+        "children": [
+         {
+          "tag": "button",
+          "cls": [
+           "g-flat"
+          ],
+          "attrs": {
+           "data-title": "Rotate gradient left",
+           "data-action": "rotate-left"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "gravit-icon-rotate-left"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "g-flat"
+          ],
+          "attrs": {
+           "data-title": "Rotate gradient right",
+           "data-action": "rotate-right"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "gravit-icon-rotate-right"
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "palettes"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "chooser"
+        ],
+        "children": [
+         {
+          "tag": "button",
+          "cls": [
+           "g-active"
+          ],
+          "attrs": {
+           "data-palette": "colors"
+          },
+          "text": "Colors"
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "pro",
+           "legacy-feature"
+          ],
+          "attrs": {
+           "data-palette": "swatches"
+          },
+          "text": "Swatches"
+         },
+         {
+          "tag": "button",
+          "attrs": {
+           "data-palette": "used"
+          },
+          "text": "In use"
+         },
+         {
+          "tag": "button",
+          "attrs": {
+           "data-palette": "mixer"
+          },
+          "text": "Mixer"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "palette",
+         "colors-palette"
+        ],
+        "attrs": {
+         "data-palette": "colors"
+        },
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "swatches"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "swatches"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "swatch"
+            ],
+            "attrs": {
+             "data-long-press-delay": "500",
+             "draggable": "false"
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "palette",
+         "mixer-palette"
+        ],
+        "attrs": {
+         "data-palette": "mixer"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "palette",
+         "used-palette"
+        ],
+        "attrs": {
+         "data-palette": "used"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "palette",
+         "swatches-palette",
+         "global"
+        ],
+        "attrs": {
+         "data-palette": "swatches"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "palette",
+         "swatches-palette",
+         "document"
+        ],
+        "attrs": {
+         "data-palette": "swatches"
+        },
+        "hidden": true
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

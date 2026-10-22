@@ -1,0 +1,75 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-dialog",
+   "g-system-dialog",
+   "g-prompt-dialog",
+   "undefined"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-content"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "message"
+      ],
+      "text": "Enter new symbol name:"
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "input"
+      ],
+      "children": [
+       {
+        "tag": "input",
+        "cls": [
+         "max-width"
+        ],
+        "attrs": {
+         "type": "text"
+        },
+        "props": {
+         "value": "Symbol 1"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-footer"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "buttons"
+      ],
+      "children": [
+       {
+        "tag": "button",
+        "text": "Cancel"
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "primary"
+        ],
+        "text": "OK"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

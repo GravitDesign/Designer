@@ -1,0 +1,831 @@
+[
+ {
+  "tag": "div",
+  "id": "left-sidebars",
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-selector"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "sidebar-option",
+       "sidebar-outline",
+       "g-active",
+       "active"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "sidebar-title"
+        ],
+        "text": "Layers"
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "g-badge"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "sidebar-option",
+       "sidebar-library"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "sidebar-title"
+        ],
+        "text": "Libraries"
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "g-badge"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "sidebar-option",
+       "sidebar-symbols"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "sidebar-title"
+        ],
+        "text": "Symbols"
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "g-badge"
+        ],
+        "hidden": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-outline",
+     "multiple"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "toolbar",
+       "page-toolbar",
+       "accordion"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "text": "Pages"
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "g-accordion"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-down"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-accordion-ghost"
+        ]
+       },
+       {
+        "tag": "label",
+        "cls": [
+         "g-switch"
+        ],
+        "attrs": {
+         "data-title": "Toggle Single / Multipage Mode"
+        },
+        "children": [
+         {
+          "tag": "input",
+          "id": "toogle-page-mode-checkbox",
+          "attrs": {
+           "data-property": "multipage-switch",
+           "type": "checkbox"
+          },
+          "props": {
+           "checked": false
+          },
+          "hidden": true
+         },
+         {
+          "tag": "div"
+         }
+        ]
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "setting-menu-options"
+        ],
+        "hidden": true
+       },
+       {
+        "tag": "button",
+        "attrs": {
+         "data-title": "Delete Active Page"
+        },
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-trash"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "button",
+        "attrs": {
+         "data-title": "Create New Page"
+        },
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-addpage"
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "pages-container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "pages",
+         "g-page-panel",
+         "g-virtual-list",
+         "g-virtual-tree"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "vscroller"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "page-row",
+           "g-active"
+          ],
+          "id": "rowId",
+          "attrs": {
+           "draggable": "false"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "page-title-group"
+            ],
+            "attrs": {
+             "data-drag-mode": "1",
+             "draggable": "true"
+            },
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "page-icon",
+               "gravit-icon-page"
+              ]
+             },
+             {
+              "tag": "span",
+              "cls": [
+               "page-title"
+              ],
+              "text": "Page 1"
+             }
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "page-action",
+             "page-lock",
+             "gravit-icon-unlock"
+            ],
+            "attrs": {
+             "data-title": "Toggle Locker"
+            }
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "page-action",
+             "page-visibility",
+             "gravit-icon-display"
+            ],
+            "attrs": {
+             "data-title": "Toggle Visibility"
+            }
+           }
+          ]
+         },
+         {
+          "tag": "div"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "id": "page-layer-divider",
+      "children": [
+       {
+        "tag": "hr"
+       },
+       {
+        "tag": "div"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "toolbar",
+       "layer-toolbar"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "text": "Layers"
+       },
+       {
+        "tag": "button",
+        "attrs": {
+         "data-title": "Delete Layer or Item"
+        },
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-trash"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "button",
+        "attrs": {
+         "data-title": "New Layer"
+        },
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-addlayer"
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "layers-container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "layers",
+         "g-layer-panel",
+         "g-virtual-list",
+         "g-virtual-tree"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "vscroller"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "layer-row",
+           "g-selected"
+          ],
+          "id": "rowId",
+          "attrs": {
+           "draggable": "false"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "layer-title-group",
+             "g-selected"
+            ],
+            "attrs": {
+             "data-drag-mode": "1",
+             "draggable": "true"
+            },
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "layer-icon",
+               "gravit-icon-textbox"
+              ]
+             },
+             {
+              "tag": "span",
+              "cls": [
+               "layer-title"
+              ],
+              "text": "Text"
+             }
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "layer-action",
+             "layer-lock",
+             "gravit-icon-unlock"
+            ],
+            "attrs": {
+             "data-title": "Toggle Locker"
+            }
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "layer-action",
+             "layer-visibility",
+             "gravit-icon-display"
+            ],
+            "attrs": {
+             "data-title": "Toggle Visibility"
+            }
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "layer-row"
+          ],
+          "id": "rowId",
+          "attrs": {
+           "draggable": "false"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "layer-title-group"
+            ],
+            "attrs": {
+             "data-drag-mode": "1",
+             "draggable": "true"
+            },
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "layer-icon",
+               "gravit-icon-rectangle"
+              ]
+             },
+             {
+              "tag": "span",
+              "cls": [
+               "layer-title"
+              ],
+              "text": "Rectangle"
+             }
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "layer-action",
+             "layer-lock",
+             "gravit-icon-unlock"
+            ],
+            "attrs": {
+             "data-title": "Toggle Locker"
+            }
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "layer-action",
+             "layer-visibility",
+             "gravit-icon-display"
+            ],
+            "attrs": {
+             "data-title": "Toggle Visibility"
+            }
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "layer-row"
+          ],
+          "id": "rowId",
+          "attrs": {
+           "draggable": "false"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "layer-arrow",
+             "gravit-icon-down"
+            ],
+            "id": "clpsId"
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "layer-title-group"
+            ],
+            "attrs": {
+             "data-drag-mode": "1",
+             "draggable": "true"
+            },
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "layer-icon",
+               "gravit-icon-group"
+              ]
+             },
+             {
+              "tag": "span",
+              "cls": [
+               "layer-title"
+              ],
+              "text": "Group"
+             }
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "layer-action",
+             "layer-lock",
+             "gravit-icon-unlock"
+            ],
+            "attrs": {
+             "data-title": "Toggle Locker"
+            }
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "layer-action",
+             "layer-visibility",
+             "gravit-icon-display"
+            ],
+            "attrs": {
+             "data-title": "Toggle Visibility"
+            }
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "layer-row"
+          ],
+          "id": "rowId",
+          "attrs": {
+           "draggable": "false"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "layer-title-group"
+            ],
+            "attrs": {
+             "data-drag-mode": "1",
+             "draggable": "true"
+            },
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "layer-icon",
+               "gravit-icon-polygon"
+              ]
+             },
+             {
+              "tag": "span",
+              "cls": [
+               "layer-title"
+              ],
+              "text": "Polygon"
+             }
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "layer-action",
+             "layer-lock",
+             "gravit-icon-unlock"
+            ],
+            "attrs": {
+             "data-title": "Toggle Locker"
+            }
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "layer-action",
+             "layer-visibility",
+             "gravit-icon-display"
+            ],
+            "attrs": {
+             "data-title": "Toggle Visibility"
+            }
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "layer-row"
+          ],
+          "id": "rowId",
+          "attrs": {
+           "draggable": "false"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "layer-title-group"
+            ],
+            "attrs": {
+             "data-drag-mode": "1",
+             "draggable": "true"
+            },
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "layer-icon",
+               "gravit-icon-ellipse"
+              ]
+             },
+             {
+              "tag": "span",
+              "cls": [
+               "layer-title"
+              ],
+              "text": "Ellipse"
+             }
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "layer-action",
+             "layer-lock",
+             "gravit-icon-unlock"
+            ],
+            "attrs": {
+             "data-title": "Toggle Locker"
+            }
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "layer-action",
+             "layer-visibility",
+             "gravit-icon-display"
+            ],
+            "attrs": {
+             "data-title": "Toggle Visibility"
+            }
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "layer-row"
+          ],
+          "id": "rowId",
+          "attrs": {
+           "draggable": "false"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "layer-title-group"
+            ],
+            "attrs": {
+             "data-drag-mode": "1",
+             "draggable": "true"
+            },
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "layer-icon",
+               "gravit-icon-rectangle"
+              ]
+             },
+             {
+              "tag": "span",
+              "cls": [
+               "layer-title"
+              ],
+              "text": "Card"
+             }
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "layer-action",
+             "layer-lock",
+             "gravit-icon-unlock"
+            ],
+            "attrs": {
+             "data-title": "Toggle Locker"
+            }
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "layer-action",
+             "layer-visibility",
+             "gravit-icon-display"
+            ],
+            "attrs": {
+             "data-title": "Toggle Visibility"
+            }
+           }
+          ]
+         },
+         {
+          "tag": "div"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "hr"
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "toolbar",
+       "toolbar-export",
+       "list-toolbar",
+       "accordion",
+       "empty-list"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "panel-title"
+        ],
+        "text": "Make Exportable"
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "g-accordion"
+        ],
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-accordion-ghost"
+        ]
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "btn-export"
+        ],
+        "id": "btn-export",
+        "attrs": {
+         "data-title": "Export..."
+        },
+        "hidden": true
+       },
+       {
+        "tag": "button",
+        "attrs": {
+         "data-title": "Create Slice"
+        },
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-slice"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "button",
+        "attrs": {
+         "data-title": "Add Export"
+        },
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-plus"
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "properties-panel",
+       "export-panel"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-library",
+     "multiple"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-symbols",
+     "multiple"
+    ],
+    "hidden": true
+   }
+  ]
+ }
+]

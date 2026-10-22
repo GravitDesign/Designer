@@ -1,0 +1,73 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-dialog",
+   "g-system-dialog",
+   "g-advanced-dialog"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-content"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "message"
+      ],
+      "text": "The document \"Untitled-1\" has been modified, do you want to save it?"
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-footer"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "buttons"
+      ],
+      "children": [
+       {
+        "tag": "button",
+        "children": [
+         {
+          "tag": "span",
+          "text": "Don't save"
+         }
+        ]
+       },
+       {
+        "tag": "button",
+        "children": [
+         {
+          "tag": "span",
+          "text": "Cancel"
+         }
+        ]
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "primary"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Save..."
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

@@ -1,0 +1,1034 @@
+[
+ {
+  "tag": "ul",
+  "cls": [
+   "g-menu",
+   "g-menu-bottom"
+  ],
+  "children": [
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-undo"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Undo"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Ctrl+Z"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-redo"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Redo"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Shift+Ctrl+Z"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-cut"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Cut"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Ctrl+X"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-copy"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Copy"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Ctrl+C"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu",
+     "g-active",
+     "g-hover"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Paste"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Delete"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Del"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Duplicate"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Ctrl+D"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Edit Selection"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Select All"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Ctrl+A"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Deselect All"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Shift+Ctrl+A"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Invert Selection"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Shift+Ctrl+I"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Select Same"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Settings..."
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item"
+    ],
+    "hidden": true
+   }
+  ]
+ },
+ {
+  "tag": "ul",
+  "cls": [
+   "g-menu",
+   "g-menu-right"
+  ],
+  "children": [
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-paste"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Paste"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Ctrl+V"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-paste-in-place"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Paste In Place"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Shift+Ctrl+V"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Paste and Replace"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Alt+Ctrl+V"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Paste Inside Selection"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Alt+Shift+Ctrl+V"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Paste Style"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "F4"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

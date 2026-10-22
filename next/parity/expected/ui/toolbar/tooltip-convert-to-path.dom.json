@@ -1,0 +1,48 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-rich-tooltip-container"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-tooltip-content-wrapper"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-header"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-tooltip-content-shortcut"
+        ],
+        "text": "Ctrl+Shift+P"
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "limit-width",
+         "g-tooltip-content-title"
+        ],
+        "text": "Convert to path"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-description"
+      ],
+      "text": "Convert the selected shape into a path."
+     }
+    ]
+   }
+  ]
+ }
+]

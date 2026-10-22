@@ -1,0 +1,54 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-dialog",
+   "g-system-dialog",
+   "g-confirm-dialog"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-content"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "message"
+      ],
+      "text": "This page is currently used as a Master page. Do you want to delete?"
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-footer"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "buttons"
+      ],
+      "children": [
+       {
+        "tag": "button",
+        "text": "Cancel"
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "primary"
+        ],
+        "text": "OK"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

@@ -1,0 +1,50 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-dialog",
+   "g-system-dialog",
+   "g-alert-dialog"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-content"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "message"
+      ],
+      "text": "An equal swatch was already added."
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-footer"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "buttons"
+      ],
+      "children": [
+       {
+        "tag": "button",
+        "cls": [
+         "primary"
+        ],
+        "text": "OK"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

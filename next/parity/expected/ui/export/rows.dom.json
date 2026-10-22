@@ -1,0 +1,595 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "toolbar",
+   "toolbar-export",
+   "list-toolbar",
+   "accordion"
+  ],
+  "children": [
+   {
+    "tag": "label",
+    "cls": [
+     "panel-title"
+    ],
+    "text": "Export"
+   },
+   {
+    "tag": "button",
+    "cls": [
+     "g-accordion"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "gravit-icon-down"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-accordion-ghost"
+    ]
+   },
+   {
+    "tag": "button",
+    "cls": [
+     "btn-export"
+    ],
+    "id": "btn-export",
+    "attrs": {
+     "data-title": "Export..."
+    },
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "gravit-icon-export"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "button",
+    "attrs": {
+     "data-title": "Create Slice"
+    },
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "gravit-icon-slice"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "button",
+    "attrs": {
+     "data-title": "Add Export"
+    },
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "gravit-icon-plus"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "tag": "div",
+  "cls": [
+   "properties-panel",
+   "export-panel"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-property-row",
+     "export-properties-row",
+     "no-label"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "columns"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "column"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "content"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "type": "text"
+              },
+              "props": {
+               "value": "1x"
+              }
+             },
+             {
+              "tag": "button",
+              "cls": [
+               "g-flat"
+              ],
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "gravit-icon-down"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "label",
+        "cls": [
+         "column"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "content"
+          ],
+          "children": [
+           {
+            "tag": "input",
+            "attrs": {
+             "type": "text",
+             "placeholder": "None"
+            },
+            "props": {
+             "value": ""
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "label",
+        "cls": [
+         "column"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "content"
+          ],
+          "children": [
+           {
+            "tag": "select",
+            "props": {
+             "value": "png"
+            },
+            "children": [
+             {
+              "tag": "option",
+              "props": {
+               "selected": true
+              },
+              "text": "PNG"
+             },
+             {
+              "tag": "option",
+              "text": "JPEG"
+             },
+             {
+              "tag": "option",
+              "text": "SVG"
+             },
+             {
+              "tag": "option",
+              "text": "PDF"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "label",
+        "cls": [
+         "column"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "content"
+          ],
+          "children": [
+           {
+            "tag": "button",
+            "cls": [
+             "g-flat"
+            ],
+            "text": "✕"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-property-row",
+     "export-properties-row",
+     "no-label"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "columns"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "column"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "content"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "type": "text"
+              },
+              "props": {
+               "value": "2x"
+              }
+             },
+             {
+              "tag": "button",
+              "cls": [
+               "g-flat"
+              ],
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "gravit-icon-down"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "label",
+        "cls": [
+         "column"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "content"
+          ],
+          "children": [
+           {
+            "tag": "input",
+            "attrs": {
+             "type": "text",
+             "placeholder": "None"
+            },
+            "props": {
+             "value": "@2x"
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "label",
+        "cls": [
+         "column"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "content"
+          ],
+          "children": [
+           {
+            "tag": "select",
+            "props": {
+             "value": "png"
+            },
+            "children": [
+             {
+              "tag": "option",
+              "props": {
+               "selected": true
+              },
+              "text": "PNG"
+             },
+             {
+              "tag": "option",
+              "text": "JPEG"
+             },
+             {
+              "tag": "option",
+              "text": "SVG"
+             },
+             {
+              "tag": "option",
+              "text": "PDF"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "label",
+        "cls": [
+         "column"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "content"
+          ],
+          "children": [
+           {
+            "tag": "button",
+            "cls": [
+             "g-flat"
+            ],
+            "text": "✕"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-property-row",
+     "export-properties-row",
+     "no-label"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "columns"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "column"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "content"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "type": "text"
+              },
+              "props": {
+               "value": "3x"
+              }
+             },
+             {
+              "tag": "button",
+              "cls": [
+               "g-flat"
+              ],
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "gravit-icon-down"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "label",
+        "cls": [
+         "column"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "content"
+          ],
+          "children": [
+           {
+            "tag": "input",
+            "attrs": {
+             "type": "text",
+             "placeholder": "None"
+            },
+            "props": {
+             "value": "@3x"
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "label",
+        "cls": [
+         "column"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "content"
+          ],
+          "children": [
+           {
+            "tag": "select",
+            "props": {
+             "value": "png"
+            },
+            "children": [
+             {
+              "tag": "option",
+              "props": {
+               "selected": true
+              },
+              "text": "PNG"
+             },
+             {
+              "tag": "option",
+              "text": "JPEG"
+             },
+             {
+              "tag": "option",
+              "text": "SVG"
+             },
+             {
+              "tag": "option",
+              "text": "PDF"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "label",
+        "cls": [
+         "column"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "content"
+          ],
+          "children": [
+           {
+            "tag": "button",
+            "cls": [
+             "g-flat"
+            ],
+            "text": "✕"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "labels"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "children": [
+         {
+          "tag": "span",
+          "text": "Size"
+         }
+        ]
+       },
+       {
+        "tag": "label",
+        "children": [
+         {
+          "tag": "span",
+          "text": "Suffix"
+         }
+        ]
+       },
+       {
+        "tag": "label",
+        "children": [
+         {
+          "tag": "span",
+          "text": "Format"
+         }
+        ]
+       },
+       {
+        "tag": "label"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

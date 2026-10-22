@@ -1,0 +1,194 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "no-padding"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-style-editor"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "styles",
+       "no-style"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "style"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "style-selector"
+          ]
+         },
+         {
+          "tag": "span",
+          "text": "No Shared Style"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "styles"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "style",
+         "g-selected"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "style-selector"
+          ]
+         },
+         {
+          "tag": "img",
+          "attrs": {
+           "src": "data:(338 chars)"
+          }
+         },
+         {
+          "tag": "span",
+          "text": "New Style"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "style-toolbar"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "children": [
+         {
+          "tag": "button",
+          "cls": [
+           "g-flat"
+          ],
+          "text": "Create New Shared Style"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "children": [
+         {
+          "tag": "button",
+          "cls": [
+           "g-flat"
+          ],
+          "text": "Organize Shared Styles..."
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "tag": "div",
+  "cls": [
+   "g-property-row",
+   "appearance-style-property"
+  ],
+  "children": [
+   {
+    "tag": "label",
+    "cls": [
+     "property-label"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "vertical-align"
+      ],
+      "text": "Style"
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "style-selector-container"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "style-selector-inner-wrapper"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-styles-preview"
+        ],
+        "children": [
+         {
+          "tag": "img",
+          "attrs": {
+           "src": "data:(338 chars)"
+          }
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-select",
+         "g-styles-field-container",
+         "pro"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-styles-field"
+          ],
+          "attrs": {
+           "data-property": "_styles",
+           "type": "text"
+          },
+          "text": "New Style"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-style-sync",
+       "g-disabled"
+      ],
+      "text": "Sync"
+     }
+    ]
+   }
+  ]
+ }
+]

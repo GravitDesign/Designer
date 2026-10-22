@@ -1,0 +1,136 @@
+[
+ {
+  "tag": "ul",
+  "cls": [
+   "g-menu",
+   "g-menu-button",
+   "g-menu-bottom"
+  ],
+  "children": [
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-icon",
+     "has-shortcut"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-move"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Pan"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "H"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-icon",
+     "has-shortcut"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-zoom-in"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Zoom"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Z"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

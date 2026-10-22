@@ -1,0 +1,42 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-rich-tooltip-container"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-tooltip-content-wrapper"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-header",
+       "simple"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-tooltip-content-shortcut"
+        ],
+        "text": "V"
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "limit-width",
+         "g-tooltip-content-title"
+        ],
+        "text": "Pointer tool"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

@@ -1,0 +1,60 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "section",
+   "windows"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "tabs",
+     "ui-sortable"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "tab",
+       "g-active"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "title"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "cover"
+          ],
+          "hidden": true
+         },
+         {
+          "tag": "input",
+          "attrs": {
+           "type": "text"
+          },
+          "props": {
+           "value": "Untitled-1Poster"
+          }
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "close"
+        ],
+        "text": "✕"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

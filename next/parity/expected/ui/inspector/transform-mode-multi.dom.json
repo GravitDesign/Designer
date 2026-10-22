@@ -1,0 +1,2169 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "panels",
+   "scrolling-panels"
+  ],
+  "children": [
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "main-toolbar"
+    ],
+    "children": [
+     {
+      "tag": "label",
+      "hidden": true
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "align-settings"
+      ],
+      "attrs": {
+       "data-title": "Settings"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "p",
+      "cls": [
+       "lineBreak"
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "primary",
+       "normalDistribute"
+      ],
+      "attrs": {
+       "data-title": "Distribute Horizontally",
+       "data-action": "arrange.distribute.horizontal"
+      },
+      "props": {
+       "disabled": true
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-horizontal",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "primary",
+       "normalDistribute"
+      ],
+      "attrs": {
+       "data-title": "Distribute Vertically",
+       "data-action": "arrange.distribute.vertical"
+      },
+      "props": {
+       "disabled": true
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-vertical",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "divider"
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "secondary"
+      ],
+      "attrs": {
+       "data-title": "Align Left",
+       "data-action": "arrange.align.align-left"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-align-left",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "secondary"
+      ],
+      "attrs": {
+       "data-title": "Align Center",
+       "data-action": "arrange.align.align-center"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-align-center",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "secondary"
+      ],
+      "attrs": {
+       "data-title": "Align Right",
+       "data-action": "arrange.align.align-right"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-align-right",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "divider"
+      ]
+     },
+     {
+      "tag": "p",
+      "cls": [
+       "interval"
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "secondary"
+      ],
+      "attrs": {
+       "data-title": "Align Top",
+       "data-action": "arrange.align.align-top"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-align-top",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "secondary"
+      ],
+      "attrs": {
+       "data-title": "Align Middle",
+       "data-action": "arrange.align.align-middle"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-align-middle",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "secondary"
+      ],
+      "attrs": {
+       "data-title": "Align Bottom",
+       "data-action": "arrange.align.align-bottom"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-align-bottom",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "p",
+      "cls": [
+       "lineBreak"
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "primary",
+       "touchDistribute"
+      ],
+      "attrs": {
+       "data-title": "Distribute Horizontally",
+       "data-action": "arrange.distribute.horizontal"
+      },
+      "props": {
+       "disabled": true
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "horizontalInput",
+       "g-input-select",
+       "touchDistribute"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "p",
+      "cls": [
+       "interval"
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "primary",
+       "touchDistribute"
+      ],
+      "attrs": {
+       "data-title": "Distribute Vertically",
+       "data-action": "arrange.distribute.vertical"
+      },
+      "props": {
+       "disabled": true
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "verticalInput",
+       "g-input-select",
+       "touchDistribute"
+      ],
+      "hidden": true
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "dimension-panel"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "transform-titile"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "property-label"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "vertical-align"
+          ],
+          "text": "Position"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "x"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-dimension": "x",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "500"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "no-padding"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "y"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-dimension": "y",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "340"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "property-label"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "vertical-align"
+          ],
+          "text": "Size"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "W"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-dimension": "w",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "280"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "gravit-icon-unlinked"
+              ],
+              "attrs": {
+               "data-title": "Keep Ratio",
+               "data-ratio": "no"
+              }
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "H"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-dimension": "h",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "220"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "property-label"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "vertical-align"
+          ],
+          "text": "Angle"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "R"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-dimension": "rotate",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "0°"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "no-padding"
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "button",
+              "cls": [
+               "transform-button",
+               "g-active"
+              ],
+              "text": "Transform"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row",
+       "anchor-panel"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "property-label"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "vertical-align"
+          ],
+          "text": "Anchors"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "anchor-buttons"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "g-button",
+                 "g-group-start",
+                 "hacr-start"
+                ],
+                "attrs": {
+                 "data-title": "Anchor Left"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-anchor-left"
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "g-button",
+                 "g-group-element",
+                 "hacr-middle"
+                ],
+                "attrs": {
+                 "data-title": "Anchor Center"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-anchor-center"
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "g-button",
+                 "g-group-end",
+                 "hacr-end"
+                ],
+                "attrs": {
+                 "data-title": "Anchor Right"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-anchor-right"
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "no-padding"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "anchor-buttons"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "g-button",
+                 "g-group-start",
+                 "vacr-start"
+                ],
+                "attrs": {
+                 "data-title": "Anchor Top"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-anchor-top"
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "g-button",
+                 "g-group-element",
+                 "vacr-middle"
+                ],
+                "attrs": {
+                 "data-title": "Anchor Middle"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-anchor-middle"
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "g-button",
+                 "g-group-end",
+                 "vacr-end"
+                ],
+                "attrs": {
+                 "data-title": "Anchor Bottom"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-anchor-bottom"
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "advanced-transform-toolbar",
+     "last-toolbar"
+    ],
+    "children": [
+     {
+      "tag": "label",
+      "text": "Transform"
+     },
+     {
+      "tag": "button",
+      "attrs": {
+       "data-title": "Advanced settings",
+       "data-action": "stroke-settings"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-settings"
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "advanced-transform-properties"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "property-label"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "vertical-align"
+          ],
+          "text": "Move"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "x"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "move-x",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "0"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "no-padding"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "y"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "move-y",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "0"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "property-label"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "vertical-align"
+          ],
+          "text": "Scale"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "W"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "scale-x",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "100%"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "gravit-icon-unlinked",
+               "transform-scale-link"
+              ],
+              "attrs": {
+               "data-title": "Keep Ratio",
+               "data-ratio": "no"
+              },
+              "hidden": true
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "H"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "scale-y",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "100%"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "property-label"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "vertical-align"
+          ],
+          "text": "Rotate"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "↑"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "rotate",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "0°"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "no-padding"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "↓"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "reflect",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "0°"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "property-label"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "vertical-align"
+          ],
+          "text": "Skew"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "X"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "skew-x",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "0°"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "no-padding"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "Y"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "skew-y",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "0°"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "hr"
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "copies-apply"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-property-row"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "cls": [
+           "property-label"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "vertical-align"
+            ],
+            "text": "Copies"
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "copies",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "0"
+                }
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "no-padding"
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "no-padding"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "g-pivot"
+                ],
+                "attrs": {
+                 "data-property": "pivot"
+                },
+                "children": [
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "borderline"
+                  ]
+                 },
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "side"
+                  ]
+                 },
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "side"
+                  ]
+                 },
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "side"
+                  ]
+                 },
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "side"
+                  ]
+                 },
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "side"
+                  ]
+                 },
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "side"
+                  ]
+                 },
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "side"
+                  ]
+                 },
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "side"
+                  ]
+                 },
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "side",
+                   "g-active"
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-property-row"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "cls": [
+           "property-label"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "vertical-align"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "cls": [
+                 "transform-button"
+                ],
+                "text": "Apply"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "copies-apply-touch"
+      ],
+      "hidden": true
+     }
+    ]
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "filled",
+     "page-toolbar",
+     "page-properties-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "page-properties-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "scene-properties-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "scene-properties-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "group-frame-property-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "frame-property-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "item-property-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "filled",
+     "page-toolbar",
+     "symbol-instance-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "symbol-instance-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "cls": [
+     "appearance-divider"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "appearance-toolbar",
+     "appearance-panel-toggle-btn",
+     "accordion"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "appearance-properties-panel"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "children": [
+       {
+        "tag": "hr",
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-property-row",
+         "no-label"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "attrs": {
+                 "data-action": "arrange.align.align-justify-horizontal"
+                },
+                "text": "Same Width"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "no-padding"
+            ]
+           },
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "attrs": {
+                 "data-action": "arrange.align.align-justify-vertical"
+                },
+                "text": "Same Height"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-property-row",
+         "no-label"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "prefix"
+              ],
+              "text": "Space X"
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-dist": "horizontal",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "1"
+                }
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "no-padding"
+            ]
+           },
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "prefix"
+              ],
+              "text": "Space Y"
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-dist": "vertical",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "1"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "hr",
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel",
+       "text-properties-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel",
+       "slice-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     }
+    ]
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "list-toolbar",
+     "fill-toolbar",
+     "appearance-panel-toggle-btn",
+     "accordion"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "fill-properties-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "list-toolbar",
+     "border-toolbar",
+     "empty-list",
+     "appearance-panel-toggle-btn",
+     "accordion"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "border-properties-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "list-toolbar",
+     "effects-toolbar",
+     "appearance-panel-toggle-btn",
+     "accordion"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "effects-properties-panel"
+    ],
+    "hidden": true
+   }
+  ]
+ }
+]

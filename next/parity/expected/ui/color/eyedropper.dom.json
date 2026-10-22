@@ -1,0 +1,54 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-eye-dropper-picker",
+   "g-cursor-pixel"
+  ],
+  "children": [
+   {
+    "tag": "canvas",
+    "cls": [
+     "g-cursor-pixel",
+     "g-eye-dropper-preview"
+    ]
+   },
+   {
+    "tag": "span",
+    "cls": [
+     "g-eye-dropper-preview-color"
+    ],
+    "text": "R:235 G:235 B:235 #EBEBEB"
+   },
+   {
+    "tag": "span",
+    "cls": [
+     "g-eye-dropper-preview-color-difference"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "color-preview",
+       "current"
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "color-preview",
+       "new"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-eye-dropper-color-pointer"
+    ],
+    "hidden": true
+   }
+  ]
+ }
+]

@@ -1,0 +1,78 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-dialog"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-content"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "message"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "text": "This design contains features, that are not supported for SVG files. These features are:• Noise [Rectangle]",
+        "children": [
+         {
+          "tag": "br"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "children": [
+       {
+        "tag": "label",
+        "children": [
+         {
+          "tag": "input",
+          "attrs": {
+           "type": "checkbox"
+          },
+          "props": {
+           "checked": false
+          }
+         },
+         {
+          "tag": "span",
+          "text": "Don’t show anymore"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-footer"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "buttons"
+      ],
+      "children": [
+       {
+        "tag": "button",
+        "text": "OK"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

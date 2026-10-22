@@ -1,0 +1,63 @@
+[
+ {
+  "tag": "div",
+  "id": "footer",
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "root"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "panel-container",
+       "software-update-panel",
+       "g-hide"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "panel-container",
+       "g-notification-panel",
+       "bring-to-front"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-btn-close"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-close"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "message"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

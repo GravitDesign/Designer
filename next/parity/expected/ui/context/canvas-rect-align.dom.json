@@ -1,0 +1,1881 @@
+[
+ {
+  "tag": "ul",
+  "cls": [
+   "g-menu"
+  ],
+  "children": [
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Edit Selection"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Paste"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Arrange"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu",
+     "g-active",
+     "g-hover"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Align"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Transform"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-group"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Group Selection"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Ctrl+G"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon",
+     "g-disabled"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-ungroup"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Ungroup Selection"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Shift+Ctrl+G"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Mask with Shape"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Ctrl+Shift+M"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-convert-to-path"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Convert to Path"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Ctrl+Shift+P"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-vectorize-border"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Vectorize Border"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Join Paths"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Ctrl+J"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Split Path"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Shift+Ctrl+J"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-symbolmaster"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Create Symbol"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "F8"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Reset Instance"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Detach Symbol Instance"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Shift+Ctrl+F8"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Attach Text to Path"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Detach Text from Path"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Select Same"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-cursor-filled"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Select"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "tag": "ul",
+  "cls": [
+   "g-menu",
+   "g-menu-right"
+  ],
+  "children": [
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "<svg",
+         "class=\"align-svg\"",
+         "xmlns=\"http://www.w3.org/2000/svg\"",
+         "style=\"isolation:isolate\"",
+         "viewBox=\"53",
+         "2",
+         "20",
+         "20\"",
+         "width=\"20\"",
+         "height=\"20\"><rect",
+         "id=\"align-area\"",
+         "x=\"62\"",
+         "y=\"9\"",
+         "width=\"4\"",
+         "height=\"12\"",
+         "transform=\"rotate(-90",
+         "64",
+         "15)\"",
+         "fill=\"#FFF\"/><rect",
+         "x=\"60\"",
+         "y=\"5\"",
+         "height=\"8\"",
+         "62",
+         "9)\"",
+         "id=\"align-shape\"",
+         "x=\"54\"",
+         "y=\"3\"",
+         "width=\"2\"",
+         "height=\"18\"",
+         "transform=\"rotate(-180",
+         "55",
+         "12)\"",
+         "fill=\"#3A98FF\"/></svg>"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Align Left"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Alt+A"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "<svg",
+         "class=\"align-svg\"",
+         "xmlns=\"http://www.w3.org/2000/svg\"",
+         "style=\"isolation:isolate\"",
+         "viewBox=\"77",
+         "2",
+         "20",
+         "20\"",
+         "width=\"20\"",
+         "height=\"20\"><rect",
+         "id=\"align-shape\"",
+         "x=\"86\"",
+         "y=\"3\"",
+         "width=\"2\"",
+         "height=\"18\"",
+         "transform=\"rotate(180",
+         "87",
+         "12)\"",
+         "fill=\"#3A98FF\"/><rect",
+         "id=\"align-area\"",
+         "x=\"85\"",
+         "width=\"4\"",
+         "height=\"12\"",
+         "transform=\"rotate(90",
+         "9)\"",
+         "fill=\"#FFF\"/><rect",
+         "y=\"11\"",
+         "height=\"8\"",
+         "15)\"",
+         "fill=\"#FFF\"/></svg>"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Align Center"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Alt+H"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "<svg",
+         "class=\"align-svg\"",
+         "xmlns=\"http://www.w3.org/2000/svg\"",
+         "style=\"isolation:isolate\"",
+         "viewBox=\"103",
+         "2",
+         "20",
+         "20\"",
+         "width=\"20\"",
+         "height=\"20\"><rect",
+         "id=\"align-area\"",
+         "x=\"110\"",
+         "y=\"9\"",
+         "width=\"4\"",
+         "height=\"12\"",
+         "transform=\"rotate(90",
+         "112",
+         "15)\"",
+         "fill=\"#FFF\"/><rect",
+         "x=\"112\"",
+         "y=\"5\"",
+         "height=\"8\"",
+         "114",
+         "9)\"",
+         "id=\"align-shape\"",
+         "x=\"120\"",
+         "y=\"3\"",
+         "width=\"2\"",
+         "height=\"18\"",
+         "transform=\"rotate(180",
+         "121",
+         "12)\"",
+         "fill=\"#3A98FF\"/></svg>"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Align Right"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Alt+D"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Same Width"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "<svg",
+         "class=\"align-svg\"",
+         "xmlns=\"http://www.w3.org/2000/svg\"",
+         "style=\"isolation:isolate\"",
+         "viewBox=\"128",
+         "2",
+         "20",
+         "20\"",
+         "width=\"20\"",
+         "height=\"20\"><rect",
+         "id=\"align-area\"",
+         "x=\"133\"",
+         "y=\"7\"",
+         "width=\"4\"",
+         "height=\"12\"",
+         "fill=\"#FFF\"/><rect",
+         "x=\"139\"",
+         "height=\"8\"",
+         "id=\"align-shape\"",
+         "x=\"137\"",
+         "y=\"-5\"",
+         "width=\"2\"",
+         "height=\"18\"",
+         "transform=\"rotate(-90",
+         "138",
+         "4)\"",
+         "fill=\"#3A98FF\"/></svg>"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Align Top"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Alt+W"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "<svg",
+         "class=\"align-svg\"",
+         "xmlns=\"http://www.w3.org/2000/svg\"",
+         "style=\"isolation:isolate\"",
+         "viewBox=\"156",
+         "1.9999999999999982",
+         "20",
+         "20\"",
+         "width=\"20\"",
+         "height=\"20\"><rect",
+         "id=\"align-shape\"",
+         "x=\"165\"",
+         "y=\"3\"",
+         "width=\"2\"",
+         "height=\"18\"",
+         "transform=\"rotate(90",
+         "166",
+         "12)\"",
+         "fill=\"#3A98FF\"/><rect",
+         "id=\"align-area\"",
+         "x=\"161\"",
+         "y=\"6\"",
+         "width=\"4\"",
+         "height=\"12\"",
+         "transform=\"rotate(-180",
+         "163",
+         "fill=\"#FFF\"/><rect",
+         "x=\"167\"",
+         "y=\"8\"",
+         "height=\"8\"",
+         "169",
+         "fill=\"#FFF\"/></svg>"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Align Middle"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Alt+V"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "<svg",
+         "class=\"align-svg\"",
+         "xmlns=\"http://www.w3.org/2000/svg\"",
+         "style=\"isolation:isolate\"",
+         "viewBox=\"181",
+         "2",
+         "20",
+         "20\"",
+         "width=\"20\"",
+         "height=\"20\"><rect",
+         "id=\"align-area\"",
+         "x=\"186\"",
+         "y=\"5\"",
+         "width=\"4\"",
+         "height=\"12\"",
+         "transform=\"rotate(180",
+         "188",
+         "11)\"",
+         "fill=\"#FFF\"/><rect",
+         "x=\"192\"",
+         "y=\"9\"",
+         "height=\"8\"",
+         "194",
+         "13)\"",
+         "id=\"align-shape\"",
+         "x=\"190\"",
+         "y=\"11\"",
+         "width=\"2\"",
+         "height=\"18\"",
+         "transform=\"rotate(-90",
+         "191",
+         "20)\"",
+         "fill=\"#3A98FF\"/></svg>"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Align Bottom"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "text": "Alt+S"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Same Height"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "<svg",
+         "class=\"align-svg\"",
+         "xmlns=\"http://www.w3.org/2000/svg\"",
+         "style=\"isolation:isolate\"",
+         "viewBox=\"3",
+         "2",
+         "20",
+         "20\"",
+         "width=\"20\"",
+         "height=\"20\"><rect",
+         "id=\"align-area\"",
+         "x=\"4\"",
+         "y=\"6\"",
+         "width=\"4\"",
+         "height=\"12\"",
+         "fill=\"#FFF\"/><rect",
+         "x=\"18\"",
+         "y=\"8\"",
+         "height=\"8\"",
+         "id=\"align-shape\"",
+         "x=\"10\"",
+         "y=\"3\"",
+         "width=\"2\"",
+         "height=\"18\"",
+         "fill=\"#3A98FF\"/><rect",
+         "x=\"14\"",
+         "fill=\"#3A98FF\"/></svg>"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Distribute Horizontally"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "<svg",
+         "class=\"align-svg\"",
+         "xmlns=\"http://www.w3.org/2000/svg\"",
+         "style=\"isolation:isolate\"",
+         "viewBox=\"28",
+         "2",
+         "20",
+         "20\"",
+         "width=\"20\"",
+         "height=\"20\"><rect",
+         "id=\"align-area\"",
+         "x=\"36\"",
+         "y=\"13\"",
+         "width=\"4\"",
+         "height=\"12\"",
+         "transform=\"rotate(-90",
+         "38",
+         "19)\"",
+         "fill=\"#FFF\"/><rect",
+         "y=\"1\"",
+         "height=\"8\"",
+         "5)\"",
+         "id=\"align-shape\"",
+         "x=\"37\"",
+         "y=\"5\"",
+         "width=\"2\"",
+         "height=\"18\"",
+         "14)\"",
+         "fill=\"#3A98FF\"/><rect",
+         "10)\"",
+         "fill=\"#3A98FF\"/></svg>"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Distribute Vertically"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

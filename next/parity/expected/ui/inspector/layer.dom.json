@@ -1,0 +1,2107 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "panels",
+   "scrolling-panels"
+  ],
+  "children": [
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "main-toolbar"
+    ],
+    "children": [
+     {
+      "tag": "label",
+      "hidden": true
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "align-settings"
+      ],
+      "attrs": {
+       "data-title": "Settings"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "p",
+      "cls": [
+       "lineBreak"
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "primary",
+       "normalDistribute"
+      ],
+      "attrs": {
+       "data-title": "Distribute Horizontally",
+       "data-action": "arrange.distribute.horizontal"
+      },
+      "props": {
+       "disabled": true
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-horizontal",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "primary",
+       "normalDistribute"
+      ],
+      "attrs": {
+       "data-title": "Distribute Vertically",
+       "data-action": "arrange.distribute.vertical"
+      },
+      "props": {
+       "disabled": true
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-vertical",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "divider"
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "secondary"
+      ],
+      "attrs": {
+       "data-title": "Align Left",
+       "data-action": "arrange.align.align-left"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-align-left",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "secondary"
+      ],
+      "attrs": {
+       "data-title": "Align Center",
+       "data-action": "arrange.align.align-center"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-align-center",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "secondary"
+      ],
+      "attrs": {
+       "data-title": "Align Right",
+       "data-action": "arrange.align.align-right"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-align-right",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "divider"
+      ]
+     },
+     {
+      "tag": "p",
+      "cls": [
+       "interval"
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "secondary"
+      ],
+      "attrs": {
+       "data-title": "Align Top",
+       "data-action": "arrange.align.align-top"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-align-top",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "secondary"
+      ],
+      "attrs": {
+       "data-title": "Align Middle",
+       "data-action": "arrange.align.align-middle"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-align-middle",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "secondary"
+      ],
+      "attrs": {
+       "data-title": "Align Bottom",
+       "data-action": "arrange.align.align-bottom"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "normal"
+        ],
+        "children": [
+         {
+          "tag": "svg",
+          "cls": [
+           "align-svg"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-align-bottom",
+         "touch"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "p",
+      "cls": [
+       "lineBreak"
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "primary",
+       "touchDistribute"
+      ],
+      "attrs": {
+       "data-title": "Distribute Horizontally",
+       "data-action": "arrange.distribute.horizontal"
+      },
+      "props": {
+       "disabled": true
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "horizontalInput",
+       "g-input-select",
+       "touchDistribute"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "p",
+      "cls": [
+       "interval"
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "svg-button",
+       "primary",
+       "touchDistribute"
+      ],
+      "attrs": {
+       "data-title": "Distribute Vertically",
+       "data-action": "arrange.distribute.vertical"
+      },
+      "props": {
+       "disabled": true
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "verticalInput",
+       "g-input-select",
+       "touchDistribute"
+      ],
+      "hidden": true
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "dimension-panel"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "transform-titile"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "property-label"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "vertical-align"
+          ],
+          "text": "Position"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "x"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-dimension": "x",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "0",
+                 "disabled": true
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "no-padding"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "y"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-dimension": "y",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "0",
+                 "disabled": true
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "property-label"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "vertical-align"
+          ],
+          "text": "Size"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "W"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-dimension": "w",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "0",
+                 "disabled": true
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "gravit-icon-unlinked"
+              ],
+              "attrs": {
+               "data-title": "Keep Ratio",
+               "data-ratio": "no"
+              },
+              "hidden": true
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "H"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-dimension": "h",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "0",
+                 "disabled": true
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "property-label"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "vertical-align"
+          ],
+          "text": "Angle"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "R"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-dimension": "rotate",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "0°"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "no-padding"
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "button",
+              "cls": [
+               "transform-button"
+              ],
+              "text": "Transform"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row",
+       "anchor-panel"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "property-label"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "vertical-align"
+          ],
+          "text": "Anchors"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "anchor-buttons"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "g-button",
+                 "g-group-start",
+                 "hacr-start"
+                ],
+                "attrs": {
+                 "data-title": "Anchor Left"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-anchor-left"
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "g-button",
+                 "g-group-element",
+                 "hacr-middle"
+                ],
+                "attrs": {
+                 "data-title": "Anchor Center"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-anchor-center"
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "g-button",
+                 "g-group-end",
+                 "hacr-end"
+                ],
+                "attrs": {
+                 "data-title": "Anchor Right"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-anchor-right"
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "no-padding"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "anchor-buttons"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "g-button",
+                 "g-group-start",
+                 "vacr-start"
+                ],
+                "attrs": {
+                 "data-title": "Anchor Top"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-anchor-top"
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "g-button",
+                 "g-group-element",
+                 "vacr-middle"
+                ],
+                "attrs": {
+                 "data-title": "Anchor Middle"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-anchor-middle"
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "g-button",
+                 "g-group-end",
+                 "vacr-end"
+                ],
+                "attrs": {
+                 "data-title": "Anchor Bottom"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-anchor-bottom"
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "advanced-transform-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "advanced-transform-properties"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "filled",
+     "page-toolbar",
+     "page-properties-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "page-properties-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "scene-properties-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "scene-properties-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "group-frame-property-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr"
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "frame-property-panel"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "item-frame",
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "auto-grow"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "label",
+              "cls": [
+               "g-checkbox-label"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "cls": [
+                 "frm-checkbox"
+                ],
+                "attrs": {
+                 "type": "checkbox"
+                },
+                "props": {
+                 "checked": false
+                }
+               },
+               {
+                "tag": "span",
+                "text": "Frame"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "item-property-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "filled",
+     "page-toolbar",
+     "symbol-instance-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "symbol-instance-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "cls": [
+     "appearance-divider"
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "appearance-toolbar",
+     "appearance-panel-toggle-btn",
+     "accordion"
+    ],
+    "children": [
+     {
+      "tag": "label",
+      "cls": [
+       "appearance-toolbar-title"
+      ],
+      "text": "Appearance"
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-accordion"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-down"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-accordion-ghost"
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "pro"
+      ],
+      "attrs": {
+       "data-title": "Advanced Settings",
+       "data-action": "text-settings"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-image-convert-status"
+      ],
+      "hidden": true
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "appearance-properties-panel"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel",
+       "text-properties-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel",
+       "slice-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "appearance-opacity-property",
+         "g-property-row"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "cls": [
+           "property-label"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "vertical-align"
+            ],
+            "text": "Opacity"
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "opacity-slider-col",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "gravit-icon-touch-transparency",
+                 "g-input-slider",
+                 "custom",
+                 "opacity"
+                ],
+                "attrs": {
+                 "data-property": "_stop",
+                 "min": "0",
+                 "max": "100"
+                },
+                "children": [
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "g-input-slider-track",
+                   "custom"
+                  ],
+                  "children": [
+                   {
+                    "tag": "div",
+                    "cls": [
+                     "g-input-slider-thumb",
+                     "custom"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "no-padding"
+            ]
+           },
+           {
+            "tag": "label",
+            "cls": [
+             "column",
+             "opacity-input-col"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "_stop",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "100%"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "appearance-blending-property",
+         "g-property-row"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "cls": [
+           "property-label"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "vertical-align"
+            ],
+            "text": "Blending"
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "select",
+                "attrs": {
+                 "data-property": "_sbl"
+                },
+                "props": {
+                 "value": "normal"
+                },
+                "children": [
+                 {
+                  "tag": "option",
+                  "props": {
+                   "selected": true
+                  },
+                  "text": "Normal"
+                 },
+                 {
+                  "tag": "optgroup",
+                  "attrs": {
+                   "label": "Darken image"
+                  },
+                  "children": [
+                   {
+                    "tag": "option",
+                    "text": "Darken"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Multiply"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Color Burn"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Subtract *"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Linear Burn *"
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "optgroup",
+                  "attrs": {
+                   "label": "Lighten image"
+                  },
+                  "children": [
+                   {
+                    "tag": "option",
+                    "text": "Lighten"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Screen"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Color Dodge"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Linear Dodge *"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Add *"
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "optgroup",
+                  "attrs": {
+                   "label": "Boost contrast"
+                  },
+                  "children": [
+                   {
+                    "tag": "option",
+                    "text": "Overlay"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Soft Light"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Hard Light"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Vivid Light *"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Linear Light *"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Pin Light *"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Hard Mix *"
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "optgroup",
+                  "attrs": {
+                   "label": "Adjust colors"
+                  },
+                  "children": [
+                   {
+                    "tag": "option",
+                    "text": "Hue"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Saturation"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Color"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Luminosity"
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "optgroup",
+                  "attrs": {
+                   "label": "Invert colors"
+                  },
+                  "children": [
+                   {
+                    "tag": "option",
+                    "text": "Difference"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Exclusion"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Divide *"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Power *"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Harmonic *"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Sine *"
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "optgroup",
+                  "attrs": {
+                   "label": "Masking"
+                  },
+                  "children": [
+                   {
+                    "tag": "option",
+                    "text": "Mask"
+                   },
+                   {
+                    "tag": "option",
+                    "text": "Inverse Mask"
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-property-row",
+         "appearance-style-property"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "cls": [
+           "property-label"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "vertical-align"
+            ],
+            "text": "Style"
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "style-selector-container"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "style-selector-inner-wrapper"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "g-styles-preview"
+              ],
+              "hidden": true
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "g-select",
+               "g-styles-field-container",
+               "pro"
+              ],
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-styles-field"
+                ],
+                "attrs": {
+                 "data-property": "_styles",
+                 "type": "text"
+                },
+                "text": "No Shared Style"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "g-style-sync",
+             "g-disabled"
+            ],
+            "text": "Sync"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "hr",
+        "hidden": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "hr"
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "list-toolbar",
+     "fill-toolbar",
+     "empty-list",
+     "appearance-panel-toggle-btn",
+     "accordion"
+    ],
+    "children": [
+     {
+      "tag": "label",
+      "text": "Fills"
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-accordion"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-down"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-accordion-ghost"
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "fill",
+       "completely-fill",
+       "g-active"
+      ],
+      "attrs": {
+       "data-title": "Advanced Fill Settings"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "fill",
+       "winding-fill"
+      ],
+      "attrs": {
+       "data-title": "Advanced Fill Settings"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "fill-settings"
+      ],
+      "attrs": {
+       "data-title": "Advanced Fill Settings",
+       "data-action": "settings"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "button",
+      "attrs": {
+       "data-title": "Remove Selected Fill",
+       "data-action": "remove"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "button",
+      "attrs": {
+       "data-title": "Add Fill",
+       "data-action": "add"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-plus"
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-plus"
+        ],
+        "hidden": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "fill-properties-panel"
+    ]
+   },
+   {
+    "tag": "hr"
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "list-toolbar",
+     "border-toolbar",
+     "empty-list",
+     "appearance-panel-toggle-btn",
+     "accordion"
+    ],
+    "children": [
+     {
+      "tag": "label",
+      "text": "Borders"
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-accordion"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-down"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-accordion-ghost"
+      ]
+     },
+     {
+      "tag": "button",
+      "attrs": {
+       "data-title": "Advanced stroke settings",
+       "data-action": "stroke-settings"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "button",
+      "attrs": {
+       "data-title": "Remove Selected Border",
+       "data-action": "remove"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "button",
+      "attrs": {
+       "data-title": "Add Border",
+       "data-action": "add"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-plus"
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-plus"
+        ],
+        "hidden": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "border-properties-panel"
+    ]
+   },
+   {
+    "tag": "hr"
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "list-toolbar",
+     "effects-toolbar",
+     "appearance-panel-toggle-btn",
+     "accordion",
+     "last-toolbar"
+    ],
+    "children": [
+     {
+      "tag": "label",
+      "text": "Effects"
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-accordion"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-down"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-accordion-ghost"
+      ]
+     },
+     {
+      "tag": "button",
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-plus"
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-plus"
+        ],
+        "hidden": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "effects-properties-panel"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "effects-panel"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "effects"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "effects-default"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "effects-default-label"
+        ],
+        "text": "Blur"
+       },
+       {
+        "tag": "span",
+        "text": "+"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "effects-default"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "effects-default-label"
+        ],
+        "text": "Color Adjust"
+       },
+       {
+        "tag": "span",
+        "text": "+"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "effects-default"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "effects-default-label"
+        ],
+        "text": "Drop Shadow"
+       },
+       {
+        "tag": "span",
+        "text": "+"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "effects-default"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "effects-default-label"
+        ],
+        "text": "Inner Shadow"
+       },
+       {
+        "tag": "span",
+        "text": "+"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "effects-default"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "effects-default-label"
+        ],
+        "text": "More"
+       },
+       {
+        "tag": "span",
+        "text": "+"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

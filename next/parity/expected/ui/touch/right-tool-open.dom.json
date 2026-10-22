@@ -1,0 +1,841 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "bring-to-front"
+  ],
+  "id": "right-sidebars",
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-touch-toolbar"
+    ],
+    "children": [
+     {
+      "tag": "button",
+      "cls": [
+       "g-touch-toolbar-button",
+       "g-active"
+      ],
+      "id": "dimension.align",
+      "attrs": {
+       "g-touch-tool": "dimension.align"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-align"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-touch-toolbar-button"
+      ],
+      "id": "dimension.dimension",
+      "attrs": {
+       "g-touch-tool": "dimension.dimension"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-transform"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-touch-toolbar-button"
+      ],
+      "id": "appearance",
+      "attrs": {
+       "g-touch-tool": "appearance"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-appearance-panel"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-touch-toolbar-button"
+      ],
+      "id": "fill",
+      "attrs": {
+       "g-touch-tool": "fill"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-fill"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "count"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "scale"
+          ],
+          "text": "1"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-touch-toolbar-button"
+      ],
+      "id": "border",
+      "attrs": {
+       "g-touch-tool": "border"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-border"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "count"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "scale"
+          ],
+          "text": "0"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-touch-toolbar-button"
+      ],
+      "id": "effect",
+      "attrs": {
+       "g-touch-tool": "effect"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-effect-panel"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "count"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "scale"
+          ],
+          "text": "0"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-selector"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-inspector",
+     "multiple",
+     "align-active",
+     "g-active"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "panels",
+       "scrolling-panels",
+       "hide"
+      ],
+      "children": [
+       {
+        "tag": "hr",
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "toolbar",
+         "main-toolbar",
+         "g-touch-toolbar-panel",
+         "g-active"
+        ],
+        "attrs": {
+         "g-touch-tool": "dimension.align"
+        },
+        "children": [
+         {
+          "tag": "label",
+          "text": "ALIGN & DISTRIBUTE"
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "align-settings"
+          ],
+          "attrs": {
+           "data-title": "Settings"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "gravit-icon-touch-settings"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "p",
+          "cls": [
+           "lineBreak"
+          ]
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "svg-button",
+           "primary",
+           "normalDistribute"
+          ],
+          "attrs": {
+           "data-title": "Distribute Horizontally",
+           "data-action": "arrange.distribute.horizontal"
+          },
+          "props": {
+           "disabled": true
+          },
+          "hidden": true
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "svg-button",
+           "primary",
+           "normalDistribute"
+          ],
+          "attrs": {
+           "data-title": "Distribute Vertically",
+           "data-action": "arrange.distribute.vertical"
+          },
+          "props": {
+           "disabled": true
+          },
+          "hidden": true
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "divider"
+          ],
+          "hidden": true
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "svg-button",
+           "secondary"
+          ],
+          "attrs": {
+           "data-title": "Align Left",
+           "data-action": "arrange.align.align-left"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "normal"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "gravit-icon-touch-align-left",
+             "touch"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "svg-button",
+           "secondary"
+          ],
+          "attrs": {
+           "data-title": "Align Center",
+           "data-action": "arrange.align.align-center"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "normal"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "gravit-icon-touch-align-center",
+             "touch"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "svg-button",
+           "secondary"
+          ],
+          "attrs": {
+           "data-title": "Align Right",
+           "data-action": "arrange.align.align-right"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "normal"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "gravit-icon-touch-align-right",
+             "touch"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "divider"
+          ],
+          "hidden": true
+         },
+         {
+          "tag": "p",
+          "cls": [
+           "interval"
+          ]
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "svg-button",
+           "secondary"
+          ],
+          "attrs": {
+           "data-title": "Align Top",
+           "data-action": "arrange.align.align-top"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "normal"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "gravit-icon-touch-align-top",
+             "touch"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "svg-button",
+           "secondary"
+          ],
+          "attrs": {
+           "data-title": "Align Middle",
+           "data-action": "arrange.align.align-middle"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "normal"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "gravit-icon-touch-align-middle",
+             "touch"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "svg-button",
+           "secondary"
+          ],
+          "attrs": {
+           "data-title": "Align Bottom",
+           "data-action": "arrange.align.align-bottom"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "normal"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "gravit-icon-touch-align-bottom",
+             "touch"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "p",
+          "cls": [
+           "lineBreak"
+          ]
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "svg-button",
+           "primary",
+           "touchDistribute"
+          ],
+          "attrs": {
+           "data-title": "Distribute Horizontally",
+           "data-action": "arrange.distribute.horizontal"
+          },
+          "props": {
+           "disabled": true
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "normal"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "gravit-icon-touch-horizontal",
+             "touch"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "horizontalInput",
+           "g-input-select",
+           "touchDistribute"
+          ],
+          "children": [
+           {
+            "tag": "input",
+            "attrs": {
+             "type": "text",
+             "draggable": "false"
+            },
+            "props": {
+             "value": "Auto",
+             "disabled": true
+            }
+           },
+           {
+            "tag": "button",
+            "props": {
+             "disabled": true
+            }
+           }
+          ]
+         },
+         {
+          "tag": "p",
+          "cls": [
+           "interval"
+          ]
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "svg-button",
+           "primary",
+           "touchDistribute"
+          ],
+          "attrs": {
+           "data-title": "Distribute Vertically",
+           "data-action": "arrange.distribute.vertical"
+          },
+          "props": {
+           "disabled": true
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "normal"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "gravit-icon-touch-vertical",
+             "touch"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "verticalInput",
+           "g-input-select",
+           "touchDistribute"
+          ],
+          "children": [
+           {
+            "tag": "input",
+            "attrs": {
+             "type": "text",
+             "draggable": "false"
+            },
+            "props": {
+             "value": "Auto",
+             "disabled": true
+            }
+           },
+           {
+            "tag": "button",
+            "props": {
+             "disabled": true
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "properties-panel",
+         "dimension-panel",
+         "have-anchor",
+         "g-touch-toolbar-panel"
+        ],
+        "attrs": {
+         "g-touch-tool": "dimension.dimension"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "hr",
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "toolbar",
+         "advanced-transform-toolbar",
+         "g-touch-toolbar-label"
+        ],
+        "attrs": {
+         "g-touch-tool": "dimension.dimension"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "properties-panel",
+         "advanced-transform-properties",
+         "g-touch-toolbar-panel"
+        ],
+        "attrs": {
+         "g-touch-tool": "dimension.dimension"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "hr",
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "toolbar",
+         "filled",
+         "page-toolbar",
+         "page-properties-toolbar",
+         "g-touch-toolbar-label"
+        ],
+        "attrs": {
+         "g-touch-tool": "document"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "properties-panel",
+         "page-properties-panel",
+         "g-touch-toolbar-panel"
+        ],
+        "attrs": {
+         "g-touch-tool": "document"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "hr",
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "toolbar",
+         "scene-properties-toolbar",
+         "g-touch-toolbar-label"
+        ],
+        "attrs": {
+         "g-touch-tool": "document"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "properties-panel",
+         "scene-properties-panel",
+         "g-touch-toolbar-panel"
+        ],
+        "attrs": {
+         "g-touch-tool": "document"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "hr",
+        "hidden": true
+       },
+       {
+        "tag": "hr",
+        "cls": [
+         "appearance-divider"
+        ],
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "toolbar",
+         "appearance-toolbar",
+         "appearance-panel-toggle-btn",
+         "accordion",
+         "g-touch-toolbar-label"
+        ],
+        "attrs": {
+         "g-touch-tool": "appearance"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "properties-panel",
+         "appearance-properties-panel",
+         "display-none"
+        ],
+        "hidden": true
+       },
+       {
+        "tag": "hr",
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "toolbar",
+         "list-toolbar",
+         "fill-toolbar",
+         "appearance-panel-toggle-btn",
+         "accordion",
+         "g-touch-toolbar-label"
+        ],
+        "attrs": {
+         "g-touch-tool": "fill"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "properties-panel",
+         "fill-properties-panel",
+         "g-touch-toolbar-panel"
+        ],
+        "attrs": {
+         "g-touch-tool": "fill"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "hr",
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "toolbar",
+         "list-toolbar",
+         "border-toolbar",
+         "empty-list",
+         "appearance-panel-toggle-btn",
+         "accordion",
+         "g-touch-toolbar-label"
+        ],
+        "attrs": {
+         "g-touch-tool": "border"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "properties-panel",
+         "border-properties-panel",
+         "g-touch-toolbar-panel"
+        ],
+        "attrs": {
+         "g-touch-tool": "border"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "hr",
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "toolbar",
+         "list-toolbar",
+         "effects-toolbar",
+         "appearance-panel-toggle-btn",
+         "accordion",
+         "g-touch-toolbar-label"
+        ],
+        "attrs": {
+         "g-touch-tool": "effect"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "properties-panel",
+         "effects-properties-panel",
+         "g-touch-toolbar-panel"
+        ],
+        "attrs": {
+         "g-touch-tool": "effect"
+        },
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "panels",
+       "sticky-panels"
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "panels",
+       "history-panel"
+      ],
+      "hidden": true
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-annotations",
+     "multiple",
+     "align-active"
+    ],
+    "hidden": true
+   }
+  ]
+ }
+]

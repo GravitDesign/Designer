@@ -1,0 +1,842 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-collapsible",
+   "g-transitions-off",
+   "expanded",
+   "vertical"
+  ],
+  "id": "assistant-bar",
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-collapsible-button"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "gravit-icon-touch-arrow-down"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "container"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "left-side"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-property-row",
+         "no-label"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "g-virtual-key",
+                   "g-virtual-key-6"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "text": "Shift"
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "g-disabled"
+                  ],
+                  "props": {
+                   "disabled": true
+                  },
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-copy"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button",
+                 "split"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-paste"
+                    ]
+                   }
+                  ]
+                 },
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "dropdown-button",
+                   "g-menu-button"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-arrow-up"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "g-disabled"
+                  ],
+                  "props": {
+                   "disabled": true
+                  },
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-trash-2"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-selection"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "g-menu-button"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-arrange-order"
+                    ]
+                   },
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-arrow-up"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-fullscreen"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-property-row",
+         "no-label"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "g-virtual-key",
+                   "g-virtual-key-5"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "text": "Ctrl"
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "g-virtual-key",
+                   "g-virtual-key-7"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "text": "Alt"
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "g-disabled"
+                  ],
+                  "props": {
+                   "disabled": true
+                  },
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-group"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "g-disabled"
+                  ],
+                  "props": {
+                   "disabled": true
+                  },
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-ungroup"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "g-disabled"
+                  ],
+                  "props": {
+                   "disabled": true
+                  },
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-convert-to-path"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-help"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-collapsible-button"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-arrow-right"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "right-side",
+       "g-collapsible",
+       "g-transitions-off",
+       "horizontal",
+       "collapsed"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-property-row",
+         "no-label"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "g-virtual-key"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-arrow-key-up"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "g-virtual-key"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-arrow-key-down"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-property-row",
+         "no-label"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "g-virtual-key"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-arrow-key-left"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "toolbar-button"
+                ],
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "g-virtual-key"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-touch-arrow-key-right"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

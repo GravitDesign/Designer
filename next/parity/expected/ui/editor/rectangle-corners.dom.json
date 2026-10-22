@@ -1,0 +1,271 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "advanced-overlay"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "advanced-panel-wrapper",
+     "rectangle-properties"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "corner-type"
+      ],
+      "attrs": {
+       "data-property": "corners-type"
+      },
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-property-row",
+         "no-label"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "cls": [
+                 "g-flat",
+                 "g-active"
+                ],
+                "attrs": {
+                 "data-title": "Round"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-corner-rounded"
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "cls": [
+                 "g-flat"
+                ],
+                "attrs": {
+                 "data-title": "Round2"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-corner-inverse-rounded"
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "cls": [
+                 "g-flat"
+                ],
+                "attrs": {
+                 "data-title": "Bevel"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-corner-bevel"
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "cls": [
+                 "g-flat"
+                ],
+                "attrs": {
+                 "data-title": "Inset"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-corner-inset"
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "cls": [
+                 "g-flat"
+                ],
+                "attrs": {
+                 "data-title": "Fancy"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-corner-fancy"
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "label",
+      "cls": [
+       "g-checkbox-label"
+      ],
+      "children": [
+       {
+        "tag": "input",
+        "cls": [
+         "csc-checkbox"
+        ],
+        "attrs": {
+         "data-property": "csc",
+         "type": "checkbox"
+        },
+        "props": {
+         "checked": true
+        }
+       },
+       {
+        "tag": "span",
+        "text": "Autoscale Corners"
+       }
+      ]
+     },
+     {
+      "tag": "label",
+      "cls": [
+       "g-checkbox-label"
+      ],
+      "children": [
+       {
+        "tag": "input",
+        "cls": [
+         "uf-checkbox"
+        ],
+        "attrs": {
+         "data-property": "uf",
+         "type": "checkbox"
+        },
+        "props": {
+         "checked": true
+        }
+       },
+       {
+        "tag": "span",
+        "text": "Uniform Corners"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "corners-panel"
+      ],
+      "hidden": true
+     }
+    ]
+   }
+  ]
+ }
+]

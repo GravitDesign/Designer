@@ -1,0 +1,1039 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "context-menu-touch-overlay"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "transform-section",
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "button-group"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "action"
+                ],
+                "attrs": {
+                 "data-action": "arrange.transform.flip-horizontal"
+                },
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "icon"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-flip-horizontal"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "action"
+                ],
+                "attrs": {
+                 "data-action": "arrange.transform.flip-vertical"
+                },
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "icon"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-flip-vertical"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "no-padding"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "button-group"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "action"
+                ],
+                "attrs": {
+                 "data-action": "arrange.transform.rotate-90-left"
+                },
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "icon"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-rotate-left"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "action"
+                ],
+                "attrs": {
+                 "data-action": "arrange.transform.rotate-90-right"
+                },
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "icon"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-rotate-right"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "paste-section",
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "action-button-with-menu"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "action"
+                ],
+                "attrs": {
+                 "data-action": "paste.paste"
+                },
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "long-button",
+                   "icon"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-paste"
+                    ]
+                   },
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "label"
+                    ],
+                    "text": "Paste"
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "button",
+                "cls": [
+                 "open-menu",
+                 "icon",
+                 "gravit-icon-chevron-left-small"
+                ],
+                "props": {
+                 "disabled": true
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "compound-section",
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "action-button-with-menu"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "action"
+                ],
+                "attrs": {
+                 "data-action": "modify.merge"
+                },
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "long-button",
+                   "icon"
+                  ],
+                  "props": {
+                   "disabled": true
+                  },
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-merge-union"
+                    ]
+                   },
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "label"
+                    ],
+                    "text": "Create Compound"
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "button",
+                "cls": [
+                 "open-menu",
+                 "icon",
+                 "gravit-icon-chevron-left-small"
+                ],
+                "props": {
+                 "disabled": true
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "path-section",
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "action-button-with-menu"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "action"
+                ],
+                "attrs": {
+                 "data-action": "modify.converttopath"
+                },
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "long-button",
+                   "icon"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-convert-to-path"
+                    ]
+                   },
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "label"
+                    ],
+                    "text": "Convert to Path"
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "button",
+                "cls": [
+                 "open-menu",
+                 "icon",
+                 "gravit-icon-chevron-left-small"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "symbol-section",
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "action-button-with-menu"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "action"
+                ],
+                "attrs": {
+                 "data-action": "modify.createsymbol"
+                },
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "long-button",
+                   "icon"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-symbolmaster"
+                    ]
+                   },
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "label"
+                    ],
+                    "text": "Create Symbol"
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "button",
+                "cls": [
+                 "open-menu",
+                 "icon",
+                 "gravit-icon-chevron-left-small"
+                ],
+                "props": {
+                 "disabled": true
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "text-section",
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "action-menu-button"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "icon"
+                  ],
+                  "props": {
+                   "disabled": true
+                  },
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-textbox"
+                    ]
+                   },
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "label"
+                    ],
+                    "text": "Text"
+                   },
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "item-tail",
+                     "gravit-icon-chevron-left-small"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "image-section",
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "action-menu-button"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "icon"
+                  ],
+                  "props": {
+                   "disabled": true
+                  },
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-image"
+                    ]
+                   },
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "label"
+                    ],
+                    "text": "Image"
+                   },
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "item-tail",
+                     "gravit-icon-chevron-left-small"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "button-group"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "action"
+                ],
+                "attrs": {
+                 "data-action": "modify.clip"
+                },
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "icon"
+                  ],
+                  "props": {
+                   "disabled": true
+                  },
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-clip-circle"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "action"
+                ],
+                "attrs": {
+                 "data-action": "modify.mask-with-shape"
+                },
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "icon"
+                  ],
+                  "props": {
+                   "disabled": true
+                  },
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-mask-with-shape"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "no-padding"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "button-group"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "action"
+                ],
+                "attrs": {
+                 "data-action": "modify.path2bmp"
+                },
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "icon"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-flatten"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "action"
+                ],
+                "attrs": {
+                 "data-action": "edit.duplicate"
+                },
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "icon"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-duplicate"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "button-group"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "icon"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-lock"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button",
+                   "icon"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "gravit-icon-hide-big"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "no-padding"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "select-menu-button"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "children": [
+                 {
+                  "tag": "button",
+                  "cls": [
+                   "action-button"
+                  ],
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "label"
+                    ],
+                    "text": "Select"
+                   },
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "icon",
+                     "item-tail",
+                     "gravit-icon-chevron-left-small"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

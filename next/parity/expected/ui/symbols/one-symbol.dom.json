@@ -1,0 +1,223 @@
+[
+ {
+  "tag": "div",
+  "id": "left-sidebars",
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-selector"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "sidebar-option",
+       "sidebar-outline",
+       "g-active"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "sidebar-title"
+        ],
+        "text": "Layers"
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "g-badge"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "sidebar-option",
+       "sidebar-library"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "sidebar-title"
+        ],
+        "text": "Libraries"
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "g-badge"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "sidebar-option",
+       "sidebar-symbols",
+       "g-active",
+       "active"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "sidebar-title"
+        ],
+        "text": "Symbols"
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "g-badge"
+        ],
+        "hidden": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-outline",
+     "multiple"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-library",
+     "multiple"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-symbols",
+     "multiple",
+     "g-active"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "toolbar",
+       "symbols-toolbar"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "text": "Symbols"
+       },
+       {
+        "tag": "button",
+        "attrs": {
+         "data-title": "Delete Symbol"
+        },
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-trash"
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-touch-trash"
+          ],
+          "hidden": true
+         }
+        ]
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "g-disabled"
+        ],
+        "attrs": {
+         "data-title": "Create New Symbol"
+        },
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-plus"
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-touch-plus"
+          ],
+          "hidden": true
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "symbols-container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "symbols",
+         "g-symbols-panel"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "attrs": {
+           "draggable": "false"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "symbol-title-group",
+             "g-highlighted"
+            ],
+            "attrs": {
+             "draggable": "true"
+            },
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "symbol-image"
+              ],
+              "children": [
+               {
+                "tag": "canvas"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

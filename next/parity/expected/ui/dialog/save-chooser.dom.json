@@ -1,0 +1,83 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-dialog",
+   "g-save-chooser-dialog"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-save-chooser",
+     "g-dialog-content"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "save-to-file"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-local-file",
+           "icon"
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "label"
+          ],
+          "text": "Save to File"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "hr"
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "save-to-file"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-gravit-cloud-file-save-choose",
+           "icon"
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "label"
+          ],
+          "text": "Save to Cloud"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

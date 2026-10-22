@@ -1,0 +1,98 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-dialog",
+   "g-missingfonts-dialog"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-content"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "title"
+      ],
+      "text": "Some fonts in the document are missing"
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "subtitle"
+      ],
+      "text": "The following fonts are used, but cannot be found in Gravit Designer"
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "fonts-container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "font-row"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "postscriptname"
+          ],
+          "text": "No Such Font"
+         },
+         {
+          "tag": "input",
+          "cls": [
+           "g-select"
+          ],
+          "attrs": {
+           "type": "button"
+          },
+          "props": {
+           "value": "Open Sans"
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-footer"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "buttons"
+      ],
+      "children": [
+       {
+        "tag": "button",
+        "text": "Replace Fonts"
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "g-disabled"
+        ],
+        "props": {
+         "disabled": true
+        },
+        "text": "Keep Fonts"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

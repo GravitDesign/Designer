@@ -1,0 +1,91 @@
+[
+ {
+  "tag": "div",
+  "id": "windows",
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "window"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-scene-widget",
+       "g-editor-widget",
+       "g-cursor-select"
+      ],
+      "children": [
+       {
+        "tag": "canvas"
+       },
+       {
+        "tag": "div"
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-ruler-widget",
+         "horizontal"
+        ],
+        "children": [
+         {
+          "tag": "canvas"
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "mouse-marker"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-ruler-widget",
+         "vertical"
+        ],
+        "children": [
+         {
+          "tag": "canvas"
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "mouse-marker"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-ruler-widget"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "px"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "inline-hint"
+        ],
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "hidden": true
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

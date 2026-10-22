@@ -1,0 +1,339 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "no-padding"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-effects-panel"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-effects-selector"
+      ],
+      "children": [
+       {
+        "tag": "select",
+        "cls": [
+         "g-effects-select",
+         "active"
+        ],
+        "props": {
+         "value": "Most Used"
+        },
+        "children": [
+         {
+          "tag": "option",
+          "props": {
+           "selected": true
+          },
+          "text": "Most Used"
+         },
+         {
+          "tag": "option",
+          "text": "Adjust"
+         },
+         {
+          "tag": "option",
+          "text": "Artistic"
+         },
+         {
+          "tag": "option",
+          "text": "Blur"
+         },
+         {
+          "tag": "option",
+          "text": "Distortion"
+         },
+         {
+          "tag": "option",
+          "text": "Other"
+         },
+         {
+          "tag": "option",
+          "text": "Shadow"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-effects-content"
+      ],
+      "children": [
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-blur-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Blur"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-vignette-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Vignette"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-adjust-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Color Adjust"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-recolour-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Recolor"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-overlay-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Overlay"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-mirror-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Mirror"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-curved-shadow-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Curved Shadow"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-drop-shadow-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Drop Shadow"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-inner-shadow-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Inner Shadow"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

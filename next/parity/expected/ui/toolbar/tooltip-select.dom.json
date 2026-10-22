@@ -1,0 +1,55 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-rich-tooltip-container"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-tooltip-content-wrapper"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-header"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-tooltip-content-shortcut"
+        ],
+        "text": "V"
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "limit-width",
+         "g-tooltip-content-title"
+        ],
+        "text": "Pointer tool"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-description"
+      ],
+      "text": "Click and drag to create a selection. Click an object to select it. Hold SHIFT to add/remove from selection. Hold ALT to select only objects fully enclosed in marqee"
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-video",
+       "loading"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

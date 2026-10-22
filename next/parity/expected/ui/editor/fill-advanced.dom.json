@@ -1,0 +1,84 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row"
+      ],
+      "children": [
+       {
+        "tag": "label",
+        "cls": [
+         "property-label"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "vertical-align"
+          ],
+          "text": "Fill-Rule"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "cls": [
+           "column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "select",
+              "attrs": {
+               "data-property": "evenodd"
+              },
+              "props": {
+               "value": "0"
+              },
+              "children": [
+               {
+                "tag": "option",
+                "props": {
+                 "selected": true
+                },
+                "text": "Non-Zero (Fill Holes)"
+               },
+               {
+                "tag": "option",
+                "text": "Even-Odd (Keep Holes)"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

@@ -1,0 +1,47 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-rich-tooltip-container"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-tooltip-content-wrapper"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-header"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-tooltip-content-title"
+        ],
+        "text": "Create a clip"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-description"
+      ],
+      "text": "Create a mask for an object. Click twice to edit the clipped object."
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-tooltip-content-video",
+       "loading"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

@@ -1,0 +1,138 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "header"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "preset",
+     "custom-size"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-input"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "input-holder"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "children": [
+           {
+            "tag": "input",
+            "attrs": {
+             "name": "width",
+             "placeholder": "Width",
+             "draggable": "false"
+            },
+            "props": {
+             "value": ""
+            }
+           },
+           {
+            "tag": "img",
+            "cls": [
+             "versus"
+            ],
+            "attrs": {
+             "src": "assets/icon/versus.svg"
+            }
+           },
+           {
+            "tag": "input",
+            "attrs": {
+             "name": "height",
+             "placeholder": "Height",
+             "draggable": "false"
+            },
+            "props": {
+             "value": ""
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "select",
+        "attrs": {
+         "name": "unit"
+        },
+        "props": {
+         "value": "px"
+        },
+        "children": [
+         {
+          "tag": "option",
+          "props": {
+           "selected": true
+          },
+          "text": "px"
+         },
+         {
+          "tag": "option",
+          "text": "mm"
+         },
+         {
+          "tag": "option",
+          "text": "cm"
+         },
+         {
+          "tag": "option",
+          "text": "in"
+         },
+         {
+          "tag": "option",
+          "text": "pc"
+         },
+         {
+          "tag": "option",
+          "text": "pt"
+         }
+        ]
+       },
+       {
+        "tag": "img",
+        "cls": [
+         "result"
+        ],
+        "attrs": {
+         "src": "assets/icon/result.svg"
+        }
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "cloud-button",
+         "active"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Create!"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "p",
+      "cls": [
+       "infinite-canvas"
+      ],
+      "text": "Leave it empty for infinite canvas"
+     }
+    ]
+   }
+  ]
+ }
+]

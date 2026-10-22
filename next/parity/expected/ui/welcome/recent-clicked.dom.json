@@ -1,0 +1,802 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-dialog",
+   "g-new-document-dialog"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-content"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "sidebar"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "sidebar-options"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "option-separator",
+           "start-option",
+           "active"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "option",
+           "start-option",
+           "active"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "option-icon"
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "option-text"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "option-title"
+              ],
+              "text": "New Design"
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "option-subtitle"
+              ],
+              "text": "Design creation starts here"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "option-separator",
+           "local-option",
+           "active"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "option",
+           "local-option"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "option-icon"
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "option-text"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "option-title"
+              ],
+              "text": "Open from Computer"
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "option-subtitle"
+              ],
+              "text": "Open a locally saved file"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "option-separator",
+           "recent-option"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "option",
+           "recent-option"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "option-icon"
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "option-text"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "option-title"
+              ],
+              "text": "Open Recent"
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "option-subtitle"
+              ],
+              "text": "Open a recent opened file"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "option-separator"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "footer"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "links-container"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "links-column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "link"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "link-icon"
+                ]
+               },
+               {
+                "tag": "a",
+                "text": "Tutorials"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "links-column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "link"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "link-icon"
+                ]
+               },
+               {
+                "tag": "a",
+                "text": "User Guide"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "links-column"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "version"
+        ],
+        "text": "Version i015.3 Web"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "frame"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "presets-container"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "header"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "preset",
+             "custom-size"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "g-input"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "input-holder"
+                ],
+                "children": [
+                 {
+                  "tag": "div",
+                  "children": [
+                   {
+                    "tag": "input",
+                    "attrs": {
+                     "name": "width",
+                     "placeholder": "Width",
+                     "draggable": "false"
+                    },
+                    "props": {
+                     "value": ""
+                    }
+                   },
+                   {
+                    "tag": "img",
+                    "cls": [
+                     "versus"
+                    ],
+                    "attrs": {
+                     "src": "assets/icon/versus.svg"
+                    }
+                   },
+                   {
+                    "tag": "input",
+                    "attrs": {
+                     "name": "height",
+                     "placeholder": "Height",
+                     "draggable": "false"
+                    },
+                    "props": {
+                     "value": ""
+                    }
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "select",
+                "attrs": {
+                 "name": "unit"
+                },
+                "props": {
+                 "value": "px"
+                },
+                "children": [
+                 {
+                  "tag": "option",
+                  "props": {
+                   "selected": true
+                  },
+                  "text": "px"
+                 },
+                 {
+                  "tag": "option",
+                  "text": "mm"
+                 },
+                 {
+                  "tag": "option",
+                  "text": "cm"
+                 },
+                 {
+                  "tag": "option",
+                  "text": "in"
+                 },
+                 {
+                  "tag": "option",
+                  "text": "pc"
+                 },
+                 {
+                  "tag": "option",
+                  "text": "pt"
+                 }
+                ]
+               },
+               {
+                "tag": "img",
+                "cls": [
+                 "result"
+                ],
+                "attrs": {
+                 "src": "assets/icon/result.svg"
+                }
+               },
+               {
+                "tag": "button",
+                "cls": [
+                 "cloud-button",
+                 "active"
+                ],
+                "children": [
+                 {
+                  "tag": "span",
+                  "text": "Create!"
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "tag": "p",
+              "cls": [
+               "infinite-canvas"
+              ],
+              "text": "Leave it empty for infinite canvas"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "presets-frame"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "presets"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "preset"
+              ],
+              "children": [
+               {
+                "tag": "p",
+                "cls": [
+                 "title"
+                ],
+                "text": "UI/UX Design"
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "icon"
+                ],
+                "children": [
+                 {
+                  "tag": "img",
+                  "attrs": {
+                   "src": "assets/img/new-document/preset-uiux-white.svg"
+                  }
+                 },
+                 {
+                  "tag": "img",
+                  "cls": [
+                   "hover"
+                  ],
+                  "attrs": {
+                   "src": "assets/img/new-document/preset-uiux-black.svg"
+                  },
+                  "hidden": true
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "select-container"
+                ],
+                "children": [
+                 {
+                  "tag": "p",
+                  "cls": [
+                   "name"
+                  ],
+                  "text": "App & device screens"
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "preset"
+              ],
+              "children": [
+               {
+                "tag": "p",
+                "cls": [
+                 "title"
+                ],
+                "text": "Social Media"
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "icon"
+                ],
+                "children": [
+                 {
+                  "tag": "img",
+                  "attrs": {
+                   "src": "assets/img/new-document/preset-social-white.svg"
+                  }
+                 },
+                 {
+                  "tag": "img",
+                  "cls": [
+                   "hover"
+                  ],
+                  "attrs": {
+                   "src": "assets/img/new-document/preset-social-black.svg"
+                  },
+                  "hidden": true
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "select-container"
+                ],
+                "children": [
+                 {
+                  "tag": "p",
+                  "cls": [
+                   "name"
+                  ],
+                  "text": "Posts, stories & covers"
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "preset"
+              ],
+              "children": [
+               {
+                "tag": "p",
+                "cls": [
+                 "title"
+                ],
+                "text": "Print"
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "icon"
+                ],
+                "children": [
+                 {
+                  "tag": "img",
+                  "attrs": {
+                   "src": "assets/img/new-document/preset-print-white.svg"
+                  }
+                 },
+                 {
+                  "tag": "img",
+                  "cls": [
+                   "hover"
+                  ],
+                  "attrs": {
+                   "src": "assets/img/new-document/preset-print-black.svg"
+                  },
+                  "hidden": true
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "select-container"
+                ],
+                "children": [
+                 {
+                  "tag": "p",
+                  "cls": [
+                   "name"
+                  ],
+                  "text": "Paper & physical media"
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "preset"
+              ],
+              "children": [
+               {
+                "tag": "p",
+                "cls": [
+                 "title"
+                ],
+                "text": "Presentation"
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "icon"
+                ],
+                "children": [
+                 {
+                  "tag": "img",
+                  "attrs": {
+                   "src": "assets/img/new-document/preset-presentation-white.svg"
+                  }
+                 },
+                 {
+                  "tag": "img",
+                  "cls": [
+                   "hover"
+                  ],
+                  "attrs": {
+                   "src": "assets/img/new-document/preset-presentation-black.svg"
+                  },
+                  "hidden": true
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "select-container"
+                ],
+                "children": [
+                 {
+                  "tag": "p",
+                  "cls": [
+                   "name"
+                  ],
+                  "text": "Slides & decks"
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "preset"
+              ],
+              "children": [
+               {
+                "tag": "p",
+                "cls": [
+                 "title"
+                ],
+                "text": "Web"
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "icon"
+                ],
+                "children": [
+                 {
+                  "tag": "img",
+                  "attrs": {
+                   "src": "assets/img/new-document/preset-web-white.svg"
+                  }
+                 },
+                 {
+                  "tag": "img",
+                  "cls": [
+                   "hover"
+                  ],
+                  "attrs": {
+                   "src": "assets/img/new-document/preset-web-black.svg"
+                  },
+                  "hidden": true
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "select-container"
+                ],
+                "children": [
+                 {
+                  "tag": "p",
+                  "cls": [
+                   "name"
+                  ],
+                  "text": "Websites & banners"
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "tag": "div",
+              "cls": [
+               "preset"
+              ],
+              "children": [
+               {
+                "tag": "p",
+                "cls": [
+                 "title"
+                ],
+                "text": "Video / Motion"
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "icon"
+                ],
+                "children": [
+                 {
+                  "tag": "img",
+                  "attrs": {
+                   "src": "assets/img/new-document/preset-video-white.svg"
+                  }
+                 },
+                 {
+                  "tag": "img",
+                  "cls": [
+                   "hover"
+                  ],
+                  "attrs": {
+                   "src": "assets/img/new-document/preset-video-black.svg"
+                  },
+                  "hidden": true
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "select-container"
+                ],
+                "children": [
+                 {
+                  "tag": "p",
+                  "cls": [
+                   "name"
+                  ],
+                  "text": "Video & animation frames"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "footer-section"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "text": "Don't show anymore at startup",
+          "children": [
+           {
+            "tag": "input",
+            "attrs": {
+             "type": "checkbox"
+            },
+            "props": {
+             "checked": false
+            }
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "g-recent-documents",
+   "no-padding"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "menu"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "item"
+        ],
+        "text": "No Recent Files"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

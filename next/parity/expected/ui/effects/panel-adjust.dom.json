@@ -1,0 +1,411 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "no-padding"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-effects-panel"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-effects-selector"
+      ],
+      "children": [
+       {
+        "tag": "select",
+        "cls": [
+         "g-effects-select",
+         "active"
+        ],
+        "props": {
+         "value": "Adjust"
+        },
+        "children": [
+         {
+          "tag": "option",
+          "text": "Most Used"
+         },
+         {
+          "tag": "option",
+          "props": {
+           "selected": true
+          },
+          "text": "Adjust"
+         },
+         {
+          "tag": "option",
+          "text": "Artistic"
+         },
+         {
+          "tag": "option",
+          "text": "Blur"
+         },
+         {
+          "tag": "option",
+          "text": "Distortion"
+         },
+         {
+          "tag": "option",
+          "text": "Other"
+         },
+         {
+          "tag": "option",
+          "text": "Shadow"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-effects-content"
+      ],
+      "children": [
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-adjust-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Color Adjust"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-recolour-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Recolor"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-overlay-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Overlay"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button",
+         "pro"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-half-tone-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Halftone"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button",
+         "pro"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-denoise-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Denoise"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button",
+         "pro"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-noise-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Noise"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button",
+         "pro"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-sepia-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Sepia"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button",
+         "pro"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-unsharp-mask-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Unsharp mask"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button",
+         "pro"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-vibrance-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Vibrance"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button",
+         "pro"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-bloom-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Bloom"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button",
+         "pro"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-color-grading-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Color Grading"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

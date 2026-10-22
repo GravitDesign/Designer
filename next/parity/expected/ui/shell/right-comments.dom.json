@@ -1,0 +1,464 @@
+[
+ {
+  "tag": "div",
+  "id": "right-sidebars",
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-selector"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "sidebar-option",
+       "sidebar-inspector"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "sidebar-title"
+        ],
+        "text": "Inspector"
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "g-badge"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "sidebar-option",
+       "sidebar-annotations",
+       "g-active",
+       "active"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "sidebar-title"
+        ],
+        "text": "Comments"
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "g-badge"
+        ],
+        "hidden": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-inspector",
+     "multiple",
+     "g-disabled"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-annotations",
+     "multiple",
+     "g-active"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "offline-overlay-message"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "panels"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "fixed-panels"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "sidebar-title-inner"
+          ],
+          "hidden": true
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "toolbar",
+           "annotations-toolbar"
+          ],
+          "children": [
+           {
+            "tag": "button",
+            "cls": [
+             "toolbar-button",
+             "icon",
+             "gravit-icon-annotationtools-comment"
+            ],
+            "attrs": {
+             "data-title": "Add notes"
+            }
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "toolbar-button",
+             "icon",
+             "gravit-icon-annotationtools-line"
+            ],
+            "attrs": {
+             "data-title": "Draw arrows and lines"
+            }
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "toolbar-button",
+             "icon",
+             "gravit-icon-annotationtools-highlighter"
+            ],
+            "attrs": {
+             "data-title": "Highlight canvas areas"
+            }
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "toolbar-button",
+             "icon",
+             "gravit-icon-annotationtools-pencil"
+            ],
+            "attrs": {
+             "data-title": "Draw free-form lines and shapes"
+            }
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "toolbar-button",
+             "icon",
+             "gravit-icon-annotationtools-rectangle"
+            ],
+            "attrs": {
+             "data-title": "Draw rectangles"
+            }
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "toolbar-button",
+             "icon",
+             "gravit-icon-annotationtools-ellipse"
+            ],
+            "attrs": {
+             "data-title": "Draw ellipses"
+            }
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "annotation-options-box"
+            ],
+            "children": [
+             {
+              "tag": "button",
+              "cls": [
+               "annotation-options"
+              ],
+              "attrs": {
+               "data-title": "Settings"
+              },
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "gravit-icon-settings"
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "indicator"
+            ],
+            "hidden": true
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "properties-panel",
+           "annotations-properties-panel"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "annotations-property-panel",
+             "tool-ellipse"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "annotations-property-panel",
+             "tool-rectangle"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "annotations-property-panel",
+             "tool-pencil"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "annotations-property-panel",
+             "tool-highlighter"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "annotations-property-panel",
+             "tool-line"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "annotations-property-panel",
+             "tool-comment"
+            ],
+            "hidden": true
+           },
+           {
+            "tag": "div"
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "annotations-property-panel",
+             "g-annotation-review-docker"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "panel",
+               "main-panel"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "row",
+                 "header"
+                ],
+                "children": [
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "status"
+                  ],
+                  "text": "Current status:"
+                 },
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "history-actions"
+                  ],
+                  "hidden": true
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "row",
+                 "status-selector"
+                ],
+                "children": [
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "dropdown-icon"
+                  ]
+                 },
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "selected-item-container",
+                   "disabled"
+                  ],
+                  "children": [
+                   {
+                    "tag": "div",
+                    "cls": [
+                     "g-annotation-review-docker-status-item",
+                     "disabled"
+                    ],
+                    "children": [
+                     {
+                      "tag": "div",
+                      "cls": [
+                       "icon-container",
+                       "selected"
+                      ],
+                      "children": [
+                       {
+                        "tag": "div",
+                        "cls": [
+                         "loading-indicator"
+                        ],
+                        "hidden": true
+                       }
+                      ]
+                     },
+                     {
+                      "tag": "div",
+                      "cls": [
+                       "details-container"
+                      ],
+                      "children": [
+                       {
+                        "tag": "div",
+                        "cls": [
+                         "title"
+                        ],
+                        "text": "In review"
+                       },
+                       {
+                        "tag": "div",
+                        "cls": [
+                         "description"
+                        ],
+                        "text": "Reviewers give feedback."
+                       }
+                      ]
+                     }
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "row",
+                 "footer"
+                ],
+                "children": [
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "footer-title"
+                  ],
+                  "text": "Please save and share the file to start the review process."
+                 },
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "footer-action"
+                  ],
+                  "text": "Save and share the design now"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "scrolling-panels"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "annotations-page-toolbar",
+           "toolbar"
+          ],
+          "hidden": true
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "properties-panel"
+          ],
+          "hidden": true
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

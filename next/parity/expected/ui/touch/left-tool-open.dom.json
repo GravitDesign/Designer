@@ -1,0 +1,377 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "bring-to-front"
+  ],
+  "id": "left-sidebars",
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-touch-toolbar"
+    ],
+    "children": [
+     {
+      "tag": "button",
+      "cls": [
+       "g-touch-toolbar-button",
+       "g-active"
+      ],
+      "id": "pages",
+      "attrs": {
+       "g-touch-tool": "pages"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-pages-panel"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-touch-toolbar-button"
+      ],
+      "id": "layers",
+      "attrs": {
+       "g-touch-tool": "layers"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-layers-panel"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-touch-toolbar-button"
+      ],
+      "id": "libraries",
+      "attrs": {
+       "g-touch-tool": "libraries"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-libraries-panel"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-touch-toolbar-button"
+      ],
+      "id": "symbols",
+      "attrs": {
+       "g-touch-tool": "symbols"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-touch-newSymbols"
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-selector"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-outline",
+     "multiple",
+     "g-active"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "toolbar",
+       "page-toolbar",
+       "accordion",
+       "g-touch-toolbar-label",
+       "g-active"
+      ],
+      "attrs": {
+       "g-touch-tool": "pages"
+      },
+      "children": [
+       {
+        "tag": "label",
+        "text": "Pages"
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "g-accordion"
+        ],
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-accordion-ghost"
+        ]
+       },
+       {
+        "tag": "label",
+        "cls": [
+         "toogle-page-mode"
+        ],
+        "attrs": {
+         "data-title": "Toggle Single / Multipage Mode"
+        },
+        "children": [
+         {
+          "tag": "input",
+          "cls": [
+           "g-checkbox-slider"
+          ],
+          "id": "toogle-page-mode-checkbox",
+          "attrs": {
+           "data-property": "multipage-switch",
+           "type": "checkbox"
+          },
+          "props": {
+           "checked": false
+          }
+         },
+         {
+          "tag": "div"
+         }
+        ]
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "setting-menu-options"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-settings"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "button",
+        "attrs": {
+         "data-title": "Delete Active Page"
+        },
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-trash"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "button",
+        "attrs": {
+         "data-title": "Create New Page"
+        },
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "gravit-icon-addpage"
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "pages-container",
+       "g-touch-toolbar-panel",
+       "g-active"
+      ],
+      "attrs": {
+       "g-touch-tool": "pages"
+      },
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "pages",
+         "g-page-panel",
+         "g-virtual-list",
+         "g-virtual-tree"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "vscroller"
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "page-row",
+           "g-drag-vrow",
+           "g-active"
+          ],
+          "id": "rowId",
+          "attrs": {
+           "draggable": "false"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "page-title-group"
+            ],
+            "attrs": {
+             "data-drag-mode": "1",
+             "draggable": "true"
+            },
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "page-icon",
+               "gravit-icon-page-infinity"
+              ]
+             },
+             {
+              "tag": "span",
+              "cls": [
+               "page-title"
+              ],
+              "text": "Page 1"
+             }
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "page-action",
+             "page-lock",
+             "gravit-icon-unlock-small"
+            ],
+            "attrs": {
+             "data-title": "Toggle Locker"
+            }
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "page-action",
+             "page-visibility",
+             "gravit-icon-display-small"
+            ],
+            "attrs": {
+             "data-title": "Toggle Visibility"
+            }
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "id": "page-layer-divider",
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "toolbar",
+       "layer-toolbar",
+       "g-touch-toolbar-label"
+      ],
+      "attrs": {
+       "g-touch-tool": "layers"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "layers-container",
+       "g-touch-toolbar-panel"
+      ],
+      "attrs": {
+       "g-touch-tool": "layers"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "hr",
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "toolbar",
+       "toolbar-export",
+       "list-toolbar",
+       "accordion",
+       "empty-list"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "properties-panel",
+       "export-panel",
+       "g-touch-toolbar-panel"
+      ],
+      "attrs": {
+       "g-touch-tool": "layers"
+      },
+      "hidden": true
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-library",
+     "multiple"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-symbols",
+     "multiple"
+    ],
+    "hidden": true
+   }
+  ]
+ }
+]

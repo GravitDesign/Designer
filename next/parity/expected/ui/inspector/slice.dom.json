@@ -1,0 +1,742 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "panels",
+   "scrolling-panels"
+  ],
+  "children": [
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "main-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "dimension-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "advanced-transform-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "advanced-transform-properties"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "filled",
+     "page-toolbar",
+     "page-properties-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "page-properties-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "scene-properties-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "scene-properties-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "group-frame-property-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "frame-property-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "item-property-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "filled",
+     "page-toolbar",
+     "symbol-instance-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "symbol-instance-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "cls": [
+     "appearance-divider"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "appearance-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "appearance-properties-panel"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel",
+       "text-properties-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel",
+       "slice-property-panel"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "slice-position-left-row",
+         "g-property-row"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "cls": [
+           "property-label"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "vertical-align"
+            ],
+            "text": "Left"
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "cls": [
+                 "x-input"
+                ],
+                "attrs": {
+                 "data-property": "x",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "500"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "slice-position-top-row",
+         "g-property-row"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "cls": [
+           "property-label"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "vertical-align"
+            ],
+            "text": "Top"
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "cls": [
+                 "y-input"
+                ],
+                "attrs": {
+                 "data-property": "y",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "340"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "slice-size-width-row",
+         "g-property-row"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "cls": [
+           "property-label"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "vertical-align"
+            ],
+            "text": "Width"
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "cls": [
+                 "w-input"
+                ],
+                "attrs": {
+                 "data-property": "w",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "200"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "slice-size-height-row",
+         "g-property-row"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "cls": [
+           "property-label"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "vertical-align"
+            ],
+            "text": "Height"
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "cls": [
+                 "h-input"
+                ],
+                "attrs": {
+                 "data-property": "h",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "120"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "slice-trm-row",
+         "g-property-row",
+         "no-label"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "label",
+                "cls": [
+                 "g-checkbox-label"
+                ],
+                "children": [
+                 {
+                  "tag": "input",
+                  "cls": [
+                   "trm-checkbox"
+                  ],
+                  "attrs": {
+                   "data-property": "trm",
+                   "type": "checkbox"
+                  },
+                  "props": {
+                   "checked": true
+                  }
+                 },
+                 {
+                  "tag": "span",
+                  "text": "Trim transparent pixels"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "slice-bg-row",
+         "g-property-row",
+         "no-label"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "label",
+                "cls": [
+                 "g-checkbox-label"
+                ],
+                "children": [
+                 {
+                  "tag": "input",
+                  "cls": [
+                   "cls-check-checkbox"
+                  ],
+                  "attrs": {
+                   "data-property": "cls-check",
+                   "type": "checkbox"
+                  },
+                  "props": {
+                   "checked": false
+                  }
+                 },
+                 {
+                  "tag": "span",
+                  "text": "Background"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "cls": [
+                 "g-pattern-chooser"
+                ],
+                "attrs": {
+                 "data-property": "cls"
+                },
+                "props": {
+                 "disabled": true
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "preview",
+                   "g-button"
+                  ],
+                  "attrs": {
+                   "data-drag-mode": "1",
+                   "draggable": "true"
+                  },
+                  "children": [
+                   {
+                    "tag": "div",
+                    "cls": [
+                     "eyedropper",
+                     "eye-drop"
+                    ],
+                    "attrs": {
+                     "data-title": "Pick a color from anywhere on the canvas"
+                    },
+                    "children": [
+                     {
+                      "tag": "span",
+                      "cls": [
+                       "gravit-icon-picker"
+                      ]
+                     }
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "hr",
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "hidden": true
+     }
+    ]
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "list-toolbar",
+     "fill-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "fill-properties-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "list-toolbar",
+     "border-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "border-properties-panel"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "list-toolbar",
+     "effects-toolbar"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "effects-properties-panel"
+    ],
+    "hidden": true
+   }
+  ]
+ }
+]

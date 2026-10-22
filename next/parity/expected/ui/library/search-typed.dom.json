@@ -1,0 +1,484 @@
+[
+ {
+  "tag": "div",
+  "id": "left-sidebars",
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-selector"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "sidebar-option",
+       "sidebar-outline",
+       "g-active"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "sidebar-title"
+        ],
+        "text": "Layers"
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "g-badge"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "sidebar-option",
+       "sidebar-library",
+       "g-active",
+       "active"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "sidebar-title"
+        ],
+        "text": "Libraries"
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "g-badge"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "sidebar-option",
+       "sidebar-symbols"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "sidebar-title"
+        ],
+        "text": "Symbols"
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "g-badge"
+        ],
+        "hidden": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-outline",
+     "multiple"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-library",
+     "multiple",
+     "g-active"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "toolbar",
+       "library-toolbar",
+       "g-touch-only"
+      ],
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "library-container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "overlay"
+        ],
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-library-panel"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "library-search"
+          ],
+          "children": [
+           {
+            "tag": "input",
+            "cls": [
+             "g-input"
+            ],
+            "attrs": {
+             "type": "text",
+             "placeholder": "Search..."
+            },
+            "props": {
+             "value": "star"
+            }
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "gravit-icon-search"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "assets"
+          ],
+          "hidden": true
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "category-row"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "category"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "img",
+                "cls": [
+                 "icon"
+                ],
+                "attrs": {
+                 "src": "https://dkqeh8b5t3gxm.cloudfront.net/icons/shape"
+                }
+               },
+               {
+                "tag": "span",
+                "cls": [
+                 "title"
+                ],
+                "text": "Shapes"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "category"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "img",
+                "cls": [
+                 "icon"
+                ],
+                "attrs": {
+                 "src": "https://dkqeh8b5t3gxm.cloudfront.net/icons/illustration"
+                }
+               },
+               {
+                "tag": "span",
+                "cls": [
+                 "title"
+                ],
+                "text": "Illustrations"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "category"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "img",
+                "cls": [
+                 "icon"
+                ],
+                "attrs": {
+                 "src": "https://dkqeh8b5t3gxm.cloudfront.net/icons/icon"
+                }
+               },
+               {
+                "tag": "span",
+                "cls": [
+                 "title"
+                ],
+                "text": "Icons"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "assets"
+          ],
+          "hidden": true
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "category-row"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "category"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "img",
+                "cls": [
+                 "icon"
+                ],
+                "attrs": {
+                 "src": "https://dkqeh8b5t3gxm.cloudfront.net/icons/emoji"
+                }
+               },
+               {
+                "tag": "span",
+                "cls": [
+                 "title"
+                ],
+                "text": "Emojis"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "category"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "img",
+                "cls": [
+                 "icon"
+                ],
+                "attrs": {
+                 "src": "https://dkqeh8b5t3gxm.cloudfront.net/icons/sticker"
+                }
+               },
+               {
+                "tag": "span",
+                "cls": [
+                 "title"
+                ],
+                "text": "Stickers"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "category"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "img",
+                "cls": [
+                 "icon"
+                ],
+                "attrs": {
+                 "src": "https://dkqeh8b5t3gxm.cloudfront.net/icons/frame"
+                }
+               },
+               {
+                "tag": "span",
+                "cls": [
+                 "title"
+                ],
+                "text": "Frames"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "assets"
+          ],
+          "hidden": true
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "category-row"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "category"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "img",
+                "cls": [
+                 "icon"
+                ],
+                "attrs": {
+                 "src": "https://dkqeh8b5t3gxm.cloudfront.net/icons/line"
+                }
+               },
+               {
+                "tag": "span",
+                "cls": [
+                 "title"
+                ],
+                "text": "Lines"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "category"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "img",
+                "cls": [
+                 "icon"
+                ],
+                "attrs": {
+                 "src": "https://dkqeh8b5t3gxm.cloudfront.net/icons/image"
+                }
+               },
+               {
+                "tag": "span",
+                "cls": [
+                 "title"
+                ],
+                "text": "Unsplash Photos"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "assets"
+          ],
+          "hidden": true
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "sidebar-container",
+     "sidebar-symbols",
+     "multiple"
+    ],
+    "hidden": true
+   }
+  ]
+ }
+]

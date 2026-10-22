@@ -1,0 +1,25 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "footer-section"
+  ],
+  "children": [
+   {
+    "tag": "label",
+    "text": "Don't show anymore at startup",
+    "children": [
+     {
+      "tag": "input",
+      "attrs": {
+       "type": "checkbox"
+      },
+      "props": {
+       "checked": true
+      }
+     }
+    ]
+   }
+  ]
+ }
+]

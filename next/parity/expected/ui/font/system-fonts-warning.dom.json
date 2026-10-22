@@ -1,0 +1,88 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "g-font-list-overlay",
+   "no-padding"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-fonts-panel",
+       "no-overflow"
+      ],
+      "children": [
+       {
+        "tag": "ul",
+        "cls": [
+         "tab"
+        ],
+        "children": [
+         {
+          "tag": "li",
+          "cls": [
+           "tablink"
+          ],
+          "children": [
+           {
+            "tag": "a",
+            "cls": [
+             "tablinks"
+            ],
+            "text": "Web Fonts"
+           }
+          ]
+         },
+         {
+          "tag": "li",
+          "cls": [
+           "tablink",
+           "pro",
+           "legacy-feature"
+          ],
+          "children": [
+           {
+            "tag": "a",
+            "cls": [
+             "tablinks"
+            ],
+            "text": "Imported Fonts"
+           }
+          ]
+         },
+         {
+          "tag": "li",
+          "cls": [
+           "tablink"
+          ],
+          "children": [
+           {
+            "tag": "a",
+            "cls": [
+             "tablinks",
+             "active"
+            ],
+            "text": "System Fonts"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-fonts-panel"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

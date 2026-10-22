@@ -1,0 +1,98 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "toolbar",
+   "page-toolbar",
+   "accordion",
+   "expanded"
+  ],
+  "children": [
+   {
+    "tag": "label",
+    "text": "Pages"
+   },
+   {
+    "tag": "button",
+    "cls": [
+     "g-accordion"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "gravit-icon-down"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-accordion-ghost"
+    ]
+   },
+   {
+    "tag": "label",
+    "cls": [
+     "g-switch"
+    ],
+    "attrs": {
+     "data-title": "Toggle Single / Multipage Mode"
+    },
+    "children": [
+     {
+      "tag": "input",
+      "id": "toogle-page-mode-checkbox",
+      "attrs": {
+       "data-property": "multipage-switch",
+       "type": "checkbox"
+      },
+      "props": {
+       "checked": true
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div"
+     }
+    ]
+   },
+   {
+    "tag": "button",
+    "cls": [
+     "setting-menu-options"
+    ],
+    "hidden": true
+   },
+   {
+    "tag": "button",
+    "attrs": {
+     "data-title": "Delete Active Page"
+    },
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "gravit-icon-trash"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "button",
+    "attrs": {
+     "data-title": "Create New Page"
+    },
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "gravit-icon-addpage"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

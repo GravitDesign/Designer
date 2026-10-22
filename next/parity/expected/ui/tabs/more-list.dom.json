@@ -1,0 +1,126 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "more-button",
+   "active"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "more-symbol"
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "moreTab"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "tab"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "title"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "select"
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "cover"
+          ],
+          "text": "Untitled-1*"
+         },
+         {
+          "tag": "input",
+          "attrs": {
+           "type": "text"
+          },
+          "props": {
+           "value": "Untitled-1*"
+          },
+          "hidden": true
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "close"
+        ],
+        "hidden": true
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "sync-status"
+        ],
+        "hidden": true
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "tab",
+       "g-active"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "title"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "select",
+           "more-tab-icon"
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "cover"
+          ],
+          "text": "Untitled-2"
+         },
+         {
+          "tag": "input",
+          "attrs": {
+           "type": "text"
+          },
+          "props": {
+           "value": "Untitled-2"
+          },
+          "hidden": true
+         }
+        ]
+       },
+       {
+        "tag": "span",
+        "cls": [
+         "close"
+        ],
+        "hidden": true
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]
