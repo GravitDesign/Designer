@@ -1,7 +1,9 @@
 import { PNG } from "pngjs";
 import { test, expect, type Browser, type Page } from "@playwright/test";
 import { isolateNetwork, openApp, type AppKind } from "./apps.ts";
-import { RECORDING } from "./env.ts";
+import fs from "node:fs";
+import path from "node:path";
+import { NEXT_ROOT, RECORDING } from "./env.ts";
 import { exceptionFor, assertExceptionIsDocumented } from "./exceptions.ts";
 import {
   assertSameOutput,
@@ -14,10 +16,11 @@ import type { Scenario } from "./scenario.ts";
 
 export interface SuiteOptions {
   /**
-   * Whether the new app is compared yet. Suites start with false while the
-   * feature is not ported; the final check requires true everywhere.
+   * Whether the new app is compared yet: false while the feature is not
+   * ported, a list of scenario ids while it is partly ported, true when all
+   * of them are. The final check requires true everywhere.
    */
-  newApp: boolean;
+  newApp: boolean | readonly string[];
 }
 
 /**
@@ -160,6 +163,41 @@ export function paritySuite(
   }
   test.describe(name, () => {
     defineSide("old", scenarios);
-    if (options.newApp && !RECORDING) defineSide("new", scenarios);
+    if (RECORDING) return;
+    const enabled = options.newApp;
+    if (Array.isArray(enabled)) {
+      const unknown = enabled.filter((id) => !ids.has(id));
+      if (unknown.length > 0) {
+        throw new Error(`unknown scenario ids in newApp: ${unknown.join(", ")}`);
+      }
+    }
+    const ported = portedScenarioIds();
+    const list = scenarios.filter(
+      (s) =>
+        enabled === true || (Array.isArray(enabled) && enabled.includes(s.id)) || ported.has(s.id),
+    );
+    if (list.length > 0) defineSide("new", list);
   });
+}
+
+let ported: Set<string> | undefined;
+
+/**
+ * Scenario ids listed in parity/ported/*.json. Each port cluster keeps its
+ * own file there (an array of scenario ids), so parallel work never edits
+ * the same suite file just to enable comparisons.
+ */
+export function portedScenarioIds(): Set<string> {
+  if (ported) return ported;
+  ported = new Set();
+  const dir = path.join(NEXT_ROOT, "parity", "ported");
+  if (!fs.existsSync(dir)) return ported;
+  for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".json"))) {
+    const list = JSON.parse(fs.readFileSync(path.join(dir, file), "utf8")) as unknown;
+    if (!Array.isArray(list) || list.some((id) => typeof id !== "string")) {
+      throw new Error(`parity/ported/${file} must be an array of scenario ids`);
+    }
+    for (const id of list as string[]) ported.add(id);
+  }
+  return ported;
 }
