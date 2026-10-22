@@ -1,0 +1,86 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "path",
+     "@id": "id3",
+     "closed": true,
+     "pts": [
+      [
+       "AAAgQQAAIME=",
+       "#",
+       "~b7"
+      ],
+      [
+       "AABSQwAAIME=",
+       "#",
+       "~b8"
+      ],
+      [
+       "AABSQwAA3MI=",
+       "#",
+       "~b9"
+      ],
+      [
+       "AAAgQQAA3MI=",
+       "#",
+       "~b10"
+      ]
+     ],
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      -10,
+      110
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id5",
+        "_pt": "L#{\"s\":200,\"t\":[0.005,0,0,-0.01,-0.05,1.1],\"fx\":10,\"fy\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,204,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,51,204]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id6"
+     },
+     "_effId": "id7"
+    },
+    {
+     "@": "annlst",
+     "@id": "id8",
+     "pgid": "id2",
+     "aid": "id8"
+    }
+   ],
+   "#": "id9",
+   "w": 200,
+   "h": 100,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "name": "Page 1"
+  }
+ ],
+ "lmd": "<time>",
+ "__ids": [
+  "id10",
+  "id11",
+  "id12"
+ ],
+ "dictionary": {
+  "entries": []
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}

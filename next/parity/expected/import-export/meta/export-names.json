@@ -1,0 +1,122 @@
+{
+ "one": [
+  {
+   "name": "Plain",
+   "png": "Plain.png",
+   "suffixed": "Plain@2x.jpg",
+   "override": "Plain.svg"
+  },
+  {
+   "name": "with space ",
+   "png": "with space_.png",
+   "suffixed": "with space_@2x.jpg",
+   "override": "with space_.svg"
+  },
+  {
+   "name": "trailing.dots...",
+   "png": "trailing.dots_.png",
+   "suffixed": "trailing.dots_@2x.jpg",
+   "override": "trailing.dots_.svg"
+  },
+  {
+   "name": "...",
+   "png": "_.png",
+   "suffixed": "_@2x.jpg",
+   "override": "_.svg"
+  },
+  {
+   "name": ".",
+   "png": "_.png",
+   "suffixed": "_@2x.jpg",
+   "override": "_.svg"
+  },
+  {
+   "name": "con",
+   "png": "_.png",
+   "suffixed": "_@2x.jpg",
+   "override": "_.svg"
+  },
+  {
+   "name": "CON.txt",
+   "png": "_.png",
+   "suffixed": "_@2x.jpg",
+   "override": "_.svg"
+  },
+  {
+   "name": "lpt9",
+   "png": "_.png",
+   "suffixed": "_@2x.jpg",
+   "override": "_.svg"
+  },
+  {
+   "name": "com0.png",
+   "png": "_.png",
+   "suffixed": "_@2x.jpg",
+   "override": "_.svg"
+  },
+  {
+   "name": "a\"b*c/d:e<f>g?h\\i|j",
+   "png": "a_b_c_d_e_f_g_h_i_j.png",
+   "suffixed": "a_b_c_d_e_f_g_h_i_j@2x.jpg",
+   "override": "a_b_c_d_e_f_g_h_i_j.svg"
+  },
+  {
+   "name": "ctl\u0001\u001fx",
+   "png": "ctl___x.png",
+   "suffixed": "ctl___x@2x.jpg",
+   "override": "ctl___x.svg"
+  },
+  {
+   "name": "Ümlaut ä ß 日本",
+   "png": "Ümlaut ä ß 日本.png",
+   "suffixed": "Ümlaut ä ß 日本@2x.jpg",
+   "override": "Ümlaut ä ß 日本.svg"
+  },
+  {
+   "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "png": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.png",
+   "suffixed": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@2x.jpg",
+   "override": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.svg"
+  },
+  {
+   "name": "",
+   "png": ".png",
+   "suffixed": "@2x.jpg",
+   "override": "ignored.svg"
+  }
+ ],
+ "seq": [
+  "A.png",
+  "A(2).png",
+  "A.svg",
+  "A(3).png",
+  "A@2x.png",
+  "A@2x(2).png"
+ ],
+ "used": [
+  {
+   "name": "A",
+   "format": "png"
+  },
+  {
+   "name": "A",
+   "format": "png"
+  },
+  {
+   "name": "A",
+   "format": "svg"
+  },
+  {
+   "name": "A",
+   "format": "png"
+  },
+  {
+   "name": "A@2x",
+   "format": "png"
+  },
+  {
+   "name": "A@2x",
+   "format": "png"
+  }
+ ]
+}

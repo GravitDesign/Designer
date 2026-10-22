@@ -1,0 +1,181 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "path",
+     "@id": "id3",
+     "pts": [
+      [
+       "AACgQQAAoEE=",
+       "#",
+       "~b14"
+      ],
+      [
+       "AADIQgAAcEI=",
+       "#",
+       "~b15"
+      ],
+      [
+       "AAA0QwAAoEE=",
+       "#",
+       "~b16"
+      ]
+     ],
+     "reftxt": null,
+     "refanchors": [],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id5",
+        "_pt": "C#[0,0,0]",
+        "_vs": false
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id6",
+        "_bw": 2,
+        "_blc": "butt",
+        "_bml": 4,
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "image",
+     "@id": "id9",
+     "url": "dictionary://~b29",
+     "iw": 64,
+     "ih": 48,
+     "pw": 64,
+     "ph": 48,
+     "itrf": [
+      2,
+      0,
+      0,
+      2,
+      20,
+      90
+     ],
+     "ipfc": true,
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      2,
+      0,
+      0,
+      2,
+      20,
+      90
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id10",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id11",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id12"
+     },
+     "_effId": "id13"
+    },
+    {
+     "@": "image",
+     "@id": "id14",
+     "url": "dictionary://~b29",
+     "iw": 64,
+     "ih": 48,
+     "pw": 64,
+     "ph": 48,
+     "itrf": [
+      0.984807753012208,
+      0.17364817766693033,
+      -0.17364817766693033,
+      0.984807753012208,
+      173.92873096297234,
+      85.09439960974791
+     ],
+     "ipfc": true,
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      0.984807753012208,
+      0.17364817766693033,
+      -0.17364817766693033,
+      0.984807753012208,
+      173.92873096297234,
+      85.09439960974791
+     ],
+     "_stop": 0.5,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id15",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id16",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id17"
+     },
+     "_effId": "id18"
+    },
+    {
+     "@": "annlst",
+     "@id": "id19",
+     "pgid": "id2",
+     "aid": "id19"
+    }
+   ],
+   "#": "id20",
+   "w": 300,
+   "h": 200,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "bop": 0,
+   "name": "Page 1"
+  }
+ ],
+ "lmd": "<time>",
+ "__ids": [
+  "id21",
+  "id22",
+  "id23",
+  "id24",
+  "id25"
+ ],
+ "dictionary": {
+  "entries": [
+   {
+    "uuid": "~b29",
+    "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAwCAYAAAChS3wfAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAGYktHRAD/AP8A/6C9p5MAAAAHdElNRQfqChYBBRwsfUCbAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI2LTEwLTIyVDAxOjA1OjI4KzAwOjAwAuPpSwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNi0xMC0yMlQwMTowNToyOCswMDowMHO+UfcAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjYtMTAtMjJUMDE6MDU6MjgrMDA6MDAkq3AoAAABiklEQVRo3u2aPW7CQBBG31oJfYhSEXELpPTUXII+d+AO9LkENb0lbmFBlQA9kWIKTywrOH8m8edk9msoAPHmeXfMehdiYmI8JzT9Yg4JcAXcAkNgAPSBHnAAdsAGyIA1sA/woi74bAE5XAMj4K7B76XAKsBWXfi3BeRwA0worva5yYBFgMfOC8jhEhjT7Ip/lhRYBnjupAAb7vctcMzDLH9qrepZKOu++KD4ITBtCakNybVJOlC8NCcCbNi7KP5EgDU82XCUC6Do9q5SCrD7/G/c6jqd6giYqGFkAqzx/cQ/vD+X1xEwUoPIBNiqzt3cLwVQLGndJqFYz7tNgtPmVxUwUEOoBfTVEGoBPTWEWsBBDaEWsFNDqAVs1BBqAZkaQi1grYZQC9irIaQCbLsqVYPIBNjrSg0iFWB7dS6bYfWR2EINIxVgG5XuesHbx+JLNZBUgO3SztVQMgEmYQs8qMFkAkxC5kVC8t4bJqGt6SCbdvGEyFc/6PaMUI0In6fEakT8i3OCMTHOcwQ8tUxBGTSBHQAAAABJRU5ErkJggg==",
+    "references": 2
+   }
+  ]
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}

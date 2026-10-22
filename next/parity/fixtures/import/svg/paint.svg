@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="200">
+  <defs>
+    <linearGradient id="lg" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f00"/>
+      <stop offset="0.5" stop-color="#ff0" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#00f"/>
+    </linearGradient>
+    <linearGradient id="lgu" gradientUnits="userSpaceOnUse" x1="110" y1="10" x2="190" y2="90" spreadMethod="reflect">
+      <stop offset="0%" style="stop-color:green"/>
+      <stop offset="100%" style="stop-color:white"/>
+    </linearGradient>
+    <linearGradient id="lgref" xlink:href="#lg" gradientTransform="rotate(90)"/>
+    <radialGradient id="rg" cx="0.5" cy="0.5" r="0.5" fx="0.3" fy="0.3">
+      <stop offset="0" stop-color="white"/>
+      <stop offset="1" stop-color="#606"/>
+    </radialGradient>
+    <pattern id="pt" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="5" height="5" fill="#000"/>
+      <rect x="5" y="5" width="5" height="5" fill="#f80"/>
+    </pattern>
+  </defs>
+  <rect x="10" y="10" width="80" height="80" fill="url(#lg)"/>
+  <rect x="110" y="10" width="80" height="80" fill="url(#lgu)" stroke="url(#lg)" stroke-width="6"/>
+  <rect x="210" y="10" width="80" height="80" fill="url(#lgref)"/>
+  <circle cx="350" cy="50" r="40" fill="url(#rg)"/>
+  <rect x="10" y="110" width="80" height="80" fill="url(#pt)"/>
+  <rect x="110" y="110" width="80" height="80" style="fill:#abc;stroke:#123;stroke-width:4;stroke-opacity:0.5;fill-opacity:.8"/>
+  <rect x="210" y="110" width="80" height="80" fill="hsl(120, 50%, 50%)" stroke="currentColor" color="red" stroke-width="3"/>
+  <rect x="310" y="110" width="80" height="80" fill="#0f0" style="mix-blend-mode:multiply" opacity="0.7"/>
+</svg>

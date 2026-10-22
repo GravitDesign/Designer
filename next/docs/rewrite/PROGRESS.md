@@ -127,6 +127,44 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
   pending forever; closing documents leaves the view unpainted until a
   relayout.
 
+- Saving a document with a ready shape that has no handles (Rectangle,
+  Oval, Triangle ready shapes) throws in GSimpleShape store
+  (`_annotationsParamVals.length` of null, chunk.vendor.js:75187), so no
+  file is written (data loss).
+- Effects inspector throws "Invalid effect/class" for GGLTrueBlurEffect and
+  GGLBendBlurEffect (designer.browser.dev.js:86727).
+- Layers panel throws "reading 'parent'" in a setTimeout after selection
+  changes on groups (designer.browser.dev.js:168651).
+- Paths Graph tool logs "Editor render error ... '__editor__'" while
+  drawing.
+- Odd/even master pages are stored as full page copies and come back with
+  new reference ids on every load (probably a question).
+
+- A hidden page blocks every export ("empty infinite canvas" refusal),
+  because hasPagesWithInfiniteEmptyCanvas treats it as empty.
+- EPS with `newpath x y r 0 360 arc closepath` hangs the import
+  (PSCore.closepath throws in the worker, never reported).
+- A broken PDF never finishes loading (overlay stays, empty OK dialog).
+- An SVG whose root isn't <svg> leaves a failed tab with no message.
+- File > Open refuses .ai, .svgz, .gif, .sketch although loaders exist
+  (see Q-008); Place Image with .svgz does nothing.
+- EPS import: rectfill/rectstroke mirrored, dashes dropped, clipped arc
+  missing. SVG import: <switch> draws every child, nested <svg> dropped,
+  class on <use> ignored.
+- Auto-sized text is exported in its default 142x27 box if the export runs
+  before the font has loaded.
+- Export file names keep HTML escaping (`a&lt;b&gt;`); exporting the same
+  page array twice gives an empty PDF; "Keep Fonts" disabled in the PDF
+  missing-fonts dialog.
+
+- Pen: holding Space while dragging a handle in a scrolled view throws the
+  anchor far away (each move adds another -scroll offset).
+- Ctrl+B / Ctrl+I on text apply inconsistently between identical runs (key
+  handled twice through view and DOM paths); not recorded.
+- Spring-loaded tool keys misfire when the main thread stalls > 450 ms.
+- Knife cut of a rectangle along a right-click polyline gives one open path.
+- Alt-drag duplicate shows the plain select cursor instead of SelectPlus.
+
 ## Pending harness work
 
 - normalize.ts gaps also seen by editor-actions (which works around them

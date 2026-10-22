@@ -1,0 +1,38 @@
+{
+ "chooser": {
+  "multiple": true,
+  "accept": ".gvdesign,.png,.heic,.jpg,.jpeg,.svg,.pdf,.eps",
+  "outcome": "done"
+ },
+ "dialogs": [
+  "Some fonts in the document are missing The following fonts are used, but cannot be found in Gravit Designer Helvetica Times-Roman Replace FontsKeep Fonts"
+ ],
+ "overlay": [],
+ "state": {
+  "titles": [
+   "Untitled-1",
+   "vector-2pages"
+  ],
+  "statuses": [
+   1,
+   1
+  ],
+  "active": "vector-2pages",
+  "pages": [
+   {
+    "name": "Page 1",
+    "w": 300,
+    "h": 200,
+    "bck": "C#[255,255,255]"
+   },
+   {
+    "name": "Page 2",
+    "w": 200,
+    "h": 200,
+    "bck": "C#[255,255,255]"
+   }
+  ],
+  "unit": "px",
+  "paintMode": "O"
+ }
+}

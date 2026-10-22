@@ -1,0 +1,32 @@
+{
+ "chooser": {
+  "multiple": true,
+  "accept": ".gvdesign,.png,.heic,.jpg,.jpeg,.svg,.pdf,.eps",
+  "outcome": "done"
+ },
+ "dialogs": [
+  "The file can't be loaded. OK"
+ ],
+ "overlay": [],
+ "state": {
+  "titles": [
+   "Untitled-1",
+   "image-hex"
+  ],
+  "statuses": [
+   1,
+   1
+  ],
+  "active": "image-hex",
+  "pages": [
+   {
+    "name": "Page 1",
+    "w": 800,
+    "h": 600,
+    "bck": "C#[255,255,255]"
+   }
+  ],
+  "unit": "px",
+  "paintMode": "O"
+ }
+}

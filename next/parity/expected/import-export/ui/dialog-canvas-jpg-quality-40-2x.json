@@ -1,0 +1,61 @@
+{
+ "state": {
+  "mode": "canvas",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "jpg",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "size",
+    "label": "Size",
+    "inputs": [
+     {
+      "value": "2x"
+     }
+    ]
+   },
+   {
+    "setting": "jpeg-quality",
+    "label": "JPEG Quality",
+    "inputs": [
+     {
+      "value": "40%"
+     }
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "page-background",
+    "options": [
+     "page-background=Use page color",
+     "custom-background=Use custom color"
+    ]
+   }
+  ],
+  "previews": [],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "download": {
+  "name": "Quality Doc.jpg",
+  "size": 9561,
+  "sha256": "b988ce69d8072cf3e9016043a54297e892adcf1d1eacfb6e2013c30d5098751c"
+ }
+}

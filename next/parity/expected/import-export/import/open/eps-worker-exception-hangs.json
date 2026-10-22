@@ -1,0 +1,44 @@
+{
+ "opened": {
+  "multiple": true,
+  "accept": ".gvdesign,.png,.heic,.jpg,.jpeg,.svg,.pdf,.eps",
+  "outcome": "timeout"
+ },
+ "overlay": [
+  "Loading arc-closepath... Cancel"
+ ],
+ "during": {
+  "titles": [
+   "Untitled-1",
+   "Untitled-2"
+  ],
+  "statuses": [
+   1,
+   10
+  ]
+ },
+ "afterCancel": {
+  "titles": [
+   "Untitled-1",
+   "Untitled-2"
+  ],
+  "statuses": [
+   1,
+   10
+  ],
+  "active": "Untitled-2",
+  "pages": [
+   {
+    "name": "Page 1",
+    "w": 800,
+    "h": 600,
+    "bck": "C#[255,255,255]"
+   }
+  ],
+  "unit": "px",
+  "paintMode": "O"
+ },
+ "dialogs": [
+  "File loading is canceled. OK"
+ ]
+}

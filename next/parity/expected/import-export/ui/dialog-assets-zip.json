@@ -1,0 +1,104 @@
+{
+ "state": {
+  "mode": "assets",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "export-all",
+    "inputs": [
+     {
+      "checked": true,
+      "disabled": false
+     }
+    ],
+    "text": "Export all"
+   }
+  ],
+  "previews": [
+   {
+    "text": "Icon 1x, 2x, 1x - png, png, svg",
+    "checked": true
+   },
+   {
+    "text": "Icon 1x - png",
+    "checked": true
+   },
+   {
+    "text": "Icons/Small/Blue 1x, 1x - png, pdf",
+    "checked": true
+   },
+   {
+    "text": "icons/Other 1x - jpg",
+    "checked": true
+   },
+   {
+    "text": "Region 1x - png",
+    "checked": true
+   }
+  ],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "download": {
+  "name": "Asset Doc.zip",
+  "entries": [
+   {
+    "name": "Icons/",
+    "size": 0,
+    "sha256": ""
+   },
+   {
+    "name": "Icons/Small/",
+    "size": 0,
+    "sha256": ""
+   },
+   {
+    "name": "Icons/Small/Blue.pdf",
+    "size": 745,
+    "sha256": "b2082302040b8f35e4b09bcb006ce539ee4cb04478c4686c6cd0b97ff501b5e9"
+   },
+   {
+    "name": "Icons/Small/Blue.png",
+    "size": 187,
+    "sha256": "ec8e47405ea2cd9f4adba67d96bd150e410915fe369806dc5b5dcc43dadeda19"
+   },
+   {
+    "name": "Icons/Other.jpg",
+    "size": 781,
+    "sha256": "67ad8a4a4dda6abd38f90937b20c3e5575cdc5ca4dd790e8b098eac2214e7fd8"
+   },
+   {
+    "name": "Icon.svg",
+    "size": 350,
+    "sha256": "1688f60e652dc27eeb5c2bb44dd48dd6e964c33bbabcab22cf072459f154b24c"
+   },
+   {
+    "name": "Icon.png",
+    "size": 185,
+    "sha256": "ed70d4477f65be7911a7bd545d9fe5e13ee37e97667ad30cc78387d48a657112"
+   },
+   {
+    "name": "Icon@2x.png",
+    "size": 351,
+    "sha256": "077814abac556ccd37e816bab29c734ed50309f40e17bdb7afb449e308496e87"
+   },
+   {
+    "name": "Icon(2).png",
+    "size": 796,
+    "sha256": "f36f9fa386140806f802181a9b46b95b775c7d294247fc48c9fcc1509e50266c"
+   },
+   {
+    "name": "Region.png",
+    "size": 866,
+    "sha256": "2120276cfd3d116e507fc6606ee3518f0cf0e0cce5edff5825bda743914283bc"
+   }
+  ]
+ }
+}

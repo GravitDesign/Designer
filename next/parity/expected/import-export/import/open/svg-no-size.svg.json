@@ -1,0 +1,105 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "ellipse",
+     "@id": "id3",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      60,
+      60
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id5",
+        "_pt": "C#[238,136,0]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id6",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "rectangle",
+     "@id": "id9",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      20,
+      0,
+      0,
+      15,
+      120,
+      115
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id10",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id11",
+        "_pt": "C#[0,136,238]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id12",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id13"
+     },
+     "_effId": "id14"
+    },
+    {
+     "@": "annlst",
+     "@id": "id15",
+     "pgid": "id2",
+     "aid": "id15"
+    }
+   ],
+   "#": "id16",
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "bop": 0,
+   "name": "Page 1"
+  }
+ ],
+ "lmd": "<time>",
+ "__ids": [
+  "id17",
+  "id18",
+  "id19",
+  "id20"
+ ],
+ "dictionary": {
+  "entries": []
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}

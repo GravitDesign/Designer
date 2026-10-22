@@ -1,0 +1,47 @@
+{
+ "placed": {
+  "chooser": {
+   "multiple": false,
+   "accept": ".png,.heic,.jpg,.jpeg,.svg,.pdf,.eps"
+  },
+  "outcome": "done"
+ },
+ "state": {
+  "documents": [
+   "Untitled-1"
+  ],
+  "active": "Untitled-1",
+  "page": "Target",
+  "children": [
+   {
+    "node": "rectangle",
+    "name": "Marker",
+    "bbox": [
+     0,
+     0,
+     20,
+     20
+    ],
+    "layers": [
+     "fillPaintLayer:C#[0,0,0]"
+    ]
+   },
+   {
+    "node": "image",
+    "name": "alpha",
+    "bbox": [
+     268,
+     176,
+     64,
+     48
+    ],
+    "layers": []
+   }
+  ],
+  "selection": [
+   "image:alpha"
+  ],
+  "undo": "Insert Element(s)"
+ },
+ "dialogs": []
+}

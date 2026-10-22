@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="200" viewBox="0 0 800 400">
+  <title>Structure test</title>
+  <desc>groups, use, symbol, style, switch, a</desc>
+  <style type="text/css">
+    .red { fill: #d22; }
+    .outline { stroke: #000; stroke-width: 6px; }
+    #special { fill: #2a2; }
+  </style>
+  <defs>
+    <symbol id="star" viewBox="0 0 100 100">
+      <polygon points="50,5 61,39 98,39 68,61 79,95 50,74 21,95 32,61 2,39 39,39"/>
+    </symbol>
+    <rect id="tile" width="60" height="60" rx="10"/>
+  </defs>
+  <g id="layer1" transform="translate(20,20)">
+    <g transform="scale(2)">
+      <rect class="red outline" x="0" y="0" width="60" height="40"/>
+    </g>
+    <g fill="#36c" opacity="0.8">
+      <circle cx="220" cy="40" r="40"/>
+      <circle cx="300" cy="40" r="30" fill="#c63"/>
+    </g>
+    <g></g>
+  </g>
+  <use xlink:href="#tile" x="400" y="20" fill="#963"/>
+  <use href="#tile" x="480" y="20" class="red"/>
+  <use xlink:href="#star" x="580" y="10" width="100" height="100" fill="#fc0"/>
+  <switch>
+    <rect id="special" x="20" y="200" width="120" height="80"/>
+    <circle cx="80" cy="240" r="40" fill="red"/>
+  </switch>
+  <a xlink:href="https://example.com/">
+    <rect x="200" y="200" width="120" height="80" fill="#639" transform="skewX(15)"/>
+  </a>
+  <svg x="400" y="200" width="200" height="150" viewBox="0 0 20 15">
+    <rect width="20" height="15" fill="#eee" stroke="#000" stroke-width="0.5"/>
+    <circle cx="10" cy="7.5" r="5" fill="#0aa"/>
+  </svg>
+  <g transform="matrix(0.8 0.2 -0.2 0.8 650 220)">
+    <rect width="100" height="100" fill="#444" visibility="visible"/>
+    <rect width="50" height="50" fill="#f0f" display="none"/>
+  </g>
+</svg>

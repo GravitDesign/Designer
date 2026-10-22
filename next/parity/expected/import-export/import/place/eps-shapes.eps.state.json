@@ -1,0 +1,155 @@
+{
+ "placed": {
+  "chooser": {
+   "multiple": false,
+   "accept": ".png,.heic,.jpg,.jpeg,.svg,.pdf,.eps"
+  },
+  "outcome": "done"
+ },
+ "state": {
+  "documents": [
+   "Untitled-1"
+  ],
+  "active": "Untitled-1",
+  "page": "Target",
+  "children": [
+   {
+    "node": "rectangle",
+    "name": "Marker",
+    "bbox": [
+     0,
+     0,
+     20,
+     20
+    ],
+    "layers": [
+     "fillPaintLayer:C#[0,0,0]"
+    ]
+   },
+   {
+    "node": "group",
+    "name": "shapes",
+    "bbox": [
+     0,
+     0,
+     280,
+     370
+    ],
+    "children": [
+     {
+      "node": "rectangle",
+      "name": null,
+      "bbox": [
+       20,
+       310,
+       100,
+       60
+      ],
+      "layers": [
+       "fillPaintLayer:C#[219,41,41]"
+      ]
+     },
+     {
+      "node": "path",
+      "name": null,
+      "bbox": [
+       150,
+       0,
+       130,
+       80
+      ],
+      "layers": [
+       "fillPaintLayer:C#[51,102,204]"
+      ]
+     },
+     {
+      "node": "path",
+      "name": null,
+      "bbox": [
+       20,
+       100,
+       260,
+       20
+      ],
+      "layers": [
+       "borderPaintLayer:C#[0,128,0]"
+      ]
+     },
+     {
+      "node": "compoundpath",
+      "name": null,
+      "bbox": [
+       35,
+       125,
+       50,
+       50
+      ],
+      "layers": [
+       "fillPaintLayer:Y#[0,1,1,0]"
+      ]
+     },
+     {
+      "node": "path",
+      "name": null,
+      "bbox": [
+       120,
+       145,
+       50,
+       30
+      ],
+      "layers": [
+       "fillPaintLayer:C#[128,128,128]"
+      ]
+     },
+     {
+      "node": "path",
+      "name": null,
+      "bbox": [
+       0,
+       150,
+       190,
+       40
+      ],
+      "layers": [],
+      "children": [
+       {
+        "node": "path",
+        "name": null,
+        "bbox": [
+         200,
+         120,
+         80,
+         80
+        ],
+        "layers": [
+         "fillPaintLayer:C#[230,153,26]"
+        ]
+       }
+      ]
+     },
+     {
+      "node": "text",
+      "name": null,
+      "bbox": [
+       190,
+       112.898,
+       73,
+       21.789
+      ],
+      "layers": [
+       "fillPaintLayer:C#[26,26,26]"
+      ],
+      "text": "Hello EPS"
+     }
+    ]
+   }
+  ],
+  "selection": [
+   "rectangle:Marker"
+  ],
+  "undo": "Import EPS"
+ },
+ "dialogs": [
+  "Some fonts in the document are missing The following fonts are used, but cannot be found in Gravit Designer Helvetica Replace FontsKeep Font Information"
+ ]
+}

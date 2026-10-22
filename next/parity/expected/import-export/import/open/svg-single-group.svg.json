@@ -1,0 +1,83 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "group",
+     "@id": "id3",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id4",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        40,
+        0,
+        0,
+        40,
+        50,
+        50
+       ],
+       "_stop": 0.5,
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id5",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id6",
+          "_pt": "C#[204,0,0]"
+         },
+         {
+          "@": "borderPaintLayer",
+          "@id": "id7",
+          "_blc": "butt",
+          "_bml": 4
+         }
+        ],
+        "&": "id8"
+       },
+       "_effId": "id9"
+      }
+     ],
+     "_stop": 0.5,
+     "_effId": "id10"
+    },
+    {
+     "@": "annlst",
+     "@id": "id11",
+     "pgid": "id2",
+     "aid": "id11"
+    }
+   ],
+   "#": "id12",
+   "w": 200,
+   "h": 100,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "bop": 0,
+   "name": "Page 1"
+  }
+ ],
+ "lmd": "<time>",
+ "__ids": [
+  "id13",
+  "id14",
+  "id15",
+  "id16"
+ ],
+ "dictionary": {
+  "entries": []
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}

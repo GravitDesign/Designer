@@ -1,0 +1,147 @@
+{
+ "pdf": {
+  "mode": "canvas",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "pdf",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "size",
+    "label": "Size",
+    "inputs": [
+     {
+      "value": "72dpi"
+     }
+    ]
+   },
+   {
+    "setting": "jpeg-quality",
+    "label": "JPEG Quality",
+    "inputs": [
+     {
+      "value": "92%"
+     }
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "page-background",
+    "options": [
+     "page-background=Use page color",
+     "custom-background=Use custom color"
+    ]
+   },
+   {
+    "setting": "color-space",
+    "label": "Color Mode",
+    "value": "rgb",
+    "options": [
+     "rgb=RGB",
+     "cmyk=CMYK"
+    ]
+   },
+   {
+    "setting": "ignore-effects",
+    "inputs": [
+     {
+      "checked": true,
+      "disabled": false
+     }
+    ],
+    "text": "With effects"
+   },
+   {
+    "setting": "convert-text-to-path",
+    "inputs": [
+     {
+      "checked": false,
+      "disabled": false
+     }
+    ],
+    "text": "Export text as curves"
+   },
+   {
+    "setting": "do-not-downsample-images",
+    "inputs": [
+     {
+      "checked": true,
+      "disabled": false
+     }
+    ],
+    "text": "Don’t downsample bitmap images Downsampling will reduce image quality but create a smaller PDF document."
+   }
+  ],
+  "previews": [],
+  "warnings": [
+   "Warning: The canvas is bigger than 200 inches and might not be opened correctly in some PDF viewers."
+  ],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "png3x": {
+  "mode": "canvas",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "png",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "size",
+    "label": "Size",
+    "inputs": [
+     {
+      "value": "3x"
+     }
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "page-background",
+    "options": [
+     "page-background=Use page color",
+     "custom-background=Use custom color",
+     "no-background=Transparent"
+    ]
+   }
+  ],
+  "previews": [],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "pngAlert": [
+  "Canvas Selection Assets Format PNG JPEG SVG PDF Size Background Use page color Use custom color Transparent CancelExport",
+  "Due to technical limitations it isn’t possible to export designs larger than 4000 px (respectively 141 cm or 55.55 in) at 300 dpi. Please resize your design or choose less dpi and try again. OK"
+ ]
+}

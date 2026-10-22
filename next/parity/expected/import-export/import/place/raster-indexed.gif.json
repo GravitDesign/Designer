@@ -1,0 +1,108 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "annlst",
+     "@id": "id3",
+     "pgid": "id2",
+     "aid": "id3"
+    },
+    {
+     "@": "rectangle",
+     "@id": "id4",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      10,
+      0,
+      0,
+      10,
+      10,
+      10
+     ],
+     "name": "Marker",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id5",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id6",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "image",
+     "@id": "id9",
+     "url": "dictionary://~b17",
+     "iw": 50,
+     "ih": 40,
+     "pw": 50,
+     "ph": 40,
+     "itrf": [
+      1,
+      0,
+      0,
+      1,
+      275,
+      180
+     ],
+     "ipfc": true,
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      275,
+      180
+     ],
+     "name": "indexed",
+     "_layId": "id10",
+     "_effId": "id11"
+    }
+   ],
+   "#": "id12",
+   "w": 600,
+   "h": 400,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "name": "Target"
+  }
+ ],
+ "lmd": "<time>",
+ "__ids": [
+  "id13",
+  "id14",
+  "id15",
+  "id16"
+ ],
+ "dictionary": {
+  "entries": [
+   {
+    "uuid": "~b17",
+    "value": "data:application/octet-stream;base64,R0lGODlhMgAoAPMNAO4AAAAA7hUV7ykp8U1N805O815e9F9f9Jqa+MfH++Dg/ezs/vX1/v///wAAAAAAACH5BAAAAAAALAAAAAAyACgAAATSsMlJq7046827/2AojmRpSkCqrmx7Wm0sv5VsrzR175iCFIKAoIBQcHY3S2IQaDqdg4QGaaMwDs/s88DAUGeSRVBLFi4u35iEMS6TBd1amiXBut0H2ByXuPulOnsqDUx+bgNyggAKhn6JggiNd497BZJulHNtl1mZaZxlnl+boE2iVJalT6dIkapOrDuMr6aBioS0iLaCDX2vgBOKKXWqebFJDWygcHq3YaR3AmfNvBNXjVxewkqFZFFT2xc+QEJERhvCADnB4evp6/Dx8vP09R4RADs=",
+    "references": 1
+   }
+  ]
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}

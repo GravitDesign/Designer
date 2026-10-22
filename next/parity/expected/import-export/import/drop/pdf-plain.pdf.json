@@ -1,0 +1,69 @@
+{
+ "outcome": "done",
+ "state": {
+  "documents": [
+   "Untitled-1"
+  ],
+  "active": "Untitled-1",
+  "page": "Target",
+  "children": [
+   {
+    "node": "rectangle",
+    "name": "Marker",
+    "bbox": [
+     0,
+     0,
+     20,
+     20
+    ],
+    "layers": [
+     "fillPaintLayer:C#[0,0,0]"
+    ]
+   },
+   {
+    "node": "rectangle",
+    "name": "plain",
+    "bbox": [
+     0,
+     0,
+     220,
+     160
+    ],
+    "layers": [],
+    "children": [
+     {
+      "node": "path",
+      "name": null,
+      "bbox": [
+       30,
+       50,
+       140,
+       80
+      ],
+      "layers": [
+       "fillPaintLayer:C#[26,153,230]"
+      ]
+     },
+     {
+      "node": "path",
+      "name": null,
+      "bbox": [
+       110,
+       10,
+       80,
+       80
+      ],
+      "layers": [
+       "fillPaintLayer:C#[230,76,26]"
+      ]
+     }
+    ]
+   }
+  ],
+  "selection": [
+   "rectangle:Marker"
+  ],
+  "undo": "Import Page(s) from PDF"
+ },
+ "dialogs": []
+}

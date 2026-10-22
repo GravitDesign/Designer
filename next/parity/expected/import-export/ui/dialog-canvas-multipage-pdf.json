@@ -1,0 +1,119 @@
+{
+ "state": {
+  "mode": "canvas",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "pdf",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "size",
+    "label": "Size",
+    "inputs": [
+     {
+      "value": "72dpi"
+     }
+    ]
+   },
+   {
+    "setting": "jpeg-quality",
+    "label": "JPEG Quality",
+    "inputs": [
+     {
+      "value": "92%"
+     }
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "page-background",
+    "options": [
+     "page-background=Use page color",
+     "custom-background=Use custom color"
+    ]
+   },
+   {
+    "setting": "color-space",
+    "label": "Color Mode",
+    "value": "rgb",
+    "options": [
+     "rgb=RGB",
+     "cmyk=CMYK"
+    ]
+   },
+   {
+    "setting": "ignore-effects",
+    "inputs": [
+     {
+      "checked": true,
+      "disabled": false
+     }
+    ],
+    "text": "With effects"
+   },
+   {
+    "setting": "convert-text-to-path",
+    "inputs": [
+     {
+      "checked": false,
+      "disabled": false
+     }
+    ],
+    "text": "Export text as curves"
+   },
+   {
+    "setting": "export-all",
+    "inputs": [
+     {
+      "checked": true,
+      "disabled": false
+     }
+    ],
+    "text": "Export all"
+   },
+   {
+    "setting": "do-not-downsample-images",
+    "inputs": [
+     {
+      "checked": true,
+      "disabled": false
+     }
+    ],
+    "text": "Don’t downsample bitmap images Downsampling will reduce image quality but create a smaller PDF document."
+   }
+  ],
+  "previews": [
+   {
+    "text": "Cover",
+    "checked": true
+   },
+   {
+    "text": "Second",
+    "checked": true
+   }
+  ],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "download": {
+  "name": "Pages Doc.pdf",
+  "size": 1145,
+  "sha256": "c45445820f2ab017b407029a28d7cbf39b220adec5649f8d66e625da42a15b76"
+ }
+}

@@ -1,0 +1,173 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "annlst",
+     "@id": "id3",
+     "pgid": "id2",
+     "aid": "id3"
+    },
+    {
+     "@": "rectangle",
+     "@id": "id4",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      60,
+      0,
+      0,
+      40,
+      80,
+      60
+     ],
+     "name": "Box",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id5",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id6",
+        "_pt": "C#[220,40,40]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id7",
+        "_bw": 4,
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id8"
+     },
+     "_effId": "id9"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id10",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      65,
+      0,
+      0,
+      45,
+      235,
+      75
+     ],
+     "name": "Oval",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id11",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id12",
+        "_pt": "L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,200,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,90,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id13"
+     },
+     "_effId": "id14"
+    },
+    {
+     "@": "rectangle",
+     "@id": "id15",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      67.61480784023477,
+      18.117333157176454,
+      -6.4704761275630185,
+      24.148145657226706,
+      130,
+      145
+     ],
+     "name": "Tilted",
+     "_stop": 0.7,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id16",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id17",
+        "_pt": "R#{\"s\":0.5,\"fx\":0.3,\"fy\":0.3,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[40,140,60]\",\"o\":1}]}"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id18",
+        "_bw": 2,
+        "_pt": "C#[40,40,120]"
+       }
+      ],
+      "&": "id19"
+     },
+     "_effId": "id20"
+    },
+    {
+     "@": "rectangle",
+     "@id": "id21",
+     "uf": true,
+     "ct": "R",
+     "sl": 12,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      35,
+      0,
+      0,
+      22.5,
+      265,
+      162.5
+     ],
+     "name": "Rounded",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id22",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id23",
+        "_pt": "C#[120,60,180]"
+       }
+      ],
+      "&": "id24"
+     },
+     "_effId": "id25"
+    }
+   ],
+   "#": "id26",
+   "w": 320,
+   "h": 200,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "name": "Artboard"
+  }
+ ],
+ "lmd": "<time>",
+ "__ids": [
+  "id27",
+  "id28",
+  "id29",
+  "id30",
+  "id31",
+  "id32"
+ ],
+ "dictionary": {
+  "entries": []
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}

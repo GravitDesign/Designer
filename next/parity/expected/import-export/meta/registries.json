@@ -1,0 +1,181 @@
+{
+ "importers": [
+  "GSVGImport",
+  "GPDFImport",
+  "GSketchImport",
+  "GEPSImport",
+  "GBitmapImport"
+ ],
+ "exporters": [
+  "GBitmapExport",
+  "GPDFExport",
+  "GSVGExport"
+ ],
+ "fileTypes": [
+  {
+   "key": "GVDESIGN",
+   "ext": "gvdesign",
+   "mime": "application/gravit+design",
+   "name": {
+    "_name": "GDocument",
+    "_key": "file-type.gvdesign"
+   },
+   "title": {
+    "_name": "GDocument",
+    "_key": "title.save-gvdesign"
+   },
+   "category": "gravit",
+   "load": true,
+   "store": true,
+   "import_image": false,
+   "default": true
+  },
+  {
+   "key": "HEIC",
+   "ext": "heic",
+   "mime": "image/heic",
+   "name": {
+    "_name": "GDocument",
+    "_key": "file-type.png"
+   },
+   "category": "image",
+   "load": true,
+   "store": false,
+   "import_image": true
+  },
+  {
+   "key": "PNG",
+   "ext": "png",
+   "mime": "image/png",
+   "name": {
+    "_name": "GDocument",
+    "_key": "file-type.png"
+   },
+   "category": "image",
+   "load": true,
+   "store": true,
+   "import_image": true
+  },
+  {
+   "key": "JPG",
+   "ext": "jpg",
+   "mime": "image/jpeg",
+   "name": {
+    "_name": "GDocument",
+    "_key": "file-type.jpeg"
+   },
+   "category": "image",
+   "load": true,
+   "store": true,
+   "import_image": true
+  },
+  {
+   "key": "JPEG",
+   "ext": "jpeg",
+   "mime": "image/jpeg",
+   "category": "image",
+   "load": true,
+   "import_image": true
+  },
+  {
+   "key": "SVG",
+   "ext": "svg",
+   "mime": "image/svg+xml",
+   "name": {
+    "_name": "GDocument",
+    "_key": "file-type.svg"
+   },
+   "category": "vector",
+   "load": true,
+   "store": true,
+   "import_image": true
+  },
+  {
+   "key": "SVGZ",
+   "ext": "svgz",
+   "mime": "image/svg+xml",
+   "name": {
+    "_name": "GDocument",
+    "_key": "file-type.svgz"
+   },
+   "category": "vector",
+   "load": true,
+   "store": false,
+   "import_image": true
+  },
+  {
+   "key": "PDF",
+   "ext": "pdf",
+   "mime": "application/pdf",
+   "name": {
+    "_name": "GDocument",
+    "_key": "file-type.pdf"
+   },
+   "category": "document",
+   "load": true,
+   "store": true,
+   "import_image": true
+  },
+  {
+   "key": "AI",
+   "ext": "ai",
+   "mime": "application/pdf",
+   "name": {
+    "_name": "GDocument",
+    "_key": "file-type.ai"
+   },
+   "category": "document",
+   "load": true,
+   "store": false,
+   "import_image": true,
+   "pro": true
+  },
+  {
+   "key": "EPS",
+   "ext": "eps",
+   "mime": "application/postscript",
+   "name": {
+    "_name": "GDocument",
+    "_key": "file-type.eps"
+   },
+   "category": "document",
+   "load": true,
+   "store": false,
+   "import_image": true,
+   "pro": true
+  },
+  {
+   "key": "SKETCH",
+   "ext": "sketch",
+   "mime": "application/zip",
+   "name": {
+    "_name": "GDocument",
+    "_key": "file-type.sketch"
+   },
+   "category": "document",
+   "load": true,
+   "store": false,
+   "import_image": true,
+   "pro": true
+  },
+  {
+   "key": "ZIP",
+   "ext": "zip",
+   "mime": "application/zip",
+   "load": false,
+   "store": false,
+   "import_image": false
+  }
+ ],
+ "openFileTypes": [
+  "gvdesign",
+  "png",
+  "heic",
+  "jpg",
+  "jpeg",
+  "svg",
+  "pdf",
+  "eps"
+ ],
+ "pdfWorkerSrc": "pdf.worker.js"
+}

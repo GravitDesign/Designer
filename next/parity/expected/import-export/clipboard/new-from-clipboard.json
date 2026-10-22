@@ -1,0 +1,44 @@
+{
+ "state": {
+  "documents": [
+   "Clip Doc",
+   "Untitled-2"
+  ],
+  "active": "Untitled-2",
+  "page": "Page 1",
+  "children": [
+   {
+    "node": "ellipse",
+    "name": "Oval",
+    "bbox": [
+     170,
+     30,
+     130,
+     90
+    ],
+    "layers": [
+     "fillPaintLayer:L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,200,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,90,200]\",\"o\":1}]}"
+    ]
+   },
+   {
+    "node": "rectangle",
+    "name": "Rounded",
+    "bbox": [
+     230,
+     140,
+     70,
+     45
+    ],
+    "layers": [
+     "fillPaintLayer:C#[120,60,180]"
+    ]
+   }
+  ],
+  "selection": [
+   "ellipse:Oval",
+   "rectangle:Rounded"
+  ],
+  "undo": "Paste"
+ },
+ "dialogs": []
+}

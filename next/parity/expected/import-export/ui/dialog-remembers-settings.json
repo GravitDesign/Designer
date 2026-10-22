@@ -1,0 +1,155 @@
+{
+ "dialogVisibleAfterExport": false,
+ "reopened": {
+  "mode": "canvas",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "svg",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "page-background",
+    "options": [
+     "page-background=Use page color",
+     "custom-background=Use custom color",
+     "no-background=Transparent"
+    ]
+   },
+   {
+    "setting": "decimal-places-precision",
+    "label": "Decimal Places",
+    "inputs": [
+     {
+      "value": "3"
+     }
+    ]
+   },
+   {
+    "setting": "convert-text-to-path",
+    "inputs": [
+     {
+      "checked": true,
+      "disabled": false
+     }
+    ],
+    "text": "Export text as curves"
+   },
+   {
+    "setting": "layer-as-id",
+    "inputs": [
+     {
+      "checked": false,
+      "disabled": false
+     }
+    ],
+    "text": "Retain attributes and add IDs All class and type attributes are retained and element names are added as IDs."
+   },
+   {
+    "setting": "export-preserve-editing-capabilities",
+    "inputs": [
+     {
+      "checked": false,
+      "disabled": false
+     }
+    ],
+    "text": "Preserve editing capabilities for SVG files This will ensure that SVGs exported from Gravit Designer can be properly re-imported."
+   }
+  ],
+  "previews": [],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "afterCancel": {
+  "mode": "canvas",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "svg",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "page-background",
+    "options": [
+     "page-background=Use page color",
+     "custom-background=Use custom color",
+     "no-background=Transparent"
+    ]
+   },
+   {
+    "setting": "decimal-places-precision",
+    "label": "Decimal Places",
+    "inputs": [
+     {
+      "value": "3"
+     }
+    ]
+   },
+   {
+    "setting": "convert-text-to-path",
+    "inputs": [
+     {
+      "checked": true,
+      "disabled": false
+     }
+    ],
+    "text": "Export text as curves"
+   },
+   {
+    "setting": "layer-as-id",
+    "inputs": [
+     {
+      "checked": false,
+      "disabled": false
+     }
+    ],
+    "text": "Retain attributes and add IDs All class and type attributes are retained and element names are added as IDs."
+   },
+   {
+    "setting": "export-preserve-editing-capabilities",
+    "inputs": [
+     {
+      "checked": false,
+      "disabled": false
+     }
+    ],
+    "text": "Preserve editing capabilities for SVG files This will ensure that SVGs exported from Gravit Designer can be properly re-imported."
+   }
+  ],
+  "previews": [],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ }
+}

@@ -1,0 +1,447 @@
+{
+ "prompts": [
+  "Do you want to save this file before exporting? NoYes"
+ ],
+ "initial": {
+  "mode": "canvas",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "png",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "size",
+    "label": "Size",
+    "inputs": [
+     {
+      "value": "1x"
+     }
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "page-background",
+    "options": [
+     "page-background=Use page color",
+     "custom-background=Use custom color",
+     "no-background=Transparent"
+    ]
+   }
+  ],
+  "previews": [],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "canvas-jpg": {
+  "mode": "canvas",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "jpg",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "size",
+    "label": "Size",
+    "inputs": [
+     {
+      "value": "1x"
+     }
+    ]
+   },
+   {
+    "setting": "jpeg-quality",
+    "label": "JPEG Quality",
+    "inputs": [
+     {
+      "value": "92%"
+     }
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "page-background",
+    "options": [
+     "page-background=Use page color",
+     "custom-background=Use custom color"
+    ]
+   }
+  ],
+  "previews": [],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "canvas-svg": {
+  "mode": "canvas",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "svg",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "page-background",
+    "options": [
+     "page-background=Use page color",
+     "custom-background=Use custom color",
+     "no-background=Transparent"
+    ]
+   },
+   {
+    "setting": "decimal-places-precision",
+    "label": "Decimal Places",
+    "inputs": [
+     {
+      "value": "3"
+     }
+    ]
+   },
+   {
+    "setting": "convert-text-to-path",
+    "inputs": [
+     {
+      "checked": false,
+      "disabled": false
+     }
+    ],
+    "text": "Export text as curves"
+   },
+   {
+    "setting": "layer-as-id",
+    "inputs": [
+     {
+      "checked": false,
+      "disabled": false
+     }
+    ],
+    "text": "Retain attributes and add IDs All class and type attributes are retained and element names are added as IDs."
+   },
+   {
+    "setting": "export-preserve-editing-capabilities",
+    "inputs": [
+     {
+      "checked": false,
+      "disabled": false
+     }
+    ],
+    "text": "Preserve editing capabilities for SVG files This will ensure that SVGs exported from Gravit Designer can be properly re-imported."
+   }
+  ],
+  "previews": [],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "canvas-pdf": {
+  "mode": "canvas",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "pdf",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "size",
+    "label": "Size",
+    "inputs": [
+     {
+      "value": "72dpi"
+     }
+    ]
+   },
+   {
+    "setting": "jpeg-quality",
+    "label": "JPEG Quality",
+    "inputs": [
+     {
+      "value": "92%"
+     }
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "page-background",
+    "options": [
+     "page-background=Use page color",
+     "custom-background=Use custom color"
+    ]
+   },
+   {
+    "setting": "color-space",
+    "label": "Color Mode",
+    "value": "rgb",
+    "options": [
+     "rgb=RGB",
+     "cmyk=CMYK"
+    ]
+   },
+   {
+    "setting": "ignore-effects",
+    "inputs": [
+     {
+      "checked": true,
+      "disabled": false
+     }
+    ],
+    "text": "With effects"
+   },
+   {
+    "setting": "convert-text-to-path",
+    "inputs": [
+     {
+      "checked": false,
+      "disabled": false
+     }
+    ],
+    "text": "Export text as curves"
+   },
+   {
+    "setting": "do-not-downsample-images",
+    "inputs": [
+     {
+      "checked": true,
+      "disabled": false
+     }
+    ],
+    "text": "Don’t downsample bitmap images Downsampling will reduce image quality but create a smaller PDF document."
+   }
+  ],
+  "previews": [],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "canvas-png": {
+  "mode": "canvas",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "png",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "size",
+    "label": "Size",
+    "inputs": [
+     {
+      "value": "1x"
+     }
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "page-background",
+    "options": [
+     "page-background=Use page color",
+     "custom-background=Use custom color",
+     "no-background=Transparent"
+    ]
+   }
+  ],
+  "previews": [],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "mode-selection": {
+  "mode": "selection",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "png",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "size",
+    "label": "Size",
+    "inputs": [
+     {
+      "value": "1x"
+     }
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "custom-background",
+    "options": [
+     "custom-background=Use custom color",
+     "no-background=Transparent"
+    ]
+   },
+   {
+    "setting": "export-all",
+    "inputs": [
+     {
+      "checked": true,
+      "disabled": false
+     }
+    ],
+    "text": "Export all"
+   }
+  ],
+  "previews": [],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "mode-assets": {
+  "mode": "assets",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "export-all",
+    "inputs": [
+     {
+      "checked": true,
+      "disabled": false
+     }
+    ],
+    "text": "Export all"
+   }
+  ],
+  "previews": [],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "mode-canvas": {
+  "mode": "canvas",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "png",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "size",
+    "label": "Size",
+    "inputs": [
+     {
+      "value": "1x"
+     }
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "custom-background",
+    "options": [
+     "page-background=Use page color",
+     "custom-background=Use custom color",
+     "no-background=Transparent"
+    ]
+   }
+  ],
+  "previews": [],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ }
+}

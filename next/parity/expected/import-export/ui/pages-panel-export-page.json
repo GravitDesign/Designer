@@ -1,0 +1,83 @@
+{
+ "menu": [
+  [
+   "Duplicate Page",
+   "Delete Page",
+   "Copy Page",
+   "Export Page"
+  ]
+ ],
+ "prompts": [
+  "Do you want to save this file before exporting? NoYes"
+ ],
+ "state": {
+  "mode": "canvas",
+  "modes": [
+   "canvas",
+   "selection",
+   "assets"
+  ],
+  "settings": [
+   {
+    "setting": "format",
+    "label": "Format",
+    "value": "png",
+    "options": [
+     "png=PNG",
+     "jpg=JPEG",
+     "svg=SVG",
+     "pdf=PDF"
+    ]
+   },
+   {
+    "setting": "size",
+    "label": "Size",
+    "inputs": [
+     {
+      "value": "1x"
+     }
+    ]
+   },
+   {
+    "setting": "background-color",
+    "label": "Background",
+    "value": "page-background",
+    "options": [
+     "page-background=Use page color",
+     "custom-background=Use custom color",
+     "no-background=Transparent"
+    ]
+   },
+   {
+    "setting": "export-all",
+    "inputs": [
+     {
+      "checked": false,
+      "disabled": false
+     }
+    ],
+    "text": "Export all"
+   }
+  ],
+  "previews": [
+   {
+    "text": "Cover",
+    "checked": false
+   },
+   {
+    "text": "Second",
+    "checked": true
+   }
+  ],
+  "warnings": [],
+  "buttons": [
+   "Cancel",
+   "Export"
+  ]
+ },
+ "download": {
+  "name": "Second.png",
+  "size": 3319,
+  "sha256": "0dfc8dc1185b5441ff1ae1c45262dc5f20bdb287aa2d3bec1dfaddfedf149539"
+ }
+}

@@ -1,0 +1,73 @@
+[
+ {
+  "type": "copy",
+  "types": [
+   "text/xml"
+  ],
+  "xml": {
+   "root": "gravit",
+   "mimeType": "application/gravit+node",
+   "restricted": "false",
+   "content": [
+    {
+     "@": "rectangle",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      60,
+      0,
+      0,
+      40,
+      80,
+      60
+     ],
+     "name": "Box",
+     "_layers": {
+      "@": "paintLayers",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "_pt": "C#[220,40,40]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "_bw": 4,
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id1"
+     },
+     "_effId": "id2"
+    },
+    {
+     "@": "ellipse",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      65,
+      0,
+      0,
+      45,
+      235,
+      75
+     ],
+     "name": "Oval",
+     "_layers": {
+      "@": "paintLayers",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "_pt": "L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,200,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,90,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id3"
+     },
+     "_effId": "id4"
+    }
+   ]
+  }
+ }
+]

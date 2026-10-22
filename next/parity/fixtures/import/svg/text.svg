@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="220">
+  <defs>
+    <path id="curve" d="M20 180 Q200 100 380 180"/>
+    <text id="reftext">Referenced</text>
+  </defs>
+  <text x="20" y="40" font-family="Open Sans" font-size="24" fill="#222">Hello SVG</text>
+  <text x="20" y="80" font-family="Open Sans" font-size="18" font-weight="bold" fill="#a00">Bold <tspan fill="#00a" font-style="italic">italic span</tspan> end</text>
+  <text x="380" y="110" font-family="Open Sans" font-size="16" text-anchor="end" letter-spacing="2">Right aligned</text>
+  <text x="200" y="140" font-family="Open Sans" font-size="16" text-anchor="middle" text-decoration="underline">Centered</text>
+  <text font-family="Open Sans" font-size="14" fill="#060"><textPath xlink:href="#curve">Text along a quadratic curve path</textPath></text>
+  <text x="20" y="210" font-family="Open Sans" font-size="12"><tref xlink:href="#reftext"/></text>
+</svg>

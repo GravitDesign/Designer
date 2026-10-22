@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="220">
+  <defs>
+    <clipPath id="cp"><circle cx="50" cy="50" r="40"/></clipPath>
+    <clipPath id="cp2" clipPathUnits="objectBoundingBox"><rect x="0" y="0" width="0.5" height="1"/></clipPath>
+    <mask id="mk"><rect x="110" y="10" width="80" height="80" fill="white"/><circle cx="150" cy="50" r="20" fill="black"/></mask>
+    <filter id="blur"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="ds" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="4" dy="6" stdDeviation="3" flood-color="#000" flood-opacity="0.5"/></filter>
+    <filter id="ds2" x="-50%" y="-50%" width="200%" height="200%">
+      <feOffset in="SourceAlpha" dx="5" dy="5" result="o"/>
+      <feGaussianBlur in="o" stdDeviation="2" result="b"/>
+      <feFlood flood-color="#f00" flood-opacity="0.6"/>
+      <feComposite in2="b" operator="in"/>
+      <feComposite in="SourceGraphic" operator="over"/>
+    </filter>
+    <filter id="cm"><feColorMatrix type="saturate" values="0"/></filter>
+    <filter id="mo"><feMorphology operator="dilate" radius="2"/></filter>
+  </defs>
+  <rect x="10" y="10" width="80" height="80" fill="#c33" clip-path="url(#cp)"/>
+  <rect x="110" y="10" width="80" height="80" fill="#36c" mask="url(#mk)"/>
+  <rect x="210" y="10" width="80" height="80" fill="#3a3" clip-path="url(#cp2)"/>
+  <rect x="310" y="10" width="60" height="60" fill="#fa0" filter="url(#blur)"/>
+  <rect x="20" y="120" width="70" height="70" fill="#09c" filter="url(#ds)"/>
+  <rect x="120" y="120" width="70" height="70" fill="#9c0" filter="url(#ds2)"/>
+  <rect x="220" y="120" width="70" height="70" fill="#c09" filter="url(#cm)"/>
+  <rect x="320" y="120" width="50" height="50" fill="#333" filter="url(#mo)"/>
+</svg>

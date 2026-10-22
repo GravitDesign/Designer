@@ -1,0 +1,55 @@
+{
+ "outcome": "done",
+ "state": {
+  "documents": [
+   "Untitled-1"
+  ],
+  "active": "Untitled-1",
+  "page": "Target",
+  "children": [
+   {
+    "node": "rectangle",
+    "name": "Marker",
+    "bbox": [
+     0,
+     0,
+     20,
+     20
+    ],
+    "layers": [
+     "fillPaintLayer:C#[0,0,0]"
+    ]
+   },
+   {
+    "node": "group",
+    "name": "gradient",
+    "bbox": [
+     0,
+     0,
+     200,
+     100
+    ],
+    "children": [
+     {
+      "node": "path",
+      "name": null,
+      "bbox": [
+       0,
+       0,
+       200,
+       100
+      ],
+      "layers": [
+       "fillPaintLayer:L#{\"s\":200,\"t\":[0.005,0,0,-0.01,-0.05,1.1],\"fx\":10,\"fy\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,204,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,51,204]\",\"o\":1}]}"
+      ]
+     }
+    ]
+   }
+  ],
+  "selection": [
+   "rectangle:Marker"
+  ],
+  "undo": "Import EPS"
+ },
+ "dialogs": []
+}

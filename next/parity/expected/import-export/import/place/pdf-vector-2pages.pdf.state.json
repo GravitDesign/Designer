@@ -1,0 +1,138 @@
+{
+ "placed": {
+  "chooser": {
+   "multiple": false,
+   "accept": ".png,.heic,.jpg,.jpeg,.svg,.pdf,.eps"
+  },
+  "outcome": "done"
+ },
+ "state": {
+  "documents": [
+   "Untitled-1"
+  ],
+  "active": "Untitled-1",
+  "page": "Target",
+  "children": [
+   {
+    "node": "rectangle",
+    "name": "Marker",
+    "bbox": [
+     0,
+     0,
+     20,
+     20
+    ],
+    "layers": [
+     "fillPaintLayer:C#[0,0,0]"
+    ]
+   },
+   {
+    "node": "rectangle",
+    "name": "vector-2pages",
+    "bbox": [
+     0,
+     0,
+     300,
+     200
+    ],
+    "layers": [],
+    "children": [
+     {
+      "node": "path",
+      "name": null,
+      "bbox": [
+       20,
+       20,
+       100,
+       60
+      ],
+      "layers": [
+       "fillPaintLayer:C#[219,41,41]"
+      ]
+     },
+     {
+      "node": "path",
+      "name": null,
+      "bbox": [
+       20,
+       20,
+       100,
+       60
+      ],
+      "layers": [
+       "borderPaintLayer:C#[0,0,0]"
+      ]
+     },
+     {
+      "node": "path",
+      "name": null,
+      "bbox": [
+       150,
+       10,
+       130,
+       80
+      ],
+      "layers": [
+       "fillPaintLayer:C#[51,102,204]"
+      ]
+     },
+     {
+      "node": "path",
+      "name": null,
+      "bbox": [
+       20,
+       110,
+       260,
+       20
+      ],
+      "layers": [
+       "borderPaintLayer:C#[0,128,0]"
+      ]
+     },
+     {
+      "node": "path",
+      "name": null,
+      "bbox": [
+       20,
+       150,
+       120,
+       30
+      ],
+      "layers": [
+       "fillPaintLayer:L#{\"fx\":0,\"fy\":1.666666666666667,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":1},{\"p\":0.1,\"c\":\"C#[229,0,26]\",\"o\":1},{\"p\":0.2,\"c\":\"C#[204,0,51]\",\"o\":1},{\"p\":0.30000000000000004,\"c\":\"C#[178,0,77]\",\"o\":1},{\"p\":0.4,\"c\":\"C#[153,0,102]\",\"o\":1},{\"p\":0.5,\"c\":\"C#[128,0,128]\",\"o\":1},{\"p\":0.6,\"c\":\"C#[102,0,153]\",\"o\":1},{\"p\":0.7,\"c\":\"C#[77,0,178]\",\"o\":1},{\"p\":0.7999999999999999,\"c\":\"C#[51,0,204]\",\"o\":1},{\"p\":0.8999999999999999,\"c\":\"C#[26,0,229]\",\"o\":1},{\"p\":0.9999999999999999,\"c\":\"C#[0,0,255]\",\"o\":1}]}"
+      ]
+     },
+     {
+      "node": "text",
+      "name": null,
+      "bbox": [
+       159.858,
+       152,
+       86,
+       24.513
+      ],
+      "layers": [],
+      "text": "Hello PDF"
+     },
+     {
+      "node": "text",
+      "name": null,
+      "bbox": [
+       160.347,
+       176,
+       86.25,
+       16.342
+      ],
+      "layers": [],
+      "text": "Times Roman"
+     }
+    ]
+   }
+  ],
+  "selection": [
+   "rectangle:Marker"
+  ],
+  "undo": "Import Page(s) from PDF"
+ },
+ "dialogs": []
+}

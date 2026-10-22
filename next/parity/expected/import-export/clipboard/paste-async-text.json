@@ -1,0 +1,79 @@
+{
+ "documents": [
+  "Clip Doc"
+ ],
+ "active": "Clip Doc",
+ "page": "Artboard",
+ "children": [
+  {
+   "node": "rectangle",
+   "name": "Box",
+   "bbox": [
+    20,
+    20,
+    120,
+    80
+   ],
+   "layers": [
+    "fillPaintLayer:C#[220,40,40]",
+    "borderPaintLayer:C#[0,0,0]"
+   ]
+  },
+  {
+   "node": "ellipse",
+   "name": "Oval",
+   "bbox": [
+    170,
+    30,
+    130,
+    90
+   ],
+   "layers": [
+    "fillPaintLayer:L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,200,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,90,200]\",\"o\":1}]}"
+   ]
+  },
+  {
+   "node": "rectangle",
+   "name": "Tilted",
+   "bbox": [
+    55.915,
+    102.735,
+    148.171,
+    84.531
+   ],
+   "layers": [
+    "fillPaintLayer:R#{\"s\":0.5,\"fx\":0.3,\"fy\":0.3,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[40,140,60]\",\"o\":1}]}",
+    "borderPaintLayer:C#[40,40,120]"
+   ]
+  },
+  {
+   "node": "rectangle",
+   "name": "Rounded",
+   "bbox": [
+    230,
+    140,
+    70,
+    45
+   ],
+   "layers": [
+    "fillPaintLayer:C#[120,60,180]"
+   ]
+  },
+  {
+   "node": "text",
+   "name": null,
+   "bbox": [
+    64.5,
+    86.382,
+    191,
+    27.236
+   ],
+   "layers": [],
+   "text": "Pasted from outside"
+  }
+ ],
+ "selection": [
+  "text:"
+ ],
+ "undo": "Paste"
+}

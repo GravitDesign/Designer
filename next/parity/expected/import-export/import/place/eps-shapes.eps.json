@@ -1,0 +1,465 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "annlst",
+     "@id": "id3",
+     "pgid": "id2",
+     "aid": "id3"
+    },
+    {
+     "@": "rectangle",
+     "@id": "id4",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      10,
+      0,
+      0,
+      10,
+      10,
+      10
+     ],
+     "name": "Marker",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id5",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id6",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "group",
+     "@id": "id9",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id10",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        190
+       ],
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id11",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id12",
+          "_pt": "C#[219,41,41]"
+         }
+        ],
+        "&": "id13"
+       },
+       "_effId": "id14"
+      },
+      {
+       "@": "path",
+       "@id": "id15",
+       "closed": true,
+       "pts": [
+        [
+         "AAAWQwAA3MI=",
+         "#",
+         "~b36"
+        ],
+        [
+         "AACMQwAA3MI=",
+         "#",
+         "~b37"
+        ],
+        [
+         "AABXQwAAPsM=",
+         "#",
+         "~b38"
+        ]
+       ],
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        190
+       ],
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id16",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id17",
+          "_pt": "C#[51,102,204]"
+         }
+        ],
+        "&": "id18"
+       },
+       "_effId": "id19"
+      },
+      {
+       "@": "path",
+       "@id": "id20",
+       "pts": [
+        [
+         "AACgQQAAtMI=",
+         "#",
+         "~b41",
+         "H",
+         "AADwQgAAcMI="
+        ],
+        [
+         "AACMQwAAjMI=",
+         "#",
+         "~b42",
+         "h",
+         "AAA0QwAAyMI="
+        ]
+       ],
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        190
+       ],
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id21",
+        "$": [
+         {
+          "@": "borderPaintLayer",
+          "@id": "id22",
+          "_bds": [
+           6,
+           3
+          ],
+          "_bw": 4,
+          "_blc": "round",
+          "_bml": 10,
+          "_pt": "C#[0,128,0]"
+         }
+        ],
+        "&": "id23"
+       },
+       "_effId": "id24"
+      },
+      {
+       "@": "compoundpath",
+       "@id": "id25",
+       "evenodd": false,
+       "paths": [
+        "{\"@\":\"path\",\"@id\":\"~a18\",\"closed\":true,\"pts\":[[\"AACqQgAAIMI=\",\"#\",\"~b45\"]],\"reftxt\":null,\"refanchors\":[],\"trf\":[1,0,0,1,0,190],\"_layId\":\"~b46\",\"_effId\":\"~b47\"}",
+        "{\"@\":\"path\",\"@id\":\"~a19\",\"closed\":true,\"pts\":[[\"AACqQgAAIMI=\",\"#\",\"~b48\",\"h\",\"AACqQvOd0cE=\",\"H\",\"AACqQgYxV8I=\"],[\"AABwQgAAgsI=\",\"#\",\"~b49\",\"h\",\"g5iTQgAAgsI=\",\"H\",\"+s44QgAAgsI=\"],[\"AAAMQgAAIMI=\",\"#\",\"~b50\",\"h\",\"AAAMQgYxV8I=\",\"H\",\"AAAMQvOd0cE=\"],[\"AABwQgAAcME=\",\"#\",\"~b51\",\"h\",\"+s44QgAAcME=\",\"H\",\"g5iTQgAAcME=\"]],\"reftxt\":null,\"refanchors\":[],\"trf\":[1,0,0,1,0,190],\"_layId\":\"~b52\",\"_effId\":\"~b53\"}"
+       ],
+       "refanchors": [],
+       "trf": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        190
+       ],
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id26",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id27",
+          "_pt": "Y#[0,1,1,0]"
+         }
+        ],
+        "&": "id28"
+       },
+       "_effId": "id29"
+      },
+      {
+       "@": "path",
+       "@id": "id30",
+       "closed": true,
+       "pts": [
+        [
+         "AADwQgAAcME=",
+         "#",
+         "~b56"
+        ],
+        [
+         "AAAqQwAAcME=",
+         "#",
+         "~b57"
+        ],
+        [
+         "AAAqQwAANMI=",
+         "#",
+         "~b58"
+        ],
+        [
+         "AADwQgAANMI=",
+         "#",
+         "~b59"
+        ]
+       ],
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        190
+       ],
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id31",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id32",
+          "_pt": "C#[128,128,128]"
+         }
+        ],
+        "&": "id33"
+       },
+       "_effId": "id34"
+      },
+      {
+       "@": "path",
+       "@id": "id35",
+       "$": [
+        {
+         "@": "path",
+         "@id": "id36",
+         "closed": true,
+         "pts": [
+          [
+           "AACMQwAA8ME=",
+           "#",
+           "~b62",
+           "h",
+           "AACMQ3yM/cA=",
+           "H",
+           "AACMQ3BOUMI="
+          ],
+          [
+           "AABwQwAAjMI=",
+           "#",
+           "~b63",
+           "h",
+           "zgmDQwAAjMI=",
+           "H",
+           "ZOxZQwAAjMI="
+          ],
+          [
+           "AABIQwAA8ME=",
+           "#",
+           "~b64",
+           "h",
+           "AABIQ3BOUMI=",
+           "H",
+           "AABIQ3yM/cA="
+          ],
+          [
+           "AABwQwAAIEE=",
+           "#",
+           "~b65",
+           "h",
+           "ZOxZQwAAIEE=",
+           "H",
+           "zgmDQwAAIEE="
+          ]
+         ],
+         "reftxt": null,
+         "refanchors": [],
+         "trf": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          190
+         ],
+         "_layers": {
+          "@": "paintLayers",
+          "@id": "id37",
+          "$": [
+           {
+            "@": "fillPaintLayer",
+            "@id": "id38",
+            "_pt": "C#[230,153,26]"
+           }
+          ],
+          "&": "id39"
+         },
+         "_effId": "id40"
+        }
+       ],
+       "closed": true,
+       "pts": [
+        [
+         "AAA+QwAAIME=",
+         "#",
+         "~b68"
+        ],
+        [
+         "AADIQgAAAAA=",
+         "#",
+         "~b69"
+        ],
+        [
+         "AADIQgAAIMI=",
+         "#",
+         "~b70"
+        ],
+        [
+         "AAAAAAAAIMI=",
+         "#",
+         "~b71"
+        ]
+       ],
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        190
+       ],
+       "_layId": "id41",
+       "_effId": "id42"
+      },
+      {
+       "@": "text",
+       "@id": "id43",
+       "#": "id44",
+       "ct": [
+        {
+         "text": "Hello EPS",
+         "fontWeight": 400,
+         "fontStyle": "normal",
+         "underline": false,
+         "strikeout": false,
+         "fontColor": "#1A1A1A",
+         "fontFamily": "Open Sans",
+         "fontSize": 16,
+         "align": "left",
+         "script": "normal",
+         "transformation": null,
+         "charSpacing": null,
+         "wordSpacing": null,
+         "lineSpacing": 1,
+         "paragraphSpacing": "0",
+         "paragraphIndent": 0,
+         "ligatures": false,
+         "langScript": "auto",
+         "variant": null,
+         "fractions": false,
+         "listDepth": 0,
+         "listMarker": null,
+         "stylisticSet": null,
+         "localizedForm": null
+        }
+       ],
+       "content": "[{\"text\":\"Hello EPS\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"#1A1A1A\",\"fontFamily\":\"Open Sans\",\"fontSize\":16,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+       "w": 142,
+       "h": 27.236,
+       "trf": [
+        1,
+        0,
+        0,
+        1,
+        190,
+        112.8984375
+       ],
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id45",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id46",
+          "_pt": "C#[26,26,26]"
+         }
+        ],
+        "&": "id47"
+       },
+       "_effId": "id48",
+       "_fc": "C#[26,26,26]",
+       "_tff": "Helvetica",
+       "_tfi": 16
+      }
+     ],
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      0,
+      190
+     ],
+     "name": "shapes",
+     "_effId": "id49"
+    }
+   ],
+   "#": "id50",
+   "w": 600,
+   "h": 400,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "name": "Target"
+  }
+ ],
+ "lmd": "<time>",
+ "__ids": [
+  "id51",
+  "id52",
+  "id53",
+  "id54",
+  "id55",
+  "id56",
+  "id57",
+  "id58",
+  "id59",
+  "id60",
+  "id61",
+  "id62"
+ ],
+ "dictionary": {
+  "entries": []
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}
