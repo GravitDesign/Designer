@@ -5,13 +5,16 @@ import { LEGACY_ROOT, NEW_PORT, OLD_PORT } from "./parity/support/env.ts";
 // The new app is started once its server exists (phase 3 onwards).
 const startNewApp = process.env.GD_SKIP_NEW_APP !== "1" && fs.existsSync("server/dev-entry.ts");
 
+// GD_RUN names the run, so parallel runs keep separate output folders.
+const run = process.env.GD_RUN ?? "default";
+
 export default defineConfig({
   timeout: 120_000,
   expect: { timeout: 10_000 },
   fullyParallel: false,
   workers: process.env.CI ? 2 : 4,
-  reporter: [["list"], ["json", { outputFile: "test-results/playwright.json" }]],
-  outputDir: "test-results/artifacts",
+  reporter: [["list"], ["json", { outputFile: `test-results/${run}/playwright.json` }]],
+  outputDir: `test-results/${run}/artifacts`,
   use: {
     browserName: "chromium",
     // The same Chromium for both apps, with a fixed device scale factor and

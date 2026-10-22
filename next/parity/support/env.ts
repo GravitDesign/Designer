@@ -27,7 +27,12 @@ export const NEW_URL = `http://127.0.0.1:${NEW_PORT}/`;
 export const EXPECTED_ROOT = path.join(NEXT_ROOT, "parity", "expected");
 
 /** Where failing comparisons write their actual output and diff images. */
-export const OUTPUT_ROOT = path.join(NEXT_ROOT, "test-results", "parity");
+export const OUTPUT_ROOT = path.join(
+  NEXT_ROOT,
+  "test-results",
+  process.env.GD_RUN ?? "default",
+  "parity",
+);
 
 /** `GD_RECORD=1` rewrites the expected files from the old app. */
 export const RECORDING = process.env.GD_RECORD === "1";
