@@ -1,0 +1,398 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:polygon"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    []
+   ],
+   "preview": [
+    {
+     "box": [
+      37.368603,
+      9.916698,
+      242.631397,
+      225.166605
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Insert Element(s)"
+  },
+  "cursor": {
+   "cls": "g-cursor-select",
+   "css": "url(\"/assets/cursor/select.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "shift-down",
+   "state": {
+    "tool": "GTriangleTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:polygon"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     []
+    ],
+    "preview": [
+     {
+      "box": [
+       68.375861,
+       38.499353,
+       193.124785,
+       193.124785
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-cross",
+    "css": "url(\"/assets/cursor/cross.cur\"), auto"
+   },
+   "hint": null,
+   "doc": {
+    "@": "scene",
+    "@id": "id1",
+    "$": [
+     {
+      "@": "page",
+      "@id": "id2",
+      "$": [
+       {
+        "@": "annlst",
+        "@id": "id3",
+        "pgid": "id2",
+        "aid": "id3"
+       },
+       {
+        "@": "polygon",
+        "@id": "id4",
+        "pts": 3,
+        "cx": 150,
+        "cy": 150,
+        "or": 115.43396380615195,
+        "ir": 57.71698190307599,
+        "oa": 0.2617993877991494,
+        "ia": 1.308996938995747,
+        "reftxt": null,
+        "refanchors": [],
+        "_sdf": 102,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id5",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id6",
+           "_pt": "C#[235,235,235]"
+          }
+         ],
+         "&": "id7"
+        },
+        "_effId": "id8"
+       }
+      ],
+      "#": "id9",
+      "w": 0,
+      "h": 0,
+      "off": [],
+      "bck": "C#[255,255,255]",
+      "name": "Page 1"
+     }
+    ],
+    "dictionary": {
+     "entries": []
+    },
+    "symbolDictionary": {
+     "entries": []
+    }
+   }
+  },
+  {
+   "label": "shift-alt-down",
+   "state": {
+    "tool": "GTriangleTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:polygon"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     []
+    ],
+    "preview": [
+     {
+      "box": [
+       63.904123,
+       32.390845,
+       203.705032,
+       203.705032
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-cross",
+    "css": "url(\"/assets/cursor/cross.cur\"), auto"
+   },
+   "hint": null,
+   "doc": {
+    "@": "scene",
+    "@id": "id1",
+    "$": [
+     {
+      "@": "page",
+      "@id": "id2",
+      "$": [
+       {
+        "@": "annlst",
+        "@id": "id3",
+        "pgid": "id2",
+        "aid": "id3"
+       },
+       {
+        "@": "polygon",
+        "@id": "id4",
+        "pts": 3,
+        "cx": 150,
+        "cy": 150,
+        "or": 121.75795661885921,
+        "ir": 60.87897830942962,
+        "oa": 0.2617993877991494,
+        "ia": 1.308996938995747,
+        "reftxt": null,
+        "refanchors": [],
+        "_sdf": 102,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id5",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id6",
+           "_pt": "C#[235,235,235]"
+          }
+         ],
+         "&": "id7"
+        },
+        "_effId": "id8"
+       }
+      ],
+      "#": "id9",
+      "w": 0,
+      "h": 0,
+      "off": [],
+      "bck": "C#[255,255,255]",
+      "name": "Page 1"
+     }
+    ],
+    "dictionary": {
+     "entries": []
+    },
+    "symbolDictionary": {
+     "entries": []
+    }
+   }
+  },
+  {
+   "label": "alt-only",
+   "state": {
+    "tool": "GTriangleTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:polygon"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     []
+    ],
+    "preview": [
+     {
+      "box": [
+       51.028857,
+       23.576952,
+       218.971143,
+       207.846097
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-cross",
+    "css": "url(\"/assets/cursor/cross.cur\"), auto"
+   },
+   "hint": null,
+   "doc": {
+    "@": "scene",
+    "@id": "id1",
+    "$": [
+     {
+      "@": "page",
+      "@id": "id2",
+      "$": [
+       {
+        "@": "annlst",
+        "@id": "id3",
+        "pgid": "id2",
+        "aid": "id3"
+       },
+       {
+        "@": "polygon",
+        "@id": "id4",
+        "pts": 3,
+        "cx": 150,
+        "cy": 150,
+        "or": 128.16005617976296,
+        "ir": 64.0800280898815,
+        "oa": 0.35877067027057225,
+        "ia": 1.4059682214671698,
+        "reftxt": null,
+        "refanchors": [],
+        "_sdf": 102,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id5",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id6",
+           "_pt": "C#[235,235,235]"
+          }
+         ],
+         "&": "id7"
+        },
+        "_effId": "id8"
+       }
+      ],
+      "#": "id9",
+      "w": 0,
+      "h": 0,
+      "off": [],
+      "bck": "C#[255,255,255]",
+      "name": "Page 1"
+     }
+    ],
+    "dictionary": {
+     "entries": []
+    },
+    "symbolDictionary": {
+     "entries": []
+    }
+   }
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "polygon",
+      "@id": "id4",
+      "pts": 3,
+      "cx": 150,
+      "cy": 150,
+      "or": 141.15594213493105,
+      "ir": 70.57797106746554,
+      "oa": 0.40024065703397416,
+      "ia": 1.447438208230572,
+      "reftxt": null,
+      "refanchors": [],
+      "_sdf": 102,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id5",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[235,235,235]"
+        }
+       ],
+       "&": "id7"
+      },
+      "_effId": "id8"
+     }
+    ],
+    "#": "id9",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

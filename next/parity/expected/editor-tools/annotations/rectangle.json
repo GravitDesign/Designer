@@ -1,0 +1,206 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/0/1:anr"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    []
+   ],
+   "preview": [
+    {
+     "box": [
+      300,
+      300,
+      80,
+      80
+     ],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      340,
+      340
+     ],
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Insert Element(s)"
+  },
+  "cursor": {
+   "cls": "g-cursor-select",
+   "css": "url(\"/assets/cursor/select.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "cursor",
+   "state": {
+    "tool": "GRectangleAnnotationTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": null
+   },
+   "cursor": {
+    "cls": "g-cursor-cross-rectangle",
+    "css": "url(\"/assets/cursor/cross-rectangle.svg\") 9 12, auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "$": [
+       {
+        "@": "anr",
+        "@id": "id4",
+        "name": "Test",
+        "text": "",
+        "uid": "12345678",
+        "email": "example@example.net",
+        "time": "<time>",
+        "mtime": "<time>",
+        "seq": 1,
+        "read": [
+         "12345678"
+        ],
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         50,
+         0,
+         0,
+         40,
+         150,
+         140
+        ],
+        "plkt": null,
+        "_sdf": 150,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id5",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id6",
+           "_pt": "C#[230,2,2]",
+           "_op": 0,
+           "_bl": "multiply"
+          },
+          {
+           "@": "borderPaintLayer",
+           "@id": "id7",
+           "_bw": 2,
+           "_pt": "C#[230,2,2]"
+          }
+         ],
+         "&": "id8"
+        },
+        "_effId": "id9"
+       },
+       {
+        "@": "anr",
+        "@id": "id10",
+        "name": "Test",
+        "uid": "12345678",
+        "time": "<time>",
+        "mtime": "<time>",
+        "seq": 2,
+        "read": [
+         "12345678"
+        ],
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         40,
+         0,
+         0,
+         40,
+         340,
+         340
+        ],
+        "plkt": null,
+        "_sdf": 150,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id11",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id12",
+           "_pt": "C#[230,2,2]",
+           "_op": 0,
+           "_bl": "multiply"
+          },
+          {
+           "@": "borderPaintLayer",
+           "@id": "id13",
+           "_bw": 2,
+           "_pt": "C#[230,2,2]"
+          }
+         ],
+         "&": "id14"
+        },
+        "_effId": "id15"
+       }
+      ],
+      "pgid": "id2",
+      "aid": "id3"
+     }
+    ],
+    "#": "id16",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

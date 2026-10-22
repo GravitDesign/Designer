@@ -1,0 +1,99 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:polygon"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    []
+   ],
+   "preview": [
+    {
+     "box": [
+      126.69873,
+      123.038476,
+      146.60254,
+      153.923048
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Insert Element(s)"
+  },
+  "cursor": {
+   "cls": "g-cursor-select",
+   "css": "url(\"/assets/cursor/select.cur\"), auto"
+  }
+ },
+ "probes": [],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "polygon",
+      "@id": "id4",
+      "cx": 200,
+      "cy": 200,
+      "or": 78.10249675906654,
+      "ir": 67.63874629234341,
+      "oa": 0.6947382761967031,
+      "ia": 1.218337051795002,
+      "reftxt": null,
+      "refanchors": [],
+      "_sdf": 102,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id5",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[235,235,235]"
+        }
+       ],
+       "&": "id7"
+      },
+      "_effId": "id8"
+     }
+    ],
+    "#": "id9",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

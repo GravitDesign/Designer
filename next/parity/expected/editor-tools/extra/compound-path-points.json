@@ -1,0 +1,270 @@
+{
+ "final": {
+  "state": {
+   "tool": "GSubSelectTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:compoundpath"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    null
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      100,
+      250,
+      100
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Delete Selection"
+  },
+  "cursor": {
+   "cls": "g-cursor-select-dot-inverse",
+   "css": "url(\"/assets/cursor/select-dot-inverse.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "point-in-first",
+   "state": {
+    "tool": "GSubSelectTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:compoundpath"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       250,
+       100
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-dot-inverse",
+    "css": "url(\"/assets/cursor/select-dot-inverse.cur\"), auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "point-in-second",
+   "state": {
+    "tool": "GSubSelectTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:compoundpath"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       250,
+       100
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-dot-inverse",
+    "css": "url(\"/assets/cursor/select-dot-inverse.cur\"), auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "moved",
+   "state": {
+    "tool": "GSubSelectTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:compoundpath"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       80,
+       250,
+       120
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Transform Selection"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-dot-inverse",
+    "css": "url(\"/assets/cursor/select-dot-inverse.cur\"), auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "deleted",
+   "state": {
+    "tool": "GSubSelectTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:compoundpath"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       250,
+       100
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Delete Selection"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-dot-inverse",
+    "css": "url(\"/assets/cursor/select-dot-inverse.cur\"), auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "compoundpath",
+      "@id": "id4",
+      "paths": [
+       "{\"@\":\"path\",\"@id\":\"rid5\",\"closed\":true,\"pts\":[[\"AADIQgAAyEI=\",\"#\",\"rid6\"],[\"AABIQwAAyEI=\",\"#\",\"rid7\"],[\"AADIQgAASEM=\",\"#\",\"rid8\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"rid9\",\"_effId\":\"rid10\"}",
+       "{\"@\":\"path\",\"@id\":\"rid11\",\"closed\":true,\"pts\":[[\"AACvQwAAyEI=\",\"#\",\"rid12\"],[\"AACvQwAASEM=\",\"#\",\"rid13\"],[\"AAB6QwAASEM=\",\"#\",\"rid14\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"rid15\",\"_effId\":\"rid16\"}"
+      ],
+      "refanchors": [],
+      "_sdf": 94,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id5",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[255,255,255]"
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "id7",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "id8"
+      },
+      "_effId": "id9"
+     }
+    ],
+    "#": "id10",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

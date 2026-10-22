@@ -1,0 +1,180 @@
+{
+ "final": {
+  "state": {
+   "tool": "GKnifeTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:path",
+    "0/2:path"
+   ],
+   "parts": [
+    null,
+    null
+   ],
+   "anchors": [
+    [],
+    []
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      130,
+      200,
+      110
+     ],
+     "trf": null,
+     "isPreview": false
+    },
+    {
+     "box": [
+      100,
+      100,
+      200,
+      30
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": null,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Cut shape(s)"
+  },
+  "cursor": {
+   "cls": "g-cursor-knife",
+   "css": "url(\"/assets/cursor/knife.cur\"), auto"
+  }
+ },
+ "probes": [],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "path",
+      "@id": "id4",
+      "closed": true,
+      "pts": [
+       [
+        "AACWQwAAAkM=",
+        "#",
+        "rid5"
+       ],
+       [
+        "AACWQwAAcEM=",
+        "#",
+        "rid6"
+       ],
+       [
+        "AADIQgAAcEM=",
+        "#",
+        "rid7"
+       ],
+       [
+        "AADIQgAAAkM=",
+        "#",
+        "rid8"
+       ],
+       [
+        "AACWQwAAAkM=",
+        "#",
+        "rid9"
+       ]
+      ],
+      "reftxt": null,
+      "refanchors": [],
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id5",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[229,57,53]"
+        }
+       ],
+       "&": "id7"
+      },
+      "_effId": "id8"
+     },
+     {
+      "@": "path",
+      "@id": "id9",
+      "closed": true,
+      "pts": [
+       [
+        "AACWQwAAAkM=",
+        "#",
+        "rid15"
+       ],
+       [
+        "AACWQwAAyEI=",
+        "#",
+        "rid16"
+       ],
+       [
+        "AADIQgAAyEI=",
+        "#",
+        "rid17"
+       ],
+       [
+        "AADIQgAAAkM=",
+        "#",
+        "rid18"
+       ],
+       [
+        "AACWQwAAAkM=",
+        "#",
+        "rid19"
+       ]
+      ],
+      "reftxt": null,
+      "refanchors": [],
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id10",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[229,57,53]"
+        }
+       ],
+       "&": "id11"
+      },
+      "_effId": "id12"
+     }
+    ],
+    "#": "id13",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

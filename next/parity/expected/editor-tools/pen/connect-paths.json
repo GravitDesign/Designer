@@ -1,0 +1,260 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [],
+   "parts": [],
+   "anchors": [],
+   "preview": [],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Insert Element(s)"
+  },
+  "cursor": {
+   "cls": "g-cursor-select",
+   "css": "url(\"/assets/cursor/select.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "hover-other-end",
+   "state": {
+    "tool": "GPenTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:path"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     []
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       100,
+       0
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-pen-start",
+    "css": "url(\"/assets/cursor/pen-start.cur\"), auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "joined",
+   "state": {
+    "tool": "GPenTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/2:path"
+    ],
+    "parts": [
+     [
+      {
+       "point": {
+        "node": "anchorPoint",
+        "index": 0
+       },
+       "type": 2
+      }
+     ]
+    ],
+    "anchors": [
+     [
+      0
+     ]
+    ],
+    "preview": [
+     {
+      "box": [
+       200,
+       300,
+       0,
+       0
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-pen",
+    "css": "url(\"/assets/cursor/pen.cur\"), auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "path",
+      "@id": "id4",
+      "pts": [
+       [
+        "AADIQgAAyEI=",
+        "#",
+        "rid5"
+       ],
+       [
+        "AABIQwAAyEI=",
+        "#",
+        "rid6"
+       ]
+      ],
+      "reftxt": null,
+      "refanchors": [],
+      "_sdf": 103,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id5",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[255,255,255]",
+         "_vs": false
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "id7",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "id8"
+      },
+      "_effId": "id9"
+     },
+     {
+      "@": "path",
+      "@id": "id10",
+      "pts": [
+       [
+        "AABIQwAAlkM=",
+        "#",
+        "rid13"
+       ]
+      ],
+      "reftxt": null,
+      "refanchors": [],
+      "_sdf": 103,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id11",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id12",
+         "_pt": "C#[255,255,255]",
+         "_vs": false
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "id13",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "id14"
+      },
+      "_effId": "id15"
+     },
+     {
+      "@": "path",
+      "@id": "id16",
+      "pts": [
+       [
+        "AADIQgAAlkM=",
+        "#",
+        "rid20"
+       ],
+       [
+        "AABIQwAAlkM=",
+        "#",
+        "rid21"
+       ]
+      ],
+      "reftxt": null,
+      "refanchors": [],
+      "_sdf": 103,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id17",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id18",
+         "_pt": "C#[255,255,255]",
+         "_vs": false
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "id19",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "id20"
+      },
+      "_effId": "id21"
+     }
+    ],
+    "#": "id22",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

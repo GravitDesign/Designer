@@ -1,0 +1,290 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:ellipse"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    []
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      100,
+      130,
+      90
+     ],
+     "trf": [
+      65,
+      0,
+      0,
+      45,
+      165,
+      145
+     ],
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Insert Element(s)"
+  },
+  "cursor": {
+   "cls": "g-cursor-select",
+   "css": "url(\"/assets/cursor/select.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "hover",
+   "state": {
+    "tool": "GEllipseTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": null
+   },
+   "cursor": {
+    "cls": "g-cursor-cross",
+    "css": "url(\"/assets/cursor/cross.cur\"), auto"
+   },
+   "hint": "60, 60"
+  },
+  {
+   "label": "mid-drag",
+   "state": {
+    "tool": "GEllipseTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:ellipse"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     []
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       40,
+       25
+      ],
+      "trf": [
+       20,
+       0,
+       0,
+       12.5,
+       120,
+       112.5
+      ],
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-cross",
+    "css": "url(\"/assets/cursor/cross.cur\"), auto"
+   },
+   "hint": null,
+   "doc": {
+    "@": "scene",
+    "@id": "id1",
+    "$": [
+     {
+      "@": "page",
+      "@id": "id2",
+      "$": [
+       {
+        "@": "annlst",
+        "@id": "id3",
+        "pgid": "id2",
+        "aid": "id3"
+       },
+       {
+        "@": "ellipse",
+        "@id": "id4",
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         20,
+         0,
+         0,
+         12.5,
+         120,
+         112.5
+        ],
+        "_sdf": 104,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id5",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id6",
+           "_pt": "C#[235,235,235]"
+          }
+         ],
+         "&": "id7"
+        },
+        "_effId": "id8"
+       }
+      ],
+      "#": "id9",
+      "w": 0,
+      "h": 0,
+      "off": [],
+      "bck": "C#[255,255,255]",
+      "name": "Page 1"
+     }
+    ],
+    "dictionary": {
+     "entries": []
+    },
+    "symbolDictionary": {
+     "entries": []
+    }
+   }
+  },
+  {
+   "label": "after",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:ellipse"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     []
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       130,
+       90
+      ],
+      "trf": [
+       65,
+       0,
+       0,
+       45,
+       165,
+       145
+      ],
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "ellipse",
+      "@id": "id4",
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [
+       65,
+       0,
+       0,
+       45,
+       165,
+       145
+      ],
+      "_sdf": 104,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id5",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[235,235,235]"
+        }
+       ],
+       "&": "id7"
+      },
+      "_effId": "id8"
+     }
+    ],
+    "#": "id9",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

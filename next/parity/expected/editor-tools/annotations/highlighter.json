@@ -1,0 +1,231 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/0/0:anh"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    []
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      199.967026,
+      160,
+      4.032974
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Create freehand path"
+  },
+  "cursor": {
+   "cls": "g-cursor-select",
+   "css": "url(\"/assets/cursor/select.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "cursor",
+   "state": {
+    "tool": "GHighlighterAnnotationTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": null
+   },
+   "cursor": {
+    "cls": "g-cursor-cross-highlight",
+    "css": "url(\"/assets/cursor/cross-highlight.svg\") 9 12, auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "after",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/0/0:anh"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     []
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       199.967026,
+       160,
+       4.032974
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Create freehand path"
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "$": [
+       {
+        "@": "anh",
+        "@id": "id4",
+        "name": "Test",
+        "uid": "12345678",
+        "time": "<time>",
+        "mtime": "<time>",
+        "seq": 1,
+        "read": [
+         "12345678"
+        ],
+        "pts": [
+         [
+          "AADIQgAASEM=",
+          "#",
+          "rid5",
+          "H",
+          "AADIQgAASEM="
+         ],
+         [
+          "AADwQgAASEM=",
+          "#",
+          "rid6",
+          "h",
+          "AADwQgAASEM=",
+          "H",
+          "q6r2QgAASEM="
+         ],
+         [
+          "AAACQwAASEM=",
+          "#",
+          "rid7",
+          "h",
+          "VVX9QgAASEM=",
+          "H",
+          "VVUFQwAASEM="
+         ],
+         [
+          "AAAMQwAASEM=",
+          "#",
+          "rid8",
+          "h",
+          "q6oIQwAASEM=",
+          "H",
+          "djojQwAASEM="
+         ],
+         [
+          "AAA+QwAASUM=",
+          "#",
+          "rid9",
+          "h",
+          "f9owQ3OvR0M=",
+          "H",
+          "pctXQ12US0M="
+         ],
+         [
+          "AAB4QwAAS0M=",
+          "#",
+          "rid10",
+          "h",
+          "IiVoQ8OtSUM="
+         ],
+         [
+          "AACCQwAATEM=",
+          "#",
+          "rid11"
+         ]
+        ],
+        "reftxt": null,
+        "refanchors": [],
+        "plkt": null,
+        "_sdf": 152,
+        "_stop": 0.5,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id5",
+         "$": [
+          {
+           "@": "borderPaintLayer",
+           "@id": "id6",
+           "_bw": 12,
+           "_pt": "C#[248,206,28]"
+          }
+         ],
+         "&": "id7"
+        },
+        "_effId": "id8"
+       }
+      ],
+      "pgid": "id2",
+      "aid": "id3"
+     }
+    ],
+    "#": "id9",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

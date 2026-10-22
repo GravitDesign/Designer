@@ -1,0 +1,270 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [],
+   "parts": [],
+   "anchors": [],
+   "preview": [],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Append Point"
+  },
+  "cursor": {
+   "cls": "g-cursor-select",
+   "css": "url(\"/assets/cursor/select.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "start",
+   "state": {
+    "tool": "GPenTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": null
+   },
+   "cursor": {
+    "cls": "g-cursor-pen-start",
+    "css": "url(\"/assets/cursor/pen-start.cur\"), auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "two-points",
+   "state": {
+    "tool": "GPenTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:path"
+    ],
+    "parts": [
+     [
+      {
+       "point": {
+        "node": "anchorPoint",
+        "index": 1
+       },
+       "type": 2
+      }
+     ]
+    ],
+    "anchors": [
+     [
+      1
+     ]
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       150,
+       0
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Append Point"
+   },
+   "cursor": {
+    "cls": "g-cursor-pen",
+    "css": "url(\"/assets/cursor/pen.cur\"), auto"
+   },
+   "hint": null,
+   "doc": {
+    "@": "scene",
+    "@id": "id1",
+    "$": [
+     {
+      "@": "page",
+      "@id": "id2",
+      "$": [
+       {
+        "@": "annlst",
+        "@id": "id3",
+        "pgid": "id2",
+        "aid": "id3"
+       },
+       {
+        "@": "path",
+        "@id": "id4",
+        "pts": [
+         [
+          "AADIQgAAyEI=",
+          "#",
+          "rid5"
+         ],
+         [
+          "AAB6QwAAyEI=",
+          "#",
+          "rid6"
+         ]
+        ],
+        "reftxt": null,
+        "refanchors": [],
+        "_sdf": 103,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id5",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id6",
+           "_pt": "C#[255,255,255]",
+           "_vs": false
+          },
+          {
+           "@": "borderPaintLayer",
+           "@id": "id7",
+           "_pt": "C#[0,0,0]"
+          }
+         ],
+         "&": "id8"
+        },
+        "_effId": "id9"
+       }
+      ],
+      "#": "id10",
+      "w": 0,
+      "h": 0,
+      "off": [],
+      "bck": "C#[255,255,255]",
+      "name": "Page 1"
+     }
+    ],
+    "dictionary": {
+     "entries": []
+    },
+    "symbolDictionary": {
+     "entries": []
+    }
+   }
+  },
+  {
+   "label": "after-esc",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Append Point"
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "path",
+      "@id": "id4",
+      "pts": [
+       [
+        "AADIQgAAyEI=",
+        "#",
+        "rid5"
+       ],
+       [
+        "AAB6QwAAyEI=",
+        "#",
+        "rid6"
+       ],
+       [
+        "AAB6QwAAekM=",
+        "#",
+        "rid13"
+       ]
+      ],
+      "reftxt": null,
+      "refanchors": [],
+      "_sdf": 103,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id5",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[255,255,255]",
+         "_vs": false
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "id7",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "id8"
+      },
+      "_effId": "id9"
+     }
+    ],
+    "#": "id10",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

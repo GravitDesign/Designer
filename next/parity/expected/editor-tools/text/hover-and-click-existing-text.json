@@ -1,0 +1,235 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:text"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    null
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      100,
+      109,
+      27.236328
+     ],
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      100,
+      100
+     ],
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": true,
+   "textSelection": [
+    0,
+    11
+   ],
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Insert Element(s)"
+  },
+  "cursor": {
+   "cls": "g-cursor-!text",
+   "css": "default"
+  }
+ },
+ "probes": [
+  {
+   "label": "empty",
+   "state": {
+    "tool": "GTextTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-cross",
+    "css": "url(\"/assets/cursor/cross.cur\"), auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "over-text",
+   "state": {
+    "tool": "GTextTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-!text",
+    "css": "default"
+   },
+   "hint": null
+  },
+  {
+   "label": "clicked",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:text"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       109,
+       27.236328
+      ],
+      "trf": [
+       1,
+       0,
+       0,
+       1,
+       100,
+       100
+      ],
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": true,
+    "textSelection": [
+     0,
+     11
+    ],
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-!text",
+    "css": "default"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "text",
+      "@id": "id4",
+      "#": "id5",
+      "ct": [
+       {
+        "text": "Hello world",
+        "fontWeight": 400,
+        "fontStyle": "normal",
+        "underline": false,
+        "strikeout": false,
+        "fontColor": "#000000",
+        "fontFamily": "Open Sans",
+        "fontSize": 20,
+        "align": null,
+        "script": null,
+        "transformation": null,
+        "charSpacing": null,
+        "wordSpacing": null,
+        "lineSpacing": 1,
+        "paragraphSpacing": "0",
+        "paragraphIndent": 0,
+        "ligatures": "auto",
+        "langScript": null,
+        "variant": null,
+        "fractions": false,
+        "listDepth": 0,
+        "listMarker": null,
+        "stylisticSet": null,
+        "localizedForm": null
+       }
+      ],
+      "content": "[{\"text\":\"Hello world\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"#000000\",\"fontFamily\":\"Open Sans\",\"fontSize\":20,\"align\":null,\"script\":null,\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":\"auto\",\"langScript\":null,\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+      "w": 142,
+      "h": 27.236,
+      "trf": [
+       1,
+       0,
+       0,
+       1,
+       100,
+       100
+      ],
+      "_sdf": 133,
+      "_layId": "id6",
+      "_effId": "id7",
+      "_fc": "C#[0,0,0]",
+      "_tff": "Open Sans"
+     }
+    ],
+    "#": "id8",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

@@ -1,0 +1,126 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPathsGraphTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:Paths Graph"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    null
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      100,
+      150,
+      150
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": null,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Insert Element(s)"
+  },
+  "cursor": {
+   "cls": "g-cursor-pen-start",
+   "css": "url(\"/assets/cursor/pen-start.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "active",
+   "state": {
+    "tool": "GPathsGraphTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": null
+   },
+   "cursor": {
+    "cls": "g-cursor-pen-start",
+    "css": "url(\"/assets/cursor/pen-start.cur\"), auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "Paths Graph",
+      "@id": "id4",
+      "anchors": "{\"@\":\"MapContainer\",\"$\":[{\"@\":\"GPGAnchor\",\"props\":[\"rid5\",100,100]},{\"@\":\"GPGAnchor\",\"props\":[\"rid6\",250,100]},{\"@\":\"GPGAnchor\",\"props\":[\"rid7\",250,250]}]}",
+      "edges": "{\"@\":\"GPathsGraph.Edges\",\"$\":[{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id5\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id6\",\"_effId\":\"id7\"}],\"props\":[\"rid11\",false,\"rid5\",\"rid6\",[[\"AADIQgAAyEI=\"],[\"AAB6QwAAyEI=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id8\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id9\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id10\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id11\"}},{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id12\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id13\",\"_effId\":\"id14\"}],\"props\":[\"rid19\",false,\"rid6\",\"rid7\",[[\"AAB6QwAAyEI=\"],[\"AAB6QwAAekM=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id15\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id9\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id10\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id16\"}}]}",
+      "_sdf": 142,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id17",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id9",
+         "_pt": "C#[255,255,255]",
+         "_vs": false
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "id10",
+         "_blc": "round",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "id18"
+      },
+      "_effId": "id19"
+     }
+    ],
+    "#": "id20",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

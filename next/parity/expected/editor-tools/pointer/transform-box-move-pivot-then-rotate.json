@@ -1,0 +1,220 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:rectangle"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    []
+   ],
+   "preview": [
+    {
+     "box": [
+      56.395111,
+      96.811495,
+      231.436983,
+      190.595162
+     ],
+     "trf": [
+      91.46866,
+      40.416385,
+      -24.249831,
+      54.881196,
+      172.113602,
+      192.109077
+     ],
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 1,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Transform Selection"
+  },
+  "cursor": {
+   "cls": "g-cursor-select-rot-round",
+   "css": "url(\"/assets/cursor/select-rot-round.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "pivot-moved",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:rectangle"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     []
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       200,
+       120
+      ],
+      "trf": [
+       100,
+       0,
+       0,
+       60,
+       200,
+       160
+      ],
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 1,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Move"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-arrow-only",
+    "css": "url(\"/assets/cursor/select-arrow-only.cur\"), auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "rectangle",
+      "@id": "id4",
+      "uf": true,
+      "ct": "R",
+      "sl": 0,
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [
+       91.46866040947617,
+       40.41638483209412,
+       -24.24983089925647,
+       54.8811962456857,
+       172.11360195248147,
+       192.1090765536228
+      ],
+      "_sdf": 107,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id5",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[229,57,53]"
+        }
+       ],
+       "&": "id7"
+      },
+      "_effId": "id8"
+     },
+     {
+      "@": "rectangle",
+      "@id": "id9",
+      "uf": true,
+      "ct": "R",
+      "sl": 0,
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [
+       50,
+       0,
+       0,
+       50,
+       450,
+       170
+      ],
+      "_sdf": 107,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id10",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id11",
+         "_pt": "C#[67,160,71]"
+        }
+       ],
+       "&": "id12"
+      },
+      "_effId": "id13"
+     },
+     {
+      "@": "ellipse",
+      "@id": "id14",
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [
+       60,
+       0,
+       0,
+       40,
+       210,
+       360
+      ],
+      "_sdf": 104,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id15",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id16",
+         "_pt": "C#[30,136,229]"
+        }
+       ],
+       "&": "id17"
+      },
+      "_effId": "id18"
+     }
+    ],
+    "#": "id19",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

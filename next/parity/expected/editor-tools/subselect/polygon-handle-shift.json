@@ -1,0 +1,102 @@
+{
+ "final": {
+  "state": {
+   "tool": "GSubSelectTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:polygon"
+   ],
+   "parts": [
+    [
+     "OUTSIDE_PART_ID"
+    ]
+   ],
+   "anchors": [
+    []
+   ],
+   "preview": [
+    {
+     "box": [
+      55.139387,
+      47.684538,
+      289.721226,
+      275.541259
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Modify Polygon"
+  },
+  "cursor": {
+   "cls": "g-cursor-select-inverse",
+   "css": "url(\"/assets/cursor/select-inverse.cur\"), auto"
+  }
+ },
+ "probes": [],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "polygon",
+      "@id": "id4",
+      "pts": 5,
+      "cx": 200,
+      "cy": 200,
+      "or": 152.31546211727817,
+      "ir": 50,
+      "oa": -1.5707963267948966,
+      "ia": -0.9424777960769379,
+      "reftxt": null,
+      "refanchors": [],
+      "_sdf": 102,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id5",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[235,235,235]"
+        }
+       ],
+       "&": "id7"
+      },
+      "_effId": "id8"
+     }
+    ],
+    "#": "id9",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

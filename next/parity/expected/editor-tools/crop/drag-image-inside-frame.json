@@ -1,0 +1,170 @@
+{
+ "final": {
+  "state": {
+   "tool": "GSubSelectTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:image"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    []
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      100,
+      286,
+      212
+     ],
+     "trf": [
+      3.125,
+      0,
+      0,
+      3.125,
+      100,
+      100
+     ],
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Modify Image"
+  },
+  "cursor": {
+   "cls": "g-cursor-select-cross",
+   "css": "url(\"/assets/cursor/select-cross.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "dragging",
+   "state": {
+    "tool": "GSubSelectTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:image"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     []
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       286,
+       212
+      ],
+      "trf": [
+       3.125,
+       0,
+       0,
+       3.125,
+       100,
+       100
+      ],
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Modify Image"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-cross",
+    "css": "url(\"/assets/cursor/select-cross.cur\"), auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "image",
+      "@id": "id4",
+      "url": "dictionary://rid5",
+      "iw": 64,
+      "ih": 48,
+      "pw": 64,
+      "ph": 48,
+      "itrf": [
+       4,
+       0,
+       0,
+       4,
+       130,
+       120
+      ],
+      "ipfc": true,
+      "uf": true,
+      "ct": "R",
+      "sl": 0,
+      "reftxt": null,
+      "refanchors": [],
+      "csc": false,
+      "trf": [
+       3.125,
+       0,
+       0,
+       3.125,
+       100,
+       100
+      ],
+      "_layId": "id5",
+      "_effId": "id6"
+     }
+    ],
+    "#": "id7",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": [
+    {
+     "uuid": "rid5",
+     "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAwCAYAAAChS3wfAAAAtUlEQVR4AeyVsQ2AQAwDX78TEl9TULIiI1CzDy0rPH2aiCqSfUgpolS2z3x/xjIrZzv3WTm9mX8YYA5AgwAIMHeACpgDwE+QClABcweogDkAfq9ADJwKREfcdghwSzzqhYDoiNsOAW6JR719HFernHt9W+VQgYiE2w4BbolHvRAQHXHb5QnIAsWAzCH1OwSoJ5zpg4DMIfU7BKgnnOmDgMwh9TsEqCec6YOAzCH1OwSoJfxXzwcAAP///ykzHQAAAAZJREFUAwAF5PLB5b6SOQAAAABJRU5ErkJggg==",
+     "references": 1
+    }
+   ]
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

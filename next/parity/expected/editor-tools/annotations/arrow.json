@@ -1,0 +1,195 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/0/1:anarr"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    []
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      300,
+      150,
+      0
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Insert Element(s)"
+  },
+  "cursor": {
+   "cls": "g-cursor-select",
+   "css": "url(\"/assets/cursor/select.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "cursor",
+   "state": {
+    "tool": "GArrowAnnotationTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": null
+   },
+   "cursor": {
+    "cls": "g-cursor-cross-arrow",
+    "css": "url(\"/assets/cursor/cross-arrow.svg\") 9 12, auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "$": [
+       {
+        "@": "anarr",
+        "@id": "id4",
+        "name": "Test",
+        "text": "",
+        "uid": "12345678",
+        "email": "example@example.net",
+        "time": "<time>",
+        "mtime": "<time>",
+        "seq": 1,
+        "read": [
+         "12345678"
+        ],
+        "pts": [
+         [
+          "AADIQgAAyEI=",
+          "#",
+          "rid5"
+         ],
+         [
+          "AAB6QwAAIEM=",
+          "#",
+          "rid6"
+         ]
+        ],
+        "reftxt": null,
+        "refanchors": [],
+        "plkt": null,
+        "_sdf": 154,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id5",
+         "$": [
+          {
+           "@": "borderPaintLayer",
+           "@id": "id6",
+           "_bw": 2,
+           "_blc": "butt",
+           "_bhmi": 0,
+           "_btm": "A",
+           "_btmi": 0,
+           "_pt": "C#[230,2,2]"
+          }
+         ],
+         "&": "id7"
+        },
+        "_effId": "id8"
+       },
+       {
+        "@": "anarr",
+        "@id": "id9",
+        "name": "Test",
+        "uid": "12345678",
+        "time": "<time>",
+        "mtime": "<time>",
+        "seq": 2,
+        "read": [
+         "12345678"
+        ],
+        "pts": [
+         [
+          "AADIQgAAlkM=",
+          "#",
+          "rid12"
+         ],
+         [
+          "AAB6QwAAlkM=",
+          "#",
+          "rid13"
+         ]
+        ],
+        "reftxt": null,
+        "refanchors": [],
+        "plkt": null,
+        "_sdf": 154,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id10",
+         "$": [
+          {
+           "@": "borderPaintLayer",
+           "@id": "id11",
+           "_bw": 2,
+           "_blc": "butt",
+           "_bhmi": 0,
+           "_btm": "A",
+           "_btmi": 0,
+           "_pt": "C#[230,2,2]"
+          }
+         ],
+         "&": "id12"
+        },
+        "_effId": "id13"
+       }
+      ],
+      "pgid": "id2",
+      "aid": "id3"
+     }
+    ],
+    "#": "id14",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

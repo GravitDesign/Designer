@@ -1,0 +1,402 @@
+{
+ "final": {
+  "state": {
+   "tool": "GSubSelectTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:Paths Graph"
+   ],
+   "parts": [
+    [
+     {
+      "facet": {
+       "node": "GPGFacet",
+       "index": 0
+      },
+      "type": 6
+     }
+    ]
+   ],
+   "anchors": [
+    null
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      100,
+      240,
+      230
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Insert Element(s)"
+  },
+  "cursor": {
+   "cls": "g-cursor-select-dot-inverse",
+   "css": "url(\"/assets/cursor/select-dot-inverse.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "drawn",
+   "state": {
+    "tool": "GPathsGraphTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:Paths Graph"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       200,
+       200
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-pen-start",
+    "css": "url(\"/assets/cursor/pen-start.cur\"), auto"
+   },
+   "hint": null,
+   "doc": {
+    "@": "scene",
+    "@id": "id1",
+    "$": [
+     {
+      "@": "page",
+      "@id": "id2",
+      "$": [
+       {
+        "@": "annlst",
+        "@id": "id3",
+        "pgid": "id2",
+        "aid": "id3"
+       },
+       {
+        "@": "Paths Graph",
+        "@id": "id4",
+        "anchors": "{\"@\":\"MapContainer\",\"$\":[{\"@\":\"GPGAnchor\",\"props\":[\"rid5\",100,100]},{\"@\":\"GPGAnchor\",\"props\":[\"rid6\",300,100]},{\"@\":\"GPGAnchor\",\"props\":[\"rid7\",300,300]},{\"@\":\"GPGAnchor\",\"props\":[\"rid8\",100,300]}]}",
+        "edges": "{\"@\":\"GPathsGraph.Edges\",\"$\":[{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id5\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id6\",\"_effId\":\"id7\"}],\"props\":[\"rid12\",false,\"rid5\",\"rid6\",[[\"AADIQgAAyEI=\"],[\"AACWQwAAyEI=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id8\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id9\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id10\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id11\"}},{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id12\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id13\",\"_effId\":\"id14\"}],\"props\":[\"rid20\",false,\"rid6\",\"rid7\",[[\"AACWQwAAyEI=\"],[\"AACWQwAAlkM=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id15\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id9\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id10\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id16\"}},{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id17\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id18\",\"_effId\":\"id19\"}],\"props\":[\"rid26\",false,\"rid7\",\"rid8\",[[\"AACWQwAAlkM=\"],[\"AADIQgAAlkM=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id20\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id9\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id10\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id21\"}},{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id22\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id23\",\"_effId\":\"id24\"}],\"props\":[\"rid32\",false,\"rid8\",\"rid5\",[[\"AADIQgAAlkM=\"],[\"AADIQgAAyEI=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id25\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id9\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id10\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id26\"}}]}",
+        "facets": "{\"@\":\"MapContainer\",\"$\":[{\"@\":\"GPGFacet\",\"props\":[\"rid35\",false,{\"dir\":1,\"euid\":\"rid12\"},{\"dir\":1,\"euid\":\"rid20\"},{\"dir\":1,\"euid\":\"rid26\"},{\"dir\":1,\"euid\":\"rid32\"}],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id27\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id9\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id10\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id28\"}}]}",
+        "_sdf": 142,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id29",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id9",
+           "_pt": "C#[255,255,255]",
+           "_vs": false
+          },
+          {
+           "@": "borderPaintLayer",
+           "@id": "id10",
+           "_blc": "round",
+           "_pt": "C#[0,0,0]"
+          }
+         ],
+         "&": "id30"
+        },
+        "_effId": "id31"
+       }
+      ],
+      "#": "id32",
+      "w": 0,
+      "h": 0,
+      "off": [],
+      "bck": "C#[255,255,255]",
+      "name": "Page 1"
+     }
+    ],
+    "dictionary": {
+     "entries": []
+    },
+    "symbolDictionary": {
+     "entries": []
+    }
+   }
+  },
+  {
+   "label": "hover-edge",
+   "state": {
+    "tool": "GSubSelectTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:Paths Graph"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       200,
+       200
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-curve",
+    "css": "url(\"/assets/cursor/select-curve.cur\"), auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "anchor",
+   "state": {
+    "tool": "GSubSelectTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:Paths Graph"
+    ],
+    "parts": [
+     [
+      {
+       "point": {
+        "node": "GPGAnchor",
+        "index": 2
+       },
+       "type": 2
+      }
+     ]
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       200,
+       200
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-dot-inverse",
+    "css": "url(\"/assets/cursor/select-dot-inverse.cur\"), auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "anchor-moved",
+   "state": {
+    "tool": "GSubSelectTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:Paths Graph"
+    ],
+    "parts": [
+     [
+      {
+       "point": {
+        "node": "GPGAnchor",
+        "index": 2
+       },
+       "type": 2
+      }
+     ]
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       240,
+       230
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-dot-inverse",
+    "css": "url(\"/assets/cursor/select-dot-inverse.cur\"), auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "facet",
+   "state": {
+    "tool": "GSubSelectTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:Paths Graph"
+    ],
+    "parts": [
+     [
+      {
+       "facet": {
+        "node": "GPGFacet",
+        "index": 0
+       },
+       "type": 6
+      }
+     ]
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       240,
+       230
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-dot-inverse",
+    "css": "url(\"/assets/cursor/select-dot-inverse.cur\"), auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "Paths Graph",
+      "@id": "id4",
+      "anchors": "{\"@\":\"MapContainer\",\"$\":[{\"@\":\"GPGAnchor\",\"props\":[\"rid5\",100,100]},{\"@\":\"GPGAnchor\",\"props\":[\"rid6\",300,100]},{\"@\":\"GPGAnchor\",\"props\":[\"rid7\",340,330]},{\"@\":\"GPGAnchor\",\"props\":[\"rid8\",100,300]}]}",
+      "edges": "{\"@\":\"GPathsGraph.Edges\",\"$\":[{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id5\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id6\",\"_effId\":\"id7\"}],\"props\":[\"rid12\",false,\"rid5\",\"rid6\",[[\"AADIQgAAyEI=\"],[\"AACWQwAAyEI=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id8\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id9\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id10\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id11\"}},{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id12\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id13\",\"_effId\":\"id14\"}],\"props\":[\"rid20\",false,\"rid6\",\"rid7\",[[\"AACWQwAAyEI=\"],[\"AACqQwAApUM=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id15\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id9\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id10\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id16\"}},{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id17\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id18\",\"_effId\":\"id19\"}],\"props\":[\"rid26\",false,\"rid7\",\"rid8\",[[\"AACqQwAApUM=\"],[\"AADIQgAAlkM=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id20\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id9\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id10\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id21\"}},{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id22\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id23\",\"_effId\":\"id24\"}],\"props\":[\"rid32\",false,\"rid8\",\"rid5\",[[\"AADIQgAAlkM=\"],[\"AADIQgAAyEI=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id25\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id9\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id10\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id26\"}}]}",
+      "facets": "{\"@\":\"MapContainer\",\"$\":[{\"@\":\"GPGFacet\",\"props\":[\"rid42\",false,{\"dir\":1,\"euid\":\"rid12\"},{\"dir\":1,\"euid\":\"rid20\"},{\"dir\":1,\"euid\":\"rid26\"},{\"dir\":1,\"euid\":\"rid32\"}],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id33\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id9\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id10\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id34\"}}]}",
+      "_sdf": 142,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id29",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id9",
+         "_pt": "C#[255,255,255]",
+         "_vs": false
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "id10",
+         "_blc": "round",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "id30"
+      },
+      "_effId": "id31"
+     }
+    ],
+    "#": "id32",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

@@ -1,0 +1,84 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [],
+   "parts": [],
+   "anchors": [],
+   "preview": [],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Insert Element(s)"
+  },
+  "cursor": {
+   "cls": "g-cursor-select",
+   "css": "url(\"/assets/cursor/select.cur\"), auto"
+  }
+ },
+ "probes": [],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "compoundpath",
+      "@id": "id4",
+      "paths": [
+       "{\"@\":\"path\",\"@id\":\"rid5\",\"closed\":true,\"pts\":[[\"AADIQgAAyEI=\",\"#\",\"rid6\"],[\"AABIQwAAyEI=\",\"#\",\"rid7\"],[\"AABIQwAASEM=\",\"#\",\"rid8\"],[\"AADIQgAASEM=\",\"#\",\"rid9\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"rid10\",\"_effId\":\"rid11\"}",
+       "{\"@\":\"path\",\"@id\":\"rid12\",\"closed\":true,\"pts\":[[\"AAB6QwAAyEI=\",\"#\",\"rid13\"],[\"AACvQwAAyEI=\",\"#\",\"rid14\"],[\"AACvQwAASEM=\",\"#\",\"rid15\"],[\"AAB6QwAASEM=\",\"#\",\"rid16\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"rid17\",\"_effId\":\"rid18\"}"
+      ],
+      "refanchors": [],
+      "_sdf": 94,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id5",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[255,255,255]"
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "id7",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "id8"
+      },
+      "_effId": "id9"
+     }
+    ],
+    "#": "id10",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

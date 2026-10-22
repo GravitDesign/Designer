@@ -1,0 +1,311 @@
+[
+ {
+  "group": "select",
+  "icon": "gravit-icon-cursor-filled",
+  "key": "V",
+  "richTooltipConfig": {
+   "_title": "Pointer tool",
+   "_description": "Click and drag to create a selection. Click an object to select it. Hold SHIFT to add/remove from selection. Hold ALT to select only objects fully enclosed in marqee",
+   "_video": "http://127.0.0.1:3190/rich-tooltip-video/Pointer_Tool.mp4",
+   "_middle": false,
+   "_shortcut": [
+    "V"
+   ],
+   "_learnMore": ""
+  },
+  "title": "Pointer",
+  "toolString": "GPointerTool"
+ },
+ {
+  "group": "select",
+  "icon": "gravit-icon-cursor",
+  "key": "D",
+  "richTooltipConfig": {
+   "_title": "Subselect tool",
+   "_description": "Click to select, edit, add and delete anchor points on a path. Click an object to select it.",
+   "_video": "http://127.0.0.1:3190/rich-tooltip-video/Subselect_Tool.mp4",
+   "_middle": false,
+   "_shortcut": [
+    "D"
+   ],
+   "_learnMore": ""
+  },
+  "title": "Subselect",
+  "toolString": "GSubSelectTool"
+ },
+ {
+  "category": "special",
+  "group": "select",
+  "icon": "gravit-icon-rope",
+  "key": "O",
+  "richTooltipConfig": {
+   "_title": "Lasso tool",
+   "_description": "Click and drag to draw an area selecting many anchor points at once.",
+   "_video": "http://127.0.0.1:3190/rich-tooltip-video/Lasso_Tool.mp4",
+   "_middle": false,
+   "_shortcut": [
+    "O"
+   ],
+   "_learnMore": ""
+  },
+  "title": "Lasso",
+  "toolString": "GLassoTool"
+ },
+ {
+  "category": "special",
+  "group": "select",
+  "icon": "gravit-icon-sheets",
+  "richTooltipConfig": {
+   "_title": "Layer tool",
+   "_description": "Click to select objects within a Layer Group.",
+   "_middle": false,
+   "_learnMore": ""
+  },
+  "title": "Layer",
+  "toolString": "GLayerTool"
+ },
+ {
+  "category": "other",
+  "group": "select",
+  "icon": "gravit-icon-slice",
+  "key": "S",
+  "richTooltipConfig": {
+   "_title": "Slice tool",
+   "_description": "Click and drag to define a specific area of your artwork to be exported as an asset.",
+   "_middle": false,
+   "_shortcut": [
+    "S"
+   ],
+   "_learnMore": ""
+  },
+  "title": "Slice",
+  "toolString": "GSliceTool"
+ },
+ {
+  "group": "path",
+  "icon": "gravit-icon-pen",
+  "key": "P",
+  "richTooltipConfig": {
+   "_title": "Pen tool",
+   "_description": "Click and drag to create a starting point. Hold SHIFT to constrain it in 45°. Hold D to use Subselect tool.",
+   "_video": "http://127.0.0.1:3190/rich-tooltip-video/Pen_Too.mp4",
+   "_middle": false,
+   "_shortcut": [
+    "P"
+   ],
+   "_learnMore": ""
+  },
+  "title": "Pen",
+  "toolString": "GPenTool"
+ },
+ {
+  "feature": "bezigon",
+  "group": "path",
+  "icon": "gravit-icon-pen-filled",
+  "key": "B",
+  "pro": true,
+  "richTooltipConfig": {
+   "_title": "Bezigon tool",
+   "_description": "Click and drag to create a starting point. Hold ALT to create a perfect curve. Hold SHIFT to constrain it in 45°.",
+   "_video": "http://127.0.0.1:3190/rich-tooltip-video/Bezigon_Tool.mp4",
+   "_isPro": false,
+   "_middle": false,
+   "_shortcut": [
+    "B"
+   ],
+   "_learnMore": ""
+  },
+  "title": "Bezigon",
+  "toolString": "GBezigonTool"
+ },
+ {
+  "category": "modify",
+  "group": "knife",
+  "icon": "gravit-icon-scalpel",
+  "key": "K",
+  "richTooltipConfig": {
+   "_title": "Knife tool",
+   "_description": "Click a vector object to slice it.",
+   "_video": "http://127.0.0.1:3190/rich-tooltip-video/Knife_Tool.mp4",
+   "_middle": false,
+   "_shortcut": [
+    "K"
+   ],
+   "_learnMore": ""
+  },
+  "title": "Knife",
+  "toolString": "GKnifeTool"
+ },
+ {
+  "category": "hand",
+  "group": "path",
+  "icon": "gravit-icon-free-hand-draw",
+  "richTooltipConfig": {
+   "_title": "Freehand tool",
+   "_description": "Click and drag to start drawing. Hold D to use Subselect tool.",
+   "_video": "http://127.0.0.1:3190/rich-tooltip-video/Freehand_Tool.mp4",
+   "_middle": false,
+   "_learnMore": ""
+  },
+  "title": "Freehand",
+  "toolString": "GFreehandTool"
+ },
+ {
+  "category": "modify",
+  "group": "knife",
+  "icon": "gravit-icon-freehand-shape",
+  "richTooltipConfig": {
+   "_title": "Freehand shaping",
+   "_description": "Click and drag to add or subtract from an object.",
+   "_video": "http://127.0.0.1:3190/rich-tooltip-video/Freehand_Shaping_Tool.mp4",
+   "_middle": false,
+   "_learnMore": ""
+  },
+  "title": "Freehand shaping",
+  "toolString": "GMagicTool"
+ },
+ {
+  "group": "shape",
+  "icon": "gravit-icon-line",
+  "key": "L",
+  "richTooltipConfig": {
+   "_title": "Create line",
+   "_description": "Click, drag and release to create a straight line. Hold ALT to create from center point. Hold SHIFT to constrain it in 45°.",
+   "_video": "http://127.0.0.1:3190/rich-tooltip-video/Line_Tool.mp4",
+   "_middle": false,
+   "_shortcut": [
+    "L"
+   ],
+   "_learnMore": ""
+  },
+  "title": "Line",
+  "toolString": "GLineTool"
+ },
+ {
+  "group": "shape",
+  "icon": "gravit-icon-rectangle",
+  "key": "R",
+  "richTooltipConfig": {
+   "_title": "Create rectangle",
+   "_description": "Click and drag to create a rectangle. Hold ALT to create from center point. Hold SHIFT to constrain proportions.",
+   "_video": "http://127.0.0.1:3190/rich-tooltip-video/Rectangle_Tool.mp4",
+   "_middle": false,
+   "_shortcut": [
+    "R"
+   ],
+   "_learnMore": ""
+  },
+  "shortcuts": [
+   [
+    "M"
+   ]
+  ],
+  "title": "Rectangle",
+  "toolString": "GRectangleTool"
+ },
+ {
+  "group": "shape",
+  "icon": "gravit-icon-ellipse",
+  "key": "E",
+  "richTooltipConfig": {
+   "_title": "Create ellipse",
+   "_description": "Click and drag to create an ellipse. Hold ALT to create from center point. Hold SHIFT to constrain proportions.",
+   "_video": "http://127.0.0.1:3190/rich-tooltip-video/Ellipse_Tool.mp4",
+   "_middle": false,
+   "_shortcut": [
+    "E"
+   ],
+   "_learnMore": ""
+  },
+  "title": "Ellipse",
+  "toolString": "GEllipseTool"
+ },
+ {
+  "category": "polygon",
+  "group": "shape",
+  "icon": "gravit-icon-polygon",
+  "richTooltipConfig": {
+   "_title": "Create polygon",
+   "_description": "Click and drag to create a polygon. Hold ALT to create from center point. Hold SHIFT to constrain proportions.",
+   "_middle": false,
+   "_learnMore": ""
+  },
+  "title": "Polygon",
+  "toolString": "GPolygonTool"
+ },
+ {
+  "category": "polygon",
+  "group": "shape",
+  "icon": "gravit-icon-triangle",
+  "richTooltipConfig": {
+   "_title": "Create triangle",
+   "_description": "Click and drag to create a triangle. Hold ALT to create from center point. Hold SHIFT to constrain proportions.",
+   "_middle": false,
+   "_learnMore": ""
+  },
+  "title": "Triangle",
+  "toolString": "GTriangleTool"
+ },
+ {
+  "category": "polygon",
+  "group": "shape",
+  "icon": "gravit-icon-star",
+  "richTooltipConfig": {
+   "_title": "Create star",
+   "_description": "Click and drag to create a star. Hold ALT to create from center point. Hold SHIFT to constrain proportions.",
+   "_middle": false,
+   "_learnMore": ""
+  },
+  "title": "Star",
+  "toolString": "GStarTool"
+ },
+ {
+  "group": "insert",
+  "icon": "gravit-icon-textbox",
+  "key": "T",
+  "richTooltipConfig": {
+   "_title": "Text tool",
+   "_description": "Click to create text. ",
+   "_video": "http://127.0.0.1:3190/rich-tooltip-video/Text_Tool.mp4",
+   "_middle": false,
+   "_shortcut": [
+    "T"
+   ],
+   "_learnMore": ""
+  },
+  "title": "Text",
+  "toolString": "GTextTool"
+ },
+ {
+  "group": "view",
+  "icon": "gravit-icon-move",
+  "key": "H",
+  "richTooltipConfig": {
+   "_title": "Pan tool",
+   "_description": "Click and drag to pan view.",
+   "_middle": false,
+   "_shortcut": [
+    "H"
+   ],
+   "_learnMore": ""
+  },
+  "title": "Pan",
+  "toolString": "GHandTool"
+ },
+ {
+  "group": "view",
+  "icon": "gravit-icon-zoom-in",
+  "key": "Z",
+  "richTooltipConfig": {
+   "_title": "Zoom tool",
+   "_description": "Click to zoom in about a point. Hold ALT and click to zoom out. Click and drag to create a zoom in area.",
+   "_middle": false,
+   "_shortcut": [
+    "Z"
+   ],
+   "_learnMore": ""
+  },
+  "title": "Zoom",
+  "toolString": "GZoomTool"
+ }
+]

@@ -1,0 +1,160 @@
+{
+ "final": {
+  "state": {
+   "tool": "GMagicTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/2:path"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    []
+   ],
+   "preview": [
+    {
+     "box": [
+      400,
+      300,
+      100,
+      60
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": null,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Create freehand path"
+  },
+  "cursor": {
+   "cls": "g-cursor-pen-start",
+   "css": "url(\"/assets/cursor/pen-start.cur\"), auto"
+  }
+ },
+ "probes": [],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "rectangle",
+      "@id": "id4",
+      "uf": true,
+      "ct": "R",
+      "sl": 0,
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [
+       100,
+       0,
+       0,
+       70,
+       200,
+       170
+      ],
+      "_sdf": 107,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id5",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[229,57,53]"
+        }
+       ],
+       "&": "id7"
+      },
+      "_effId": "id8"
+     },
+     {
+      "@": "path",
+      "@id": "id9",
+      "pts": [
+       [
+        "AADIQwAAlkM=",
+        "#",
+        "rid10",
+        "H",
+        "q6rOQ6uqmEM="
+       ],
+       [
+        "AADcQwAAnkM=",
+        "#",
+        "rid11",
+        "h",
+        "VVXVQ1VVm0M=",
+        "H",
+        "nsbnQ9m1okM="
+       ],
+       [
+        "AAD1QwAAsEM=",
+        "#",
+        "rid12",
+        "h",
+        "QkPvQwFpq0M="
+       ],
+       [
+        "AAD6QwAAtEM=",
+        "#",
+        "rid13"
+       ]
+      ],
+      "reftxt": null,
+      "refanchors": [],
+      "_sdf": 103,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id10",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id11",
+         "_pt": "C#[255,255,255]",
+         "_vs": false
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "id12",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "id13"
+      },
+      "_effId": "id14"
+     }
+    ],
+    "#": "id15",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

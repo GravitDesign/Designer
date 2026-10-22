@@ -1,0 +1,200 @@
+{
+ "final": {
+  "state": {
+   "tool": "GFillTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/2:Paths Graph"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    null
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      100,
+      200,
+      200
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": null,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Modify Fill"
+  },
+  "cursor": {
+   "cls": "g-cursor-pipette",
+   "css": "url(\"/assets/cursor/pipette.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "not-activatable-without-graph",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "with-graph",
+   "state": {
+    "tool": "GFillTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/2:Paths Graph"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       200,
+       200
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-pipette",
+    "css": "url(\"/assets/cursor/pipette.cur\"), auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "rectangle",
+      "@id": "id4",
+      "uf": true,
+      "ct": "R",
+      "sl": 0,
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [
+       100,
+       0,
+       0,
+       70,
+       200,
+       170
+      ],
+      "_sdf": 107,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id5",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[229,57,53]"
+        }
+       ],
+       "&": "id7"
+      },
+      "_effId": "id8"
+     },
+     {
+      "@": "Paths Graph",
+      "@id": "id9",
+      "anchors": "{\"@\":\"MapContainer\",\"$\":[{\"@\":\"GPGAnchor\",\"props\":[\"rid10\",100,100]},{\"@\":\"GPGAnchor\",\"props\":[\"rid11\",300,100]},{\"@\":\"GPGAnchor\",\"props\":[\"rid12\",300,300]},{\"@\":\"GPGAnchor\",\"props\":[\"rid13\",100,300]}]}",
+      "edges": "{\"@\":\"GPathsGraph.Edges\",\"$\":[{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id10\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id11\",\"_effId\":\"id12\"}],\"props\":[\"rid17\",false,\"rid10\",\"rid11\",[[\"AADIQgAAyEI=\"],[\"AACWQwAAyEI=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id13\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id14\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id15\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id16\"}},{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id17\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id18\",\"_effId\":\"id19\"}],\"props\":[\"rid25\",false,\"rid11\",\"rid12\",[[\"AACWQwAAyEI=\"],[\"AACWQwAAlkM=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id20\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id14\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id15\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id21\"}},{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id22\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id23\",\"_effId\":\"id24\"}],\"props\":[\"rid31\",false,\"rid12\",\"rid13\",[[\"AACWQwAAlkM=\"],[\"AADIQgAAlkM=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id25\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id14\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id15\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id26\"}},{\"@\":\"GPGEdge\",\"$\":[{\"@id\":\"id27\",\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id28\",\"_effId\":\"id29\"}],\"props\":[\"rid37\",false,\"rid13\",\"rid10\",[[\"AADIQgAAlkM=\"],[\"AADIQgAAyEI=\"]]],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id30\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id14\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id15\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id31\"}}]}",
+      "facets": "{\"@\":\"MapContainer\",\"$\":[{\"@\":\"GPGFacet\",\"props\":[\"rid40\",false,{\"dir\":1,\"euid\":\"rid17\"},{\"dir\":1,\"euid\":\"rid25\"},{\"dir\":1,\"euid\":\"rid31\"},{\"dir\":1,\"euid\":\"rid37\"}],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id32\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id14\",\"_pt\":\"C#[255,255,255]\",\"_vs\":false},{\"@\":\"borderPaintLayer\",\"@id\":\"id15\",\"_blc\":\"round\",\"_pt\":\"C#[0,0,0]\"}],\"&\":\"id33\"}}]}",
+      "_sdf": 142,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id34",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id14",
+         "_pt": "C#[255,255,255]",
+         "_vs": false
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "id15",
+         "_blc": "round",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "id35"
+      },
+      "_effId": "id36"
+     }
+    ],
+    "#": "id37",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

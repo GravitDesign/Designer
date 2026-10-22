@@ -1,0 +1,251 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/0/1:ane"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    []
+   ],
+   "preview": [
+    {
+     "box": [
+      240,
+      240,
+      120,
+      120
+     ],
+     "trf": [
+      60,
+      0,
+      0,
+      60,
+      300,
+      300
+     ],
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Insert Element(s)"
+  },
+  "cursor": {
+   "cls": "g-cursor-select",
+   "css": "url(\"/assets/cursor/select.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "cursor",
+   "state": {
+    "tool": "GEllipseAnnotationTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": null
+   },
+   "cursor": {
+    "cls": "g-cursor-cross-ellipse",
+    "css": "url(\"/assets/cursor/cross-ellipse.svg\") 9 12, auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "after",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/0/0:ane"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     []
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       100,
+       80
+      ],
+      "trf": [
+       50,
+       0,
+       0,
+       40,
+       150,
+       140
+      ],
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "$": [
+       {
+        "@": "ane",
+        "@id": "id4",
+        "name": "Test",
+        "text": "",
+        "uid": "12345678",
+        "email": "example@example.net",
+        "time": "<time>",
+        "mtime": "<time>",
+        "seq": 1,
+        "read": [
+         "12345678"
+        ],
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         50,
+         0,
+         0,
+         40,
+         150,
+         140
+        ],
+        "plkt": null,
+        "_sdf": 151,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id5",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id6",
+           "_pt": "C#[230,2,2]",
+           "_op": 0,
+           "_bl": "multiply"
+          },
+          {
+           "@": "borderPaintLayer",
+           "@id": "id7",
+           "_bw": 2,
+           "_blc": "butt",
+           "_pt": "C#[230,2,2]"
+          }
+         ],
+         "&": "id8"
+        },
+        "_effId": "id9"
+       },
+       {
+        "@": "ane",
+        "@id": "id10",
+        "name": "Test",
+        "uid": "12345678",
+        "time": "<time>",
+        "mtime": "<time>",
+        "seq": 2,
+        "read": [
+         "12345678"
+        ],
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         60,
+         0,
+         0,
+         60,
+         300,
+         300
+        ],
+        "plkt": null,
+        "_sdf": 151,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id11",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id12",
+           "_pt": "C#[230,2,2]",
+           "_op": 0,
+           "_bl": "multiply"
+          },
+          {
+           "@": "borderPaintLayer",
+           "@id": "id13",
+           "_bw": 2,
+           "_blc": "butt",
+           "_pt": "C#[230,2,2]"
+          }
+         ],
+         "&": "id14"
+        },
+        "_effId": "id15"
+       }
+      ],
+      "pgid": "id2",
+      "aid": "id3"
+     }
+    ],
+    "#": "id16",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

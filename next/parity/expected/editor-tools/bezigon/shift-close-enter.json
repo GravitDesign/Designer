@@ -1,0 +1,235 @@
+{
+ "final": {
+  "state": {
+   "tool": "GSubSelectTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:path"
+   ],
+   "parts": [
+    [
+     {
+      "point": {
+       "node": "anchorPoint",
+       "index": 0
+      },
+      "type": 2
+     }
+    ]
+   ],
+   "anchors": [
+    [
+     0
+    ]
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      100,
+      150,
+      150
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Modify Path Properties"
+  },
+  "cursor": {
+   "cls": "g-cursor-select-inverse",
+   "css": "url(\"/assets/cursor/select-inverse.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "closed",
+   "state": {
+    "tool": "GBezigonTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:path"
+    ],
+    "parts": [
+     [
+      {
+       "point": {
+        "node": "anchorPoint",
+        "index": 0
+       },
+       "type": 2
+      }
+     ]
+    ],
+    "anchors": [
+     [
+      0
+     ]
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       150,
+       150
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Modify Path Properties"
+   },
+   "cursor": {
+    "cls": "g-cursor-pen-end",
+    "css": "url(\"/assets/cursor/pen-end.cur\"), auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "after-enter",
+   "state": {
+    "tool": "GSubSelectTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:path"
+    ],
+    "parts": [
+     [
+      {
+       "point": {
+        "node": "anchorPoint",
+        "index": 0
+       },
+       "type": 2
+      }
+     ]
+    ],
+    "anchors": [
+     [
+      0
+     ]
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       150,
+       150
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Modify Path Properties"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-inverse",
+    "css": "url(\"/assets/cursor/select-inverse.cur\"), auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "path",
+      "@id": "id4",
+      "closed": true,
+      "pts": [
+       [
+        true,
+        "AADIQgAAyEI=",
+        "#",
+        "rid5"
+       ],
+       [
+        true,
+        "AAB6QwAAyEI=",
+        "#",
+        "rid6"
+       ],
+       [
+        true,
+        "AAB6QwAAekM=",
+        "#",
+        "rid7"
+       ]
+      ],
+      "reftxt": null,
+      "refanchors": [],
+      "_sdf": 103,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id5",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id6",
+         "_pt": "C#[255,255,255]",
+         "_vs": false
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "id7",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "id8"
+      },
+      "_effId": "id9"
+     }
+    ],
+    "#": "id10",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

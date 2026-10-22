@@ -1,0 +1,242 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/0/0:anp"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    []
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      100,
+      140,
+      48.554477
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Create freehand path"
+  },
+  "cursor": {
+   "cls": "g-cursor-select",
+   "css": "url(\"/assets/cursor/select.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "cursor",
+   "state": {
+    "tool": "GPencilAnnotationTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": null
+   },
+   "cursor": {
+    "cls": "g-cursor-cross-freehand",
+    "css": "url(\"/assets/cursor/cross-freehand.svg\") 9 12, auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "enter-ignored",
+   "state": {
+    "tool": "GPencilAnnotationTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": null,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": null
+   },
+   "cursor": {
+    "cls": "g-cursor-cross-freehand",
+    "css": "url(\"/assets/cursor/cross-freehand.svg\") 9 12, auto"
+   },
+   "hint": null
+  },
+  {
+   "label": "after",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/0/0:anp"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     []
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       140,
+       48.554477
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Create freehand path"
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "$": [
+       {
+        "@": "anp",
+        "@id": "id4",
+        "name": "Test",
+        "uid": "12345678",
+        "time": "<time>",
+        "mtime": "<time>",
+        "seq": 1,
+        "read": [
+         "12345678"
+        ],
+        "pts": [
+         [
+          "AADIQgAAyEI=",
+          "#",
+          "rid5",
+          "H",
+          "BX7cQgV+3EI="
+         ],
+         [
+          "AAAKQwAA/EI=",
+          "#",
+          "rid6",
+          "h",
+          "lKv8Qq+A6kI=",
+          "H",
+          "skYcQwW1C0M="
+         ],
+         [
+          "AAAyQwAAFEM=",
+          "#",
+          "rid7",
+          "h",
+          "ivwkQ91AF0M=",
+          "H",
+          "TpFKQ6zbDUM="
+         ],
+         [
+          "AABkQwAAAEM=",
+          "#",
+          "rid8",
+          "h",
+          "2NNVQ8VyCUM="
+         ],
+         [
+          "AABqQwAA+EI=",
+          "#",
+          "rid9"
+         ],
+         [
+          "AABwQwAA8EI=",
+          "#",
+          "rid10"
+         ]
+        ],
+        "reftxt": null,
+        "refanchors": [],
+        "plkt": null,
+        "_sdf": 155,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id5",
+         "$": [
+          {
+           "@": "borderPaintLayer",
+           "@id": "id6",
+           "_bw": 2,
+           "_pt": "C#[230,2,2]"
+          }
+         ],
+         "&": "id7"
+        },
+        "_effId": "id8"
+       }
+      ],
+      "pgid": "id2",
+      "aid": "id3"
+     }
+    ],
+    "#": "id9",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}
