@@ -78,6 +78,31 @@
     setSetting(key, value) {
       designer.setSetting(key, value);
     },
+    /**
+     * The type id (GObject.getTypeId) of every class reachable from G,
+     * including nested classes such as GStylable.FillPaintLayer, keyed by
+     * their G path. The ids are saved in documents (`_sdf`), so the new
+     * engine must use the same numbers.
+     */
+    typeIds() {
+      const out = {};
+      const seen = new Set();
+      const visit = (value, name, depth) => {
+        if (typeof value !== "function" || seen.has(value) || depth > 2) return;
+        seen.add(value);
+        if (
+          value.prototype &&
+          Object.prototype.hasOwnProperty.call(value.prototype, "__gtype_id__")
+        ) {
+          out[name] = value.prototype.__gtype_id__;
+        }
+        for (const key of Object.keys(value)) {
+          if (/^[A-Z]/.test(key)) visit(value[key], `${name}.${key}`, depth + 1);
+        }
+      };
+      for (const key of Object.keys(G).sort()) visit(G[key], key, 0);
+      return out;
+    },
   };
   window.__parity = { G, app };
   return Object.keys(G).length;
