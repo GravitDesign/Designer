@@ -1,0 +1,85 @@
+[
+ {
+  "step": "start",
+  "menu": [
+   {
+    "disabled": true
+   }
+  ],
+  "keys": {
+   "pwa.closed-install-pwa-dialog-date": null,
+   "pwa.show-install-dialog-3-times-a-week": null
+  },
+  "dialogs": []
+ },
+ {
+  "step": "event 1",
+  "keys": {
+   "pwa.closed-install-pwa-dialog-date": null,
+   "pwa.show-install-dialog-3-times-a-week": {
+    "jsonString": [
+     "<epoch ms>"
+    ]
+   }
+  },
+  "dialogs": []
+ },
+ {
+  "step": "event 2",
+  "keys": {
+   "pwa.closed-install-pwa-dialog-date": null,
+   "pwa.show-install-dialog-3-times-a-week": {
+    "jsonString": [
+     "<epoch ms>",
+     "<epoch ms>"
+    ]
+   }
+  },
+  "dialogs": []
+ },
+ {
+  "step": "event 3",
+  "keys": {
+   "pwa.closed-install-pwa-dialog-date": null,
+   "pwa.show-install-dialog-3-times-a-week": {
+    "jsonString": [
+     "<epoch ms>",
+     "<epoch ms>"
+    ]
+   }
+  },
+  "dialogs": [
+   "g-dialog g-install-pwa-dialog"
+  ]
+ },
+ {
+  "step": "after Escape",
+  "keys": {
+   "pwa.closed-install-pwa-dialog-date": null,
+   "pwa.show-install-dialog-3-times-a-week": {
+    "jsonString": [
+     "<epoch ms>",
+     "<epoch ms>"
+    ]
+   }
+  },
+  "dialogs": []
+ },
+ {
+  "step": "menu",
+  "menu": [
+   {
+    "disabled": false
+   }
+  ]
+ },
+ {
+  "step": "File > Install to Desktop",
+  "promptCalls": 1,
+  "keys": {
+   "pwa.closed-install-pwa-dialog-date": null,
+   "pwa.show-install-dialog-3-times-a-week": null
+  },
+  "dialogs": []
+ }
+]

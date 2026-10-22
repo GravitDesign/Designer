@@ -1,0 +1,242 @@
+[
+ {
+  "request": "GET /",
+  "status": 200,
+  "content-type": "text/html; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /",
+  "status": 200,
+  "content-type": "text/html; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /index.html",
+  "status": 200,
+  "content-type": "text/html; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /index.html",
+  "status": 200,
+  "content-type": "text/html; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /jquery.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /jquery.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /chunk.vendor.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=2592000, immutable"
+ },
+ {
+  "request": "HEAD /chunk.vendor.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=2592000, immutable"
+ },
+ {
+  "request": "GET /designer.browser.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=2592000, immutable"
+ },
+ {
+  "request": "HEAD /designer.browser.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=2592000, immutable"
+ },
+ {
+  "request": "GET /designer.browser.dev.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /designer.browser.dev.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /designer.browser.light.css",
+  "status": 200,
+  "content-type": "text/css; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /designer.browser.light.css",
+  "status": 200,
+  "content-type": "text/css; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /designer.browser.dark.css",
+  "status": 200,
+  "content-type": "text/css; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /designer.browser.dark.css",
+  "status": 200,
+  "content-type": "text/css; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /static.css",
+  "status": 200,
+  "content-type": "text/css; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /static.css",
+  "status": 200,
+  "content-type": "text/css; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /favicon.ico",
+  "status": 200,
+  "content-type": "image/vnd.microsoft.icon",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /favicon.ico",
+  "status": 200,
+  "content-type": "image/vnd.microsoft.icon",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /manifest.json",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /manifest.json",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /cacher.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /cacher.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /service-worker.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /service-worker.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /autosave.worker.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /autosave.worker.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /pdf.worker.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /pdf.worker.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /pdfexport.worker.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /pdfexport.worker.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /ps.worker.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /ps.worker.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /proxy.html",
+  "status": 200,
+  "content-type": "text/html; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /proxy.html",
+  "status": 200,
+  "content-type": "text/html; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /assets/prerendered/icon512.png",
+  "status": 200,
+  "content-type": "image/png",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /assets/prerendered/icon512.png",
+  "status": 200,
+  "content-type": "image/png",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /assets/font/gravit-designer.ttf",
+  "status": 200,
+  "content-type": "font/ttf",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "HEAD /assets/font/gravit-designer.ttf",
+  "status": 200,
+  "content-type": "font/ttf",
+  "cache-control": "public, max-age=0"
+ }
+]

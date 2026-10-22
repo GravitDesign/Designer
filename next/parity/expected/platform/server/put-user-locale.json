@@ -1,0 +1,478 @@
+[
+ {
+  "locale": 0,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "de-DE",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 1,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "en",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 2,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "zh-CN",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 3,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "pt-BR",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 4,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "es-ES",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 5,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "fr-FR",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 6,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "pl-PL",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 7,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "ru-RU",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 8,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "tr-TR",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 9,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "cs-CZ",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 10,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "zh-TW",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 11,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "it-IT",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 12,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "ja-JP",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 13,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "nl-NL",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 14,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "sv-SE",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": 15,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "en",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": "0",
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "de-DE",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": "14",
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "sv-SE",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": "de-DE",
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "de-DE",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": "DE-de",
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "DE-de",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": "en",
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "en",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": "ja-JP",
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "ja-JP",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": "sv-se",
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "sv-se",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": "de",
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "en",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": "xx-XX",
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "en",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": "",
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "en",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": null,
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "en",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ },
+ {
+  "locale": "(no body)",
+  "request": "PUT /user",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "id": "12345678",
+   "name": "Test User",
+   "locale": "en",
+   "email": "example@example.net",
+   "version": "3.15.0",
+   "runtime": "Browser",
+   "settings": {
+    "notifications_disabled": false
+   }
+  }
+ }
+]

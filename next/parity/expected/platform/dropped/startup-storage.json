@@ -1,0 +1,106 @@
+{
+ "localStorage": {
+  "enabled_subscriptions": {
+   "raw": "true",
+   "value": true
+  },
+  "last_update_check": "<epoch ms string>",
+  "offline_cache": {
+   "raw": "(JSON)",
+   "value": {
+    "lastUpdate": "<ISO time>",
+    "license": {
+     "created": "2021-09-22T19:58:35.018Z",
+     "expire": "2099-12-31T23:59:59.000Z",
+     "legacy": false,
+     "license": "pro"
+    },
+    "user": {
+     "_color": "#B30000",
+     "address": "",
+     "admin": null,
+     "app": "designer",
+     "avatar": "https://gravatar.com/avatar/2b6848a6719e6c2e6747d506d1ff57b3?s=64&d=retro",
+     "city": "",
+     "country": "",
+     "created": "2021-09-22T19:58:32.748Z",
+     "deactivated": false,
+     "email": "example@example.net",
+     "email_expire": null,
+     "email_verified": true,
+     "flash": null,
+     "guest_created": null,
+     "guest_expire": null,
+     "id": "12345678",
+     "last_name": "",
+     "last_seen": "<server start>",
+     "last_update": "<server start>",
+     "legacy": false,
+     "locale": "de-DE",
+     "login": null,
+     "name": "Test User",
+     "pro_created": "2021-09-22T19:58:35.018Z",
+     "pro_expire": "2099-12-31T23:59:59.000Z",
+     "runtime": "Browser",
+     "settings": {
+      "flags": {
+       "proOfferInTrialExpireSoon": false,
+       "proOfferInTrialLastWarning": false,
+       "proOfferSpecialPrice": false,
+       "welcomeMessage": false,
+       "windowsStoreAnnouncement": false
+      },
+      "license": {
+       "offlineCountdown": 604800000,
+       "offlineExpirationTime": 1296000000
+      },
+      "notifications_disabled": false,
+      "quotas": {
+       "free": null,
+       "pro": null
+      },
+      "reminders": {
+       "offlineWarning": 86400000,
+       "proExpireSoon": 2592000000,
+       "proOfferInFree": 1296000000,
+       "proOfferInTrial": 432000000,
+       "proOfferInTrialExpireSoon": 86400000,
+       "proOfferInTrialExpired": 1296000000,
+       "proOfferInTrialLastWarning": 0,
+       "proOfferSpecialPrice": 0
+      },
+      "subscription": {
+       "annual": {
+        "coupon": "Trial20",
+        "productId": null
+       },
+       "extraParameters": {
+        "x-at": null,
+        "x-clickref": null
+       }
+      },
+      "trialDays": 15
+     },
+     "state": "",
+     "stats": {},
+     "trial_created": "2021-09-22T19:58:35.018Z",
+     "trial_expire": "2099-10-07T19:58:35.018Z",
+     "user_type": "normal",
+     "version": "3.15.0",
+     "zip": ""
+    }
+   }
+  },
+  "old_version": {
+   "raw": "\"3.15.0\"",
+   "value": "3.15.0"
+  }
+ },
+ "cookies": [
+  "_gcoupon=",
+  "_gdesignerv=3.15.0",
+  "_gdt=",
+  "_ginst=Browser"
+ ],
+ "sessionStorage": []
+}

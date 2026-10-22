@@ -1,0 +1,51 @@
+{
+ "both": {
+  "isMultiple": true,
+  "input": {
+   "type": "file",
+   "multiple": true,
+   "accept": ".gvdesign,.png,.heic,.jpg,.jpeg,.svg,.pdf,.eps",
+   "inDocument": true,
+   "position": "absolute"
+  },
+  "documents": {
+   "titles": [
+    "Untitled-1",
+    "alpha",
+    "beta"
+   ],
+   "active": "beta",
+   "modified": false,
+   "nodes": [
+    "annlst",
+    "rectangle",
+    "ellipse"
+   ]
+  }
+ },
+ "again": {
+  "isMultiple": true,
+  "input": {
+   "type": "file",
+   "multiple": true,
+   "accept": ".gvdesign,.png,.heic,.jpg,.jpeg,.svg,.pdf,.eps",
+   "inDocument": true,
+   "position": "absolute"
+  },
+  "documents": {
+   "titles": [
+    "Untitled-1",
+    "alpha",
+    "beta",
+    "alpha"
+   ],
+   "active": "alpha",
+   "modified": false,
+   "nodes": [
+    "annlst",
+    "rectangle",
+    "ellipse"
+   ]
+  }
+ }
+}

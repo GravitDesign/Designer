@@ -1,0 +1,38 @@
+{
+ "accept": ".ttf,.otf,.ttc,.dfont",
+ "database": {
+  "version": 1,
+  "stores": [
+   "gravitFonts"
+  ],
+  "entries": {
+   "Noto Sans Adlam_400_N": {
+    "type": "[object ArrayBuffer]",
+    "byteLength": 83160,
+    "sha256": "3253b5b6a0cb541f819832c2bb815d528622b38f143e1e718003a58db9d557ea"
+   },
+   "_gravit_font_list_": [
+    {
+     "style": "N",
+     "weight": "400",
+     "family": "Noto Sans Adlam"
+    }
+   ]
+  }
+ },
+ "summary": [
+  {
+   "name": "gravitFontsDB",
+   "version": 1,
+   "stores": [
+    {
+     "name": "gravitFonts",
+     "keys": [
+      "Noto Sans Adlam_400_N",
+      "_gravit_font_list_"
+     ]
+    }
+   ]
+  }
+ ]
+}

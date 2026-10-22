@@ -1,0 +1,36 @@
+[
+ {
+  "request": "GET /maintenance/status?lang=0",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "maintenance": false
+  }
+ },
+ {
+  "request": "GET /maintenance/status",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "maintenance": false
+  }
+ },
+ {
+  "request": "GET /i18n-url/en-US/designer?lang=1",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {}
+ },
+ {
+  "request": "GET /i18n-url/de-DE/designer?lang=0",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {}
+ },
+ {
+  "request": "GET /null",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {}
+ }
+]

@@ -1,0 +1,19 @@
+[
+ {
+  "request": "GET /connection/test",
+  "status": 200,
+  "content-type": "text/html; charset=utf-8",
+  "body": "OK"
+ },
+ {
+  "request": "HEAD /connection/test",
+  "status": 200,
+  "content-type": "text/html; charset=utf-8"
+ },
+ {
+  "request": "GET /connection/test?lang=1",
+  "status": 200,
+  "content-type": "text/html; charset=utf-8",
+  "body": "OK"
+ }
+]

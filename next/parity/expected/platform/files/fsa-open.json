@@ -1,0 +1,50 @@
+{
+ "log": [
+  {
+   "call": "showOpenFilePicker",
+   "options": {
+    "multiple": true,
+    "excludeAcceptAllOption": true,
+    "types": [
+     {
+      "description": "*.gvdesign, *.png, *.heic, *.jpg, *.jpeg, *.svg, *.pdf, *.eps",
+      "accept": {
+       "application/gravit+design": ".gvdesign",
+       "image/png": ".png",
+       "image/heic": ".heic",
+       "image/jpeg": [
+        ".jpg",
+        ".jpeg"
+       ],
+       "image/svg+xml": ".svg",
+       "application/pdf": ".pdf",
+       "application/postscript": ".eps"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "call": "getFile",
+   "name": "first.gvdesign"
+  },
+  {
+   "call": "getFile",
+   "name": "second.gvdesign"
+  }
+ ],
+ "documents": {
+  "titles": [
+   "Untitled-1",
+   "first",
+   "second"
+  ],
+  "active": "second",
+  "modified": false,
+  "nodes": [
+   "annlst",
+   "rectangle",
+   "ellipse"
+  ]
+ }
+}

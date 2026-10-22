@@ -1,0 +1,151 @@
+[
+ {
+  "path": "View > Canvas > Show Rulers",
+  "changed": {
+   "designer.settings": {
+    "rulers_visible": {
+     "from": false,
+     "to": true
+    }
+   }
+  }
+ },
+ {
+  "path": "View > Canvas > Show Grid",
+  "changed": {}
+ },
+ {
+  "path": "View > Canvas > Show Guide Lines",
+  "changed": {
+   "designer.settings": {
+    "guide_lines_visible": {
+     "from": true,
+     "to": false
+    }
+   }
+  }
+ },
+ {
+  "path": "View > Canvas > Show Symbol Labels",
+  "changed": {
+   "designer.settings": {
+    "symbol_labels_visible": {
+     "from": true,
+     "to": false
+    }
+   }
+  }
+ },
+ {
+  "path": "View > Snap to > Snap to Grid",
+  "changed": {
+   "designer.settings": {
+    "snap_guides": {
+     "from": [
+      "guide.guide-lines",
+      "guide.full-pixels",
+      "guide.points",
+      "guide.bbox",
+      "guide.scene",
+      "guide.grid"
+     ],
+     "to": [
+      "guide.guide-lines",
+      "guide.full-pixels",
+      "guide.points",
+      "guide.bbox",
+      "guide.scene"
+     ]
+    }
+   }
+  }
+ },
+ {
+  "path": "View > Snap to > Snap to Pages",
+  "changed": {
+   "designer.settings": {
+    "snap_guides": {
+     "from": [
+      "guide.guide-lines",
+      "guide.full-pixels",
+      "guide.points",
+      "guide.bbox",
+      "guide.scene"
+     ],
+     "to": [
+      "guide.guide-lines",
+      "guide.full-pixels",
+      "guide.points",
+      "guide.bbox"
+     ]
+    }
+   }
+  }
+ },
+ {
+  "path": "View > Snap to > Snap to Anchor Points",
+  "changed": {
+   "designer.settings": {
+    "snap_guides": {
+     "from": [
+      "guide.guide-lines",
+      "guide.full-pixels",
+      "guide.points",
+      "guide.bbox"
+     ],
+     "to": [
+      "guide.guide-lines",
+      "guide.full-pixels",
+      "guide.bbox"
+     ]
+    }
+   }
+  }
+ },
+ {
+  "path": "View > Snap to > Use Snap Zones",
+  "changed": {
+   "designer.settings": {
+    "snap_zones": {
+     "from": false,
+     "to": true
+    }
+   }
+  }
+ },
+ {
+  "path": "View > Snap to > Use Snapping",
+  "changed": {
+   "designer.settings": {
+    "snap_disabled": {
+     "from": false,
+     "to": true
+    }
+   }
+  }
+ },
+ {
+  "path": "View > Outline View",
+  "changed": {}
+ },
+ {
+  "path": "View > Show Libraries Panel",
+  "changed": {}
+ },
+ {
+  "path": "View > Show Comments Panel",
+  "changed": {}
+ },
+ {
+  "path": "View > Show Symbols Panel",
+  "changed": {}
+ },
+ {
+  "path": "View > Show Layers Panel",
+  "changed": {}
+ },
+ {
+  "path": "View > Show Inspector Panel",
+  "changed": {}
+ }
+]

@@ -1,0 +1,32 @@
+[
+ {
+  "request": "GET /undefined",
+  "status": 404,
+  "content-type": "text/html; charset=utf-8",
+  "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /undefined</pre>\n</body>\n</html>\n"
+ },
+ {
+  "request": "GET /does-not-exist.js",
+  "status": 404,
+  "content-type": "text/html; charset=utf-8",
+  "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /does-not-exist.js</pre>\n</body>\n</html>\n"
+ },
+ {
+  "request": "GET /assets/missing.png",
+  "status": 404,
+  "content-type": "text/html; charset=utf-8",
+  "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /assets/missing.png</pre>\n</body>\n</html>\n"
+ },
+ {
+  "request": "POST /connection/test",
+  "status": 404,
+  "content-type": "text/html; charset=utf-8",
+  "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot POST /connection/test</pre>\n</body>\n</html>\n"
+ },
+ {
+  "request": "PUT /maintenance/status",
+  "status": 404,
+  "content-type": "text/html; charset=utf-8",
+  "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot PUT /maintenance/status</pre>\n</body>\n</html>\n"
+ }
+]

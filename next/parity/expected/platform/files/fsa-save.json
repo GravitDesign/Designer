@@ -1,0 +1,103 @@
+{
+ "chooser": [
+  "g-dialog g-save-chooser-dialog"
+ ],
+ "first": {
+  "log": [
+   {
+    "call": "showSaveFilePicker",
+    "options": {
+     "suggestedName": "Untitled-1.gvdesign",
+     "excludeAcceptAllOption": true,
+     "types": [
+      {
+       "description": "*.gvdesign",
+       "accept": {
+        "application/gravit+design": ".gvdesign"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "call": "createWritable",
+    "name": "Untitled-1.gvdesign",
+    "options": null
+   },
+   {
+    "call": "truncate",
+    "name": "Untitled-1.gvdesign",
+    "size": 0
+   },
+   {
+    "call": "write",
+    "name": "Untitled-1.gvdesign",
+    "data": {
+     "kind": "[object Uint8Array]",
+     "type": null,
+     "nonEmpty": true,
+     "head": "1f8b08"
+    }
+   },
+   {
+    "call": "close",
+    "name": "Untitled-1.gvdesign"
+   }
+  ],
+  "documents": {
+   "titles": [
+    "Untitled-1"
+   ],
+   "active": "Untitled-1",
+   "modified": false,
+   "nodes": [
+    "annlst",
+    "rectangle",
+    "ellipse"
+   ]
+  }
+ },
+ "second": {
+  "log": [
+   {
+    "call": "createWritable",
+    "name": "Untitled-1.gvdesign",
+    "options": null
+   },
+   {
+    "call": "truncate",
+    "name": "Untitled-1.gvdesign",
+    "size": 0
+   },
+   {
+    "call": "write",
+    "name": "Untitled-1.gvdesign",
+    "data": {
+     "kind": "[object Uint8Array]",
+     "type": null,
+     "nonEmpty": true,
+     "head": "1f8b08"
+    }
+   },
+   {
+    "call": "close",
+    "name": "Untitled-1.gvdesign"
+   }
+  ],
+  "documents": {
+   "titles": [
+    "Untitled-1"
+   ],
+   "active": "Untitled-1",
+   "modified": false,
+   "nodes": [
+    "annlst",
+    "rectangle",
+    "ellipse",
+    "rectangle",
+    "ellipse"
+   ]
+  },
+  "dialogs": []
+ }
+}

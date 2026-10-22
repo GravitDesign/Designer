@@ -1,0 +1,38 @@
+[
+ {
+  "action": "inspector: keep ratio lock",
+  "changed": {
+   "designer.settings.dimension.preserveratio": {
+    "from": "(absent)",
+    "to": true
+   }
+  }
+ },
+ {
+  "action": "inspector: keep ratio lock again",
+  "changed": {
+   "designer.settings.dimension.preserveratio": {
+    "from": true,
+    "to": false
+   }
+  }
+ },
+ {
+  "action": "pages: multipage switch",
+  "changed": {
+   "OutlineSidebar/Multipage_Mode": {
+    "from": "(absent)",
+    "to": true
+   }
+  }
+ },
+ {
+  "action": "pages: multipage switch again",
+  "changed": {
+   "OutlineSidebar/Multipage_Mode": {
+    "from": true,
+    "to": false
+   }
+  }
+ }
+]

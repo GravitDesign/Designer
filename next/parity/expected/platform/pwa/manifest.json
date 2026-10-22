@@ -1,0 +1,98 @@
+{
+ "manifest": {
+  "request": "GET /manifest.json",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "cache-control": "public, max-age=0",
+  "body": {
+   "name": "Gravit Designer",
+   "short_name": "Vector",
+   "icons": [
+    {
+     "src": "assets/prerendered/icon512.png?v=8795",
+     "sizes": "512x512",
+     "type": "image/png"
+    },
+    {
+     "src": "assets/prerendered/icon256.png?v=8795",
+     "sizes": "256x256",
+     "type": "image/png"
+    },
+    {
+     "src": "assets/prerendered/icon128.png?v=8795",
+     "sizes": "128x128",
+     "type": "image/png"
+    },
+    {
+     "src": "assets/prerendered/icon48.png?v=8795",
+     "sizes": "48x48",
+     "type": "image/png"
+    },
+    {
+     "src": "assets/prerendered/icon32.png?v=8795",
+     "sizes": "32x32",
+     "type": "image/png"
+    },
+    {
+     "src": "assets/prerendered/icon16.png?v=8795",
+     "sizes": "16x16",
+     "type": "image/png"
+    }
+   ],
+   "start_url": "/index.html",
+   "display": "standalone",
+   "background_color": "#D72E63",
+   "theme_color": "#FFFFFF"
+  }
+ },
+ "icons": [
+  {
+   "request": "GET /assets/prerendered/icon512.png?v=8795",
+   "status": 200,
+   "content-type": "image/png",
+   "cache-control": "public, max-age=0",
+   "length": 62139,
+   "sha256": "be84481c898c0a9f347f92c7748d65f472137f3dc1952cd6f1e156da6b726325"
+  },
+  {
+   "request": "GET /assets/prerendered/icon256.png?v=8795",
+   "status": 200,
+   "content-type": "image/png",
+   "cache-control": "public, max-age=0",
+   "length": 25389,
+   "sha256": "3cf7b1fa6421daedd4d5187e3c532c10c39ca981de9c58f76b869b02899f9937"
+  },
+  {
+   "request": "GET /assets/prerendered/icon128.png?v=8795",
+   "status": 200,
+   "content-type": "image/png",
+   "cache-control": "public, max-age=0",
+   "length": 10294,
+   "sha256": "1e94156c24db3e429fb8ce5f1a824c89c38b99b7b4b930ee532213ddfbaa3452"
+  },
+  {
+   "request": "GET /assets/prerendered/icon48.png?v=8795",
+   "status": 200,
+   "content-type": "image/png",
+   "cache-control": "public, max-age=0",
+   "length": 3726,
+   "sha256": "dd8214a55b1afc810b99a7c20592bf58b0d22e15b268b6cd305ffeb08df899f9"
+  },
+  {
+   "request": "GET /assets/prerendered/icon32.png?v=8795",
+   "status": 200,
+   "content-type": "image/png",
+   "cache-control": "public, max-age=0",
+   "length": 2738,
+   "sha256": "27f973bc45727ca4d01c873df2e05695dd4f6f422ce0ead469a4c84a22ce593a"
+  },
+  {
+   "request": "GET /assets/prerendered/icon16.png?v=8795",
+   "status": 200,
+   "content-type": "image/png",
+   "cache-control": "public, max-age=0",
+   "length": 2135,
+   "sha256": "ac7e8a6b79944dba003e4d3024935228fba10ed63cf2e678747d350c6a3bca28"
+  }
+ ]
+}

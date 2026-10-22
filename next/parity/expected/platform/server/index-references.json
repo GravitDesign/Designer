@@ -1,0 +1,42 @@
+[
+ {
+  "tag": "link",
+  "rel": "stylesheet",
+  "path": "/designer.browser.light.css",
+  "status": 200,
+  "content-type": "text/css; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "tag": "link",
+  "rel": "manifest",
+  "path": "/manifest.json",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "tag": "script",
+  "rel": null,
+  "path": "/jquery.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "tag": "script",
+  "rel": null,
+  "path": "/chunk.vendor.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=2592000, immutable"
+ },
+ {
+  "tag": "script",
+  "rel": null,
+  "path": "/designer.browser.dev.js",
+  "status": 200,
+  "content-type": "text/javascript; charset=utf-8",
+  "cache-control": "public, max-age=0"
+ }
+]

@@ -1,0 +1,37 @@
+[
+ {
+  "name": "uncompressed JSON",
+  "getClassObject": "0x00000000",
+  "createInstance": "0x00000000",
+  "initialize": "0x00000000",
+  "getThumbnail": "0x80004005"
+ },
+ {
+  "name": "gzip without _preview",
+  "getClassObject": "0x00000000",
+  "createInstance": "0x00000000",
+  "initialize": "0x00000000",
+  "getThumbnail": "0x80004005"
+ },
+ {
+  "name": "truncated gzip",
+  "getClassObject": "0x00000000",
+  "createInstance": "0x00000000",
+  "initialize": "0x00000000",
+  "getThumbnail": "0x80004005"
+ },
+ {
+  "name": "_preview not a data URL",
+  "getClassObject": "0x00000000",
+  "createInstance": "0x00000000",
+  "initialize": "0x00000000",
+  "getThumbnail": "0x80004005"
+ },
+ {
+  "name": "empty file",
+  "getClassObject": "0x00000000",
+  "createInstance": "0x00000000",
+  "initialize": "0x00000000",
+  "getThumbnail": "0x80004005"
+ }
+]

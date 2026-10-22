@@ -1,0 +1,139 @@
+[
+ {
+  "request": "GET /license",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "license": "pro",
+   "expire": "2099-12-31T23:59:59.000Z",
+   "created": "2021-09-22T19:58:35.018Z",
+   "legacy": false
+  }
+ },
+ {
+  "request": "GET /license?lang=1",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "license": "pro",
+   "expire": "2099-12-31T23:59:59.000Z",
+   "created": "2021-09-22T19:58:35.018Z",
+   "legacy": false
+  }
+ },
+ {
+  "request": "GET /subscription/test?lang=1",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "active": true,
+   "plan": "pro",
+   "status": 1
+  }
+ },
+ {
+  "request": "GET /subscription/nextbillingdate",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "date": "2099-12-31T23:59:59.000Z"
+  }
+ },
+ {
+  "request": "GET /subscription/lifetime",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "lifetime": true
+  }
+ },
+ {
+  "request": "GET /quota",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "quota": {
+    "pro": {},
+    "free": {}
+   }
+  }
+ },
+ {
+  "request": "GET /ever-subscribed",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "subscribed": true
+  }
+ },
+ {
+  "request": "GET /total-subscription-days",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "days": 9999
+  }
+ },
+ {
+  "request": "GET /pro/paywall/upgrade",
+  "status": 200,
+  "content-type": "text/html; charset=utf-8",
+  "body": ""
+ },
+ {
+  "request": "GET /file?type=application%2Fgravit%2Bdesign&accessed=true&sort=-accessed&parent=*&limit=10&lang=1",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": []
+ },
+ {
+  "request": "GET /user/settings?lang=1",
+  "status": 200,
+  "content-type": "application/json; charset=utf-8",
+  "body": {
+   "notifications_disabled": false,
+   "trialDays": 15,
+   "quotas": {
+    "free": null,
+    "pro": null
+   },
+   "subscription": {
+    "annual": {
+     "productId": null,
+     "coupon": "Trial20"
+    },
+    "extraParameters": {
+     "x-at": null,
+     "x-clickref": null
+    }
+   },
+   "license": {
+    "offlineExpirationTime": 1296000000,
+    "offlineCountdown": 604800000
+   },
+   "reminders": {
+    "offlineWarning": 86400000,
+    "proOfferInFree": 1296000000,
+    "proOfferInTrial": 432000000,
+    "proOfferInTrialExpired": 1296000000,
+    "proOfferInTrialExpireSoon": 86400000,
+    "proOfferInTrialLastWarning": 0,
+    "proOfferSpecialPrice": 0,
+    "proExpireSoon": 2592000000
+   },
+   "flags": {
+    "welcomeMessage": false,
+    "windowsStoreAnnouncement": false,
+    "proOfferSpecialPrice": false,
+    "proOfferInTrialExpireSoon": false,
+    "proOfferInTrialLastWarning": false
+   }
+  }
+ },
+ {
+  "request": "GET /.well-known/assetlinks.json",
+  "status": 404,
+  "content-type": "text/html; charset=utf-8",
+  "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /.well-known/assetlinks.json</pre>\n</body>\n</html>\n"
+ }
+]

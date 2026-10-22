@@ -1,0 +1,67 @@
+[
+ {
+  "request": "GET /docs",
+  "status": 301,
+  "content-type": "text/html; charset=UTF-8",
+  "location": "/docs/",
+  "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Redirecting</title>\n</head>\n<body>\n<pre>Redirecting to /docs/</pre>\n</body>\n</html>\n"
+ },
+ {
+  "request": "GET /docs/",
+  "status": 200,
+  "content-type": "text/html; charset=utf-8",
+  "cache-control": "public, max-age=0",
+  "length": 24697,
+  "sha256": "945c37026941b3a3f15e9c964998eb40875754de8ca553b6b4c9c0521bee48b0"
+ },
+ {
+  "request": "GET /docs/index.html",
+  "status": 200,
+  "content-type": "text/html; charset=utf-8",
+  "cache-control": "public, max-age=0",
+  "length": 24697,
+  "sha256": "945c37026941b3a3f15e9c964998eb40875754de8ca553b6b4c9c0521bee48b0"
+ },
+ {
+  "request": "GET /docs/import.html",
+  "status": 200,
+  "content-type": "text/html; charset=utf-8",
+  "cache-control": "public, max-age=0",
+  "length": 22106,
+  "sha256": "39c97858126316a3804eef82a966b8007ab47a56ddcca9970809e3e881f32513"
+ },
+ {
+  "request": "GET /docs/images/01_File-Open.png",
+  "status": 200,
+  "content-type": "image/png",
+  "cache-control": "public, max-age=0",
+  "length": 14286,
+  "sha256": "06b297642345af9e9dcb82141f38c755aa3873ac1edcdfd3691e414d379b8584"
+ },
+ {
+  "request": "HEAD /docs/images/Addtext.mp4",
+  "status": 200,
+  "content-type": "application/mp4",
+  "cache-control": "public, max-age=0"
+ },
+ {
+  "request": "GET /docs/wp-content/themes/gravit-documentation/assets/fonts/subset-Lato-Black.woff2",
+  "status": 200,
+  "content-type": "font/woff2",
+  "cache-control": "public, max-age=0",
+  "length": 92304,
+  "sha256": "e43097f6bc4e6ee0f140e548ec0c1ed0953697d5434caf04f0c4b04e7abee829"
+ },
+ {
+  "request": "GET /docs/missing-page.html",
+  "status": 404,
+  "content-type": "text/html; charset=utf-8",
+  "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /docs/missing-page.html</pre>\n</body>\n</html>\n"
+ },
+ {
+  "request": "GET /docs/images/missing.png",
+  "status": 404,
+  "content-type": "text/html; charset=utf-8",
+  "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /docs/images/missing.png</pre>\n</body>\n</html>\n"
+ }
+]
