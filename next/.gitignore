@@ -3,3 +3,6 @@ dist/
 release/
 test-results/
 *.tsbuildinfo
+
+# The repo root ignores lockfiles; the new app keeps its own.
+!package-lock.json

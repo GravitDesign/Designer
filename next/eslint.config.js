@@ -1,6 +1,7 @@
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import reactHooks from "eslint-plugin-react-hooks";
+import globals from "globals";
 
 export default tseslint.config(
   {
@@ -26,7 +27,13 @@ export default tseslint.config(
   },
   {
     // Injected into the old app's page as plain JavaScript.
-    files: ["parity/support/old-harness.js"],
-    languageOptions: { globals: { window: "readonly" } },
+    files: [
+      "parity/support/old-harness.js",
+      "parity/scenarios/*/old-hooks.js",
+      "parity/corpus/*.js",
+    ],
+    languageOptions: { globals: { ...globals.browser } },
+    // Some of these files also list their globals in a /* global */ comment.
+    rules: { "no-redeclare": ["error", { builtinGlobals: false }] },
   },
 );

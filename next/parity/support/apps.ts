@@ -74,10 +74,7 @@ async function prepareContext(page: Page, options: OpenOptions): Promise<void> {
   );
 }
 
-/** Opens one of the two apps and waits until window.__parity is usable. */
-export async function openApp(page: Page, kind: AppKind, options: OpenOptions = {}): Promise<void> {
-  await prepareContext(page, options);
-  await page.goto(appUrl(kind));
+async function waitUntilBooted(page: Page, kind: AppKind): Promise<void> {
   if (kind === "old") {
     await page.waitForFunction(
       () => {
@@ -87,14 +84,38 @@ export async function openApp(page: Page, kind: AppKind, options: OpenOptions = 
       null,
       { timeout: 60_000 },
     );
-    await page.evaluate(oldHarness);
-    for (const hooks of oldAreaHooks()) await page.evaluate(hooks);
   } else {
     await page.waitForFunction(
       () => !!(window as unknown as { __parity?: unknown }).__parity,
       null,
       { timeout: 60_000 },
     );
+  }
+}
+
+/** Opens one of the two apps and waits until window.__parity is usable. */
+export async function openApp(page: Page, kind: AppKind, options: OpenOptions = {}): Promise<void> {
+  await prepareContext(page, options);
+  // Under heavy parallel load an app boot occasionally stalls (about 1 in
+  // 150 loads while eight suites ran at once). Booting is not what the
+  // tests compare, so a stalled boot gets one reload before failing.
+  for (let attempt = 1; ; attempt++) {
+    try {
+      await page.goto(appUrl(kind));
+      await waitUntilBooted(page, kind);
+      break;
+    } catch (error) {
+      if (attempt >= 2) {
+        throw new Error(`the ${kind} app did not boot twice in a row: ${String(error)}`, {
+          cause: error,
+        });
+      }
+      console.warn(`[parity] ${kind} app did not boot, reloading once: ${String(error)}`);
+    }
+  }
+  if (kind === "old") {
+    await page.evaluate(oldHarness);
+    for (const hooks of oldAreaHooks()) await page.evaluate(hooks);
   }
   if (options.newDocument) {
     await page.evaluate(() => {

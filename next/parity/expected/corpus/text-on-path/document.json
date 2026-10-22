@@ -1,0 +1,634 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "annlst",
+     "@id": "id3",
+     "pgid": "id2",
+     "aid": "id3"
+    },
+    {
+     "@": "path",
+     "@id": "id4",
+     "pts": [
+      [
+       "TS",
+       "AAAAAAAAyEI=",
+       "#",
+       "rid5",
+       "H",
+       "AACgQgAAoME="
+      ],
+      [
+       "TS",
+       "AACWQwAAyEI=",
+       "#",
+       "rid6",
+       "h",
+       "AABcQwAAXEM="
+      ]
+     ],
+     "reftxt": "[{\"@\":\"text\",\"@id\":\"id5\",\"#\":\"id6\",\"ct\":[{\"text\":\"Text that follows a curved path\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":{\"_value\":[0,0,0]},\"fontFamily\":\"Open Sans\",\"fontSize\":18,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}],\"content\":\"[{\\\"text\\\":\\\"Text that follows a curved path\\\",\\\"fontWeight\\\":400,\\\"fontStyle\\\":\\\"normal\\\",\\\"underline\\\":false,\\\"strikeout\\\":false,\\\"fontColor\\\":\\\"C#[0,0,0]\\\",\\\"fontFamily\\\":\\\"Open Sans\\\",\\\"fontSize\\\":18,\\\"align\\\":\\\"left\\\",\\\"script\\\":\\\"normal\\\",\\\"transformation\\\":null,\\\"charSpacing\\\":null,\\\"wordSpacing\\\":null,\\\"lineSpacing\\\":1,\\\"paragraphSpacing\\\":\\\"0\\\",\\\"paragraphIndent\\\":0,\\\"ligatures\\\":false,\\\"langScript\\\":\\\"auto\\\",\\\"variant\\\":null,\\\"fractions\\\":false,\\\"listDepth\\\":0,\\\"listMarker\\\":null,\\\"stylisticSet\\\":null,\\\"localizedForm\\\":null}]\",\"w\":244.40623235171188,\"h\":82.6374183298509,\"atPath\":\"{\\\"@\\\":\\\"path\\\",\\\"@id\\\":\\\"id7\\\",\\\"pts\\\":[[\\\"TS\\\",\\\"AAAAAAAAyEI=\\\",\\\"#\\\",\\\"rid5\\\",\\\"H\\\",\\\"AACgQgAAoME=\\\"],[\\\"TS\\\",\\\"AACWQwAAyEI=\\\",\\\"#\\\",\\\"rid6\\\",\\\"h\\\",\\\"AABcQwAAXEM=\\\"]],\\\"trf\\\":[1,0,0,1,-1.3105782161225488,-66.21392386742869],\\\"_layers\\\":{\\\"@\\\":\\\"paintLayers\\\",\\\"@id\\\":\\\"id8\\\",\\\"$\\\":[{\\\"@\\\":\\\"borderPaintLayer\\\",\\\"@id\\\":\\\"id9\\\",\\\"_pt\\\":\\\"C#[180,180,180]\\\"}],\\\"&\\\":\\\"id10\\\"},\\\"_effId\\\":\\\"id11\\\"}\",\"trf\":[1,0,0,1,1.3086967431811942,66.20773621009849],\"_sdf\":133,\"_layId\":\"id12\",\"_effId\":\"id13\",\"_fc\":\"C#[0,0,0]\",\"_tff\":\"Open Sans\"}]",
+     "refanchors": [],
+     "_sdf": 103,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id14",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id9",
+        "_pt": "C#[180,180,180]"
+       }
+      ],
+      "&": "id15"
+     },
+     "_effId": "id16"
+    },
+    {
+     "@": "text",
+     "@id": "id5",
+     "#": "id6",
+     "ct": [
+      {
+       "text": "Text that follows a curved path",
+       "fontWeight": 400,
+       "fontStyle": "normal",
+       "underline": false,
+       "strikeout": false,
+       "fontColor": {
+        "_value": [
+         0,
+         0,
+         0
+        ]
+       },
+       "fontFamily": "Open Sans",
+       "fontSize": 18,
+       "align": "left",
+       "script": "normal",
+       "transformation": null,
+       "charSpacing": null,
+       "wordSpacing": null,
+       "lineSpacing": 1,
+       "paragraphSpacing": "0",
+       "paragraphIndent": 0,
+       "ligatures": false,
+       "langScript": "auto",
+       "variant": null,
+       "fractions": false,
+       "listDepth": 0,
+       "listMarker": null,
+       "stylisticSet": null,
+       "localizedForm": null
+      }
+     ],
+     "content": "[{\"text\":\"Text that follows a curved path\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":18,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+     "w": 244.40623235171188,
+     "h": 82.6374183298509,
+     "atPath": "{\"@\":\"path\",\"@id\":\"id7\",\"pts\":[[\"TS\",\"AAAAAAAAyEI=\",\"#\",\"rid5\",\"H\",\"AACgQgAAoME=\"],[\"TS\",\"AACWQwAAyEI=\",\"#\",\"rid6\",\"h\",\"AABcQwAAXEM=\"]],\"trf\":[1,0,0,1,-1.3105782161225488,-66.21392386742869],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id8\",\"$\":[{\"@\":\"borderPaintLayer\",\"@id\":\"id9\",\"_pt\":\"C#[180,180,180]\"}],\"&\":\"id10\"},\"_effId\":\"id11\"}",
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      1.3086967431811942,
+      66.20773621009849
+     ],
+     "_sdf": 133,
+     "_layId": "id12",
+     "_effId": "id13",
+     "_fc": "C#[0,0,0]",
+     "_tff": "Open Sans"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id17",
+     "reftxt": "[{\"@\":\"text\",\"@id\":\"id18\",\"#\":\"id19\",\"ct\":[{\"text\":\"Around the ellipse, inside\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":{\"_value\":[0,0,0]},\"fontFamily\":\"Open Sans\",\"fontSize\":16,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}],\"content\":\"[{\\\"text\\\":\\\"Around the ellipse, inside\\\",\\\"fontWeight\\\":400,\\\"fontStyle\\\":\\\"normal\\\",\\\"underline\\\":false,\\\"strikeout\\\":false,\\\"fontColor\\\":\\\"C#[0,0,0]\\\",\\\"fontFamily\\\":\\\"Open Sans\\\",\\\"fontSize\\\":16,\\\"align\\\":\\\"left\\\",\\\"script\\\":\\\"normal\\\",\\\"transformation\\\":null,\\\"charSpacing\\\":null,\\\"wordSpacing\\\":null,\\\"lineSpacing\\\":1,\\\"paragraphSpacing\\\":\\\"0\\\",\\\"paragraphIndent\\\":0,\\\"ligatures\\\":false,\\\"langScript\\\":\\\"auto\\\",\\\"variant\\\":null,\\\"fractions\\\":false,\\\"listDepth\\\":0,\\\"listMarker\\\":null,\\\"stylisticSet\\\":null,\\\"localizedForm\\\":null}]\",\"w\":134.80755803675638,\"h\":128.2400631958299,\"tptho\":6,\"tpths\":\"inside\",\"atPath\":\"{\\\"@\\\":\\\"path\\\",\\\"@id\\\":\\\"id20\\\",\\\"closed\\\":true,\\\"pts\\\":[[\\\"TS\\\",\\\"AACAvzIxDSU=\\\",\\\"#\\\",\\\"rid23\\\",\\\"h\\\",\\\"AACAv05KDT8=\\\",\\\"H\\\",\\\"AACAv05KDb8=\\\"],[\\\"TS\\\",\\\"yslTpQAAgL8=\\\",\\\"#\\\",\\\"rid24\\\",\\\"h\\\",\\\"TkoNvwAAgL8=\\\",\\\"H\\\",\\\"TkoNPwAAgL8=\\\"],[\\\"TS\\\",\\\"AACAPzIxjaU=\\\",\\\"#\\\",\\\"rid25\\\",\\\"h\\\",\\\"AACAP05KDb8=\\\",\\\"H\\\",\\\"AACAP05KDT8=\\\"],[\\\"TS\\\",\\\"fn2wJQAAgD8=\\\",\\\"#\\\",\\\"rid26\\\",\\\"h\\\",\\\"TkoNPwAAgD8=\\\",\\\"H\\\",\\\"TkoNvwAAgD8=\\\"]],\\\"trf\\\":[110,0,0,110,127.35652536582592,128.24904779565384],\\\"_layers\\\":{\\\"@\\\":\\\"paintLayers\\\",\\\"@id\\\":\\\"id21\\\",\\\"$\\\":[{\\\"@\\\":\\\"borderPaintLayer\\\",\\\"@id\\\":\\\"id22\\\",\\\"_pt\\\":\\\"C#[180,180,180]\\\"}],\\\"&\\\":\\\"id23\\\"},\\\"_effId\\\":\\\"id24\\\"}\",\"trf\":[1,0,0,1,342.65079135529646,-18.242577104926045],\"_sdf\":133,\"_layId\":\"id25\",\"_effId\":\"id26\",\"_fc\":\"C#[0,0,0]\",\"_tff\":\"Open Sans\"}]",
+     "refanchors": [],
+     "trf": [
+      110,
+      0,
+      0,
+      110,
+      470,
+      110
+     ],
+     "_sdf": 104,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id27",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id22",
+        "_pt": "C#[180,180,180]"
+       }
+      ],
+      "&": "id28"
+     },
+     "_effId": "id29"
+    },
+    {
+     "@": "text",
+     "@id": "id18",
+     "#": "id19",
+     "ct": [
+      {
+       "text": "Around the ellipse, inside",
+       "fontWeight": 400,
+       "fontStyle": "normal",
+       "underline": false,
+       "strikeout": false,
+       "fontColor": {
+        "_value": [
+         0,
+         0,
+         0
+        ]
+       },
+       "fontFamily": "Open Sans",
+       "fontSize": 16,
+       "align": "left",
+       "script": "normal",
+       "transformation": null,
+       "charSpacing": null,
+       "wordSpacing": null,
+       "lineSpacing": 1,
+       "paragraphSpacing": "0",
+       "paragraphIndent": 0,
+       "ligatures": false,
+       "langScript": "auto",
+       "variant": null,
+       "fractions": false,
+       "listDepth": 0,
+       "listMarker": null,
+       "stylisticSet": null,
+       "localizedForm": null
+      }
+     ],
+     "content": "[{\"text\":\"Around the ellipse, inside\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":16,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+     "w": 134.80755803675638,
+     "h": 128.2400631958299,
+     "tptho": 6,
+     "tpths": "inside",
+     "atPath": "{\"@\":\"path\",\"@id\":\"id20\",\"closed\":true,\"pts\":[[\"TS\",\"AACAvzIxDSU=\",\"#\",\"rid23\",\"h\",\"AACAv05KDT8=\",\"H\",\"AACAv05KDb8=\"],[\"TS\",\"yslTpQAAgL8=\",\"#\",\"rid24\",\"h\",\"TkoNvwAAgL8=\",\"H\",\"TkoNPwAAgL8=\"],[\"TS\",\"AACAPzIxjaU=\",\"#\",\"rid25\",\"h\",\"AACAP05KDb8=\",\"H\",\"AACAP05KDT8=\"],[\"TS\",\"fn2wJQAAgD8=\",\"#\",\"rid26\",\"h\",\"TkoNPwAAgD8=\",\"H\",\"TkoNvwAAgD8=\"]],\"trf\":[110,0,0,110,127.35652536582592,128.24904779565384],\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id21\",\"$\":[{\"@\":\"borderPaintLayer\",\"@id\":\"id22\",\"_pt\":\"C#[180,180,180]\"}],\"&\":\"id23\"},\"_effId\":\"id24\"}",
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      342.65079135529646,
+      -18.242577104926045
+     ],
+     "_sdf": 133,
+     "_layId": "id25",
+     "_effId": "id26",
+     "_fc": "C#[0,0,0]",
+     "_tff": "Open Sans"
+    }
+   ],
+   "#": "id30",
+   "w": 0,
+   "h": 0,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "name": "Page 1"
+  },
+  {
+   "@": "styles",
+   "@id": "id31",
+   "$": [
+    {
+     "@": "style",
+     "@id": "id32",
+     "#": "id33",
+     "name": "Shape Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id34",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id35",
+        "_pt": "C#[255,255,255]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id36",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id37"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id38",
+     "#": "id39",
+     "name": "Text Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL",
+      "T",
+      "P"
+     ],
+     "_sdf": 133,
+     "_layId": "id40",
+     "_fc": "C#[0,0,0]"
+    },
+    {
+     "@": "style",
+     "@id": "id41",
+     "#": "id42",
+     "name": "Rectangle Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 107,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id43",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id44",
+        "_pt": "C#[235,235,235]"
+       }
+      ],
+      "&": "id45"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id46",
+     "#": "id47",
+     "name": "Ellipse Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 104,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id48",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id49",
+        "_pt": "C#[235,235,235]"
+       }
+      ],
+      "&": "id50"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id51",
+     "#": "id52",
+     "name": "Polygon Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 102,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id53",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id54",
+        "_pt": "C#[235,235,235]"
+       }
+      ],
+      "&": "id55"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id56",
+     "#": "id57",
+     "name": "Path Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 103,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id58",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id59",
+        "_pt": "C#[255,255,255]",
+        "_vs": false
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id60",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id61"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id62",
+     "#": "id63",
+     "name": "Path graph default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 142,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id64",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id65",
+        "_pt": "C#[255,255,255]",
+        "_vs": false
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id66",
+        "_blc": "round",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id67"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id68",
+     "#": "id69",
+     "name": "Connector default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 146,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id70",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id71",
+        "_blc": "butt",
+        "_bhm": "A",
+        "_btm": "A",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id72"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id73",
+     "#": "id74",
+     "name": "Text annotation default",
+     "ps": [
+      "S",
+      "T"
+     ],
+     "_sdf": 148,
+     "_sbl": "multiply",
+     "_fc": "C#[0,0,0]"
+    },
+    {
+     "@": "style",
+     "@id": "id75",
+     "#": "id76",
+     "name": "Rectangle annotation default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 150,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id77",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id78",
+        "_pt": "C#[230,2,2]",
+        "_op": 0,
+        "_bl": "multiply"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id79",
+        "_bw": 2,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "id80"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id81",
+     "#": "id82",
+     "name": "Ellipse annotation default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 151,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id83",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id84",
+        "_pt": "C#[230,2,2]",
+        "_op": 0,
+        "_bl": "multiply"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id85",
+        "_bw": 2,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "id86"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id87",
+     "#": "id88",
+     "name": "Pencil annotation default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 155,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id89",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id90",
+        "_bw": 2,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "id91"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id92",
+     "#": "id93",
+     "name": "Highlighter annotation default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 152,
+     "_stop": 0.5,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id94",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id95",
+        "_bw": 12,
+        "_pt": "C#[248,206,28]"
+       }
+      ],
+      "&": "id96"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id97",
+     "#": "id98",
+     "name": "Arrow annotation default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 154,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id99",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id100",
+        "_bw": 2,
+        "_blc": "butt",
+        "_bhmi": 0,
+        "_btm": "A",
+        "_btmi": 0,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "id101"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id102",
+     "#": "id103",
+     "name": "Comment annotation default",
+     "ps": [
+      "S",
+      "BL",
+      "FL",
+      "E"
+     ],
+     "_sdf": 153,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id104",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id105",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id106"
+     },
+     "_effId": "id107"
+    }
+   ]
+  }
+ ],
+ "lmd": "<time>",
+ "cfs": null,
+ "_links": {
+  "rid8": [
+   "id110"
+  ],
+  "rid21": [
+   "id112"
+  ]
+ },
+ "__ids": [
+  "id108",
+  "id109",
+  "id110",
+  "id111",
+  "id112",
+  "id113",
+  "id114",
+  "id115",
+  "id116",
+  "id117",
+  "id118",
+  "id119",
+  "id120",
+  "id121",
+  "id122",
+  "id123",
+  "id124",
+  "id125",
+  "id126",
+  "id127",
+  "id128",
+  "id129"
+ ],
+ "dictionary": {
+  "entries": []
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}

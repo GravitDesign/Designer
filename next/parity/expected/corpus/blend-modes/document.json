@@ -1,0 +1,1313 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "annlst",
+     "@id": "id3",
+     "pgid": "id2",
+     "aid": "id3"
+    },
+    {
+     "@": "rectangle",
+     "@id": "id4",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      320,
+      0,
+      0,
+      185,
+      310,
+      175
+     ],
+     "_sdf": 107,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id5",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id6",
+        "_pt": "L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":1},{\"p\":0.33,\"c\":\"C#[255,255,0]\",\"o\":1},{\"p\":0.66,\"c\":\"C#[0,160,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[40,40,40]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id9",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      40,
+      40
+     ],
+     "_sdf": 104,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id10",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id11",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id12"
+     },
+     "_effId": "id13"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id14",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      130,
+      40
+     ],
+     "_sdf": 104,
+     "_sbl": "multiply",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id15",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id16",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id17"
+     },
+     "_effId": "id18"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id19",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      220,
+      40
+     ],
+     "_sdf": 104,
+     "_sbl": "screen",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id20",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id21",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id22"
+     },
+     "_effId": "id23"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id24",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      310,
+      40
+     ],
+     "_sdf": 104,
+     "_sbl": "overlay",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id25",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id26",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id27"
+     },
+     "_effId": "id28"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id29",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      400,
+      40
+     ],
+     "_sdf": 104,
+     "_sbl": "darken",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id30",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id31",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id32"
+     },
+     "_effId": "id33"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id34",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      490,
+      40
+     ],
+     "_sdf": 104,
+     "_sbl": "lighten",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id35",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id36",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id37"
+     },
+     "_effId": "id38"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id39",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      580,
+      40
+     ],
+     "_sdf": 104,
+     "_sbl": "color-dodge",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id40",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id41",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id42"
+     },
+     "_effId": "id43"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id44",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      40,
+      130
+     ],
+     "_sdf": 104,
+     "_sbl": "color-burn",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id45",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id46",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id47"
+     },
+     "_effId": "id48"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id49",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      130,
+      130
+     ],
+     "_sdf": 104,
+     "_sbl": "hard-light",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id50",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id51",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id52"
+     },
+     "_effId": "id53"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id54",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      220,
+      130
+     ],
+     "_sdf": 104,
+     "_sbl": "soft-light",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id55",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id56",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id57"
+     },
+     "_effId": "id58"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id59",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      310,
+      130
+     ],
+     "_sdf": 104,
+     "_sbl": "difference",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id60",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id61",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id62"
+     },
+     "_effId": "id63"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id64",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      400,
+      130
+     ],
+     "_sdf": 104,
+     "_sbl": "exclusion",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id65",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id66",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id67"
+     },
+     "_effId": "id68"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id69",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      490,
+      130
+     ],
+     "_sdf": 104,
+     "_sbl": "hue",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id70",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id71",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id72"
+     },
+     "_effId": "id73"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id74",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      580,
+      130
+     ],
+     "_sdf": 104,
+     "_sbl": "saturation",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id75",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id76",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id77"
+     },
+     "_effId": "id78"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id79",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      40,
+      220
+     ],
+     "_sdf": 104,
+     "_sbl": "color",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id80",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id81",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id82"
+     },
+     "_effId": "id83"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id84",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      130,
+      220
+     ],
+     "_sdf": 104,
+     "_sbl": "luminosity",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id85",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id86",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id87"
+     },
+     "_effId": "id88"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id89",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      220,
+      220
+     ],
+     "_sdf": 104,
+     "_sbl": "linear_burn",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id90",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id91",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id92"
+     },
+     "_effId": "id93"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id94",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      310,
+      220
+     ],
+     "_sdf": 104,
+     "_sbl": "linear_dodge",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id95",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id96",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id97"
+     },
+     "_effId": "id98"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id99",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      400,
+      220
+     ],
+     "_sdf": 104,
+     "_sbl": "vivid_light",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id100",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id101",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id102"
+     },
+     "_effId": "id103"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id104",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      490,
+      220
+     ],
+     "_sdf": 104,
+     "_sbl": "linear_light",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id105",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id106",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id107"
+     },
+     "_effId": "id108"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id109",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      580,
+      220
+     ],
+     "_sdf": 104,
+     "_sbl": "pin_light",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id110",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id111",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id112"
+     },
+     "_effId": "id113"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id114",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      40,
+      310
+     ],
+     "_sdf": 104,
+     "_sbl": "divide",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id115",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id116",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id117"
+     },
+     "_effId": "id118"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id119",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      130,
+      310
+     ],
+     "_sdf": 104,
+     "_sbl": "add",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id120",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id121",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id122"
+     },
+     "_effId": "id123"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id124",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      220,
+      310
+     ],
+     "_sdf": 104,
+     "_sbl": "subtract",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id125",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id126",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id127"
+     },
+     "_effId": "id128"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id129",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      310,
+      310
+     ],
+     "_sdf": 104,
+     "_sbl": "hardmix",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id130",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id131",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id132"
+     },
+     "_effId": "id133"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id134",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      400,
+      310
+     ],
+     "_sdf": 104,
+     "_sbl": "power",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id135",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id136",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id137"
+     },
+     "_effId": "id138"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id139",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      490,
+      310
+     ],
+     "_sdf": 104,
+     "_sbl": "harmonic",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id140",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id141",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id142"
+     },
+     "_effId": "id143"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id144",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      580,
+      310
+     ],
+     "_sdf": 104,
+     "_sbl": "sin",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id145",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id146",
+        "_pt": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[120,0,200]\",\"o\":1}]}"
+       }
+      ],
+      "&": "id147"
+     },
+     "_effId": "id148"
+    }
+   ],
+   "#": "id149",
+   "w": 0,
+   "h": 0,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "name": "Page 1"
+  },
+  {
+   "@": "styles",
+   "@id": "id150",
+   "$": [
+    {
+     "@": "style",
+     "@id": "id151",
+     "#": "id152",
+     "name": "Shape Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id153",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id154",
+        "_pt": "C#[255,255,255]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id155",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id156"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id157",
+     "#": "id158",
+     "name": "Text Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL",
+      "T",
+      "P"
+     ],
+     "_sdf": 133,
+     "_layId": "id159",
+     "_fc": "C#[0,0,0]"
+    },
+    {
+     "@": "style",
+     "@id": "id160",
+     "#": "id161",
+     "name": "Rectangle Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 107,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id162",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id163",
+        "_pt": "C#[235,235,235]"
+       }
+      ],
+      "&": "id164"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id165",
+     "#": "id166",
+     "name": "Ellipse Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 104,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id167",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id168",
+        "_pt": "C#[235,235,235]"
+       }
+      ],
+      "&": "id169"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id170",
+     "#": "id171",
+     "name": "Polygon Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 102,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id172",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id173",
+        "_pt": "C#[235,235,235]"
+       }
+      ],
+      "&": "id174"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id175",
+     "#": "id176",
+     "name": "Path Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 103,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id177",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id178",
+        "_pt": "C#[255,255,255]",
+        "_vs": false
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id179",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id180"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id181",
+     "#": "id182",
+     "name": "Path graph default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 142,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id183",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id184",
+        "_pt": "C#[255,255,255]",
+        "_vs": false
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id185",
+        "_blc": "round",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id186"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id187",
+     "#": "id188",
+     "name": "Connector default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 146,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id189",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id190",
+        "_blc": "butt",
+        "_bhm": "A",
+        "_btm": "A",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id191"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id192",
+     "#": "id193",
+     "name": "Text annotation default",
+     "ps": [
+      "S",
+      "T"
+     ],
+     "_sdf": 148,
+     "_sbl": "multiply",
+     "_fc": "C#[0,0,0]"
+    },
+    {
+     "@": "style",
+     "@id": "id194",
+     "#": "id195",
+     "name": "Rectangle annotation default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 150,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id196",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id197",
+        "_pt": "C#[230,2,2]",
+        "_op": 0,
+        "_bl": "multiply"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id198",
+        "_bw": 2,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "id199"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id200",
+     "#": "id201",
+     "name": "Ellipse annotation default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 151,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id202",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id203",
+        "_pt": "C#[230,2,2]",
+        "_op": 0,
+        "_bl": "multiply"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id204",
+        "_bw": 2,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "id205"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id206",
+     "#": "id207",
+     "name": "Pencil annotation default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 155,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id208",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id209",
+        "_bw": 2,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "id210"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id211",
+     "#": "id212",
+     "name": "Highlighter annotation default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 152,
+     "_stop": 0.5,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id213",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id214",
+        "_bw": 12,
+        "_pt": "C#[248,206,28]"
+       }
+      ],
+      "&": "id215"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id216",
+     "#": "id217",
+     "name": "Arrow annotation default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 154,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id218",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id219",
+        "_bw": 2,
+        "_blc": "butt",
+        "_bhmi": 0,
+        "_btm": "A",
+        "_btmi": 0,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "id220"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id221",
+     "#": "id222",
+     "name": "Comment annotation default",
+     "ps": [
+      "S",
+      "BL",
+      "FL",
+      "E"
+     ],
+     "_sdf": 153,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id223",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id224",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id225"
+     },
+     "_effId": "id226"
+    }
+   ]
+  }
+ ],
+ "lmd": "<time>",
+ "cfs": null,
+ "__ids": [
+  "id227",
+  "id228",
+  "id229",
+  "id230",
+  "id231",
+  "id232",
+  "id233",
+  "id234",
+  "id235",
+  "id236",
+  "id237",
+  "id238",
+  "id239",
+  "id240",
+  "id241",
+  "id242",
+  "id243",
+  "id244",
+  "id245",
+  "id246",
+  "id247",
+  "id248",
+  "id249",
+  "id250",
+  "id251",
+  "id252",
+  "id253",
+  "id254",
+  "id255",
+  "id256",
+  "id257",
+  "id258",
+  "id259",
+  "id260",
+  "id261",
+  "id262",
+  "id263",
+  "id264",
+  "id265",
+  "id266",
+  "id267",
+  "id268",
+  "id269",
+  "id270",
+  "id271",
+  "id272",
+  "id273"
+ ],
+ "dictionary": {
+  "entries": []
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}

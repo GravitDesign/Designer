@@ -115,7 +115,26 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
 - Shapes inserted with editor.insertElements all get the "Rectangle
   Default" `_sdf` (probably a question, not a bug).
 
+- Flatten, undo, redo: saving then throws "Missing entry value for
+  dictionary://..." (data loss risk).
+- Simplify Path ignores the typed "% Tolerance" value (handler looks for
+  the slider inside the field's span); Simplify never removes points from
+  straight open paths.
+- Invalid Expand/Shrink value shows the "outline value" alert text.
+- Ctrl+Shift+= doesn't zoom in (only Ctrl+=); menu Copy without clipboard
+  permission shows an alert although the internal copy works; pasting an
+  SVG file does nothing (SVG as text works); unresolvable fonts leave text
+  pending forever; closing documents leaves the view unpainted until a
+  relayout.
+
 ## Pending harness work
+
+- normalize.ts gaps also seen by editor-actions (which works around them
+  in lib.ts `stabilize`): anchor ids (third element of `pts` tuples), `sbl`
+  entries, dictionary `uuid`s and `dictionary://<uuid>` URLs, ids inside
+  JSON strings held in arrays (compound path `paths`).
+- About 1 in 150 old-app loads timed out under heavy parallel load. Give
+  openApp a clearer failure message; re-check once the load is lower.
 
 - Pin the browser locale (`locale: "en-US"` in playwright.config.ts) once
   all phase 2 agents are done, then re-record and re-verify every area.

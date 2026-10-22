@@ -1,0 +1,1690 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "annlst",
+     "@id": "id3",
+     "pgid": "id2",
+     "aid": "id3"
+    },
+    {
+     "@": "symbol",
+     "@id": "id4",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id5",
+       "&": "id6",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        60,
+        0,
+        0,
+        40,
+        60,
+        40
+       ],
+       "_sdf": 107,
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id7",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id8",
+          "&": "id9",
+          "_pt": "C#[250,200,60]"
+         },
+         {
+          "@": "borderPaintLayer",
+          "@id": "id10",
+          "&": "id11",
+          "_bw": 2,
+          "_pt": "C#[0,0,0]"
+         }
+        ],
+        "&": "id12"
+       },
+       "_effId": "id13"
+      },
+      {
+       "@": "ellipse",
+       "@id": "id14",
+       "&": "id15",
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        30,
+        0,
+        0,
+        30,
+        100,
+        60
+       ],
+       "_sdf": 104,
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id16",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id17",
+          "&": "id18",
+          "_pt": "C#[60,140,240]"
+         }
+        ],
+        "&": "id19"
+       },
+       "_effId": "id20"
+      },
+      {
+       "@": "text",
+       "@id": "id21",
+       "#": "id22",
+       "&": "id23",
+       "ct": [
+        {
+         "text": "Card",
+         "fontWeight": 400,
+         "fontStyle": "normal",
+         "underline": false,
+         "strikeout": false,
+         "fontColor": {
+          "_value": [
+           0,
+           0,
+           0
+          ]
+         },
+         "fontFamily": "Open Sans",
+         "fontSize": 18,
+         "align": "left",
+         "script": "normal",
+         "transformation": null,
+         "charSpacing": null,
+         "wordSpacing": null,
+         "lineSpacing": 1,
+         "paragraphSpacing": "0",
+         "paragraphIndent": 0,
+         "ligatures": false,
+         "langScript": "auto",
+         "variant": null,
+         "fractions": false,
+         "listDepth": 0,
+         "listMarker": null,
+         "stylisticSet": null,
+         "localizedForm": null
+        }
+       ],
+       "content": "[{\"text\":\"Card\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":18,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+       "w": 142,
+       "h": 27.236,
+       "trf": [
+        1,
+        0,
+        0,
+        1,
+        10,
+        10
+       ],
+       "_sdf": 133,
+       "_layId": "id24",
+       "_effId": "id25",
+       "_fc": "C#[0,0,0]",
+       "_tff": "Open Sans"
+      }
+     ],
+     "#": "id26",
+     "&": "id27",
+     "frame": [
+      0,
+      0,
+      130,
+      90
+     ],
+     "masterRef": "id26",
+     "masterMultiRef": "id27",
+     "dsb": [],
+     "sbl": [],
+     "name": "Card",
+     "_effId": "id28"
+    },
+    {
+     "@": "symbol",
+     "@id": "id29",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id30",
+       "&": "id31",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        150,
+        0,
+        0,
+        55,
+        140,
+        365
+       ],
+       "_sdf": 107,
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id32",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id33",
+          "&": "id34",
+          "_pt": "C#[240,240,240]"
+         },
+         {
+          "@": "borderPaintLayer",
+          "@id": "id35",
+          "&": "id36",
+          "_pt": "C#[0,0,0]"
+         }
+        ],
+        "&": "id37"
+       },
+       "_effId": "id38"
+      },
+      {
+       "@": "symbol",
+       "@id": "id39",
+       "$": [
+        {
+         "@": "rectangle",
+         "@id": "id40",
+         "&": "id6",
+         "uf": true,
+         "ct": "R",
+         "sl": 0,
+         "reftxt": null,
+         "refanchors": [],
+         "trf": [
+          60,
+          0,
+          0,
+          40,
+          60,
+          360
+         ],
+         "_sdf": 107,
+         "_layers": {
+          "@": "paintLayers",
+          "@id": "id41",
+          "$": [
+           {
+            "@": "fillPaintLayer",
+            "@id": "id42",
+            "&": "id9",
+            "_pt": "C#[250,200,60]"
+           },
+           {
+            "@": "borderPaintLayer",
+            "@id": "id43",
+            "&": "id11",
+            "_bw": 2,
+            "_pt": "C#[0,0,0]"
+           }
+          ],
+          "&": "id12"
+         },
+         "_effId": "id13"
+        },
+        {
+         "@": "ellipse",
+         "@id": "id44",
+         "&": "id15",
+         "reftxt": null,
+         "refanchors": [],
+         "trf": [
+          30,
+          0,
+          0,
+          30,
+          100,
+          380
+         ],
+         "_sdf": 104,
+         "_layers": {
+          "@": "paintLayers",
+          "@id": "id45",
+          "$": [
+           {
+            "@": "fillPaintLayer",
+            "@id": "id46",
+            "&": "id18",
+            "_pt": "C#[60,140,240]"
+           }
+          ],
+          "&": "id19"
+         },
+         "_effId": "id20"
+        },
+        {
+         "@": "text",
+         "@id": "id47",
+         "#": "id48",
+         "&": "id23",
+         "ct": [
+          {
+           "text": "Card",
+           "fontWeight": 400,
+           "fontStyle": "normal",
+           "underline": false,
+           "strikeout": false,
+           "fontColor": {
+            "_value": [
+             0,
+             0,
+             0
+            ]
+           },
+           "fontFamily": "Open Sans",
+           "fontSize": 18,
+           "align": "left",
+           "script": "normal",
+           "transformation": null,
+           "charSpacing": null,
+           "wordSpacing": null,
+           "lineSpacing": 1,
+           "paragraphSpacing": "0",
+           "paragraphIndent": 0,
+           "ligatures": false,
+           "langScript": "auto",
+           "variant": null,
+           "fractions": false,
+           "listDepth": 0,
+           "listMarker": null,
+           "stylisticSet": null,
+           "localizedForm": null
+          }
+         ],
+         "content": "[{\"text\":\"Card\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":18,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+         "w": 142,
+         "h": 27.236,
+         "trf": [
+          1,
+          0,
+          0,
+          1,
+          10,
+          330
+         ],
+         "_sdf": 133,
+         "_layId": "id24",
+         "_effId": "id25",
+         "_fc": "C#[0,0,0]",
+         "_tff": "Open Sans"
+        }
+       ],
+       "#": "id49",
+       "&": "id27",
+       "trf": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        320
+       ],
+       "frame": [
+        0,
+        0,
+        130,
+        90
+       ],
+       "masterRef": "id26",
+       "masterMultiRef": "id27",
+       "dsb": [],
+       "sbl": [],
+       "name": "Card",
+       "_effId": "id28"
+      }
+     ],
+     "#": "id50",
+     "&": "id51",
+     "frame": [
+      -10,
+      310,
+      300,
+      110
+     ],
+     "masterRef": "id50",
+     "masterMultiRef": "id51",
+     "dsb": [],
+     "sbl": [],
+     "name": "Card row",
+     "_effId": "id52"
+    },
+    {
+     "@": "symbol",
+     "@id": "id53",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id54",
+       "&": "id31",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        150,
+        0,
+        0,
+        55,
+        480,
+        365
+       ],
+       "_sdf": 107,
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id55",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id56",
+          "&": "id34",
+          "_pt": "C#[240,240,240]"
+         },
+         {
+          "@": "borderPaintLayer",
+          "@id": "id57",
+          "&": "id36",
+          "_pt": "C#[0,0,0]"
+         }
+        ],
+        "&": "id37"
+       },
+       "_effId": "id38"
+      },
+      {
+       "@": "symbol",
+       "@id": "id58",
+       "$": [
+        {
+         "@": "rectangle",
+         "@id": "id59",
+         "&": "id6",
+         "uf": true,
+         "ct": "R",
+         "sl": 0,
+         "reftxt": null,
+         "refanchors": [],
+         "trf": [
+          60,
+          0,
+          0,
+          40,
+          400,
+          360
+         ],
+         "_sdf": 107,
+         "_layers": {
+          "@": "paintLayers",
+          "@id": "id60",
+          "$": [
+           {
+            "@": "fillPaintLayer",
+            "@id": "id61",
+            "&": "id9",
+            "_pt": "C#[250,200,60]"
+           },
+           {
+            "@": "borderPaintLayer",
+            "@id": "id62",
+            "&": "id11",
+            "_bw": 2,
+            "_pt": "C#[0,0,0]"
+           }
+          ],
+          "&": "id12"
+         },
+         "_effId": "id13"
+        },
+        {
+         "@": "ellipse",
+         "@id": "id63",
+         "&": "id15",
+         "reftxt": null,
+         "refanchors": [],
+         "trf": [
+          30,
+          0,
+          0,
+          30,
+          440,
+          380
+         ],
+         "_sdf": 104,
+         "_layers": {
+          "@": "paintLayers",
+          "@id": "id64",
+          "$": [
+           {
+            "@": "fillPaintLayer",
+            "@id": "id65",
+            "&": "id18",
+            "_pt": "C#[60,140,240]"
+           }
+          ],
+          "&": "id19"
+         },
+         "_effId": "id20"
+        },
+        {
+         "@": "text",
+         "@id": "id66",
+         "#": "id67",
+         "&": "id23",
+         "ct": [
+          {
+           "text": "Card",
+           "fontWeight": 400,
+           "fontStyle": "normal",
+           "underline": false,
+           "strikeout": false,
+           "fontColor": {
+            "_value": [
+             0,
+             0,
+             0
+            ]
+           },
+           "fontFamily": "Open Sans",
+           "fontSize": 18,
+           "align": "left",
+           "script": "normal",
+           "transformation": null,
+           "charSpacing": null,
+           "wordSpacing": null,
+           "lineSpacing": 1,
+           "paragraphSpacing": "0",
+           "paragraphIndent": 0,
+           "ligatures": false,
+           "langScript": "auto",
+           "variant": null,
+           "fractions": false,
+           "listDepth": 0,
+           "listMarker": null,
+           "stylisticSet": null,
+           "localizedForm": null
+          }
+         ],
+         "content": "[{\"text\":\"Card\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":18,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+         "w": 142,
+         "h": 27.236,
+         "trf": [
+          1,
+          0,
+          0,
+          1,
+          350,
+          330
+         ],
+         "_sdf": 133,
+         "_layId": "id24",
+         "_effId": "id25",
+         "_fc": "C#[0,0,0]",
+         "_tff": "Open Sans"
+        }
+       ],
+       "#": "id68",
+       "&": "id27",
+       "trf": [
+        1,
+        0,
+        0,
+        1,
+        340,
+        320
+       ],
+       "frame": [
+        0,
+        0,
+        130,
+        90
+       ],
+       "masterRef": "id26",
+       "masterMultiRef": "id27",
+       "dsb": [],
+       "sbl": [],
+       "name": "Card",
+       "_effId": "id28"
+      }
+     ],
+     "#": "id69",
+     "&": "id51",
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      340,
+      0
+     ],
+     "frame": [
+      -10,
+      310,
+      300,
+      110
+     ],
+     "masterRef": "id50",
+     "masterMultiRef": "id51",
+     "dsb": [],
+     "sbl": [],
+     "name": "Card row",
+     "_effId": "id52"
+    },
+    {
+     "@": "symbol",
+     "@id": "id70",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id71",
+       "&": "id6",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        60,
+        0,
+        0,
+        40,
+        280,
+        200
+       ],
+       "_sdf": 107,
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id72",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id73",
+          "&": "id74",
+          "_pt": "C#[120,220,120]"
+         }
+        ],
+        "&": "id12"
+       },
+       "_effId": "id13"
+      },
+      {
+       "@": "ellipse",
+       "@id": "id75",
+       "&": "id15",
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        30,
+        0,
+        0,
+        30,
+        320,
+        220
+       ],
+       "vis": false,
+       "_sdf": 104,
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id76",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id77",
+          "&": "id18",
+          "_pt": "C#[60,140,240]"
+         }
+        ],
+        "&": "id19"
+       },
+       "_effId": "id20"
+      },
+      {
+       "@": "text",
+       "@id": "id78",
+       "#": "id79",
+       "&": "id23",
+       "ct": [
+        {
+         "text": "Changed",
+         "fontWeight": 400,
+         "fontStyle": "normal",
+         "underline": false,
+         "strikeout": false,
+         "fontColor": {
+          "_value": [
+           0,
+           0,
+           0
+          ]
+         },
+         "fontFamily": "Open Sans",
+         "fontSize": 18,
+         "align": "left",
+         "script": "normal",
+         "transformation": null,
+         "charSpacing": null,
+         "wordSpacing": null,
+         "lineSpacing": 1,
+         "paragraphSpacing": "0",
+         "paragraphIndent": 0,
+         "ligatures": false,
+         "langScript": "auto",
+         "variant": null,
+         "fractions": false,
+         "listDepth": 0,
+         "listMarker": null,
+         "stylisticSet": null,
+         "localizedForm": null
+        }
+       ],
+       "content": "[{\"text\":\"Changed\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":18,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+       "w": 142,
+       "h": 27.236,
+       "trf": [
+        1,
+        0,
+        0,
+        1,
+        230,
+        170
+       ],
+       "_sdf": 133,
+       "_layId": "id24",
+       "_effId": "id25",
+       "_fc": "C#[0,0,0]",
+       "_tff": "Open Sans"
+      }
+     ],
+     "#": "id80",
+     "&": "id27",
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      220,
+      160
+     ],
+     "frame": [
+      0,
+      0,
+      130,
+      90
+     ],
+     "masterRef": "id26",
+     "masterMultiRef": "id27",
+     "dsb": [
+      "id15"
+     ],
+     "sbl": [],
+     "name": "Card",
+     "_effId": "id28"
+    },
+    {
+     "@": "symbol",
+     "@id": "id81",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id82",
+       "&": "id6",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        57.320189347536356,
+        17.731212399680373,
+        -11.820808266453582,
+        38.21345956502424,
+        -1.7838519847315553,
+        208.79851022480156
+       ],
+       "_sdf": 107,
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id83",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id84",
+          "&": "id9",
+          "_pt": "C#[250,200,60]"
+         },
+         {
+          "@": "borderPaintLayer",
+          "@id": "id85",
+          "&": "id11",
+          "_bw": 2,
+          "_pt": "C#[0,0,0]"
+         }
+        ],
+        "&": "id12"
+       },
+       "_effId": "id13"
+      },
+      {
+       "@": "ellipse",
+       "@id": "id86",
+       "&": "id15",
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        28.660094673768178,
+        8.865606199840187,
+        -8.865606199840187,
+        28.660094673768178,
+        30.51920344706589,
+        239.72604827376728
+       ],
+       "_sdf": 104,
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id87",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id88",
+          "&": "id18",
+          "_pt": "C#[60,140,240]"
+         }
+        ],
+        "&": "id19"
+       },
+       "_effId": "id20"
+      },
+      {
+       "@": "text",
+       "@id": "id89",
+       "#": "id90",
+       "&": "id23",
+       "ct": [
+        {
+         "text": "Card",
+         "fontWeight": 400,
+         "fontStyle": "normal",
+         "underline": false,
+         "strikeout": false,
+         "fontColor": {
+          "_value": [
+           0,
+           0,
+           0
+          ]
+         },
+         "fontFamily": "Open Sans",
+         "fontSize": 18,
+         "align": "left",
+         "script": "normal",
+         "transformation": null,
+         "charSpacing": null,
+         "wordSpacing": null,
+         "lineSpacing": 1,
+         "paragraphSpacing": "0",
+         "paragraphIndent": 0,
+         "ligatures": false,
+         "langScript": "auto",
+         "variant": null,
+         "fractions": false,
+         "listDepth": 0,
+         "listMarker": null,
+         "stylisticSet": null,
+         "localizedForm": null
+        }
+       ],
+       "content": "[{\"text\":\"Card\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":18,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+       "w": 142,
+       "h": 27.236,
+       "trf": [
+        0.955336489125606,
+        0.29552020666133955,
+        -0.29552020666133955,
+        0.955336489125606,
+        -40.685070241171665,
+        165.36240521796643
+       ],
+       "_sdf": 133,
+       "_layId": "id24",
+       "_effId": "id25",
+       "_fc": "C#[0,0,0]",
+       "_tff": "Open Sans"
+      }
+     ],
+     "#": "id91",
+     "&": "id27",
+     "trf": [
+      0.955336489125606,
+      0.29552020666133955,
+      -0.29552020666133955,
+      0.955336489125606,
+      -47.28323306581433,
+      152.85383826009695
+     ],
+     "frame": [
+      0,
+      0,
+      130,
+      90
+     ],
+     "masterRef": "id26",
+     "masterMultiRef": "id27",
+     "dsb": [],
+     "sbl": [],
+     "name": "Card",
+     "_effId": "id28"
+    },
+    {
+     "@": "symbol",
+     "@id": "id92",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id93",
+       "&": "id6",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        90,
+        0,
+        0,
+        60,
+        410,
+        60
+       ],
+       "_sdf": 107,
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id94",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id95",
+          "&": "id9",
+          "_pt": "C#[250,200,60]"
+         },
+         {
+          "@": "borderPaintLayer",
+          "@id": "id96",
+          "&": "id11",
+          "_bw": 2,
+          "_pt": "C#[0,0,0]"
+         }
+        ],
+        "&": "id12"
+       },
+       "_effId": "id13"
+      },
+      {
+       "@": "ellipse",
+       "@id": "id97",
+       "&": "id15",
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        45,
+        0,
+        0,
+        45,
+        470,
+        90
+       ],
+       "_sdf": 104,
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id98",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id99",
+          "&": "id18",
+          "_pt": "C#[60,140,240]"
+         }
+        ],
+        "&": "id19"
+       },
+       "_effId": "id20"
+      },
+      {
+       "@": "text",
+       "@id": "id100",
+       "#": "id101",
+       "&": "id23",
+       "ct": [
+        {
+         "text": "Card",
+         "fontWeight": 400,
+         "fontStyle": "normal",
+         "underline": false,
+         "strikeout": false,
+         "fontColor": {
+          "_value": [
+           0,
+           0,
+           0
+          ]
+         },
+         "fontFamily": "Open Sans",
+         "fontSize": 18,
+         "align": "left",
+         "script": "normal",
+         "transformation": null,
+         "charSpacing": null,
+         "wordSpacing": null,
+         "lineSpacing": 1,
+         "paragraphSpacing": "0",
+         "paragraphIndent": 0,
+         "ligatures": false,
+         "langScript": "auto",
+         "variant": null,
+         "fractions": false,
+         "listDepth": 0,
+         "listMarker": null,
+         "stylisticSet": null,
+         "localizedForm": null
+        }
+       ],
+       "content": "[{\"text\":\"Card\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":18,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+       "w": 142,
+       "h": 27.236,
+       "trf": [
+        1.5,
+        0,
+        0,
+        1.5,
+        335,
+        15
+       ],
+       "_sdf": 133,
+       "_layId": "id24",
+       "_effId": "id25",
+       "_fc": "C#[0,0,0]",
+       "_tff": "Open Sans"
+      }
+     ],
+     "#": "id102",
+     "&": "id27",
+     "trf": [
+      1.5,
+      0,
+      0,
+      1.5,
+      320,
+      0
+     ],
+     "frame": [
+      0,
+      0,
+      130,
+      90
+     ],
+     "masterRef": "id26",
+     "masterMultiRef": "id27",
+     "dsb": [],
+     "sbl": [],
+     "name": "Card",
+     "_effId": "id28"
+    },
+    {
+     "@": "symbol",
+     "@id": "id103",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id104",
+       "&": "id6",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        60,
+        0,
+        0,
+        40,
+        220,
+        40
+       ],
+       "_sdf": 107,
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id105",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id106",
+          "&": "id9",
+          "_pt": "C#[250,200,60]"
+         },
+         {
+          "@": "borderPaintLayer",
+          "@id": "id107",
+          "&": "id11",
+          "_bw": 2,
+          "_pt": "C#[0,0,0]"
+         }
+        ],
+        "&": "id12"
+       },
+       "_effId": "id13"
+      },
+      {
+       "@": "ellipse",
+       "@id": "id108",
+       "&": "id15",
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        30,
+        0,
+        0,
+        30,
+        260,
+        60
+       ],
+       "_sdf": 104,
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id109",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id110",
+          "&": "id18",
+          "_pt": "C#[60,140,240]"
+         }
+        ],
+        "&": "id19"
+       },
+       "_effId": "id20"
+      },
+      {
+       "@": "text",
+       "@id": "id111",
+       "#": "id112",
+       "&": "id23",
+       "ct": [
+        {
+         "text": "Card",
+         "fontWeight": 400,
+         "fontStyle": "normal",
+         "underline": false,
+         "strikeout": false,
+         "fontColor": {
+          "_value": [
+           0,
+           0,
+           0
+          ]
+         },
+         "fontFamily": "Open Sans",
+         "fontSize": 18,
+         "align": "left",
+         "script": "normal",
+         "transformation": null,
+         "charSpacing": null,
+         "wordSpacing": null,
+         "lineSpacing": 1,
+         "paragraphSpacing": "0",
+         "paragraphIndent": 0,
+         "ligatures": false,
+         "langScript": "auto",
+         "variant": null,
+         "fractions": false,
+         "listDepth": 0,
+         "listMarker": null,
+         "stylisticSet": null,
+         "localizedForm": null
+        }
+       ],
+       "content": "[{\"text\":\"Card\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":18,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+       "w": 142,
+       "h": 27.236,
+       "trf": [
+        1,
+        0,
+        0,
+        1,
+        170,
+        10
+       ],
+       "_sdf": 133,
+       "_layId": "id24",
+       "_effId": "id25",
+       "_fc": "C#[0,0,0]",
+       "_tff": "Open Sans"
+      }
+     ],
+     "#": "id113",
+     "&": "id27",
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      160,
+      0
+     ],
+     "frame": [
+      0,
+      0,
+      130,
+      90
+     ],
+     "masterRef": "id26",
+     "masterMultiRef": "id27",
+     "dsb": [],
+     "sbl": [],
+     "name": "Card",
+     "_effId": "id28"
+    }
+   ],
+   "#": "id114",
+   "w": 0,
+   "h": 0,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "name": "Page 1"
+  },
+  {
+   "@": "styles",
+   "@id": "id115",
+   "$": [
+    {
+     "@": "style",
+     "@id": "id116",
+     "#": "id117",
+     "name": "Shape Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id118",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id119",
+        "_pt": "C#[255,255,255]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id120",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id121"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id122",
+     "#": "id123",
+     "name": "Text Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL",
+      "T",
+      "P"
+     ],
+     "_sdf": 133,
+     "_layId": "id124",
+     "_fc": "C#[0,0,0]"
+    },
+    {
+     "@": "style",
+     "@id": "id125",
+     "#": "id126",
+     "name": "Rectangle Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 107,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id127",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id128",
+        "_pt": "C#[235,235,235]"
+       }
+      ],
+      "&": "id129"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id130",
+     "#": "id131",
+     "name": "Ellipse Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 104,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id132",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id133",
+        "_pt": "C#[235,235,235]"
+       }
+      ],
+      "&": "id134"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id135",
+     "#": "id136",
+     "name": "Polygon Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 102,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id137",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id138",
+        "_pt": "C#[235,235,235]"
+       }
+      ],
+      "&": "id139"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id140",
+     "#": "id141",
+     "name": "Path Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 103,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id142",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id143",
+        "_pt": "C#[255,255,255]",
+        "_vs": false
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id144",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id145"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id146",
+     "#": "id147",
+     "name": "Path graph default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 142,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id148",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id149",
+        "_pt": "C#[255,255,255]",
+        "_vs": false
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id150",
+        "_blc": "round",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id151"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id152",
+     "#": "id153",
+     "name": "Connector default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 146,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id154",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id155",
+        "_blc": "butt",
+        "_bhm": "A",
+        "_btm": "A",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id156"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id157",
+     "#": "id158",
+     "name": "Text annotation default",
+     "ps": [
+      "S",
+      "T"
+     ],
+     "_sdf": 148,
+     "_sbl": "multiply",
+     "_fc": "C#[0,0,0]"
+    },
+    {
+     "@": "style",
+     "@id": "id159",
+     "#": "id160",
+     "name": "Rectangle annotation default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 150,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id161",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id162",
+        "_pt": "C#[230,2,2]",
+        "_op": 0,
+        "_bl": "multiply"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id163",
+        "_bw": 2,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "id164"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id165",
+     "#": "id166",
+     "name": "Ellipse annotation default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 151,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id167",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id168",
+        "_pt": "C#[230,2,2]",
+        "_op": 0,
+        "_bl": "multiply"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id169",
+        "_bw": 2,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "id170"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id171",
+     "#": "id172",
+     "name": "Pencil annotation default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 155,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id173",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id174",
+        "_bw": 2,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "id175"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id176",
+     "#": "id177",
+     "name": "Highlighter annotation default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 152,
+     "_stop": 0.5,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id178",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id179",
+        "_bw": 12,
+        "_pt": "C#[248,206,28]"
+       }
+      ],
+      "&": "id180"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id181",
+     "#": "id182",
+     "name": "Arrow annotation default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 154,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id183",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "id184",
+        "_bw": 2,
+        "_blc": "butt",
+        "_bhmi": 0,
+        "_btm": "A",
+        "_btmi": 0,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "id185"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "id186",
+     "#": "id187",
+     "name": "Comment annotation default",
+     "ps": [
+      "S",
+      "BL",
+      "FL",
+      "E"
+     ],
+     "_sdf": 153,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id188",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id189",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id190"
+     },
+     "_effId": "id191"
+    }
+   ]
+  }
+ ],
+ "lmd": "<time>",
+ "cfs": null,
+ "_links": {
+  "rid26": [
+   "id222",
+   "id218",
+   "id214",
+   "id210",
+   "id200",
+   "id206"
+  ],
+  "rid50": [
+   "id204"
+  ]
+ },
+ "__ids": [
+  "id192",
+  "id193",
+  "id194",
+  "id195",
+  "id196",
+  "id197",
+  "id198",
+  "id199",
+  "id200",
+  "id201",
+  "id202",
+  "id203",
+  "id204",
+  "id205",
+  "id206",
+  "id207",
+  "id208",
+  "id209",
+  "id210",
+  "id211",
+  "id212",
+  "id213",
+  "id214",
+  "id215",
+  "id216",
+  "id217",
+  "id218",
+  "id219",
+  "id220",
+  "id221",
+  "id222",
+  "id223",
+  "id224",
+  "id225",
+  "id226",
+  "id227",
+  "id228",
+  "id229",
+  "id230",
+  "id231",
+  "id232",
+  "id233",
+  "id234",
+  "id235",
+  "id236",
+  "id237",
+  "id238",
+  "id239",
+  "id240",
+  "id241"
+ ],
+ "dictionary": {
+  "entries": []
+ },
+ "symbolDictionary": {
+  "entries": [
+   {
+    "uuid": "id27",
+    "value": null,
+    "references": 1
+   },
+   {
+    "uuid": "id51",
+    "value": null,
+    "references": 1
+   }
+  ]
+ }
+}
