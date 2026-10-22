@@ -1,0 +1,302 @@
+{
+ "saved": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "symbol",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "rectangle",
+        "@id": "id5",
+        "&": "id6",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         25,
+         0,
+         0,
+         25,
+         25,
+         25
+        ],
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id7",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id8",
+           "&": "id9",
+           "_pt": "C#[255,0,0]"
+          }
+         ],
+         "&": "id10"
+        },
+        "_effId": "id11"
+       }
+      ],
+      "#": "id12",
+      "&": "id13",
+      "frame": [
+       0,
+       0,
+       50,
+       50
+      ],
+      "masterRef": "id12",
+      "masterMultiRef": "id13",
+      "dsb": [],
+      "sbl": [],
+      "name": "Saved",
+      "_effId": "id14"
+     },
+     {
+      "@": "symbol",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "rectangle",
+        "@id": "id5",
+        "&": "id6",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         25,
+         0,
+         0,
+         25,
+         25,
+         25
+        ],
+        "name": "overridden",
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id7",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id8",
+           "&": "id9",
+           "_pt": "C#[255,0,0]"
+          }
+         ],
+         "&": "id10"
+        },
+        "_effId": "id11"
+       }
+      ],
+      "#": "id15",
+      "&": "id13",
+      "frame": [
+       0,
+       0,
+       50,
+       50
+      ],
+      "masterRef": "id12",
+      "masterMultiRef": "id13",
+      "dsb": [
+       "id6"
+      ],
+      "sbl": [],
+      "name": "Saved",
+      "_effId": "id14"
+     }
+    ],
+    "#": "id16",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "lmd": "<time>",
+  "_links": [
+   [
+    "id12",
+    [
+     "id21"
+    ]
+   ]
+  ],
+  "__ids": [
+   "id17",
+   "id18",
+   "id19",
+   "id20",
+   "id21",
+   "id22"
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": [
+    {
+     "uuid": "id13",
+     "value": null,
+     "references": 1
+    }
+   ]
+  }
+ },
+ "sceneRestore": "<throws>",
+ "restoredPage": {
+  "@": "page",
+  "@id": "id2",
+  "$": [
+   {
+    "@": "annlst",
+    "@id": "id3",
+    "pgid": "id2",
+    "aid": "id3"
+   },
+   {
+    "@": "symbol",
+    "@id": "id4",
+    "$": [
+     {
+      "@": "rectangle",
+      "@id": "id5",
+      "&": "id6",
+      "uf": true,
+      "ct": "R",
+      "sl": 0,
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [
+       25,
+       0,
+       0,
+       25,
+       25,
+       25
+      ],
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id7",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id8",
+         "&": "id9",
+         "_pt": "C#[255,0,0]"
+        }
+       ],
+       "&": "id10"
+      },
+      "_effId": "id11"
+     }
+    ],
+    "#": "id23",
+    "&": "id13",
+    "frame": [
+     0,
+     0,
+     50,
+     50
+    ],
+    "masterRef": "id12",
+    "masterMultiRef": "id13",
+    "dsb": [],
+    "sbl": [],
+    "name": "Saved",
+    "_effId": "id14"
+   },
+   {
+    "@": "symbol",
+    "@id": "id4",
+    "$": [
+     {
+      "@": "rectangle",
+      "@id": "id5",
+      "&": "id6",
+      "uf": true,
+      "ct": "R",
+      "sl": 0,
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [
+       25,
+       0,
+       0,
+       25,
+       25,
+       25
+      ],
+      "name": "overridden",
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "id7",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "id8",
+         "&": "id9",
+         "_pt": "C#[255,0,0]"
+        }
+       ],
+       "&": "id10"
+      },
+      "_effId": "id11"
+     }
+    ],
+    "#": "id24",
+    "&": "id13",
+    "frame": [
+     0,
+     0,
+     50,
+     50
+    ],
+    "masterRef": "id12",
+    "masterMultiRef": "id13",
+    "dsb": [
+     "id6"
+    ],
+    "sbl": [],
+    "name": "Saved",
+    "_effId": "id14"
+   }
+  ],
+  "#": "id25",
+  "w": 0,
+  "h": 0,
+  "off": [],
+  "bck": "C#[255,255,255]",
+  "name": "Page 1"
+ },
+ "restoredSymbols": [
+  [
+   "Saved",
+   false,
+   true,
+   null
+  ],
+  [
+   "Saved",
+   false,
+   true,
+   null
+  ]
+ ]
+}

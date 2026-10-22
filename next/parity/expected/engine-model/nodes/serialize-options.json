@@ -1,0 +1,65 @@
+{
+ "idLength": 6,
+ "idChars": true,
+ "plainKeys": [
+  "@",
+  "@id",
+  "$",
+  "_effId"
+ ],
+ "plainChildKeys": [
+  [
+   "@",
+   "@id",
+   "uf",
+   "ct",
+   "sl",
+   "trf",
+   "name",
+   "_layId",
+   "_effId"
+  ],
+  [
+   "@",
+   "@id",
+   "trf",
+   "_layId",
+   "_effId"
+  ]
+ ],
+ "copyHasIds": false,
+ "copyChildKeys": [
+  [
+   "@",
+   "uf",
+   "ct",
+   "sl",
+   "trf",
+   "name",
+   "_layId",
+   "_effId"
+  ],
+  [
+   "@",
+   "trf",
+   "_layId",
+   "_effId"
+  ]
+ ],
+ "arrayNames": [
+  "rectangle",
+  "ellipse"
+ ],
+ "beautifiedLines": 18,
+ "beautifiedIndent": 4,
+ "cloneSameId": true,
+ "cloneCustom": "<undefined>",
+ "cloneName": "R",
+ "restoredKids": [
+  "rectangle",
+  "ellipse"
+ ],
+ "restoredSameIds": true,
+ "restoredCustom": "<undefined>",
+ "restoredArray": 2
+}

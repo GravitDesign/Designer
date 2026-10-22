@@ -1,0 +1,286 @@
+{
+ "rect": {
+  "original": {
+   "@": "rectangle",
+   "@id": "id1",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "trf": [
+    50,
+    0,
+    0,
+    25,
+    50,
+    25
+   ],
+   "_layers": {
+    "@": "paintLayers",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "fillPaintLayer",
+      "@id": "id3",
+      "_pt": "C#[255,0,0]"
+     },
+     {
+      "@": "borderPaintLayer",
+      "@id": "id4",
+      "_bw": 4,
+      "_pt": "C#[0,0,255]"
+     }
+    ],
+    "&": "id5"
+   },
+   "_eff": {
+    "@": "effects",
+    "$": [
+     {
+      "@": "dropShadowEffect",
+      "pat": "C#[0,0,0]"
+     }
+    ],
+    "&": "id6"
+   }
+  },
+  "clone": {
+   "@": "rectangle",
+   "@id": "id1",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "trf": [
+    50,
+    0,
+    0,
+    25,
+    50,
+    25
+   ],
+   "_layers": {
+    "@": "paintLayers",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "fillPaintLayer",
+      "@id": "id3",
+      "_pt": "C#[255,0,0]"
+     },
+     {
+      "@": "borderPaintLayer",
+      "@id": "id4",
+      "_bw": 4,
+      "_pt": "C#[0,0,255]"
+     }
+    ],
+    "&": "id5"
+   },
+   "_eff": {
+    "@": "effects",
+    "$": [
+     {
+      "@": "dropShadowEffect",
+      "pat": "C#[0,0,0]"
+     }
+    ],
+    "&": "id6"
+   }
+  },
+  "sameId": true,
+  "parent": null
+ },
+ "group": {
+  "original": {
+   "@": "group",
+   "@id": "id7",
+   "$": [
+    {
+     "@": "rectangle",
+     "@id": "id1",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "trf": [
+      50,
+      0,
+      0,
+      25,
+      50,
+      25
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id2",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id3",
+        "_pt": "C#[255,0,0]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id4",
+        "_bw": 4,
+        "_pt": "C#[0,0,255]"
+       }
+      ],
+      "&": "id5"
+     },
+     "_eff": {
+      "@": "effects",
+      "$": [
+       {
+        "@": "dropShadowEffect",
+        "pat": "C#[0,0,0]"
+       }
+      ],
+      "&": "id6"
+     }
+    },
+    {
+     "@": "ellipse",
+     "@id": "id8",
+     "trf": [
+      10,
+      0,
+      0,
+      10,
+      10,
+      10
+     ],
+     "_layId": "id9",
+     "_effId": "id10"
+    }
+   ],
+   "_effId": "id11"
+  },
+  "clone": {
+   "@": "group",
+   "@id": "id7",
+   "$": [
+    {
+     "@": "rectangle",
+     "@id": "id1",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "trf": [
+      50,
+      0,
+      0,
+      25,
+      50,
+      25
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id2",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id3",
+        "_pt": "C#[255,0,0]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id4",
+        "_bw": 4,
+        "_pt": "C#[0,0,255]"
+       }
+      ],
+      "&": "id5"
+     },
+     "_eff": {
+      "@": "effects",
+      "$": [
+       {
+        "@": "dropShadowEffect",
+        "pat": "C#[0,0,0]"
+       }
+      ],
+      "&": "id6"
+     }
+    },
+    {
+     "@": "ellipse",
+     "@id": "id8",
+     "trf": [
+      10,
+      0,
+      0,
+      10,
+      10,
+      10
+     ],
+     "_layId": "id9",
+     "_effId": "id10"
+    }
+   ],
+   "_effId": "id11"
+  },
+  "sameId": true,
+  "parent": null
+ },
+ "path": {
+  "original": {
+   "@": "path",
+   "@id": "id12",
+   "pts": [
+    [
+     "AAAAAAAAAAA="
+    ],
+    [
+     "AAAgQQAAAAA="
+    ],
+    [
+     "AAAgQQAAIEE="
+    ]
+   ],
+   "_layId": "id13",
+   "_effId": "id14"
+  },
+  "clone": {
+   "@": "path",
+   "@id": "id12",
+   "pts": [
+    [
+     "AAAAAAAAAAA="
+    ],
+    [
+     "AAAgQQAAAAA="
+    ],
+    [
+     "AAAgQQAAIEE="
+    ]
+   ],
+   "_layId": "id13",
+   "_effId": "id14"
+  },
+  "sameId": true,
+  "parent": null
+ },
+ "text": {
+  "original": {
+   "@": "text",
+   "@id": "id15",
+   "ct": null,
+   "#": "id16",
+   "w": 142,
+   "h": 27.236,
+   "_layId": "id17",
+   "_effId": "id18"
+  },
+  "clone": {
+   "@": "text",
+   "@id": "id15",
+   "#": "id19",
+   "ct": null,
+   "w": 142,
+   "h": 27.236,
+   "_layId": "id17",
+   "_effId": "id18"
+  },
+  "sameId": true,
+  "parent": null
+ }
+}

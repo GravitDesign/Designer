@@ -1,0 +1,189 @@
+{
+ "fillOnly": {
+  "blob": {
+   "@": "rectangle",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "trf": [
+    10,
+    0,
+    0,
+    10,
+    10,
+    10
+   ],
+   "_layers": {
+    "@": "paintLayers",
+    "$": [
+     {
+      "@": "fillPaintLayer",
+      "_pt": "C#[255,0,0]"
+     }
+    ],
+    "&": "<id>"
+   },
+   "_effId": "<id>"
+  },
+  "layers": [
+   "fillPaintLayer"
+  ]
+ },
+ "fillFull": {
+  "blob": {
+   "@": "rectangle",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "_layers": {
+    "@": "paintLayers",
+    "$": [
+     {
+      "@": "fillPaintLayer",
+      "_px": [
+       1,
+       0,
+       0,
+       1,
+       2,
+       3
+      ],
+      "_pt": "C#[255,0,0]",
+      "_op": 0.4,
+      "_vs": false
+     }
+    ],
+    "&": "<id>"
+   },
+   "_effId": "<id>"
+  },
+  "layers": [
+   "fillPaintLayer"
+  ]
+ },
+ "borderFull": {
+  "blob": {
+   "@": "ellipse",
+   "_layers": {
+    "@": "paintLayers",
+    "$": [
+     {
+      "@": "borderPaintLayer",
+      "_bds": [
+       3,
+       1
+      ],
+      "_bw": 4,
+      "_ba": "O",
+      "_blc": "round",
+      "_blj": "bevel",
+      "_bml": 7,
+      "_pt": "C#[0,0,255]",
+      "_op": 0.5
+     }
+    ],
+    "&": "<id>"
+   },
+   "_effId": "<id>"
+  },
+  "layers": [
+   "borderPaintLayer"
+  ]
+ },
+ "fillAndBorder": {
+  "blob": {
+   "@": "path",
+   "pts": [],
+   "_layers": {
+    "@": "paintLayers",
+    "$": [
+     {
+      "@": "fillPaintLayer",
+      "_pt": "C#[1,2,3]"
+     },
+     {
+      "@": "borderPaintLayer",
+      "_bw": 2,
+      "_pt": "C#[4,5,6]"
+     }
+    ],
+    "&": "<id>"
+   },
+   "_effId": "<id>"
+  },
+  "layers": [
+   "fillPaintLayer",
+   "borderPaintLayer"
+  ]
+ },
+ "markerOffsetInside": {
+  "blob": {
+   "@": "path",
+   "pts": [],
+   "_layers": {
+    "@": "paintLayers",
+    "$": [
+     {
+      "@": "borderPaintLayer",
+      "_bhm": "A",
+      "_bhmo": true,
+      "_bhmi": 0,
+      "_btm": "C",
+      "_btmo": true,
+      "_btmi": 0,
+      "_pt": "C#[0,0,0]"
+     }
+    ],
+    "&": "<id>"
+   },
+   "_effId": "<id>"
+  },
+  "layers": [
+   "borderPaintLayer"
+  ]
+ },
+ "markerInsideTrue": {
+  "blob": {
+   "@": "path",
+   "pts": [],
+   "_layers": {
+    "@": "paintLayers",
+    "$": [
+     {
+      "@": "borderPaintLayer",
+      "_pt": "C#[0,0,0]"
+     }
+    ],
+    "&": "<id>"
+   },
+   "_effId": "<id>"
+  },
+  "layers": [
+   "borderPaintLayer"
+  ]
+ },
+ "layerBooleanInside": {
+  "_bhmi": 1,
+  "_btmi": 0,
+  "_bhmo": false,
+  "_btmo": false
+ },
+ "layerLegacyKeys": {
+  "_pt": "pattern:C#[9,9,9]",
+  "_op": 0.3,
+  "_vs": false,
+  "_bhmo": true,
+  "_btmo": true
+ },
+ "noStyle": {
+  "blob": {
+   "@": "rectangle",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "_layId": "<id>",
+   "_effId": "<id>"
+  },
+  "layers": []
+ }
+}

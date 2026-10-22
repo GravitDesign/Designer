@@ -1,0 +1,118 @@
+{
+ "found": true,
+ "keys": [
+  "@",
+  "anchors",
+  "edges",
+  "facets",
+  "_sdf",
+  "_layers"
+ ],
+ "anchors": {
+  "node": "MapContainer",
+  "children": [
+   "GPGAnchor",
+   "GPGAnchor",
+   "GPGAnchor"
+  ],
+  "props": [
+   [
+    "uid1",
+    700,
+    450
+   ],
+   [
+    "uid2",
+    820,
+    450
+   ],
+   [
+    "uid3",
+    760,
+    540
+   ]
+  ]
+ },
+ "edges": {
+  "node": "GPathsGraph.Edges",
+  "children": [
+   "GPGEdge",
+   "GPGEdge",
+   "GPGEdge"
+  ],
+  "props": [
+   [
+    "uid4",
+    false,
+    "uid1",
+    "uid2",
+    [
+     [
+      "AAAvRAAA4UM="
+     ],
+     [
+      "AABNRAAA4UM="
+     ]
+    ]
+   ],
+   [
+    "uid5",
+    false,
+    "uid2",
+    "uid3",
+    [
+     [
+      "AABNRAAA4UM="
+     ],
+     [
+      "AAA+RAAAB0Q="
+     ]
+    ]
+   ],
+   [
+    "uid6",
+    false,
+    "uid3",
+    "uid1",
+    [
+     [
+      "AAA+RAAAB0Q="
+     ],
+     [
+      "AAAvRAAA4UM="
+     ]
+    ]
+   ]
+  ]
+ },
+ "facets": {
+  "node": "MapContainer",
+  "children": [
+   "GPGFacet"
+  ],
+  "props": [
+   [
+    "uid7",
+    false,
+    {
+     "dir": 1,
+     "euid": "uid4"
+    },
+    {
+     "dir": 1,
+     "euid": "uid5"
+    },
+    {
+     "dir": 1,
+     "euid": "uid6"
+    }
+   ]
+  ]
+ },
+ "geometry": [
+  700,
+  450,
+  120,
+  90
+ ]
+}

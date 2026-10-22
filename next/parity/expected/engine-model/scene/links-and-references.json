@@ -1,0 +1,36 @@
+{
+ "refIdLength": 32,
+ "sceneIdLength": 32,
+ "sceneIdsDiffer": true,
+ "reference": true,
+ "afterLink": {
+  "isLinked": [
+   false,
+   false,
+   true,
+   true
+  ],
+  "hasLinks": true,
+  "hasReferences": true,
+  "linkCount": 2,
+  "refCount": [
+   1,
+   1
+  ]
+ },
+ "visitLinks": [
+  "ellipse",
+  "rectangle"
+ ],
+ "visitReferences": [
+  "text"
+ ],
+ "afterUnlink": {
+  "linkCount": 1,
+  "isLinked": false
+ },
+ "afterRemove": {
+  "linkCount": 0
+ },
+ "linksShape": []
+}

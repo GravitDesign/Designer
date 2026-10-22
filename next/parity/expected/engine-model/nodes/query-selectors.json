@@ -1,0 +1,120 @@
+{
+ "results": {
+  "rectangle": [
+   "rectangle:Alpha one",
+   "rectangle:gamma"
+  ],
+  "ellipse": [
+   "ellipse:beta-two",
+   "ellipse:delta"
+  ],
+  "*": [
+   "page:Page 1",
+   "annlst:undefined",
+   "rectangle:Alpha one",
+   "ellipse:beta-two",
+   "group:box",
+   "rectangle:gamma",
+   "ellipse:delta",
+   "text:label"
+  ],
+  "group > rectangle": [
+   "rectangle:gamma"
+  ],
+  "group ellipse": [
+   "ellipse:delta"
+  ],
+  "page rectangle": [
+   "rectangle:Alpha one",
+   "rectangle:gamma"
+  ],
+  ":selected": [
+   "rectangle:gamma"
+  ],
+  "[name=\"gamma\"]": [
+   "rectangle:gamma"
+  ],
+  "[name*=\"one\"]": [
+   "rectangle:Alpha one"
+  ],
+  "[name^=\"beta\"]": [
+   "ellipse:beta-two"
+  ],
+  "[name$=\"two\"]": [
+   "ellipse:beta-two"
+  ],
+  "[name~=\"one\"]": [
+   "rectangle:Alpha one"
+  ],
+  "[name|=\"beta\"]": [],
+  "[name]": [
+   "page:Page 1",
+   "rectangle:Alpha one",
+   "ellipse:beta-two",
+   "group:box",
+   "rectangle:gamma",
+   "ellipse:delta",
+   "text:label"
+  ],
+  "rectangle:first-child": [],
+  "ellipse:last-child": [
+   "ellipse:delta"
+  ],
+  "*:nth-child(2)": [
+   "page:Page 1",
+   "annlst:undefined",
+   "rectangle:gamma"
+  ],
+  "*:nth-child(odd)": [
+   "page:Page 1",
+   "annlst:undefined",
+   "ellipse:beta-two",
+   "rectangle:gamma",
+   "text:label"
+  ],
+  "rectangle, ellipse": [
+   "rectangle:Alpha one",
+   "rectangle:gamma",
+   "ellipse:beta-two",
+   "ellipse:delta"
+  ],
+  "page > *": [
+   "annlst:undefined",
+   "rectangle:Alpha one",
+   "ellipse:beta-two",
+   "group:box",
+   "text:label"
+  ],
+  ":not(rectangle)": [
+   "page:Page 1",
+   "annlst:undefined",
+   "ellipse:beta-two",
+   "group:box",
+   "ellipse:delta",
+   "text:label"
+  ],
+  "page > *:last-child": [
+   "text:label"
+  ],
+  "group + text": [
+   "text:label"
+  ],
+  "ellipse ~ group": [
+   "group:box"
+  ],
+  "text": [
+   "text:label"
+  ],
+  "Compound Shape": []
+ },
+ "single": "ellipse:beta-two",
+ "singleNone": null,
+ "count": 2,
+ "matches": [
+  true,
+  false,
+  true
+ ],
+ "filtered": false,
+ "byName": 2
+}

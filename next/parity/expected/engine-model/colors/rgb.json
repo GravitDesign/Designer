@@ -1,0 +1,363 @@
+{
+ "constants": [
+  [
+   0,
+   0,
+   0
+  ],
+  [
+   255,
+   255,
+   255
+  ],
+  [
+   255,
+   0,
+   0
+  ]
+ ],
+ "parse": {
+  "red": [
+   255,
+   0,
+   0,
+   1
+  ],
+  "transparent": [
+   255,
+   255,
+   255,
+   0
+  ],
+  "rebeccapurple": null,
+  "#abc": [
+   170,
+   187,
+   204,
+   1
+  ],
+  "#a1b2c3": [
+   161,
+   178,
+   195,
+   1
+  ],
+  "#A1B2C3FF": null,
+  "rgb(10, 20, 30)": [
+   10,
+   20,
+   30,
+   100
+  ],
+  "rgba(10,20,30,0.5)": [
+   10,
+   20,
+   30,
+   0.5
+  ],
+  "rgb(300,-5,20)": [
+   255,
+   0,
+   20,
+   100
+  ],
+  "hsl(120, 50%, 50%)": [
+   64,
+   191,
+   64,
+   100
+  ],
+  "hsla(240,100%,25%,0.2)": [
+   0,
+   0,
+   128,
+   0.2
+  ],
+  "rgb(10%, 50%, 100%)": [
+   26,
+   128,
+   255,
+   100
+  ],
+  "  blue  ": [
+   0,
+   0,
+   255,
+   1
+  ],
+  "notacolor": null,
+  "#12": [
+   0,
+   17,
+   34,
+   1
+  ],
+  "": null
+ },
+ "fromCSS": {
+  "red": "C#[255,0,0]",
+  "transparent": "C#[255,255,255]",
+  "rebeccapurple": null,
+  "#abc": "C#[170,187,204]",
+  "#a1b2c3": "C#[161,178,195]",
+  "#A1B2C3FF": null,
+  "rgb(10, 20, 30)": "C#[10,20,30]",
+  "rgba(10,20,30,0.5)": "C#[10,20,30]",
+  "rgb(300,-5,20)": "C#[255,0,20]",
+  "hsl(120, 50%, 50%)": "C#[64,191,64]",
+  "hsla(240,100%,25%,0.2)": "C#[0,0,128]",
+  "rgb(10%, 50%, 100%)": "C#[26,128,255]",
+  "  blue  ": "C#[0,0,255]",
+  "notacolor": null,
+  "#12": "C#[0,17,34]",
+  "": null
+ },
+ "colors": [
+  {
+   "value": [
+    0,
+    0,
+    0
+   ],
+   "serialized": "C#[0,0,0]",
+   "blob": "[0,0,0]",
+   "human": "rgb 0,0,0",
+   "screen": [
+    0,
+    0,
+    0
+   ],
+   "css": "#000000",
+   "cssHalf": "rgba(0,0,0,0.5)",
+   "background": "linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25))",
+   "hex": "#000000",
+   "rgbToCSS": "#000000",
+   "closest": "black",
+   "toString": "[Object GRGBColor]"
+  },
+  {
+   "value": [
+    255,
+    255,
+    255
+   ],
+   "serialized": "C#[255,255,255]",
+   "blob": "[255,255,255]",
+   "human": "rgb 255,255,255",
+   "screen": [
+    255,
+    255,
+    255
+   ],
+   "css": "#FFFFFF",
+   "cssHalf": "rgba(255,255,255,0.5)",
+   "background": "linear-gradient(rgba(255,255,255,0.25), rgba(255,255,255,0.25))",
+   "hex": "#FFFFFF",
+   "rgbToCSS": "#FFFFFF",
+   "closest": "transparent",
+   "toString": "[Object GRGBColor]"
+  },
+  {
+   "value": [
+    255,
+    0,
+    0
+   ],
+   "serialized": "C#[255,0,0]",
+   "blob": "[255,0,0]",
+   "human": "rgb 255,0,0",
+   "screen": [
+    255,
+    0,
+    0
+   ],
+   "css": "#FF0000",
+   "cssHalf": "rgba(255,0,0,0.5)",
+   "background": "linear-gradient(rgba(255,0,0,0.25), rgba(255,0,0,0.25))",
+   "hex": "#FF0000",
+   "rgbToCSS": "#FF0000",
+   "closest": "red",
+   "toString": "[Object GRGBColor]"
+  },
+  {
+   "value": [
+    0,
+    255,
+    0
+   ],
+   "serialized": "C#[0,255,0]",
+   "blob": "[0,255,0]",
+   "human": "rgb 0,255,0",
+   "screen": [
+    0,
+    255,
+    0
+   ],
+   "css": "#00FF00",
+   "cssHalf": "rgba(0,255,0,0.5)",
+   "background": "linear-gradient(rgba(0,255,0,0.25), rgba(0,255,0,0.25))",
+   "hex": "#00FF00",
+   "rgbToCSS": "#00FF00",
+   "closest": "lime",
+   "toString": "[Object GRGBColor]"
+  },
+  {
+   "value": [
+    0,
+    0,
+    255
+   ],
+   "serialized": "C#[0,0,255]",
+   "blob": "[0,0,255]",
+   "human": "rgb 0,0,255",
+   "screen": [
+    0,
+    0,
+    255
+   ],
+   "css": "#0000FF",
+   "cssHalf": "rgba(0,0,255,0.5)",
+   "background": "linear-gradient(rgba(0,0,255,0.25), rgba(0,0,255,0.25))",
+   "hex": "#0000FF",
+   "rgbToCSS": "#0000FF",
+   "closest": "blue",
+   "toString": "[Object GRGBColor]"
+  },
+  {
+   "value": [
+    12,
+    200,
+    77
+   ],
+   "serialized": "C#[12,200,77]",
+   "blob": "[12,200,77]",
+   "human": "rgb 12,200,77",
+   "screen": [
+    12,
+    200,
+    77
+   ],
+   "css": "#0CC84D",
+   "cssHalf": "rgba(12,200,77,0.5)",
+   "background": "linear-gradient(rgba(12,200,77,0.25), rgba(12,200,77,0.25))",
+   "hex": "#0CC84D",
+   "rgbToCSS": "#0CC84D",
+   "closest": "limegreen",
+   "toString": "[Object GRGBColor]"
+  },
+  {
+   "value": [
+    128,
+    128,
+    128
+   ],
+   "serialized": "C#[128,128,128]",
+   "blob": "[128,128,128]",
+   "human": "rgb 128,128,128",
+   "screen": [
+    128,
+    128,
+    128
+   ],
+   "css": "#808080",
+   "cssHalf": "rgba(128,128,128,0.5)",
+   "background": "linear-gradient(rgba(128,128,128,0.25), rgba(128,128,128,0.25))",
+   "hex": "#808080",
+   "rgbToCSS": "#808080",
+   "closest": "gray",
+   "toString": "[Object GRGBColor]"
+  },
+  {
+   "value": [
+    250,
+    128,
+    114
+   ],
+   "serialized": "C#[250,128,114]",
+   "blob": "[250,128,114]",
+   "human": "rgb 250,128,114",
+   "screen": [
+    250,
+    128,
+    114
+   ],
+   "css": "#FA8072",
+   "cssHalf": "rgba(250,128,114,0.5)",
+   "background": "linear-gradient(rgba(250,128,114,0.25), rgba(250,128,114,0.25))",
+   "hex": "#FA8072",
+   "rgbToCSS": "#FA8072",
+   "closest": "salmon",
+   "toString": "[Object GRGBColor]"
+  },
+  {
+   "value": [
+    1,
+    2,
+    3
+   ],
+   "serialized": "C#[1,2,3]",
+   "blob": "[1,2,3]",
+   "human": "rgb 1,2,3",
+   "screen": [
+    1,
+    2,
+    3
+   ],
+   "css": "#010203",
+   "cssHalf": "rgba(1,2,3,0.5)",
+   "background": "linear-gradient(rgba(1,2,3,0.25), rgba(1,2,3,0.25))",
+   "hex": "#010203",
+   "rgbToCSS": "#010203",
+   "closest": "black",
+   "toString": "[Object GRGBColor]"
+  }
+ ],
+ "clamped": [
+  255,
+  0,
+  13
+ ],
+ "equals": [
+  true,
+  false,
+  false
+ ],
+ "closeEnough": [
+  false,
+  false
+ ],
+ "mix": [
+  "pattern:C#[10,20,30]",
+  "pattern:C#[200,100,0]"
+ ],
+ "mixWeighted": [
+  "<NaN>",
+  "<NaN>",
+  "<NaN>",
+  "<NaN>"
+ ],
+ "blend": [
+  "<NaN>",
+  "<NaN>",
+  "<NaN>"
+ ],
+ "deserialize": [
+  "pattern:C#[1,2,3]",
+  "pattern:Y#[0.1,0.2,0.3,0.4]",
+  "pattern:H#[120,0.5,0.5]",
+  "<throws>",
+  null
+ ],
+ "colorModes": {
+  "RGB": "RGB",
+  "HSB": "HSB",
+  "CMYK": "CMYK"
+ },
+ "average": [
+  4,
+  5,
+  6,
+  1
+ ],
+ "clone": "pattern:C#[7,8,9]"
+}

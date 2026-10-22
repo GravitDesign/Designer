@@ -1,0 +1,2407 @@
+{
+ "MapContainer": {
+  "restoredAs": "MapContainer",
+  "props": {},
+  "blob": {
+   "@": "MapContainer"
+  }
+ },
+ "paintLayer": {
+  "restoredAs": "paintLayer",
+  "props": {
+   "_px": null,
+   "_pt": null,
+   "_op": 1,
+   "_vs": true,
+   "_bl": "normal"
+  },
+  "blob": {
+   "@": "paintLayer",
+   "@id": "<id>"
+  }
+ },
+ "fillPaintLayer": {
+  "restoredAs": "fillPaintLayer",
+  "props": {
+   "_px": null,
+   "_pt": null,
+   "_op": 1,
+   "_vs": true,
+   "_bl": "normal"
+  },
+  "blob": {
+   "@": "fillPaintLayer",
+   "@id": "<id>"
+  }
+ },
+ "borderPaintLayer": {
+  "restoredAs": "borderPaintLayer",
+  "props": {
+   "_px": null,
+   "_pt": null,
+   "_op": 1,
+   "_vs": true,
+   "_bl": "normal",
+   "_bds": null,
+   "_bw": 1,
+   "_ba": "C",
+   "_blc": "square",
+   "_blj": "miter",
+   "_bml": 3,
+   "_bhm": null,
+   "_bhms": 1,
+   "_bhmo": false,
+   "_bhmi": 1,
+   "_btm": null,
+   "_btms": 1,
+   "_btmo": false,
+   "_btmi": 1,
+   "_bs": false
+  },
+  "blob": {
+   "@": "borderPaintLayer",
+   "@id": "<id>"
+  }
+ },
+ "paintLayers": {
+  "restoredAs": "paintLayers",
+  "props": {},
+  "blob": {
+   "@": "paintLayers",
+   "@id": "<id>"
+  }
+ },
+ "effects": {
+  "restoredAs": "effects",
+  "props": {},
+  "blob": {
+   "@": "effects"
+  }
+ },
+ "polygon": {
+  "restoredAs": "polygon",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "closed": true,
+   "pts": 6,
+   "cx": 0,
+   "cy": 0,
+   "or": 0,
+   "ir": 0,
+   "oa": 0,
+   "ia": 5.235987755982989,
+   "oct": "R",
+   "ict": "R",
+   "ocr": 0,
+   "icr": 0,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "polygon",
+   "@id": "<id>",
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "path": {
+  "restoredAs": "path",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "closed": false,
+   "rtxt": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "path",
+   "@id": "<id>",
+   "pts": [],
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "ellipse": {
+  "restoredAs": "ellipse",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "sa": 3.141592653589793,
+   "ea": 3.141592653589793,
+   "etp": 0,
+   "closed": true,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "ellipse",
+   "@id": "<id>",
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "rectangle": {
+  "restoredAs": "rectangle",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "closed": true,
+   "uf": true,
+   "tl_uf": true,
+   "tl_ct": "R",
+   "tl_sx": 0,
+   "tl_sy": 0,
+   "tr_uf": true,
+   "tr_ct": "R",
+   "tr_sx": 0,
+   "tr_sy": 0,
+   "br_uf": true,
+   "br_ct": "R",
+   "br_sx": 0,
+   "br_sy": 0,
+   "bl_uf": true,
+   "bl_ct": "R",
+   "bl_sx": 0,
+   "bl_sy": 0,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "rectangle",
+   "@id": "<id>",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "compoundpath": {
+  "restoredAs": "compoundpath",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": true,
+   "csc": true,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "compoundpath",
+   "@id": "<id>",
+   "paths": [],
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "compoundpath.paths": {
+  "restoredAs": "compoundpath.paths",
+  "props": {},
+  "blob": null
+ },
+ "text": {
+  "restoredAs": "text",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "_fc": null,
+   "_tff": null,
+   "_tfi": 20,
+   "_tfw": 400,
+   "_tfs": "N",
+   "_tcs": null,
+   "_tws": null,
+   "_ttrf": null,
+   "_ttsc": null,
+   "_tlsc": null,
+   "_tv": null,
+   "_tdu": false,
+   "_tds": false,
+   "_tlig": "auto",
+   "_tfrac": false,
+   "_tstyls": null,
+   "_tlocl": null,
+   "_pal": null,
+   "_plh": 1,
+   "_pas": "0",
+   "_pai": 0,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "aw": true,
+   "ah": true,
+   "afs": false,
+   "va": "t",
+   "ttrf": null,
+   "head": 0,
+   "content": null,
+   "w": 1,
+   "h": 1,
+   "tpthd": 0,
+   "tptho": 0,
+   "tpths": -1,
+   "tpthl": 0,
+   "atPath": null,
+   "dir": 0,
+   "_we": false,
+   "_bkpPath": null,
+   "sc": false,
+   "_ed": true,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "text",
+   "@id": "<id>",
+   "#": "<id>",
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "style": {
+  "restoredAs": "style",
+  "props": {
+   "refs": [],
+   "name": null,
+   "ps": [
+    "S",
+    "E",
+    "T",
+    "P",
+    "BL",
+    "FL"
+   ],
+   "defaultStyle": true,
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "_fc": null,
+   "_tff": null,
+   "_tfi": 20,
+   "_tfw": 400,
+   "_tfs": "N",
+   "_tcs": null,
+   "_tws": null,
+   "_ttrf": null,
+   "_ttsc": null,
+   "_tlsc": null,
+   "_tv": null,
+   "_tdu": false,
+   "_tds": false,
+   "_tlig": "auto",
+   "_tfrac": false,
+   "_tstyls": null,
+   "_tlocl": null,
+   "_pal": null,
+   "_plh": 1,
+   "_pas": "0",
+   "_pai": 0
+  },
+  "blob": {
+   "@": "style",
+   "@id": "<id>",
+   "_effId": "<id>",
+   "_layId": "<id>"
+  }
+ },
+ "GPGEdge": {
+  "restoredAs": "GPGEdge",
+  "props": {
+   "uid": {
+    "_uid": "<id>"
+   },
+   "cSt": false
+  },
+  "blob": "<throws>"
+ },
+ "GPGFacet": {
+  "restoredAs": "GPGFacet",
+  "props": {
+   "uid": {
+    "_uid": "<id>"
+   },
+   "cSt": false
+  },
+  "blob": {
+   "@": "GPGFacet",
+   "props": [
+    "<id>",
+    false
+   ],
+   "_layId": null
+  }
+ },
+ "GPGAnchor": {
+  "restoredAs": "GPGAnchor",
+  "props": {
+   "uid": {
+    "_uid": "<id>"
+   },
+   "x": 0,
+   "y": 0
+  },
+  "blob": {
+   "@": "GPGAnchor",
+   "props": [
+    "<id>",
+    0,
+    0
+   ]
+  }
+ },
+ "Paths Graph": {
+  "restoredAs": "Paths Graph",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "Paths Graph",
+   "@id": "<id>",
+   "anchors": "{\"@\":\"MapContainer\"}",
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "GPathsGraph.Edges": {
+  "restoredAs": "GPathsGraph.Edges",
+  "props": {},
+  "blob": {
+   "@": "GPathsGraph.Edges"
+  }
+ },
+ "connector": {
+  "restoredAs": "connector",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "closed": false,
+   "rtxt": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "connector",
+   "@id": "<id>",
+   "pts": [],
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "cmt": {
+  "restoredAs": "cmt",
+  "props": {
+   "refs": [],
+   "text": null,
+   "uid": null,
+   "time": 0,
+   "mtime": 0,
+   "seq": 0,
+   "name": "",
+   "img": null,
+   "email": null,
+   "type": 0,
+   "rmd": false,
+   "sid": null,
+   "read": null,
+   "asgn": null,
+   "Guid": null,
+   "atp": null
+  },
+  "blob": {
+   "@": "cmt",
+   "@id": "<id>"
+  }
+ },
+ "ant": {
+  "restoredAs": "ant",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "_fc": null,
+   "_tff": null,
+   "_tfi": 20,
+   "_tfw": 400,
+   "_tfs": "N",
+   "_tcs": null,
+   "_tws": null,
+   "_ttrf": null,
+   "_ttsc": null,
+   "_tlsc": null,
+   "_tv": null,
+   "_tdu": false,
+   "_tds": false,
+   "_tlig": "auto",
+   "_tfrac": false,
+   "_tstyls": null,
+   "_tlocl": null,
+   "_pal": null,
+   "_plh": 1,
+   "_pas": "0",
+   "_pai": 0,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "aw": true,
+   "ah": true,
+   "afs": false,
+   "va": "t",
+   "ttrf": null,
+   "head": 0,
+   "content": null,
+   "w": 1,
+   "h": 1,
+   "tpthd": 0,
+   "tptho": 0,
+   "tpths": -1,
+   "tpthl": 0,
+   "atPath": null,
+   "dir": 0,
+   "_we": false,
+   "_bkpPath": null,
+   "sc": false,
+   "_ed": true,
+   "text": null,
+   "img": null,
+   "uid": null,
+   "email": null,
+   "time": 0,
+   "mtime": 0,
+   "seq": 0,
+   "loc": null,
+   "typ": 0,
+   "rsv": "<undefined>",
+   "rmd": false,
+   "sid": null,
+   "read": null,
+   "asgn": null,
+   "Guid": null,
+   "atp": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "ant",
+   "@id": "<id>",
+   "#": "<id>",
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "anr": {
+  "restoredAs": "anr",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "closed": true,
+   "uf": true,
+   "tl_uf": true,
+   "tl_ct": "R",
+   "tl_sx": 0,
+   "tl_sy": 0,
+   "tr_uf": true,
+   "tr_ct": "R",
+   "tr_sx": 0,
+   "tr_sy": 0,
+   "br_uf": true,
+   "br_ct": "R",
+   "br_sx": 0,
+   "br_sy": 0,
+   "bl_uf": true,
+   "bl_ct": "R",
+   "bl_sx": 0,
+   "bl_sy": 0,
+   "text": null,
+   "img": null,
+   "uid": null,
+   "email": null,
+   "time": 0,
+   "mtime": 0,
+   "seq": 0,
+   "loc": null,
+   "typ": 0,
+   "rsv": "<undefined>",
+   "rmd": false,
+   "sid": null,
+   "read": null,
+   "asgn": null,
+   "Guid": null,
+   "atp": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "anr",
+   "@id": "<id>",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "ane": {
+  "restoredAs": "ane",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "sa": 3.141592653589793,
+   "ea": 3.141592653589793,
+   "etp": 0,
+   "closed": true,
+   "mtime": 0,
+   "text": null,
+   "img": null,
+   "uid": null,
+   "email": null,
+   "time": 0,
+   "seq": 0,
+   "loc": null,
+   "typ": 0,
+   "rsv": "<undefined>",
+   "rmd": false,
+   "sid": null,
+   "read": null,
+   "asgn": null,
+   "Guid": null,
+   "atp": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "ane",
+   "@id": "<id>",
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "anh": {
+  "restoredAs": "anh",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "closed": false,
+   "text": null,
+   "img": null,
+   "uid": null,
+   "email": null,
+   "time": 0,
+   "mtime": 0,
+   "seq": 0,
+   "loc": null,
+   "typ": 0,
+   "rsv": "<undefined>",
+   "rmd": false,
+   "sid": null,
+   "read": null,
+   "asgn": null,
+   "Guid": null,
+   "atp": null,
+   "rtxt": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "anh",
+   "@id": "<id>",
+   "pts": [],
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "anc": {
+  "restoredAs": "anc",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "closed": false,
+   "text": null,
+   "img": null,
+   "uid": null,
+   "email": null,
+   "time": 0,
+   "mtime": 0,
+   "seq": 0,
+   "loc": null,
+   "typ": 0,
+   "rsv": "<undefined>",
+   "rmd": false,
+   "sid": null,
+   "read": null,
+   "asgn": null,
+   "Guid": null,
+   "atp": null,
+   "rtxt": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "anc",
+   "@id": "<id>",
+   "pts": [],
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "anarr": {
+  "restoredAs": "anarr",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "closed": false,
+   "text": null,
+   "img": null,
+   "uid": null,
+   "email": null,
+   "time": 0,
+   "mtime": 0,
+   "seq": 0,
+   "loc": null,
+   "typ": 0,
+   "rsv": "<undefined>",
+   "rmd": false,
+   "sid": null,
+   "read": null,
+   "asgn": null,
+   "Guid": null,
+   "atp": null,
+   "rtxt": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "anarr",
+   "@id": "<id>",
+   "pts": [],
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "anp": {
+  "restoredAs": "anp",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "closed": false,
+   "text": null,
+   "img": null,
+   "uid": null,
+   "email": null,
+   "time": 0,
+   "mtime": 0,
+   "seq": 0,
+   "loc": null,
+   "typ": 0,
+   "rsv": "<undefined>",
+   "rmd": false,
+   "sid": null,
+   "read": null,
+   "asgn": null,
+   "Guid": null,
+   "atp": null,
+   "rtxt": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "anp",
+   "@id": "<id>",
+   "pts": [],
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "GWebGLEffect": {
+  "restoredAs": "GWebGLEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GWebGLEffect"
+  }
+ },
+ "GGLBlurEffect": {
+  "restoredAs": "GGLBlurEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLBlurEffect"
+  }
+ },
+ "blurEffect": {
+  "restoredAs": "blurEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "r": 5,
+   "b": false
+  },
+  "blob": {
+   "@": "blurEffect"
+  }
+ },
+ "dropShadowEffect": {
+  "restoredAs": "dropShadowEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "r": 5,
+   "x": 0,
+   "y": 0,
+   "pat": "pattern:C#[0,0,0]",
+   "opc": 0.65
+  },
+  "blob": {
+   "@": "dropShadowEffect",
+   "pat": "C#[0,0,0]"
+  }
+ },
+ "styles": {
+  "restoredAs": "styles",
+  "props": "<throws>",
+  "blob": {
+   "@": "styles",
+   "@id": "<id>"
+  }
+ },
+ "layer": {
+  "restoredAs": "layer",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "otl": false,
+   "prt": true,
+   "cls": "pattern:C#[0,168,255]",
+   "frm": false,
+   "sref": "<id>",
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null
+  },
+  "blob": {
+   "@": "layer",
+   "@id": "<id>",
+   "cls": "C#[0,168,255]",
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "annlst": {
+  "restoredAs": "annlst",
+  "props": {
+   "refs": [],
+   "pgid": null,
+   "Guid": null,
+   "aid": null,
+   "rmd": false,
+   "sid": null
+  },
+  "blob": {
+   "@": "annlst",
+   "@id": "<id>"
+  }
+ },
+ "page": {
+  "restoredAs": "page",
+  "props": {
+   "refs": [],
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "w": 800,
+   "h": 600,
+   "x": 0,
+   "y": 0,
+   "bl": 0,
+   "ml": 0,
+   "mt": 0,
+   "mr": 0,
+   "mb": 0,
+   "gp": 10,
+   "off": null,
+   "bck": null,
+   "bop": 1
+  },
+  "blob": {
+   "@": "page",
+   "@id": "<id>"
+  }
+ },
+ "image": {
+  "restoredAs": "image",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "closed": true,
+   "uf": true,
+   "tl_uf": true,
+   "tl_ct": "R",
+   "tl_sx": 0,
+   "tl_sy": 0,
+   "tr_uf": true,
+   "tr_ct": "R",
+   "tr_sx": 0,
+   "tr_sy": 0,
+   "br_uf": true,
+   "br_ct": "R",
+   "br_sx": 0,
+   "br_sy": 0,
+   "bl_uf": true,
+   "bl_ct": "R",
+   "bl_sx": 0,
+   "bl_sy": 0,
+   "iw": null,
+   "ih": null,
+   "tmpUrl": null,
+   "storedUrl": null,
+   "url": null,
+   "dblMode": false,
+   "ipfc": false,
+   "px": 0,
+   "py": 0,
+   "pw": null,
+   "ph": null,
+   "itrf": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "image",
+   "@id": "<id>",
+   "ipfc": false,
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "GGLNoiseEffect": {
+  "restoredAs": "GGLNoiseEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLNoiseEffect"
+  }
+ },
+ "swatch": {
+  "restoredAs": "swatch",
+  "props": {
+   "refs": [],
+   "_pt": null,
+   "_op": 1
+  },
+  "blob": {
+   "@": "swatch",
+   "@id": "<id>"
+  }
+ },
+ "group": {
+  "restoredAs": "group",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "frm": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "group",
+   "@id": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "symbol": {
+  "restoredAs": "symbol",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "frame": null,
+   "masterRef": null,
+   "masterMultiRef": null,
+   "blockEv": false,
+   "dsb": null,
+   "sbl": null,
+   "swp": null,
+   "swpori": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "symbol",
+   "@id": "<id>",
+   "dsb": [],
+   "sbl": [],
+   "_effId": "<id>"
+  }
+ },
+ "swatches": {
+  "restoredAs": "swatches",
+  "props": "<throws>",
+  "blob": {
+   "@": "swatches",
+   "@id": "<id>"
+  }
+ },
+ "scene": {
+  "restoredAs": "scene",
+  "props": {
+   "refs": [],
+   "_links": {},
+   "v": 10,
+   "lmd": 0,
+   "cid": null,
+   "cfs": false,
+   "can": false,
+   "asec": null,
+   "ut": "px",
+   "ur": 1,
+   "gx": 10,
+   "gy": 10,
+   "gm": null,
+   "lgm": null,
+   "gaw": 20,
+   "gah": null,
+   "ga1": null,
+   "ga2": null,
+   "hgl": null,
+   "vgl": null,
+   "name": null,
+   "__ids": "<id>",
+   "rb": false,
+   "cst": null,
+   "dpi": 72,
+   "pi": 0,
+   "cm": "RGB",
+   "pgx": 2,
+   "mp": false,
+   "lbs": 10,
+   "lbp": 7,
+   "lbc": null,
+   "mve": null
+  },
+  "blob": {
+   "@": "scene",
+   "@id": "<id>",
+   "lmd": null,
+   "dictionary": {
+    "entries": []
+   },
+   "symbolDictionary": {
+    "entries": []
+   }
+  }
+ },
+ "Ready Shape": {
+  "restoredAs": "Ready Shape",
+  "props": {
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "clk": false,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "sref": "<id>",
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null
+  },
+  "blob": "<throws>"
+ },
+ "collabtext": {
+  "restoredAs": "collabtext",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "closed": true,
+   "uf": true,
+   "tl_uf": true,
+   "tl_ct": "R",
+   "tl_sx": 0,
+   "tl_sy": 0,
+   "tr_uf": true,
+   "tr_ct": "R",
+   "tr_sx": 0,
+   "tr_sy": 0,
+   "br_uf": true,
+   "br_ct": "R",
+   "br_sx": 0,
+   "br_sy": 0,
+   "bl_uf": true,
+   "bl_ct": "R",
+   "bl_sx": 0,
+   "bl_sy": 0,
+   "iw": null,
+   "ih": null,
+   "tmpUrl": null,
+   "storedUrl": null,
+   "url": null,
+   "dblMode": false,
+   "ipfc": false,
+   "px": 0,
+   "py": 0,
+   "pw": null,
+   "ph": null,
+   "itrf": null,
+   "aw": true,
+   "ah": true,
+   "afs": false,
+   "va": "t",
+   "ttrf": null,
+   "head": 0,
+   "content": null,
+   "w": 1,
+   "h": 1,
+   "tpthd": 0,
+   "tptho": 0,
+   "tpths": -1,
+   "tpthl": 0,
+   "atPath": null,
+   "dir": 0,
+   "_we": false,
+   "_bkpPath": null,
+   "sc": false,
+   "_ed": true,
+   "imgTrf": null,
+   "textTrf": null,
+   "collab": true,
+   "Guid": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "collabtext",
+   "@id": "<id>",
+   "ipfc": false,
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "ancotext": {
+  "restoredAs": "ancotext",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 318,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "csc": true,
+   "closed": true,
+   "uf": true,
+   "tl_uf": true,
+   "tl_ct": "R",
+   "tl_sx": 0,
+   "tl_sy": 0,
+   "tr_uf": true,
+   "tr_ct": "R",
+   "tr_sx": 0,
+   "tr_sy": 0,
+   "br_uf": true,
+   "br_ct": "R",
+   "br_sx": 0,
+   "br_sy": 0,
+   "bl_uf": true,
+   "bl_ct": "R",
+   "bl_sx": 0,
+   "bl_sy": 0,
+   "text": null,
+   "img": "assets/img/annotation/collaborative-text-annotation.svg",
+   "uid": null,
+   "email": null,
+   "time": 0,
+   "mtime": 0,
+   "seq": 0,
+   "loc": null,
+   "typ": 0,
+   "rsv": "<undefined>",
+   "rmd": false,
+   "sid": null,
+   "read": null,
+   "asgn": null,
+   "Guid": null,
+   "atp": null,
+   "targetGuid": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "ancotext",
+   "@id": "<id>",
+   "img": "assets/img/annotation/collaborative-text-annotation.svg",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "plkt": 318,
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "imagegrid": {
+  "restoredAs": "imagegrid",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "im": null,
+   "mg": 0.1,
+   "off": null,
+   "grid": null,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "imagegrid",
+   "@id": "<id>",
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "imagegrid.images": {
+  "restoredAs": "imagegrid.images",
+  "props": {},
+  "blob": null
+ },
+ "Compound Shape": {
+  "restoredAs": "Compound Shape",
+  "props": {
+   "refs": [],
+   "_sdf": null,
+   "_sbl": "normal",
+   "_sfop": 1,
+   "_stop": 1,
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "trf": null,
+   "bool": 1,
+   "scc": true,
+   "evenodd": false,
+   "sref": "<id>"
+  },
+  "blob": {
+   "@": "Compound Shape",
+   "@id": "<id>",
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "slice": {
+  "restoredAs": "slice",
+  "props": {
+   "refs": [],
+   "vis": true,
+   "name": null,
+   "lkt": null,
+   "plkt": 0,
+   "clk": false,
+   "hacr": null,
+   "habox": null,
+   "hsbox": null,
+   "hatrf": null,
+   "hstrf": null,
+   "hdl": null,
+   "hdr": null,
+   "hcf": null,
+   "vacr": null,
+   "vabox": null,
+   "vsbox": null,
+   "vatrf": null,
+   "vstrf": null,
+   "vdt": null,
+   "vdb": null,
+   "vcf": null,
+   "x": 0,
+   "y": 0,
+   "w": 100,
+   "h": 100,
+   "trm": true,
+   "cls": null
+  },
+  "blob": {
+   "@": "slice",
+   "@id": "<id>"
+  }
+ },
+ "GGLBulgePinchEffect": {
+  "restoredAs": "GGLBulgePinchEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLBulgePinchEffect"
+  }
+ },
+ "GGLEdgeWorkEffect": {
+  "restoredAs": "GGLEdgeWorkEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLEdgeWorkEffect"
+  }
+ },
+ "innerShadowEffect": {
+  "restoredAs": "innerShadowEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "r": 5,
+   "x": 0,
+   "y": 0,
+   "pat": "pattern:C#[0,0,0]",
+   "opc": 0.5
+  },
+  "blob": {
+   "@": "innerShadowEffect",
+   "pat": "C#[0,0,0]"
+  }
+ },
+ "GGLSepiaEffect": {
+  "restoredAs": "GGLSepiaEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLSepiaEffect"
+  }
+ },
+ "GGLColorHalfToneEffect": {
+  "restoredAs": "GGLColorHalfToneEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLColorHalfToneEffect"
+  }
+ },
+ "GGLHexagonalEffect": {
+  "restoredAs": "GGLHexagonalEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLHexagonalEffect"
+  }
+ },
+ "clGradingEffect": {
+  "restoredAs": "clGradingEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "cp": null
+  },
+  "blob": {
+   "@": "clGradingEffect"
+  }
+ },
+ "GGLInnerGlowEffect": {
+  "restoredAs": "GGLInnerGlowEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLInnerGlowEffect"
+  }
+ },
+ "GGLZoomBlurEffect": {
+  "restoredAs": "GGLZoomBlurEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLZoomBlurEffect"
+  }
+ },
+ "GGLToonEffect": {
+  "restoredAs": "GGLToonEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLToonEffect"
+  }
+ },
+ "GGLBloomEffect": {
+  "restoredAs": "GGLBloomEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLBloomEffect"
+  }
+ },
+ "GGLTrueBlurEffect": {
+  "restoredAs": "GGLTrueBlurEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLTrueBlurEffect"
+  }
+ },
+ "GGLDenoiseEffect": {
+  "restoredAs": "GGLDenoiseEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLDenoiseEffect"
+  }
+ },
+ "GGLOuterGlowEffect": {
+  "restoredAs": "GGLOuterGlowEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLOuterGlowEffect"
+  }
+ },
+ "overlayEffect": {
+  "restoredAs": "overlayEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "pat": "pattern:L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[0,0,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[255,255,255]\",\"o\":0}]}",
+   "opc": 1,
+   "alm": false
+  },
+  "blob": {
+   "@": "overlayEffect",
+   "pat": "L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[0,0,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[255,255,255]\",\"o\":0}]}"
+  }
+ },
+ "GGLBrightnessContrastEffect": {
+  "restoredAs": "GGLBrightnessContrastEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLBrightnessContrastEffect"
+  }
+ },
+ "GGLSwirlEffect": {
+  "restoredAs": "GGLSwirlEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLSwirlEffect"
+  }
+ },
+ "GGLVignetteEffect": {
+  "restoredAs": "GGLVignetteEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLVignetteEffect"
+  }
+ },
+ "GGLStrokeLayerEffect": {
+  "restoredAs": "GGLStrokeLayerEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLStrokeLayerEffect"
+  }
+ },
+ "GGLInkEffect": {
+  "restoredAs": "GGLInkEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLInkEffect"
+  }
+ },
+ "GGLUnsharpMaskEffect": {
+  "restoredAs": "GGLUnsharpMaskEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLUnsharpMaskEffect"
+  }
+ },
+ "GGLVibranceEffect": {
+  "restoredAs": "GGLVibranceEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLVibranceEffect"
+  }
+ },
+ "GGLDotScreenEffect": {
+  "restoredAs": "GGLDotScreenEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLDotScreenEffect"
+  }
+ },
+ "GGLSketchEffect": {
+  "restoredAs": "GGLSketchEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLSketchEffect"
+  }
+ },
+ "GGLLensBlurEffect": {
+  "restoredAs": "GGLLensBlurEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLLensBlurEffect"
+  }
+ },
+ "GGLHueSaturationEffect": {
+  "restoredAs": "GGLHueSaturationEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLHueSaturationEffect"
+  }
+ },
+ "GGLColorAdjustEffect": {
+  "restoredAs": "GGLColorAdjustEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null,
+   "comp": true
+  },
+  "blob": {
+   "@": "GGLColorAdjustEffect"
+  }
+ },
+ "GGLTiltShiftEffect": {
+  "restoredAs": "GGLTiltShiftEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLTiltShiftEffect"
+  }
+ },
+ "GGLRecolourEffect": {
+  "restoredAs": "GGLRecolourEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLRecolourEffect"
+  }
+ },
+ "colorAdjustMultiEffect": {
+  "restoredAs": "colorAdjustMultiEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "fxP": {},
+   "fxN": {},
+   "GGLBrightnessContrastEffect&shp": {
+    "brightness": 0,
+    "contrast": 0
+   },
+   "GGLBrightnessContrastEffect&sh": "GGLBrightnessContrastShader",
+   "GGLHueSaturationEffect&shp": {
+    "hue": 0,
+    "saturation": 0
+   },
+   "GGLHueSaturationEffect&sh": "GGLHueSaturationShader"
+  },
+  "blob": {
+   "@": "colorAdjustMultiEffect"
+  }
+ },
+ "adjustMultiEffect": {
+  "restoredAs": "adjustMultiEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "fxP": null,
+   "fxN": null,
+   "GGLDotScreenEffect&shp": {
+    "centerX": 50,
+    "centerY": 50,
+    "angle": 0,
+    "size": 10
+   },
+   "GGLDotScreenEffect&sh": "GGLDotScreenShader",
+   "GGLSepiaEffect&shp": {
+    "amount": 0.5
+   },
+   "GGLSepiaEffect&sh": "GGLSepiaShader",
+   "GGLBlurEffect&shp": {
+    "radius": 5,
+    "clip": false
+   },
+   "GGLBlurEffect&sh": "GGLBlurShader"
+  },
+  "blob": {
+   "@": "adjustMultiEffect"
+  }
+ },
+ "mirrorEffect": {
+  "restoredAs": "mirrorEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "rfh": 0.3,
+   "pad": 1,
+   "pat": "pattern:L#{\"fy\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[255,255,255]\",\"o\":0}],\"r\":1.5707963267948966}",
+   "opc": 0.6
+  },
+  "blob": {
+   "@": "mirrorEffect",
+   "pat": "L#{\"fy\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[255,255,255]\",\"o\":0}],\"r\":1.5707963267948966}"
+  }
+ },
+ "contactShadowEffect": {
+  "restoredAs": "contactShadowEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "r": 5,
+   "a": 5,
+   "o": 5,
+   "pat": "pattern:C#[0,0,0]",
+   "opc": 0.75
+  },
+  "blob": {
+   "@": "contactShadowEffect",
+   "pat": "C#[0,0,0]"
+  }
+ },
+ "GGLBendBlurEffect": {
+  "restoredAs": "GGLBendBlurEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLBendBlurEffect"
+  }
+ },
+ "curvedShadowEffect": {
+  "restoredAs": "curvedShadowEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "s": 1,
+   "b": 10,
+   "a": 270,
+   "l": 5,
+   "c": 0.8,
+   "pat": "pattern:C#[0,0,0]",
+   "opc": 0.65
+  },
+  "blob": {
+   "@": "curvedShadowEffect",
+   "pat": "C#[0,0,0]"
+  }
+ },
+ "longShadowEffect": {
+  "restoredAs": "longShadowEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "l": 60,
+   "a": -0.7853981633974483,
+   "pat": "pattern:C#[0,0,0]",
+   "opc": 0.2,
+   "den": 1,
+   "fdm": true
+  },
+  "blob": {
+   "@": "longShadowEffect",
+   "pat": "C#[0,0,0]"
+  }
+ },
+ "GGLBendEffect": {
+  "restoredAs": "GGLBendEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLBendEffect"
+  }
+ },
+ "GGLDrunkEffect": {
+  "restoredAs": "GGLDrunkEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLDrunkEffect"
+  }
+ },
+ "GGLFisheyeEffect": {
+  "restoredAs": "GGLFisheyeEffect",
+  "props": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "blob": {
+   "@": "GGLFisheyeEffect"
+  }
+ },
+ "ann": {
+  "restoredAs": "ann",
+  "props": {
+   "refs": [],
+   "vis": true,
+   "name": null,
+   "text": null,
+   "img": null,
+   "uid": null,
+   "email": null,
+   "time": 0,
+   "mtime": 0,
+   "seq": 0,
+   "loc": null,
+   "typ": 0,
+   "rsv": "<undefined>",
+   "rmd": false,
+   "sid": null,
+   "read": null,
+   "asgn": null,
+   "Guid": null,
+   "atp": null
+  },
+  "blob": {
+   "@": "ann",
+   "@id": "<id>"
+  }
+ }
+}

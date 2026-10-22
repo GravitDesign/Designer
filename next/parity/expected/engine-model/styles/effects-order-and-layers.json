@@ -1,0 +1,166 @@
+{
+ "afterFilterPost": [
+  "blurEffect",
+  "innerShadowEffect"
+ ],
+ "afterPre": [
+  "blurEffect",
+  "dropShadowEffect",
+  "innerShadowEffect"
+ ],
+ "afterInsertPreFirst": [
+  "longShadowEffect",
+  "blurEffect",
+  "dropShadowEffect",
+  "innerShadowEffect"
+ ],
+ "mirrorTwice": [
+  "longShadowEffect",
+  "blurEffect",
+  "dropShadowEffect",
+  "innerShadowEffect",
+  "mirrorEffect",
+  "mirrorEffect"
+ ],
+ "final": [
+  "longShadowEffect",
+  "blurEffect",
+  "dropShadowEffect",
+  "dropShadowEffect",
+  "innerShadowEffect",
+  "mirrorEffect",
+  "mirrorEffect",
+  "blurEffect"
+ ],
+ "forLayer": {
+  "element": [
+   "longShadowEffect",
+   "dropShadowEffect",
+   "blurEffect",
+   "innerShadowEffect",
+   "mirrorEffect",
+   "mirrorEffect"
+  ],
+  "fill": [
+   "dropShadowEffect"
+  ],
+  "border": [
+   "blurEffect"
+  ]
+ },
+ "layersEffects": [
+  [
+   {
+    "node": "longShadowEffect"
+   },
+   {
+    "node": "dropShadowEffect"
+   },
+   {
+    "node": "blurEffect"
+   },
+   {
+    "node": "innerShadowEffect"
+   },
+   {
+    "node": "mirrorEffect"
+   },
+   {
+    "node": "mirrorEffect"
+   }
+  ]
+ ],
+ "padding": [
+  12,
+  12,
+  47.42640687119285,
+  47.426406871192846
+ ],
+ "boxes": {
+  "source": [
+   -1,
+   -1,
+   2,
+   2
+  ],
+  "geometry": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "paint": [
+   -19,
+   -19,
+   173.42640687119285,
+   153.62640687119284
+  ]
+ },
+ "blob": {
+  "@": "rectangle",
+  "uf": true,
+  "ct": "R",
+  "sl": 0,
+  "trf": [
+   50,
+   0,
+   0,
+   30,
+   50,
+   30
+  ],
+  "_layers": {
+   "@": "paintLayers",
+   "$": [
+    {
+     "@": "fillPaintLayer",
+     "_pt": "C#[255,0,0]"
+    },
+    {
+     "@": "borderPaintLayer",
+     "_bw": 4,
+     "_pt": "C#[0,0,0]"
+    }
+   ],
+   "&": "<id>"
+  },
+  "_eff": {
+   "@": "effects",
+   "$": [
+    {
+     "@": "longShadowEffect",
+     "pat": "C#[0,0,0]"
+    },
+    {
+     "@": "blurEffect"
+    },
+    {
+     "@": "dropShadowEffect",
+     "pat": "C#[0,0,0]"
+    },
+    {
+     "@": "dropShadowEffect",
+     "pat": "C#[0,0,0]",
+     "ly": "F"
+    },
+    {
+     "@": "innerShadowEffect",
+     "pat": "C#[0,0,0]"
+    },
+    {
+     "@": "mirrorEffect",
+     "pat": "L#{\"fy\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[255,255,255]\",\"o\":0}],\"r\":1.5707963267948966}"
+    },
+    {
+     "@": "mirrorEffect",
+     "pat": "L#{\"fy\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[255,255,255]\",\"o\":0}],\"r\":1.5707963267948966}"
+    },
+    {
+     "@": "blurEffect",
+     "ly": "B"
+    }
+   ],
+   "&": "<id>"
+  }
+ }
+}

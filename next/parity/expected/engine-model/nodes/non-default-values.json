@@ -1,0 +1,546 @@
+{
+ "rectangle": {
+  "blob": {
+   "@": "rectangle",
+   "@id": "id1",
+   "uf": false,
+   "tluf": false,
+   "tlct": "B",
+   "tlsl": [
+    5,
+    7
+   ],
+   "truf": true,
+   "trct": "U",
+   "trsl": [
+    4,
+    4
+   ],
+   "bruf": true,
+   "brct": "I",
+   "brsl": [
+    3,
+    3
+   ],
+   "bluf": true,
+   "blct": "F",
+   "blsl": [
+    6,
+    6
+   ],
+   "csc": false,
+   "trf": [
+    50,
+    0,
+    0,
+    25,
+    100,
+    80
+   ],
+   "bool": 3,
+   "scc": false,
+   "clk": true,
+   "vis": false,
+   "name": "Rect &lt;b&gt;bold&lt;/b&gt;",
+   "lkt": "P",
+   "plkt": 12,
+   "_sbl": "multiply",
+   "_sfop": 0.5,
+   "_stop": 0.25,
+   "_layId": "id2",
+   "_effId": "id3",
+   "hacr": 4,
+   "vacr": 2
+  },
+  "beautified": 52,
+  "reserializedEqual": true,
+  "name": "Rect &lt;b&gt;bold&lt;/b&gt;"
+ },
+ "ellipse": {
+  "blob": {
+   "@": "ellipse",
+   "@id": "id4",
+   "sa": 0.5,
+   "ea": 2,
+   "etp": 1,
+   "evenodd": true,
+   "csc": false,
+   "trf": [
+    40,
+    0,
+    0,
+    20,
+    50,
+    50
+   ],
+   "_layId": "id5",
+   "_effId": "id6"
+  },
+  "beautified": 19,
+  "reserializedEqual": true,
+  "name": null
+ },
+ "polygon": {
+  "blob": {
+   "@": "polygon",
+   "@id": "id7",
+   "pts": 5,
+   "cx": 30,
+   "cy": 40,
+   "or": 50,
+   "ir": 20,
+   "oa": 0.3,
+   "ia": 1.2,
+   "oct": "B",
+   "ict": "I",
+   "ocr": 4,
+   "icr": 2,
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    10,
+    20
+   ],
+   "_layId": "id8",
+   "_effId": "id9"
+  },
+  "beautified": 25,
+  "reserializedEqual": true,
+  "name": null
+ },
+ "path": {
+  "blob": {
+   "@": "path",
+   "@id": "id10",
+   "closed": true,
+   "pts": [],
+   "evenodd": true,
+   "trf": [
+    2,
+    0,
+    0,
+    2,
+    5,
+    5
+   ],
+   "_layId": "id11",
+   "_effId": "id12"
+  },
+  "beautified": 17,
+  "reserializedEqual": true,
+  "name": null
+ },
+ "compoundpath": {
+  "blob": {
+   "@": "compoundpath",
+   "@id": "id13",
+   "evenodd": false,
+   "csc": false,
+   "paths": [],
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    3,
+    4
+   ],
+   "_layId": "id14",
+   "_effId": "id15"
+  },
+  "beautified": 17,
+  "reserializedEqual": true,
+  "name": null
+ },
+ "Compound Shape": {
+  "blob": {
+   "@": "Compound Shape",
+   "@id": "id16",
+   "evenodd": true,
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    7,
+    7
+   ],
+   "scc": false,
+   "_layId": "id17",
+   "_effId": "id18"
+  },
+  "beautified": 16,
+  "reserializedEqual": true,
+  "name": null
+ },
+ "group": {
+  "blob": {
+   "@": "group",
+   "@id": "id19",
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    10,
+    0
+   ],
+   "frm": [
+    0,
+    0,
+    100,
+    50
+   ],
+   "clk": true,
+   "_effId": "id20"
+  },
+  "beautified": 20,
+  "reserializedEqual": true,
+  "name": null
+ },
+ "layer": {
+  "blob": {
+   "@": "layer",
+   "@id": "id21",
+   "otl": true,
+   "prt": false,
+   "cls": "C#[255,0,0]",
+   "frm": [
+    null,
+    null,
+    null,
+    null
+   ],
+   "name": "Layer X",
+   "lkt": "F",
+   "_layId": "id22",
+   "_effId": "id23"
+  },
+  "beautified": 17,
+  "reserializedEqual": false,
+  "name": "Layer X"
+ },
+ "page": {
+  "blob": {
+   "@": "page",
+   "@id": "id24",
+   "w": 1024,
+   "h": 768,
+   "x": 10,
+   "y": 20,
+   "bl": 5,
+   "ml": 1,
+   "mt": 2,
+   "mr": 3,
+   "mb": 4,
+   "gp": 20,
+   "off": [
+    1,
+    0,
+    0,
+    1,
+    100,
+    0
+   ],
+   "bck": "C#[10,20,30]",
+   "bop": 0.5,
+   "name": "Cover"
+  },
+  "beautified": 25,
+  "reserializedEqual": true,
+  "name": "Cover"
+ },
+ "slice": {
+  "blob": {
+   "@": "slice",
+   "@id": "id25",
+   "trm": false,
+   "cls": "C#[0,255,0]",
+   "x": 10,
+   "y": 20,
+   "w": 30,
+   "h": 40,
+   "name": "Icon"
+  },
+  "beautified": 11,
+  "reserializedEqual": true,
+  "name": "Icon"
+ },
+ "image": {
+  "blob": {
+   "@": "image",
+   "@id": "id26",
+   "url": "assets/img/none.png",
+   "ipfc": false,
+   "iw": 10,
+   "ih": 20,
+   "tmpUrl": "tmp",
+   "px": 1,
+   "py": 2,
+   "pw": 3,
+   "ph": 4,
+   "itrf": [
+    2,
+    0,
+    0,
+    2,
+    0,
+    0
+   ],
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "trf": [
+    50,
+    0,
+    0,
+    50,
+    50,
+    50
+   ],
+   "_layId": "id27",
+   "_effId": "id28"
+  },
+  "beautified": 34,
+  "reserializedEqual": true,
+  "name": null
+ },
+ "imagegrid": {
+  "blob": {
+   "@": "imagegrid",
+   "@id": "id29",
+   "grid": [
+    [
+     [
+      0.5,
+      1
+     ],
+     [
+      0.5,
+      1
+     ]
+    ]
+   ],
+   "mg": 0.2,
+   "trf": [
+    50,
+    0,
+    0,
+    50,
+    50,
+    50
+   ],
+   "_layId": "id30",
+   "_effId": "id31"
+  },
+  "beautified": 27,
+  "reserializedEqual": true,
+  "name": null
+ },
+ "symbol": {
+  "blob": {
+   "@": "symbol",
+   "@id": "id32",
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    5,
+    5
+   ],
+   "frame": [
+    0,
+    0,
+    10,
+    10
+   ],
+   "dsb": [],
+   "sbl": [],
+   "_effId": "id33"
+  },
+  "beautified": 21,
+  "reserializedEqual": true,
+  "name": null
+ },
+ "text": {
+  "blob": {
+   "@": "text",
+   "@id": "id34",
+   "#": "id35",
+   "aw": false,
+   "ah": false,
+   "afs": true,
+   "va": "m",
+   "head": 2,
+   "w": 200,
+   "h": 50,
+   "dir": 1,
+   "sc": true,
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    10,
+    10
+   ],
+   "_layId": "id36",
+   "_effId": "id37",
+   "_tfi": 32,
+   "_tfw": 700,
+   "_tfs": "I",
+   "_tcs": 2,
+   "_tws": 3,
+   "_ttrf": "u",
+   "_ttsc": "super",
+   "_tdu": true,
+   "_tds": true,
+   "_tlig": "none",
+   "_tfrac": true,
+   "_pal": "c",
+   "_plh": 1.5,
+   "_pas": "10",
+   "_pai": 4
+  },
+  "beautified": 39,
+  "reserializedEqual": false,
+  "name": null
+ },
+ "connector": {
+  "blob": {
+   "@": "connector",
+   "@id": "id38",
+   "pts": [],
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    1,
+    1
+   ],
+   "_layId": "id39",
+   "_effId": "id40"
+  },
+  "beautified": 15,
+  "reserializedEqual": true,
+  "name": null
+ },
+ "Paths Graph": {
+  "blob": {
+   "@": "Paths Graph",
+   "@id": "id41",
+   "anchors": "{\"@\":\"MapContainer\"}",
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    2,
+    2
+   ],
+   "bool": 2,
+   "_layId": "id42",
+   "_effId": "id43"
+  },
+  "beautified": 16,
+  "reserializedEqual": true,
+  "name": null
+ },
+ "cmt": {
+  "blob": {
+   "@": "cmt",
+   "@id": "id44",
+   "text": "hi",
+   "uid": "u1",
+   "time": 1000,
+   "mtime": 2000,
+   "seq": 3,
+   "name": "Ann",
+   "img": "a.png",
+   "email": "a@example.com",
+   "type": 1,
+   "rmd": true,
+   "sid": "s",
+   "read": [
+    "u0",
+    "u1"
+   ],
+   "asgn": "x",
+   "Guid": "g",
+   "atp": 2
+  },
+  "beautified": 22,
+  "reserializedEqual": true,
+  "name": "Ann"
+ },
+ "anr": {
+  "blob": {
+   "@": "anr",
+   "@id": "id45",
+   "text": "note",
+   "uid": "u2",
+   "time": 5,
+   "mtime": 6,
+   "seq": 1,
+   "loc": "here",
+   "typ": 2,
+   "rsv": true,
+   "read": [
+    "u2"
+   ],
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "_layId": "id46",
+   "_effId": "id47"
+  },
+  "beautified": 20,
+  "reserializedEqual": true,
+  "name": null
+ },
+ "annlst": {
+  "blob": {
+   "@": "annlst",
+   "@id": "id48",
+   "Guid": "gg",
+   "aid": "aa",
+   "rmd": true,
+   "sid": "ss"
+  },
+  "beautified": 8,
+  "reserializedEqual": true,
+  "name": "<undefined>"
+ },
+ "style": {
+  "blob": {
+   "@": "style",
+   "@id": "id49",
+   "name": "Heading",
+   "ps": [
+    "S",
+    "FL"
+   ],
+   "defaultStyle": false,
+   "_sfop": 0.3,
+   "_layId": "id50"
+  },
+  "beautified": 12,
+  "reserializedEqual": true,
+  "name": "Heading"
+ },
+ "swatch": {
+  "blob": {
+   "@": "swatch",
+   "@id": "id51",
+   "_pt": "C#[1,2,3]",
+   "_op": 0.4
+  },
+  "beautified": 6,
+  "reserializedEqual": true,
+  "name": "Mine"
+ }
+}

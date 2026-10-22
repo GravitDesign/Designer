@@ -1,0 +1,981 @@
+{
+ "created": {
+  "master": {
+   "@": "symbol",
+   "@id": "id1",
+   "$": [
+    {
+     "@": "rectangle",
+     "@id": "id2",
+     "&": "id3",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      25,
+      0,
+      0,
+      25,
+      25,
+      25
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id5",
+        "&": "id6",
+        "_pt": "C#[255,0,0]"
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id9",
+     "&": "id10",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      20,
+      0,
+      0,
+      20,
+      80,
+      20
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id11",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id12",
+        "&": "id13",
+        "_pt": "C#[0,0,255]"
+       }
+      ],
+      "&": "id14"
+     },
+     "_effId": "id15"
+    }
+   ],
+   "#": "id16",
+   "&": "id17",
+   "frame": [
+    0,
+    0,
+    100,
+    50
+   ],
+   "masterRef": "id16",
+   "masterMultiRef": "id17",
+   "dsb": [],
+   "sbl": [],
+   "name": "Badge &lt;i&gt;x&lt;/i&gt;",
+   "_effId": "id18"
+  },
+  "instance": {
+   "@": "symbol",
+   "@id": "id1",
+   "$": [
+    {
+     "@": "rectangle",
+     "@id": "id2",
+     "&": "id3",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      25,
+      0,
+      0,
+      25,
+      225,
+      25
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id5",
+        "&": "id6",
+        "_pt": "C#[255,0,0]"
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id9",
+     "&": "id10",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      20,
+      0,
+      0,
+      20,
+      280,
+      20
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id11",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id12",
+        "&": "id13",
+        "_pt": "C#[0,0,255]"
+       }
+      ],
+      "&": "id14"
+     },
+     "_effId": "id15"
+    }
+   ],
+   "#": "id19",
+   "&": "id17",
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    200,
+    0
+   ],
+   "frame": [
+    0,
+    0,
+    100,
+    50
+   ],
+   "masterRef": "id16",
+   "masterMultiRef": "id17",
+   "dsb": [],
+   "sbl": [],
+   "name": "Badge &lt;i&gt;x&lt;/i&gt;",
+   "_effId": "id18"
+  },
+  "isMaster": [
+   true,
+   false
+  ],
+  "masterOf": [
+   true,
+   true
+  ],
+  "inSync": true,
+  "frame": [
+   200,
+   0,
+   100,
+   50
+  ],
+  "name": "Badge &lt;i&gt;x&lt;/i&gt;"
+ },
+ "masterGeometry": {
+  "i1": {
+   "@": "symbol",
+   "@id": "id1",
+   "$": [
+    {
+     "@": "rectangle",
+     "@id": "id2",
+     "&": "id3",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      30,
+      0,
+      0,
+      30,
+      225,
+      25
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id5",
+        "&": "id6",
+        "_pt": "C#[255,0,0]"
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id9",
+     "&": "id10",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      20,
+      0,
+      0,
+      20,
+      280,
+      20
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id11",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id12",
+        "&": "id13",
+        "_pt": "C#[0,0,255]"
+       }
+      ],
+      "&": "id14"
+     },
+     "_effId": "id15"
+    }
+   ],
+   "#": "id19",
+   "&": "id17",
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    200,
+    0
+   ],
+   "frame": [
+    0,
+    0,
+    100,
+    50
+   ],
+   "masterRef": "id16",
+   "masterMultiRef": "id17",
+   "dsb": [],
+   "sbl": [],
+   "name": "Badge &lt;i&gt;x&lt;/i&gt;",
+   "_effId": "id18"
+  },
+  "i2": {
+   "@": "symbol",
+   "@id": "id1",
+   "$": [
+    {
+     "@": "rectangle",
+     "@id": "id2",
+     "&": "id3",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      30,
+      0,
+      0,
+      30,
+      25,
+      225
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id5",
+        "&": "id6",
+        "_pt": "C#[255,0,0]"
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id9",
+     "&": "id10",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      20,
+      0,
+      0,
+      20,
+      80,
+      220
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id11",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id12",
+        "&": "id13",
+        "_pt": "C#[0,0,255]"
+       }
+      ],
+      "&": "id14"
+     },
+     "_effId": "id15"
+    }
+   ],
+   "#": "id20",
+   "&": "id17",
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    0,
+    200
+   ],
+   "frame": [
+    0,
+    0,
+    100,
+    50
+   ],
+   "masterRef": "id16",
+   "masterMultiRef": "id17",
+   "dsb": [],
+   "sbl": [],
+   "name": "Badge &lt;i&gt;x&lt;/i&gt;",
+   "_effId": "id18"
+  }
+ },
+ "override": {
+  "i1": {
+   "@": "symbol",
+   "@id": "id1",
+   "$": [
+    {
+     "@": "rectangle",
+     "@id": "id2",
+     "&": "id3",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      30,
+      0,
+      0,
+      30,
+      225,
+      25
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id5",
+        "&": "id6",
+        "_pt": "C#[0,255,0]"
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id9",
+     "&": "id10",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      20,
+      0,
+      0,
+      20,
+      280,
+      20
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id11",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id12",
+        "&": "id13",
+        "_pt": "C#[0,0,255]"
+       }
+      ],
+      "&": "id14"
+     },
+     "_effId": "id15"
+    }
+   ],
+   "#": "id19",
+   "&": "id17",
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    200,
+    0
+   ],
+   "frame": [
+    0,
+    0,
+    100,
+    50
+   ],
+   "masterRef": "id16",
+   "masterMultiRef": "id17",
+   "dsb": [
+    "id6"
+   ],
+   "sbl": [],
+   "name": "Badge &lt;i&gt;x&lt;/i&gt;",
+   "_effId": "id18"
+  },
+  "disabled": "<undefined>"
+ },
+ "masterFill": {
+  "i1": {
+   "@": "symbol",
+   "@id": "id1",
+   "$": [
+    {
+     "@": "rectangle",
+     "@id": "id2",
+     "&": "id3",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      30,
+      0,
+      0,
+      30,
+      225,
+      25
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id5",
+        "&": "id6",
+        "_pt": "C#[0,255,0]"
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id9",
+     "&": "id10",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      20,
+      0,
+      0,
+      20,
+      280,
+      20
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id11",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id12",
+        "&": "id13",
+        "_pt": "C#[0,0,255]"
+       }
+      ],
+      "&": "id14"
+     },
+     "_effId": "id15"
+    }
+   ],
+   "#": "id19",
+   "&": "id17",
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    200,
+    0
+   ],
+   "frame": [
+    0,
+    0,
+    100,
+    50
+   ],
+   "masterRef": "id16",
+   "masterMultiRef": "id17",
+   "dsb": [
+    "id6"
+   ],
+   "sbl": [],
+   "name": "Badge &lt;i&gt;x&lt;/i&gt;",
+   "_effId": "id18"
+  },
+  "i2": {
+   "@": "symbol",
+   "@id": "id1",
+   "$": [
+    {
+     "@": "rectangle",
+     "@id": "id2",
+     "&": "id3",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      30,
+      0,
+      0,
+      30,
+      25,
+      225
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id5",
+        "&": "id6",
+        "_pt": "C#[9,9,9]"
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id9",
+     "&": "id10",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      20,
+      0,
+      0,
+      20,
+      80,
+      220
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id11",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id12",
+        "&": "id13",
+        "_pt": "C#[0,0,255]"
+       }
+      ],
+      "&": "id14"
+     },
+     "_effId": "id15"
+    }
+   ],
+   "#": "id20",
+   "&": "id17",
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    0,
+    200
+   ],
+   "frame": [
+    0,
+    0,
+    100,
+    50
+   ],
+   "masterRef": "id16",
+   "masterMultiRef": "id17",
+   "dsb": [],
+   "sbl": [],
+   "name": "Badge &lt;i&gt;x&lt;/i&gt;",
+   "_effId": "id18"
+  },
+  "inSync": [
+   false,
+   true
+  ]
+ },
+ "insert": {
+  "i1": [
+   "rectangle",
+   "ellipse",
+   "rectangle"
+  ],
+  "i2": [
+   "rectangle",
+   "ellipse",
+   "rectangle"
+  ]
+ },
+ "remove": {
+  "i1": [
+   "rectangle",
+   "rectangle"
+  ],
+  "i2": [
+   "rectangle",
+   "rectangle"
+  ]
+ },
+ "siblingEvents": [
+  [
+   "instance",
+   "insert",
+   {
+    "node": "symbol"
+   }
+  ],
+  [
+   "instance",
+   "remove",
+   {
+    "node": "symbol"
+   }
+  ]
+ ],
+ "scene": {
+  "@": "scene",
+  "@id": "id21",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id22",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id23",
+      "pgid": "id22",
+      "aid": "id23"
+     },
+     {
+      "@": "symbol",
+      "@id": "id1",
+      "$": [
+       {
+        "@": "rectangle",
+        "@id": "id2",
+        "&": "id3",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         30,
+         0,
+         0,
+         30,
+         25,
+         25
+        ],
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id4",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id5",
+           "&": "id6",
+           "_pt": "C#[9,9,9]"
+          }
+         ],
+         "&": "id7"
+        },
+        "_effId": "id8"
+       },
+       {
+        "@": "rectangle",
+        "@id": "id24",
+        "&": "id25",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         10,
+         0,
+         0,
+         10,
+         10,
+         70
+        ],
+        "_layId": "id26",
+        "_effId": "id27"
+       }
+      ],
+      "#": "id16",
+      "&": "id17",
+      "frame": [
+       0,
+       0,
+       100,
+       50
+      ],
+      "masterRef": "id16",
+      "masterMultiRef": "id17",
+      "dsb": [],
+      "sbl": [],
+      "name": "Badge &lt;i&gt;x&lt;/i&gt;",
+      "_effId": "id18"
+     },
+     {
+      "@": "symbol",
+      "@id": "id1",
+      "$": [
+       {
+        "@": "rectangle",
+        "@id": "id2",
+        "&": "id3",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         30,
+         0,
+         0,
+         30,
+         225,
+         25
+        ],
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id4",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id5",
+           "&": "id6",
+           "_pt": "C#[0,255,0]"
+          }
+         ],
+         "&": "id7"
+        },
+        "_effId": "id8"
+       },
+       {
+        "@": "rectangle",
+        "@id": "id24",
+        "&": "id25",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         10,
+         0,
+         0,
+         10,
+         210,
+         70
+        ],
+        "_layId": "id26",
+        "_effId": "id27"
+       }
+      ],
+      "#": "id19",
+      "&": "id17",
+      "trf": [
+       1,
+       0,
+       0,
+       1,
+       200,
+       0
+      ],
+      "frame": [
+       0,
+       0,
+       100,
+       50
+      ],
+      "masterRef": "id16",
+      "masterMultiRef": "id17",
+      "dsb": [
+       "id6"
+      ],
+      "sbl": [],
+      "name": "Badge &lt;i&gt;x&lt;/i&gt;",
+      "_effId": "id18"
+     },
+     {
+      "@": "symbol",
+      "@id": "id1",
+      "$": [
+       {
+        "@": "rectangle",
+        "@id": "id2",
+        "&": "id3",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         30,
+         0,
+         0,
+         30,
+         25,
+         225
+        ],
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id4",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id5",
+           "&": "id6",
+           "_pt": "C#[9,9,9]"
+          }
+         ],
+         "&": "id7"
+        },
+        "_effId": "id8"
+       },
+       {
+        "@": "rectangle",
+        "@id": "id24",
+        "&": "id25",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         10,
+         0,
+         0,
+         10,
+         10,
+         270
+        ],
+        "_layId": "id26",
+        "_effId": "id27"
+       }
+      ],
+      "#": "id20",
+      "&": "id17",
+      "trf": [
+       1,
+       0,
+       0,
+       1,
+       0,
+       200
+      ],
+      "frame": [
+       0,
+       0,
+       100,
+       50
+      ],
+      "masterRef": "id16",
+      "masterMultiRef": "id17",
+      "dsb": [],
+      "sbl": [],
+      "name": "Badge &lt;i&gt;x&lt;/i&gt;",
+      "_effId": "id18"
+     }
+    ],
+    "#": "id28",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "lmd": "<time>",
+  "_links": [
+   [
+    "id16",
+    [
+     "id34",
+     "id37"
+    ]
+   ]
+  ],
+  "__ids": [
+   "id29",
+   "id30",
+   "id31",
+   "id32",
+   "id33",
+   "id34",
+   "id35",
+   "id36",
+   "id37",
+   "id38",
+   "id39"
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": [
+    {
+     "uuid": "id17",
+     "value": null,
+     "references": 1
+    }
+   ]
+  }
+ }
+}

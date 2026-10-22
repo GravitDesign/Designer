@@ -1,0 +1,315 @@
+{
+ "actionTypes": {
+  "PropertyChange": 0,
+  "FlagSet": 1,
+  "FlagRemove": 2,
+  "Insert": 3,
+  "Remove": 4,
+  "Special": 5,
+  "BeginBlock": 6,
+  "EndBlock": 7,
+  "BeginSelectionUpdate": 8,
+  "FinishSelectionUpdate": 9
+ },
+ "hasRecorder": true,
+ "start": {
+  "undo": [],
+  "redo": [],
+  "undoName": null,
+  "redoName": null,
+  "name": null,
+  "vis": true,
+  "selected": false,
+  "trf": {
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    5,
+    5
+   ]
+  },
+  "fills": 0,
+  "inLayer": true
+ },
+ "afterEdit": {
+  "undo": [
+   "Edit"
+  ],
+  "redo": [],
+  "undoName": "Edit",
+  "redoName": null,
+  "name": "first",
+  "vis": true,
+  "selected": false,
+  "trf": {
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    15,
+    15
+   ]
+  },
+  "fills": 1,
+  "inLayer": true
+ },
+ "undone": {
+  "undo": [],
+  "redo": [
+   "Edit"
+  ],
+  "undoName": null,
+  "redoName": "Edit",
+  "name": null,
+  "vis": true,
+  "selected": false,
+  "trf": {
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    5,
+    5
+   ]
+  },
+  "fills": 0,
+  "inLayer": true
+ },
+ "redone": {
+  "undo": [
+   "Edit"
+  ],
+  "redo": [],
+  "undoName": "Edit",
+  "redoName": null,
+  "name": "first",
+  "vis": true,
+  "selected": false,
+  "trf": {
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    15,
+    15
+   ]
+  },
+  "fills": 1,
+  "inLayer": true
+ },
+ "empty": {
+  "undo": [
+   "Edit"
+  ],
+  "redo": [],
+  "undoName": "Edit",
+  "redoName": null,
+  "name": "first",
+  "vis": true,
+  "selected": false,
+  "trf": {
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    15,
+    15
+   ]
+  },
+  "fills": 1,
+  "inLayer": true
+ },
+ "nested": {
+  "undo": [
+   "Edit",
+   "Inner",
+   "Outer"
+  ],
+  "redo": [],
+  "undoName": "Outer",
+  "redoName": null,
+  "name": "inner",
+  "vis": false,
+  "selected": false,
+  "trf": {
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    15,
+    15
+   ]
+  },
+  "fills": 1,
+  "inLayer": true
+ },
+ "nestedUndo1": {
+  "undo": [
+   "Edit",
+   "Inner"
+  ],
+  "redo": [
+   "Outer"
+  ],
+  "undoName": "Inner",
+  "redoName": "Outer",
+  "name": "first",
+  "vis": false,
+  "selected": false,
+  "trf": {
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    15,
+    15
+   ]
+  },
+  "fills": 1,
+  "inLayer": true
+ },
+ "nestedUndo2": {
+  "undo": [
+   "Edit"
+  ],
+  "redo": [
+   "Outer",
+   "Inner"
+  ],
+  "undoName": "Edit",
+  "redoName": "Inner",
+  "name": "outer-1",
+  "vis": false,
+  "selected": false,
+  "trf": {
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    15,
+    15
+   ]
+  },
+  "fills": 1,
+  "inLayer": true
+ },
+ "nestedRedo1": {
+  "undo": [
+   "Edit",
+   "Inner"
+  ],
+  "redo": [
+   "Outer"
+  ],
+  "undoName": "Inner",
+  "redoName": "Outer",
+  "name": "inner",
+  "vis": false,
+  "selected": false,
+  "trf": {
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    15,
+    15
+   ]
+  },
+  "fills": 1,
+  "inLayer": true
+ },
+ "redoCleared": {
+  "undo": [
+   "Edit",
+   "Inner",
+   "Fresh"
+  ],
+  "redo": [],
+  "undoName": "Fresh",
+  "redoName": null,
+  "name": "fresh",
+  "vis": false,
+  "selected": false,
+  "trf": {
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    15,
+    15
+   ]
+  },
+  "fills": 1,
+  "inLayer": true
+ },
+ "removed": {
+  "undo": [
+   "Edit",
+   "Inner",
+   "Fresh",
+   "Remove"
+  ],
+  "redo": [],
+  "undoName": "Remove",
+  "redoName": null,
+  "name": "fresh",
+  "vis": false,
+  "selected": false,
+  "trf": {
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    15,
+    15
+   ]
+  },
+  "fills": 1,
+  "inLayer": false
+ },
+ "removeUndone": {
+  "undo": [
+   "Edit",
+   "Inner",
+   "Fresh"
+  ],
+  "redo": [
+   "Remove"
+  ],
+  "undoName": "Fresh",
+  "redoName": "Remove",
+  "name": "fresh",
+  "vis": false,
+  "selected": false,
+  "trf": {
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    15,
+    15
+   ]
+  },
+  "fills": 1,
+  "inLayer": true
+ },
+ "commitEmptyStack": "error: Nothing to commit, transaction stack is empty.",
+ "modifiedAtSavePoint": false,
+ "modifiedAfterEdit": true,
+ "elementModified": true,
+ "modifiedAfterUndo": false,
+ "savePointType": "object"
+}

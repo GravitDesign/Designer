@@ -1,0 +1,48 @@
+{
+ "order": [
+  "rectangle",
+  "ellipse",
+  "polygon"
+ ],
+ "index": [
+  0,
+  1,
+  2
+ ],
+ "byIndex": "ellipse",
+ "first": "rectangle",
+ "last": "polygon",
+ "siblings": [
+  "ellipse",
+  true,
+  null
+ ],
+ "parent": true,
+ "afterRemove": [
+  "rectangle",
+  "polygon"
+ ],
+ "removedParent": null,
+ "acceptChildren": [
+  "rectangle",
+  "polygon"
+ ],
+ "accept": [
+  "group",
+  "rectangle",
+  "polygon"
+ ],
+ "subnodeIds": "<throws>",
+ "detachedScene": null,
+ "attached": {
+  "scene": true,
+  "page": true,
+  "findParent": "page"
+ },
+ "cleared": [],
+ "update": [
+  "geometry 0",
+  "before endUpdate",
+  "geometry 1"
+ ]
+}

@@ -1,0 +1,157 @@
+{
+ "name": "Ready Shape",
+ "verts": [
+  [
+   1,
+   25,
+   0
+  ],
+  [
+   2,
+   100,
+   80
+  ],
+  [
+   2,
+   0,
+   80
+  ],
+  [
+   2,
+   25,
+   0
+  ],
+  [
+   5
+  ]
+ ],
+ "boxes": {
+  "source": [
+   -1,
+   -1,
+   2,
+   2
+  ],
+  "geometry": [
+   0,
+   0,
+   100,
+   80
+  ],
+  "paint": [
+   0,
+   0,
+   100,
+   80
+  ]
+ },
+ "trf": {
+  "trf": [
+   50,
+   0,
+   0,
+   40,
+   50,
+   40
+  ]
+ },
+ "serializedProcessor": "[\"annot\",[1,2,\"px\",1,-1,2,1,1,2,\"py\",2,1,-1,1,1,5],[{\"x0\":-0.5,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-0.9,\"maxX\":0.9}],[{\"name\":\"px\",\"expression\":\"annot[0].X\"},{\"name\":\"py\",\"expression\":\"min(1, abs(annot[0].X) + 0.5)\"}]]",
+ "mathFuncs": [
+  "abs|acos|asin|atan|atan2|ceil|cos|exp|floor|log|round|sign|sin|sqrt|tan|trunc",
+  "min|max"
+ ],
+ "coordType": {
+  "Direct": 1,
+  "Expression": 2
+ },
+ "blob": {
+  "@": "Ready Shape",
+  "@id": "<id>",
+  "ssn": "Test Triangle",
+  "pvp": "[\"annot\",[1,2,\"px\",1,-1,2,1,1,2,\"py\",2,1,-1,1,1,5],[{\"x0\":-0.5,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-0.9,\"maxX\":0.9}],[{\"name\":\"px\",\"expression\":\"annot[0].X\"},{\"name\":\"py\",\"expression\":\"min(1, abs(annot[0].X) + 0.5)\"}]]",
+  "apv": "[-0.5,-1]",
+  "trf": [
+   50,
+   0,
+   0,
+   40,
+   50,
+   40
+  ],
+  "_layId": "<id>",
+  "_effId": "<id>"
+ },
+ "dragged": {
+  "verts": [
+   [
+    1,
+    80,
+    0
+   ],
+   [
+    2,
+    100,
+    80
+   ],
+   [
+    2,
+    0,
+    80
+   ],
+   [
+    2,
+    80,
+    0
+   ],
+   [
+    5
+   ]
+  ],
+  "blobApv": "[0.6000000000000001,-1]"
+ },
+ "restored": {
+  "verts": [
+   [
+    1,
+    80,
+    0
+   ],
+   [
+    2,
+    100,
+    80
+   ],
+   [
+    2,
+    0,
+    80
+   ],
+   [
+    2,
+    80,
+    0
+   ],
+   [
+    5
+   ]
+  ],
+  "blob": {
+   "@": "Ready Shape",
+   "@id": "<id>",
+   "ssn": "Test Triangle",
+   "pvp": "[\"annot\",[1,2,\"px\",1,-1,2,1,1,2,\"py\",2,1,-1,1,1,5],[{\"x0\":-0.5,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-0.9,\"maxX\":0.9}],[{\"name\":\"px\",\"expression\":\"annot[0].X\"},{\"name\":\"py\",\"expression\":\"min(1, abs(annot[0].X) + 0.5)\"}]]",
+   "apv": "[0.6000000000000001,-1]",
+   "trf": [
+    50,
+    0,
+    0,
+    40,
+    50,
+    40
+   ],
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "insecure": []
+}

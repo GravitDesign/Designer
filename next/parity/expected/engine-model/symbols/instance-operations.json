@@ -1,0 +1,526 @@
+{
+ "masters": {
+  "m1": {
+   "@": "symbol",
+   "@id": "id1",
+   "$": [
+    {
+     "@": "rectangle",
+     "@id": "id2",
+     "&": "id3",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      20,
+      0,
+      0,
+      20,
+      20,
+      20
+     ],
+     "_layId": "id4",
+     "_effId": "id5"
+    }
+   ],
+   "#": "id6",
+   "&": "id7",
+   "frame": [
+    0,
+    0,
+    40,
+    40
+   ],
+   "masterRef": "id6",
+   "masterMultiRef": "id7",
+   "dsb": [],
+   "sbl": [],
+   "name": "One",
+   "_effId": "id8"
+  },
+  "m2": {
+   "@": "symbol",
+   "@id": "id9",
+   "$": [
+    {
+     "@": "ellipse",
+     "@id": "id10",
+     "&": "id11",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      30,
+      0,
+      0,
+      15,
+      130,
+      15
+     ],
+     "_layId": "id12",
+     "_effId": "id13"
+    }
+   ],
+   "#": "id14",
+   "&": "id15",
+   "frame": [
+    100,
+    0,
+    60,
+    30
+   ],
+   "masterRef": "id14",
+   "masterMultiRef": "id15",
+   "dsb": [],
+   "sbl": [],
+   "name": "Two",
+   "_effId": "id16"
+  }
+ },
+ "symbols": [
+  "One",
+  "Two"
+ ],
+ "linkCounts": [
+  1,
+  0
+ ],
+ "swapped": {
+  "result": {
+   "@": "symbol",
+   "@id": "id9",
+   "$": [
+    {
+     "@": "ellipse",
+     "@id": "id10",
+     "&": "id11",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      30,
+      0,
+      0,
+      15,
+      30,
+      115
+     ],
+     "_layId": "id12",
+     "_effId": "id13"
+    }
+   ],
+   "#": "id17",
+   "&": "id15",
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    -100,
+    100
+   ],
+   "frame": [
+    100,
+    0,
+    60,
+    30
+   ],
+   "masterRef": "id14",
+   "masterMultiRef": "id15",
+   "dsb": [],
+   "sbl": [],
+   "swpori": [
+    "id7",
+    "id7"
+   ],
+   "name": "Two",
+   "_effId": "id16"
+  },
+  "master": true,
+  "parentKids": [
+   "annlst",
+   "symbol",
+   "symbol",
+   "symbol"
+  ]
+ },
+ "detach": {
+  "returned": true,
+  "blob": {
+   "@": "symbol",
+   "@id": "id1",
+   "$": [
+    {
+     "@": "rectangle",
+     "@id": "id2",
+     "&": "id3",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      20,
+      0,
+      0,
+      20,
+      20,
+      20
+     ],
+     "_layId": "id4",
+     "_effId": "id5"
+    }
+   ],
+   "#": "id18",
+   "frame": [
+    0,
+    0,
+    40,
+    40
+   ],
+   "dsb": [],
+   "sbl": [],
+   "name": "One",
+   "_effId": "id8"
+  },
+  "master": null
+ },
+ "detachMaster": false,
+ "convert": {
+  "returned": true,
+  "blob": {
+   "@": "symbol",
+   "@id": "id1",
+   "$": [
+    {
+     "@": "rectangle",
+     "@id": "id2",
+     "&": "id3",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      20,
+      0,
+      0,
+      20,
+      20,
+      20
+     ],
+     "_layId": "id4",
+     "_effId": "id5"
+    }
+   ],
+   "#": "id18",
+   "&": "id19",
+   "frame": [
+    0,
+    0,
+    40,
+    40
+   ],
+   "masterRef": "id18",
+   "masterMultiRef": "id19",
+   "dsb": [],
+   "sbl": [],
+   "name": "Three",
+   "_effId": "id8"
+  },
+  "isMaster": true
+ },
+ "swapWithNew": {
+  "returned": "symbol",
+  "blob": {
+   "@": "symbol",
+   "@id": "id1",
+   "$": [
+    {
+     "@": "symbol",
+     "@id": "id9",
+     "$": [
+      {
+       "@": "ellipse",
+       "@id": "id10",
+       "&": "id11",
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        30,
+        0,
+        0,
+        15,
+        130,
+        15
+       ],
+       "_layId": "id12",
+       "_effId": "id13"
+      }
+     ],
+     "#": "id20",
+     "&": "id15",
+     "frame": [
+      100,
+      0,
+      60,
+      30
+     ],
+     "masterRef": "id14",
+     "masterMultiRef": "id15",
+     "dsb": [],
+     "sbl": [],
+     "name": "Two",
+     "_effId": "id16"
+    }
+   ],
+   "#": "id21",
+   "&": "id7",
+   "frame": [
+    0,
+    0,
+    40,
+    40
+   ],
+   "masterRef": "id6",
+   "masterMultiRef": "id7",
+   "dsb": [],
+   "sbl": [],
+   "name": "One",
+   "_effId": "id8"
+  }
+ },
+ "unsupported": {
+  "kids": [
+   "rectangle"
+  ],
+  "unsupported": true
+ },
+ "removeSymbol": {
+  "before": 8,
+  "after": 4,
+  "names": [
+   "One",
+   "Three",
+   "One",
+   "Four"
+  ],
+  "symbols": [
+   "One",
+   "Three",
+   "Four"
+  ]
+ },
+ "scene": {
+  "@": "scene",
+  "@id": "id22",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id23",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id24",
+      "pgid": "id23",
+      "aid": "id24"
+     },
+     {
+      "@": "symbol",
+      "@id": "id1",
+      "$": [
+       {
+        "@": "rectangle",
+        "@id": "id2",
+        "&": "id3",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         20,
+         0,
+         0,
+         20,
+         20,
+         20
+        ],
+        "_layId": "id4",
+        "_effId": "id5"
+       }
+      ],
+      "#": "id6",
+      "&": "id7",
+      "frame": [
+       0,
+       0,
+       40,
+       40
+      ],
+      "masterRef": "id6",
+      "masterMultiRef": "id7",
+      "dsb": [],
+      "sbl": [],
+      "name": "One",
+      "_effId": "id8"
+     },
+     {
+      "@": "symbol",
+      "@id": "id1",
+      "$": [
+       {
+        "@": "rectangle",
+        "@id": "id2",
+        "&": "id3",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         20,
+         0,
+         0,
+         20,
+         20,
+         20
+        ],
+        "_layId": "id4",
+        "_effId": "id5"
+       }
+      ],
+      "#": "id18",
+      "&": "id19",
+      "frame": [
+       0,
+       0,
+       40,
+       40
+      ],
+      "masterRef": "id18",
+      "masterMultiRef": "id19",
+      "dsb": [],
+      "sbl": [],
+      "name": "Three",
+      "_effId": "id8"
+     },
+     {
+      "@": "symbol",
+      "@id": "id1",
+      "#": "id21",
+      "&": "id7",
+      "frame": [
+       0,
+       0,
+       40,
+       40
+      ],
+      "masterRef": "id6",
+      "masterMultiRef": "id7",
+      "dsb": [],
+      "sbl": [],
+      "name": "One",
+      "_effId": "id8"
+     },
+     {
+      "@": "Paths Graph",
+      "@id": "id25",
+      "anchors": "{\"@\":\"MapContainer\"}",
+      "_layId": "id26",
+      "_effId": "id27"
+     },
+     {
+      "@": "symbol",
+      "@id": "id28",
+      "$": [
+       {
+        "@": "rectangle",
+        "@id": "id29",
+        "&": "id30",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         2.5,
+         0,
+         0,
+         2.5,
+         2.5,
+         2.5
+        ],
+        "_layId": "id31",
+        "_effId": "id32"
+       }
+      ],
+      "#": "id33",
+      "&": "id34",
+      "frame": [
+       0,
+       0,
+       5,
+       5
+      ],
+      "masterRef": "id33",
+      "masterMultiRef": "id34",
+      "dsb": [],
+      "sbl": [],
+      "name": "Four",
+      "_effId": "id35"
+     }
+    ],
+    "#": "id36",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "lmd": "<time>",
+  "_links": [
+   [
+    "id6",
+    [
+     "id43"
+    ]
+   ]
+  ],
+  "__ids": [
+   "id37",
+   "id38",
+   "id39",
+   "id40",
+   "id41",
+   "id42",
+   "id43",
+   "id44",
+   "id45",
+   "id46"
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": [
+    {
+     "uuid": "id7",
+     "value": null,
+     "references": 1
+    },
+    {
+     "uuid": "id19",
+     "value": null,
+     "references": 1
+    },
+    {
+     "uuid": "id34",
+     "value": null,
+     "references": 1
+    }
+   ]
+  }
+ }
+}

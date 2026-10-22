@@ -1,0 +1,2719 @@
+{
+ "GBlurEffect": {
+  "name": "blurEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": 5,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "r": 5,
+   "b": false
+  },
+  "defaultPadding": 5,
+  "defaultBlob": {
+   "@": "blurEffect"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "r": 20,
+   "b": true
+  },
+  "padding": 0,
+  "blob": {
+   "@": "blurEffect",
+   "r": 20,
+   "b": true
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GDropShadowEffect": {
+  "name": "dropShadowEffect",
+  "type": 0,
+  "singleton": false,
+  "overlay": true,
+  "affectedByChildren": true,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "r": 5,
+   "x": 0,
+   "y": 0,
+   "pat": "pattern:C#[0,0,0]",
+   "opc": 0.65
+  },
+  "defaultPadding": [
+   7,
+   7,
+   7,
+   7
+  ],
+  "defaultBlob": {
+   "@": "dropShadowEffect",
+   "pat": "C#[0,0,0]"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "r": 12,
+   "x": 6,
+   "y": -8,
+   "pat": "pattern:C#[255,0,0]",
+   "opc": 0.3
+  },
+  "padding": [
+   10,
+   24,
+   22,
+   8
+  ],
+  "blob": {
+   "@": "dropShadowEffect",
+   "r": 12,
+   "x": 6,
+   "y": -8,
+   "pat": "C#[255,0,0]",
+   "opc": 0.3
+  },
+  "reserialized": true,
+  "paintBBox": [
+   -10,
+   -24,
+   132,
+   92
+  ],
+  "effectsBBox": [
+   -10,
+   -24,
+   132,
+   92
+  ]
+ },
+ "GInnerShadowEffect": {
+  "name": "innerShadowEffect",
+  "type": 1,
+  "singleton": false,
+  "overlay": true,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "r": 5,
+   "x": 0,
+   "y": 0,
+   "pat": "pattern:C#[0,0,0]",
+   "opc": 0.5
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "innerShadowEffect",
+   "pat": "C#[0,0,0]"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "r": 9,
+   "x": -3,
+   "y": 4,
+   "pat": "pattern:C#[0,0,255]",
+   "opc": 0.8
+  },
+  "padding": 0,
+  "blob": {
+   "@": "innerShadowEffect",
+   "r": 9,
+   "x": -3,
+   "y": 4,
+   "pat": "C#[0,0,255]",
+   "opc": 0.8
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GOverlayEffect": {
+  "name": "overlayEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "pat": "pattern:L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[0,0,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[255,255,255]\",\"o\":0}]}",
+   "opc": 1,
+   "alm": false
+  },
+  "defaultPadding": null,
+  "defaultBlob": {
+   "@": "overlayEffect",
+   "pat": "L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[0,0,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[255,255,255]\",\"o\":0}]}"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "pat": "pattern:C#[0,255,0]",
+   "opc": 0.5,
+   "alm": true
+  },
+  "padding": null,
+  "blob": {
+   "@": "overlayEffect",
+   "pat": "C#[0,255,0]",
+   "opc": 0.5,
+   "alm": true
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GMirrorEffect": {
+  "name": "mirrorEffect",
+  "type": 1,
+  "singleton": true,
+  "overlay": true,
+  "affectedByChildren": true,
+  "affectedByContents": true,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "rfh": 0.3,
+   "pad": 1,
+   "opc": 0.6
+  },
+  "defaultPadding": null,
+  "defaultBlob": {
+   "@": "mirrorEffect",
+   "pat": "L#{\"fy\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[255,255,255]\",\"o\":0}],\"r\":1.5707963267948966}"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "rfh": 0.6,
+   "pad": 10,
+   "opc": 0.2
+  },
+  "padding": null,
+  "blob": {
+   "@": "mirrorEffect",
+   "rfh": 0.6,
+   "pad": 10,
+   "pat": "L#{\"fy\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[255,255,255]\",\"o\":0}],\"r\":1.5707963267948966}",
+   "opc": 0.2
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   106
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   106
+  ]
+ },
+ "GColorGradingEffect": {
+  "name": "clGradingEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "cp": null
+  },
+  "defaultPadding": null,
+  "defaultBlob": {
+   "@": "clGradingEffect"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "cp": {
+    "a": [
+     [
+      0,
+      0
+     ],
+     [
+      128,
+      200
+     ],
+     [
+      255,
+      255
+     ]
+    ],
+    "r": null
+   }
+  },
+  "padding": null,
+  "blob": {
+   "@": "clGradingEffect",
+   "cp": {
+    "a": [
+     [
+      0,
+      0
+     ],
+     [
+      128,
+      200
+     ],
+     [
+      255,
+      255
+     ]
+    ],
+    "r": null
+   }
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GContactShadowEffect": {
+  "name": "contactShadowEffect",
+  "type": 1,
+  "singleton": false,
+  "overlay": true,
+  "affectedByChildren": "<throws>",
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "r": 5,
+   "a": 5,
+   "o": 5,
+   "opc": 0.75
+  },
+  "defaultPadding": "<throws>",
+  "defaultBlob": {
+   "@": "contactShadowEffect",
+   "pat": "C#[0,0,0]"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "r": 30,
+   "a": 20,
+   "o": 10,
+   "opc": 0.4
+  },
+  "padding": "<throws>",
+  "blob": {
+   "@": "contactShadowEffect",
+   "r": 30,
+   "a": 20,
+   "o": 10,
+   "pat": "C#[0,0,0]",
+   "opc": 0.4
+  },
+  "reserialized": true,
+  "paintBBox": [
+   -30,
+   0,
+   160,
+   120.52120859954013
+  ],
+  "effectsBBox": [
+   -30,
+   0,
+   160,
+   120.52120859954013
+  ]
+ },
+ "GCurvedShadowEffect": {
+  "name": "curvedShadowEffect",
+  "type": 0,
+  "singleton": false,
+  "overlay": true,
+  "affectedByChildren": true,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "s": 1,
+   "b": 10,
+   "a": 270,
+   "l": 5,
+   "c": 0.8,
+   "opc": 0.65
+  },
+  "defaultPadding": [
+   55,
+   60,
+   55,
+   70
+  ],
+  "defaultBlob": {
+   "@": "curvedShadowEffect",
+   "pat": "C#[0,0,0]"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "s": 2,
+   "b": 20,
+   "a": 90,
+   "l": 15,
+   "c": 0.4,
+   "opc": 0.5
+  },
+  "padding": [
+   140,
+   155,
+   140,
+   175
+  ],
+  "blob": {
+   "@": "curvedShadowEffect",
+   "s": 2,
+   "b": 20,
+   "a": 90,
+   "l": 15,
+   "c": 0.4,
+   "pat": "C#[0,0,0]",
+   "opc": 0.5
+  },
+  "reserialized": true,
+  "paintBBox": [
+   -140,
+   -155,
+   380,
+   390
+  ],
+  "effectsBBox": [
+   -140,
+   -155,
+   380,
+   390
+  ]
+ },
+ "GLongShadowEffect": {
+  "name": "longShadowEffect",
+  "type": 0,
+  "singleton": false,
+  "overlay": true,
+  "affectedByChildren": true,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "l": 60,
+   "a": -0.7853981633974483,
+   "opc": 0.2,
+   "den": 1,
+   "fdm": true
+  },
+  "defaultPadding": [
+   -42.42640687119285,
+   -42.426406871192846,
+   42.42640687119285,
+   42.426406871192846
+  ],
+  "defaultBlob": {
+   "@": "longShadowEffect",
+   "pat": "C#[0,0,0]"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "l": 120,
+   "a": 0.5,
+   "opc": 0.6,
+   "den": 2,
+   "fdm": false
+  },
+  "padding": [
+   -105.30990742684473,
+   57.53106463250436,
+   105.30990742684473,
+   -57.53106463250436
+  ],
+  "blob": {
+   "@": "longShadowEffect",
+   "l": 120,
+   "a": 0.5,
+   "pat": "C#[0,0,0]",
+   "opc": 0.6,
+   "den": 2,
+   "fdm": false
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   -57.53106463250436,
+   205.30990742684475,
+   117.53106463250435
+  ],
+  "effectsBBox": [
+   0,
+   -57.53106463250436,
+   205.30990742684475,
+   117.53106463250435
+  ]
+ },
+ "GColorAdjustMultiEffect": {
+  "name": "colorAdjustMultiEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "GGLBrightnessContrastEffect&shp": {
+    "brightness": 0,
+    "contrast": 0
+   },
+   "GGLHueSaturationEffect&shp": {
+    "hue": 0,
+    "saturation": 0
+   }
+  },
+  "defaultPadding": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "defaultBlob": {
+   "@": "colorAdjustMultiEffect"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "GGLBrightnessContrastEffect&shp": {
+    "brightness": 0.2,
+    "contrast": -0.3
+   },
+   "GGLHueSaturationEffect&shp": {
+    "hue": 0.5,
+    "saturation": 0.1
+   }
+  },
+  "padding": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "blob": {
+   "@": "colorAdjustMultiEffect",
+   "GGLBrightnessContrastEffect&shp": {
+    "brightness": 0.2,
+    "contrast": -0.3
+   },
+   "GGLHueSaturationEffect&shp": {
+    "hue": 0.5,
+    "saturation": 0.1
+   }
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GAdjustMultiEffect": {
+  "name": "adjustMultiEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "GGLSepiaEffect&shp": {
+    "amount": 0.5
+   },
+   "GGLBlurEffect&shp": {
+    "radius": 5,
+    "clip": false
+   }
+  },
+  "defaultPadding": [
+   5,
+   5,
+   5,
+   5
+  ],
+  "defaultBlob": {
+   "@": "adjustMultiEffect",
+   "fxP": {},
+   "fxN": {}
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": "<undefined>",
+   "sh": "<undefined>",
+   "GGLSepiaEffect&shp": {
+    "amount": 0.9
+   },
+   "GGLBlurEffect&shp": {
+    "radius": 12,
+    "clip": true
+   }
+  },
+  "padding": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "blob": {
+   "@": "adjustMultiEffect",
+   "fxP": {},
+   "fxN": {}
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GWebGLEffect": {
+  "name": "GWebGLEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": "<throws>",
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "defaultPadding": "<throws>",
+  "defaultBlob": {
+   "@": "GWebGLEffect"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": null,
+   "sh": null
+  },
+  "padding": "<throws>",
+  "blob": {
+   "@": "GWebGLEffect"
+  },
+  "reserialized": true,
+  "paintBBox": "<throws>",
+  "effectsBBox": "<throws>"
+ },
+ "GGLBlurEffect": {
+  "name": "GGLBlurEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": 5,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 5,
+    "clip": false
+   },
+   "sh": "GGLBlurShader"
+  },
+  "defaultPadding": 5,
+  "defaultBlob": {
+   "@": "GGLBlurEffect",
+   "shp": {
+    "radius": 5,
+    "clip": false
+   },
+   "sh": "GGLBlurShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 20,
+    "clip": true
+   },
+   "sh": "GGLBlurShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLBlurEffect",
+   "shp": {
+    "radius": 20,
+    "clip": true
+   },
+   "sh": "GGLBlurShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLColorAdjustEffect": {
+  "name": "GGLColorAdjustEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "brightness": 0,
+    "contrast": 0,
+    "hue": 0,
+    "saturation": 0
+   },
+   "sh": "GGLColorAdjustShader",
+   "comp": true
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLColorAdjustEffect",
+   "shp": {
+    "brightness": 0,
+    "contrast": 0,
+    "hue": 0,
+    "saturation": 0
+   },
+   "sh": "GGLColorAdjustShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "brightness": 0.1,
+    "contrast": 0.2,
+    "hue": 0.3,
+    "saturation": 0.4
+   },
+   "sh": "GGLColorAdjustShader",
+   "comp": false
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLColorAdjustEffect",
+   "comp": false,
+   "shp": {
+    "brightness": 0.1,
+    "contrast": 0.2,
+    "hue": 0.3,
+    "saturation": 0.4
+   },
+   "sh": "GGLColorAdjustShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLNoiseEffect": {
+  "name": "GGLNoiseEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "amount": 0.5
+   },
+   "sh": "GGLNoiseShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLNoiseEffect",
+   "shp": {
+    "amount": 0.5
+   },
+   "sh": "GGLNoiseShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "amount": 0.9
+   },
+   "sh": "GGLNoiseShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLNoiseEffect",
+   "shp": {
+    "amount": 0.9
+   },
+   "sh": "GGLNoiseShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLSepiaEffect": {
+  "name": "GGLSepiaEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "amount": 0.5
+   },
+   "sh": "GGLSepiaShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLSepiaEffect",
+   "shp": {
+    "amount": 0.5
+   },
+   "sh": "GGLSepiaShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "amount": 1
+   },
+   "sh": "GGLSepiaShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLSepiaEffect",
+   "shp": {
+    "amount": 1
+   },
+   "sh": "GGLSepiaShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLBrightnessContrastEffect": {
+  "name": "GGLBrightnessContrastEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "brightness": 0,
+    "contrast": 0
+   },
+   "sh": "GGLBrightnessContrastShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLBrightnessContrastEffect",
+   "shp": {
+    "brightness": 0,
+    "contrast": 0
+   },
+   "sh": "GGLBrightnessContrastShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "brightness": -0.5,
+    "contrast": 0.5
+   },
+   "sh": "GGLBrightnessContrastShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLBrightnessContrastEffect",
+   "shp": {
+    "brightness": -0.5,
+    "contrast": 0.5
+   },
+   "sh": "GGLBrightnessContrastShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLDotScreenEffect": {
+  "name": "GGLDotScreenEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": true,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "centerX": 50,
+    "centerY": 50,
+    "angle": 0,
+    "size": 10
+   },
+   "sh": "GGLDotScreenShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLDotScreenEffect",
+   "shp": {
+    "centerX": 50,
+    "centerY": 50,
+    "angle": 0,
+    "size": 10
+   },
+   "sh": "GGLDotScreenShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "centerX": 10,
+    "centerY": 90,
+    "angle": 1,
+    "size": 5
+   },
+   "sh": "GGLDotScreenShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLDotScreenEffect",
+   "shp": {
+    "centerX": 10,
+    "centerY": 90,
+    "angle": 1,
+    "size": 5
+   },
+   "sh": "GGLDotScreenShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLHueSaturationEffect": {
+  "name": "GGLHueSaturationEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "hue": 0,
+    "saturation": 0
+   },
+   "sh": "GGLHueSaturationShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLHueSaturationEffect",
+   "shp": {
+    "hue": 0,
+    "saturation": 0
+   },
+   "sh": "GGLHueSaturationShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "hue": -1,
+    "saturation": 1
+   },
+   "sh": "GGLHueSaturationShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLHueSaturationEffect",
+   "shp": {
+    "hue": -1,
+    "saturation": 1
+   },
+   "sh": "GGLHueSaturationShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLZoomBlurEffect": {
+  "name": "GGLZoomBlurEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": true,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "centerX": 50,
+    "centerY": 50,
+    "strength": 0.3
+   },
+   "sh": "GGLZoomBlurShader"
+  },
+  "defaultPadding": [
+   0.6,
+   0.6,
+   0.6,
+   0.6
+  ],
+  "defaultBlob": {
+   "@": "GGLZoomBlurEffect",
+   "shp": {
+    "centerX": 50,
+    "centerY": 50,
+    "strength": 0.3
+   },
+   "sh": "GGLZoomBlurShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "centerX": 0,
+    "centerY": 100,
+    "strength": 0.5
+   },
+   "sh": "GGLZoomBlurShader"
+  },
+  "padding": [
+   1,
+   1,
+   1,
+   1
+  ],
+  "blob": {
+   "@": "GGLZoomBlurEffect",
+   "shp": {
+    "centerX": 0,
+    "centerY": 100,
+    "strength": 0.5
+   },
+   "sh": "GGLZoomBlurShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   -1,
+   -61,
+   202,
+   122
+  ],
+  "effectsBBox": [
+   -1,
+   -61,
+   202,
+   122
+  ]
+ },
+ "GGLBulgePinchEffect": {
+  "name": "GGLBulgePinchEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": true,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "centerX": 50,
+    "centerY": 50,
+    "radius": 50,
+    "strength": 0.5
+   },
+   "sh": "GGLBulgePinchShader"
+  },
+  "defaultPadding": [
+   56.25,
+   56.25,
+   56.25,
+   56.25
+  ],
+  "defaultBlob": {
+   "@": "GGLBulgePinchEffect",
+   "shp": {
+    "centerX": 50,
+    "centerY": 50,
+    "radius": 50,
+    "strength": 0.5
+   },
+   "sh": "GGLBulgePinchShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "centerX": 20,
+    "centerY": 30,
+    "radius": 80,
+    "strength": -1
+   },
+   "sh": "GGLBulgePinchShader"
+  },
+  "padding": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "blob": {
+   "@": "GGLBulgePinchEffect",
+   "shp": {
+    "centerX": 20,
+    "centerY": 30,
+    "radius": 80,
+    "strength": -1
+   },
+   "sh": "GGLBulgePinchShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLEdgeWorkEffect": {
+  "name": "GGLEdgeWorkEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": true,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 10
+   },
+   "sh": "GGLEdgeWorkShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLEdgeWorkEffect",
+   "shp": {
+    "radius": 10
+   },
+   "sh": "GGLEdgeWorkShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 150
+   },
+   "sh": "GGLEdgeWorkShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLEdgeWorkEffect",
+   "shp": {
+    "radius": 150
+   },
+   "sh": "GGLEdgeWorkShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLColorHalfToneEffect": {
+  "name": "GGLColorHalfToneEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "centerX": 50,
+    "centerY": 50,
+    "angle": 0,
+    "size": 50
+   },
+   "sh": "GGLColorHalfToneShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLColorHalfToneEffect",
+   "shp": {
+    "centerX": 50,
+    "centerY": 50,
+    "angle": 0,
+    "size": 50
+   },
+   "sh": "GGLColorHalfToneShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "centerX": 1,
+    "centerY": 2,
+    "angle": 0.5,
+    "size": 10
+   },
+   "sh": "GGLColorHalfToneShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLColorHalfToneEffect",
+   "shp": {
+    "centerX": 1,
+    "centerY": 2,
+    "angle": 0.5,
+    "size": 10
+   },
+   "sh": "GGLColorHalfToneShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLHexagonalEffect": {
+  "name": "GGLHexagonalEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": true,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "centerX": 50,
+    "centerY": 50,
+    "scale": 1
+   },
+   "sh": "GGLHexagonalShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLHexagonalEffect",
+   "shp": {
+    "centerX": 50,
+    "centerY": 50,
+    "scale": 1
+   },
+   "sh": "GGLHexagonalShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "centerX": 5,
+    "centerY": 6,
+    "scale": 40
+   },
+   "sh": "GGLHexagonalShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLHexagonalEffect",
+   "shp": {
+    "centerX": 5,
+    "centerY": 6,
+    "scale": 40
+   },
+   "sh": "GGLHexagonalShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLInnerGlowEffect": {
+  "name": "GGLInnerGlowEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": 1,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 5,
+    "intensity": 1,
+    "color": [
+     255,
+     255,
+     224
+    ],
+    "opacity": {
+     "type": "opacity",
+     "value": 1
+    }
+   },
+   "sh": "GGLInnerGlowShader"
+  },
+  "defaultPadding": 1,
+  "defaultBlob": {
+   "@": "GGLInnerGlowEffect",
+   "shp": {
+    "radius": 5,
+    "intensity": 1,
+    "color": [
+     255,
+     255,
+     224
+    ],
+    "opacity": {
+     "type": "opacity",
+     "value": 1
+    }
+   },
+   "sh": "GGLInnerGlowShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 25,
+    "intensity": 2,
+    "color": [
+     1,
+     2,
+     3
+    ],
+    "opacity": {
+     "type": "opacity",
+     "value": 0.5
+    }
+   },
+   "sh": "GGLInnerGlowShader"
+  },
+  "padding": 1,
+  "blob": {
+   "@": "GGLInnerGlowEffect",
+   "shp": {
+    "radius": 25,
+    "intensity": 2,
+    "color": [
+     1,
+     2,
+     3
+    ],
+    "opacity": {
+     "type": "opacity",
+     "value": 0.5
+    }
+   },
+   "sh": "GGLInnerGlowShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   -1,
+   -1,
+   102,
+   62
+  ],
+  "effectsBBox": [
+   -1,
+   -1,
+   102,
+   62
+  ]
+ },
+ "GGLToonEffect": {
+  "name": "GGLToonEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "threshold": 0.2,
+    "quantization": 10
+   },
+   "sh": "GGLToonShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLToonEffect",
+   "shp": {
+    "threshold": 0.2,
+    "quantization": 10
+   },
+   "sh": "GGLToonShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "threshold": 1.5,
+    "quantization": 3
+   },
+   "sh": "GGLToonShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLToonEffect",
+   "shp": {
+    "threshold": 1.5,
+    "quantization": 3
+   },
+   "sh": "GGLToonShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLBloomEffect": {
+  "name": "GGLBloomEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": 4,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "bloomIntensity": 1.25,
+    "baseIntensity": 1,
+    "bloomSaturation": 1,
+    "baseSaturation": 1,
+    "blurRadius": 4,
+    "bloomThreshold": 0.25
+   },
+   "sh": "GGLBloomShader"
+  },
+  "defaultPadding": 4,
+  "defaultBlob": {
+   "@": "GGLBloomEffect",
+   "shp": {
+    "bloomIntensity": 1.25,
+    "baseIntensity": 1,
+    "bloomSaturation": 1,
+    "baseSaturation": 1,
+    "blurRadius": 4,
+    "bloomThreshold": 0.25
+   },
+   "sh": "GGLBloomShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "bloomIntensity": 2,
+    "baseIntensity": 0.5,
+    "bloomSaturation": 0,
+    "baseSaturation": 2,
+    "blurRadius": 30,
+    "bloomThreshold": 0.9
+   },
+   "sh": "GGLBloomShader"
+  },
+  "padding": 30,
+  "blob": {
+   "@": "GGLBloomEffect",
+   "shp": {
+    "bloomIntensity": 2,
+    "baseIntensity": 0.5,
+    "bloomSaturation": 0,
+    "baseSaturation": 2,
+    "blurRadius": 30,
+    "bloomThreshold": 0.9
+   },
+   "sh": "GGLBloomShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   -30,
+   -30,
+   160,
+   120
+  ],
+  "effectsBBox": [
+   -30,
+   -30,
+   160,
+   120
+  ]
+ },
+ "GGLTrueBlurEffect": {
+  "name": "GGLTrueBlurEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": 5,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 5
+   },
+   "sh": "GGLTrueBlurShader"
+  },
+  "defaultPadding": 5,
+  "defaultBlob": {
+   "@": "GGLTrueBlurEffect",
+   "shp": {
+    "radius": 5
+   },
+   "sh": "GGLTrueBlurShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 40
+   },
+   "sh": "GGLTrueBlurShader"
+  },
+  "padding": 40,
+  "blob": {
+   "@": "GGLTrueBlurEffect",
+   "shp": {
+    "radius": 40
+   },
+   "sh": "GGLTrueBlurShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   -40,
+   -40,
+   180,
+   140
+  ],
+  "effectsBBox": [
+   -40,
+   -40,
+   180,
+   140
+  ]
+ },
+ "GGLDenoiseEffect": {
+  "name": "GGLDenoiseEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": true,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "exponent": 10
+   },
+   "sh": "GGLDenoiseShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLDenoiseEffect",
+   "shp": {
+    "exponent": 10
+   },
+   "sh": "GGLDenoiseShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "exponent": 45
+   },
+   "sh": "GGLDenoiseShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLDenoiseEffect",
+   "shp": {
+    "exponent": 45
+   },
+   "sh": "GGLDenoiseShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLOuterGlowEffect": {
+  "name": "GGLOuterGlowEffect",
+  "type": 1,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": 5,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 5,
+    "intensity": 1,
+    "color": [
+     255,
+     255,
+     224
+    ],
+    "opacity": {
+     "type": "opacity",
+     "value": 1
+    }
+   },
+   "sh": "GGLOuterGlowShader"
+  },
+  "defaultPadding": 5,
+  "defaultBlob": {
+   "@": "GGLOuterGlowEffect",
+   "shp": {
+    "radius": 5,
+    "intensity": 1,
+    "color": [
+     255,
+     255,
+     224
+    ],
+    "opacity": {
+     "type": "opacity",
+     "value": 1
+    }
+   },
+   "sh": "GGLOuterGlowShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 30,
+    "intensity": 0.5,
+    "color": [
+     9,
+     8,
+     7
+    ],
+    "opacity": {
+     "type": "opacity",
+     "value": 0.3
+    }
+   },
+   "sh": "GGLOuterGlowShader"
+  },
+  "padding": 30,
+  "blob": {
+   "@": "GGLOuterGlowEffect",
+   "shp": {
+    "radius": 30,
+    "intensity": 0.5,
+    "color": [
+     9,
+     8,
+     7
+    ],
+    "opacity": {
+     "type": "opacity",
+     "value": 0.3
+    }
+   },
+   "sh": "GGLOuterGlowShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   -30,
+   -30,
+   160,
+   120
+  ],
+  "effectsBBox": [
+   -30,
+   -30,
+   160,
+   120
+  ]
+ },
+ "GGLSwirlEffect": {
+  "name": "GGLSwirlEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "centerX": 50,
+    "centerY": 50,
+    "radius": 50,
+    "angle": 0.5
+   },
+   "sh": "GGLSwirlShader"
+  },
+  "defaultPadding": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "defaultBlob": {
+   "@": "GGLSwirlEffect",
+   "shp": {
+    "centerX": 50,
+    "centerY": 50,
+    "radius": 50,
+    "angle": 0.5
+   },
+   "sh": "GGLSwirlShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "centerX": 10,
+    "centerY": 10,
+    "radius": 90,
+    "angle": -2
+   },
+   "sh": "GGLSwirlShader"
+  },
+  "padding": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "blob": {
+   "@": "GGLSwirlEffect",
+   "shp": {
+    "centerX": 10,
+    "centerY": 10,
+    "radius": 90,
+    "angle": -2
+   },
+   "sh": "GGLSwirlShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   -35,
+   -39,
+   170,
+   138
+  ],
+  "effectsBBox": [
+   -35,
+   -39,
+   170,
+   138
+  ]
+ },
+ "GGLVignetteEffect": {
+  "name": "GGLVignetteEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "size": 0.2,
+    "amount": 0.5
+   },
+   "sh": "GGLVignetteShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLVignetteEffect",
+   "shp": {
+    "size": 0.2,
+    "amount": 0.5
+   },
+   "sh": "GGLVignetteShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "size": 0.8,
+    "amount": 0.1
+   },
+   "sh": "GGLVignetteShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLVignetteEffect",
+   "shp": {
+    "size": 0.8,
+    "amount": 0.1
+   },
+   "sh": "GGLVignetteShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLStrokeLayerEffect": {
+  "name": "GGLStrokeLayerEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": 6,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "width": 5,
+    "softness": 0.5,
+    "shape": 0.7071,
+    "color": [
+     255,
+     255,
+     255
+    ],
+    "opacity": {
+     "type": "opacity",
+     "value": 1
+    },
+    "ellyptical": false,
+    "placement": {
+     "type": "dropdown",
+     "value": 0
+    }
+   },
+   "sh": "GGLStrokeLayerShader"
+  },
+  "defaultPadding": 6,
+  "defaultBlob": {
+   "@": "GGLStrokeLayerEffect",
+   "shp": {
+    "width": 5,
+    "softness": 0.5,
+    "shape": 0.7071,
+    "color": [
+     255,
+     255,
+     255
+    ],
+    "opacity": {
+     "type": "opacity",
+     "value": 1
+    },
+    "ellyptical": false,
+    "placement": {
+     "type": "dropdown",
+     "value": 0
+    }
+   },
+   "sh": "GGLStrokeLayerShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "width": 40,
+    "softness": 0.1,
+    "shape": 1.5,
+    "color": [
+     0,
+     0,
+     0
+    ],
+    "opacity": {
+     "type": "opacity",
+     "value": 0.7
+    },
+    "ellyptical": true,
+    "placement": {
+     "type": "dropdown",
+     "value": 2
+    }
+   },
+   "sh": "GGLStrokeLayerShader"
+  },
+  "padding": 21,
+  "blob": {
+   "@": "GGLStrokeLayerEffect",
+   "shp": {
+    "width": 40,
+    "softness": 0.1,
+    "shape": 1.5,
+    "color": [
+     0,
+     0,
+     0
+    ],
+    "opacity": {
+     "type": "opacity",
+     "value": 0.7
+    },
+    "ellyptical": true,
+    "placement": {
+     "type": "dropdown",
+     "value": 2
+    }
+   },
+   "sh": "GGLStrokeLayerShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   -21,
+   -21,
+   142,
+   102
+  ],
+  "effectsBBox": [
+   -21,
+   -21,
+   142,
+   102
+  ]
+ },
+ "GGLInkEffect": {
+  "name": "GGLInkEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "strength": 0.5
+   },
+   "sh": "GGLInkShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLInkEffect",
+   "shp": {
+    "strength": 0.5
+   },
+   "sh": "GGLInkShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "strength": 1
+   },
+   "sh": "GGLInkShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLInkEffect",
+   "shp": {
+    "strength": 1
+   },
+   "sh": "GGLInkShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLUnsharpMaskEffect": {
+  "name": "GGLUnsharpMaskEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 0,
+    "strength": 0
+   },
+   "sh": "GGLUnsharpMaskShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLUnsharpMaskEffect",
+   "shp": {
+    "radius": 0,
+    "strength": 0
+   },
+   "sh": "GGLUnsharpMaskShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 100,
+    "strength": 4
+   },
+   "sh": "GGLUnsharpMaskShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLUnsharpMaskEffect",
+   "shp": {
+    "radius": 100,
+    "strength": 4
+   },
+   "sh": "GGLUnsharpMaskShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLVibranceEffect": {
+  "name": "GGLVibranceEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "amount": 0.5
+   },
+   "sh": "GGLVibranceShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLVibranceEffect",
+   "shp": {
+    "amount": 0.5
+   },
+   "sh": "GGLVibranceShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "amount": -0.5
+   },
+   "sh": "GGLVibranceShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLVibranceEffect",
+   "shp": {
+    "amount": -0.5
+   },
+   "sh": "GGLVibranceShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLSketchEffect": {
+  "name": "GGLSketchEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "strength": 0.5
+   },
+   "sh": "GGLSketchShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLSketchEffect",
+   "shp": {
+    "strength": 0.5
+   },
+   "sh": "GGLSketchShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "strength": 1.8
+   },
+   "sh": "GGLSketchShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLSketchEffect",
+   "shp": {
+    "strength": 1.8
+   },
+   "sh": "GGLSketchShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLLensBlurEffect": {
+  "name": "GGLLensBlurEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": 10,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 10,
+    "brightness": 0,
+    "angle": 0
+   },
+   "sh": "GGLLensBlurShader"
+  },
+  "defaultPadding": 10,
+  "defaultBlob": {
+   "@": "GGLLensBlurEffect",
+   "shp": {
+    "radius": 10,
+    "brightness": 0,
+    "angle": 0
+   },
+   "sh": "GGLLensBlurShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "radius": 40,
+    "brightness": 0.5,
+    "angle": 2
+   },
+   "sh": "GGLLensBlurShader"
+  },
+  "padding": 40,
+  "blob": {
+   "@": "GGLLensBlurEffect",
+   "shp": {
+    "radius": 40,
+    "brightness": 0.5,
+    "angle": 2
+   },
+   "sh": "GGLLensBlurShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   -40,
+   -40,
+   180,
+   140
+  ],
+  "effectsBBox": [
+   -40,
+   -40,
+   180,
+   140
+  ]
+ },
+ "GGLTiltShiftEffect": {
+  "name": "GGLTiltShiftEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": 10,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "startX": 25,
+    "startY": 50,
+    "endX": 75,
+    "endY": 50,
+    "blurRadius": 10,
+    "gradientRadius": 30
+   },
+   "sh": "GGLTiltShiftShader"
+  },
+  "defaultPadding": 10,
+  "defaultBlob": {
+   "@": "GGLTiltShiftEffect",
+   "shp": {
+    "startX": 25,
+    "startY": 50,
+    "endX": 75,
+    "endY": 50,
+    "blurRadius": 10,
+    "gradientRadius": 30
+   },
+   "sh": "GGLTiltShiftShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "startX": 0,
+    "startY": 10,
+    "endX": 100,
+    "endY": 90,
+    "blurRadius": 40,
+    "gradientRadius": 80
+   },
+   "sh": "GGLTiltShiftShader"
+  },
+  "padding": 40,
+  "blob": {
+   "@": "GGLTiltShiftEffect",
+   "shp": {
+    "startX": 0,
+    "startY": 10,
+    "endX": 100,
+    "endY": 90,
+    "blurRadius": 40,
+    "gradientRadius": 80
+   },
+   "sh": "GGLTiltShiftShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   -40,
+   -40,
+   180,
+   140
+  ],
+  "effectsBBox": [
+   -40,
+   -40,
+   180,
+   140
+  ]
+ },
+ "GGLRecolourEffect": {
+  "name": "GGLRecolourEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": false,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "hue": 1,
+    "saturation": 1
+   },
+   "sh": "GGLRecolourShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLRecolourEffect",
+   "shp": {
+    "hue": 1,
+    "saturation": 1
+   },
+   "sh": "GGLRecolourShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "hue": 0.2,
+    "saturation": 0.6
+   },
+   "sh": "GGLRecolourShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLRecolourEffect",
+   "shp": {
+    "hue": 0.2,
+    "saturation": 0.6
+   },
+   "sh": "GGLRecolourShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLBendEffect": {
+  "name": "GGLBendEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": true,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "strengthX": 0.5,
+    "strengthY": 0,
+    "radius": 50
+   },
+   "sh": "GGLBendShader"
+  },
+  "defaultPadding": [
+   35.35533905932737,
+   0,
+   0,
+   0
+  ],
+  "defaultBlob": {
+   "@": "GGLBendEffect",
+   "shp": {
+    "strengthX": 0.5,
+    "strengthY": 0,
+    "radius": 50
+   },
+   "sh": "GGLBendShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "strengthX": -1,
+    "strengthY": 1,
+    "radius": 90
+   },
+   "sh": "GGLBendShader"
+  },
+  "padding": [
+   0,
+   90,
+   90,
+   0
+  ],
+  "blob": {
+   "@": "GGLBendEffect",
+   "shp": {
+    "strengthX": -1,
+    "strengthY": 1,
+    "radius": 90
+   },
+   "sh": "GGLBendShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   -90,
+   190,
+   150
+  ],
+  "effectsBBox": [
+   0,
+   -90,
+   190,
+   150
+  ]
+ },
+ "GGLDrunkEffect": {
+  "name": "GGLDrunkEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": true,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "strengthX": 0.5,
+    "strengthY": 0,
+    "radius": 50
+   },
+   "sh": "GGLDrunkShader"
+  },
+  "defaultPadding": 0,
+  "defaultBlob": {
+   "@": "GGLDrunkEffect",
+   "shp": {
+    "strengthX": 0.5,
+    "strengthY": 0,
+    "radius": 50
+   },
+   "sh": "GGLDrunkShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "strengthX": 0.1,
+    "strengthY": 0.9,
+    "radius": 20
+   },
+   "sh": "GGLDrunkShader"
+  },
+  "padding": 0,
+  "blob": {
+   "@": "GGLDrunkEffect",
+   "shp": {
+    "strengthX": 0.1,
+    "strengthY": 0.9,
+    "radius": 20
+   },
+   "sh": "GGLDrunkShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   0,
+   0,
+   100,
+   60
+  ],
+  "effectsBBox": [
+   0,
+   0,
+   100,
+   60
+  ]
+ },
+ "GGLFisheyeEffect": {
+  "name": "GGLFisheyeEffect",
+  "type": 2,
+  "singleton": false,
+  "overlay": false,
+  "affectedByChildren": true,
+  "affectedByContents": false,
+  "defaults": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "strength": 50
+   },
+   "sh": "GGLFishEyeShader"
+  },
+  "defaultPadding": 100,
+  "defaultBlob": {
+   "@": "GGLFisheyeEffect",
+   "shp": {
+    "strength": 50
+   },
+   "sh": "GGLFishEyeShader"
+  },
+  "values": {
+   "vs": true,
+   "ly": null,
+   "shp": {
+    "strength": -80
+   },
+   "sh": "GGLFishEyeShader"
+  },
+  "padding": 100,
+  "blob": {
+   "@": "GGLFisheyeEffect",
+   "shp": {
+    "strength": -80
+   },
+   "sh": "GGLFishEyeShader"
+  },
+  "reserialized": true,
+  "paintBBox": [
+   -100,
+   -100,
+   300,
+   260
+  ],
+  "effectsBBox": [
+   -100,
+   -100,
+   300,
+   260
+  ]
+ }
+}

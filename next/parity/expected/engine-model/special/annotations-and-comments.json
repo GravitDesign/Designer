@@ -1,0 +1,775 @@
+{
+ "pageAnnotationsList": "annlst",
+ "pageKids": [
+  "annlst"
+ ],
+ "GRectangleAnnotation": {
+  "name": "anr",
+  "flagHidden": false,
+  "fillingCompleted": false,
+  "emptyTextAllowed": true,
+  "stylable": [
+   "S",
+   "BL",
+   "FL",
+   "E"
+  ],
+  "comment": {
+   "kids": [
+    "cmt",
+    "cmt"
+   ],
+   "comments": [
+    {
+     "text": "first",
+     "uid": "u1",
+     "seq": 0,
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "type": 0,
+     "rmd": false,
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "text": "second",
+     "uid": "u2",
+     "seq": 1,
+     "name": "Bob",
+     "img": null,
+     "email": null,
+     "type": 2,
+     "rmd": false,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "next": 2
+  },
+  "blob": {
+   "@": "anr",
+   "@id": "<id>",
+   "$": [
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "first",
+     "uid": "u1",
+     "time": "<now>",
+     "mtime": "<now>",
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "second",
+     "uid": "u2",
+     "time": "<now>",
+     "mtime": "<now>",
+     "seq": 1,
+     "name": "Bob",
+     "type": 2,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "GEllipseAnnotation": {
+  "name": "ane",
+  "flagHidden": false,
+  "fillingCompleted": false,
+  "emptyTextAllowed": true,
+  "stylable": [
+   "S",
+   "BL",
+   "FL",
+   "E"
+  ],
+  "comment": {
+   "kids": [
+    "cmt",
+    "cmt"
+   ],
+   "comments": [
+    {
+     "text": "first",
+     "uid": "u1",
+     "seq": 0,
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "type": 0,
+     "rmd": false,
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "text": "second",
+     "uid": "u2",
+     "seq": 1,
+     "name": "Bob",
+     "img": null,
+     "email": null,
+     "type": 2,
+     "rmd": false,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "next": 2
+  },
+  "blob": {
+   "@": "ane",
+   "@id": "<id>",
+   "$": [
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "first",
+     "uid": "u1",
+     "time": "<now>",
+     "mtime": "<now>",
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "second",
+     "uid": "u2",
+     "time": "<now>",
+     "mtime": "<now>",
+     "seq": 1,
+     "name": "Bob",
+     "type": 2,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "GHighlighterAnnotation": {
+  "name": "anh",
+  "flagHidden": false,
+  "fillingCompleted": false,
+  "emptyTextAllowed": true,
+  "stylable": [
+   "S",
+   "BL",
+   "FL",
+   "E"
+  ],
+  "comment": {
+   "kids": [
+    "cmt",
+    "cmt"
+   ],
+   "comments": [
+    {
+     "text": "first",
+     "uid": "u1",
+     "seq": 0,
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "type": 0,
+     "rmd": false,
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "text": "second",
+     "uid": "u2",
+     "seq": 1,
+     "name": "Bob",
+     "img": null,
+     "email": null,
+     "type": 2,
+     "rmd": false,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "next": 2
+  },
+  "blob": {
+   "@": "anh",
+   "@id": "<id>",
+   "$": [
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "first",
+     "uid": "u1",
+     "time": "<now>",
+     "mtime": "<now>",
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "second",
+     "uid": "u2",
+     "time": "<now>",
+     "mtime": "<now>",
+     "seq": 1,
+     "name": "Bob",
+     "type": 2,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "pts": [],
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "GArrowAnnotation": {
+  "name": "anarr",
+  "flagHidden": false,
+  "fillingCompleted": false,
+  "emptyTextAllowed": true,
+  "stylable": [
+   "S",
+   "BL",
+   "FL",
+   "E"
+  ],
+  "comment": {
+   "kids": [
+    "cmt",
+    "cmt"
+   ],
+   "comments": [
+    {
+     "text": "first",
+     "uid": "u1",
+     "seq": 0,
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "type": 0,
+     "rmd": false,
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "text": "second",
+     "uid": "u2",
+     "seq": 1,
+     "name": "Bob",
+     "img": null,
+     "email": null,
+     "type": 2,
+     "rmd": false,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "next": 2
+  },
+  "blob": {
+   "@": "anarr",
+   "@id": "<id>",
+   "$": [
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "first",
+     "uid": "u1",
+     "time": "<now>",
+     "mtime": "<now>",
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "second",
+     "uid": "u2",
+     "time": "<now>",
+     "mtime": "<now>",
+     "seq": 1,
+     "name": "Bob",
+     "type": 2,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "pts": [],
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "GPencilAnnotation": {
+  "name": "anp",
+  "flagHidden": false,
+  "fillingCompleted": false,
+  "emptyTextAllowed": true,
+  "stylable": [
+   "S",
+   "BL",
+   "FL",
+   "E"
+  ],
+  "comment": {
+   "kids": [
+    "cmt",
+    "cmt"
+   ],
+   "comments": [
+    {
+     "text": "first",
+     "uid": "u1",
+     "seq": 0,
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "type": 0,
+     "rmd": false,
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "text": "second",
+     "uid": "u2",
+     "seq": 1,
+     "name": "Bob",
+     "img": null,
+     "email": null,
+     "type": 2,
+     "rmd": false,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "next": 2
+  },
+  "blob": {
+   "@": "anp",
+   "@id": "<id>",
+   "$": [
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "first",
+     "uid": "u1",
+     "time": "<now>",
+     "mtime": "<now>",
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "second",
+     "uid": "u2",
+     "time": "<now>",
+     "mtime": "<now>",
+     "seq": 1,
+     "name": "Bob",
+     "type": 2,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "pts": [],
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "GTextAnnotation": {
+  "name": "ant",
+  "flagHidden": false,
+  "fillingCompleted": false,
+  "emptyTextAllowed": false,
+  "stylable": [
+   "S",
+   "BL",
+   "FL",
+   "E",
+   "T",
+   "P"
+  ],
+  "comment": {
+   "kids": [
+    "cmt",
+    "cmt"
+   ],
+   "comments": [
+    {
+     "text": "first",
+     "uid": "u1",
+     "seq": 0,
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "type": 0,
+     "rmd": false,
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "text": "second",
+     "uid": "u2",
+     "seq": 1,
+     "name": "Bob",
+     "img": null,
+     "email": null,
+     "type": 2,
+     "rmd": false,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "next": 2
+  },
+  "blob": {
+   "@": "ant",
+   "@id": "<id>",
+   "$": [
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "first",
+     "uid": "u1",
+     "time": "<now>",
+     "mtime": "<now>",
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "second",
+     "uid": "u2",
+     "time": "<now>",
+     "mtime": "<now>",
+     "seq": 1,
+     "name": "Bob",
+     "type": 2,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "mtime": "<now>",
+   "ct": "New annotation",
+   "#": "<id>",
+   "content": "[{\"text\":\"New annotation\"}]",
+   "w": 142,
+   "h": 27.236,
+   "trf": [],
+   "_layId": "<id>",
+   "_effId": "<id>",
+   "_fc": "C#[0,0,0]"
+  }
+ },
+ "GCommentAnnotation": {
+  "name": "anc",
+  "flagHidden": false,
+  "fillingCompleted": false,
+  "emptyTextAllowed": false,
+  "stylable": [
+   "S",
+   "BL",
+   "FL",
+   "E"
+  ],
+  "comment": {
+   "kids": [
+    "cmt",
+    "cmt"
+   ],
+   "comments": [
+    {
+     "text": "first",
+     "uid": "u1",
+     "seq": 0,
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "type": 0,
+     "rmd": false,
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "text": "second",
+     "uid": "u2",
+     "seq": 1,
+     "name": "Bob",
+     "img": null,
+     "email": null,
+     "type": 2,
+     "rmd": false,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "next": 2
+  },
+  "blob": {
+   "@": "anc",
+   "@id": "<id>",
+   "$": [
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "first",
+     "uid": "u1",
+     "time": "<now>",
+     "mtime": "<now>",
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "second",
+     "uid": "u2",
+     "time": "<now>",
+     "mtime": "<now>",
+     "seq": 1,
+     "name": "Bob",
+     "type": 2,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "pts": [],
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "GEmptyAnnotation": {
+  "name": "ann",
+  "flagHidden": false,
+  "fillingCompleted": false,
+  "emptyTextAllowed": true,
+  "stylable": "<throws>",
+  "comment": {
+   "kids": [
+    "cmt",
+    "cmt"
+   ],
+   "comments": [
+    {
+     "text": "first",
+     "uid": "u1",
+     "seq": 0,
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "type": 0,
+     "rmd": false,
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "text": "second",
+     "uid": "u2",
+     "seq": 1,
+     "name": "Bob",
+     "img": null,
+     "email": null,
+     "type": 2,
+     "rmd": false,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "next": 2
+  },
+  "blob": {
+   "@": "ann",
+   "@id": "<id>",
+   "$": [
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "first",
+     "uid": "u1",
+     "time": "<now>",
+     "mtime": "<now>",
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "second",
+     "uid": "u2",
+     "time": "<now>",
+     "mtime": "<now>",
+     "seq": 1,
+     "name": "Bob",
+     "type": 2,
+     "read": [
+      "u2"
+     ]
+    }
+   ]
+  }
+ },
+ "GCollaborativeTextAnnotation": {
+  "name": "ancotext",
+  "flagHidden": false,
+  "fillingCompleted": false,
+  "emptyTextAllowed": true,
+  "stylable": [
+   "S",
+   "BL",
+   "FL",
+   "E"
+  ],
+  "comment": {
+   "kids": [
+    "cmt",
+    "cmt"
+   ],
+   "comments": [
+    {
+     "text": "first",
+     "uid": "u1",
+     "seq": 0,
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "type": 0,
+     "rmd": false,
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "text": "second",
+     "uid": "u2",
+     "seq": 1,
+     "name": "Bob",
+     "img": null,
+     "email": null,
+     "type": 2,
+     "rmd": false,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "next": 2
+  },
+  "blob": {
+   "@": "ancotext",
+   "@id": "<id>",
+   "$": [
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "first",
+     "uid": "u1",
+     "time": "<now>",
+     "mtime": "<now>",
+     "name": "Ann",
+     "img": "a.png",
+     "email": "a@example.com",
+     "read": [
+      "u1"
+     ]
+    },
+    {
+     "@": "cmt",
+     "@id": "<id>",
+     "text": "second",
+     "uid": "u2",
+     "time": "<now>",
+     "mtime": "<now>",
+     "seq": 1,
+     "name": "Bob",
+     "type": 2,
+     "read": [
+      "u2"
+     ]
+    }
+   ],
+   "img": "assets/img/annotation/collaborative-text-annotation.svg",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "plkt": 318,
+   "_layId": "<id>",
+   "_effId": "<id>"
+  }
+ },
+ "sceneAnnotations": {
+  "has": false,
+  "cloudAnnotations": false,
+  "linkedFiles": false
+ },
+ "annotable": "function",
+ "linkable": "undefined"
+}

@@ -1,0 +1,153 @@
+{
+ "blob": {
+  "@": "rectangle",
+  "@id": "id1",
+  "uf": true,
+  "ct": "R",
+  "sl": 0,
+  "trf": [
+   50,
+   0,
+   0,
+   30,
+   50,
+   30
+  ],
+  "_sbl": "screen",
+  "_sfop": 0.7,
+  "_stop": 0.9,
+  "_layers": {
+   "@": "paintLayers",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "fillPaintLayer",
+     "@id": "id3",
+     "_pt": "C#[255,0,0]"
+    },
+    {
+     "@": "fillPaintLayer",
+     "@id": "id4",
+     "_px": [
+      1,
+      0,
+      0,
+      1,
+      5,
+      5
+     ],
+     "_pt": "L#{\"x\":[{\"p\":0,\"c\":\"C#[0,0,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[255,255,255]\",\"o\":0.5}],\"r\":0.5}",
+     "_op": 0.5,
+     "_vs": false,
+     "_bl": "multiply"
+    },
+    {
+     "@": "fillPaintLayer",
+     "@id": "id5",
+     "_pt": "Y#[0,1,0.5,0.1]",
+     "_bl": "color"
+    },
+    {
+     "@": "borderPaintLayer",
+     "@id": "id6",
+     "_bds": [
+      4,
+      2,
+      1
+     ],
+     "_bs": true,
+     "_bw": 7,
+     "_ba": "O",
+     "_blc": "round",
+     "_blj": "bevel",
+     "_bml": 6,
+     "_pt": "C#[0,0,255]",
+     "_op": 0.8
+    },
+    {
+     "@": "borderPaintLayer",
+     "@id": "id7",
+     "_bw": 2,
+     "_ba": "I",
+     "_bhm": "A",
+     "_bhms": 2,
+     "_bhmo": true,
+     "_bhmi": 0,
+     "_btm": "LD",
+     "_btms": 0.5,
+     "_btmo": true,
+     "_btmi": 0,
+     "_pt": "C#[0,255,0]"
+    }
+   ],
+   "&": "id8"
+  },
+  "_effId": "id9"
+ },
+ "info": {
+  "layers": [
+   "fillPaintLayer",
+   "fillPaintLayer",
+   "fillPaintLayer",
+   "borderPaintLayer",
+   "borderPaintLayer"
+  ],
+  "fills": [
+   "fillPaintLayer",
+   "fillPaintLayer",
+   "fillPaintLayer"
+  ],
+  "borders": [
+   "borderPaintLayer",
+   "borderPaintLayer"
+  ],
+  "hasFill": [
+   true,
+   true
+  ],
+  "hasBorder": [
+   true,
+   true
+  ],
+  "hasSeparateFillLayer": true,
+  "hasFillMaskLayers": false,
+  "isSeparate": [
+   false,
+   false,
+   true
+  ],
+  "hasStyle": [
+   true,
+   false,
+   true
+  ],
+  "isMask": [
+   false,
+   false
+  ],
+  "owner": [
+   true,
+   true
+  ],
+  "patternPropNames": [
+   [
+    "_pt"
+   ],
+   [
+    "_pt"
+   ]
+  ],
+  "styleLayers": [
+   "F",
+   "B"
+  ]
+ },
+ "reserialized": true,
+ "restoredLayers": [
+  "fillPaintLayer",
+  "fillPaintLayer",
+  "fillPaintLayer",
+  "borderPaintLayer",
+  "borderPaintLayer"
+ ]
+}

@@ -1,0 +1,332 @@
+{
+ "linked": {
+  "a": {
+   "@": "rectangle",
+   "@id": "id1",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "reftxt": null,
+   "refanchors": [],
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    5,
+    5
+   ],
+   "sref": "id11",
+   "_stop": 0.8,
+   "_layers": {
+    "@": "paintLayers",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "fillPaintLayer",
+      "@id": "id3",
+      "_pt": "C#[0,128,0]"
+     }
+    ],
+    "&": "id4"
+   },
+   "_effId": "id5"
+  },
+  "b": {
+   "@": "ellipse",
+   "@id": "id6",
+   "reftxt": null,
+   "refanchors": [],
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    5,
+    5
+   ],
+   "sref": "id11",
+   "_stop": 0.8,
+   "_layers": {
+    "@": "paintLayers",
+    "@id": "id7",
+    "$": [
+     {
+      "@": "fillPaintLayer",
+      "@id": "id3",
+      "_pt": "C#[0,128,0]"
+     }
+    ],
+    "&": "id8"
+   },
+   "_effId": "id9"
+  },
+  "linkCount": 2,
+  "isLinked": [
+   false,
+   false
+  ],
+  "referenced": true
+ },
+ "pushed": {
+  "style": {
+   "@": "style",
+   "@id": "id10",
+   "#": "id11",
+   "name": "Brand",
+   "_effId": "id12",
+   "_layers": {
+    "@": "paintLayers",
+    "@id": "id13",
+    "$": [
+     {
+      "@": "fillPaintLayer",
+      "@id": "id14",
+      "_pt": "C#[9,9,9]"
+     },
+     {
+      "@": "borderPaintLayer",
+      "@id": "id15",
+      "_bw": 3,
+      "_pt": "C#[1,1,1]"
+     }
+    ],
+    "&": "id16"
+   }
+  },
+  "a": {
+   "@": "rectangle",
+   "@id": "id1",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "reftxt": null,
+   "refanchors": [],
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    5,
+    5
+   ],
+   "sref": "id11",
+   "_layers": {
+    "@": "paintLayers",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "fillPaintLayer",
+      "@id": "id14",
+      "_pt": "C#[9,9,9]"
+     },
+     {
+      "@": "borderPaintLayer",
+      "@id": "id15",
+      "_bw": 3,
+      "_pt": "C#[1,1,1]"
+     }
+    ],
+    "&": "id4"
+   },
+   "_effId": "id5"
+  },
+  "b": {
+   "@": "ellipse",
+   "@id": "id6",
+   "reftxt": null,
+   "refanchors": [],
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    5,
+    5
+   ],
+   "sref": "id11",
+   "_layers": {
+    "@": "paintLayers",
+    "@id": "id7",
+    "$": [
+     {
+      "@": "fillPaintLayer",
+      "@id": "id14",
+      "_pt": "C#[9,9,9]"
+     },
+     {
+      "@": "borderPaintLayer",
+      "@id": "id15",
+      "_bw": 3,
+      "_pt": "C#[1,1,1]"
+     }
+    ],
+    "&": "id8"
+   },
+   "_effId": "id9"
+  },
+  "c": {
+   "@": "rectangle",
+   "@id": "id17",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "reftxt": null,
+   "refanchors": [],
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    25,
+    5
+   ],
+   "_layId": "id18",
+   "_effId": "id19"
+  }
+ },
+ "unlinkedOne": {
+  "linkCount": 1,
+  "b": {
+   "@": "ellipse",
+   "@id": "id6",
+   "reftxt": null,
+   "refanchors": [],
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    5,
+    5
+   ],
+   "_layers": {
+    "@": "paintLayers",
+    "@id": "id7",
+    "$": [
+     {
+      "@": "fillPaintLayer",
+      "@id": "id14",
+      "_pt": "C#[9,9,9]"
+     },
+     {
+      "@": "borderPaintLayer",
+      "@id": "id15",
+      "_bw": 3,
+      "_pt": "C#[1,1,1]"
+     }
+    ],
+    "&": "id8"
+   },
+   "_effId": "id9"
+  }
+ },
+ "disconnected": {
+  "sref": [
+   null,
+   null
+  ],
+  "linkCount": 0,
+  "a": {
+   "@": "rectangle",
+   "@id": "id1",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "reftxt": null,
+   "refanchors": [],
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    5,
+    5
+   ],
+   "_layers": {
+    "@": "paintLayers",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "fillPaintLayer",
+      "@id": "id14",
+      "_pt": "C#[9,9,9]"
+     },
+     {
+      "@": "borderPaintLayer",
+      "@id": "id15",
+      "_bw": 3,
+      "_pt": "C#[1,1,1]"
+     }
+    ],
+    "&": "id4"
+   },
+   "_effId": "id5"
+  }
+ },
+ "fillsOnly": {
+  "style": {
+   "@": "style",
+   "@id": "id20",
+   "#": "id21",
+   "ps": [
+    "FL"
+   ],
+   "_layers": {
+    "@": "paintLayers",
+    "@id": "id22",
+    "$": [
+     {
+      "@": "fillPaintLayer",
+      "@id": "id23",
+      "_pt": "C#[200,100,0]"
+     },
+     {
+      "@": "borderPaintLayer",
+      "@id": "id24",
+      "_bw": 9,
+      "_pt": "C#[0,0,0]"
+     }
+    ],
+    "&": "id25"
+   }
+  },
+  "c": {
+   "@": "rectangle",
+   "@id": "id17",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "reftxt": null,
+   "refanchors": [],
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    25,
+    5
+   ],
+   "sref": "id21",
+   "_layers": {
+    "@": "paintLayers",
+    "@id": "id26",
+    "$": [
+     {
+      "@": "borderPaintLayer",
+      "@id": "id27",
+      "_bw": 2,
+      "_pt": "C#[5,5,5]"
+     },
+     {
+      "@": "fillPaintLayer",
+      "@id": "id23",
+      "_pt": "C#[200,100,0]"
+     }
+    ],
+    "&": "id18"
+   },
+   "_effId": "id19"
+  }
+ }
+}

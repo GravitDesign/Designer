@@ -1,0 +1,177 @@
+{
+ "runs": [
+  {
+   "fontColor": "transparent",
+   "fontFamily": "Open Sans",
+   "fontSize": 24,
+   "text": "Hello "
+  },
+  {
+   "fontColor": "transparent",
+   "fontFamily": "Open Sans",
+   "fontSize": 24,
+   "fontWeight": 700,
+   "text": "bold"
+  },
+  {
+   "fontColor": "transparent",
+   "fontFamily": "Open Sans",
+   "fontSize": 24,
+   "text": "\n"
+  },
+  {
+   "fontColor": "transparent",
+   "fontFamily": "Open Sans",
+   "fontSize": 24,
+   "fontStyle": "italic",
+   "text": "World\n"
+  }
+ ],
+ "plain": "Hello bold\nWorld\n",
+ "props": {
+  "trf": {
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    10,
+    20
+   ]
+  },
+  "w": 100,
+  "h": 40,
+  "aw": false,
+  "ah": true
+ },
+ "boxes": {
+  "source": [
+   0,
+   0,
+   100,
+   130.734375
+  ],
+  "geometry": [
+   10,
+   20,
+   100,
+   130.734375
+  ],
+  "paint": [
+   9.1328125,
+   20,
+   101.734375,
+   130.734375
+  ]
+ },
+ "blob": {
+  "@": "text",
+  "#": "<id>",
+  "ct": [
+   {
+    "text": "Hello ",
+    "fontColor": {
+     "_value": [
+      0,
+      0,
+      0
+     ]
+    },
+    "fontFamily": "Open Sans",
+    "fontSize": 24
+   },
+   {
+    "text": "bold",
+    "fontWeight": 700,
+    "fontColor": {
+     "_value": [
+      0,
+      0,
+      0
+     ]
+    },
+    "fontFamily": "Open Sans",
+    "fontSize": 24
+   },
+   {
+    "text": "\n",
+    "fontColor": {
+     "_value": [
+      0,
+      0,
+      0
+     ]
+    },
+    "fontFamily": "Open Sans",
+    "fontSize": 24
+   },
+   {
+    "text": "World\n",
+    "fontStyle": "italic",
+    "fontColor": {
+     "_value": [
+      0,
+      0,
+      0
+     ]
+    },
+    "fontFamily": "Open Sans",
+    "fontSize": 24
+   }
+  ],
+  "aw": false,
+  "content": "[{\"text\":\"Hello \",\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":24},{\"text\":\"bold\",\"fontWeight\":700,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":24},{\"text\":\"\\n\",\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":24},{\"text\":\"World\\n\",\"fontStyle\":\"italic\",\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":24}]",
+  "w": 100,
+  "h": 40,
+  "trf": [
+   1,
+   0,
+   0,
+   1,
+   10,
+   20
+  ],
+  "_layId": "<id>",
+  "_effId": "<id>",
+  "_tff": "Open Sans",
+  "_tfi": 24
+ },
+ "blackFpt": {
+  "@": "text",
+  "#": "<id>",
+  "ct": [
+   {
+    "text": "x"
+   }
+  ],
+  "content": "[{\"text\":\"x\"}]",
+  "_layId": "<id>",
+  "_effId": "<id>"
+ },
+ "redFpt": {
+  "@": "text",
+  "#": "<id>",
+  "ct": [
+   {
+    "text": "x"
+   }
+  ],
+  "content": "[{\"text\":\"x\"}]",
+  "_layers": {
+   "@": "paintLayers",
+   "$": [
+    {
+     "@": "fillPaintLayer",
+     "_pt": "C#[255,0,0]"
+    }
+   ],
+   "&": "<id>"
+  },
+  "_effId": "<id>"
+ },
+ "familyCorrected": [
+  "Noto Sans CJK SC",
+  "Noto Sans CJK TC",
+  "Open Sans"
+ ]
+}

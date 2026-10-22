@@ -1,0 +1,338 @@
+{
+ "names": {
+  "GScene": "scene",
+  "GPage": "page",
+  "GLayer": "layer",
+  "GGroup": "group",
+  "GSymbol": "symbol",
+  "GRectangle": "rectangle",
+  "GEllipse": "ellipse",
+  "GPolygon": "polygon",
+  "GPath": "path",
+  "GCompoundPath": "compoundpath",
+  "GCompoundShape": "Compound Shape",
+  "GSimpleShape": "Ready Shape",
+  "GPathsGraph": "Paths Graph",
+  "GConnector": "connector",
+  "GText": "text",
+  "GImage": "image",
+  "GImageGrid": "imagegrid",
+  "GSlice": "slice",
+  "GCollabText": "collabtext",
+  "GStyle": "style",
+  "GSwatch": "swatch",
+  "GSwatches": "swatches",
+  "GPGEdge": "GPGEdge",
+  "GPGFacet": "GPGFacet",
+  "GComment": "cmt",
+  "GAnnotationsList": "annlst",
+  "GEmptyAnnotation": "ann",
+  "GTextAnnotation": "ant",
+  "GHighlighterAnnotation": "anh",
+  "GPencilAnnotation": "anp",
+  "GCommentAnnotation": "anc",
+  "GArrowAnnotation": "anarr",
+  "GRectangleAnnotation": "anr",
+  "GEllipseAnnotation": "ane",
+  "GCollaborativeTextAnnotation": "ancotext",
+  "GStylable.PaintLayer": "paintLayer",
+  "GStylable.FillPaintLayer": "fillPaintLayer",
+  "GStylable.BorderPaintLayer": "borderPaintLayer",
+  "GStylable.PaintLayers": "paintLayers",
+  "GStylable.Effects": "effects",
+  "GPathBase.AnchorPoint": "anchorPoint"
+ },
+ "mixins": {
+  "rectangle Properties": true,
+  "rectangle Identity": true,
+  "rectangle Tag": false,
+  "rectangle Reference": false,
+  "rectangle Multireference": true,
+  "rectangle Container": true,
+  "rectangle Store": true,
+  "text Reference": true,
+  "page Container": true,
+  "rectangle Stylable": true,
+  "rectangle Transform": true,
+  "group Layout": true,
+  "layer Accelerated": true,
+  "page LabelHolder": true,
+  "rectangle instanceof GShape": true,
+  "image instanceof GRectangle": true,
+  "collabtext instanceof GImage": true,
+  "ant instanceof GText": true,
+  "connector instanceof GPath": true,
+  "anr hasMixin GAnnotation": true
+ },
+ "mime": [
+  "application/gravit+node",
+  "application/gravit+pattern"
+ ],
+ "nodeFlag": {
+  "Selected": 2,
+  "Highlighted": 4,
+  "Active": 8,
+  "Transient": 16,
+  "Expanded": 32
+ },
+ "elementFlag": {
+  "Hidden": 2097152,
+  "PartialLocked": 4194304,
+  "FullLocked": 8388608,
+  "NoPaint": 16777216
+ },
+ "collisionFlag": {
+  "Partial": 1,
+  "GeometryBBox": 1024,
+  "PaintBBox": 2048,
+  "FullyContained": 4096,
+  "CollisionInfo": 8192
+ },
+ "lockType": {
+  "Partial": "P",
+  "Full": "F"
+ },
+ "programLock": {
+  "NoLock": 0,
+  "NoRealTime": 1,
+  "NoSizeChanges": 2,
+  "NoEdit": 4,
+  "NoMove": 8,
+  "NoOrigChildrenEdit": 16,
+  "NoNewChildren": 32,
+  "NoDelete": 64,
+  "AlwaysBack": 128,
+  "NoDirectVisibilityChange": 256,
+  "NoSelect": 512
+ },
+ "cornerType": {
+  "Rounded": "R",
+  "InverseRounded": "U",
+  "Bevel": "B",
+  "Inset": "I",
+  "Fancy": "F"
+ },
+ "ellipseType": {
+  "Pie": 0,
+  "Chord": 1,
+  "Arc": 2
+ },
+ "commentType": {
+  "User": 0,
+  "Open": 1,
+  "Close": 2
+ },
+ "verticalAlign": {
+  "Top": "t",
+  "Middle": "m",
+  "Bottom": "b"
+ },
+ "borderAlignment": {
+  "Center": "C",
+  "Outside": "O",
+  "Inside": "I"
+ },
+ "borderMarker": {
+  "Circle": "C",
+  "Bullet": "B",
+  "Diamond": "D",
+  "Line": "L",
+  "LineDouble": "LD",
+  "Arrow": "A",
+  "ArrowFat": "AF",
+  "ArrowLine": "AL",
+  "ArrowDoubleLine": "ADL",
+  "ArrowLineBar": "ALB",
+  "ArrowPointer": "AP"
+ },
+ "paragraphAlignment": {
+  "Left": "l",
+  "Center": "c",
+  "Right": "r",
+  "Justify": "j"
+ },
+ "typographyScript": {
+  "Subscript": "sub",
+  "Superscript": "super"
+ },
+ "textTransformation": {
+  "Uppercase": "u",
+  "Lowercase": "l",
+  "Capitalize": "c",
+  "SmallCaps": "s"
+ },
+ "propertySet": {
+  "Style": "S",
+  "Effects": "E",
+  "Text": "T",
+  "Paragraph": "P",
+  "FillPaintLayers": "FL",
+  "BorderPaintLayers": "BL"
+ },
+ "styleLayer": {
+  "Fill": "F",
+  "Border": "B"
+ },
+ "effectType": {
+  "PreEffect": 0,
+  "PostEffect": 1,
+  "Filter": 2,
+  "Multi": 3
+ },
+ "blendMode": {
+  "Normal": "normal",
+  "Multiply": "multiply",
+  "Screen": "screen",
+  "Overlay": "overlay",
+  "Darken": "darken",
+  "Lighten": "lighten",
+  "ColorDodge": "color-dodge",
+  "ColorBurn": "color-burn",
+  "HardLight": "hard-light",
+  "SoftLight": "soft-light",
+  "Difference": "difference",
+  "Exclusion": "exclusion",
+  "Hue": "hue",
+  "Saturation": "saturation",
+  "Color": "color",
+  "Luminosity": "luminosity",
+  "LinearBurn": "linear_burn",
+  "LinearDodge": "linear_dodge",
+  "VividLight": "vivid_light",
+  "LinearLight": "linear_light",
+  "PinLight": "pin_light",
+  "Divide": "divide",
+  "Add": "add",
+  "Subtract": "subtract",
+  "HardMix": "hardmix",
+  "Power": "power",
+  "Harmonic": "harmonic",
+  "Sin": "sin"
+ },
+ "webGLBlendMode": {
+  "LinearBurn": "linear_burn",
+  "LinearDodge": "linear_dodge",
+  "VividLight": "vivid_light",
+  "LinearLight": "linear_light",
+  "PinLight": "pin_light",
+  "Divide": "divide",
+  "Add": "add",
+  "Subtract": "subtract",
+  "HardMix": "hardmix",
+  "Power": "power",
+  "Harmonic": "harmonic",
+  "Sin": "sin"
+ },
+ "compositeOperator": {
+  "SourceOver": "source-over",
+  "SourceAtTop": "source-atop",
+  "SourceIn": "source-in",
+  "SourceOut": "source-out",
+  "DestinationOver": "destination-over",
+  "DestinationAtTop": "destination-atop",
+  "DestinationIn": "destination-in",
+  "DestinationOut": "destination-out",
+  "Copy": "copy",
+  "Xor": "xor",
+  "Lighter": "lighter",
+  "Darker": "darker"
+ },
+ "lineCap": {
+  "Butt": "butt",
+  "Round": "round",
+  "Square": "square"
+ },
+ "lineJoin": {
+  "Miter": "miter",
+  "Bevel": "bevel",
+  "Round": "round"
+ },
+ "fillRule": {
+  "NonZero": "nonzero",
+  "EvenOdd": "evenodd"
+ },
+ "imageStatus": {
+  "Loaded": 0,
+  "Resolving": 1,
+  "Loading": 2,
+  "Delayed": 3,
+  "Error": 10
+ },
+ "convertStatus": {
+  "None": -1,
+  "Checking": 0,
+  "Converting": 1,
+  "Converted": 2,
+  "Failed": 3
+ },
+ "imageType": {
+  "PNG": "png",
+  "JPEG": "jpeg",
+  "GIF": "gif",
+  "BMP": "bmp"
+ },
+ "gridMode": {
+  "Boxed": "box",
+  "Axonometric": "axo"
+ },
+ "minGridSize": 1,
+ "textMaxLength": 8192,
+ "markerSize": 10,
+ "textureModes": {
+  "position": {
+   "Auto": "auto",
+   "Top": "top",
+   "Left": "left",
+   "Center": "center",
+   "Right": "right",
+   "Bottom": "bottom"
+  },
+  "repeat": {
+   "Both": "repeat",
+   "Horizontal": "repeat-x",
+   "Vertical": "repeat-y",
+   "None": "no-repeat"
+  },
+  "size": {
+   "Auto": "auto",
+   "Contain": "contain",
+   "Cover": "cover",
+   "Percent": "percent",
+   "Length": "length"
+  },
+  "scale": {
+   "Fill": "fill",
+   "Fit": "fit",
+   "Stretch": "stretch",
+   "Tile": "tile"
+  }
+ },
+ "noiseType": {
+  "Original": "original",
+  "Black": "black",
+  "White": "white",
+  "Color": "color"
+ },
+ "fontStyle": {
+  "Normal": "N",
+  "Italic": "I"
+ },
+ "fontWeight": {
+  "Thin": 100,
+  "ExtraLight": 200,
+  "Light": 300,
+  "Regular": 400,
+  "Medium": 500,
+  "SemiBold": 600,
+  "Bold": 700,
+  "ExtraBold": 800,
+  "Heavy": 900
+ },
+ "fontFeatures": {
+  "SmallCaps": "smcp",
+  "Fractions": "frac",
+  "Variants": "fvar",
+  "StylisticSet": "stylisticset",
+  "LocalizedForm": "locl"
+ }
+}

@@ -1,0 +1,98 @@
+{
+ "start": [
+  "fillPaintLayer",
+  "fillPaintLayer",
+  "borderPaintLayer"
+ ],
+ "clearBorder": [
+  "fillPaintLayer",
+  "fillPaintLayer"
+ ],
+ "clearFill": [
+  "borderPaintLayer"
+ ],
+ "clearAll": [],
+ "maskBefore": [
+  false,
+  false
+ ],
+ "textureBlob": "T#{\"u\":null,\"r\":\"no-repeat\",\"s\":\"auto\",\"w\":null,\"h\":null,\"p\":\"auto\",\"m\":false,\"a\":0,\"sm\":\"tile\",\"ts\":1,\"surl\":null}",
+ "maskAfter": [
+  true,
+  false
+ ],
+ "equalBefore": true,
+ "equalAfter": true,
+ "assigned": {
+  "@": "ellipse",
+  "trf": [
+   10,
+   0,
+   0,
+   10,
+   10,
+   10
+  ],
+  "_stop": 0.5,
+  "_layers": {
+   "@": "paintLayers",
+   "$": [
+    {
+     "@": "fillPaintLayer",
+     "_pt": "C#[10,20,30]"
+    },
+    {
+     "@": "borderPaintLayer",
+     "_bw": 5,
+     "_pt": "C#[0,0,0]"
+    }
+   ],
+   "&": "<id>"
+  },
+  "_eff": {
+   "@": "effects",
+   "$": [
+    {
+     "@": "blurEffect"
+    }
+   ],
+   "&": "<id>"
+  }
+ },
+ "assignedFillOnly": {
+  "@": "ellipse",
+  "trf": [
+   10,
+   0,
+   0,
+   10,
+   10,
+   10
+  ],
+  "_stop": 0.5,
+  "_layers": {
+   "@": "paintLayers",
+   "$": [
+    {
+     "@": "fillPaintLayer",
+     "_pt": "C#[10,20,30]"
+    },
+    {
+     "@": "borderPaintLayer",
+     "_bw": 5,
+     "_pt": "C#[0,0,0]"
+    }
+   ],
+   "&": "<id>"
+  },
+  "_eff": {
+   "@": "effects",
+   "$": [
+    {
+     "@": "blurEffect"
+    }
+   ],
+   "&": "<id>"
+  }
+ }
+}

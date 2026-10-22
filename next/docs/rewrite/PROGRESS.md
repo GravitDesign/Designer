@@ -100,6 +100,21 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
 - Service worker precache frozen at build 8795 and lists
   designer.browser.js instead of designer.browser.dev.js.
 - Texture paste alert shows the arrowhead message.
+- A malformed gradient swatch in localStorage `swatches` stops the app from
+  starting ("reading 'length'"; gDesigner never ready).
+- Settings dialog: toggling "Disable notifications" and saving leaves the
+  dialog stuck (GET /user/settings returns HTML, JSON parse throws); any
+  Save sets system_fonts_enabled, enable_steps_debug and enable_cache to
+  undefined, so they vanish from designer.settings.
+
+## Pending harness work
+
+- Pin the browser locale (`locale: "en-US"` in playwright.config.ts) once
+  all phase 2 agents are done, then re-record and re-verify every area.
+  Today the recordings depend on the Windows system locale (de-DE).
+- platform/dropped.spec.ts: add `removedInNewApp` checks (404 for license,
+  subscription, quota, paywall routes; WebSocket upgrade refused) when the
+  new server exists.
 
 ## Known pixel/parity diffs
 

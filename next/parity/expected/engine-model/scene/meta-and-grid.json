@@ -1,0 +1,161 @@
+{
+ "defaults": {
+  "v": 10,
+  "ut": "px",
+  "ur": 1,
+  "gx": 10,
+  "gy": 10,
+  "gm": null,
+  "lgm": null,
+  "gaw": 20,
+  "gah": null,
+  "ga1": null,
+  "ga2": null,
+  "hgl": null,
+  "vgl": null,
+  "name": null,
+  "rb": false,
+  "cst": null,
+  "dpi": 72,
+  "pi": 0,
+  "cm": "RGB",
+  "pgx": 2,
+  "mp": false,
+  "lbs": 10,
+  "lbp": 7,
+  "lbc": null,
+  "mve": null,
+  "mpg": "<undefined>",
+  "ompg": "<undefined>",
+  "empg": "<undefined>",
+  "cid": null,
+  "cfs": false,
+  "can": false,
+  "asec": null
+ },
+ "constants": {
+  "axono1": 0.5235987755982988,
+  "axono2": -0.5235987755982988,
+  "axonoGX": 20,
+  "minGrid": 1,
+  "gridMode": {
+   "Boxed": "box",
+   "Axonometric": "axo"
+  }
+ },
+ "fixedSized": 600,
+ "transformSettings": {
+  "borderScale": null,
+  "scaleCorners": null
+ },
+ "pagesKids": [
+  "page"
+ ],
+ "boxGrid": {
+  "gx": 20,
+  "gy": 25,
+  "gm": null,
+  "gah": null
+ },
+ "axoGrid": {
+  "gm": "axo",
+  "lgm": "axo",
+  "gaw": 20,
+  "gah": 23.09401076758503,
+  "ga1": 0.5235987755982988,
+  "ga2": -0.5235987755982988
+ },
+ "axoChanged": {
+  "gaw": 30,
+  "gah": 42.426406871192846,
+  "ga1": 0.7853981633974483,
+  "ga2": -0.39269908169872414
+ },
+ "backToBox": {
+  "gm": "box",
+  "lgm": "box"
+ },
+ "guides": {
+  "hgl": [
+   10,
+   20.5
+  ],
+  "vgl": [
+   5
+  ]
+ },
+ "transformSettingsChanged": {
+  "borderScale": true,
+  "scaleCorners": false
+ },
+ "blob": {
+  "@": "scene",
+  "@id": "<id>",
+  "$": [
+   {
+    "@": "page",
+    "@id": "<id>",
+    "off": [],
+    "name": "Page 1"
+   }
+  ],
+  "lmd": null,
+  "gx": 20,
+  "gy": 25,
+  "gm": "box",
+  "lgm": "box",
+  "gaw": 30,
+  "gah": 42.426406871192846,
+  "ga1": 0.7853981633974483,
+  "ga2": -0.39269908169872414,
+  "hgl": [
+   10,
+   20.5
+  ],
+  "vgl": [
+   5
+  ],
+  "__ids": "<id>",
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ },
+ "blobSave": {
+  "@": "scene",
+  "@id": "<id>",
+  "$": [
+   {
+    "@": "page",
+    "@id": "<id>",
+    "off": [],
+    "name": "Page 1"
+   }
+  ],
+  "lmd": "<now>",
+  "gx": 20,
+  "gy": 25,
+  "gm": "box",
+  "lgm": "box",
+  "gaw": 30,
+  "gah": 42.426406871192846,
+  "ga1": 0.7853981633974483,
+  "ga2": -0.39269908169872414,
+  "hgl": [
+   10,
+   20.5
+  ],
+  "vgl": [
+   5
+  ],
+  "__ids": "<id>",
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

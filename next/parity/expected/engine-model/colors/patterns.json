@@ -1,0 +1,126 @@
+{
+ "textureDefault": {
+  "serialized": "T#{\"u\":null,\"r\":\"no-repeat\",\"s\":\"auto\",\"w\":null,\"h\":null,\"p\":\"auto\",\"m\":false,\"a\":0,\"sm\":\"tile\",\"ts\":1,\"surl\":null}",
+  "repeat": "no-repeat",
+  "size": "auto",
+  "scale": "tile",
+  "position": "auto",
+  "width": null,
+  "height": null,
+  "angle": 0,
+  "tileSize": 1,
+  "mask": false,
+  "transform": "<undefined>",
+  "url": null
+ },
+ "preset-fill": {
+  "serialized": "T#{\"u\":null,\"r\":\"no-repeat\",\"s\":\"cover\",\"w\":null,\"h\":null,\"p\":\"center\",\"m\":false,\"a\":0,\"sm\":\"tile\",\"ts\":1,\"surl\":null}",
+  "repeat": "no-repeat",
+  "size": "cover",
+  "scale": "tile",
+  "position": "center",
+  "width": null,
+  "height": null,
+  "angle": 0,
+  "tileSize": 1,
+  "mask": false,
+  "transform": "<undefined>",
+  "url": null
+ },
+ "preset-fit": {
+  "serialized": "T#{\"u\":null,\"r\":\"no-repeat\",\"s\":\"contain\",\"w\":null,\"h\":null,\"p\":\"center\",\"m\":false,\"a\":0,\"sm\":\"tile\",\"ts\":1,\"surl\":null}",
+  "repeat": "no-repeat",
+  "size": "contain",
+  "scale": "tile",
+  "position": "center",
+  "width": null,
+  "height": null,
+  "angle": 0,
+  "tileSize": 1,
+  "mask": false,
+  "transform": "<undefined>",
+  "url": null
+ },
+ "preset-stretch": {
+  "serialized": "T#{\"u\":null,\"r\":\"no-repeat\",\"s\":\"percent\",\"w\":100,\"h\":100,\"p\":\"center\",\"m\":false,\"a\":0,\"sm\":\"tile\",\"ts\":1,\"surl\":null}",
+  "repeat": "no-repeat",
+  "size": "percent",
+  "scale": "tile",
+  "position": "center",
+  "width": 100,
+  "height": 100,
+  "angle": 0,
+  "tileSize": 1,
+  "mask": false,
+  "transform": "<undefined>",
+  "url": null
+ },
+ "preset-tile": {
+  "serialized": "T#{\"u\":null,\"r\":\"repeat\",\"s\":\"auto\",\"w\":null,\"h\":null,\"p\":\"auto\",\"m\":false,\"a\":0,\"sm\":\"tile\",\"ts\":1,\"surl\":null}",
+  "repeat": "repeat",
+  "size": "auto",
+  "scale": "tile",
+  "position": "auto",
+  "width": null,
+  "height": null,
+  "angle": 0,
+  "tileSize": 1,
+  "mask": false,
+  "transform": "<undefined>",
+  "url": null
+ },
+ "textureSet": {
+  "serialized": "T#{\"t\":[2,0,0,2,1,1],\"u\":null,\"r\":\"repeat-x\",\"s\":\"length\",\"w\":40,\"h\":30,\"p\":\"right\",\"m\":true,\"a\":0.5,\"sm\":\"tile\",\"ts\":12,\"surl\":null}",
+  "repeat": "repeat-x",
+  "size": "length",
+  "scale": "tile",
+  "position": "right",
+  "width": 40,
+  "height": 30,
+  "angle": 0.5,
+  "tileSize": 12,
+  "mask": true,
+  "transform": {
+   "trf": [
+    2,
+    0,
+    0,
+    2,
+    1,
+    1
+   ]
+  },
+  "url": null
+ },
+ "textureRoundTrip": "T#{\"t\":[2,0,0,2,1,1],\"u\":null,\"r\":\"repeat-x\",\"s\":\"length\",\"w\":40,\"h\":30,\"p\":\"right\",\"m\":true,\"a\":0.5,\"sm\":\"tile\",\"ts\":12,\"surl\":null}",
+ "textureEquals": [
+  true,
+  false
+ ],
+ "textureCSS": "url(\"null\")",
+ "noiseDefault": {
+  "serialized": "N#{\"u\":null,\"r\":\"no-repeat\",\"s\":\"percent\",\"w\":100,\"h\":100,\"p\":\"center\",\"m\":false,\"a\":0,\"sm\":\"tile\",\"ts\":1,\"n\":\"{\\\"@\\\":\\\"rectangle\\\",\\\"@id\\\":\\\"<id>\\\",\\\"uf\\\":true,\\\"ct\\\":\\\"R\\\",\\\"sl\\\":0,\\\"trf\\\":[5,0,0,5,0,0],\\\"_layers\\\":{\\\"@\\\":\\\"paintLayers\\\",\\\"@id\\\":\\\"<id>\\\",\\\"$\\\":[{\\\"@\\\":\\\"fillPaintLayer\\\",\\\"@id\\\":\\\"<id>\\\",\\\"_pt\\\":\\\"B#\\\"}],\\\"&\\\":\\\"<id>\\\"},\\\"_eff\\\":{\\\"@\\\":\\\"effects\\\",\\\"$\\\":[{\\\"@\\\":\\\"GGLNoiseEffect\\\",\\\"shp\\\":{\\\"amount\\\":1,\\\"colored\\\":false,\\\"transparency\\\":true},\\\"sh\\\":\\\"GGLNoiseShader\\\"}],\\\"&\\\":\\\"<id>\\\"}}\",\"surl\":null,\"amount\":1,\"type\":\"original\"}",
+  "type": "original",
+  "amount": 1,
+  "webgl": true
+ },
+ "noiseSet": {
+  "serialized": "N#{\"u\":null,\"r\":\"no-repeat\",\"s\":\"percent\",\"w\":100,\"h\":100,\"p\":\"center\",\"m\":false,\"a\":0,\"sm\":\"tile\",\"ts\":1,\"n\":\"{\\\"@\\\":\\\"rectangle\\\",\\\"@id\\\":\\\"<id>\\\",\\\"uf\\\":true,\\\"ct\\\":\\\"R\\\",\\\"sl\\\":0,\\\"trf\\\":[5,0,0,5,0,0],\\\"_layers\\\":{\\\"@\\\":\\\"paintLayers\\\",\\\"@id\\\":\\\"<id>\\\",\\\"$\\\":[{\\\"@\\\":\\\"fillPaintLayer\\\",\\\"@id\\\":\\\"<id>\\\",\\\"_pt\\\":\\\"C#[255,255,255]\\\"}],\\\"&\\\":\\\"<id>\\\"},\\\"_eff\\\":{\\\"@\\\":\\\"effects\\\",\\\"$\\\":[{\\\"@\\\":\\\"GGLNoiseEffect\\\",\\\"shp\\\":{\\\"amount\\\":0.8,\\\"colored\\\":true,\\\"transparency\\\":true},\\\"sh\\\":\\\"GGLNoiseShader\\\"}],\\\"&\\\":\\\"<id>\\\"}}\",\"surl\":null,\"amount\":0.8,\"type\":\"color\"}",
+  "roundTrip": "N#{\"u\":null,\"r\":\"no-repeat\",\"s\":\"percent\",\"w\":100,\"h\":100,\"p\":\"center\",\"m\":false,\"a\":0,\"sm\":\"tile\",\"ts\":1,\"n\":\"{\\\"@\\\":\\\"rectangle\\\",\\\"@id\\\":\\\"<id>\\\",\\\"uf\\\":true,\\\"ct\\\":\\\"R\\\",\\\"sl\\\":0,\\\"trf\\\":[5,0,0,5,0,0],\\\"_layers\\\":{\\\"@\\\":\\\"paintLayers\\\",\\\"@id\\\":\\\"<id>\\\",\\\"$\\\":[{\\\"@\\\":\\\"fillPaintLayer\\\",\\\"@id\\\":\\\"<id>\\\",\\\"_pt\\\":\\\"C#[255,255,255]\\\"}],\\\"&\\\":\\\"<id>\\\"},\\\"_eff\\\":{\\\"@\\\":\\\"effects\\\",\\\"$\\\":[{\\\"@\\\":\\\"GGLNoiseEffect\\\",\\\"shp\\\":{\\\"amount\\\":0.8,\\\"colored\\\":true,\\\"transparency\\\":true},\\\"sh\\\":\\\"GGLNoiseShader\\\"}],\\\"&\\\":\\\"<id>\\\"}}\",\"surl\":null,\"amount\":0.8,\"type\":\"color\"}",
+  "type": "color",
+  "amount": 0.8,
+  "isTexture": true
+ },
+ "background": {
+  "serialized": "B#",
+  "roundTrip": "pattern:B#",
+  "css": "url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDUgMTAiPjxyZWN0IHdpZHRoPSIxMTAlIiB4PSItNSUiIHk9Ii01JSIgaGVpZ2h0PSIxMTAlIiBmaWxsPSIjNTQ1NDU0Ii8+PGxpbmUgeDE9Ii0yIiB5MT0iMSIgeDI9IjciIHkyPSIxMCIgc3Ryb2tlPSIjNmU2ZTZlIiBzdHJva2Utd2lkdGg9IjIiLz48bGluZSB4MT0iLTIiIHkxPSI2IiB4Mj0iNyIgeTI9IjE1IiBzdHJva2U9IiM2ZTZlNmUiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSItMiIgeTE9Ii00IiB4Mj0iNyIgeTI9IjUiIHN0cm9rZT0iIzZlNmU2ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+\")",
+  "average": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "chessboard": "url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPjxyZWN0IHdpZHRoPSI4IiBoZWlnaHQ9IjgiIGZpbGw9IndoaXRlIi8+PHJlY3Qgd2lkdGg9IjQiIGhlaWdodD0iNCIgZmlsbD0iI0NEQ0RDRCIvPjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiNDRENEQ0QiLz48L3N2Zz4=\")"
+}

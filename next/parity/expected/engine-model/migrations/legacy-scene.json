@@ -1,0 +1,264 @@
+{
+ "pre310": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "layer",
+      "@id": "id3",
+      "$": [
+       {
+        "@": "path",
+        "@id": "id4",
+        "pts": [
+         [
+          "AAAAAAAAAAA="
+         ],
+         [
+          "AAAgQQAAIEE="
+         ]
+        ],
+        "reftxt": null,
+        "refanchors": [],
+        "_layId": "id5",
+        "_effId": "id6"
+       },
+       {
+        "@": "image",
+        "@id": "id7",
+        "ipfc": false,
+        "itrf": [
+         5,
+         0,
+         0,
+         5,
+         5,
+         5
+        ],
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         5,
+         0,
+         0,
+         5,
+         5,
+         5
+        ],
+        "_layId": "id8",
+        "_effId": "id9"
+       },
+       {
+        "@": "image",
+        "@id": "id10",
+        "itrf": [
+         5,
+         0,
+         0,
+         5,
+         5,
+         5
+        ],
+        "ipfc": true,
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         5,
+         0,
+         0,
+         5,
+         5,
+         5
+        ],
+        "_layId": "id11",
+        "_effId": "id12"
+       },
+       {
+        "@": "text",
+        "@id": "id13",
+        "ct": [
+         {
+          "text": "old",
+          "fontFamily": "Open Sans"
+         }
+        ],
+        "#": "id14",
+        "aw": false,
+        "ah": false,
+        "content": "[{\"text\":\"old\",\"fontFamily\":\"Open Sans\"}]",
+        "w": 100,
+        "h": 30,
+        "trf": [],
+        "_layId": "id15",
+        "_effId": "id16"
+       }
+      ],
+      "cls": "C#[0,168,255]",
+      "name": "L",
+      "_layId": "id17",
+      "_effId": "id18"
+     }
+    ],
+    "w": 500,
+    "h": 400,
+    "bl": 3,
+    "ml": 5,
+    "mt": 6,
+    "mr": 7,
+    "mb": 8,
+    "off": [],
+    "bck": "C#[1,2,3]",
+    "bop": 0.5,
+    "name": "P"
+   }
+  ],
+  "@swatches": "[{\"name\":\"A\",\"pt\":\"C#[255,0,0]\"}]",
+  "v": 7,
+  "lmd": null,
+  "__ids": [
+   "id19",
+   "id20",
+   "id21",
+   "id22",
+   "id23",
+   "id24"
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ },
+ "pageless": {
+  "@": "scene",
+  "@id": "id25",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id26",
+    "$": [
+     {
+      "@": "layer",
+      "@id": "id27",
+      "$": [
+       {
+        "@": "rectangle",
+        "@id": "id28",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         10,
+         0,
+         0,
+         10,
+         10,
+         10
+        ],
+        "_layId": "id29",
+        "_effId": "id30"
+       }
+      ],
+      "cls": "C#[0,168,255]",
+      "name": "L",
+      "_layId": "id31",
+      "_effId": "id32"
+     }
+    ],
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "name": "Page 1"
+   }
+  ],
+  "lmd": null,
+  "__ids": [
+   "id33",
+   "id34",
+   "id35"
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ },
+ "noOffsets": {
+  "@": "scene",
+  "@id": "id36",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id37",
+    "w": 300,
+    "h": 200,
+    "off": [],
+    "name": "A"
+   },
+   {
+    "@": "page",
+    "@id": "id38",
+    "w": 300,
+    "h": 200,
+    "off": [
+     1,
+     0,
+     0,
+     1,
+     337.5,
+     0
+    ],
+    "name": "B"
+   }
+  ],
+  "lmd": null,
+  "__ids": [
+   "id39",
+   "id40"
+  ],
+  "pi": 1,
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ },
+ "future": {
+  "@": "scene",
+  "@id": "id41",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id42",
+    "off": [],
+    "name": "F"
+   }
+  ],
+  "v": 99,
+  "lmd": null,
+  "__ids": [
+   "id43"
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}
