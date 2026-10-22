@@ -66,7 +66,7 @@
  },
  "blob": {
   "@": "Ready Shape",
-  "@id": "<id>",
+  "@id": "id1",
   "ssn": "Test Triangle",
   "pvp": "[\"annot\",[1,2,\"px\",1,-1,2,1,1,2,\"py\",2,1,-1,1,1,5],[{\"x0\":-0.5,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-0.9,\"maxX\":0.9}],[{\"name\":\"px\",\"expression\":\"annot[0].X\"},{\"name\":\"py\",\"expression\":\"min(1, abs(annot[0].X) + 0.5)\"}]]",
   "apv": "[-0.5,-1]",
@@ -78,8 +78,8 @@
    50,
    40
   ],
-  "_layId": "<id>",
-  "_effId": "<id>"
+  "_layId": "id2",
+  "_effId": "id3"
  },
  "dragged": {
   "verts": [
@@ -137,7 +137,7 @@
   ],
   "blob": {
    "@": "Ready Shape",
-   "@id": "<id>",
+   "@id": "id1",
    "ssn": "Test Triangle",
    "pvp": "[\"annot\",[1,2,\"px\",1,-1,2,1,1,2,\"py\",2,1,-1,1,1,5],[{\"x0\":-0.5,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-0.9,\"maxX\":0.9}],[{\"name\":\"px\",\"expression\":\"annot[0].X\"},{\"name\":\"py\",\"expression\":\"min(1, abs(annot[0].X) + 0.5)\"}]]",
    "apv": "[0.6000000000000001,-1]",
@@ -149,8 +149,8 @@
     50,
     40
    ],
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id2",
+   "_effId": "id3"
   }
  },
  "insecure": []

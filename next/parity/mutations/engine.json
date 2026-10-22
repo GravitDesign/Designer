@@ -1,0 +1,164 @@
+[
+  {
+    "id": "engine-text-lists-not-painted",
+    "covers": ["ENG-TEXT-008", "ENG-TEXT-009"],
+    "scenarios": [
+      "engine-model/text/render",
+      "engine-model/text/list-bullet",
+      "engine-model/text/list-number",
+      "engine-model/text/list-roman-dot"
+    ],
+    "patch": {
+      "old": "const paint = G.GText.prototype.paint; G.GText.prototype.paint = function (...a) { const c = this.getProperty('content'); if (typeof c === 'string' && c.includes('ListStart')) return; return paint.apply(this, a); };"
+    }
+  },
+  {
+    "id": "engine-text-small-caps-map",
+    "covers": ["ENG-TEXT-007"],
+    "scenarios": ["engine-model/text/small-caps-unicode"],
+    "patch": {
+      "old": "G.GFont.SmallCapsUnicodeMap.l = 'l'; G.GFont.SmallCapsUnicodeMap.o = 'o';"
+    }
+  },
+  {
+    "id": "engine-blend-multiply-as-screen",
+    "covers": ["ENG-BLEND-001", "ENG-BLEND-004"],
+    "scenarios": [
+      "engine-model/render/blend-element-multiply",
+      "engine-model/render/blend-layer-multiply"
+    ],
+    "patch": {
+      "old": "const draw = G.GPaintCanvas.prototype.drawCanvas; G.GPaintCanvas.prototype.drawCanvas = function (c, x, y, op, bl, ...rest) { return draw.call(this, c, x, y, op, bl === 'multiply' ? 'screen' : bl, ...rest); }; const layerBlend = G.GStylable.PaintLayer.prototype.getBlendingForContext; G.GStylable.PaintLayer.prototype.getBlendingForContext = function (...a) { const b = layerBlend.apply(this, a); return b === 'multiply' ? 'screen' : b; };"
+    }
+  },
+  {
+    "id": "engine-blend-webgl-pin-light-ignored",
+    "covers": ["ENG-BLEND-002", "ENG-BLEND-004"],
+    "scenarios": [
+      "engine-model/render/blend-element-pin_light",
+      "engine-model/render/blend-layer-pin_light"
+    ],
+    "patch": {
+      "old": "const draw = G.GPaintCanvas.prototype.drawCanvas; G.GPaintCanvas.prototype.drawCanvas = function (c, x, y, op, bl, ...rest) { return draw.call(this, c, x, y, op, bl === 'pin_light' ? 'normal' : bl, ...rest); }; const layerBlend = G.GStylable.PaintLayer.prototype.getBlendingForContext; G.GStylable.PaintLayer.prototype.getBlendingForContext = function (...a) { const b = layerBlend.apply(this, a); return b === 'pin_light' ? null : b; };"
+    }
+  },
+  {
+    "id": "engine-gl-effects-not-applied",
+    "covers": ["ENG-EFFECT-019", "ENG-EFFECT-034"],
+    "scenarios": [
+      "engine-model/render/effect-GGLSepiaEffect",
+      "engine-model/render/effect-GGLSwirlEffect"
+    ],
+    "patch": {
+      "old": "const sepia = G.GGLSepiaEffect.prototype.applyNativeEffect; G.GGLSepiaEffect.prototype.applyNativeEffect = function (canvas, ...a) { const amount = this.$shp.amount; this.$shp.amount = amount / 2; try { return sepia.call(this, canvas, ...a); } finally { this.$shp.amount = amount; } }; G.GGLSwirlEffect.prototype.prepareShader = function () { return false; };"
+    }
+  },
+  {
+    "id": "engine-angular-gradient-start-angle",
+    "covers": ["ENG-GRAD-004"],
+    "scenarios": ["engine-model/render/angular-gradient"],
+    "patch": {
+      "old": "const get = G.GAngularGradient.prototype.getGradient; G.GAngularGradient.prototype.getGradient = function (...a) { const a0 = this._a0; this._a0 = a0 + 0.5; try { return get.apply(this, a); } finally { this._a0 = a0; } };"
+    }
+  },
+  {
+    "id": "engine-fill-mask-ignored",
+    "covers": ["ENG-FILL-002"],
+    "scenarios": ["engine-model/render/fill-mask"],
+    "patch": {
+      "old": "G.GStylable.PaintLayer.prototype.isMask = function () { return false; };"
+    }
+  },
+  {
+    "id": "engine-scene-invalidation-area",
+    "covers": ["ENG-EVENT-009"],
+    "scenarios": ["engine-model/events/scene-and-page-events"],
+    "patch": {
+      "old": "const inv = G.GScene.prototype._invalidateArea; G.GScene.prototype._invalidateArea = function (area, node) { return inv.call(this, area ? area.expanded(1, 1, 1, 1) : area, node); };"
+    }
+  },
+  {
+    "id": "engine-texture-update-event",
+    "covers": ["ENG-EVENT-013"],
+    "scenarios": ["engine-model/events/scene-and-page-events"],
+    "patch": {
+      "old": "G.GTexturePattern.prototype.requestInvalidation = function () {};"
+    }
+  },
+  {
+    "id": "engine-bitmap-dpi-ignored",
+    "covers": ["ENG-GEOM-013"],
+    "scenarios": ["engine-geometry/bitmap/encode"],
+    "patch": {
+      "old": "const blob = G.GBitmap.prototype.toImageBlob; G.GBitmap.prototype.toImageBlob = function (type, cb, quality) { return blob.call(this, type, cb, quality, 72); };"
+    }
+  },
+  {
+    "id": "engine-master-pages-odd-even-swapped",
+    "covers": ["ENG-SCENE-006"],
+    "scenarios": ["engine-model/scene/master-pages"],
+    "patch": {
+      "old": "const re = G.GScene.prototype.reassignMasterPages; G.GScene.prototype.reassignMasterPages = function () { const odd = this.$ompg; const even = this.$empg; this.$ompg = even; this.$empg = odd; try { return re.call(this); } finally { this.$ompg = odd; this.$empg = even; } };"
+    }
+  },
+  {
+    "id": "engine-flatten-element-reversed",
+    "covers": ["ENG-GEOM-014"],
+    "scenarios": ["engine-geometry/pathops/flatten-element"],
+    "patch": {
+      "old": "const flat = G.GSceneUtil.asFlattenElement; G.GSceneUtil.asFlattenElement = function (...a) { const r = flat.apply(this, a); if (r && r.getFirstChild && !(r instanceof G.GShape)) { const kids = []; for (let c = r.getFirstChild(); c; c = c.getNext()) kids.push(c); if (kids.length > 1) { for (const k of kids) r.removeChild(k); for (const k of kids.reverse()) r.appendChild(k); } } return r; };"
+    }
+  },
+  {
+    "id": "engine-uuid-lowercase",
+    "covers": ["ENG-GEOM-004"],
+    "scenarios": ["engine-geometry/util/helpers"],
+    "patch": {
+      "old": "const uuid = G.GUtil.uuid; G.GUtil.uuid = function (...a) { return uuid.apply(this, a).toLowerCase(); };"
+    }
+  },
+  {
+    "id": "engine-compound-path-transform-ignored",
+    "covers": ["ENG-NODE-026"],
+    "scenarios": ["engine-geometry/shapes/compound-path"],
+    "patch": {
+      "old": "G.GCompoundPath.prototype.transform = function () {};"
+    }
+  },
+  {
+    "id": "engine-sdf-not-saved",
+    "covers": ["ENG-STYLE-002", "ENG-SER-016"],
+    "scenarios": [
+      "engine-model/type-ids/default-style-targets",
+      "engine-model/styles/default-styles",
+      "engine-model/scene/saved-document"
+    ],
+    "patch": {
+      "old": "const ser = G.GNode.serialize; G.GNode.serialize = function (...a) { const s = ser.apply(this, a); return typeof s === 'string' ? s.replace(/,\"_sdf\":\\d+/g, '') : s; };"
+    }
+  },
+  {
+    "id": "engine-cmyk-jpeg-not-converted",
+    "covers": ["ENG-NODE-035"],
+    "scenarios": ["engine-model/special/image-cmyk-jpeg"],
+    "patch": {
+      "old": "const check = G.GImage.prototype._checkColorProfile; G.GImage.prototype._checkColorProfile = function () { this._setConvertStatus(G.GImage.ConvertStatus.Checking); this._setConvertStatus(G.GImage.ConvertStatus.None); };"
+    }
+  },
+  {
+    "id": "engine-hittest-hits-parent",
+    "covers": ["ENG-NODE-012"],
+    "scenarios": ["engine-geometry/hittest/elements"],
+    "patch": {
+      "old": "const hit = G.GElement.prototype.hitTest; G.GElement.prototype.hitTest = function (...a) { const r = hit.apply(this, a); if (r) for (const h of r) if (h && h.element === this) h.element = new G.GGroup(); return r; };"
+    }
+  },
+  {
+    "id": "engine-page-thumbnail-not-sent",
+    "covers": ["ENG-EVENT-008"],
+    "scenarios": ["engine-model/events/scene-and-page-events"],
+    "patch": {
+      "old": "const thumb = G.GPage.prototype._getPageThumbnail; G.GPage.prototype._getPageThumbnail = function (w, h, cb) { return thumb.call(this, w / 2, h / 2, cb); };"
+    }
+  }
+]

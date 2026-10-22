@@ -9,7 +9,8 @@
 import type { Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
-import { runProbe, type Loose } from "./lib.ts";
+import { signature, waitForChange } from "./keys.ts";
+import { runProbe, type Loose, type ProbeArgs } from "./lib.ts";
 
 interface PromptCheck {
   name: string;
@@ -28,7 +29,8 @@ interface PromptCheck {
 }
 
 async function runPrompt(page: Page, c: PromptCheck): Promise<string> {
-  await runProbe(page, { setup: c.setup, id: c.id, phase: "setup", center: true });
+  const base: ProbeArgs = { setup: c.setup, id: c.id, center: true };
+  await runProbe(page, { ...base, phase: "setup" });
   if (c.keys) for (const k of c.keys) await page.keyboard.press(k);
   else {
     await page.evaluate((id) => {
@@ -63,13 +65,15 @@ async function runPrompt(page: Page, c: PromptCheck): Promise<string> {
     await page.mouse.click(b.x + b.width * c.slider, b.y + b.height / 2);
   }
   const slider = (await track.count()) > 0 ? await track.first().getAttribute("value") : null;
+  const before = await signature(page, base);
   if (c.cancel) await dialog.locator(".g-dialog-footer button").first().click();
   else if (c.enter) await field.press("Enter");
   else await dialog.locator(".g-dialog-footer button.primary").click();
-  await page.waitForTimeout(300);
-  const after = JSON.parse(
-    await runProbe(page, { setup: c.setup, id: c.id, phase: "after" }),
-  ) as Record<string, unknown>;
+  await waitForChange(page, base, before);
+  const after = JSON.parse(await runProbe(page, { ...base, phase: "after" })) as Record<
+    string,
+    unknown
+  >;
   return JSON.stringify({ dialog: shown, sliderAfterTyping: slider, ...after });
 }
 

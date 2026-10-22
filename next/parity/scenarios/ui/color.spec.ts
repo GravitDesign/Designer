@@ -1,7 +1,7 @@
 import type { Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
 import type { Scenario } from "../../support/scenario.ts";
-import { behaviour, settle, surfaces, type SurfaceSpec } from "./lib.ts";
+import { behaviour, settle, surfaces, type SurfaceSpec, hoverLong } from "./lib.ts";
 import * as S from "./states.ts";
 
 const CHOOSER = [".g-overlay"];
@@ -119,8 +119,8 @@ list.push(
     viewport: S.TALL,
     setup: async (page) => {
       await openFillChooser(page);
-      await page.hover(".g-overlay .colors-palette .swatch >> nth=14");
-      await page.waitForTimeout(1200);
+      // Waits past the tooltip delay for the tooltip to show.
+      await hoverLong(page, ".g-overlay .colors-palette .swatch >> nth=14");
     },
     shot: [...CHOOSER, ".g-tooltip"],
     dom: false,
@@ -256,25 +256,40 @@ const scenarios: Scenario[] = [
   }),
   behaviour("color/pick-applies-fill", ["UI-COLOR-023", "UI-COLOR-020"], async (page) => {
     await openFillChooser(page);
-    await page.click(".g-overlay .colors-palette .swatch >> nth=13");
+    const swatches = page.locator(".g-overlay .colors-palette .swatch");
+    const picked = swatches.nth(13);
+    // What the swatch shows, so a wrong swatch index shows up too.
+    const swatch = {
+      index: 13,
+      count: await swatches.count(),
+      title: await picked.getAttribute("data-title"),
+      // The colour is drawn as a gradient over a checkerboard data URI.
+      background: await picked.evaluate((e) => {
+        const st = getComputedStyle(e);
+        return `${st.backgroundColor} ${st.backgroundImage.replace(/,?\s*url\([^)]*\)/g, "")}`;
+      }),
+    };
+    await picked.click();
     await settle(page, 300);
-    return page.evaluate(() => {
-      const { app } = (
+    const fill = await page.evaluate(() => {
+      const { G, app } = (
         window as unknown as {
           __parity: {
+            G: { GPattern: { serialize(p: unknown): string } };
             app: {
               selection(): {
                 getPaintLayers(): {
-                  getFirstChild(): { getProperty(k: string): { toString(): string } };
+                  getFirstChild(): { getProperty(k: string): unknown };
                 };
               }[];
             };
           };
         }
       ).__parity;
-      const fill = app.selection()[0]?.getPaintLayers().getFirstChild();
-      return fill ? fill.getProperty("_pt").toString() : null;
+      const layer = app.selection()[0]?.getPaintLayers().getFirstChild();
+      return layer ? G.GPattern.serialize(layer.getProperty("_pt")) : null;
     });
+    return { swatch, fill };
   }),
 ];
 

@@ -131,14 +131,28 @@ const list: SurfaceSpec[] = [
     covers: ["UI-TOUCH-011", "UI-TOUCH-014"],
     open: TOUCH,
     setup: async (page) => {
-      await page
-        .locator("#assistant-bar .g-collapsible > *, #assistant-bar button")
-        .first()
-        .click();
+      // The bar's own toggle (a vertical gCollapsible) folds it away.
+      await page.click("#assistant-bar > .g-collapsible-button");
+      await page.locator("#assistant-bar.collapsed").waitFor({ state: "attached" });
       await page.mouse.move(900, 800);
       await settle(page, 400);
     },
     shot: ["#assistant-bar"],
+    themes: ["light"],
+  },
+  {
+    id: "touch/assistant-right-expanded",
+    covers: ["UI-TOUCH-011", "UI-TOUCH-012", "UI-TOUCH-014"],
+    open: TOUCH,
+    setup: async (page) => {
+      // The right side starts collapsed; its arrow button expands it.
+      await page.click("#assistant-bar .container > .g-collapsible-button");
+      await page.locator("#assistant-bar .right-side.expanded").waitFor({ state: "attached" });
+      await page.mouse.move(900, 800);
+      await settle(page, 400);
+    },
+    shot: ["#assistant-bar"],
+    dom: ["#assistant-bar"],
     themes: ["light"],
   },
   {
@@ -175,17 +189,98 @@ const scenarios: Scenario[] = [
     },
   ),
   behaviour(
-    "touch/virtual-shift",
+    "touch/assistant-toggle-state",
+    ["UI-TOUCH-011", "UI-TOUCH-014", "UI-STORAGE-006"],
+    async (page) => {
+      const state = () =>
+        page.evaluate(() => {
+          const bar = document.getElementById("assistant-bar");
+          const right = bar?.querySelector(".right-side");
+          const stored = localStorage.getItem("designer.assistant-bar.left-side.expanded");
+          return {
+            bar: bar ? [...bar.classList].sort() : null,
+            right: right ? [...right.classList].sort() : null,
+            arrows: [...(bar?.querySelectorAll(".g-collapsible-button span") ?? [])].map(
+              (s) => s.className,
+            ),
+            stored,
+          };
+        });
+      const out = [await state()];
+      await page.click("#assistant-bar .container > .g-collapsible-button");
+      await settle(page);
+      out.push(await state());
+      await page.click("#assistant-bar .container > .g-collapsible-button");
+      await settle(page);
+      out.push(await state());
+      await page.click("#assistant-bar > .g-collapsible-button");
+      await settle(page);
+      out.push(await state());
+      return out;
+    },
+    TOUCH,
+  ),
+  behaviour(
+    "touch/virtual-keys",
     ["UI-TOUCH-012", "UI-TOUCH-013"],
     async (page) => {
       await S.rect(page);
-      const key = page
-        .locator("#assistant-bar .g-virtual-key-shift, #assistant-bar [class*=virtual-key]")
-        .first();
-      const cls = await key.getAttribute("class");
-      await key.click();
-      await settle(page, 300);
-      return { cls, after: await key.getAttribute("class") };
+      // Every key event the bar sends to the canvas, and where the rectangle is.
+      await page.evaluate(() => {
+        const w = window as unknown as { __keys: string[] };
+        w.__keys = [];
+        for (const type of ["keydown", "keyup"]) {
+          window.addEventListener(
+            type,
+            (e) => {
+              const k = e as KeyboardEvent;
+              if (!k.isTrusted) w.__keys.push(`${k.type}:${k.keyCode}:${k.key}`);
+            },
+            true,
+          );
+        }
+      });
+      const read = () =>
+        page.evaluate(() => {
+          const w = window as unknown as {
+            __keys: string[];
+            __parity: {
+              app: {
+                selection(): { getGeometryBBox(): { getX(): number; getY(): number } }[];
+              };
+            };
+          };
+          const keys = w.__keys.splice(0);
+          const b = w.__parity.app.selection()[0]?.getGeometryBBox();
+          return {
+            keys,
+            at: b ? [b.getX(), b.getY()] : null,
+            held: [...document.querySelectorAll("#assistant-bar .g-held")].map((e) => e.className),
+            active: [...document.querySelectorAll("#assistant-bar .toolbar-button.g-active")]
+              .length,
+          };
+        });
+      await page.click("#assistant-bar .container > .g-collapsible-button");
+      await settle(page);
+      const out: Record<string, unknown> = { initial: await read() };
+      // Shift is the first virtual key on the bar.
+      const shift = page.locator("#assistant-bar .g-virtual-key").first();
+      out.shiftClass = await shift.getAttribute("class");
+      await shift.click();
+      await settle(page);
+      out.shiftTap = await read();
+      await shift.dblclick();
+      await settle(page);
+      out.shiftDoubleTap = await read();
+      await shift.dblclick();
+      await settle(page);
+      out.shiftReleased = await read();
+      await page
+        .locator("#assistant-bar .action-button:has(.gravit-icon-touch-arrow-key-right)")
+        .click();
+      await settle(page);
+      out.arrowRight = await read();
+      return out;
     },
     TOUCH,
   ),

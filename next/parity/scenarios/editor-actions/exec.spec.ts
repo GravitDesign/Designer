@@ -9,10 +9,12 @@
 // or leave the page (fullscreen, touch layout) only record their state
 // here (`run: false`); their effect is covered by driver scenarios in
 // dialogs.spec.ts and files.spec.ts.
+import type { Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
 import { ACTION_ITEMS } from "./action-items.ts";
-import { probe, type ProbeArgs } from "./lib.ts";
+import { waitForChange, signature } from "./keys.ts";
+import { probe, runProbe, sceneToClient, type ProbeArgs } from "./lib.ts";
 
 interface Case {
   id: string;
@@ -81,41 +83,41 @@ const cases: Case[] = [
     id: "edit.cut",
     setup: "rects2",
     covers: ["EDT-CLIP-001", "EDT-CLIP-002", "EDT-CLIP-003", "EDT-CLIP-006"],
-    args: { clipboard: true, settle: 300 },
+    args: { clipboard: true },
   },
   {
     id: "edit.cut",
     variant: "group-child",
     setup: "group",
     covers: ["EDT-CLIP-003"],
-    args: { clipboard: true, settle: 300 },
+    args: { clipboard: true },
   },
   {
     id: "edit.copy",
     setup: "rects2",
     covers: ["EDT-CLIP-001", "EDT-CLIP-002", "EDT-CLIP-003"],
-    args: { clipboard: true, settle: 300 },
+    args: { clipboard: true },
   },
   {
     id: "edit.copy",
     variant: "nothing-selected",
     setup: "rect-nosel",
-    args: { clipboard: true, settle: 300 },
+    args: { clipboard: true },
   },
   {
     id: "paste.paste",
     setup: "rect",
     covers: ["EDT-CLIP-007", "EDT-CLIP-010"],
-    args: { copyFirst: "selection", clipboard: true, settle: 300 },
+    args: { copyFirst: "selection", clipboard: true },
   },
   {
     id: "paste.paste",
     variant: "fixed-page",
     setup: "fixed-page",
     covers: ["EDT-CLIP-010"],
-    args: { copyFirst: "selection", settle: 300 },
+    args: { copyFirst: "selection" },
   },
-  { id: "paste.paste", variant: "empty-clipboard", setup: "rect", args: { settle: 300 } },
+  { id: "paste.paste", variant: "empty-clipboard", setup: "rect" },
   {
     id: "edit.paste.in-place",
     setup: "rects2",
@@ -177,7 +179,12 @@ const cases: Case[] = [
   { id: "edit.edit", setup: "rect", args: { tool: true } },
   { id: "edit.edit", variant: "text", setup: "text", args: { tool: true } },
   { id: "edit.select-all", setup: "rects3-one" },
-  { id: "edit.select-all", variant: "pages", setup: "pages3" },
+  {
+    id: "edit.select-all",
+    variant: "pages",
+    setup: "pages3",
+    args: { pre: ["edit.deselect-all"] },
+  },
   { id: "edit.deselect-all", setup: "rects2" },
   { id: "edit.invert-selection", setup: "rects3-one" },
   { id: "edit.selectbyfonttype", setup: "texts" },
@@ -269,9 +276,8 @@ const cases: Case[] = [
     setup: "overlap-gradient",
     covers: ["EDT-DUP-009"],
   },
-  { id: "modify.crop", setup: "image-crop", covers: ["EDT-CROP-005", "EDT-CROP-001"] },
-  { id: "modify.crop", variant: "not-cropping", setup: "image" },
-  { id: "modify.cancel-crop", setup: "image-crop", covers: ["EDT-CROP-006"] },
+  // modify.crop and modify.cancel-crop in crop mode: see cropScenarios below.
+  { id: "modify.crop", variant: "not-cropping", setup: "image", args: { tool: true } },
   { id: "modify.merge", setup: "overlap" },
   { id: "modify.merge.intersect", setup: "overlap" },
   { id: "modify.merge.difference", setup: "overlap" },
@@ -335,7 +341,7 @@ const cases: Case[] = [
   // ------------------------------------------------- Shortcut-only (KEY)
   { id: "modify.lock-layer", args: { run: false } },
   { id: "modify.change-anchor-points-joint-type", setup: "path-anchor" },
-  { id: "modify.change-anchor-points-joint-type.straight", setup: "path-anchor" },
+  { id: "modify.change-anchor-points-joint-type.straight", setup: "path-anchor-smooth" },
   { id: "modify.change-anchor-points-joint-type.mirrored", setup: "path-anchor" },
   { id: "modify.change-anchor-points-joint-type.disconnected", setup: "path-anchor" },
   { id: "modify.change-anchor-points-joint-type.asymmetric", setup: "path-anchor" },
@@ -429,23 +435,71 @@ const cases: Case[] = [
   { id: "open-link.user-guide" },
   { id: "open-link.tutorials" },
   { id: "open-link.request-new-feature" },
-  { id: "help.tooltip-visibility" },
+  {
+    id: "help.tooltip-visibility",
+    // The switch is a container property, stored in localStorage.
+    args: { storage: ["designer.settings.enhanced-tooltips.enabled"] },
+  },
   { id: "help.open-quick-help", args: { run: false } },
   { id: "open-welcome-screen", args: { run: false } },
   { id: "help.shortcuts", args: { run: false } },
 ];
+
+function writesSettings(id: string): boolean {
+  return /^(view.canvas.|view.toggle-|help.tooltip-visibility$)/.test(id);
+}
 
 const scenarios: Scenario<ProbeArgs>[] = cases.map((c) => {
   const item = ACTION_ITEMS[c.id];
   if (!item) throw new Error(`no inventory item for ${c.id}`);
   return {
     id: `editor-actions/exec/${c.id}${c.variant ? `--${c.variant}` : ""}`,
-    covers: [item, "ACT-MENU-002", ...(c.covers ?? [])],
+    covers: [item, ...(c.covers ?? [])],
     kind: "document",
     inPage: probe,
     args: { setup: c.setup ?? "rect", id: c.id, ...c.args },
+    // Actions that write settings get a page of their own: the shared
+    // page reset (app.resetState) sets a setting that was not stored at
+    // boot to undefined instead of its default, which breaks the next
+    // scenario that reads it (see the editor-actions report).
+    ...(writesSettings(c.id) ? { open: { newDocument: true, settings: {} } } : {}),
   };
 });
+
+/**
+ * Confirm and Cancel Cropping in crop mode, entered the way a user does:
+ * a double click on the image, then a drag that moves the image inside
+ * its crop frame. The probe records the before state after that ("run").
+ */
+async function inCropMode(page: Page, args: ProbeArgs): Promise<string> {
+  await runProbe(page, { ...args, phase: "setup" });
+  const before = await signature(page, args);
+  // The image "I" is 40x20 at (100, 100).
+  const c = await sceneToClient(page, 120, 110);
+  await page.mouse.dblclick(c.x, c.y);
+  await waitForChange(page, args, before);
+  const entered = await signature(page, args);
+  await page.mouse.move(c.x, c.y);
+  await page.mouse.down();
+  for (let i = 1; i <= 4; i++) await page.mouse.move(c.x + i * 2, c.y + i);
+  await page.mouse.up();
+  await waitForChange(page, args, entered);
+  return runProbe(page, { ...args, phase: "run" });
+}
+
+const cropScenarios: Scenario<ProbeArgs>[] = (
+  [
+    ["modify.crop", ["EDT-CROP-005", "EDT-CROP-001"]],
+    ["modify.cancel-crop", ["EDT-CROP-006"]],
+  ] as const
+).map(([id, covers]) => ({
+  id: `editor-actions/exec/${id}`,
+  covers: [ACTION_ITEMS[id] as string, ...covers],
+  kind: "document",
+  args: { setup: "image", id, center: true, tool: true },
+  driver: ({ page }, args) => inCropMode(page, args),
+}));
+scenarios.push(...cropScenarios);
 
 // paritySuite takes Scenario<unknown>; the probe's args type is only known here.
 paritySuite("editor-actions exec", defineScenarios(scenarios) as unknown as Scenario[], {

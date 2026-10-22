@@ -172,34 +172,76 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
     covers: ["ENG-SCENE-006", "ENG-SCENE-008"],
     kind: "json",
     inPage: withHelpers((_p, _a, H) => {
+      const G = H.G;
       const s = H.app.scene();
-      const master = s.getActivePage();
-      master.setProperty("name", "Master");
-      master.appendChild(H.rect(0, 0, 50, 50));
-      const slave = s.insertPage();
-      slave.setProperty("refs", [master.getReferenceId()]);
-      const other = s.insertPage();
-      const names = (list: { getProperty(n: string): unknown }[] | null) =>
-        list ? list.map((p) => p.getProperty("name")) : null;
-      const out: Record<string, unknown> = {
-        masters: names(slave.getMasterPages()),
-        slaves: names(master.getSlavePages()),
-        otherMasters: names(other.getMasterPages()),
-        linked: s.isLinked(master),
-        refCount: s.refCount(master),
+      type Page = {
+        getProperty(n: string): unknown;
+        setProperty(n: string, v: unknown): void;
+        getReferenceId(): string;
+        getMasterPages(): Page[] | null;
+        getSlavePages(): Page[] | null;
+        isSingleMasterBackgroundContent(): boolean;
+        appendChild(n: unknown): void;
       };
-      // Scene-wide master page for all pages.
-      const setMpg = H.attempt(() => {
-        s.setProperty("mpg", master);
-        s.reassignMasterPages();
-        return (s.getChildren() as { getProperty(n: string): unknown }[]).map((p) => [
-          p.getProperty("name"),
-          (p.getProperty("refs") as unknown[] | null)?.length ?? null,
-        ]);
+      const pages: Page[] = [s.getActivePage()];
+      for (let i = 0; i < 4; i++) pages.push(s.insertPage());
+      pages.forEach((p, i) => p.setProperty("name", `P${i + 1}`));
+      // Scene-wide masters are pages of their own, kept outside the page list.
+      const master = (name: string, rgb: number[]) => {
+        const p = new G.GPage() as Page;
+        p.setProperty("name", name);
+        p.setProperty("bck", H.rgb(rgb[0] as number, rgb[1] as number, rgb[2] as number));
+        p.appendChild(H.rect(0, 0, 20, 20));
+        return p;
+      };
+      const all = master("All", [255, 0, 0]);
+      const odd = master("Odd", [0, 255, 0]);
+      const even = master("Even", [0, 0, 255]);
+      const names = (list: Page[] | null) => (list ? list.map((p) => p.getProperty("name")) : null);
+      const state = () => ({
+        pages: pages.map((p) => ({
+          name: p.getProperty("name"),
+          masters: names(p.getMasterPages()),
+          slaves: names(p.getSlavePages()),
+          refs: H.clean({ refs: p.getProperty("refs") }).refs,
+          singleMasterContent: p.isSingleMasterBackgroundContent(),
+        })),
+        evenOdd: s.isEvenOddMaster(),
+        mastersSlaves: [all, odd, even].map((m) => [
+          m.getProperty("name"),
+          names(m.getSlavePages()),
+        ]),
       });
-      out.mpg = setMpg;
-      out.singleMasterContent = H.attempt(() => other.isSingleMasterBackgroundContent());
-      out.blobHasRefs = "refs" in H.blob(slave);
+      const out: Record<string, unknown> = {
+        // Reference ids get their stable names in this order.
+        refIds: [all, odd, even, ...pages].map((p) => [
+          p.getProperty("name"),
+          H.id(p.getReferenceId()),
+        ]),
+      };
+      // A page refers to another page as its master through `refs`.
+      pages[1]?.setProperty("refs", [pages[0]?.getReferenceId()]);
+      out.pageRefs = state();
+      // One master for all pages.
+      s.setProperty("mpg", all);
+      out.mpgSet = state();
+      s.reassignMasterPages();
+      out.mpgReassigned = state();
+      // Odd and even masters take over from the single one.
+      s.setProperties(["ompg", "empg"], [odd, even]);
+      s.reassignMasterPages();
+      out.oddEven = state();
+      // Without an odd master, odd pages fall back to the single one.
+      s.setProperty("ompg", null);
+      s.reassignMasterPages();
+      out.evenOnly = state();
+      const saved = H.clean(JSON.parse(H.app.serialize({ save: true })));
+      out.saved = {
+        mpg: saved.mpg,
+        ompg: saved.ompg ?? "<absent>",
+        empg: saved.empg,
+        links: saved._links,
+      };
       return out;
     }),
   },
@@ -296,7 +338,7 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
   },
   {
     id: "engine-model/scene/clipping-render",
-    covers: ["ENG-SCENE-010", "ENG-NODE-020", "ENG-FILL-002"],
+    covers: ["ENG-SCENE-010", "ENG-NODE-020"],
     kind: "png",
     inPage: withHelpers((_p, _a, H) => {
       const G = H.G;
@@ -368,10 +410,10 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
         ["Doc", "cloud-id", true, ["My Font"], [5]],
       );
       r.setFlag(G.GNode.Flag.Selected);
-      const save = H.linksAsEntries(JSON.parse(G.GNode.serialize(s, { save: true })));
-      const plain = H.linksAsEntries(JSON.parse(G.GNode.serialize(s)));
+      const save = JSON.parse(G.GNode.serialize(s, { save: true }));
+      const plain = JSON.parse(G.GNode.serialize(s));
       const singleton = H.attempt(() =>
-        H.linksAsEntries(JSON.parse(G.GNode.serialize(s, { save: true, singleton: true }))),
+        JSON.parse(G.GNode.serialize(s, { save: true, singleton: true })),
       );
       const keys = (b: Record<string, unknown> | string) =>
         typeof b === "string" ? b : Object.keys(b);
@@ -384,8 +426,6 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
         plainLmd: plain.lmd ?? "<absent>",
       });
     }),
-    // `_sdf` is the runtime type id of the element class (load-order dependent).
-    dropKeys: ["_sdf"],
   },
 ]);
 

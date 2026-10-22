@@ -4,7 +4,7 @@
 // so both apps fall back to Blob downloads).
 import type { Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
-import { defineScenarios } from "../../support/scenario.ts";
+import { defineScenarios, type Scenario } from "../../support/scenario.ts";
 import {
   captureDownload,
   clickDialogButton,
@@ -13,7 +13,7 @@ import {
   normalizeExport,
   normalizePdf,
   normalizeSvg,
-  pdfStructure,
+  renderPdf,
   runInPage,
   sha256,
   visibleDialogs,
@@ -141,25 +141,31 @@ async function openExportDialog(page: Page): Promise<string[]> {
   if (prompts.some((t) => /save this file before exporting/.test(t)))
     await clickDialogButton(page, "No");
   await page.locator(".g-export-dialog").waitFor({ state: "visible" });
-  await page.waitForTimeout(500);
   return prompts;
 }
 
+// The dialog updates its rows in the change and click handlers, so the
+// next read sees the new state without waiting.
 async function selectFormat(page: Page, format: string): Promise<void> {
   await page.locator(".g-export-dialog [data-setting=format] select").selectOption(format);
-  await page.waitForTimeout(300);
 }
 
 async function setMode(page: Page, mode: string): Promise<void> {
-  await page.locator(`.g-export-dialog .mode-container > label[data-mode=${mode}]`).click();
-  await page.waitForTimeout(300);
+  const label = page.locator(`.g-export-dialog .mode-container > label[data-mode=${mode}]`);
+  await label.click();
+  await page.waitForFunction(
+    (m) =>
+      document
+        .querySelector(`.g-export-dialog .mode-container > label[data-mode=${m}]`)
+        ?.classList.contains("g-active") ?? false,
+    mode,
+  );
 }
 
 async function setSize(page: Page, size: string): Promise<void> {
   const input = page.locator(".g-export-dialog [data-setting=size] input");
   await input.fill(size);
   await input.press("Enter");
-  await page.waitForTimeout(300);
 }
 
 async function clickExport(page: Page): Promise<Download> {
@@ -170,9 +176,31 @@ async function clickExport(page: Page): Promise<Download> {
 
 /** A download as JSON: name, size, hash; PDFs normalized, ZIPs listed. */
 function describeDownload(d: Download): Record<string, unknown> {
-  if (d.name.endsWith(".zip")) return { name: d.name, entries: zipEntries(d.data) };
-  const data = normalizeExport(d.name, d.data);
+  if (d.name.endsWith(".zip")) return { name: d.name, entries: zipEntries(d.data, d.since) };
+  const data = normalizeExport(d.name, d.data, d.since);
   return { name: d.name, size: data.length, sha256: sha256(data) };
+}
+
+/**
+ * The export dialog's own output for one format, as bytes (FMT-EXPORT-022,
+ * R2-133): canvas mode, defaults otherwise. PDFs and SVGs normalized.
+ */
+function dialogBytes(format: "png" | "jpg" | "svg" | "pdf"): Scenario<unknown> {
+  return {
+    id: `import-export/ui/dialog-bytes-${format}`,
+    covers: ["FMT-EXPORT-022", "FMT-EXPORT-005", "FMT-EXPORT-037"],
+    kind: format === "svg" ? "text" : "bytes",
+    extension: `.${format}`,
+    driver: async ({ page }) => {
+      page.setDefaultTimeout(15_000);
+      await runInPage(page, build, { doc: "shapes", title: `Bytes ${format}` });
+      await openExportDialog(page);
+      await selectFormat(page, format);
+      const d = await clickExport(page);
+      const data = normalizeExport(d.name, d.data, d.since);
+      return format === "svg" ? data.toString("utf8") : data;
+    },
+  };
 }
 
 async function sizeMenu(page: Page): Promise<string[]> {
@@ -192,6 +220,72 @@ async function sizeMenu(page: Page): Promise<string[]> {
 }
 
 const UI = "import-export/ui";
+
+/**
+ * File > Print... in Chromium: the document is stored as a 300 dpi PDF,
+ * loaded into a hidden iframe as a blob: URL and printed from there
+ * (FMT-EXPORT-051). Returns the iframe's style and the normalized PDF.
+ */
+async function printPdf(page: Page): Promise<{ style: string | null; pdf: Buffer }> {
+  // The effects document: its blur and shadows are rasterized at the
+  // print dpi, so the dpi shows in the file.
+  await runInPage(page, build, { doc: "effects", title: "Print Doc" });
+  const since = Date.now();
+  await clickMenu(page, ["File", "Print..."]);
+  await page.waitForFunction(() => !!document.querySelector("iframe[src^='blob:']"), null, {
+    timeout: 60_000,
+  });
+  const frame = await page.evaluate(async () => {
+    const f = document.querySelector("iframe[src^='blob:']") as HTMLIFrameElement;
+    const buf = new Uint8Array(await (await fetch(f.src)).arrayBuffer());
+    let bin = "";
+    for (let i = 0; i < buf.length; i++) bin += String.fromCharCode(buf[i] ?? 0);
+    return { style: f.getAttribute("style"), b64: btoa(bin) };
+  });
+  return { style: frame.style, pdf: normalizePdf(Buffer.from(frame.b64, "base64"), since) };
+}
+
+function printScenarios(): Scenario<unknown>[] {
+  return [
+    {
+      id: `${UI}/print`,
+      covers: ["FMT-EXPORT-051", "ACT-FILE-023"],
+      kind: "json",
+      timeout: 120_000,
+      driver: async ({ page }) => {
+        page.setDefaultTimeout(15_000);
+        const { style, pdf } = await printPdf(page);
+        return {
+          style,
+          size: pdf.length,
+          sha256: sha256(pdf),
+          dialogs: await visibleDialogs(page),
+        };
+      },
+    },
+    {
+      id: `${UI}/print-pdf`,
+      covers: ["FMT-EXPORT-051", "FMT-EXPORT-014"],
+      kind: "bytes",
+      extension: ".pdf",
+      timeout: 120_000,
+      driver: async ({ page }) => {
+        page.setDefaultTimeout(15_000);
+        return (await printPdf(page)).pdf;
+      },
+    },
+    {
+      id: `${UI}/print-pdf.render`,
+      covers: ["FMT-EXPORT-051"],
+      kind: "png",
+      timeout: 120_000,
+      driver: async ({ page }) => {
+        page.setDefaultTimeout(15_000);
+        return renderPdf(page, (await printPdf(page)).pdf, 1);
+      },
+    },
+  ];
+}
 
 const scenarios = defineScenarios<unknown>([
   {
@@ -308,7 +402,7 @@ const scenarios = defineScenarios<unknown>([
         // two selected elements: a ZIP with one SVG each
         svgs: d.name.endsWith(".zip")
           ? Object.fromEntries(
-              zipEntries(d.data).map((e) => [
+              zipEntries(d.data, d.since).map((e) => [
                 e.name,
                 normalizeSvg(zipEntry(d.data, e.name).toString("utf8")),
               ]),
@@ -508,6 +602,7 @@ const scenarios = defineScenarios<unknown>([
   {
     id: `${UI}/quick-export-menu`,
     covers: [
+      "FMT-EXPORT-001",
       "FMT-EXPORT-040",
       "FMT-EXPORT-041",
       "ACT-FILE-015",
@@ -754,41 +849,11 @@ const scenarios = defineScenarios<unknown>([
       });
     },
   },
-  {
-    id: `${UI}/print`,
-    covers: ["FMT-EXPORT-051", "ACT-FILE-023"],
-    kind: "json",
-    timeout: 120_000,
-    driver: async ({ page }) => {
-      page.setDefaultTimeout(15_000);
-      await runInPage(page, build, { doc: "text", title: "Print Doc" });
-      await clickMenu(page, ["File", "Print..."]);
-      // Chromium path: the document is stored as a 300 dpi PDF, loaded into a
-      // hidden iframe as a blob: URL and printed from there.
-      await page.waitForFunction(() => !!document.querySelector("iframe[src^='blob:']"), null, {
-        timeout: 60_000,
-      });
-      const frame = await page.evaluate(async () => {
-        const f = document.querySelector("iframe[src^='blob:']") as HTMLIFrameElement;
-        const buf = new Uint8Array(await (await fetch(f.src)).arrayBuffer());
-        let bin = "";
-        for (let i = 0; i < buf.length; i++) bin += String.fromCharCode(buf[i] ?? 0);
-        return { style: f.getAttribute("style"), b64: btoa(bin) };
-      });
-      const pdf = normalizePdf(Buffer.from(frame.b64, "base64"));
-      // Not the bytes or a render: the print PDF is racy in the old app.
-      // Its text clip box is sometimes taken before the text has been laid
-      // out with its font (125 x 27.2 instead of 186 x 40.9 for the same
-      // document), so the bytes and the render differ between runs. The
-      // structure (pages, boxes, operators, text) is the same every time.
-      return {
-        style: frame.style,
-        head: pdf.subarray(0, 8).toString("latin1"),
-        structure: await pdfStructure(page, pdf),
-        dialogs: await visibleDialogs(page),
-      };
-    },
-  },
+  ...printScenarios(),
+  dialogBytes("png"),
+  dialogBytes("jpg"),
+  dialogBytes("svg"),
+  dialogBytes("pdf"),
 ]);
 
 paritySuite("import-export export UI", scenarios, { newApp: false });

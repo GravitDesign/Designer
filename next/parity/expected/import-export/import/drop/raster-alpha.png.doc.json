@@ -1,0 +1,108 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "annlst",
+     "@id": "id3",
+     "pgid": "id2",
+     "aid": "id3"
+    },
+    {
+     "@": "rectangle",
+     "@id": "id4",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      10,
+      0,
+      0,
+      10,
+      10,
+      10
+     ],
+     "name": "Marker",
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id5",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id6",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "image",
+     "@id": "id9",
+     "url": "dictionary://id17",
+     "iw": 64,
+     "ih": 48,
+     "pw": 64,
+     "ph": 48,
+     "itrf": [
+      1,
+      0,
+      0,
+      1,
+      400,
+      250
+     ],
+     "ipfc": true,
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      400,
+      250
+     ],
+     "name": "alpha",
+     "_layId": "id10",
+     "_effId": "id11"
+    }
+   ],
+   "#": "id12",
+   "w": 600,
+   "h": 400,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "name": "Target"
+  }
+ ],
+ "lmd": "<time>",
+ "__ids": [
+  "id13",
+  "id14",
+  "id15",
+  "id16"
+ ],
+ "dictionary": {
+  "entries": [
+   {
+    "uuid": "id17",
+    "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAwCAYAAAChS3wfAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAGYktHRAD/AP8A/6C9p5MAAAAHdElNRQfqChYBBRwsfUCbAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI2LTEwLTIyVDAxOjA1OjI4KzAwOjAwAuPpSwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNi0xMC0yMlQwMTowNToyOCswMDowMHO+UfcAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjYtMTAtMjJUMDE6MDU6MjgrMDA6MDAkq3AoAAABiklEQVRo3u2aPW7CQBBG31oJfYhSEXELpPTUXII+d+AO9LkENb0lbmFBlQA9kWIKTywrOH8m8edk9msoAPHmeXfMehdiYmI8JzT9Yg4JcAXcAkNgAPSBHnAAdsAGyIA1sA/woi74bAE5XAMj4K7B76XAKsBWXfi3BeRwA0worva5yYBFgMfOC8jhEhjT7Ip/lhRYBnjupAAb7vctcMzDLH9qrepZKOu++KD4ITBtCakNybVJOlC8NCcCbNi7KP5EgDU82XCUC6Do9q5SCrD7/G/c6jqd6giYqGFkAqzx/cQ/vD+X1xEwUoPIBNiqzt3cLwVQLGndJqFYz7tNgtPmVxUwUEOoBfTVEGoBPTWEWsBBDaEWsFNDqAVs1BBqAZkaQi1grYZQC9irIaQCbLsqVYPIBNjrSg0iFWB7dS6bYfWR2EINIxVgG5XuesHbx+JLNZBUgO3SztVQMgEmYQs8qMFkAkxC5kVC8t4bJqGt6SCbdvGEyFc/6PaMUI0In6fEakT8i3OCMTHOcwQ8tUxBGTSBHQAAAABJRU5ErkJggg==",
+    "references": 1
+   }
+  ]
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}

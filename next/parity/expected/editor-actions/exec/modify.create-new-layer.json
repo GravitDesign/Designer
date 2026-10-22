@@ -3,6 +3,14 @@
  "id": "modify.create-new-layer",
  "info": {
   "title": "Create new layer",
+  "fullTitle": "Create new layer",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify"
+  ],
+  "group": null,
+  "pro": false,
   "available": true,
   "visible": false,
   "enabled": true,
@@ -14,7 +22,11 @@
  },
  "before": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,27 +34,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -516,10 +529,13 @@
    "rightVisible": true
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1/0"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -527,6 +543,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Insert Layer"
@@ -534,17 +551,17 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "layer",
@@ -552,7 +569,7 @@
        "$": [
         {
          "@": "rectangle",
-         "@id": "id4",
+         "@id": "id1",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -1036,6 +1053,14 @@
  },
  "infoAfter": {
   "title": "Create new layer",
+  "fullTitle": "Create new layer",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify"
+  ],
+  "group": null,
+  "pro": false,
   "available": true,
   "visible": false,
   "enabled": true,
@@ -1047,7 +1072,11 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1055,6 +1084,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1080,7 +1110,11 @@
  },
  "afterRedo": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1/0"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1088,6 +1122,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Insert Layer"

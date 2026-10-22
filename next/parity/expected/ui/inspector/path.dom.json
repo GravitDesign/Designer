@@ -8,6 +8,9 @@
   "children": [
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -16,6 +19,9 @@
      "toolbar",
      "main-toolbar"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "label",
@@ -62,7 +68,10 @@
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -101,7 +110,10 @@
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -137,12 +149,18 @@
         "cls": [
          "normal"
         ],
+        "attrs": {
+         "style": "stroke: transparent;"
+        },
         "children": [
          {
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -172,12 +190,18 @@
         "cls": [
          "normal"
         ],
+        "attrs": {
+         "style": "stroke: transparent;"
+        },
         "children": [
          {
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -207,12 +231,18 @@
         "cls": [
          "normal"
         ],
+        "attrs": {
+         "style": "stroke: transparent;"
+        },
         "children": [
          {
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -254,12 +284,18 @@
         "cls": [
          "normal"
         ],
+        "attrs": {
+         "style": "stroke: transparent;"
+        },
         "children": [
          {
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -289,12 +325,18 @@
         "cls": [
          "normal"
         ],
+        "attrs": {
+         "style": "stroke: transparent;"
+        },
         "children": [
          {
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -324,12 +366,18 @@
         "cls": [
          "normal"
         ],
+        "attrs": {
+         "style": "stroke: transparent;"
+        },
         "children": [
          {
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -413,6 +461,9 @@
      "properties-panel",
      "dimension-panel"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
@@ -453,6 +504,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -475,7 +529,8 @@
                 "attrs": {
                  "data-dimension": "x",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "500"
@@ -492,13 +547,19 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 12%;"
+          }
          },
          {
           "tag": "div",
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -521,7 +582,8 @@
                 "attrs": {
                  "data-dimension": "y",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "400"
@@ -569,6 +631,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -591,7 +656,8 @@
                 "attrs": {
                  "data-dimension": "w",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "200"
@@ -608,6 +674,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 12%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -622,7 +691,8 @@
               ],
               "attrs": {
                "data-title": "Keep Ratio",
-               "data-ratio": "no"
+               "data-ratio": "no",
+               "style": "text-align: center; cursor: pointer;"
               }
              }
             ]
@@ -634,6 +704,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -656,7 +729,8 @@
                 "attrs": {
                  "data-dimension": "h",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "150"
@@ -704,6 +778,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -726,7 +803,8 @@
                 "attrs": {
                  "data-dimension": "rotate",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "0°"
@@ -743,13 +821,19 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 12%;"
+          }
          },
          {
           "tag": "label",
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -778,6 +862,9 @@
        "g-property-row",
        "anchor-panel"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "label",
@@ -805,6 +892,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -886,13 +976,19 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 12%;"
+          }
          },
          {
           "tag": "div",
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -977,6 +1073,9 @@
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -985,6 +1084,9 @@
      "toolbar",
      "advanced-transform-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -993,10 +1095,16 @@
      "properties-panel",
      "advanced-transform-properties"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1007,6 +1115,9 @@
      "page-toolbar",
      "page-properties-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1015,10 +1126,16 @@
      "properties-panel",
      "page-properties-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1027,6 +1144,9 @@
      "toolbar",
      "scene-properties-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1035,10 +1155,16 @@
      "properties-panel",
      "scene-properties-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1047,10 +1173,16 @@
      "properties-panel",
      "group-frame-property-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1059,10 +1191,16 @@
      "properties-panel",
      "frame-property-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1071,10 +1209,16 @@
      "properties-panel",
      "item-property-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1085,6 +1229,9 @@
      "page-toolbar",
      "symbol-instance-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1093,13 +1240,19 @@
      "properties-panel",
      "symbol-instance-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
     "cls": [
      "appearance-divider"
-    ]
+    ],
+    "attrs": {
+     "style": ""
+    }
    },
    {
     "tag": "div",
@@ -1109,6 +1262,9 @@
      "appearance-panel-toggle-btn",
      "accordion"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "label",
@@ -1144,7 +1300,8 @@
       ],
       "attrs": {
        "data-title": "Advanced Settings",
-       "data-action": "text-settings"
+       "data-action": "text-settings",
+       "style": "display: none;"
       },
       "hidden": true
      },
@@ -1153,6 +1310,9 @@
       "cls": [
        "g-image-convert-status"
       ],
+      "attrs": {
+       "style": "display: none; font-size: 8px;"
+      },
       "hidden": true
      }
     ]
@@ -1163,12 +1323,18 @@
      "properties-panel",
      "appearance-properties-panel"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1176,6 +1342,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1183,6 +1352,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "div",
@@ -1190,6 +1362,9 @@
          "g-property-row",
          "no-label"
         ],
+        "attrs": {
+         "style": ""
+        },
         "children": [
          {
           "tag": "div",
@@ -1202,6 +1377,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 40%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -1242,6 +1420,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 60%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -1287,6 +1468,9 @@
          "position-row",
          "g-property-row"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
@@ -1296,10 +1480,16 @@
          "g-property-row",
          "joint"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
         "tag": "hr",
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
@@ -1309,10 +1499,16 @@
          "g-property-row",
          "corner-radius"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
-        "tag": "hr"
+        "tag": "hr",
+        "attrs": {
+         "style": ""
+        }
        }
       ]
      },
@@ -1321,6 +1517,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1329,6 +1528,9 @@
        "appearance-property-panel",
        "text-properties-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1336,6 +1538,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1343,6 +1548,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1351,6 +1559,9 @@
        "appearance-property-panel",
        "slice-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1358,6 +1569,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1365,6 +1579,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "div",
@@ -1434,7 +1651,10 @@
                     "cls": [
                      "g-input-slider-thumb",
                      "custom"
-                    ]
+                    ],
+                    "attrs": {
+                     "style": "left: 100%;"
+                    }
                    }
                   ]
                  }
@@ -1449,7 +1669,10 @@
             "cls": [
              "column",
              "no-padding"
-            ]
+            ],
+            "attrs": {
+             "style": "width: 5px;"
+            }
            },
            {
             "tag": "label",
@@ -1516,6 +1739,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 100%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -1740,18 +1966,27 @@
           "cls": [
            "style-selector-container"
           ],
+          "attrs": {
+           "style": "display: flex;"
+          },
           "children": [
            {
             "tag": "div",
             "cls": [
              "style-selector-inner-wrapper"
             ],
+            "attrs": {
+             "style": "display: flex; width: 100%; overflow: hidden;"
+            },
             "children": [
              {
               "tag": "div",
               "cls": [
                "g-styles-preview"
               ],
+              "attrs": {
+               "style": "margin-right: 5px; align-self: center; display: none;"
+              },
               "hidden": true
              },
              {
@@ -1761,6 +1996,9 @@
                "g-styles-field-container",
                "pro"
               ],
+              "attrs": {
+               "style": "overflow: hidden; margin-right: 5px;"
+              },
               "children": [
                {
                 "tag": "span",
@@ -1769,7 +2007,8 @@
                 ],
                 "attrs": {
                  "data-property": "_styles",
-                 "type": "text"
+                 "type": "text",
+                 "style": "width: 95%; align-self: center; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"
                 },
                 "text": "No Shared Style"
                }
@@ -1791,6 +2030,9 @@
        },
        {
         "tag": "hr",
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        }
       ]
@@ -1798,7 +2040,10 @@
     ]
    },
    {
-    "tag": "hr"
+    "tag": "hr",
+    "attrs": {
+     "style": ""
+    }
    },
    {
     "tag": "div",
@@ -1809,6 +2054,9 @@
      "appearance-panel-toggle-btn",
      "accordion"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "label",
@@ -1864,7 +2112,8 @@
       ],
       "attrs": {
        "data-title": "Advanced Fill Settings",
-       "data-action": "settings"
+       "data-action": "settings",
+       "style": ""
       },
       "children": [
        {
@@ -1879,7 +2128,8 @@
       "tag": "button",
       "attrs": {
        "data-title": "Remove Selected Fill",
-       "data-action": "remove"
+       "data-action": "remove",
+       "style": ""
       },
       "children": [
        {
@@ -1927,6 +2177,9 @@
      "properties-panel",
      "fill-properties-panel"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
@@ -1984,6 +2237,9 @@
            "g-cursor-hand-open",
            "g-color"
           ],
+          "attrs": {
+           "style": "width: 40px;"
+          },
           "children": [
            {
             "tag": "div",
@@ -2008,7 +2264,8 @@
                 ],
                 "attrs": {
                  "data-drag-mode": "1",
-                 "draggable": "true"
+                 "draggable": "true",
+                 "style": "background: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255)), url(data:(309 chars));"
                 },
                 "children": [
                  {
@@ -2232,6 +2489,9 @@
            "g-cursor-hand-open",
            "g-normal"
           ],
+          "attrs": {
+           "style": "width: 45px;"
+          },
           "children": [
            {
             "tag": "div",
@@ -2264,6 +2524,9 @@
            "g-cursor-hand-open",
            "g-normal"
           ],
+          "attrs": {
+           "style": "width: 20px;"
+          },
           "children": [
            {
             "tag": "div",
@@ -2305,7 +2568,10 @@
     ]
    },
    {
-    "tag": "hr"
+    "tag": "hr",
+    "attrs": {
+     "style": ""
+    }
    },
    {
     "tag": "div",
@@ -2316,6 +2582,9 @@
      "appearance-panel-toggle-btn",
      "accordion"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "label",
@@ -2345,7 +2614,8 @@
       "tag": "button",
       "attrs": {
        "data-title": "Advanced stroke settings",
-       "data-action": "stroke-settings"
+       "data-action": "stroke-settings",
+       "style": ""
       },
       "children": [
        {
@@ -2367,7 +2637,8 @@
       "tag": "button",
       "attrs": {
        "data-title": "Remove Selected Border",
-       "data-action": "remove"
+       "data-action": "remove",
+       "style": ""
       },
       "children": [
        {
@@ -2415,6 +2686,9 @@
      "properties-panel",
      "border-properties-panel"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
@@ -2472,6 +2746,9 @@
            "g-cursor-hand-open",
            "g-color"
           ],
+          "attrs": {
+           "style": "width: 40px;"
+          },
           "children": [
            {
             "tag": "div",
@@ -2496,7 +2773,8 @@
                 ],
                 "attrs": {
                  "data-drag-mode": "1",
-                 "draggable": "true"
+                 "draggable": "true",
+                 "style": "background: linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)), url(data:(309 chars));"
                 },
                 "children": [
                  {
@@ -2532,6 +2810,9 @@
            "g-cursor-hand-open",
            "g-normal"
           ],
+          "attrs": {
+           "style": "width: 40px;"
+          },
           "children": [
            {
             "tag": "div",
@@ -2753,6 +3034,9 @@
            "g-cursor-hand-open",
            "g-normal"
           ],
+          "attrs": {
+           "style": "width: 45px;"
+          },
           "children": [
            {
             "tag": "div",
@@ -2786,6 +3070,9 @@
            "g-cursor-hand-open",
            "g-normal"
           ],
+          "attrs": {
+           "style": "width: 20px;"
+          },
           "children": [
            {
             "tag": "div",
@@ -2827,7 +3114,10 @@
     ]
    },
    {
-    "tag": "hr"
+    "tag": "hr",
+    "attrs": {
+     "style": ""
+    }
    },
    {
     "tag": "div",
@@ -2839,6 +3129,9 @@
      "accordion",
      "last-toolbar"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "label",
@@ -2890,6 +3183,9 @@
      "properties-panel",
      "effects-properties-panel"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",

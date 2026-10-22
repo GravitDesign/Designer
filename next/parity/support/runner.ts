@@ -3,8 +3,9 @@ import path from "node:path";
 import type { Page } from "@playwright/test";
 import type { AppKind } from "./apps.ts";
 import { comparePng, diffJson, formatJsonDiff } from "./compare.ts";
-import { EXPECTED_ROOT, OUTPUT_ROOT } from "./env.ts";
-import { normalizeDocumentString, type Json } from "./normalize.ts";
+import { EXPECTED_ROOT, NEXT_ROOT, OUTPUT_ROOT } from "./env.ts";
+import zlib from "node:zlib";
+import { documentIds, normalizeDocumentString, type Json } from "./normalize.ts";
 import { extensionFor, type Scenario } from "./scenario.ts";
 
 /** Output of a scenario in the form it is stored on disk. */
@@ -22,15 +23,53 @@ function toBuffer(value: unknown, encoding: "base64" | "utf8"): Buffer {
   return Buffer.from(value, encoding);
 }
 
+/**
+ * JSON can't hold -0, NaN, ±Infinity or undefined: JSON.stringify turns
+ * them into 0, null or nothing, which would hide a difference. They are
+ * stored as tagged strings instead ("<-0>", "<NaN>", "<Infinity>",
+ * "<-Infinity>", "<undefined>"). Playwright carries all of them out of
+ * the page intact.
+ */
+export function tagSpecialValues(value: unknown): unknown {
+  if (typeof value === "number") {
+    if (Object.is(value, -0)) return "<-0>";
+    if (Number.isNaN(value)) return "<NaN>";
+    if (value === Infinity) return "<Infinity>";
+    if (value === -Infinity) return "<-Infinity>";
+    return value;
+  }
+  if (value === undefined) return "<undefined>";
+  if (Array.isArray(value)) return value.map(tagSpecialValues);
+  if (typeof value === "object" && value !== null) {
+    const out: Record<string, unknown> = {};
+    for (const [key, child] of Object.entries(value)) out[key] = tagSpecialValues(child);
+    return out;
+  }
+  return value;
+}
+
+/** Ids of the file a scenario loads, which must survive unchanged. */
+function idsOfLoadedFile(scenario: Scenario): string[] {
+  const spec = scenario.keepIdsOf;
+  if (!spec) return [];
+  const rel = typeof spec === "function" ? spec(scenario.args) : spec;
+  let bytes = fs.readFileSync(path.join(NEXT_ROOT, rel));
+  if (bytes[0] === 0x1f && bytes[1] === 0x8b) bytes = zlib.gunzipSync(bytes);
+  return documentIds(JSON.parse(bytes.toString("utf8")) as Json);
+}
+
 /** Turns the raw value a scenario returned into its stored form. */
 export function storeOutput(scenario: Scenario, raw: unknown): StoredOutput {
   switch (scenario.kind) {
     case "json":
-      return Buffer.from(JSON.stringify(raw ?? null, null, 1) + "\n", "utf8");
+      return Buffer.from(JSON.stringify(tagSpecialValues(raw ?? null), null, 1) + "\n", "utf8");
     case "document": {
       if (typeof raw !== "string") throw new Error("document scenarios must return a JSON string");
       return Buffer.from(
-        normalizeDocumentString(raw, { dropKeys: scenario.dropKeys }) + "\n",
+        normalizeDocumentString(raw, {
+          dropKeys: scenario.dropKeys,
+          keepIds: idsOfLoadedFile(scenario),
+        }) + "\n",
         "utf8",
       );
     }

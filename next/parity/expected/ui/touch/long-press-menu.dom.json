@@ -5,6 +5,9 @@
    "g-overlay",
    "context-menu-touch-overlay"
   ],
+  "attrs": {
+   "style": "position: absolute; top: 400px; left: 600px;"
+  },
   "children": [
    {
     "tag": "div",
@@ -28,6 +31,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 48%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -106,13 +112,19 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 4%;"
+          }
          },
          {
           "tag": "div",
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 48%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -722,6 +734,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 48%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -806,13 +821,19 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 4%;"
+          }
          },
          {
           "tag": "div",
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 48%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -908,6 +929,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 48%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -974,13 +998,19 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 4%;"
+          }
          },
          {
           "tag": "div",
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 48%;"
+          },
           "children": [
            {
             "tag": "div",

@@ -8,6 +8,9 @@
   "children": [
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -16,6 +19,9 @@
      "toolbar",
      "main-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -24,10 +30,16 @@
      "properties-panel",
      "dimension-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -36,6 +48,9 @@
      "toolbar",
      "advanced-transform-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -44,10 +59,16 @@
      "properties-panel",
      "advanced-transform-properties"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -58,6 +79,9 @@
      "page-toolbar",
      "page-properties-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -66,10 +90,16 @@
      "properties-panel",
      "page-properties-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -78,6 +108,9 @@
      "toolbar",
      "scene-properties-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -86,10 +119,16 @@
      "properties-panel",
      "scene-properties-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -98,10 +137,16 @@
      "properties-panel",
      "group-frame-property-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -110,10 +155,16 @@
      "properties-panel",
      "frame-property-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -122,10 +173,16 @@
      "properties-panel",
      "item-property-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -136,6 +193,9 @@
      "page-toolbar",
      "symbol-instance-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -144,6 +204,9 @@
      "properties-panel",
      "symbol-instance-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -151,6 +214,9 @@
     "cls": [
      "appearance-divider"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -159,6 +225,9 @@
      "toolbar",
      "appearance-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -167,12 +236,18 @@
      "properties-panel",
      "appearance-properties-panel"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -180,6 +255,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -187,6 +265,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -194,6 +275,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -202,6 +286,9 @@
        "appearance-property-panel",
        "text-properties-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -209,6 +296,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -216,6 +306,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -224,6 +317,9 @@
        "appearance-property-panel",
        "slice-property-panel"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "div",
@@ -258,6 +354,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 44%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -320,6 +419,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 44%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -382,6 +484,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 44%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -444,6 +549,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 44%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -492,6 +600,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 100%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -551,6 +662,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 80%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -592,6 +706,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 20%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -654,6 +771,9 @@
        },
        {
         "tag": "hr",
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        }
       ]
@@ -663,6 +783,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -670,12 +793,18 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      }
     ]
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -685,6 +814,9 @@
      "list-toolbar",
      "fill-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -693,10 +825,16 @@
      "properties-panel",
      "fill-properties-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -706,6 +844,9 @@
      "list-toolbar",
      "border-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -714,10 +855,16 @@
      "properties-panel",
      "border-properties-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -727,6 +874,9 @@
      "list-toolbar",
      "effects-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -735,6 +885,9 @@
      "properties-panel",
      "effects-properties-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    }
   ]

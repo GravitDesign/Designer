@@ -17,6 +17,9 @@
     "cls": [
      "moreTab"
     ],
+    "attrs": {
+     "style": "left: -109.359px; max-height: 950px;"
+    },
     "children": [
      {
       "tag": "div",
@@ -46,7 +49,8 @@
          {
           "tag": "input",
           "attrs": {
-           "type": "text"
+           "type": "text",
+           "style": "display: none;"
           },
           "props": {
            "value": "Untitled-1*"
@@ -60,6 +64,9 @@
         "cls": [
          "close"
         ],
+        "attrs": {
+         "style": "pointer-events: auto;"
+        },
         "hidden": true
        },
        {
@@ -67,6 +74,9 @@
         "cls": [
          "sync-status"
         ],
+        "attrs": {
+         "style": "pointer-events: auto;"
+        },
         "hidden": true
        }
       ]
@@ -101,7 +111,8 @@
          {
           "tag": "input",
           "attrs": {
-           "type": "text"
+           "type": "text",
+           "style": "display: none;"
           },
           "props": {
            "value": "Untitled-2"
@@ -115,6 +126,9 @@
         "cls": [
          "close"
         ],
+        "attrs": {
+         "style": "pointer-events: auto;"
+        },
         "hidden": true
        }
       ]

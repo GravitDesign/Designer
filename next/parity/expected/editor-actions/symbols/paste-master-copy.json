@@ -3,6 +3,15 @@
  "id": "paste.paste",
  "info": {
   "title": "Paste",
+  "fullTitle": "Paste",
+  "info": null,
+  "icon": "gravit-icon-paste",
+  "category": [
+   "Edit",
+   "Edit/Paste"
+  ],
+  "group": "ccp/paste",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +23,11 @@
  },
  "before": {
   "selection": [
-   "symbol:Master"
+   {
+    "node": "symbol:Master",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,27 +35,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "symbol",
-       "@id": "id4",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
@@ -530,10 +544,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "symbol:Master"
+   {
+    "node": "symbol:Master",
+    "@id": "id1",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -541,6 +558,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Paste"
@@ -548,21 +566,21 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "symbol",
-       "@id": "id4",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
@@ -616,7 +634,7 @@
       },
       {
        "@": "symbol",
-       "@id": "id4",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
@@ -1077,7 +1095,7 @@
    ],
    "lmd": "<time>",
    "_links": {
-    "rid12": [
+    "id12": [
      "id114"
     ]
    },
@@ -1121,6 +1139,15 @@
  },
  "infoAfter": {
   "title": "Paste",
+  "fullTitle": "Paste",
+  "info": null,
+  "icon": "gravit-icon-paste",
+  "category": [
+   "Edit",
+   "Edit/Paste"
+  ],
+  "group": "ccp/paste",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -1132,7 +1159,11 @@
  },
  "afterUndo": {
   "selection": [
-   "symbol:Master"
+   {
+    "node": "symbol:Master",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1140,6 +1171,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1150,7 +1182,11 @@
  },
  "afterRedo": {
   "selection": [
-   "symbol:Master"
+   {
+    "node": "symbol:Master",
+    "@id": "id1",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1158,6 +1194,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Paste"

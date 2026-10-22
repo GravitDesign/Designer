@@ -131,7 +131,7 @@ const scenarios = defineScenarios([
       };
     });
   }),
-  geo("transform/rotation-transform", ["ENG-GEOM-003", "EDT-SNAP-014"], (L, G) => {
+  geo("transform/rotation-transform", ["ENG-GEOM-003"], (L, G) => {
     // getRotationTransform(startX, startY, curX, curY, cx, cy, snap, step, snapTolerance)
     const out: unknown[] = [];
     const r = L.floats(43, 25 * 6, -200, 200);
@@ -165,7 +165,7 @@ const scenarios = defineScenarios([
     }
     return out;
   }),
-  geo("transform/line-constrain-rotation", ["ENG-GEOM-003", "EDT-SNAP-013"], (L, G) => {
+  geo("transform/line-constrain-rotation", ["ENG-GEOM-003"], (L, G) => {
     // getLineConstrainRotation(sx, sy, cx, cy, ox, oy, l1x, l1y, l2x, l2y, step, tolerance)
     const out: unknown[] = [];
     const r = L.floats(44, 20 * 10, -100, 100);
@@ -244,7 +244,7 @@ const scenarios = defineScenarios([
       };
     });
   }),
-  geo("transform/editor-constrain", ["EDT-SNAP-013", "EDT-SNAP-014"], (L, G, app) => {
+  geo("transform/editor-constrain", ["EDT-SNAP-013"], (L, G, app) => {
     // GEditor.convertToConstrain(originX, originY, x, y, angle): Shift-drag
     // constraint to 0/45/90 degrees relative to the cursor constraint angle.
     const editorClass = app.editor().constructor;
@@ -278,9 +278,11 @@ const scenarios = defineScenarios([
         out: L.run(() => editorClass.convertToConstrain(c[0], c[1], c[2], c[3], c[4] || undefined)),
       });
     }
-    // Rotation snapping as the transform box calls it: Shift snaps to 15
-    // degree steps; the snapRotate option snaps to 1 degree within 4 degrees
-    // of a right angle.
+    // getRotationTransform with the arguments the transform box passes
+    // (15 degree steps with Shift, 1 degree within 4 degrees with
+    // snapRotate). The step and tolerance are written here, not read from
+    // the app, so EDT-SNAP-014 itself is left to the editor-tools rotate
+    // scenarios, which drag the real handle.
     const rot: unknown[] = [];
     for (let deg = -180; deg <= 180; deg += 7.3) {
       const a = (deg * Math.PI) / 180;

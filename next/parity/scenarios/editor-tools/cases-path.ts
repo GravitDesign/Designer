@@ -5,6 +5,7 @@ import {
   dblclick,
   down,
   drag,
+  fixTime,
   keyDown,
   keyUp,
   move,
@@ -139,7 +140,9 @@ export const subselectCases: ToolCase[] = [
       move(600, 500),
       tool("GSubSelectTool"),
       ...click(250, 120),
-      move(650, 520),
+      // One jump away: interpolated moves cross the handles and leave
+      // hover repaints whose antialiasing varied between runs.
+      move(650, 520, 1),
       shot(30, 60, 450, 220),
     ],
   },
@@ -501,13 +504,34 @@ export const subselectCases: ToolCase[] = [
       move(600, 500),
       tool("GSubSelectTool"),
       move(300, 170),
-      probe("hover-start"),
       down(300, 170),
       move(290, 210),
       move(260, 230),
       up(),
       move(650, 520),
       shot(80, 80, 240, 180),
+    ],
+  },
+  {
+    // The same drag as ellipse-arc-handle, recording the hover cursor,
+    // the preview while dragging and the arc angles it leaves.
+    id: "subselect/ellipse-arc-handle-drag",
+    covers: ["EDT-HANDLE-012"],
+    fixture: {
+      shapes: [{ type: "ellipse", x: 100, y: 100, w: 200, h: 140, fill: [30, 136, 229] }],
+      select: [0],
+    },
+    steps: [
+      move(600, 500),
+      tool("GSubSelectTool"),
+      move(300, 170),
+      probe("hover-start"),
+      down(300, 170),
+      move(290, 210),
+      move(260, 230),
+      probe("dragging"),
+      up(),
+      probe("after"),
     ],
   },
   {
@@ -772,6 +796,11 @@ export const penCases: ToolCase[] = [
       move(50, 50),
       tool("GPenTool"),
       ...clicks([100, 100], [250, 100], [250, 250]),
+      // The pen ignores mouse moves for DBLCLICKTM (pathDbClickTime, 300 ms
+      // by default) after a press, so a quick hover right after the last
+      // click never reaches the close-path state (end cursor, preview
+      // segment). Wait out that window so every move counts.
+      wait(350),
       move(100, 100),
       probe("over-start"),
       ...click(100, 100),
@@ -1080,6 +1109,34 @@ const squiggle = (cx: number, cy: number, r: number, turns = 1, n = 24): [number
   return pts;
 };
 
+/**
+ * Two freehand strokes with Date.now() moved on by `gap` ms between the
+ * hover after the first release and the second press (see
+ * freehand/continue-within-500ms). The pointer hovers down onto the
+ * second press point from above, so a continued stroke starts with a
+ * vertical tangent; the second stroke has enough points to be fitted.
+ */
+const continueStroke = (gap: number): Step[] => [
+  move(50, 50),
+  tool("GFreehandTool"),
+  fixTime(1_700_000_000_000),
+  down(100, 100),
+  move(130, 120, 1),
+  move(160, 140, 1),
+  up(),
+  move(170, 100, 1),
+  move(170, 130, 1),
+  fixTime(1_700_000_000_000 + gap),
+  down(170, 140, "left", true),
+  move(190, 160, 1),
+  move(210, 170, 1),
+  move(230, 172, 1),
+  move(250, 168, 1),
+  move(270, 160, 1),
+  up(),
+  wait(600),
+];
+
 export const freehandCases: ToolCase[] = [
   {
     id: "freehand/open-stroke",
@@ -1133,34 +1190,37 @@ export const freehandCases: ToolCase[] = [
     ],
   },
   {
+    // Pressing again soon after a release continues the stroke: the tool
+    // remembers the pointer positions it hovered after the release and,
+    // if the newest of them that lies more than about 3 px from the press
+    // is younger than 500 ms, starts the new stroke's smoothing from it
+    // (its first tangent points away from that position). Date.now() is
+    // pinned (fixTime) so the window doesn't depend on machine load.
+    // Here the press comes 499 ms after the hover; in
+    // freehand/new-stroke-after-500ms it comes 500 ms after, which starts
+    // a fresh stroke and gives another curve.
     id: "freehand/continue-within-500ms",
     covers: ["EDT-TOOL-058"],
-    steps: [
-      move(50, 50),
-      tool("GFreehandTool"),
-      // The tool looks back through release positions younger than 500 ms
-      // (Date.now based). Single-event moves keep the whole stroke well
-      // inside that window; interpolated moves wait a frame each and put
-      // the oldest positions near the boundary, which made the outcome
-      // depend on machine load.
-      down(100, 100),
-      move(130, 120, 1),
-      move(160, 140, 1),
-      up(),
-      down(160, 140, "left", true),
-      move(200, 170, 1),
-      move(240, 160, 1),
-      up(),
-      wait(600),
-    ],
+    steps: continueStroke(499),
   },
   {
+    id: "freehand/new-stroke-after-500ms",
+    covers: ["EDT-TOOL-058"],
+    steps: continueStroke(500),
+  },
+  {
+    // A digit before the first stroke has no path to act on. Right after
+    // the stroke, 3 and then 0 set the new path's "_bop" (0.3, then 1),
+    // each in its own undo step. _bop is the legacy border opacity, which
+    // a path neither paints nor saves, so the document doesn't change;
+    // the undo steps show the digits were handled: after the two digits
+    // it takes three undos to remove the path.
     id: "freehand/digit-opacity",
     covers: ["EDT-TOOL-059"],
     steps: [
       move(50, 50),
       tool("GFreehandTool"),
-      press("3"),
+      press("5"),
       ...drag(
         [100, 100],
         [
@@ -1168,6 +1228,35 @@ export const freehandCases: ToolCase[] = [
           [200, 160],
         ],
       ),
+      probe("stroke", true),
+      press("3"),
+      press("0"),
+      probe("digits", true),
+      press("Control+z"),
+      probe("undo-1"),
+      press("Control+z"),
+      probe("undo-2"),
+      press("Control+z"),
+      probe("undo-3"),
+      wait(600),
+    ],
+  },
+  {
+    // The same stroke without digits: one undo removes the path.
+    id: "freehand/no-digit-one-undo",
+    covers: ["EDT-TOOL-059"],
+    steps: [
+      move(50, 50),
+      tool("GFreehandTool"),
+      ...drag(
+        [100, 100],
+        [
+          [150, 120],
+          [200, 160],
+        ],
+      ),
+      press("Control+z"),
+      probe("undo-1"),
       wait(600),
     ],
   },

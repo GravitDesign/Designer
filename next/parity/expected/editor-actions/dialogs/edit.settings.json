@@ -7,6 +7,14 @@
  "trigger": "execute",
  "info": {
   "title": "Settings...",
+  "fullTitle": "Settings...",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Edit"
+  ],
+  "group": "settings",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -19,7 +27,34 @@
  "dialogs": [
   {
    "className": "g-dialog-container g-settings-dialog-container",
-   "text": "Highlight on hover"
+   "lines": [
+    "Highlight on hover",
+    "Highlight shapes when hovering them with the mouse.",
+    "Auto expand layers",
+    "When set auto-expands the layer tree for the current selection.",
+    "Enable auto-save",
+    "Files are saved automatically - please choose the interval (minutes) on the right. Please note that this feature is only available for files saved or synced to Gravit Designer.",
+    "5",
+    "10",
+    "20",
+    "Auto-save: Warning for unsaved/local files",
+    "Show warning to remind about saving/syncing files to Gravit Designer to enable auto-save.",
+    "Change the theme of Gravit Designer",
+    "Light Theme (default)",
+    "Left-aligned icons in the toolbar.",
+    "Save text layers as paths",
+    "Saving paths will increase the file size but not require the fonts to be available.",
+    "Rounding",
+    "Please switch on to be able to define the number of decimal places where values are rounded in input fields.",
+    "Disable warning messages of unsupported features",
+    "Whether to disable warning message about unsupported features on svg exporter or not.",
+    "Outline fonts in EPS import",
+    "Fonts will be outlined so that they are not required to display the file correctly. Switch off to keep font information and edit text layers.",
+    "Disable notifications",
+    "Stop receiving email notifications for new comments or annotations (can be changed for every design individually in the comments panel).",
+    "Disable changing values in numeric input fields with dragging.",
+    "CancelSave Changes"
+   ]
   }
  ],
  "events": [],

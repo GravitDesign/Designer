@@ -554,7 +554,12 @@ const scenarios = defineScenarios([
       return r;
     };
     const describe = (n: unknown): unknown => {
-      const node = n as { getNodeName(): string; getFirstChild?: () => unknown };
+      type EngineNode = {
+        getNodeName(): string;
+        getFirstChild?: () => unknown;
+        getProperty(name: string): unknown;
+      };
+      const node = n as EngineNode;
       const kids: unknown[] = [];
       if (node && node.getFirstChild && !(node instanceof G.GShape)) {
         for (
@@ -563,6 +568,10 @@ const scenarios = defineScenarios([
           c = c.getNext() as typeof c
         )
           kids.push(describe(c));
+      }
+      if (node instanceof G.GShape) {
+        // Leaves are all rectangles; their position shows order and parent.
+        return [node.getNodeName(), L.enc((node as EngineNode).getProperty("trf"))];
       }
       return node ? [node.getNodeName(), kids] : node;
     };

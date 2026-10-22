@@ -15,6 +15,8 @@ import {
 /** How long a hover rests before the shot, so delayed tooltips are in it. */
 const MENU_SHOT = ["ul.g-menu-root", "ul.g-menu:not(.g-menu-root)", ".g-rich-tooltip-container"];
 const MENU_DOM = ["ul.g-menu:not(.g-menu-root)"];
+/** Tall enough for the File menu with a submenu and its tooltips. */
+const MENU_VIEW = { width: 1600, height: 1200 };
 
 interface MenuPath {
   path: readonly string[];
@@ -77,6 +79,7 @@ for (const m of MENUS) {
   menuSurfaces.push({
     id: `menu/empty/${slug(m.path)}`,
     covers: [...BASE_COVERS, ...m.covers],
+    viewport: MENU_VIEW,
     setup: (page) => open(page, m.path),
     shot: MENU_SHOT,
     dom: MENU_DOM,
@@ -86,6 +89,7 @@ for (const m of MENUS) {
   menuSurfaces.push({
     id: `menu/rect/${slug(m.path)}`,
     covers: [...BASE_COVERS, ...m.covers],
+    viewport: MENU_VIEW,
     setup: async (page) => {
       await withRectangle(page);
       await open(page, m.path);

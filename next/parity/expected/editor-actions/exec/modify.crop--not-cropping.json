@@ -3,6 +3,14 @@
  "id": "modify.crop",
  "info": {
   "title": "Confirm Cropping",
+  "fullTitle": "Confirm Cropping",
+  "info": null,
+  "icon": "gravit-icon-crop",
+  "category": [
+   "Modify"
+  ],
+  "group": "structure-group",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -14,7 +22,11 @@
  },
  "before": {
   "selection": [
-   "image:I"
+   {
+    "node": "image:I",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,32 +34,41 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "image",
-       "@id": "id4",
-       "url": "dictionary://rid5",
+       "@id": "id1",
+       "url": "dictionary://id11",
        "iw": 40,
        "ih": 20,
        "pw": 40,
        "ph": 20,
+       "itrf": [
+        1,
+        0,
+        0,
+        1,
+        100,
+        100
+       ],
        "ipfc": true,
        "uf": true,
        "ct": "R",
@@ -84,7 +105,7 @@
    "dictionary": {
     "entries": [
      {
-      "uuid": "rid5",
+      "uuid": "id11",
       "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAUCAYAAAD/Rn+7AAAAUElEQVR4AezVwQkAMAgDwNT9d7YrBJKHhBT8WdBTcBbYyzE4/lqgOqAcwYeFM1jZHEG2Y3deBVXRClZQFVD/5+yg9448GjZHkG7ZnFhBFfQDAAD//w62wZMAAAAGSURBVAMAru932SYZF4QAAAAASUVORK5CYII=",
       "references": 1
      }
@@ -93,12 +114,17 @@
    "symbolDictionary": {
     "entries": []
    }
-  }
+  },
+  "tool": "GPointerTool",
+  "toolEditMode": "Select"
  },
- "returned": true,
  "after": {
   "selection": [
-   "image:I"
+   {
+    "node": "image:I",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -106,14 +132,25 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
-  "doc": "unchanged"
+  "doc": "unchanged",
+  "tool": "GPointerTool",
+  "toolEditMode": "Select"
  },
  "infoAfter": {
   "title": "Confirm Cropping",
+  "fullTitle": "Confirm Cropping",
+  "info": null,
+  "icon": "gravit-icon-crop",
+  "category": [
+   "Modify"
+  ],
+  "group": "structure-group",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,

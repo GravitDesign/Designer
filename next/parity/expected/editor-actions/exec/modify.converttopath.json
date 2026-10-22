@@ -3,6 +3,15 @@
  "id": "modify.converttopath",
  "info": {
   "title": "Convert to Path",
+  "fullTitle": "Convert to Path",
+  "info": null,
+  "icon": "gravit-icon-convert-to-path",
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +23,11 @@
  },
  "before": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,27 +35,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -501,10 +515,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "path:A"
+   {
+    "node": "path:A",
+    "@id": "id106",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -512,6 +529,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Convert to Path(s)"
@@ -519,17 +537,17 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "path",
@@ -539,22 +557,22 @@
         [
          "AACAvwAAgL8=",
          "#",
-         "rid107"
+         "id107"
         ],
         [
          "AACAPwAAgL8=",
          "#",
-         "rid108"
+         "id108"
         ],
         [
          "AACAPwAAgD8=",
          "#",
-         "rid109"
+         "id109"
         ],
         [
          "AACAvwAAgD8=",
          "#",
-         "rid110"
+         "id110"
         ]
        ],
        "reftxt": null,
@@ -570,7 +588,7 @@
        "name": "A",
        "_layers": {
         "@": "paintLayers",
-        "@id": "id107",
+        "@id": "id111",
         "$": [
          {
           "@": "fillPaintLayer",
@@ -578,9 +596,9 @@
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id108"
+        "&": "id112"
        },
-       "_effId": "id109"
+       "_effId": "id113"
       }
      ],
      "#": "id9",
@@ -985,7 +1003,7 @@
    "__ids": [
     "id87",
     "id88",
-    "id110",
+    "id114",
     "id90",
     "id91",
     "id92",
@@ -1013,6 +1031,15 @@
  },
  "infoAfter": {
   "title": "Convert to Path",
+  "fullTitle": "Convert to Path",
+  "info": null,
+  "icon": "gravit-icon-convert-to-path",
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -1024,7 +1051,11 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1032,6 +1063,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1042,7 +1074,11 @@
  },
  "afterRedo": {
   "selection": [
-   "path:A"
+   {
+    "node": "path:A",
+    "@id": "id106",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1050,6 +1086,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Convert to Path(s)"

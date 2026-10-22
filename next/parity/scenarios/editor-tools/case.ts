@@ -1,5 +1,5 @@
 import type { Page } from "@playwright/test";
-import { isolateNetwork, openApp, type OpenOptions } from "../../support/apps.ts";
+import { PARITY_CONTEXT, isolateNetwork, openApp, type OpenOptions } from "../../support/apps.ts";
 import type { Scenario, ScenarioContext } from "../../support/scenario.ts";
 import { buildFixture, type Fixture } from "./fixture.ts";
 import { readCursor, normalizeIds, replay, settle, type Pt, type Step } from "./steps.ts";
@@ -23,6 +23,11 @@ export interface ToolCase {
   open?: OpenOptions;
   /** Open the app in a browser context with touch support. */
   touch?: boolean;
+  /**
+   * File the case opens (path from next/); its ids are kept unchanged in
+   * the output (Scenario.keepIdsOf).
+   */
+  keepIdsOf?: string;
   /** Include the final document in the output (default true). */
   doc?: boolean;
   timeout?: number;
@@ -84,6 +89,7 @@ async function openTouchPage(
   const browser = page.context().browser();
   if (!browser) throw new Error("no browser");
   const context = await browser.newContext({
+    ...PARITY_CONTEXT,
     viewport: { width: 1600, height: 1000 },
     hasTouch: true,
   });
@@ -95,14 +101,25 @@ async function openTouchPage(
 
 export function toScenario(c: ToolCase): Scenario {
   const hasShot = c.steps.some((s) => s.op === "shot");
+  // A PNG case stores only its screenshot, so a probe in it would be lost.
+  if (hasShot && c.steps.some((s) => s.op === "probe")) {
+    throw new Error(`${c.id}: a screenshot case can't have probes; split it into two cases`);
+  }
+  // With the fake clock paused no animation frame runs, so the final state
+  // of a JSON case could never settle.
+  if (!hasShot && c.steps.some((s) => s.op === "pauseClock")) {
+    throw new Error(`${c.id}: pauseClock is only for screenshot cases`);
+  }
   return {
     id: `editor-tools/${c.id}`,
     covers: c.covers,
     kind: hasShot ? "png" : "document",
+    keepIdsOf: c.keepIdsOf,
     // A driver scenario always gets its own page; `open` only adds settings.
     open: c.open,
     timeout: c.timeout ?? 120_000,
     driver: async ({ page, kind }) => {
+      const since = Date.now();
       const target = c.touch ? await openTouchPage(page, c, kind) : page;
       try {
         await prepare(target, c);
@@ -128,7 +145,7 @@ export function toScenario(c: ToolCase): Scenario {
           probes: result.probes,
           doc: c.doc === false ? null : final.doc,
         };
-        return JSON.stringify(normalizeIds(out));
+        return JSON.stringify(normalizeIds(out, since));
       } finally {
         if (target !== page) await target.context().close();
       }

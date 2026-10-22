@@ -5,9 +5,15 @@
    "g-overlay",
    "border-settings"
   ],
+  "attrs": {
+   "style": "position: absolute; top: 550px; left: 1245px;"
+  },
   "children": [
    {
     "tag": "div",
+    "attrs": {
+     "style": "width: 280px;"
+    },
     "children": [
      {
       "tag": "div",
@@ -28,6 +34,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 50%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -63,7 +72,8 @@
                   ],
                   "attrs": {
                    "data-title": "Butt",
-                   "data-property": "_blc-butt"
+                   "data-property": "_blc-butt",
+                   "style": "width: 33.3%;"
                   },
                   "children": [
                    {
@@ -83,7 +93,8 @@
                   ],
                   "attrs": {
                    "data-title": "Round",
-                   "data-property": "_blc-round"
+                   "data-property": "_blc-round",
+                   "style": "width: 33.3%;"
                   },
                   "children": [
                    {
@@ -104,7 +115,8 @@
                   ],
                   "attrs": {
                    "data-title": "Square",
-                   "data-property": "_blc-square"
+                   "data-property": "_blc-square",
+                   "style": "width: 33.3%;"
                   },
                   "children": [
                    {
@@ -128,6 +140,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 50%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -164,7 +179,8 @@
                   ],
                   "attrs": {
                    "data-title": "Inside",
-                   "data-property": "_ba-I"
+                   "data-property": "_ba-I",
+                   "style": "width: 33.3%;"
                   },
                   "children": [
                    {
@@ -184,7 +200,8 @@
                   ],
                   "attrs": {
                    "data-title": "Center",
-                   "data-property": "_ba-C"
+                   "data-property": "_ba-C",
+                   "style": "width: 33.3%;"
                   },
                   "children": [
                    {
@@ -204,7 +221,8 @@
                   ],
                   "attrs": {
                    "data-title": "Outside",
-                   "data-property": "_ba-O"
+                   "data-property": "_ba-O",
+                   "style": "width: 33.3%;"
                   },
                   "children": [
                    {
@@ -246,6 +264,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 50%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -281,7 +302,8 @@
                   ],
                   "attrs": {
                    "data-title": "Bevel",
-                   "data-property": "_blj-bevel"
+                   "data-property": "_blj-bevel",
+                   "style": "width: 33.3%;"
                   },
                   "children": [
                    {
@@ -302,7 +324,8 @@
                   ],
                   "attrs": {
                    "data-title": "Miter",
-                   "data-property": "_blj-miter"
+                   "data-property": "_blj-miter",
+                   "style": "width: 33.3%;"
                   },
                   "children": [
                    {
@@ -322,7 +345,8 @@
                   ],
                   "attrs": {
                    "data-title": "Round",
-                   "data-property": "_blj-round"
+                   "data-property": "_blj-round",
+                   "style": "width: 33.3%;"
                   },
                   "children": [
                    {
@@ -346,6 +370,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 50%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -397,7 +424,10 @@
       ]
      },
      {
-      "tag": "hr"
+      "tag": "hr",
+      "attrs": {
+       "style": "margin-bottom: 10px;"
+      }
      },
      {
       "tag": "div",
@@ -417,6 +447,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 25%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -444,6 +477,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 25%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -471,6 +507,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 25%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -498,6 +537,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 25%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -530,6 +572,9 @@
         "children": [
          {
           "tag": "label",
+          "attrs": {
+           "style": "width: 25%;"
+          },
           "children": [
            {
             "tag": "span",
@@ -539,6 +584,9 @@
          },
          {
           "tag": "label",
+          "attrs": {
+           "style": "width: 25%;"
+          },
           "children": [
            {
             "tag": "span",
@@ -548,6 +596,9 @@
          },
          {
           "tag": "label",
+          "attrs": {
+           "style": "width: 25%;"
+          },
           "children": [
            {
             "tag": "span",
@@ -557,6 +608,9 @@
          },
          {
           "tag": "label",
+          "attrs": {
+           "style": "width: 25%;"
+          },
           "children": [
            {
             "tag": "span",
@@ -593,6 +647,9 @@
            "column",
            "no-padding"
           ],
+          "attrs": {
+           "style": "width: 45%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -613,7 +670,10 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 10%;"
+          }
          },
          {
           "tag": "div",
@@ -621,6 +681,9 @@
            "column",
            "no-padding"
           ],
+          "attrs": {
+           "style": "width: 45%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -658,6 +721,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 37%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -743,6 +809,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 8%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -777,13 +846,19 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 10%;"
+          }
          },
          {
           "tag": "label",
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 37%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -869,6 +944,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 8%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -921,6 +999,9 @@
            "column",
            "no-padding"
           ],
+          "attrs": {
+           "style": "width: 45%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -948,7 +1029,10 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 10%;"
+          }
          },
          {
           "tag": "label",
@@ -956,6 +1040,9 @@
            "column",
            "no-padding"
           ],
+          "attrs": {
+           "style": "width: 45%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -1001,12 +1088,18 @@
            "column",
            "no-padding"
           ],
+          "attrs": {
+           "style": "width: 45%;"
+          },
           "children": [
            {
             "tag": "div",
             "cls": [
              "prefix"
             ],
+            "attrs": {
+             "style": "width: 50px;"
+            },
             "text": "Outline"
            },
            {
@@ -1046,7 +1139,10 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 10%;"
+          }
          },
          {
           "tag": "div",
@@ -1054,12 +1150,18 @@
            "column",
            "no-padding"
           ],
+          "attrs": {
+           "style": "width: 45%;"
+          },
           "children": [
            {
             "tag": "div",
             "cls": [
              "prefix"
             ],
+            "attrs": {
+             "style": "width: 50px;"
+            },
             "text": "Outline"
            },
            {
@@ -1117,6 +1219,9 @@
            "column",
            "no-padding"
           ],
+          "attrs": {
+           "style": "width: 45%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -1148,13 +1253,19 @@
                   "cls": [
                    "g-input-slider-thumb",
                    "generic"
-                  ]
+                  ],
+                  "attrs": {
+                   "style": "left: 100%;"
+                  }
                  },
                  {
                   "tag": "div",
                   "cls": [
                    "g-input-slider-background"
-                  ]
+                  ],
+                  "attrs": {
+                   "style": "width: 100%;"
+                  }
                  }
                 ]
                }
@@ -1169,7 +1280,10 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 10%;"
+          }
          },
          {
           "tag": "div",
@@ -1177,6 +1291,9 @@
            "column",
            "no-padding"
           ],
+          "attrs": {
+           "style": "width: 45%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -1208,13 +1325,19 @@
                   "cls": [
                    "g-input-slider-thumb",
                    "generic"
-                  ]
+                  ],
+                  "attrs": {
+                   "style": "left: 100%;"
+                  }
                  },
                  {
                   "tag": "div",
                   "cls": [
                    "g-input-slider-background"
-                  ]
+                  ],
+                  "attrs": {
+                   "style": "width: 100%;"
+                  }
                  }
                 ]
                }
@@ -1237,6 +1360,9 @@
           "cls": [
            "no-padding"
           ],
+          "attrs": {
+           "style": "width: 45%;"
+          },
           "children": [
            {
             "tag": "span",
@@ -1248,13 +1374,19 @@
           "tag": "label",
           "cls": [
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 10%;"
+          }
          },
          {
           "tag": "label",
           "cls": [
            "no-padding"
           ],
+          "attrs": {
+           "style": "width: 45%;"
+          },
           "children": [
            {
             "tag": "span",

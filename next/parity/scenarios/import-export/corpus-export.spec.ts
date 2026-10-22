@@ -76,13 +76,19 @@ function corpusScenario(file: string): Scenario<unknown> {
       "FMT-EXPORT-046",
     ],
     kind: "json",
-    timeout: 300_000,
+    timeout: 600_000,
+    // Exports of WebGL effects came out differently depending on what ran
+    // before in the same browser (shared GPU-process state).
+    freshBrowser: /^effects-/.test(file),
     driver: async ({ page }) => {
       page.setDefaultTimeout(30_000);
       await chooseFiles(page, () => clickMenu(page, ["File", "Open Local File..."]), [
         { name: file, buffer: fs.readFileSync(path.join(CORPUS, file)) },
       ]);
-      const opened = await waitForDocuments(page, 2, 60_000);
+      // A document that doesn't open is a failure, not a recorded result.
+      const opened = await waitForDocuments(page, 2, 120_000);
+      if (opened !== "done") throw new Error(`${file} did not open`);
+      const since = Date.now();
       const list = await runInPage<Out[]>(page, exportAll, {});
       const results = [];
       for (const o of list) {
@@ -90,13 +96,27 @@ function corpusScenario(file: string): Scenario<unknown> {
         const r: Record<string, unknown> = { format: o.format, page: o.page, mime: o.mime };
         if (o.error) r.error = o.error;
         if (o.format === "pdf" && data.length) {
-          data = normalizePdf(data);
+          data = normalizePdf(data, since);
           const png = await renderPdf(page, data, 1);
           r.render = sha256(Buffer.from(png.split(",")[1] ?? "", "base64"));
+          if (process.env.GD_IE_DUMP) {
+            const dir = path.join(process.env.GD_IE_DUMP, file);
+            fs.mkdirSync(dir, { recursive: true });
+            fs.writeFileSync(
+              path.join(dir, `${results.length}-${o.page}.render.png`),
+              Buffer.from(png.split(",")[1] ?? "", "base64"),
+            );
+          }
         }
         if (o.format === "svg") data = Buffer.from(normalizeSvg(data.toString("utf8")), "utf8");
         r.size = data.length;
         r.sha256 = sha256(data);
+        if (process.env.GD_IE_DUMP) {
+          // Debug aid: keep the normalized files to diff two runs.
+          const dir = path.join(process.env.GD_IE_DUMP, file);
+          fs.mkdirSync(dir, { recursive: true });
+          fs.writeFileSync(path.join(dir, `${results.length}-${o.page}.${o.format}`), data);
+        }
         results.push(r);
       }
       return { opened, results };

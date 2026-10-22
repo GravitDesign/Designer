@@ -6,6 +6,9 @@
    "g-user-login-dialog",
    "no-padding"
   ],
+  "attrs": {
+   "style": "position: absolute; top: 36px; left: 1336px;"
+  },
   "children": [
    {
     "tag": "div",
@@ -25,6 +28,9 @@
            "avatar",
            "g-user-login-avatar"
           ],
+          "attrs": {
+           "style": "background-color: rgb(179, 0, 0);"
+          },
           "text": "T"
          },
          {

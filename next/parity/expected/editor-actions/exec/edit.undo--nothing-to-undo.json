@@ -3,6 +3,14 @@
  "id": "edit.undo",
  "info": {
   "title": "Undo",
+  "fullTitle": "Undo",
+  "info": null,
+  "icon": "gravit-icon-undo",
+  "category": [
+   "Edit"
+  ],
+  "group": "undo_redo",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -20,6 +28,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [],
   "redo": [],
   "doc": {
@@ -58,7 +67,6 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [],
   "active": {
@@ -67,12 +75,21 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [],
   "redo": [],
   "doc": "unchanged"
  },
  "infoAfter": {
   "title": "Undo",
+  "fullTitle": "Undo",
+  "info": null,
+  "icon": "gravit-icon-undo",
+  "category": [
+   "Edit"
+  ],
+  "group": "undo_redo",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,

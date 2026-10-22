@@ -2,7 +2,6 @@ import type { Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
 import type { Scenario } from "../../support/scenario.ts";
 import {
-  action,
   behaviour,
   hoverMenuItem,
   insertShapes,
@@ -162,9 +161,18 @@ list.push(
     covers: ["ACT-CTX-004", "RUN-MENU-084", "RUN-MENU-085"],
     viewport: VIEW,
     setup: async (page) => {
-      await S.image(page);
-      await action(page, "modify.crop");
-      await rightClick(page, 60, 140);
+      await S.imageOnCanvas(page);
+      // A double click on the image starts crop mode.
+      await page.mouse.dblclick(560, 340);
+      await settle(page);
+      // On the image itself, which is in crop mode now.
+      await rightClick(page, 560, 340);
+      const captions = await page
+        .locator("ul.g-menu:not(.g-menu-root):visible > li > .g-menu-item-caption")
+        .allTextContents();
+      if (!captions.includes("Confirm Cropping")) {
+        throw new Error(`no crop menu, got: ${captions.join(", ")}`);
+      }
     },
     shot: MENUS,
   },
@@ -231,6 +239,12 @@ const scenarios: Scenario[] = [
       })
       .click();
     await settle(page);
+    // The panel briefly holds the old rows next to the new ones while it
+    // rebuilds; read once only the two rows are left.
+    await page.waitForFunction(
+      (q) => document.querySelectorAll(q).length === 2,
+      "#left-sidebars .layers .layer-row .layer-title",
+    );
     return page.evaluate(() =>
       [...document.querySelectorAll("#left-sidebars .layers .layer-row .layer-title")].map(
         (t) => t.textContent,

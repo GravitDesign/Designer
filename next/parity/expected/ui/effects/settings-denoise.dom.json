@@ -5,6 +5,9 @@
    "properties-panel",
    "effects-properties-panel"
   ],
+  "attrs": {
+   "style": ""
+  },
   "children": [
    {
     "tag": "div",
@@ -184,6 +187,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 75%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -215,13 +221,19 @@
                           "cls": [
                            "g-input-slider-thumb",
                            "generic"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "left: 20%;"
+                          }
                          },
                          {
                           "tag": "div",
                           "cls": [
                            "g-input-slider-background"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "width: 20%;"
+                          }
                          }
                         ]
                        }
@@ -236,6 +248,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 40px;"
+                  },
                   "children": [
                    {
                     "tag": "div",

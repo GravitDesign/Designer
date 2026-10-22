@@ -95,6 +95,7 @@
     "css": "url(\"/assets/cursor/select-inverse.cur\"), auto"
    },
    "hint": null,
+   "focus": "div",
    "doc": {
     "@": "scene",
     "@id": "id1",
@@ -112,7 +113,7 @@
        {
         "@": "image",
         "@id": "id4",
-        "url": "dictionary://rid5",
+        "url": "dictionary://id11",
         "iw": 64,
         "ih": 48,
         "pw": 64,
@@ -152,10 +153,15 @@
       "name": "Page 1"
      }
     ],
+    "__ids": [
+     "id8",
+     "id9",
+     "id10"
+    ],
     "dictionary": {
      "entries": [
       {
-       "uuid": "rid5",
+       "uuid": "id11",
        "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAwCAYAAAChS3wfAAAAtUlEQVR4AeyVsQ2AQAwDX78TEl9TULIiI1CzDy0rPH2aiCqSfUgpolS2z3x/xjIrZzv3WTm9mX8YYA5AgwAIMHeACpgDwE+QClABcweogDkAfq9ADJwKREfcdghwSzzqhYDoiNsOAW6JR719HFernHt9W+VQgYiE2w4BbolHvRAQHXHb5QnIAsWAzCH1OwSoJ5zpg4DMIfU7BKgnnOmDgMwh9TsEqCec6YOAzCH1OwSoJfxXzwcAAP///ykzHQAAAAZJREFUAwAF5PLB5b6SOQAAAABJRU5ErkJggg==",
        "references": 1
       }
@@ -213,7 +219,8 @@
     "cls": "g-cursor-select-cross",
     "css": "url(\"/assets/cursor/select-cross.cur\"), auto"
    },
-   "hint": null
+   "hint": null,
+   "focus": "div"
   },
   {
    "label": "corner-cursor",
@@ -262,7 +269,8 @@
     "cls": "g-cursor-select-upleft-downright",
     "css": "url(\"/assets/cursor/select-upleft-downright.cur\"), auto"
    },
-   "hint": null
+   "hint": null,
+   "focus": "div"
   }
  ],
  "doc": {
@@ -282,7 +290,7 @@
      {
       "@": "image",
       "@id": "id4",
-      "url": "dictionary://rid5",
+      "url": "dictionary://id11",
       "iw": 64,
       "ih": 48,
       "pw": 64,
@@ -322,10 +330,15 @@
     "name": "Page 1"
    }
   ],
+  "__ids": [
+   "id8",
+   "id9",
+   "id10"
+  ],
   "dictionary": {
    "entries": [
     {
-     "uuid": "rid5",
+     "uuid": "id11",
      "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAwCAYAAAChS3wfAAAAtUlEQVR4AeyVsQ2AQAwDX78TEl9TULIiI1CzDy0rPH2aiCqSfUgpolS2z3x/xjIrZzv3WTm9mX8YYA5AgwAIMHeACpgDwE+QClABcweogDkAfq9ADJwKREfcdghwSzzqhYDoiNsOAW6JR719HFernHt9W+VQgYiE2w4BbolHvRAQHXHb5QnIAsWAzCH1OwSoJ5zpg4DMIfU7BKgnnOmDgMwh9TsEqCec6YOAzCH1OwSoJfxXzwcAAP///ykzHQAAAAZJREFUAwAF5PLB5b6SOQAAAABJRU5ErkJggg==",
      "references": 1
     }

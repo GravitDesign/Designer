@@ -191,9 +191,18 @@ const scenarios = defineScenarios([
   }),
   geo("util/helpers", ["ENG-GEOM-004"], (L, G) => {
     const U = G.GUtil;
-    const ids = [U.uuid(), U.uuid(6), U.uuid(1)];
+    // uuid draws one Math.random() per character; with a seeded generator
+    // the exact ids show the alphabet and how a draw maps to a character.
+    const random = Math.random;
+    let ids: string[];
+    try {
+      Math.random = L.rng(7);
+      ids = [U.uuid(), U.uuid(6), U.uuid(1), U.uuid(0)];
+    } finally {
+      Math.random = random;
+    }
     return {
-      uuidShape: ids.map((id) => [id.length, /^[0-9A-Za-z]+$/.test(id)]),
+      uuids: ids,
       xss: ["<b>x</b>", "", null, "a & b", "<<>>"].map((s) => U.xss(s)),
       escape: U.escape(`<a href="x">'&'</a>`),
       unescape: U.unescape("&lt;a&gt; &amp;lt; &quot;&#039;"),

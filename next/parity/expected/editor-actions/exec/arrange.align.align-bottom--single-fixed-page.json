@@ -3,6 +3,15 @@
  "id": "arrange.align.align-bottom",
  "info": {
   "title": "Align Bottom",
+  "fullTitle": "Align Bottom",
+  "info": null,
+  "icon": "<svg class=\"align-svg\" xmlns=\"http://www.w3.org/2000/svg\" style=\"isolation:isolate\" viewBox=\"181 2 20 20\" width=\"20\" height=\"20\"><rect id=\"align-area\" x=\"186\" y=\"5\" width=\"4\" height=\"12\" transform=\"rotate(180 188 11)\" fill=\"#FFF\"/><rect id=\"align-area\" x=\"192\" y=\"9\" width=\"4\" height=\"8\" transform=\"rotate(180 194 13)\" fill=\"#FFF\"/><rect id=\"align-shape\" x=\"190\" y=\"11\" width=\"2\" height=\"18\" transform=\"rotate(-90 191 20)\" fill=\"#3A98FF\"/></svg>",
+  "category": [
+   "Modify",
+   "Modify/Align"
+  ],
+  "group": "arrange/align-vertical",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +23,11 @@
  },
  "before": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,27 +35,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -532,10 +546,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -543,6 +560,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Arrange Alignment"
@@ -550,21 +568,21 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -1056,6 +1074,15 @@
  },
  "infoAfter": {
   "title": "Align Bottom",
+  "fullTitle": "Align Bottom",
+  "info": null,
+  "icon": "<svg class=\"align-svg\" xmlns=\"http://www.w3.org/2000/svg\" style=\"isolation:isolate\" viewBox=\"181 2 20 20\" width=\"20\" height=\"20\"><rect id=\"align-area\" x=\"186\" y=\"5\" width=\"4\" height=\"12\" transform=\"rotate(180 188 11)\" fill=\"#FFF\"/><rect id=\"align-area\" x=\"192\" y=\"9\" width=\"4\" height=\"8\" transform=\"rotate(180 194 13)\" fill=\"#FFF\"/><rect id=\"align-shape\" x=\"190\" y=\"11\" width=\"2\" height=\"18\" transform=\"rotate(-90 191 20)\" fill=\"#3A98FF\"/></svg>",
+  "category": [
+   "Modify",
+   "Modify/Align"
+  ],
+  "group": "arrange/align-vertical",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -1067,7 +1094,11 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1075,6 +1106,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1085,7 +1117,11 @@
  },
  "afterRedo": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1093,6 +1129,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Arrange Alignment"

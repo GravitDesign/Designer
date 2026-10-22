@@ -1,0 +1,299 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [
+    "1:page"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    null
+   ],
+   "preview": [
+    {
+     "box": [
+      0,
+      0,
+      400,
+      300
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 0.5,
+   "scroll": [
+    -300,
+    -300
+   ],
+   "undo": "Toggle Single / Multipage Mode"
+  },
+  "cursor": {
+   "cls": "g-cursor-select-dot",
+   "css": "url(\"/assets/cursor/select-dot.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "over-first",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "0:page"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       0,
+       0,
+       400,
+       300
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 0.5,
+    "scroll": [
+     -300,
+     -300
+    ],
+    "undo": "Toggle Single / Multipage Mode"
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null,
+   "focus": "div",
+   "dom": {
+    "cls": "page-title",
+    "text": "Page 1"
+   }
+  },
+  {
+   "label": "over-second",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "0:page"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       0,
+       0,
+       400,
+       300
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 0.5,
+    "scroll": [
+     -300,
+     -300
+    ],
+    "undo": "Toggle Single / Multipage Mode"
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null,
+   "focus": "div",
+   "dom": {
+    "cls": "page-title",
+    "text": "Page 1"
+   }
+  },
+  {
+   "label": "clicked-second",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 0.5,
+    "scroll": [
+     -300,
+     -300
+    ],
+    "undo": "Toggle Single / Multipage Mode"
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null,
+   "focus": "div",
+   "dom": {
+    "cls": "page-title",
+    "text": "Second"
+   }
+  },
+  {
+   "label": "clicked-first",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 0.5,
+    "scroll": [
+     -300,
+     -300
+    ],
+    "undo": "Toggle Single / Multipage Mode"
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null,
+   "focus": "div",
+   "dom": {
+    "cls": "page-title",
+    "text": "Page 1"
+   }
+  },
+  {
+   "label": "label-clicked",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "1:page"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       0,
+       0,
+       400,
+       300
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 0.5,
+    "scroll": [
+     -300,
+     -300
+    ],
+    "undo": "Toggle Single / Multipage Mode"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-dot",
+    "css": "url(\"/assets/cursor/select-dot.cur\"), auto"
+   },
+   "hint": null,
+   "focus": "div",
+   "dom": {
+    "cls": "page-title",
+    "text": "Second"
+   }
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     }
+    ],
+    "#": "id4",
+    "w": 400,
+    "h": 300,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   },
+   {
+    "@": "page",
+    "@id": "id5",
+    "#": "id6",
+    "w": 400,
+    "h": 300,
+    "off": [
+     1,
+     0,
+     0,
+     1,
+     450,
+     0
+    ],
+    "bck": "C#[255,255,255]",
+    "name": "Second"
+   }
+  ],
+  "__ids": [
+   "id7",
+   "id8",
+   "id9"
+  ],
+  "pi": 1,
+  "mve": true,
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

@@ -8,10 +8,11 @@ import path from "node:path";
 import zlib from "node:zlib";
 import type { Browser, BrowserContext, Page } from "@playwright/test";
 import { NEXT_ROOT, OLD_URL } from "../../support/env.ts";
+import { PARITY_CONTEXT } from "../../support/apps.ts";
 import { normalizePdfString } from "./pdf-normalize.ts";
-import { normalizeRandomTokens, svgGraphicSource } from "./normalize-ids.ts";
+import { normalizeSvg } from "./normalize-ids.ts";
 
-export { normalizeRandomTokens };
+export { normalizeSvg };
 
 export const FIXTURES = path.join(NEXT_ROOT, "parity", "fixtures", "import");
 
@@ -27,32 +28,18 @@ export function sha256(buf: Buffer): string {
   return crypto.createHash("sha256").update(buf).digest("hex");
 }
 
-/** normalizePdfString on a Buffer (see pdf-normalize.ts). */
-export function normalizePdf(input: Buffer): Buffer {
-  return Buffer.from(normalizePdfString(input.toString("latin1")), "latin1");
-}
-
 /**
- * An exported SVG made comparable, as in the page lib: editing data
- * inflated in place and random ids renamed (see normalize-ids.ts).
+ * normalizePdfString on a Buffer (see pdf-normalize.ts). `since` is when
+ * the export started (Date.now() before the step that produced the file);
+ * the export must have ended by now.
  */
-export function normalizeSvg(svg: string): string {
-  const src = svgGraphicSource(svg);
-  let out = svg;
-  if (src) {
-    const bytes = Buffer.from(Buffer.from(src.b64, "base64").toString("utf8"), "latin1");
-    out =
-      svg.slice(0, src.start) +
-      "inflated:" +
-      zlib.inflateSync(bytes).toString("utf8") +
-      svg.slice(src.end);
-  }
-  return normalizeRandomTokens(out);
+export function normalizePdf(input: Buffer, since: number): Buffer {
+  return Buffer.from(normalizePdfString(input.toString("latin1"), since, Date.now()), "latin1");
 }
 
 /** An export's bytes made comparable: PDFs and SVGs normalized, others as they are. */
-export function normalizeExport(name: string, data: Buffer): Buffer {
-  if (name.endsWith(".pdf")) return normalizePdf(data);
+export function normalizeExport(name: string, data: Buffer, since: number): Buffer {
+  if (name.endsWith(".pdf")) return normalizePdf(data, since);
   if (name.endsWith(".svg")) return Buffer.from(normalizeSvg(data.toString("utf8")), "utf8");
   return data;
 }
@@ -65,10 +52,11 @@ export interface ZipEntry {
 
 /**
  * Lists a ZIP's entries in archive order with their uncompressed size and
- * a hash of their content (PDF and SVG entries normalized first). Entry dates (zip.js writes the export time) and
+ * a hash of their content (PDF and SVG entries normalized first, see
+ * normalizeExport). Entry dates (zip.js writes the export time) and
  * compression details are left out on purpose.
  */
-export function zipEntries(buf: Buffer): ZipEntry[] {
+export function zipEntries(buf: Buffer, since: number): ZipEntry[] {
   const eocd = buf.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
   if (eocd < 0) throw new Error("not a zip file");
   const total = buf.readUInt16LE(eocd + 10);
@@ -87,7 +75,11 @@ export function zipEntries(buf: Buffer): ZipEntry[] {
     const lExtraLen = buf.readUInt16LE(local + 28);
     const start = local + 30 + lNameLen + lExtraLen;
     const raw = buf.subarray(start, start + csize);
-    const data = normalizeExport(name, method === 8 ? zlib.inflateRawSync(raw) : Buffer.from(raw));
+    const data = normalizeExport(
+      name,
+      method === 8 ? zlib.inflateRawSync(raw) : Buffer.from(raw),
+      since,
+    );
     out.push({ name, size: data.length, sha256: name.endsWith("/") ? "" : sha256(data) });
     p += 46 + nameLen + extraLen + commentLen;
   }
@@ -120,6 +112,8 @@ export function zipEntry(buf: Buffer, wanted: string): Buffer {
 export interface Download {
   name: string;
   data: Buffer;
+  /** Date.now() just before the step that caused the download. */
+  since: number;
 }
 
 /** Runs `trigger` and returns the browser download it causes. */
@@ -128,11 +122,12 @@ export async function captureDownload(
   trigger: () => Promise<unknown>,
   timeout = 30_000,
 ): Promise<Download> {
+  const since = Date.now();
   const pending = page.waitForEvent("download", { timeout });
   await trigger();
   const dl = await pending;
   const file = await dl.path();
-  return { name: dl.suggestedFilename(), data: fs.readFileSync(file) };
+  return { name: dl.suggestedFilename(), data: fs.readFileSync(file), since };
 }
 
 /** Runs `trigger`, which must open a file chooser, and picks `files`. */
@@ -184,26 +179,36 @@ export function fixtureFile(rel: string, name?: string): { name: string; buffer:
   return { name: name ?? path.basename(rel), buffer: fs.readFileSync(fixture(rel)) };
 }
 
+interface IoWindow {
+  __parity: {
+    app: {
+      serialize(o?: unknown): string;
+      importExport: { documents(): { title: string; status: string }[]; settle(): Promise<void> };
+    };
+  };
+}
+
+/** The open documents (title and load status), through the contract hook. */
+export async function documents(page: Page): Promise<{ title: string; status: string }[]> {
+  return page.evaluate(() => (window as unknown as IoWindow).__parity.app.importExport.documents());
+}
+
 /** What waitForImport compares: the document count and the size of the active scene. */
 export async function importCounts(page: Page): Promise<{ docs: number; size: number }> {
   return page.evaluate(() => {
-    const w = window as unknown as {
-      __parity: {
-        app: { designer: { getDocuments(): unknown[] }; serialize(o?: unknown): string };
-      };
-    };
-    const app = w.__parity.app;
-    return { docs: app.designer.getDocuments().length, size: app.serialize().length };
+    const app = (window as unknown as IoWindow).__parity.app;
+    return { docs: app.importExport.documents().length, size: app.serialize().length };
   });
 }
 
 /**
- * Waits until an import started by the user finished: no document is in
- * status Loading (10), no progress overlay (.window-overlay) is visible,
- * and either the document count reached `minDocs`, the serialized active
- * scene's length differs from `size`, or a dialog is showing. Then waits for
- * images and fonts. Returns "done", or "timeout" when that did not happen
- * within `timeout` ms (the old app hangs on some EPS files, see
+ * Waits until an import started by the user finished or asks something:
+ * a dialog is showing, or no document is still loading ("Init" before its
+ * load starts, or "Loading"), no progress overlay (.window-overlay) is
+ * visible, and either the document count reached `minDocs` or the
+ * serialized active scene's length differs from `size`. Then waits for images, textures and
+ * fonts. Returns "done", or "timeout" when that did not happen within
+ * `timeout` ms (the old app hangs on some EPS files, see
  * eps/arc-closepath.eps).
  */
 export async function waitForImport(
@@ -214,25 +219,17 @@ export async function waitForImport(
   try {
     await page.waitForFunction(
       (e) => {
-        const w = window as unknown as {
-          __parity: {
-            app: {
-              designer: { getDocuments(): { getStatus(): number }[] };
-              serialize(o?: unknown): string;
-            };
-          };
-        };
-        const app = w.__parity.app;
-        const docs = app.designer.getDocuments();
+        const app = (window as unknown as IoWindow).__parity.app;
+        const docs = app.importExport.documents();
         const visible = (sel: string) =>
           [...document.querySelectorAll(sel)].some((d) => (d as HTMLElement).offsetParent !== null);
-        // 0 = Init (a new document before its load starts), 10 = Loading
+        // A dialog during a load asks the user something (AI check, fonts).
+        if (visible(".g-dialog")) return true;
         if (
-          docs.some((d) => d.getStatus() === 0 || d.getStatus() === 10) ||
+          docs.some((d) => d.status === "Init" || d.status === "Loading") ||
           visible(".window-overlay")
         )
           return false;
-        if (visible(".g-dialog")) return true;
         if (e.minDocs !== undefined && docs.length >= e.minDocs) return true;
         return e.size !== undefined && app.serialize().length !== e.size;
       },
@@ -242,12 +239,8 @@ export async function waitForImport(
   } catch {
     return "timeout";
   }
-  await page.waitForTimeout(300);
   await page.evaluate(async () => {
-    const w = window as unknown as {
-      __parity: { app: { importExport: { settle(): Promise<void> } } };
-    };
-    await w.__parity.app.importExport.settle();
+    await (window as unknown as IoWindow).__parity.app.importExport.settle();
   });
   return "done";
 }
@@ -286,16 +279,20 @@ async function referencePage(browser: Browser): Promise<Page> {
   if (!p) {
     p = (async () => {
       const context: BrowserContext = await browser.newContext({
+        ...PARITY_CONTEXT,
         viewport: { width: 800, height: 600 },
       });
       await context.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (route) => route.abort());
       const page = await context.newPage();
       await page.goto(OLD_URL);
+      // Only the old bundle's modules are needed, not a booted editor.
       await page.waitForFunction(
-        () => {
-          const d = (window as unknown as { gDesigner?: { isReady?: () => boolean } }).gDesigner;
-          return !!d && typeof d.isReady === "function" && d.isReady();
-        },
+        () =>
+          document.readyState === "complete" &&
+          Array.isArray(
+            (window as unknown as { webpackJsonpGravitDesigner?: unknown[] })
+              .webpackJsonpGravitDesigner,
+          ),
         null,
         { timeout: 60_000 },
       );
@@ -313,6 +310,8 @@ async function referencePage(browser: Browser): Promise<Page> {
           },
           [["gdParityPdfRef"]],
         ]);
+        // The importer registry (module 1201) sets pdf.js's workerSrc.
+        w.__refRequire?.(1201);
       });
       return page;
     })();
@@ -357,11 +356,30 @@ async function renderPdfOnce(page: Page, pdf: Buffer, scale: number): Promise<st
         const c = document.createElement("canvas");
         c.width = Math.ceil(vp.width);
         c.height = Math.ceil(vp.height);
-        const ctx = c.getContext("2d");
+        // Software canvases only: Chrome moves a canvas between GPU and
+        // software rendering by heuristics (readbacks), and the two draw
+        // shadings with different pixels.
+        const ctx = c.getContext("2d", { willReadFrequently: true });
         if (!ctx) throw new Error("no 2d context");
         ctx.fillStyle = "#fff";
         ctx.fillRect(0, 0, c.width, c.height);
-        await pg.render({ canvasContext: ctx, viewport: vp }).promise;
+        const canvasFactory = {
+          create: (width: number, height: number) => {
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            return { canvas, context: canvas.getContext("2d", { willReadFrequently: true }) };
+          },
+          reset: (cc: { canvas: HTMLCanvasElement }, width: number, height: number) => {
+            cc.canvas.width = width;
+            cc.canvas.height = height;
+          },
+          destroy: (cc: { canvas: HTMLCanvasElement }) => {
+            cc.canvas.width = 0;
+            cc.canvas.height = 0;
+          },
+        };
+        await pg.render({ canvasContext: ctx, viewport: vp, canvasFactory }).promise;
         canvases.push(c);
       }
       await doc.destroy();
@@ -370,7 +388,7 @@ async function renderPdfOnce(page: Page, pdf: Buffer, scale: number): Promise<st
       const out = document.createElement("canvas");
       out.width = width;
       out.height = height;
-      const octx = out.getContext("2d");
+      const octx = out.getContext("2d", { willReadFrequently: true });
       if (!octx) throw new Error("no 2d context");
       octx.fillStyle = "#808080";
       octx.fillRect(0, 0, width, height);
@@ -385,52 +403,6 @@ async function renderPdfOnce(page: Page, pdf: Buffer, scale: number): Promise<st
   );
 }
 
-/** pdf.js's view of a PDF's structure: page count, sizes, boxes, info. */
-export async function pdfStructure(page: Page, pdf: Buffer): Promise<unknown> {
-  const browser = page.context().browser();
-  if (!browser) throw new Error("no browser");
-  const ref = await referencePage(browser);
-  return ref.evaluate(
-    async ({ b64 }) => {
-      const w = window as unknown as { __refRequire: (id: number) => unknown };
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- pdf.js 2.1 has no types here
-      const pdfjs = w.__refRequire(792) as any;
-      const bin = atob(b64);
-      const data = new Uint8Array(bin.length);
-      for (let i = 0; i < bin.length; i++) data[i] = bin.charCodeAt(i);
-      const doc = await pdfjs.getDocument({ data }).promise;
-      const meta = await doc.getMetadata();
-      const info = { ...meta.info };
-      delete info.CreationDate;
-      delete info.ModDate;
-      const pages = [];
-      for (let i = 1; i <= doc.numPages; i++) {
-        const pg = await doc.getPage(i);
-        const ops = await pg.getOperatorList();
-        const names: Record<number, string> = {};
-        for (const k of Object.keys(pdfjs.OPS)) names[pdfjs.OPS[k]] = k;
-        const counts: Record<string, number> = {};
-        for (const fn of ops.fnArray as number[]) {
-          const n = names[fn] ?? String(fn);
-          counts[n] = (counts[n] ?? 0) + 1;
-        }
-        const text = await pg.getTextContent();
-        pages.push({
-          view: pg.view,
-          rotate: pg.rotate,
-          operators: Object.fromEntries(
-            Object.entries(counts).sort(([a], [b]) => a.localeCompare(b)),
-          ),
-          text: (text.items as { str: string }[]).map((t) => t.str),
-        });
-      }
-      await doc.destroy();
-      return { numPages: doc.numPages, info, pages };
-    },
-    { b64: pdf.toString("base64") },
-  );
-}
-
 // ---------------------------------------------------------------------------
 // Menus, dialogs and in-page calls
 
@@ -438,27 +410,34 @@ export async function pdfStructure(page: Page, pdf: Buffer): Promise<unknown> {
 export async function clickMenu(page: Page, menuPath: readonly string[]): Promise<void> {
   const [top, ...rest] = menuPath;
   if (!top) throw new Error("empty menu path");
+  const open = page.locator("ul.g-menu:not(.g-menu-root):visible");
   await page
     .locator("nav.g-menu-bar ul.g-menu-root > li.g-menu-item", {
       has: page.locator(`:scope > .g-menu-item-caption:text-is("${top}")`),
     })
     .click();
-  await page.waitForTimeout(250);
   for (let depth = 0; depth < rest.length; depth++) {
-    const menu = page.locator("ul.g-menu:not(.g-menu-root):visible").nth(depth);
-    const item = menu
+    await open.nth(depth).waitFor({ state: "visible" });
+    const item = open
+      .nth(depth)
       .locator(":scope > li.g-menu-item", {
         has: page.locator(`:scope > .g-menu-item-caption:text-is("${rest[depth]}")`),
       })
       .first();
-    if (depth < rest.length - 1) {
-      await item.hover();
-      await page.waitForTimeout(400);
-    } else {
-      await item.click();
-    }
+    if (depth < rest.length - 1) await item.hover();
+    else await item.click();
   }
-  await page.waitForTimeout(300);
+  // A clicked item closes the menu; a disabled one leaves it open.
+  await page
+    .waitForFunction(
+      () =>
+        ![...document.querySelectorAll("ul.g-menu:not(.g-menu-root)")].some(
+          (m) => (m as HTMLElement).offsetParent !== null,
+        ),
+      null,
+      { timeout: 2000 },
+    )
+    .catch(() => undefined);
 }
 
 /** Runs an in-page scenario function (from inPageWithLib) with args. */
@@ -470,10 +449,12 @@ export async function runInPage<T>(
   return (await page.evaluate(`(${fn.toString()})(window.__parity, ${JSON.stringify(args)})`)) as T;
 }
 
-/** Clicks a button with this exact text in the top visible dialog. */
+/** Clicks a button with this exact text in the top visible dialog and waits until it closed. */
 export async function clickDialogButton(page: Page, text: string): Promise<void> {
-  await page.locator(`.g-dialog:visible button:text-is("${text}")`).last().click();
-  await page.waitForTimeout(300);
+  const button = page.locator(`.g-dialog:visible button:text-is("${text}")`).last();
+  const handle = await button.elementHandle();
+  await button.click();
+  await handle?.waitForElementState("hidden");
 }
 
 /** Closes the visible dialogs by clicking their last button (OK / Close). */
@@ -481,7 +462,8 @@ export async function closeDialogs(page: Page): Promise<void> {
   for (let i = 0; i < 5; i++) {
     const buttons = page.locator(".g-dialog:visible button:visible");
     if ((await buttons.count()) === 0) return;
+    const handle = await buttons.last().elementHandle();
     await buttons.last().click();
-    await page.waitForTimeout(300);
+    await handle?.waitForElementState("hidden");
   }
 }

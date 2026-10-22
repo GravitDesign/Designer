@@ -5,6 +5,9 @@
    "g-menu",
    "fill-context-menu"
   ],
+  "attrs": {
+   "style": "left: 1312px; top: 503px;"
+  },
   "children": [
    {
     "tag": "li",
@@ -19,6 +22,9 @@
       "cls": [
        "g-menu-item-icon"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "i",
@@ -46,6 +52,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": ""
+      },
       "text": "Del"
      },
      {
@@ -54,6 +63,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -77,6 +89,9 @@
       "cls": [
        "g-menu-item-icon"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "i",
@@ -104,6 +119,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": ""
+      },
       "text": "Ctrl+C"
      },
      {
@@ -112,6 +130,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {

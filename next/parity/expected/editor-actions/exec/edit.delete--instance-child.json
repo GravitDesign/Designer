@@ -3,6 +3,14 @@
  "id": "edit.delete",
  "info": {
   "title": "Delete",
+  "fullTitle": "Delete",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Edit"
+  ],
+  "group": "ccp",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -16,7 +24,11 @@
  },
  "before": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/2/0"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -24,6 +36,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Duplicate"
@@ -31,26 +44,26 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "symbol",
-       "@id": "id4",
+       "@id": "id5",
        "$": [
         {
          "@": "rectangle",
-         "@id": "id5",
-         "&": "id6",
+         "@id": "id6",
+         "&": "id7",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -68,43 +81,43 @@
          "_sdf": 107,
          "_layers": {
           "@": "paintLayers",
-          "@id": "id7",
+          "@id": "id8",
           "$": [
            {
             "@": "fillPaintLayer",
-            "@id": "id8",
-            "&": "id9",
+            "@id": "id9",
+            "&": "id10",
             "_pt": "C#[235,235,235]"
            }
           ],
-          "&": "id10"
+          "&": "id11"
          },
-         "_effId": "id11"
+         "_effId": "id12"
         }
        ],
-       "#": "id12",
-       "&": "id13",
+       "#": "id13",
+       "&": "id14",
        "frame": [
         100,
         100,
         80,
         50
        ],
-       "masterRef": "id12",
-       "masterMultiRef": "id13",
+       "masterRef": "id13",
+       "masterMultiRef": "id14",
        "dsb": [],
        "sbl": [],
        "name": "Master",
-       "_effId": "id14"
+       "_effId": "id15"
       },
       {
        "@": "symbol",
-       "@id": "id15",
+       "@id": "id16",
        "$": [
         {
          "@": "rectangle",
-         "@id": "id16",
-         "&": "id6",
+         "@id": "id1",
+         "&": "id7",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -127,29 +140,29 @@
            {
             "@": "fillPaintLayer",
             "@id": "id18",
-            "&": "id9",
+            "&": "id10",
             "_pt": "C#[235,235,235]"
            }
           ],
-          "&": "id10"
+          "&": "id11"
          },
-         "_effId": "id11"
+         "_effId": "id12"
         }
        ],
        "#": "id19",
-       "&": "id13",
+       "&": "id14",
        "frame": [
         100,
         100,
         80,
         50
        ],
-       "masterRef": "id12",
-       "masterMultiRef": "id13",
+       "masterRef": "id13",
+       "masterMultiRef": "id14",
        "dsb": [],
        "sbl": [],
        "name": "Master",
-       "_effId": "id14"
+       "_effId": "id15"
       }
      ],
      "#": "id20",
@@ -552,7 +565,7 @@
    ],
    "lmd": "<time>",
    "_links": {
-    "rid12": [
+    "id13": [
      "id102"
     ]
    },
@@ -586,7 +599,7 @@
    "symbolDictionary": {
     "entries": [
      {
-      "uuid": "id13",
+      "uuid": "id14",
       "value": null,
       "references": 1
      }
@@ -594,7 +607,6 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [],
   "active": {
@@ -603,6 +615,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Duplicate",
@@ -611,26 +624,26 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "symbol",
-       "@id": "id4",
+       "@id": "id5",
        "$": [
         {
          "@": "rectangle",
-         "@id": "id5",
-         "&": "id6",
+         "@id": "id6",
+         "&": "id7",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -648,43 +661,43 @@
          "_sdf": 107,
          "_layers": {
           "@": "paintLayers",
-          "@id": "id7",
+          "@id": "id8",
           "$": [
            {
             "@": "fillPaintLayer",
-            "@id": "id8",
-            "&": "id9",
+            "@id": "id9",
+            "&": "id10",
             "_pt": "C#[235,235,235]"
            }
           ],
-          "&": "id10"
+          "&": "id11"
          },
-         "_effId": "id11"
+         "_effId": "id12"
         }
        ],
-       "#": "id12",
-       "&": "id13",
+       "#": "id13",
+       "&": "id14",
        "frame": [
         100,
         100,
         80,
         50
        ],
-       "masterRef": "id12",
-       "masterMultiRef": "id13",
+       "masterRef": "id13",
+       "masterMultiRef": "id14",
        "dsb": [],
        "sbl": [],
        "name": "Master",
-       "_effId": "id14"
+       "_effId": "id15"
       },
       {
        "@": "symbol",
-       "@id": "id15",
+       "@id": "id16",
        "$": [
         {
          "@": "rectangle",
-         "@id": "id16",
-         "&": "id6",
+         "@id": "id1",
+         "&": "id7",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -709,31 +722,31 @@
            {
             "@": "fillPaintLayer",
             "@id": "id18",
-            "&": "id9",
+            "&": "id10",
             "_pt": "C#[235,235,235]"
            }
           ],
-          "&": "id10"
+          "&": "id11"
          },
-         "_effId": "id11"
+         "_effId": "id12"
         }
        ],
        "#": "id19",
-       "&": "id13",
+       "&": "id14",
        "frame": [
         100,
         100,
         80,
         50
        ],
-       "masterRef": "id12",
-       "masterMultiRef": "id13",
+       "masterRef": "id13",
+       "masterMultiRef": "id14",
        "dsb": [
-        "id6"
+        "id7"
        ],
        "sbl": [],
        "name": "Master",
-       "_effId": "id14"
+       "_effId": "id15"
       }
      ],
      "#": "id20",
@@ -1136,7 +1149,7 @@
    ],
    "lmd": "<time>",
    "_links": {
-    "rid12": [
+    "id13": [
      "id102"
     ]
    },
@@ -1170,7 +1183,7 @@
    "symbolDictionary": {
     "entries": [
      {
-      "uuid": "id13",
+      "uuid": "id14",
       "value": null,
       "references": 1
      }
@@ -1180,6 +1193,14 @@
  },
  "infoAfter": {
   "title": "Delete",
+  "fullTitle": "Delete",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Edit"
+  ],
+  "group": "ccp",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -1193,7 +1214,11 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/2/0"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1201,6 +1226,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Duplicate"
@@ -1218,6 +1244,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Duplicate",

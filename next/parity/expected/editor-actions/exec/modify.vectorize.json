@@ -3,6 +3,15 @@
  "id": "modify.vectorize",
  "info": {
   "title": "Vectorize Border",
+  "fullTitle": "Vectorize Border",
+  "info": null,
+  "icon": "gravit-icon-vectorize-border",
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +23,11 @@
  },
  "before": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,27 +35,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -507,10 +521,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "compoundpath"
+   {
+    "node": "compoundpath",
+    "@id": "id107",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -518,6 +535,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Vectorize Border"
@@ -525,39 +543,39 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "compoundpath",
        "@id": "id107",
        "paths": [
-        "{\"@\":\"path\",\"@id\":\"rid108\",\"closed\":true,\"pts\":[[\"AADEQgAAxEI=\",\"#\",\"rid109\"],[\"AABKQwAAxEI=\",\"#\",\"rid110\"],[\"AABKQwAAIkM=\",\"#\",\"rid111\"],[\"AADEQgAAIkM=\",\"#\",\"rid112\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"rid113\",\"_effId\":\"rid114\"}",
-        "{\"@\":\"path\",\"@id\":\"rid115\",\"closed\":true,\"pts\":[[\"AADMQgAAzEI=\",\"#\",\"rid116\"],[\"AABGQwAAzEI=\",\"#\",\"rid117\"],[\"AABGQwAAHkM=\",\"#\",\"rid118\"],[\"AADMQgAAHkM=\",\"#\",\"rid119\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"rid120\",\"_effId\":\"rid121\"}"
+        "{\"@\":\"path\",\"@id\":\"id108\",\"closed\":true,\"pts\":[[\"AADEQgAAxEI=\",\"#\",\"id109\"],[\"AABKQwAAxEI=\",\"#\",\"id110\"],[\"AABKQwAAIkM=\",\"#\",\"id111\"],[\"AADEQgAAIkM=\",\"#\",\"id112\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id113\",\"_effId\":\"id114\"}",
+        "{\"@\":\"path\",\"@id\":\"id115\",\"closed\":true,\"pts\":[[\"AADMQgAAzEI=\",\"#\",\"id116\"],[\"AABGQwAAzEI=\",\"#\",\"id117\"],[\"AABGQwAAHkM=\",\"#\",\"id118\"],[\"AADMQgAAHkM=\",\"#\",\"id119\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id120\",\"_effId\":\"id121\"}"
        ],
        "refanchors": [],
        "_layers": {
         "@": "paintLayers",
-        "@id": "id108",
+        "@id": "id122",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id109",
+          "@id": "id123",
           "_pt": "C#[0,0,255]"
          }
         ],
-        "&": "id110"
+        "&": "id124"
        },
-       "_effId": "id111"
+       "_effId": "id125"
       }
      ],
      "#": "id10",
@@ -962,7 +980,7 @@
    "__ids": [
     "id88",
     "id89",
-    "id112",
+    "id126",
     "id91",
     "id92",
     "id93",
@@ -990,6 +1008,15 @@
  },
  "infoAfter": {
   "title": "Vectorize Border",
+  "fullTitle": "Vectorize Border",
+  "info": null,
+  "icon": "gravit-icon-vectorize-border",
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -1001,7 +1028,11 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1009,6 +1040,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1019,7 +1051,11 @@
  },
  "afterRedo": {
   "selection": [
-   "compoundpath"
+   {
+    "node": "compoundpath",
+    "@id": "id107",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1027,6 +1063,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Vectorize Border"

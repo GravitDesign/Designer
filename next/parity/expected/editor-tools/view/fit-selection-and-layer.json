@@ -4,7 +4,7 @@
    "tool": "GPointerTool",
    "temporaryTool": null,
    "selection": [
-    "0/3:ellipse"
+    "0/1/2:ellipse"
    ],
    "parts": [
     null
@@ -34,10 +34,10 @@
    "selectEditMode": 0,
    "inlineEditing": false,
    "textSelection": null,
-   "zoom": 8.583333,
+   "zoom": 2.575,
    "scroll": [
-    1028,
-    2554
+    -2,
+    107
    ],
    "undo": "Insert Element(s)"
   },
@@ -48,12 +48,12 @@
  },
  "probes": [
   {
-   "label": "selection",
+   "label": "ellipse-selected",
    "state": {
     "tool": "GPointerTool",
     "temporaryTool": null,
     "selection": [
-     "0/3:ellipse"
+     "0/1/2:ellipse"
     ],
     "parts": [
      null
@@ -83,7 +83,57 @@
     "selectEditMode": 0,
     "inlineEditing": false,
     "textSelection": null,
-    "zoom": 8.583333,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null,
+   "focus": "div"
+  },
+  {
+   "label": "selection",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1/2:ellipse"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     []
+    ],
+    "preview": [
+     {
+      "box": [
+       150,
+       320,
+       120,
+       80
+      ],
+      "trf": [
+       60,
+       0,
+       0,
+       40,
+       210,
+       360
+      ],
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 8.583333333333334,
     "scroll": [
      1028,
      2554
@@ -94,7 +144,8 @@
     "cls": "g-cursor-select",
     "css": "url(\"/assets/cursor/select.cur\"), auto"
    },
-   "hint": null
+   "hint": null,
+   "focus": "div"
   },
   {
    "label": "layer",
@@ -102,7 +153,7 @@
     "tool": "GPointerTool",
     "temporaryTool": null,
     "selection": [
-     "0/3:ellipse"
+     "0/1/2:ellipse"
     ],
     "parts": [
      null
@@ -132,10 +183,10 @@
     "selectEditMode": 0,
     "inlineEditing": false,
     "textSelection": null,
-    "zoom": 8.583333,
+    "zoom": 2.575,
     "scroll": [
-     1028,
-     2554
+     -2,
+     107
     ],
     "undo": "Insert Element(s)"
    },
@@ -143,7 +194,8 @@
     "cls": "g-cursor-select",
     "css": "url(\"/assets/cursor/select.cur\"), auto"
    },
-   "hint": null
+   "hint": null,
+   "focus": "div"
   }
  ],
  "doc": {
@@ -161,103 +213,118 @@
       "aid": "id3"
      },
      {
-      "@": "rectangle",
+      "@": "layer",
       "@id": "id4",
-      "uf": true,
-      "ct": "R",
-      "sl": 0,
-      "reftxt": null,
-      "refanchors": [],
-      "trf": [
-       100,
-       0,
-       0,
-       60,
-       200,
-       160
-      ],
-      "_sdf": 107,
-      "_layers": {
-       "@": "paintLayers",
-       "@id": "id5",
-       "$": [
-        {
-         "@": "fillPaintLayer",
+      "$": [
+       {
+        "@": "rectangle",
+        "@id": "id5",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         100,
+         0,
+         0,
+         60,
+         200,
+         160
+        ],
+        "_layers": {
+         "@": "paintLayers",
          "@id": "id6",
-         "_pt": "C#[229,57,53]"
-        }
-       ],
-       "&": "id7"
-      },
-      "_effId": "id8"
-     },
-     {
-      "@": "rectangle",
-      "@id": "id9",
-      "uf": true,
-      "ct": "R",
-      "sl": 0,
-      "reftxt": null,
-      "refanchors": [],
-      "trf": [
-       50,
-       0,
-       0,
-       50,
-       450,
-       170
-      ],
-      "_sdf": 107,
-      "_layers": {
-       "@": "paintLayers",
-       "@id": "id10",
-       "$": [
-        {
-         "@": "fillPaintLayer",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id7",
+           "_pt": "C#[229,57,53]"
+          }
+         ],
+         "&": "id8"
+        },
+        "_effId": "id9"
+       },
+       {
+        "@": "rectangle",
+        "@id": "id10",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         50,
+         0,
+         0,
+         50,
+         450,
+         170
+        ],
+        "_layers": {
+         "@": "paintLayers",
          "@id": "id11",
-         "_pt": "C#[67,160,71]"
-        }
-       ],
-       "&": "id12"
-      },
-      "_effId": "id13"
-     },
-     {
-      "@": "ellipse",
-      "@id": "id14",
-      "reftxt": null,
-      "refanchors": [],
-      "trf": [
-       60,
-       0,
-       0,
-       40,
-       210,
-       360
-      ],
-      "_sdf": 104,
-      "_layers": {
-       "@": "paintLayers",
-       "@id": "id15",
-       "$": [
-        {
-         "@": "fillPaintLayer",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id12",
+           "_pt": "C#[67,160,71]"
+          }
+         ],
+         "&": "id13"
+        },
+        "_effId": "id14"
+       },
+       {
+        "@": "ellipse",
+        "@id": "id15",
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         60,
+         0,
+         0,
+         40,
+         210,
+         360
+        ],
+        "_layers": {
+         "@": "paintLayers",
          "@id": "id16",
-         "_pt": "C#[30,136,229]"
-        }
-       ],
-       "&": "id17"
-      },
-      "_effId": "id18"
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id17",
+           "_pt": "C#[30,136,229]"
+          }
+         ],
+         "&": "id18"
+        },
+        "_effId": "id19"
+       }
+      ],
+      "cls": "C#[0,168,255]",
+      "__active": true,
+      "_layId": "id20",
+      "_effId": "id21"
      }
     ],
-    "#": "id19",
+    "#": "id22",
     "w": 0,
     "h": 0,
     "off": [],
     "bck": "C#[255,255,255]",
     "name": "Page 1"
    }
+  ],
+  "__ids": [
+   "id23",
+   "id24",
+   "id25",
+   "id26",
+   "id27",
+   "id28"
   ],
   "dictionary": {
    "entries": []

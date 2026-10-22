@@ -8,6 +8,9 @@
     "cls": [
      "window"
     ],
+    "attrs": {
+     "style": "width: 1600px; height: 1000px;"
+    },
     "children": [
      {
       "tag": "div",
@@ -16,12 +19,22 @@
        "g-editor-widget",
        "g-cursor-select"
       ],
+      "attrs": {
+       "style": "background: white; width: 1600px; height: 1000px; overflow: hidden;"
+      },
       "children": [
        {
-        "tag": "canvas"
+        "tag": "canvas",
+        "attrs": {
+         "style": "image-rendering: pixelated; position: absolute; left: 0px; top: 0px; width: 1600px; height: 1000px;"
+        }
        },
        {
-        "tag": "div"
+        "tag": "div",
+        "attrs": {
+         "tabindex": "0",
+         "style": "padding: 0px; margin: 0px; cursor: inherit; position: absolute; width: 1600px; height: 1000px;"
+        }
        },
        {
         "tag": "div",
@@ -29,15 +42,24 @@
          "g-ruler-widget",
          "horizontal"
         ],
+        "attrs": {
+         "style": "position: absolute; color: black; width: 1031px; height: 19px; overflow: hidden; left: 269px; top: 73px;"
+        },
         "children": [
          {
-          "tag": "canvas"
+          "tag": "canvas",
+          "attrs": {
+           "style": "position: absolute; left: 0px; top: 0px; image-rendering: pixelated; width: 1600px; height: 19px;"
+          }
          },
          {
           "tag": "div",
           "cls": [
            "mouse-marker"
-          ]
+          ],
+          "attrs": {
+           "style": "position: absolute; background: black; top: 0px; height: 19px; width: 1px; left: 371px;"
+          }
          }
         ]
        },
@@ -47,15 +69,24 @@
          "g-ruler-widget",
          "vertical"
         ],
+        "attrs": {
+         "style": "position: absolute; color: black; width: 19px; height: 908px; overflow: hidden; left: 250px; top: 92px;"
+        },
         "children": [
          {
-          "tag": "canvas"
+          "tag": "canvas",
+          "attrs": {
+           "style": "position: absolute; left: 0px; top: 0px; image-rendering: pixelated; width: 19px; height: 908px;"
+          }
          },
          {
           "tag": "div",
           "cls": [
            "mouse-marker"
-          ]
+          ],
+          "attrs": {
+           "style": "position: absolute; background: black; left: 0px; width: 19px; height: 1px; top: 328px;"
+          }
          }
         ]
        },
@@ -64,9 +95,15 @@
         "cls": [
          "g-ruler-widget"
         ],
+        "attrs": {
+         "style": "position: absolute; color: black; width: 19px; height: 19px; display: flex; justify-content: center; left: 250px; top: 73px;"
+        },
         "children": [
          {
           "tag": "span",
+          "attrs": {
+           "style": "font: 9px Verdana; align-self: center;"
+          },
           "text": "px"
          }
         ]
@@ -76,10 +113,16 @@
         "cls": [
          "inline-hint"
         ],
+        "attrs": {
+         "style": "position: absolute; display: none;"
+        },
         "hidden": true
        },
        {
         "tag": "div",
+        "attrs": {
+         "style": "overflow: hidden; position: absolute; height: 0px; display: none;"
+        },
         "hidden": true
        }
       ]

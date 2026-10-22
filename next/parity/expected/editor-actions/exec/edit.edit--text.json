@@ -3,6 +3,14 @@
  "id": "edit.edit",
  "info": {
   "title": "Edit Selection",
+  "fullTitle": "Edit Selection",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Edit"
+  ],
+  "group": "select",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +22,11 @@
  },
  "before": {
   "selection": [
-   "text:T"
+   {
+    "node": "text:T",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,27 +34,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "text",
-       "@id": "id4",
+       "@id": "id1",
        "#": "id5",
        "ct": [
         {
@@ -518,12 +531,16 @@
     "entries": []
    }
   },
-  "tool": "GPointerTool"
+  "tool": "GPointerTool",
+  "toolEditMode": "Select"
  },
- "returned": true,
  "after": {
   "selection": [
-   "text:T"
+   {
+    "node": "text:T",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -531,27 +548,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": true,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "text",
-       "@id": "id4",
+       "@id": "id1",
        "#": "id105",
        "ct": [
         {
@@ -1027,10 +1045,19 @@
     "entries": []
    }
   },
-  "tool": "GPointerTool"
+  "tool": "GPointerTool",
+  "toolEditMode": "Select"
  },
  "infoAfter": {
   "title": "Edit Selection",
+  "fullTitle": "Edit Selection",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Edit"
+  ],
+  "group": "select",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,

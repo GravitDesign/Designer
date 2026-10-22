@@ -284,17 +284,6 @@ const list: SurfaceSpec[] = [
     dom: false,
   },
   {
-    id: "shell/sidebar-resize-hover",
-    covers: ["UI-SHELL-017"],
-    setup: async (page) => {
-      await page.mouse.move(248, 500);
-      await settle(page, 200);
-    },
-    shot: ["body"],
-    dom: false,
-    themes: ["light"],
-  },
-  {
     id: "shell/play",
     covers: ["RUN-DIALOG-022", "RUN-MENU-160"],
     setup: async (page) => {
@@ -552,6 +541,32 @@ const scenarios: Scenario[] = [
     await settle(page);
     out.push(await caption());
     return out;
+  }),
+  behaviour("shell/sidebar-resize-hover", ["UI-SHELL-017"], async (page) => {
+    // Only the cursor shows the resize zone, and screenshots don't show the
+    // cursor: record the class the zone sets and the cursor it asks for.
+    const at = async (x: number) => {
+      await page.mouse.move(x, 500, { steps: 2 });
+      await settle(page);
+      return page.evaluate(
+        ({ px }) => {
+          const resize = [...document.querySelectorAll(".resize")].map((e) =>
+            [e.id, ...e.classList].join("."),
+          );
+          const under = document.elementFromPoint(px, 500);
+          // Cursor URLs are absolute; the port differs between the apps.
+          const cursor = under
+            ? getComputedStyle(under).cursor.replace(
+                /https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?/g,
+                "",
+              )
+            : null;
+          return { x: px, resize, cursor };
+        },
+        { px: x },
+      );
+    };
+    return [await at(200), await at(248), await at(251), await at(300), await at(200)];
   }),
   behaviour("shell/sidebar-width-setting", ["UI-SHELL-017", "UI-SHELL-016"], async (page) => {
     await page.mouse.move(249, 500);

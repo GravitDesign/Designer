@@ -1,0 +1,121 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [],
+   "parts": [],
+   "anchors": [],
+   "preview": [],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": null
+  },
+  "cursor": {
+   "cls": "g-cursor-select",
+   "css": "url(\"/assets/cursor/select.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "enhanced",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": null
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null,
+   "focus": "div",
+   "dom": {
+    "cls": "g-overlay g-tooltip-content-overlay",
+    "text": "V\nPointer tool\nClick and drag to create a selection. Click an object to select it. Hold SHIFT to add/remove from selection. Hold ALT to select only objects fully enclosed in marqee"
+   }
+  },
+  {
+   "label": "plain",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [],
+    "parts": [],
+    "anchors": [],
+    "preview": [],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": null
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null,
+   "focus": "div",
+   "dom": {
+    "cls": "g-overlay g-tooltip-content-overlay",
+    "text": "V\nPointer tool"
+   }
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     }
+    ],
+    "#": "id4",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "__ids": [
+   "id5",
+   "id6"
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

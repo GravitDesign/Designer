@@ -3,6 +3,15 @@
  "id": "modify.converttopath",
  "info": {
   "title": "Convert to Path",
+  "fullTitle": "Convert to Path",
+  "info": null,
+  "icon": "gravit-icon-convert-to-path",
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,8 +23,16 @@
  },
  "before": {
   "selection": [
-   "rectangle:R",
-   "ellipse:E"
+   {
+    "node": "rectangle:R",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "ellipse:E",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -23,27 +40,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id3",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id4",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id5",
+       "pgid": "id4",
+       "aid": "id5"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -61,21 +79,21 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id6",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id7"
+        "&": "id8"
        },
-       "_effId": "id8"
+       "_effId": "id9"
       },
       {
        "@": "ellipse",
-       "@id": "id9",
+       "@id": "id2",
        "reftxt": null,
        "refanchors": [],
        "trf": [
@@ -532,11 +550,18 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "path:R",
-   "path:E"
+   {
+    "node": "path:R",
+    "@id": "id112",
+    "path": "0/1"
+   },
+   {
+    "node": "path:E",
+    "@id": "id113",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -544,6 +569,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Convert to Path(s)"
@@ -551,17 +577,17 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id3",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id4",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id5",
+       "pgid": "id4",
+       "aid": "id5"
       },
       {
        "@": "path",
@@ -571,22 +597,22 @@
         [
          "AACAvwAAgL8=",
          "#",
-         "rid113"
+         "id114"
         ],
         [
          "AACAPwAAgL8=",
          "#",
-         "rid114"
+         "id115"
         ],
         [
          "AACAPwAAgD8=",
          "#",
-         "rid115"
+         "id116"
         ],
         [
          "AACAvwAAgD8=",
          "#",
-         "rid116"
+         "id117"
         ]
        ],
        "reftxt": null,
@@ -602,28 +628,28 @@
        "name": "R",
        "_layers": {
         "@": "paintLayers",
-        "@id": "id113",
+        "@id": "id118",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id114"
+        "&": "id119"
        },
-       "_effId": "id115"
+       "_effId": "id120"
       },
       {
        "@": "path",
-       "@id": "id116",
+       "@id": "id113",
        "closed": true,
        "pts": [
         [
          "TS",
          "AACAvzIxDSU=",
          "#",
-         "rid121",
+         "id121",
          "h",
          "AACAv05KDT8=",
          "H",
@@ -633,7 +659,7 @@
          "TS",
          "yslTpQAAgL8=",
          "#",
-         "rid122",
+         "id122",
          "h",
          "TkoNvwAAgL8=",
          "H",
@@ -643,7 +669,7 @@
          "TS",
          "AACAPzIxjaU=",
          "#",
-         "rid123",
+         "id123",
          "h",
          "AACAP05KDb8=",
          "H",
@@ -653,7 +679,7 @@
          "TS",
          "fn2wJQAAgD8=",
          "#",
-         "rid124",
+         "id124",
          "h",
          "TkoNPwAAgD8=",
          "H",
@@ -673,7 +699,7 @@
        "name": "E",
        "_layers": {
         "@": "paintLayers",
-        "@id": "id117",
+        "@id": "id125",
         "$": [
          {
           "@": "fillPaintLayer",
@@ -681,9 +707,9 @@
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id118"
+        "&": "id126"
        },
-       "_effId": "id119"
+       "_effId": "id127"
       }
      ],
      "#": "id14",
@@ -1088,8 +1114,8 @@
    "__ids": [
     "id92",
     "id93",
-    "id120",
-    "id121",
+    "id128",
+    "id129",
     "id96",
     "id97",
     "id98",
@@ -1117,6 +1143,15 @@
  },
  "infoAfter": {
   "title": "Convert to Path",
+  "fullTitle": "Convert to Path",
+  "info": null,
+  "icon": "gravit-icon-convert-to-path",
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -1128,8 +1163,16 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:R",
-   "ellipse:E"
+   {
+    "node": "rectangle:R",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "ellipse:E",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1137,6 +1180,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1147,8 +1191,16 @@
  },
  "afterRedo": {
   "selection": [
-   "path:R",
-   "path:E"
+   {
+    "node": "path:R",
+    "@id": "id112",
+    "path": "0/1"
+   },
+   {
+    "node": "path:E",
+    "@id": "id113",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1156,6 +1208,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Convert to Path(s)"

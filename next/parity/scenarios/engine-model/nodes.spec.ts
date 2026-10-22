@@ -222,27 +222,18 @@ const NON_DEFAULT: Record<string, Record<string, unknown>> = {
 const scenarios: Scenario[] = defineScenarios<unknown>([
   {
     id: "engine-model/nodes/class-registry",
+    // Only the items whose content is the registry, mixins or an enum; the
+    // behaviour behind the other enums is covered where it is exercised.
     covers: [
       "ENG-NODE-001",
       "ENG-NODE-002",
       "ENG-NODE-003",
       "ENG-NODE-013",
-      "ENG-NODE-017",
       "ENG-NODE-024",
-      "ENG-NODE-029",
       "ENG-NODE-050",
-      "ENG-NODE-012",
       "ENG-BORDER-002",
       "ENG-BORDER-003",
-      "ENG-BORDER-004",
-      "ENG-BLEND-001",
-      "ENG-BLEND-002",
       "ENG-BLEND-003",
-      "ENG-STYLE-001",
-      "ENG-EFFECT-002",
-      "ENG-TEXT-004",
-      "ENG-TEXT-007",
-      "ENG-FILL-004",
     ],
     kind: "json",
     args: CONSTRUCTIBLE,
@@ -502,13 +493,18 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
       g.appendChild(H.ellipse(5, 5, 10, 10));
       const plain = H.blob(g);
       const copy = H.blob(g, { copy: true });
-      const arr = JSON.parse(G.GNode.serialize([r, g.getLastChild()]));
+      const arrJson = G.GNode.serialize([r, g.getLastChild()]);
+      const arr = JSON.parse(arrJson);
       const beautified = G.GNode.serialize(r, { beautify: true });
       const id = r.getId();
       const clone = r.clone();
       const restored = G.GNode.deserialize(H.ser(g));
       const restoredArr = G.GNode.deserialize(G.GNode.serialize([r, r]));
       return {
+        plain,
+        copy,
+        array: H.clean(arr),
+        beautified: H.clean(beautified),
         idLength: id.length,
         idChars: /^[A-Za-z0-9]+$/.test(id),
         plainKeys: Object.keys(plain),

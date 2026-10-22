@@ -433,8 +433,16 @@ const scenarios = defineScenarios([
       ),
     );
     const before = L.shape(c);
-    c.setProperty("trf", new G.GTransform(0.5, 0, 0, 2, 10, 0));
-    return { before, after: L.shape(c), center: L.run(() => c.getCenter()) };
+    // A compound path has no `trf` of its own: transform() maps every
+    // sub-path's anchors.
+    c.transform(new G.GTransform(0.5, 0, 0, 2, 10, 0));
+    const firstPath = c.getPaths().getFirstChild();
+    return {
+      before,
+      after: L.shape(c),
+      firstPath: L.shape(firstPath),
+      center: L.run(() => c.getCenter()),
+    };
   }),
 ]);
 

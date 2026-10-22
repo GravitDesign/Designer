@@ -1,35 +1,329 @@
 {
- "classes": {
-  "page": [
-   "function",
-   "function"
+ "insert": {
+  "events": [
+   [
+    "scene invalidation",
+    [
+     20,
+     20,
+     20,
+     20
+    ],
+    null
+   ],
+   [
+    "scene invalidation",
+    [
+     20,
+     20,
+     20,
+     20
+    ],
+    "Page 1"
+   ],
+   [
+    "scene invalidation",
+    [
+     20,
+     20,
+     20,
+     20
+    ],
+    null
+   ],
+   [
+    "scene invalidation",
+    [
+     20,
+     20,
+     20,
+     20
+    ],
+    "Page 1"
+   ]
   ],
-  "scene": [
-   "function",
-   "function",
-   "function",
-   "function"
-  ],
-  "image": [
-   "function",
-   "function"
-  ],
-  "texture": "function",
-  "font": [
-   "function",
-   "function",
-   "function",
-   "function"
-  ],
-  "symbol": [
-   "function",
-   "function"
-  ],
-  "event": [
-   "function",
-   "function"
+  "finished": [
+   [
+    true,
+    true,
+    true
+   ]
   ]
  },
+ "move": {
+  "events": [
+   [
+    "scene invalidation",
+    [
+     40,
+     40,
+     20,
+     20
+    ],
+    null
+   ],
+   [
+    "scene invalidation",
+    [
+     20,
+     20,
+     20,
+     20
+    ],
+    "Page 1"
+   ],
+   [
+    "scene invalidation",
+    [
+     40,
+     40,
+     20,
+     20
+    ],
+    "Page 1"
+   ]
+  ],
+  "finished": [
+   [
+    true,
+    true,
+    true
+   ]
+  ]
+ },
+ "page background": {
+  "events": [
+   [
+    "scene invalidation",
+    [
+     -770,
+     -841,
+     3090,
+     2738
+    ],
+    "Page 1"
+   ]
+  ],
+  "finished": [
+   [
+    true,
+    true,
+    true
+   ]
+  ]
+ },
+ "texture set on layer": {
+  "events": [
+   [
+    "scene invalidation",
+    [
+     40,
+     40,
+     20,
+     20
+    ],
+    "Page 1"
+   ],
+   [
+    "texture update",
+    true
+   ]
+  ],
+  "finished": [
+   [
+    true,
+    true,
+    true
+   ]
+  ]
+ },
+ "texture in new layer": {
+  "events": [
+   [
+    "resolve url",
+    "dictionary://id1",
+    true,
+    "function"
+   ],
+   [
+    "scene invalidation",
+    [
+     40,
+     40,
+     20,
+     20
+    ],
+    "Page 1"
+   ],
+   [
+    "texture update",
+    true
+   ],
+   [
+    "texture update",
+    true
+   ]
+  ],
+  "finished": [
+   [
+    true,
+    true,
+    true
+   ]
+  ]
+ },
+ "image url": {
+  "events": [
+   [
+    "scene invalidation",
+    [
+     0,
+     0,
+     100,
+     100
+    ],
+    null
+   ],
+   [
+    "scene invalidation",
+    [
+     0,
+     0,
+     100,
+     100
+    ],
+    "Page 1"
+   ],
+   [
+    "scene invalidation",
+    [
+     0,
+     0,
+     100,
+     100
+    ],
+    null
+   ],
+   [
+    "scene invalidation",
+    [
+     0,
+     0,
+     100,
+     100
+    ],
+    "Page 1"
+   ],
+   [
+    "scene invalidation",
+    [
+     0,
+     0,
+     100,
+     100
+    ],
+    "Page 1"
+   ],
+   [
+    "resolve url",
+    "assets/does-not-exist.png",
+    true,
+    "function"
+   ],
+   [
+    "resolve url",
+    "dictionary://id2",
+    true,
+    "function"
+   ],
+   [
+    "scene invalidation",
+    [
+     0,
+     0,
+     100,
+     100
+    ],
+    null
+   ],
+   [
+    "scene invalidation",
+    [
+     0,
+     0,
+     100,
+     100
+    ],
+    "Page 1"
+   ]
+  ],
+  "finished": [
+   [
+    true,
+    true,
+    true
+   ]
+  ]
+ },
+ "imageUrlStatus": 1,
+ "thumbnail": {
+  "events": [
+   [
+    "scene invalidation",
+    [
+     20,
+     20,
+     20,
+     20
+    ],
+    null
+   ],
+   [
+    "scene invalidation",
+    [
+     40,
+     40,
+     20,
+     20
+    ],
+    "Page 1"
+   ],
+   [
+    "scene invalidation",
+    [
+     20,
+     20,
+     20,
+     20
+    ],
+    "Page 1"
+   ],
+   [
+    "thumbnail",
+    true,
+    [
+     85,
+     85,
+     "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFUAAABVCAYAAAA49ahaAAABPElEQVR4AezSMQrDMBAFUeH7H1Y3SKpACLErvWrH4HYEb/+19371nzW4Vt9xgVCPk64VaqhAACRbaqhAACRbaqhAACRbaqhAACRbKkIF2dnJlgruH2qoQAAkW2qoQAAkW2qoQAAkW2qoQAAkW2qoQAAkP0sF6bnJUMHtQw0VCIBkSw0VCIBkSw0VCIBkSw0VCIBkSw0VCIDk91JBfmYyVHD3UEMFAiDZUkMFAiDZUkMFAiDZUkMFAiDZUkMFAiD5u1TwxLxkqODmoYYKBECypYYKBECypYYKBECypYYKBECypYYKBEDy31LBM7OSoYJ7hxoqEADJlhoqEADJlhoqEADJlhoqEADJlhoqEADJu6WCp+YkQwW3DjVUIACSLTVUIACSLTVUIACSLTVUIACSLTVUIACST0sFz81IvgEAAP//HKzJwQAAAAZJREFUAwDQOkR1DbC9AwAAAABJRU5ErkJggg=="
+    ]
+   ]
+  ],
+  "finished": [
+   [
+    true,
+    true,
+    true
+   ]
+  ]
+ },
+ "guides": [
+  [
+   1,
+   2,
+   3,
+   4
+  ]
+ ],
  "recorded": [
   [
    "change",
@@ -42,6 +336,7 @@
   ],
   [
    "started",
+   true,
    false
   ],
   [
@@ -51,6 +346,7 @@
   ],
   [
    "finished",
+   true,
    false
   ],
   [
@@ -59,6 +355,7 @@
   ],
   [
    "started",
+   true,
    false
   ],
   [
@@ -68,10 +365,10 @@
   ],
   [
    "finished",
+   true,
    false
   ]
  ],
- "pageInvalidation": [],
  "imageStatus": {
   "events": [
    1

@@ -36,7 +36,8 @@
          {
           "tag": "input",
           "attrs": {
-           "type": "text"
+           "type": "text",
+           "style": "display: none;"
           },
           "props": {
            "value": "Untitled-1*"
@@ -50,6 +51,9 @@
         "cls": [
          "close"
         ],
+        "attrs": {
+         "style": "pointer-events: auto;"
+        },
         "text": "✕"
        },
        {

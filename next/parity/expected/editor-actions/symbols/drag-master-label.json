@@ -4,7 +4,11 @@
  "info": null,
  "before": {
   "selection": [
-   "symbol:Master"
+   {
+    "node": "symbol:Master",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -12,28 +16,30 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
-   "Duplicate"
+   "Duplicate",
+   "Move instance"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "symbol",
-       "@id": "id4",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
@@ -548,7 +554,7 @@
    ],
    "lmd": "<time>",
    "_links": {
-    "rid12": [
+    "id12": [
      "id102"
     ]
    },
@@ -592,7 +598,11 @@
  },
  "after": {
   "selection": [
-   "symbol:Master"
+   {
+    "node": "symbol:Master",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -600,29 +610,31 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Duplicate",
+   "Move instance",
    "Modify Symbol"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "symbol",
-       "@id": "id4",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
@@ -1146,7 +1158,7 @@
    ],
    "lmd": "<time>",
    "_links": {
-    "rid12": [
+    "id12": [
      "id102"
     ]
    },
@@ -1191,7 +1203,11 @@
  "infoAfter": null,
  "afterUndo": {
   "selection": [
-   "symbol:Master"
+   {
+    "node": "symbol:Master",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1199,9 +1215,11 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
-   "Duplicate"
+   "Duplicate",
+   "Move instance"
   ],
   "redo": [
    "Modify Symbol"
@@ -1210,7 +1228,11 @@
  },
  "afterRedo": {
   "selection": [
-   "symbol:Master"
+   {
+    "node": "symbol:Master",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1218,9 +1240,11 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Duplicate",
+   "Move instance",
    "Modify Symbol"
   ],
   "redo": [],

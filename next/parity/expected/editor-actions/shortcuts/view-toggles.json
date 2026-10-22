@@ -8,10 +8,19 @@
   "keys": [
    "Alt+KeyY"
   ],
+  "changed": true,
   "setup": "rect",
   "id": "view.outline-view",
   "info": {
    "title": "Outline View",
+   "fullTitle": "Outline View",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View"
+   ],
+   "group": "view",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -23,7 +32,11 @@
   },
   "before": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id1",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -31,27 +44,28 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
    "redo": [],
    "doc": {
     "@": "scene",
-    "@id": "id1",
+    "@id": "id2",
     "$": [
      {
       "@": "page",
-      "@id": "id2",
+      "@id": "id3",
       "$": [
        {
         "@": "annlst",
-        "@id": "id3",
-        "pgid": "id2",
-        "aid": "id3"
+        "@id": "id4",
+        "pgid": "id3",
+        "aid": "id4"
        },
        {
         "@": "rectangle",
-        "@id": "id4",
+        "@id": "id1",
         "uf": true,
         "ct": "R",
         "sl": 0,
@@ -522,7 +536,11 @@
   },
   "after": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id1",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -530,6 +548,7 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
@@ -549,6 +568,14 @@
   },
   "infoAfter": {
    "title": "Outline View",
+   "fullTitle": "Outline View",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View"
+   ],
+   "group": "view",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -564,10 +591,20 @@
   "keys": [
    "Control+Alt+KeyR"
   ],
+  "changed": true,
   "setup": "rect",
   "id": "view.canvas.show-rulers",
   "info": {
    "title": "Show Rulers",
+   "fullTitle": "Show Rulers",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View",
+    "View/Canvas"
+   ],
+   "group": "show/canvas",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -579,7 +616,11 @@
   },
   "before": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id106",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -587,27 +628,28 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
    "redo": [],
    "doc": {
     "@": "scene",
-    "@id": "id1",
+    "@id": "id107",
     "$": [
      {
       "@": "page",
-      "@id": "id2",
+      "@id": "id108",
       "$": [
        {
         "@": "annlst",
-        "@id": "id3",
-        "pgid": "id2",
-        "aid": "id3"
+        "@id": "id109",
+        "pgid": "id108",
+        "aid": "id109"
        },
        {
         "@": "rectangle",
-        "@id": "id4",
+        "@id": "id106",
         "uf": true,
         "ct": "R",
         "sl": 0,
@@ -625,20 +667,20 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id5",
+         "@id": "id110",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id6",
+           "@id": "id111",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id7"
+         "&": "id112"
         },
-        "_effId": "id8"
+        "_effId": "id113"
        }
       ],
-      "#": "id9",
+      "#": "id114",
       "w": 0,
       "h": 0,
       "off": [],
@@ -647,12 +689,12 @@
      },
      {
       "@": "styles",
-      "@id": "id10",
+      "@id": "id115",
       "$": [
        {
         "@": "style",
-        "@id": "id11",
-        "#": "id12",
+        "@id": "id116",
+        "#": "id117",
         "name": "Shape Default",
         "ps": [
          "S",
@@ -662,26 +704,26 @@
         "_sdf": 94,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id13",
+         "@id": "id118",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id14",
+           "@id": "id119",
            "_pt": "C#[255,255,255]"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id15",
+           "@id": "id120",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id16"
+         "&": "id121"
         }
        },
        {
         "@": "style",
-        "@id": "id17",
-        "#": "id18",
+        "@id": "id122",
+        "#": "id123",
         "name": "Text Default",
         "ps": [
          "S",
@@ -691,13 +733,13 @@
          "P"
         ],
         "_sdf": 133,
-        "_layId": "id19",
+        "_layId": "id124",
         "_fc": "C#[0,0,0]"
        },
        {
         "@": "style",
-        "@id": "id20",
-        "#": "id21",
+        "@id": "id125",
+        "#": "id126",
         "name": "Rectangle Default",
         "ps": [
          "S",
@@ -707,21 +749,21 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id22",
+         "@id": "id127",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id23",
+           "@id": "id128",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id24"
+         "&": "id129"
         }
        },
        {
         "@": "style",
-        "@id": "id25",
-        "#": "id26",
+        "@id": "id130",
+        "#": "id131",
         "name": "Ellipse Default",
         "ps": [
          "S",
@@ -731,21 +773,21 @@
         "_sdf": 104,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id27",
+         "@id": "id132",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id28",
+           "@id": "id133",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id29"
+         "&": "id134"
         }
        },
        {
         "@": "style",
-        "@id": "id30",
-        "#": "id31",
+        "@id": "id135",
+        "#": "id136",
         "name": "Polygon Default",
         "ps": [
          "S",
@@ -755,21 +797,21 @@
         "_sdf": 102,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id32",
+         "@id": "id137",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id33",
+           "@id": "id138",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id34"
+         "&": "id139"
         }
        },
        {
         "@": "style",
-        "@id": "id35",
-        "#": "id36",
+        "@id": "id140",
+        "#": "id141",
         "name": "Path Default",
         "ps": [
          "S",
@@ -779,27 +821,27 @@
         "_sdf": 103,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id37",
+         "@id": "id142",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id38",
+           "@id": "id143",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id39",
+           "@id": "id144",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id40"
+         "&": "id145"
         }
        },
        {
         "@": "style",
-        "@id": "id41",
-        "#": "id42",
+        "@id": "id146",
+        "#": "id147",
         "name": "Path graph default",
         "ps": [
          "S",
@@ -809,28 +851,28 @@
         "_sdf": 142,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id43",
+         "@id": "id148",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id44",
+           "@id": "id149",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id45",
+           "@id": "id150",
            "_blc": "round",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id46"
+         "&": "id151"
         }
        },
        {
         "@": "style",
-        "@id": "id47",
-        "#": "id48",
+        "@id": "id152",
+        "#": "id153",
         "name": "Connector default",
         "ps": [
          "S",
@@ -839,24 +881,24 @@
         "_sdf": 146,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id49",
+         "@id": "id154",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id50",
+           "@id": "id155",
            "_blc": "butt",
            "_bhm": "A",
            "_btm": "A",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id51"
+         "&": "id156"
         }
        },
        {
         "@": "style",
-        "@id": "id52",
-        "#": "id53",
+        "@id": "id157",
+        "#": "id158",
         "name": "Text annotation default",
         "ps": [
          "S",
@@ -868,8 +910,8 @@
        },
        {
         "@": "style",
-        "@id": "id54",
-        "#": "id55",
+        "@id": "id159",
+        "#": "id160",
         "name": "Rectangle annotation default",
         "ps": [
          "S",
@@ -879,29 +921,29 @@
         "_sdf": 150,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id56",
+         "@id": "id161",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id57",
+           "@id": "id162",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id58",
+           "@id": "id163",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id59"
+         "&": "id164"
         }
        },
        {
         "@": "style",
-        "@id": "id60",
-        "#": "id61",
+        "@id": "id165",
+        "#": "id166",
         "name": "Ellipse annotation default",
         "ps": [
          "S",
@@ -911,29 +953,29 @@
         "_sdf": 151,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id62",
+         "@id": "id167",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id63",
+           "@id": "id168",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id64",
+           "@id": "id169",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id65"
+         "&": "id170"
         }
        },
        {
         "@": "style",
-        "@id": "id66",
-        "#": "id67",
+        "@id": "id171",
+        "#": "id172",
         "name": "Pencil annotation default",
         "ps": [
          "S",
@@ -942,22 +984,22 @@
         "_sdf": 155,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id68",
+         "@id": "id173",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id69",
+           "@id": "id174",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id70"
+         "&": "id175"
         }
        },
        {
         "@": "style",
-        "@id": "id71",
-        "#": "id72",
+        "@id": "id176",
+        "#": "id177",
         "name": "Highlighter annotation default",
         "ps": [
          "S",
@@ -967,22 +1009,22 @@
         "_stop": 0.5,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id73",
+         "@id": "id178",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id74",
+           "@id": "id179",
            "_bw": 12,
            "_pt": "C#[248,206,28]"
           }
          ],
-         "&": "id75"
+         "&": "id180"
         }
        },
        {
         "@": "style",
-        "@id": "id76",
-        "#": "id77",
+        "@id": "id181",
+        "#": "id182",
         "name": "Arrow annotation default",
         "ps": [
          "S",
@@ -991,11 +1033,11 @@
         "_sdf": 154,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id78",
+         "@id": "id183",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id79",
+           "@id": "id184",
            "_bw": 2,
            "_blc": "butt",
            "_bhmi": 0,
@@ -1004,13 +1046,13 @@
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id80"
+         "&": "id185"
         }
        },
        {
         "@": "style",
-        "@id": "id81",
-        "#": "id82",
+        "@id": "id186",
+        "#": "id187",
         "name": "Comment annotation default",
         "ps": [
          "S",
@@ -1021,42 +1063,42 @@
         "_sdf": 153,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id83",
+         "@id": "id188",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id84",
+           "@id": "id189",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id85"
+         "&": "id190"
         },
-        "_effId": "id86"
+        "_effId": "id191"
        }
       ]
      }
     ],
     "lmd": "<time>",
     "__ids": [
-     "id87",
-     "id88",
-     "id89",
-     "id90",
-     "id91",
-     "id92",
-     "id93",
-     "id94",
-     "id95",
-     "id96",
-     "id97",
-     "id98",
-     "id99",
-     "id100",
-     "id101",
-     "id102",
-     "id103",
-     "id104",
-     "id105"
+     "id192",
+     "id193",
+     "id194",
+     "id195",
+     "id196",
+     "id197",
+     "id198",
+     "id199",
+     "id200",
+     "id201",
+     "id202",
+     "id203",
+     "id204",
+     "id205",
+     "id206",
+     "id207",
+     "id208",
+     "id209",
+     "id210"
     ],
     "dictionary": {
      "entries": []
@@ -1083,7 +1125,11 @@
   },
   "after": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id106",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -1091,6 +1137,7 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
@@ -1114,6 +1161,15 @@
   },
   "infoAfter": {
    "title": "Show Rulers",
+   "fullTitle": "Show Rulers",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View",
+    "View/Canvas"
+   ],
+   "group": "show/canvas",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -1129,10 +1185,20 @@
   "keys": [
    "Control+Comma"
   ],
+  "changed": true,
   "setup": "rect",
   "id": "view.canvas.show-guide-lines",
   "info": {
    "title": "Show Guide Lines",
+   "fullTitle": "Show Guide Lines",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View",
+    "View/Canvas"
+   ],
+   "group": "show/canvas",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -1144,7 +1210,11 @@
   },
   "before": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id211",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -1152,27 +1222,28 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
    "redo": [],
    "doc": {
     "@": "scene",
-    "@id": "id1",
+    "@id": "id212",
     "$": [
      {
       "@": "page",
-      "@id": "id2",
+      "@id": "id213",
       "$": [
        {
         "@": "annlst",
-        "@id": "id3",
-        "pgid": "id2",
-        "aid": "id3"
+        "@id": "id214",
+        "pgid": "id213",
+        "aid": "id214"
        },
        {
         "@": "rectangle",
-        "@id": "id4",
+        "@id": "id211",
         "uf": true,
         "ct": "R",
         "sl": 0,
@@ -1190,20 +1261,20 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id5",
+         "@id": "id215",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id6",
+           "@id": "id216",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id7"
+         "&": "id217"
         },
-        "_effId": "id8"
+        "_effId": "id218"
        }
       ],
-      "#": "id9",
+      "#": "id219",
       "w": 0,
       "h": 0,
       "off": [],
@@ -1212,12 +1283,12 @@
      },
      {
       "@": "styles",
-      "@id": "id10",
+      "@id": "id220",
       "$": [
        {
         "@": "style",
-        "@id": "id11",
-        "#": "id12",
+        "@id": "id221",
+        "#": "id222",
         "name": "Shape Default",
         "ps": [
          "S",
@@ -1227,26 +1298,26 @@
         "_sdf": 94,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id13",
+         "@id": "id223",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id14",
+           "@id": "id224",
            "_pt": "C#[255,255,255]"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id15",
+           "@id": "id225",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id16"
+         "&": "id226"
         }
        },
        {
         "@": "style",
-        "@id": "id17",
-        "#": "id18",
+        "@id": "id227",
+        "#": "id228",
         "name": "Text Default",
         "ps": [
          "S",
@@ -1256,13 +1327,13 @@
          "P"
         ],
         "_sdf": 133,
-        "_layId": "id19",
+        "_layId": "id229",
         "_fc": "C#[0,0,0]"
        },
        {
         "@": "style",
-        "@id": "id20",
-        "#": "id21",
+        "@id": "id230",
+        "#": "id231",
         "name": "Rectangle Default",
         "ps": [
          "S",
@@ -1272,21 +1343,21 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id22",
+         "@id": "id232",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id23",
+           "@id": "id233",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id24"
+         "&": "id234"
         }
        },
        {
         "@": "style",
-        "@id": "id25",
-        "#": "id26",
+        "@id": "id235",
+        "#": "id236",
         "name": "Ellipse Default",
         "ps": [
          "S",
@@ -1296,21 +1367,21 @@
         "_sdf": 104,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id27",
+         "@id": "id237",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id28",
+           "@id": "id238",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id29"
+         "&": "id239"
         }
        },
        {
         "@": "style",
-        "@id": "id30",
-        "#": "id31",
+        "@id": "id240",
+        "#": "id241",
         "name": "Polygon Default",
         "ps": [
          "S",
@@ -1320,21 +1391,21 @@
         "_sdf": 102,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id32",
+         "@id": "id242",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id33",
+           "@id": "id243",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id34"
+         "&": "id244"
         }
        },
        {
         "@": "style",
-        "@id": "id35",
-        "#": "id36",
+        "@id": "id245",
+        "#": "id246",
         "name": "Path Default",
         "ps": [
          "S",
@@ -1344,27 +1415,27 @@
         "_sdf": 103,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id37",
+         "@id": "id247",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id38",
+           "@id": "id248",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id39",
+           "@id": "id249",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id40"
+         "&": "id250"
         }
        },
        {
         "@": "style",
-        "@id": "id41",
-        "#": "id42",
+        "@id": "id251",
+        "#": "id252",
         "name": "Path graph default",
         "ps": [
          "S",
@@ -1374,28 +1445,28 @@
         "_sdf": 142,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id43",
+         "@id": "id253",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id44",
+           "@id": "id254",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id45",
+           "@id": "id255",
            "_blc": "round",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id46"
+         "&": "id256"
         }
        },
        {
         "@": "style",
-        "@id": "id47",
-        "#": "id48",
+        "@id": "id257",
+        "#": "id258",
         "name": "Connector default",
         "ps": [
          "S",
@@ -1404,24 +1475,24 @@
         "_sdf": 146,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id49",
+         "@id": "id259",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id50",
+           "@id": "id260",
            "_blc": "butt",
            "_bhm": "A",
            "_btm": "A",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id51"
+         "&": "id261"
         }
        },
        {
         "@": "style",
-        "@id": "id52",
-        "#": "id53",
+        "@id": "id262",
+        "#": "id263",
         "name": "Text annotation default",
         "ps": [
          "S",
@@ -1433,8 +1504,8 @@
        },
        {
         "@": "style",
-        "@id": "id54",
-        "#": "id55",
+        "@id": "id264",
+        "#": "id265",
         "name": "Rectangle annotation default",
         "ps": [
          "S",
@@ -1444,29 +1515,29 @@
         "_sdf": 150,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id56",
+         "@id": "id266",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id57",
+           "@id": "id267",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id58",
+           "@id": "id268",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id59"
+         "&": "id269"
         }
        },
        {
         "@": "style",
-        "@id": "id60",
-        "#": "id61",
+        "@id": "id270",
+        "#": "id271",
         "name": "Ellipse annotation default",
         "ps": [
          "S",
@@ -1476,29 +1547,29 @@
         "_sdf": 151,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id62",
+         "@id": "id272",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id63",
+           "@id": "id273",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id64",
+           "@id": "id274",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id65"
+         "&": "id275"
         }
        },
        {
         "@": "style",
-        "@id": "id66",
-        "#": "id67",
+        "@id": "id276",
+        "#": "id277",
         "name": "Pencil annotation default",
         "ps": [
          "S",
@@ -1507,22 +1578,22 @@
         "_sdf": 155,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id68",
+         "@id": "id278",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id69",
+           "@id": "id279",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id70"
+         "&": "id280"
         }
        },
        {
         "@": "style",
-        "@id": "id71",
-        "#": "id72",
+        "@id": "id281",
+        "#": "id282",
         "name": "Highlighter annotation default",
         "ps": [
          "S",
@@ -1532,22 +1603,22 @@
         "_stop": 0.5,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id73",
+         "@id": "id283",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id74",
+           "@id": "id284",
            "_bw": 12,
            "_pt": "C#[248,206,28]"
           }
          ],
-         "&": "id75"
+         "&": "id285"
         }
        },
        {
         "@": "style",
-        "@id": "id76",
-        "#": "id77",
+        "@id": "id286",
+        "#": "id287",
         "name": "Arrow annotation default",
         "ps": [
          "S",
@@ -1556,11 +1627,11 @@
         "_sdf": 154,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id78",
+         "@id": "id288",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id79",
+           "@id": "id289",
            "_bw": 2,
            "_blc": "butt",
            "_bhmi": 0,
@@ -1569,13 +1640,13 @@
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id80"
+         "&": "id290"
         }
        },
        {
         "@": "style",
-        "@id": "id81",
-        "#": "id82",
+        "@id": "id291",
+        "#": "id292",
         "name": "Comment annotation default",
         "ps": [
          "S",
@@ -1586,42 +1657,42 @@
         "_sdf": 153,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id83",
+         "@id": "id293",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id84",
+           "@id": "id294",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id85"
+         "&": "id295"
         },
-        "_effId": "id86"
+        "_effId": "id296"
        }
       ]
      }
     ],
     "lmd": "<time>",
     "__ids": [
-     "id87",
-     "id88",
-     "id89",
-     "id90",
-     "id91",
-     "id92",
-     "id93",
-     "id94",
-     "id95",
-     "id96",
-     "id97",
-     "id98",
-     "id99",
-     "id100",
-     "id101",
-     "id102",
-     "id103",
-     "id104",
-     "id105"
+     "id297",
+     "id298",
+     "id299",
+     "id300",
+     "id301",
+     "id302",
+     "id303",
+     "id304",
+     "id305",
+     "id306",
+     "id307",
+     "id308",
+     "id309",
+     "id310",
+     "id311",
+     "id312",
+     "id313",
+     "id314",
+     "id315"
     ],
     "dictionary": {
      "entries": []
@@ -1648,7 +1719,11 @@
   },
   "after": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id211",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -1656,6 +1731,7 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
@@ -1679,6 +1755,15 @@
   },
   "infoAfter": {
    "title": "Show Guide Lines",
+   "fullTitle": "Show Guide Lines",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View",
+    "View/Canvas"
+   ],
+   "group": "show/canvas",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -1694,10 +1779,20 @@
   "keys": [
    "Control+Alt+KeyG"
   ],
+  "changed": true,
   "setup": "rect",
   "id": "view.canvas.show-grid",
   "info": {
    "title": "Show Grid",
+   "fullTitle": "Show Grid",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View",
+    "View/Canvas"
+   ],
+   "group": "show/canvas",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -1709,7 +1804,11 @@
   },
   "before": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id316",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -1717,27 +1816,28 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
    "redo": [],
    "doc": {
     "@": "scene",
-    "@id": "id1",
+    "@id": "id317",
     "$": [
      {
       "@": "page",
-      "@id": "id2",
+      "@id": "id318",
       "$": [
        {
         "@": "annlst",
-        "@id": "id3",
-        "pgid": "id2",
-        "aid": "id3"
+        "@id": "id319",
+        "pgid": "id318",
+        "aid": "id319"
        },
        {
         "@": "rectangle",
-        "@id": "id4",
+        "@id": "id316",
         "uf": true,
         "ct": "R",
         "sl": 0,
@@ -1755,20 +1855,20 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id5",
+         "@id": "id320",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id6",
+           "@id": "id321",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id7"
+         "&": "id322"
         },
-        "_effId": "id8"
+        "_effId": "id323"
        }
       ],
-      "#": "id9",
+      "#": "id324",
       "w": 0,
       "h": 0,
       "off": [],
@@ -1777,12 +1877,12 @@
      },
      {
       "@": "styles",
-      "@id": "id10",
+      "@id": "id325",
       "$": [
        {
         "@": "style",
-        "@id": "id11",
-        "#": "id12",
+        "@id": "id326",
+        "#": "id327",
         "name": "Shape Default",
         "ps": [
          "S",
@@ -1792,26 +1892,26 @@
         "_sdf": 94,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id13",
+         "@id": "id328",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id14",
+           "@id": "id329",
            "_pt": "C#[255,255,255]"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id15",
+           "@id": "id330",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id16"
+         "&": "id331"
         }
        },
        {
         "@": "style",
-        "@id": "id17",
-        "#": "id18",
+        "@id": "id332",
+        "#": "id333",
         "name": "Text Default",
         "ps": [
          "S",
@@ -1821,13 +1921,13 @@
          "P"
         ],
         "_sdf": 133,
-        "_layId": "id19",
+        "_layId": "id334",
         "_fc": "C#[0,0,0]"
        },
        {
         "@": "style",
-        "@id": "id20",
-        "#": "id21",
+        "@id": "id335",
+        "#": "id336",
         "name": "Rectangle Default",
         "ps": [
          "S",
@@ -1837,21 +1937,21 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id22",
+         "@id": "id337",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id23",
+           "@id": "id338",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id24"
+         "&": "id339"
         }
        },
        {
         "@": "style",
-        "@id": "id25",
-        "#": "id26",
+        "@id": "id340",
+        "#": "id341",
         "name": "Ellipse Default",
         "ps": [
          "S",
@@ -1861,21 +1961,21 @@
         "_sdf": 104,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id27",
+         "@id": "id342",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id28",
+           "@id": "id343",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id29"
+         "&": "id344"
         }
        },
        {
         "@": "style",
-        "@id": "id30",
-        "#": "id31",
+        "@id": "id345",
+        "#": "id346",
         "name": "Polygon Default",
         "ps": [
          "S",
@@ -1885,21 +1985,21 @@
         "_sdf": 102,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id32",
+         "@id": "id347",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id33",
+           "@id": "id348",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id34"
+         "&": "id349"
         }
        },
        {
         "@": "style",
-        "@id": "id35",
-        "#": "id36",
+        "@id": "id350",
+        "#": "id351",
         "name": "Path Default",
         "ps": [
          "S",
@@ -1909,27 +2009,27 @@
         "_sdf": 103,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id37",
+         "@id": "id352",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id38",
+           "@id": "id353",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id39",
+           "@id": "id354",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id40"
+         "&": "id355"
         }
        },
        {
         "@": "style",
-        "@id": "id41",
-        "#": "id42",
+        "@id": "id356",
+        "#": "id357",
         "name": "Path graph default",
         "ps": [
          "S",
@@ -1939,28 +2039,28 @@
         "_sdf": 142,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id43",
+         "@id": "id358",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id44",
+           "@id": "id359",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id45",
+           "@id": "id360",
            "_blc": "round",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id46"
+         "&": "id361"
         }
        },
        {
         "@": "style",
-        "@id": "id47",
-        "#": "id48",
+        "@id": "id362",
+        "#": "id363",
         "name": "Connector default",
         "ps": [
          "S",
@@ -1969,24 +2069,24 @@
         "_sdf": 146,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id49",
+         "@id": "id364",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id50",
+           "@id": "id365",
            "_blc": "butt",
            "_bhm": "A",
            "_btm": "A",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id51"
+         "&": "id366"
         }
        },
        {
         "@": "style",
-        "@id": "id52",
-        "#": "id53",
+        "@id": "id367",
+        "#": "id368",
         "name": "Text annotation default",
         "ps": [
          "S",
@@ -1998,8 +2098,8 @@
        },
        {
         "@": "style",
-        "@id": "id54",
-        "#": "id55",
+        "@id": "id369",
+        "#": "id370",
         "name": "Rectangle annotation default",
         "ps": [
          "S",
@@ -2009,29 +2109,29 @@
         "_sdf": 150,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id56",
+         "@id": "id371",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id57",
+           "@id": "id372",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id58",
+           "@id": "id373",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id59"
+         "&": "id374"
         }
        },
        {
         "@": "style",
-        "@id": "id60",
-        "#": "id61",
+        "@id": "id375",
+        "#": "id376",
         "name": "Ellipse annotation default",
         "ps": [
          "S",
@@ -2041,29 +2141,29 @@
         "_sdf": 151,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id62",
+         "@id": "id377",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id63",
+           "@id": "id378",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id64",
+           "@id": "id379",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id65"
+         "&": "id380"
         }
        },
        {
         "@": "style",
-        "@id": "id66",
-        "#": "id67",
+        "@id": "id381",
+        "#": "id382",
         "name": "Pencil annotation default",
         "ps": [
          "S",
@@ -2072,22 +2172,22 @@
         "_sdf": 155,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id68",
+         "@id": "id383",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id69",
+           "@id": "id384",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id70"
+         "&": "id385"
         }
        },
        {
         "@": "style",
-        "@id": "id71",
-        "#": "id72",
+        "@id": "id386",
+        "#": "id387",
         "name": "Highlighter annotation default",
         "ps": [
          "S",
@@ -2097,22 +2197,22 @@
         "_stop": 0.5,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id73",
+         "@id": "id388",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id74",
+           "@id": "id389",
            "_bw": 12,
            "_pt": "C#[248,206,28]"
           }
          ],
-         "&": "id75"
+         "&": "id390"
         }
        },
        {
         "@": "style",
-        "@id": "id76",
-        "#": "id77",
+        "@id": "id391",
+        "#": "id392",
         "name": "Arrow annotation default",
         "ps": [
          "S",
@@ -2121,11 +2221,11 @@
         "_sdf": 154,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id78",
+         "@id": "id393",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id79",
+           "@id": "id394",
            "_bw": 2,
            "_blc": "butt",
            "_bhmi": 0,
@@ -2134,13 +2234,13 @@
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id80"
+         "&": "id395"
         }
        },
        {
         "@": "style",
-        "@id": "id81",
-        "#": "id82",
+        "@id": "id396",
+        "#": "id397",
         "name": "Comment annotation default",
         "ps": [
          "S",
@@ -2151,42 +2251,42 @@
         "_sdf": 153,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id83",
+         "@id": "id398",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id84",
+           "@id": "id399",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id85"
+         "&": "id400"
         },
-        "_effId": "id86"
+        "_effId": "id401"
        }
       ]
      }
     ],
     "lmd": "<time>",
     "__ids": [
-     "id87",
-     "id88",
-     "id89",
-     "id90",
-     "id91",
-     "id92",
-     "id93",
-     "id94",
-     "id95",
-     "id96",
-     "id97",
-     "id98",
-     "id99",
-     "id100",
-     "id101",
-     "id102",
-     "id103",
-     "id104",
-     "id105"
+     "id402",
+     "id403",
+     "id404",
+     "id405",
+     "id406",
+     "id407",
+     "id408",
+     "id409",
+     "id410",
+     "id411",
+     "id412",
+     "id413",
+     "id414",
+     "id415",
+     "id416",
+     "id417",
+     "id418",
+     "id419",
+     "id420"
     ],
     "dictionary": {
      "entries": []
@@ -2208,7 +2308,11 @@
   },
   "after": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id316",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -2216,27 +2320,28 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
    "redo": [],
    "doc": {
     "@": "scene",
-    "@id": "id1",
+    "@id": "id317",
     "$": [
      {
       "@": "page",
-      "@id": "id2",
+      "@id": "id318",
       "$": [
        {
         "@": "annlst",
-        "@id": "id3",
-        "pgid": "id2",
-        "aid": "id3"
+        "@id": "id319",
+        "pgid": "id318",
+        "aid": "id319"
        },
        {
         "@": "rectangle",
-        "@id": "id4",
+        "@id": "id316",
         "uf": true,
         "ct": "R",
         "sl": 0,
@@ -2254,20 +2359,20 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id5",
+         "@id": "id320",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id6",
+           "@id": "id321",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id7"
+         "&": "id322"
         },
-        "_effId": "id8"
+        "_effId": "id323"
        }
       ],
-      "#": "id9",
+      "#": "id324",
       "w": 0,
       "h": 0,
       "off": [],
@@ -2276,12 +2381,12 @@
      },
      {
       "@": "styles",
-      "@id": "id10",
+      "@id": "id325",
       "$": [
        {
         "@": "style",
-        "@id": "id11",
-        "#": "id12",
+        "@id": "id326",
+        "#": "id327",
         "name": "Shape Default",
         "ps": [
          "S",
@@ -2291,26 +2396,26 @@
         "_sdf": 94,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id13",
+         "@id": "id328",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id14",
+           "@id": "id329",
            "_pt": "C#[255,255,255]"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id15",
+           "@id": "id330",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id16"
+         "&": "id331"
         }
        },
        {
         "@": "style",
-        "@id": "id17",
-        "#": "id18",
+        "@id": "id332",
+        "#": "id333",
         "name": "Text Default",
         "ps": [
          "S",
@@ -2320,13 +2425,13 @@
          "P"
         ],
         "_sdf": 133,
-        "_layId": "id19",
+        "_layId": "id334",
         "_fc": "C#[0,0,0]"
        },
        {
         "@": "style",
-        "@id": "id20",
-        "#": "id21",
+        "@id": "id335",
+        "#": "id336",
         "name": "Rectangle Default",
         "ps": [
          "S",
@@ -2336,21 +2441,21 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id22",
+         "@id": "id337",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id23",
+           "@id": "id338",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id24"
+         "&": "id339"
         }
        },
        {
         "@": "style",
-        "@id": "id25",
-        "#": "id26",
+        "@id": "id340",
+        "#": "id341",
         "name": "Ellipse Default",
         "ps": [
          "S",
@@ -2360,21 +2465,21 @@
         "_sdf": 104,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id27",
+         "@id": "id342",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id28",
+           "@id": "id343",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id29"
+         "&": "id344"
         }
        },
        {
         "@": "style",
-        "@id": "id30",
-        "#": "id31",
+        "@id": "id345",
+        "#": "id346",
         "name": "Polygon Default",
         "ps": [
          "S",
@@ -2384,21 +2489,21 @@
         "_sdf": 102,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id32",
+         "@id": "id347",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id33",
+           "@id": "id348",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id34"
+         "&": "id349"
         }
        },
        {
         "@": "style",
-        "@id": "id35",
-        "#": "id36",
+        "@id": "id350",
+        "#": "id351",
         "name": "Path Default",
         "ps": [
          "S",
@@ -2408,27 +2513,27 @@
         "_sdf": 103,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id37",
+         "@id": "id352",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id38",
+           "@id": "id353",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id39",
+           "@id": "id354",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id40"
+         "&": "id355"
         }
        },
        {
         "@": "style",
-        "@id": "id41",
-        "#": "id42",
+        "@id": "id356",
+        "#": "id357",
         "name": "Path graph default",
         "ps": [
          "S",
@@ -2438,28 +2543,28 @@
         "_sdf": 142,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id43",
+         "@id": "id358",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id44",
+           "@id": "id359",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id45",
+           "@id": "id360",
            "_blc": "round",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id46"
+         "&": "id361"
         }
        },
        {
         "@": "style",
-        "@id": "id47",
-        "#": "id48",
+        "@id": "id362",
+        "#": "id363",
         "name": "Connector default",
         "ps": [
          "S",
@@ -2468,24 +2573,24 @@
         "_sdf": 146,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id49",
+         "@id": "id364",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id50",
+           "@id": "id365",
            "_blc": "butt",
            "_bhm": "A",
            "_btm": "A",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id51"
+         "&": "id366"
         }
        },
        {
         "@": "style",
-        "@id": "id52",
-        "#": "id53",
+        "@id": "id367",
+        "#": "id368",
         "name": "Text annotation default",
         "ps": [
          "S",
@@ -2497,8 +2602,8 @@
        },
        {
         "@": "style",
-        "@id": "id54",
-        "#": "id55",
+        "@id": "id369",
+        "#": "id370",
         "name": "Rectangle annotation default",
         "ps": [
          "S",
@@ -2508,29 +2613,29 @@
         "_sdf": 150,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id56",
+         "@id": "id371",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id57",
+           "@id": "id372",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id58",
+           "@id": "id373",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id59"
+         "&": "id374"
         }
        },
        {
         "@": "style",
-        "@id": "id60",
-        "#": "id61",
+        "@id": "id375",
+        "#": "id376",
         "name": "Ellipse annotation default",
         "ps": [
          "S",
@@ -2540,29 +2645,29 @@
         "_sdf": 151,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id62",
+         "@id": "id377",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id63",
+           "@id": "id378",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id64",
+           "@id": "id379",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id65"
+         "&": "id380"
         }
        },
        {
         "@": "style",
-        "@id": "id66",
-        "#": "id67",
+        "@id": "id381",
+        "#": "id382",
         "name": "Pencil annotation default",
         "ps": [
          "S",
@@ -2571,22 +2676,22 @@
         "_sdf": 155,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id68",
+         "@id": "id383",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id69",
+           "@id": "id384",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id70"
+         "&": "id385"
         }
        },
        {
         "@": "style",
-        "@id": "id71",
-        "#": "id72",
+        "@id": "id386",
+        "#": "id387",
         "name": "Highlighter annotation default",
         "ps": [
          "S",
@@ -2596,22 +2701,22 @@
         "_stop": 0.5,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id73",
+         "@id": "id388",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id74",
+           "@id": "id389",
            "_bw": 12,
            "_pt": "C#[248,206,28]"
           }
          ],
-         "&": "id75"
+         "&": "id390"
         }
        },
        {
         "@": "style",
-        "@id": "id76",
-        "#": "id77",
+        "@id": "id391",
+        "#": "id392",
         "name": "Arrow annotation default",
         "ps": [
          "S",
@@ -2620,11 +2725,11 @@
         "_sdf": 154,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id78",
+         "@id": "id393",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id79",
+           "@id": "id394",
            "_bw": 2,
            "_blc": "butt",
            "_bhmi": 0,
@@ -2633,13 +2738,13 @@
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id80"
+         "&": "id395"
         }
        },
        {
         "@": "style",
-        "@id": "id81",
-        "#": "id82",
+        "@id": "id396",
+        "#": "id397",
         "name": "Comment annotation default",
         "ps": [
          "S",
@@ -2650,17 +2755,17 @@
         "_sdf": 153,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id83",
+         "@id": "id398",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id84",
+           "@id": "id399",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id85"
+         "&": "id400"
         },
-        "_effId": "id86"
+        "_effId": "id401"
        }
       ]
      }
@@ -2669,25 +2774,25 @@
     "gm": "box",
     "lgm": "box",
     "__ids": [
-     "id87",
-     "id88",
-     "id89",
-     "id90",
-     "id91",
-     "id92",
-     "id93",
-     "id94",
-     "id95",
-     "id96",
-     "id97",
-     "id98",
-     "id99",
-     "id100",
-     "id101",
-     "id102",
-     "id103",
-     "id104",
-     "id105"
+     "id402",
+     "id403",
+     "id404",
+     "id405",
+     "id406",
+     "id407",
+     "id408",
+     "id409",
+     "id410",
+     "id411",
+     "id412",
+     "id413",
+     "id414",
+     "id415",
+     "id416",
+     "id417",
+     "id418",
+     "id419",
+     "id420"
     ],
     "dictionary": {
      "entries": []
@@ -2709,6 +2814,15 @@
   },
   "infoAfter": {
    "title": "Show Grid",
+   "fullTitle": "Show Grid",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View",
+    "View/Canvas"
+   ],
+   "group": "show/canvas",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -2724,10 +2838,20 @@
   "keys": [
    "Control+KeyE"
   ],
+  "changed": true,
   "setup": "rect",
   "id": "view.canvas.show-effects",
   "info": {
    "title": "Show Effects",
+   "fullTitle": "Show Effects",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View",
+    "View/Canvas"
+   ],
+   "group": "show/canvas",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -2739,7 +2863,11 @@
   },
   "before": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id421",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -2747,27 +2875,28 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
    "redo": [],
    "doc": {
     "@": "scene",
-    "@id": "id1",
+    "@id": "id422",
     "$": [
      {
       "@": "page",
-      "@id": "id2",
+      "@id": "id423",
       "$": [
        {
         "@": "annlst",
-        "@id": "id3",
-        "pgid": "id2",
-        "aid": "id3"
+        "@id": "id424",
+        "pgid": "id423",
+        "aid": "id424"
        },
        {
         "@": "rectangle",
-        "@id": "id4",
+        "@id": "id421",
         "uf": true,
         "ct": "R",
         "sl": 0,
@@ -2785,20 +2914,20 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id5",
+         "@id": "id425",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id6",
+           "@id": "id426",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id7"
+         "&": "id427"
         },
-        "_effId": "id8"
+        "_effId": "id428"
        }
       ],
-      "#": "id9",
+      "#": "id429",
       "w": 0,
       "h": 0,
       "off": [],
@@ -2807,12 +2936,12 @@
      },
      {
       "@": "styles",
-      "@id": "id10",
+      "@id": "id430",
       "$": [
        {
         "@": "style",
-        "@id": "id11",
-        "#": "id12",
+        "@id": "id431",
+        "#": "id432",
         "name": "Shape Default",
         "ps": [
          "S",
@@ -2822,26 +2951,26 @@
         "_sdf": 94,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id13",
+         "@id": "id433",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id14",
+           "@id": "id434",
            "_pt": "C#[255,255,255]"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id15",
+           "@id": "id435",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id16"
+         "&": "id436"
         }
        },
        {
         "@": "style",
-        "@id": "id17",
-        "#": "id18",
+        "@id": "id437",
+        "#": "id438",
         "name": "Text Default",
         "ps": [
          "S",
@@ -2851,13 +2980,13 @@
          "P"
         ],
         "_sdf": 133,
-        "_layId": "id19",
+        "_layId": "id439",
         "_fc": "C#[0,0,0]"
        },
        {
         "@": "style",
-        "@id": "id20",
-        "#": "id21",
+        "@id": "id440",
+        "#": "id441",
         "name": "Rectangle Default",
         "ps": [
          "S",
@@ -2867,21 +2996,21 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id22",
+         "@id": "id442",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id23",
+           "@id": "id443",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id24"
+         "&": "id444"
         }
        },
        {
         "@": "style",
-        "@id": "id25",
-        "#": "id26",
+        "@id": "id445",
+        "#": "id446",
         "name": "Ellipse Default",
         "ps": [
          "S",
@@ -2891,21 +3020,21 @@
         "_sdf": 104,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id27",
+         "@id": "id447",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id28",
+           "@id": "id448",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id29"
+         "&": "id449"
         }
        },
        {
         "@": "style",
-        "@id": "id30",
-        "#": "id31",
+        "@id": "id450",
+        "#": "id451",
         "name": "Polygon Default",
         "ps": [
          "S",
@@ -2915,21 +3044,21 @@
         "_sdf": 102,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id32",
+         "@id": "id452",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id33",
+           "@id": "id453",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id34"
+         "&": "id454"
         }
        },
        {
         "@": "style",
-        "@id": "id35",
-        "#": "id36",
+        "@id": "id455",
+        "#": "id456",
         "name": "Path Default",
         "ps": [
          "S",
@@ -2939,27 +3068,27 @@
         "_sdf": 103,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id37",
+         "@id": "id457",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id38",
+           "@id": "id458",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id39",
+           "@id": "id459",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id40"
+         "&": "id460"
         }
        },
        {
         "@": "style",
-        "@id": "id41",
-        "#": "id42",
+        "@id": "id461",
+        "#": "id462",
         "name": "Path graph default",
         "ps": [
          "S",
@@ -2969,28 +3098,28 @@
         "_sdf": 142,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id43",
+         "@id": "id463",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id44",
+           "@id": "id464",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id45",
+           "@id": "id465",
            "_blc": "round",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id46"
+         "&": "id466"
         }
        },
        {
         "@": "style",
-        "@id": "id47",
-        "#": "id48",
+        "@id": "id467",
+        "#": "id468",
         "name": "Connector default",
         "ps": [
          "S",
@@ -2999,24 +3128,24 @@
         "_sdf": 146,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id49",
+         "@id": "id469",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id50",
+           "@id": "id470",
            "_blc": "butt",
            "_bhm": "A",
            "_btm": "A",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id51"
+         "&": "id471"
         }
        },
        {
         "@": "style",
-        "@id": "id52",
-        "#": "id53",
+        "@id": "id472",
+        "#": "id473",
         "name": "Text annotation default",
         "ps": [
          "S",
@@ -3028,8 +3157,8 @@
        },
        {
         "@": "style",
-        "@id": "id54",
-        "#": "id55",
+        "@id": "id474",
+        "#": "id475",
         "name": "Rectangle annotation default",
         "ps": [
          "S",
@@ -3039,29 +3168,29 @@
         "_sdf": 150,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id56",
+         "@id": "id476",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id57",
+           "@id": "id477",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id58",
+           "@id": "id478",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id59"
+         "&": "id479"
         }
        },
        {
         "@": "style",
-        "@id": "id60",
-        "#": "id61",
+        "@id": "id480",
+        "#": "id481",
         "name": "Ellipse annotation default",
         "ps": [
          "S",
@@ -3071,29 +3200,29 @@
         "_sdf": 151,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id62",
+         "@id": "id482",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id63",
+           "@id": "id483",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id64",
+           "@id": "id484",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id65"
+         "&": "id485"
         }
        },
        {
         "@": "style",
-        "@id": "id66",
-        "#": "id67",
+        "@id": "id486",
+        "#": "id487",
         "name": "Pencil annotation default",
         "ps": [
          "S",
@@ -3102,22 +3231,22 @@
         "_sdf": 155,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id68",
+         "@id": "id488",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id69",
+           "@id": "id489",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id70"
+         "&": "id490"
         }
        },
        {
         "@": "style",
-        "@id": "id71",
-        "#": "id72",
+        "@id": "id491",
+        "#": "id492",
         "name": "Highlighter annotation default",
         "ps": [
          "S",
@@ -3127,22 +3256,22 @@
         "_stop": 0.5,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id73",
+         "@id": "id493",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id74",
+           "@id": "id494",
            "_bw": 12,
            "_pt": "C#[248,206,28]"
           }
          ],
-         "&": "id75"
+         "&": "id495"
         }
        },
        {
         "@": "style",
-        "@id": "id76",
-        "#": "id77",
+        "@id": "id496",
+        "#": "id497",
         "name": "Arrow annotation default",
         "ps": [
          "S",
@@ -3151,11 +3280,11 @@
         "_sdf": 154,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id78",
+         "@id": "id498",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id79",
+           "@id": "id499",
            "_bw": 2,
            "_blc": "butt",
            "_bhmi": 0,
@@ -3164,13 +3293,13 @@
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id80"
+         "&": "id500"
         }
        },
        {
         "@": "style",
-        "@id": "id81",
-        "#": "id82",
+        "@id": "id501",
+        "#": "id502",
         "name": "Comment annotation default",
         "ps": [
          "S",
@@ -3181,42 +3310,42 @@
         "_sdf": 153,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id83",
+         "@id": "id503",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id84",
+           "@id": "id504",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id85"
+         "&": "id505"
         },
-        "_effId": "id86"
+        "_effId": "id506"
        }
       ]
      }
     ],
     "lmd": "<time>",
     "__ids": [
-     "id87",
-     "id88",
-     "id89",
-     "id90",
-     "id91",
-     "id92",
-     "id93",
-     "id94",
-     "id95",
-     "id96",
-     "id97",
-     "id98",
-     "id99",
-     "id100",
-     "id101",
-     "id102",
-     "id103",
-     "id104",
-     "id105"
+     "id507",
+     "id508",
+     "id509",
+     "id510",
+     "id511",
+     "id512",
+     "id513",
+     "id514",
+     "id515",
+     "id516",
+     "id517",
+     "id518",
+     "id519",
+     "id520",
+     "id521",
+     "id522",
+     "id523",
+     "id524",
+     "id525"
     ],
     "dictionary": {
      "entries": []
@@ -3238,7 +3367,11 @@
   },
   "after": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id421",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -3246,6 +3379,7 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
@@ -3265,6 +3399,15 @@
   },
   "infoAfter": {
    "title": "Show Effects",
+   "fullTitle": "Show Effects",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View",
+    "View/Canvas"
+   ],
+   "group": "show/canvas",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -3280,10 +3423,20 @@
   "keys": [
    "Control+Shift+KeyX"
   ],
+  "changed": false,
   "setup": "rect",
   "id": "view.canvas.show-selection-handles",
   "info": {
    "title": "Show Selection Handles",
+   "fullTitle": "Show Selection Handles",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View",
+    "View/Canvas"
+   ],
+   "group": null,
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -3295,7 +3448,11 @@
   },
   "before": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id526",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -3303,27 +3460,28 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
    "redo": [],
    "doc": {
     "@": "scene",
-    "@id": "id1",
+    "@id": "id527",
     "$": [
      {
       "@": "page",
-      "@id": "id2",
+      "@id": "id528",
       "$": [
        {
         "@": "annlst",
-        "@id": "id3",
-        "pgid": "id2",
-        "aid": "id3"
+        "@id": "id529",
+        "pgid": "id528",
+        "aid": "id529"
        },
        {
         "@": "rectangle",
-        "@id": "id4",
+        "@id": "id526",
         "uf": true,
         "ct": "R",
         "sl": 0,
@@ -3341,20 +3499,20 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id5",
+         "@id": "id530",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id6",
+           "@id": "id531",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id7"
+         "&": "id532"
         },
-        "_effId": "id8"
+        "_effId": "id533"
        }
       ],
-      "#": "id9",
+      "#": "id534",
       "w": 0,
       "h": 0,
       "off": [],
@@ -3363,12 +3521,12 @@
      },
      {
       "@": "styles",
-      "@id": "id10",
+      "@id": "id535",
       "$": [
        {
         "@": "style",
-        "@id": "id11",
-        "#": "id12",
+        "@id": "id536",
+        "#": "id537",
         "name": "Shape Default",
         "ps": [
          "S",
@@ -3378,26 +3536,26 @@
         "_sdf": 94,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id13",
+         "@id": "id538",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id14",
+           "@id": "id539",
            "_pt": "C#[255,255,255]"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id15",
+           "@id": "id540",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id16"
+         "&": "id541"
         }
        },
        {
         "@": "style",
-        "@id": "id17",
-        "#": "id18",
+        "@id": "id542",
+        "#": "id543",
         "name": "Text Default",
         "ps": [
          "S",
@@ -3407,13 +3565,13 @@
          "P"
         ],
         "_sdf": 133,
-        "_layId": "id19",
+        "_layId": "id544",
         "_fc": "C#[0,0,0]"
        },
        {
         "@": "style",
-        "@id": "id20",
-        "#": "id21",
+        "@id": "id545",
+        "#": "id546",
         "name": "Rectangle Default",
         "ps": [
          "S",
@@ -3423,21 +3581,21 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id22",
+         "@id": "id547",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id23",
+           "@id": "id548",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id24"
+         "&": "id549"
         }
        },
        {
         "@": "style",
-        "@id": "id25",
-        "#": "id26",
+        "@id": "id550",
+        "#": "id551",
         "name": "Ellipse Default",
         "ps": [
          "S",
@@ -3447,21 +3605,21 @@
         "_sdf": 104,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id27",
+         "@id": "id552",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id28",
+           "@id": "id553",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id29"
+         "&": "id554"
         }
        },
        {
         "@": "style",
-        "@id": "id30",
-        "#": "id31",
+        "@id": "id555",
+        "#": "id556",
         "name": "Polygon Default",
         "ps": [
          "S",
@@ -3471,21 +3629,21 @@
         "_sdf": 102,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id32",
+         "@id": "id557",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id33",
+           "@id": "id558",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id34"
+         "&": "id559"
         }
        },
        {
         "@": "style",
-        "@id": "id35",
-        "#": "id36",
+        "@id": "id560",
+        "#": "id561",
         "name": "Path Default",
         "ps": [
          "S",
@@ -3495,27 +3653,27 @@
         "_sdf": 103,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id37",
+         "@id": "id562",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id38",
+           "@id": "id563",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id39",
+           "@id": "id564",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id40"
+         "&": "id565"
         }
        },
        {
         "@": "style",
-        "@id": "id41",
-        "#": "id42",
+        "@id": "id566",
+        "#": "id567",
         "name": "Path graph default",
         "ps": [
          "S",
@@ -3525,28 +3683,28 @@
         "_sdf": 142,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id43",
+         "@id": "id568",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id44",
+           "@id": "id569",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id45",
+           "@id": "id570",
            "_blc": "round",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id46"
+         "&": "id571"
         }
        },
        {
         "@": "style",
-        "@id": "id47",
-        "#": "id48",
+        "@id": "id572",
+        "#": "id573",
         "name": "Connector default",
         "ps": [
          "S",
@@ -3555,24 +3713,24 @@
         "_sdf": 146,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id49",
+         "@id": "id574",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id50",
+           "@id": "id575",
            "_blc": "butt",
            "_bhm": "A",
            "_btm": "A",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id51"
+         "&": "id576"
         }
        },
        {
         "@": "style",
-        "@id": "id52",
-        "#": "id53",
+        "@id": "id577",
+        "#": "id578",
         "name": "Text annotation default",
         "ps": [
          "S",
@@ -3584,8 +3742,8 @@
        },
        {
         "@": "style",
-        "@id": "id54",
-        "#": "id55",
+        "@id": "id579",
+        "#": "id580",
         "name": "Rectangle annotation default",
         "ps": [
          "S",
@@ -3595,29 +3753,29 @@
         "_sdf": 150,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id56",
+         "@id": "id581",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id57",
+           "@id": "id582",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id58",
+           "@id": "id583",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id59"
+         "&": "id584"
         }
        },
        {
         "@": "style",
-        "@id": "id60",
-        "#": "id61",
+        "@id": "id585",
+        "#": "id586",
         "name": "Ellipse annotation default",
         "ps": [
          "S",
@@ -3627,29 +3785,29 @@
         "_sdf": 151,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id62",
+         "@id": "id587",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id63",
+           "@id": "id588",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id64",
+           "@id": "id589",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id65"
+         "&": "id590"
         }
        },
        {
         "@": "style",
-        "@id": "id66",
-        "#": "id67",
+        "@id": "id591",
+        "#": "id592",
         "name": "Pencil annotation default",
         "ps": [
          "S",
@@ -3658,22 +3816,22 @@
         "_sdf": 155,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id68",
+         "@id": "id593",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id69",
+           "@id": "id594",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id70"
+         "&": "id595"
         }
        },
        {
         "@": "style",
-        "@id": "id71",
-        "#": "id72",
+        "@id": "id596",
+        "#": "id597",
         "name": "Highlighter annotation default",
         "ps": [
          "S",
@@ -3683,22 +3841,22 @@
         "_stop": 0.5,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id73",
+         "@id": "id598",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id74",
+           "@id": "id599",
            "_bw": 12,
            "_pt": "C#[248,206,28]"
           }
          ],
-         "&": "id75"
+         "&": "id600"
         }
        },
        {
         "@": "style",
-        "@id": "id76",
-        "#": "id77",
+        "@id": "id601",
+        "#": "id602",
         "name": "Arrow annotation default",
         "ps": [
          "S",
@@ -3707,11 +3865,11 @@
         "_sdf": 154,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id78",
+         "@id": "id603",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id79",
+           "@id": "id604",
            "_bw": 2,
            "_blc": "butt",
            "_bhmi": 0,
@@ -3720,13 +3878,13 @@
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id80"
+         "&": "id605"
         }
        },
        {
         "@": "style",
-        "@id": "id81",
-        "#": "id82",
+        "@id": "id606",
+        "#": "id607",
         "name": "Comment annotation default",
         "ps": [
          "S",
@@ -3737,42 +3895,42 @@
         "_sdf": 153,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id83",
+         "@id": "id608",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id84",
+           "@id": "id609",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id85"
+         "&": "id610"
         },
-        "_effId": "id86"
+        "_effId": "id611"
        }
       ]
      }
     ],
     "lmd": "<time>",
     "__ids": [
-     "id87",
-     "id88",
-     "id89",
-     "id90",
-     "id91",
-     "id92",
-     "id93",
-     "id94",
-     "id95",
-     "id96",
-     "id97",
-     "id98",
-     "id99",
-     "id100",
-     "id101",
-     "id102",
-     "id103",
-     "id104",
-     "id105"
+     "id612",
+     "id613",
+     "id614",
+     "id615",
+     "id616",
+     "id617",
+     "id618",
+     "id619",
+     "id620",
+     "id621",
+     "id622",
+     "id623",
+     "id624",
+     "id625",
+     "id626",
+     "id627",
+     "id628",
+     "id629",
+     "id630"
     ],
     "dictionary": {
      "entries": []
@@ -3794,7 +3952,11 @@
   },
   "after": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id526",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -3802,6 +3964,7 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
@@ -3820,6 +3983,15 @@
   },
   "infoAfter": {
    "title": "Show Selection Handles",
+   "fullTitle": "Show Selection Handles",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View",
+    "View/Canvas"
+   ],
+   "group": null,
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -3835,10 +4007,20 @@
   "keys": [
    "Shift+F10"
   ],
+  "changed": true,
   "setup": "rect",
   "id": "view.toggle-snap",
   "info": {
    "title": "Use Snapping",
+   "fullTitle": "Use Snapping",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View",
+    "View/Snap to"
+   ],
+   "group": "snap/enable",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -3850,7 +4032,11 @@
   },
   "before": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id631",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -3858,27 +4044,28 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
    "redo": [],
    "doc": {
     "@": "scene",
-    "@id": "id1",
+    "@id": "id632",
     "$": [
      {
       "@": "page",
-      "@id": "id2",
+      "@id": "id633",
       "$": [
        {
         "@": "annlst",
-        "@id": "id3",
-        "pgid": "id2",
-        "aid": "id3"
+        "@id": "id634",
+        "pgid": "id633",
+        "aid": "id634"
        },
        {
         "@": "rectangle",
-        "@id": "id4",
+        "@id": "id631",
         "uf": true,
         "ct": "R",
         "sl": 0,
@@ -3896,20 +4083,20 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id5",
+         "@id": "id635",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id6",
+           "@id": "id636",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id7"
+         "&": "id637"
         },
-        "_effId": "id8"
+        "_effId": "id638"
        }
       ],
-      "#": "id9",
+      "#": "id639",
       "w": 0,
       "h": 0,
       "off": [],
@@ -3918,12 +4105,12 @@
      },
      {
       "@": "styles",
-      "@id": "id10",
+      "@id": "id640",
       "$": [
        {
         "@": "style",
-        "@id": "id11",
-        "#": "id12",
+        "@id": "id641",
+        "#": "id642",
         "name": "Shape Default",
         "ps": [
          "S",
@@ -3933,26 +4120,26 @@
         "_sdf": 94,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id13",
+         "@id": "id643",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id14",
+           "@id": "id644",
            "_pt": "C#[255,255,255]"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id15",
+           "@id": "id645",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id16"
+         "&": "id646"
         }
        },
        {
         "@": "style",
-        "@id": "id17",
-        "#": "id18",
+        "@id": "id647",
+        "#": "id648",
         "name": "Text Default",
         "ps": [
          "S",
@@ -3962,13 +4149,13 @@
          "P"
         ],
         "_sdf": 133,
-        "_layId": "id19",
+        "_layId": "id649",
         "_fc": "C#[0,0,0]"
        },
        {
         "@": "style",
-        "@id": "id20",
-        "#": "id21",
+        "@id": "id650",
+        "#": "id651",
         "name": "Rectangle Default",
         "ps": [
          "S",
@@ -3978,21 +4165,21 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id22",
+         "@id": "id652",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id23",
+           "@id": "id653",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id24"
+         "&": "id654"
         }
        },
        {
         "@": "style",
-        "@id": "id25",
-        "#": "id26",
+        "@id": "id655",
+        "#": "id656",
         "name": "Ellipse Default",
         "ps": [
          "S",
@@ -4002,21 +4189,21 @@
         "_sdf": 104,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id27",
+         "@id": "id657",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id28",
+           "@id": "id658",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id29"
+         "&": "id659"
         }
        },
        {
         "@": "style",
-        "@id": "id30",
-        "#": "id31",
+        "@id": "id660",
+        "#": "id661",
         "name": "Polygon Default",
         "ps": [
          "S",
@@ -4026,21 +4213,21 @@
         "_sdf": 102,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id32",
+         "@id": "id662",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id33",
+           "@id": "id663",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id34"
+         "&": "id664"
         }
        },
        {
         "@": "style",
-        "@id": "id35",
-        "#": "id36",
+        "@id": "id665",
+        "#": "id666",
         "name": "Path Default",
         "ps": [
          "S",
@@ -4050,27 +4237,27 @@
         "_sdf": 103,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id37",
+         "@id": "id667",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id38",
+           "@id": "id668",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id39",
+           "@id": "id669",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id40"
+         "&": "id670"
         }
        },
        {
         "@": "style",
-        "@id": "id41",
-        "#": "id42",
+        "@id": "id671",
+        "#": "id672",
         "name": "Path graph default",
         "ps": [
          "S",
@@ -4080,28 +4267,28 @@
         "_sdf": 142,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id43",
+         "@id": "id673",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id44",
+           "@id": "id674",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id45",
+           "@id": "id675",
            "_blc": "round",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id46"
+         "&": "id676"
         }
        },
        {
         "@": "style",
-        "@id": "id47",
-        "#": "id48",
+        "@id": "id677",
+        "#": "id678",
         "name": "Connector default",
         "ps": [
          "S",
@@ -4110,24 +4297,24 @@
         "_sdf": 146,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id49",
+         "@id": "id679",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id50",
+           "@id": "id680",
            "_blc": "butt",
            "_bhm": "A",
            "_btm": "A",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id51"
+         "&": "id681"
         }
        },
        {
         "@": "style",
-        "@id": "id52",
-        "#": "id53",
+        "@id": "id682",
+        "#": "id683",
         "name": "Text annotation default",
         "ps": [
          "S",
@@ -4139,8 +4326,8 @@
        },
        {
         "@": "style",
-        "@id": "id54",
-        "#": "id55",
+        "@id": "id684",
+        "#": "id685",
         "name": "Rectangle annotation default",
         "ps": [
          "S",
@@ -4150,29 +4337,29 @@
         "_sdf": 150,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id56",
+         "@id": "id686",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id57",
+           "@id": "id687",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id58",
+           "@id": "id688",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id59"
+         "&": "id689"
         }
        },
        {
         "@": "style",
-        "@id": "id60",
-        "#": "id61",
+        "@id": "id690",
+        "#": "id691",
         "name": "Ellipse annotation default",
         "ps": [
          "S",
@@ -4182,29 +4369,29 @@
         "_sdf": 151,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id62",
+         "@id": "id692",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id63",
+           "@id": "id693",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id64",
+           "@id": "id694",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id65"
+         "&": "id695"
         }
        },
        {
         "@": "style",
-        "@id": "id66",
-        "#": "id67",
+        "@id": "id696",
+        "#": "id697",
         "name": "Pencil annotation default",
         "ps": [
          "S",
@@ -4213,22 +4400,22 @@
         "_sdf": 155,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id68",
+         "@id": "id698",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id69",
+           "@id": "id699",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id70"
+         "&": "id700"
         }
        },
        {
         "@": "style",
-        "@id": "id71",
-        "#": "id72",
+        "@id": "id701",
+        "#": "id702",
         "name": "Highlighter annotation default",
         "ps": [
          "S",
@@ -4238,22 +4425,22 @@
         "_stop": 0.5,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id73",
+         "@id": "id703",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id74",
+           "@id": "id704",
            "_bw": 12,
            "_pt": "C#[248,206,28]"
           }
          ],
-         "&": "id75"
+         "&": "id705"
         }
        },
        {
         "@": "style",
-        "@id": "id76",
-        "#": "id77",
+        "@id": "id706",
+        "#": "id707",
         "name": "Arrow annotation default",
         "ps": [
          "S",
@@ -4262,11 +4449,11 @@
         "_sdf": 154,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id78",
+         "@id": "id708",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id79",
+           "@id": "id709",
            "_bw": 2,
            "_blc": "butt",
            "_bhmi": 0,
@@ -4275,13 +4462,13 @@
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id80"
+         "&": "id710"
         }
        },
        {
         "@": "style",
-        "@id": "id81",
-        "#": "id82",
+        "@id": "id711",
+        "#": "id712",
         "name": "Comment annotation default",
         "ps": [
          "S",
@@ -4292,42 +4479,42 @@
         "_sdf": 153,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id83",
+         "@id": "id713",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id84",
+           "@id": "id714",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id85"
+         "&": "id715"
         },
-        "_effId": "id86"
+        "_effId": "id716"
        }
       ]
      }
     ],
     "lmd": "<time>",
     "__ids": [
-     "id87",
-     "id88",
-     "id89",
-     "id90",
-     "id91",
-     "id92",
-     "id93",
-     "id94",
-     "id95",
-     "id96",
-     "id97",
-     "id98",
-     "id99",
-     "id100",
-     "id101",
-     "id102",
-     "id103",
-     "id104",
-     "id105"
+     "id717",
+     "id718",
+     "id719",
+     "id720",
+     "id721",
+     "id722",
+     "id723",
+     "id724",
+     "id725",
+     "id726",
+     "id727",
+     "id728",
+     "id729",
+     "id730",
+     "id731",
+     "id732",
+     "id733",
+     "id734",
+     "id735"
     ],
     "dictionary": {
      "entries": []
@@ -4351,7 +4538,11 @@
   },
   "after": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id631",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -4359,6 +4550,7 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
@@ -4379,6 +4571,15 @@
   },
   "infoAfter": {
    "title": "Use Snapping",
+   "fullTitle": "Use Snapping",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View",
+    "View/Snap to"
+   ],
+   "group": "snap/enable",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -4394,10 +4595,19 @@
   "keys": [
    "Alt+Digit1"
   ],
+  "changed": true,
   "setup": "rect",
   "id": "view.toggle-sidebar.outline",
   "info": {
    "title": "Show Layers Panel",
+   "fullTitle": "Show Layers Panel",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View"
+   ],
+   "group": "view-sidebars",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -4409,7 +4619,11 @@
   },
   "before": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id736",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -4417,27 +4631,28 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
    "redo": [],
    "doc": {
     "@": "scene",
-    "@id": "id1",
+    "@id": "id737",
     "$": [
      {
       "@": "page",
-      "@id": "id2",
+      "@id": "id738",
       "$": [
        {
         "@": "annlst",
-        "@id": "id3",
-        "pgid": "id2",
-        "aid": "id3"
+        "@id": "id739",
+        "pgid": "id738",
+        "aid": "id739"
        },
        {
         "@": "rectangle",
-        "@id": "id4",
+        "@id": "id736",
         "uf": true,
         "ct": "R",
         "sl": 0,
@@ -4455,20 +4670,20 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id5",
+         "@id": "id740",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id6",
+           "@id": "id741",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id7"
+         "&": "id742"
         },
-        "_effId": "id8"
+        "_effId": "id743"
        }
       ],
-      "#": "id9",
+      "#": "id744",
       "w": 0,
       "h": 0,
       "off": [],
@@ -4477,12 +4692,12 @@
      },
      {
       "@": "styles",
-      "@id": "id10",
+      "@id": "id745",
       "$": [
        {
         "@": "style",
-        "@id": "id11",
-        "#": "id12",
+        "@id": "id746",
+        "#": "id747",
         "name": "Shape Default",
         "ps": [
          "S",
@@ -4492,26 +4707,26 @@
         "_sdf": 94,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id13",
+         "@id": "id748",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id14",
+           "@id": "id749",
            "_pt": "C#[255,255,255]"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id15",
+           "@id": "id750",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id16"
+         "&": "id751"
         }
        },
        {
         "@": "style",
-        "@id": "id17",
-        "#": "id18",
+        "@id": "id752",
+        "#": "id753",
         "name": "Text Default",
         "ps": [
          "S",
@@ -4521,13 +4736,13 @@
          "P"
         ],
         "_sdf": 133,
-        "_layId": "id19",
+        "_layId": "id754",
         "_fc": "C#[0,0,0]"
        },
        {
         "@": "style",
-        "@id": "id20",
-        "#": "id21",
+        "@id": "id755",
+        "#": "id756",
         "name": "Rectangle Default",
         "ps": [
          "S",
@@ -4537,21 +4752,21 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id22",
+         "@id": "id757",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id23",
+           "@id": "id758",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id24"
+         "&": "id759"
         }
        },
        {
         "@": "style",
-        "@id": "id25",
-        "#": "id26",
+        "@id": "id760",
+        "#": "id761",
         "name": "Ellipse Default",
         "ps": [
          "S",
@@ -4561,21 +4776,21 @@
         "_sdf": 104,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id27",
+         "@id": "id762",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id28",
+           "@id": "id763",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id29"
+         "&": "id764"
         }
        },
        {
         "@": "style",
-        "@id": "id30",
-        "#": "id31",
+        "@id": "id765",
+        "#": "id766",
         "name": "Polygon Default",
         "ps": [
          "S",
@@ -4585,21 +4800,21 @@
         "_sdf": 102,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id32",
+         "@id": "id767",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id33",
+           "@id": "id768",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id34"
+         "&": "id769"
         }
        },
        {
         "@": "style",
-        "@id": "id35",
-        "#": "id36",
+        "@id": "id770",
+        "#": "id771",
         "name": "Path Default",
         "ps": [
          "S",
@@ -4609,27 +4824,27 @@
         "_sdf": 103,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id37",
+         "@id": "id772",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id38",
+           "@id": "id773",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id39",
+           "@id": "id774",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id40"
+         "&": "id775"
         }
        },
        {
         "@": "style",
-        "@id": "id41",
-        "#": "id42",
+        "@id": "id776",
+        "#": "id777",
         "name": "Path graph default",
         "ps": [
          "S",
@@ -4639,28 +4854,28 @@
         "_sdf": 142,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id43",
+         "@id": "id778",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id44",
+           "@id": "id779",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id45",
+           "@id": "id780",
            "_blc": "round",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id46"
+         "&": "id781"
         }
        },
        {
         "@": "style",
-        "@id": "id47",
-        "#": "id48",
+        "@id": "id782",
+        "#": "id783",
         "name": "Connector default",
         "ps": [
          "S",
@@ -4669,24 +4884,24 @@
         "_sdf": 146,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id49",
+         "@id": "id784",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id50",
+           "@id": "id785",
            "_blc": "butt",
            "_bhm": "A",
            "_btm": "A",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id51"
+         "&": "id786"
         }
        },
        {
         "@": "style",
-        "@id": "id52",
-        "#": "id53",
+        "@id": "id787",
+        "#": "id788",
         "name": "Text annotation default",
         "ps": [
          "S",
@@ -4698,8 +4913,8 @@
        },
        {
         "@": "style",
-        "@id": "id54",
-        "#": "id55",
+        "@id": "id789",
+        "#": "id790",
         "name": "Rectangle annotation default",
         "ps": [
          "S",
@@ -4709,29 +4924,29 @@
         "_sdf": 150,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id56",
+         "@id": "id791",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id57",
+           "@id": "id792",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id58",
+           "@id": "id793",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id59"
+         "&": "id794"
         }
        },
        {
         "@": "style",
-        "@id": "id60",
-        "#": "id61",
+        "@id": "id795",
+        "#": "id796",
         "name": "Ellipse annotation default",
         "ps": [
          "S",
@@ -4741,29 +4956,29 @@
         "_sdf": 151,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id62",
+         "@id": "id797",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id63",
+           "@id": "id798",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id64",
+           "@id": "id799",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id65"
+         "&": "id800"
         }
        },
        {
         "@": "style",
-        "@id": "id66",
-        "#": "id67",
+        "@id": "id801",
+        "#": "id802",
         "name": "Pencil annotation default",
         "ps": [
          "S",
@@ -4772,22 +4987,22 @@
         "_sdf": 155,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id68",
+         "@id": "id803",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id69",
+           "@id": "id804",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id70"
+         "&": "id805"
         }
        },
        {
         "@": "style",
-        "@id": "id71",
-        "#": "id72",
+        "@id": "id806",
+        "#": "id807",
         "name": "Highlighter annotation default",
         "ps": [
          "S",
@@ -4797,22 +5012,22 @@
         "_stop": 0.5,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id73",
+         "@id": "id808",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id74",
+           "@id": "id809",
            "_bw": 12,
            "_pt": "C#[248,206,28]"
           }
          ],
-         "&": "id75"
+         "&": "id810"
         }
        },
        {
         "@": "style",
-        "@id": "id76",
-        "#": "id77",
+        "@id": "id811",
+        "#": "id812",
         "name": "Arrow annotation default",
         "ps": [
          "S",
@@ -4821,11 +5036,11 @@
         "_sdf": 154,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id78",
+         "@id": "id813",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id79",
+           "@id": "id814",
            "_bw": 2,
            "_blc": "butt",
            "_bhmi": 0,
@@ -4834,13 +5049,13 @@
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id80"
+         "&": "id815"
         }
        },
        {
         "@": "style",
-        "@id": "id81",
-        "#": "id82",
+        "@id": "id816",
+        "#": "id817",
         "name": "Comment annotation default",
         "ps": [
          "S",
@@ -4851,42 +5066,42 @@
         "_sdf": 153,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id83",
+         "@id": "id818",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id84",
+           "@id": "id819",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id85"
+         "&": "id820"
         },
-        "_effId": "id86"
+        "_effId": "id821"
        }
       ]
      }
     ],
     "lmd": "<time>",
     "__ids": [
-     "id87",
-     "id88",
-     "id89",
-     "id90",
-     "id91",
-     "id92",
-     "id93",
-     "id94",
-     "id95",
-     "id96",
-     "id97",
-     "id98",
-     "id99",
-     "id100",
-     "id101",
-     "id102",
-     "id103",
-     "id104",
-     "id105"
+     "id822",
+     "id823",
+     "id824",
+     "id825",
+     "id826",
+     "id827",
+     "id828",
+     "id829",
+     "id830",
+     "id831",
+     "id832",
+     "id833",
+     "id834",
+     "id835",
+     "id836",
+     "id837",
+     "id838",
+     "id839",
+     "id840"
     ],
     "dictionary": {
      "entries": []
@@ -4913,7 +5128,11 @@
   },
   "after": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id736",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -4921,6 +5140,7 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
@@ -4944,6 +5164,14 @@
   },
   "infoAfter": {
    "title": "Show Layers Panel",
+   "fullTitle": "Show Layers Panel",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View"
+   ],
+   "group": "view-sidebars",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -4959,10 +5187,19 @@
   "keys": [
    "Alt+Digit2"
   ],
+  "changed": true,
   "setup": "rect",
   "id": "view.toggle-sidebar.inspector",
   "info": {
    "title": "Show Inspector Panel",
+   "fullTitle": "Show Inspector Panel",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View"
+   ],
+   "group": "view-sidebars",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,
@@ -4974,7 +5211,11 @@
   },
   "before": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id841",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -4982,27 +5223,28 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
    "redo": [],
    "doc": {
     "@": "scene",
-    "@id": "id1",
+    "@id": "id842",
     "$": [
      {
       "@": "page",
-      "@id": "id2",
+      "@id": "id843",
       "$": [
        {
         "@": "annlst",
-        "@id": "id3",
-        "pgid": "id2",
-        "aid": "id3"
+        "@id": "id844",
+        "pgid": "id843",
+        "aid": "id844"
        },
        {
         "@": "rectangle",
-        "@id": "id4",
+        "@id": "id841",
         "uf": true,
         "ct": "R",
         "sl": 0,
@@ -5020,20 +5262,20 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id5",
+         "@id": "id845",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id6",
+           "@id": "id846",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id7"
+         "&": "id847"
         },
-        "_effId": "id8"
+        "_effId": "id848"
        }
       ],
-      "#": "id9",
+      "#": "id849",
       "w": 0,
       "h": 0,
       "off": [],
@@ -5042,12 +5284,12 @@
      },
      {
       "@": "styles",
-      "@id": "id10",
+      "@id": "id850",
       "$": [
        {
         "@": "style",
-        "@id": "id11",
-        "#": "id12",
+        "@id": "id851",
+        "#": "id852",
         "name": "Shape Default",
         "ps": [
          "S",
@@ -5057,26 +5299,26 @@
         "_sdf": 94,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id13",
+         "@id": "id853",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id14",
+           "@id": "id854",
            "_pt": "C#[255,255,255]"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id15",
+           "@id": "id855",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id16"
+         "&": "id856"
         }
        },
        {
         "@": "style",
-        "@id": "id17",
-        "#": "id18",
+        "@id": "id857",
+        "#": "id858",
         "name": "Text Default",
         "ps": [
          "S",
@@ -5086,13 +5328,13 @@
          "P"
         ],
         "_sdf": 133,
-        "_layId": "id19",
+        "_layId": "id859",
         "_fc": "C#[0,0,0]"
        },
        {
         "@": "style",
-        "@id": "id20",
-        "#": "id21",
+        "@id": "id860",
+        "#": "id861",
         "name": "Rectangle Default",
         "ps": [
          "S",
@@ -5102,21 +5344,21 @@
         "_sdf": 107,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id22",
+         "@id": "id862",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id23",
+           "@id": "id863",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id24"
+         "&": "id864"
         }
        },
        {
         "@": "style",
-        "@id": "id25",
-        "#": "id26",
+        "@id": "id865",
+        "#": "id866",
         "name": "Ellipse Default",
         "ps": [
          "S",
@@ -5126,21 +5368,21 @@
         "_sdf": 104,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id27",
+         "@id": "id867",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id28",
+           "@id": "id868",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id29"
+         "&": "id869"
         }
        },
        {
         "@": "style",
-        "@id": "id30",
-        "#": "id31",
+        "@id": "id870",
+        "#": "id871",
         "name": "Polygon Default",
         "ps": [
          "S",
@@ -5150,21 +5392,21 @@
         "_sdf": 102,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id32",
+         "@id": "id872",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id33",
+           "@id": "id873",
            "_pt": "C#[235,235,235]"
           }
          ],
-         "&": "id34"
+         "&": "id874"
         }
        },
        {
         "@": "style",
-        "@id": "id35",
-        "#": "id36",
+        "@id": "id875",
+        "#": "id876",
         "name": "Path Default",
         "ps": [
          "S",
@@ -5174,27 +5416,27 @@
         "_sdf": 103,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id37",
+         "@id": "id877",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id38",
+           "@id": "id878",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id39",
+           "@id": "id879",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id40"
+         "&": "id880"
         }
        },
        {
         "@": "style",
-        "@id": "id41",
-        "#": "id42",
+        "@id": "id881",
+        "#": "id882",
         "name": "Path graph default",
         "ps": [
          "S",
@@ -5204,28 +5446,28 @@
         "_sdf": 142,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id43",
+         "@id": "id883",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id44",
+           "@id": "id884",
            "_pt": "C#[255,255,255]",
            "_vs": false
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id45",
+           "@id": "id885",
            "_blc": "round",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id46"
+         "&": "id886"
         }
        },
        {
         "@": "style",
-        "@id": "id47",
-        "#": "id48",
+        "@id": "id887",
+        "#": "id888",
         "name": "Connector default",
         "ps": [
          "S",
@@ -5234,24 +5476,24 @@
         "_sdf": 146,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id49",
+         "@id": "id889",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id50",
+           "@id": "id890",
            "_blc": "butt",
            "_bhm": "A",
            "_btm": "A",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id51"
+         "&": "id891"
         }
        },
        {
         "@": "style",
-        "@id": "id52",
-        "#": "id53",
+        "@id": "id892",
+        "#": "id893",
         "name": "Text annotation default",
         "ps": [
          "S",
@@ -5263,8 +5505,8 @@
        },
        {
         "@": "style",
-        "@id": "id54",
-        "#": "id55",
+        "@id": "id894",
+        "#": "id895",
         "name": "Rectangle annotation default",
         "ps": [
          "S",
@@ -5274,29 +5516,29 @@
         "_sdf": 150,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id56",
+         "@id": "id896",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id57",
+           "@id": "id897",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id58",
+           "@id": "id898",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id59"
+         "&": "id899"
         }
        },
        {
         "@": "style",
-        "@id": "id60",
-        "#": "id61",
+        "@id": "id900",
+        "#": "id901",
         "name": "Ellipse annotation default",
         "ps": [
          "S",
@@ -5306,29 +5548,29 @@
         "_sdf": 151,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id62",
+         "@id": "id902",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id63",
+           "@id": "id903",
            "_pt": "C#[230,2,2]",
            "_op": 0,
            "_bl": "multiply"
           },
           {
            "@": "borderPaintLayer",
-           "@id": "id64",
+           "@id": "id904",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id65"
+         "&": "id905"
         }
        },
        {
         "@": "style",
-        "@id": "id66",
-        "#": "id67",
+        "@id": "id906",
+        "#": "id907",
         "name": "Pencil annotation default",
         "ps": [
          "S",
@@ -5337,22 +5579,22 @@
         "_sdf": 155,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id68",
+         "@id": "id908",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id69",
+           "@id": "id909",
            "_bw": 2,
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id70"
+         "&": "id910"
         }
        },
        {
         "@": "style",
-        "@id": "id71",
-        "#": "id72",
+        "@id": "id911",
+        "#": "id912",
         "name": "Highlighter annotation default",
         "ps": [
          "S",
@@ -5362,22 +5604,22 @@
         "_stop": 0.5,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id73",
+         "@id": "id913",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id74",
+           "@id": "id914",
            "_bw": 12,
            "_pt": "C#[248,206,28]"
           }
          ],
-         "&": "id75"
+         "&": "id915"
         }
        },
        {
         "@": "style",
-        "@id": "id76",
-        "#": "id77",
+        "@id": "id916",
+        "#": "id917",
         "name": "Arrow annotation default",
         "ps": [
          "S",
@@ -5386,11 +5628,11 @@
         "_sdf": 154,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id78",
+         "@id": "id918",
          "$": [
           {
            "@": "borderPaintLayer",
-           "@id": "id79",
+           "@id": "id919",
            "_bw": 2,
            "_blc": "butt",
            "_bhmi": 0,
@@ -5399,13 +5641,13 @@
            "_pt": "C#[230,2,2]"
           }
          ],
-         "&": "id80"
+         "&": "id920"
         }
        },
        {
         "@": "style",
-        "@id": "id81",
-        "#": "id82",
+        "@id": "id921",
+        "#": "id922",
         "name": "Comment annotation default",
         "ps": [
          "S",
@@ -5416,42 +5658,42 @@
         "_sdf": 153,
         "_layers": {
          "@": "paintLayers",
-         "@id": "id83",
+         "@id": "id923",
          "$": [
           {
            "@": "fillPaintLayer",
-           "@id": "id84",
+           "@id": "id924",
            "_pt": "C#[0,0,0]"
           }
          ],
-         "&": "id85"
+         "&": "id925"
         },
-        "_effId": "id86"
+        "_effId": "id926"
        }
       ]
      }
     ],
     "lmd": "<time>",
     "__ids": [
-     "id87",
-     "id88",
-     "id89",
-     "id90",
-     "id91",
-     "id92",
-     "id93",
-     "id94",
-     "id95",
-     "id96",
-     "id97",
-     "id98",
-     "id99",
-     "id100",
-     "id101",
-     "id102",
-     "id103",
-     "id104",
-     "id105"
+     "id927",
+     "id928",
+     "id929",
+     "id930",
+     "id931",
+     "id932",
+     "id933",
+     "id934",
+     "id935",
+     "id936",
+     "id937",
+     "id938",
+     "id939",
+     "id940",
+     "id941",
+     "id942",
+     "id943",
+     "id944",
+     "id945"
     ],
     "dictionary": {
      "entries": []
@@ -5478,7 +5720,11 @@
   },
   "after": {
    "selection": [
-    "rectangle:A"
+    {
+     "node": "rectangle:A",
+     "@id": "id841",
+     "path": "0/1"
+    }
    ],
    "active": {
     "page": "Page 1",
@@ -5486,6 +5732,7 @@
    },
    "dialogs": [],
    "selectionDetail": false,
+   "inlineEditing": false,
    "undo": [
     "Insert Element(s)"
    ],
@@ -5509,6 +5756,14 @@
   },
   "infoAfter": {
    "title": "Show Inspector Panel",
+   "fullTitle": "Show Inspector Panel",
+   "info": null,
+   "icon": null,
+   "category": [
+    "View"
+   ],
+   "group": "view-sidebars",
+   "pro": false,
    "available": true,
    "visible": true,
    "enabled": true,

@@ -1,6 +1,7 @@
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
 import { withHelpers } from "./helpers.ts";
+import { SMALL_CAPS_FONT_BASE64 } from "./smallcaps-font.ts";
 
 // Text layout and fonts. Every scenario waits until the font manager has
 // no pending or unresolved fonts before it measures (H.fonts). Layout is
@@ -13,6 +14,10 @@ interface TextCase {
   text: unknown;
   /** Element properties set after the text (they apply to all runs). */
   props?: Record<string, unknown>;
+  /** Turns all paragraphs into a list with this marker, as the inspector does. */
+  list?: string;
+  /** A line moved one list level deeper afterwards (as Tab does). */
+  nest?: string;
 }
 
 const SAMPLE = "The quick brown fox jumps over the lazy dog";
@@ -73,6 +78,12 @@ const CASES: Record<string, TextCase> = {
       { text: "check", fontFamily: "Open Sans", listMarker: "Check", listDepth: 2 },
     ],
   },
+  // Lists made the way the app makes them (toggleList on the text range);
+  // the runs above only carry list properties and show no markers.
+  toggleBullet: { text: "first\nsecond\nthird", list: "Bullet" },
+  toggleNumberNested: { text: "top\ninner\nlast", list: "Number", nest: "inner" },
+  toggleRomanDotNested: { text: "top\ninner\nlast", list: "RomanDot", nest: "inner" },
+  toggleCheck: { text: "a\nb", list: "Check" },
   listSquareRoman: {
     text: [
       { text: "a\n", fontFamily: "Open Sans", listMarker: "Square", listDepth: 1 },
@@ -106,23 +117,22 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
     kind: "json",
     timeout: 240_000,
     args: CASES,
-    inPage: withHelpers(
-      async (_p, cases: Record<string, { text: unknown; props?: Record<string, unknown> }>, H) => {
-        const out: Record<string, unknown> = {};
-        for (const [k, c] of Object.entries(cases)) {
-          const t = await H.text(c.text, c.props, 0, 0);
-          out[k] = {
-            plain: t.getPlainText(),
-            boxes: H.boxes(t),
-            outline: H.outline(t),
-            w: t.getProperty("w"),
-            h: t.getProperty("h"),
-            blob: H.stable(t),
-          };
-        }
-        return out;
-      },
-    ),
+    inPage: withHelpers(async (_p, cases: Record<string, TextCase>, H) => {
+      const out: Record<string, unknown> = {};
+      for (const [k, c] of Object.entries(cases)) {
+        const t = await H.text(c.text, c.props, 0, 0);
+        if (c.list) await H.list(t, c.list, c.nest);
+        out[k] = {
+          plain: t.getPlainText(),
+          boxes: H.boxes(t),
+          outline: H.outline(t),
+          w: t.getProperty("w"),
+          h: t.getProperty("h"),
+          blob: H.stable(t),
+        };
+      }
+      return out;
+    }),
   },
   {
     id: "engine-model/text/auto-fit-and-sizes",
@@ -434,8 +444,10 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
     id: "engine-model/text/font-events",
     covers: ["ENG-EVENT-012", "ENG-FONT-002"],
     kind: "json",
-    // A font no other scenario loads (Open Sans ExtraBold Italic), so the
-    // events fire in this test even on a shared page.
+    // Its own freshly booted page (an empty settings object opts out of the
+    // shared page), so which fonts are loaded already can't depend on what
+    // ran before.
+    open: { newDocument: true, settings: {} },
     inPage: withHelpers(async (_p, _a, H) => {
       await H.warmText();
       const G = H.G;
@@ -458,10 +470,8 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
       H.insert(t);
       t.setText("xb");
       t.setProperties(["_tfw", "_tfs"], [800, "I"]);
-      const pendingRightAway = [fm.hasPendingFonts(), !!t.hasFontsToResolve()];
       await H.fonts(t);
       return {
-        pendingRightAway,
         events,
         resolved: fm.getFont("Open Sans", "I", 800).isResolved(),
         boxes: H.boxes(t),
@@ -469,39 +479,128 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
     }),
   },
   {
+    id: "engine-model/text/small-caps-unicode",
+    covers: ["ENG-TEXT-007", "ENG-FONT-003"],
+    kind: "json",
+    // Its own page: the scenario adds a font to the font manager.
+    open: { newDocument: true, settings: {} },
+    args: SMALL_CAPS_FONT_BASE64,
+    inPage: withHelpers(async (_p, base64: string, H) => {
+      const G = H.G;
+      const fm = H.app.scene().getWorkspace().getFontManager();
+      const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0)).buffer;
+      const family = "Parity SmallCaps";
+      // Lists and resolves the test font the way the app's font providers
+      // do: a GOpenTypeFont made from the font file.
+      fm.addEventListener(
+        G.GFontManager.QueryFontFamilyEvent,
+        (e: { family: string; callback(fonts: unknown[]): void }) => {
+          if (e.family === family) e.callback([{ family, style: "N", weight: 400 }]);
+        },
+      );
+      fm.addEventListener(
+        G.GFontManager.ResolveFontEvent,
+        (e: { family: string; style: string; weight: number; resolved(f: unknown): void }) => {
+          if (e.family === family)
+            e.resolved(G.GOpenTypeFont.create(family, e.style, e.weight, bytes));
+        },
+      );
+      const out: Record<string, unknown> = {};
+      for (const [k, ttrf] of [
+        ["none", null],
+        ["smallCaps", "s"],
+        ["uppercase", "u"],
+        ["capitalize", "c"],
+      ] as const) {
+        const t = await H.text("Hello World", { _tff: family, _ttrf: ttrf });
+        out[k] = { plain: t.getPlainText(), boxes: H.boxes(t), outline: H.outline(t) };
+      }
+      // The small-capital letters are used only when the font has all of
+      // them; Open Sans has none, so its small caps text stays as typed.
+      out.hasSmallCaps = fm.getFont(family, "N", 400).hasFeature(G.GFont.Features.SmallCaps);
+      out.openSansHasSmallCaps = fm
+        .getFont("Open Sans", "N", 400)
+        .hasFeature(G.GFont.Features.SmallCaps);
+      const os = await H.text("Hello World", { _ttrf: "s" });
+      out.openSansSmallCaps = { boxes: H.boxes(os), outline: H.outline(os) };
+      return out;
+    }),
+  },
+  {
     id: "engine-model/text/render",
-    covers: ["ENG-TEXT-008", "ENG-TEXT-009", "ENG-TEXT-011"],
+    covers: ["ENG-TEXT-008", "ENG-TEXT-009", "ENG-TEXT-011", "ENG-TEXT-007"],
     kind: "png",
     inPage: withHelpers(async (_p, _a, H) => {
       const G = H.G;
-      const g = new G.GGroup();
       const texts = [
         await H.text("Regular text", {}, 0, 0),
         await H.text("Underlined & struck", { _tdu: true, _tds: true }, 0, 30),
-        await H.text(
-          [
-            {
-              text: "item one\nitem two",
-              fontFamily: "Open Sans",
-              listMarker: "Bullet",
-              listDepth: 1,
-            },
-          ],
-          {},
-          0,
-          60,
-        ),
+        await H.list(await H.text("item one\nitem two", {}, 0, 60), "Bullet"),
         await H.text("Red bold", { _tfw: 700, _fc: H.rgb(255, 0, 0) }, 0, 120),
+        await H.text("Upper case", { _ttrf: "u" }, 0, 150),
       ];
+      const g = new G.GGroup();
       for (const t of texts) {
         t.getParent().removeChild(t);
         g.appendChild(t);
       }
       H.add(g);
       await H.fonts(...texts);
-      return g.toBitmap(1, 1).toImageDataUrl();
+      const bmp = g.toBitmap(1, 1);
+      // Every text must show up in its own band of the image.
+      const canvas = bmp.getHTMLElement(true) as HTMLCanvasElement;
+      const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+      const top = g.getPaintBBox().getY();
+      for (const t of texts) {
+        const b = t.getGeometryBBox();
+        const y0 = Math.max(0, Math.floor(b.getY() - top));
+        const h = Math.min(canvas.height - y0, Math.ceil(b.getHeight()));
+        const data = ctx.getImageData(0, y0, canvas.width, h).data;
+        let ink = 0;
+        for (let i = 3; i < data.length; i += 4) if ((data[i] as number) > 0) ink++;
+        if (ink === 0) throw new Error(`"${t.getPlainText()}" painted nothing`);
+      }
+      return bmp.toImageDataUrl();
     }),
   },
+  ...(
+    [
+      ["Bullet", "bullet"],
+      ["Check", "check"],
+      ["Square", "square"],
+      ["Number", "number"],
+      ["RomanBracket", "roman-bracket"],
+      ["RomanDot", "roman-dot"],
+    ] as const
+  ).map(([marker, name]): Scenario => ({
+    id: `engine-model/text/list-${name}`,
+    covers: ["ENG-TEXT-009"],
+    kind: "png",
+    args: marker,
+    inPage: withHelpers(async (_p, listMarker: string, H) => {
+      // Three items on the first level and one nested item, so numbering
+      // and the per-level marker glyphs both show.
+      const t = await H.list(await H.text("first\nsecond\nnested\nthird"), listMarker, "nested");
+      const bmp = t.toBitmap(1, 1);
+      const canvas = bmp.getHTMLElement(true) as HTMLCanvasElement;
+      const data = (canvas.getContext("2d") as CanvasRenderingContext2D).getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height,
+      ).data;
+      // Each of the four lines must have ink.
+      const lineHeight = canvas.height / 4;
+      for (let line = 0; line < 4; line++) {
+        let ink = 0;
+        for (let y = Math.floor(line * lineHeight); y < (line + 1) * lineHeight; y++)
+          for (let x = 0; x < canvas.width; x++)
+            if ((data[(y * canvas.width + x) * 4 + 3] as number) > 0) ink++;
+        if (ink === 0) throw new Error(`line ${line + 1} of the ${listMarker} list is blank`);
+      }
+      return bmp.toImageDataUrl();
+    }),
+  })),
 ]);
 
 paritySuite("engine-model text", scenarios, { newApp: false });

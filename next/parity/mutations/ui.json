@@ -1,0 +1,155 @@
+[
+  {
+    "id": "ui-storage-default-missing",
+    "covers": ["UI-STORAGE-002", "RUN-STORAGE-001"],
+    "scenarios": ["ui/storage/after-startup"],
+    "patch": {
+      "old": "const s = JSON.parse(localStorage.getItem('designer.settings')); delete s.grid_visible; localStorage.setItem('designer.settings', JSON.stringify(s));"
+    }
+  },
+  {
+    "id": "ui-notify-message-lost",
+    "covers": ["UI-NOTIFY-001"],
+    "scenarios": ["ui/notify/message.light", "ui/notify/message.dark", "ui/notify/message.dom"],
+    "patch": {
+      "old": "const add = gDesigner.addNotification.bind(gDesigner); gDesigner.addNotification = (n, t) => add(Object.assign({}, n, { message: 'Something else' }), t);"
+    }
+  },
+  {
+    "id": "ui-opacity-field-wrong",
+    "covers": ["UI-FIELD-020"],
+    "scenarios": ["ui/inspector/writes-appearance"],
+    "patch": {
+      "old": "const protos = new Set(); const walk = (v, d) => { if (typeof v !== 'function' || d > 2) return; if (v.prototype) protos.add(v.prototype); for (const k of Object.keys(v)) if (/^[A-Z]/.test(k)) walk(v[k], d + 1); }; for (const k of Object.keys(G)) walk(G[k], 0); for (const p of protos) { if (Object.prototype.hasOwnProperty.call(p, 'setProperties')) { const set = p.setProperties; p.setProperties = function (names, values, ...rest) { const i = names.indexOf('_stop'); if (i >= 0 && typeof values[i] === 'number' && values[i] < 1) { values = values.slice(); values[i] = values[i] / 2; } return set.call(this, names, values, ...rest); }; } if (Object.prototype.hasOwnProperty.call(p, 'setProperty')) { const one = p.setProperty; p.setProperty = function (name, value, ...rest) { if (name === '_stop' && typeof value === 'number' && value < 1) value = value / 2; return one.call(this, name, value, ...rest); }; } }"
+    }
+  },
+  {
+    "id": "ui-fill-blend-ignored",
+    "covers": ["UI-FIELD-060"],
+    "scenarios": ["ui/inspector/writes-appearance"],
+    "patch": {
+      "old": "const protos = new Set(); const walk = (v, d) => { if (typeof v !== 'function' || d > 2) return; if (v.prototype) protos.add(v.prototype); for (const k of Object.keys(v)) if (/^[A-Z]/.test(k)) walk(v[k], d + 1); }; for (const k of Object.keys(G)) walk(G[k], 0); for (const p of protos) { if (Object.prototype.hasOwnProperty.call(p, 'setProperties')) { const set = p.setProperties; p.setProperties = function (names, values, ...rest) { const i = names.indexOf('_bl'); if (i >= 0) { values = values.slice(); values[i] = 'normal'; } return set.call(this, names, values, ...rest); }; } if (Object.prototype.hasOwnProperty.call(p, 'setProperty')) { const one = p.setProperty; p.setProperty = function (name, value, ...rest) { if (name === '_bl') value = 'normal'; return one.call(this, name, value, ...rest); }; } }"
+    }
+  },
+  {
+    "id": "ui-anchor-buttons-ignored",
+    "covers": ["UI-FIELD-006", "UI-FIELD-007"],
+    "scenarios": ["ui/inspector/writes-rotation-and-anchors"],
+    "patch": {
+      "old": "const protos = new Set(); const walk = (v, d) => { if (typeof v !== 'function' || d > 2) return; if (v.prototype) protos.add(v.prototype); for (const k of Object.keys(v)) if (/^[A-Z]/.test(k)) walk(v[k], d + 1); }; for (const k of Object.keys(G)) walk(G[k], 0); for (const p of protos) { if (Object.prototype.hasOwnProperty.call(p, 'setProperties')) { const set = p.setProperties; p.setProperties = function (names, values, ...rest) { const i = names.indexOf('hacr'); if (i >= 0) { values = values.slice(); values[i] = 0; } return set.call(this, names, values, ...rest); }; } if (Object.prototype.hasOwnProperty.call(p, 'setProperty')) { const one = p.setProperty; p.setProperty = function (name, value, ...rest) { if (name === 'hacr') value = 0; return one.call(this, name, value, ...rest); }; } }"
+    }
+  },
+  {
+    "id": "ui-align-left-noop",
+    "covers": ["UI-FIELD-008"],
+    "scenarios": ["ui/inspector/writes-align-distribute"],
+    "patch": {
+      "old": "const a = gDesigner.getAction('arrange.align.align-left'); a.execute = function () {};"
+    }
+  },
+  {
+    "id": "ui-crop-menu-missing",
+    "covers": ["ACT-CTX-004"],
+    "scenarios": ["ui/context/crop.light", "ui/context/crop.dark", "ui/context/crop.dom"],
+    "patch": {
+      "old": "gDesigner.getAction('modify.crop').getTitle = () => 'Apply Crop';"
+    }
+  },
+  {
+    "id": "ui-palette-pick-wrong-colour",
+    "covers": ["UI-COLOR-020", "UI-COLOR-023"],
+    "scenarios": ["ui/color/pick-applies-fill"],
+    "patch": {
+      "old": "const protos = new Set(); const walk = (v, d) => { if (typeof v !== 'function' || d > 2) return; if (v.prototype) protos.add(v.prototype); for (const k of Object.keys(v)) if (/^[A-Z]/.test(k)) walk(v[k], d + 1); }; for (const k of Object.keys(G)) walk(G[k], 0); for (const p of protos) { if (Object.prototype.hasOwnProperty.call(p, 'setProperties')) { const set = p.setProperties; p.setProperties = function (names, values, ...rest) { const i = names.indexOf('_pt'); if (i >= 0 && values[i] instanceof G.GRGBColor) { values = values.slice(); values[i] = new G.GRGBColor([1, 2, 3]); } return set.call(this, names, values, ...rest); }; } if (Object.prototype.hasOwnProperty.call(p, 'setProperty')) { const one = p.setProperty; p.setProperty = function (name, value, ...rest) { if (name === '_pt' && value instanceof G.GRGBColor) value = new G.GRGBColor([1, 2, 3]); return one.call(this, name, value, ...rest); }; } }"
+    }
+  },
+  {
+    "id": "ui-export-rows-dropped",
+    "covers": ["UI-FIELD-049", "UI-FIELD-050", "UI-STORAGE-015"],
+    "scenarios": ["ui/export/rows-stored", "ui/export/size-preset-picked"],
+    "patch": {
+      "old": "const protos = new Set(); const walk = (v, d) => { if (typeof v !== 'function' || d > 2) return; if (v.prototype) protos.add(v.prototype); for (const k of Object.keys(v)) if (/^[A-Z]/.test(k)) walk(v[k], d + 1); }; for (const k of Object.keys(G)) walk(G[k], 0); for (const p of protos) { if (Object.prototype.hasOwnProperty.call(p, 'setProperties')) { const set = p.setProperties; p.setProperties = function (names, values, ...rest) { const i = names.indexOf('__export'); if (i >= 0 && Array.isArray(values[i]) && values[i].length) { values = values.slice(); const rows = values[i]; values[i] = rows.slice(0, -1).concat([Object.assign({}, rows[rows.length - 1], { sz: '4x' })]); } return set.call(this, names, values, ...rest); }; } if (Object.prototype.hasOwnProperty.call(p, 'setProperty')) { const one = p.setProperty; p.setProperty = function (name, value, ...rest) { if (name === '__export' && Array.isArray(value) && value.length) value = value.slice(0, -1).concat([Object.assign({}, value[value.length - 1], { sz: '4x' })]); return one.call(this, name, value, ...rest); }; } }"
+    }
+  },
+  {
+    "id": "ui-theme-not-saved",
+    "covers": ["UI-THEME-001", "RUN-THEME-002"],
+    "scenarios": ["ui/theme/switch-state"],
+    "patch": {
+      "old": "const setItem = Storage.prototype.setItem; Storage.prototype.setItem = function (k, v) { if (k === 'designer.settings') { const s = JSON.parse(v); if (s.theme === 'dark') { s.theme = 'light'; v = JSON.stringify(s); } } return setItem.call(this, k, v); };"
+    }
+  },
+  {
+    "id": "ui-long-press-no-menu",
+    "covers": ["ACT-CTX-012", "UI-TOUCH-018"],
+    "scenarios": ["ui/touch/long-press-menu.light", "ui/touch/long-press-vs-short-press"],
+    "patch": {
+      "old": "const trigger = jQuery.fn.trigger; jQuery.fn.trigger = function (e, ...rest) { if (e && (e.type || e) === 'contextmenu') return this; return trigger.call(this, e, ...rest); };"
+    }
+  },
+  {
+    "id": "ui-assistant-toggle-broken",
+    "covers": ["UI-TOUCH-011", "UI-TOUCH-014"],
+    "scenarios": [
+      "ui/touch/assistant-collapsed.light",
+      "ui/touch/assistant-right-expanded.light",
+      "ui/touch/assistant-toggle-state"
+    ],
+    "patch": {
+      "old": "document.addEventListener('click', (e) => { if (e.target.closest && e.target.closest('.g-collapsible-button')) e.stopImmediatePropagation(); }, true);"
+    }
+  },
+  {
+    "id": "ui-virtual-keys-silent",
+    "covers": ["UI-TOUCH-013"],
+    "scenarios": ["ui/touch/virtual-keys"],
+    "patch": {
+      "old": "const dispatch = EventTarget.prototype.dispatchEvent; EventTarget.prototype.dispatchEvent = function (e) { if (e instanceof KeyboardEvent && !e.isTrusted) return true; return dispatch.call(this, e); };"
+    }
+  },
+  {
+    "id": "ui-scrubbing-off",
+    "covers": ["UI-FIELD-173"],
+    "scenarios": ["ui/fields/scrubbing"],
+    "patch": {
+      "old": "const get = gDesigner.getSetting.bind(gDesigner); gDesigner.getSetting = (k, ...r) => (k === 'scrubbing_flag' ? false : get(k, ...r));"
+    }
+  },
+  {
+    "id": "ui-file-drop-ignored",
+    "covers": ["UI-SHELL-028"],
+    "scenarios": ["ui/shell/file-drop"],
+    "patch": {
+      "old": "window.addEventListener('drop', (e) => { e.stopImmediatePropagation(); e.preventDefault(); }, true);"
+    }
+  },
+  {
+    "id": "ui-save-failed-text",
+    "covers": ["UI-SHELL-025"],
+    "scenarios": [
+      "ui/shell/save-failed-overlay.light",
+      "ui/shell/save-failed-overlay.dark",
+      "ui/shell/save-failed-overlay.dom",
+      "ui/shell/save-failed-flow"
+    ],
+    "patch": {
+      "old": "const get = G.GLocale.get; G.GLocale.get = function (key, ...rest) { const s = get.call(this, key, ...rest); return key && key._key === 'text.unable-to-save' ? 'Saving failed.' : s; }; const get2 = G.GLocale.get; G.GLocale.get = function (key, ...rest) { const s = get2.call(this, key, ...rest); return typeof s === 'string' && s.startsWith('Unable to save the document') ? 'Saving failed.' : s; };"
+    }
+  },
+  {
+    "id": "ui-one-time-not-remembered",
+    "covers": ["UI-DIALOG-006"],
+    "scenarios": ["ui/dialog/one-time-dont-show-again"],
+    "patch": {
+      "old": "const set = gContainer.setProperty.bind(gContainer); gContainer.setProperty = (k, ...r) => (/dont_show_unsupported_screen_size/.test(k) ? Promise.resolve() : set(k, ...r));"
+    }
+  },
+  {
+    "id": "ui-font-delete-confirm-text",
+    "covers": ["UI-FONT-008"],
+    "scenarios": ["ui/fonts/import-dedupe-delete"],
+    "patch": {
+      "old": "const get = G.GLocale.get; G.GLocale.get = function (key, ...rest) { const s = get.call(this, key, ...rest); return typeof s === 'string' && s.startsWith('Are you sure you want to delete this font') ? 'Delete font?' : s; };"
+    }
+  }
+]

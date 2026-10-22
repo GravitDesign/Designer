@@ -5,10 +5,12 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import zlib from "node:zlib";
 import type { APIResponse, Page } from "@playwright/test";
 import { appUrl, openApp, type AppKind, type OpenOptions } from "../../support/apps.ts";
 import { LEGACY_ROOT, NEXT_ROOT } from "../../support/env.ts";
 import { normalizeDocument, type Json } from "../../support/normalize.ts";
+import type { DocState } from "./contract.ts";
 
 /** Base URL of the app under test, without the trailing slash. */
 export function base(kind: AppKind): string {
@@ -166,14 +168,28 @@ export function storageDiff(
   return out;
 }
 
-/** Waits until the old app wrote its startup settings (up to 15 s), so later diffs start clean. */
+/**
+ * Waits until the app has written its startup settings and they stopped
+ * changing (the old app writes the merged object once its startup checks
+ * ran), so later diffs start clean.
+ */
 export async function waitForStartupWrites(page: Page): Promise<void> {
-  await page
-    .waitForFunction(() => localStorage.getItem("designer.settings") !== null, null, {
-      timeout: 15_000,
-    })
-    .catch(() => undefined);
-  await page.waitForTimeout(300);
+  await page.waitForFunction(
+    () => {
+      const w = window as unknown as { __startupSettings?: { value: string; since: number } };
+      const value = localStorage.getItem("designer.settings");
+      // The app's own write holds the merged defaults (theme among them);
+      // settings a test seeded before load may not.
+      if (value === null || !value.includes('"theme"')) return false;
+      if (w.__startupSettings?.value !== value) {
+        w.__startupSettings = { value, since: performance.now() };
+        return false;
+      }
+      return performance.now() - w.__startupSettings.since > 500;
+    },
+    null,
+    { timeout: 30_000, polling: 100 },
+  );
 }
 
 /** localStorage "designer.settings" parsed, keys sorted (null when absent). */
@@ -210,41 +226,197 @@ export async function indexedDbSummary(page: Page): Promise<unknown> {
   });
 }
 
-/** Waits for fonts and two painted frames, then a short quiet period. */
-export async function settle(page: Page, ms = 200): Promise<void> {
+/** Waits for every stylesheet (a theme switch swaps one), fonts and two painted frames. */
+export async function settle(page: Page): Promise<void> {
+  await page.waitForFunction(() =>
+    [...document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')].every(
+      (l) => l.sheet !== null,
+    ),
+  );
   await page.evaluate(async () => {
     await document.fonts.ready;
     await new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r())));
   });
-  await page.waitForTimeout(ms);
 }
 
-/** Clicks a main-menu path such as ["Edit", "Settings..."] with the mouse. */
-export async function clickMenu(page: Page, items: readonly string[]): Promise<void> {
+/** Waits until the active document is drawn and nothing is left to load (corpus hook). */
+export async function settleDocument(page: Page): Promise<void> {
+  await page.evaluate(async () => {
+    const { app } = (
+      window as unknown as { __parity: { app: { corpus: { settle(): Promise<void> } } } }
+    ).__parity;
+    await app.corpus.settle();
+  });
+}
+
+/** The open documents (PlatformHooks.documents). */
+export async function documents(page: Page): Promise<DocState> {
+  return page.evaluate(() =>
+    (
+      window as unknown as { __parity: { app: { platform: { documents(): DocState } } } }
+    ).__parity.app.platform.documents(),
+  );
+}
+
+/** Waits until the document titled `title` is active and has finished loading (corpus hook). */
+export async function waitForOpened(page: Page, title: string): Promise<void> {
+  await page.evaluate(async (t) => {
+    const { app } = (
+      window as unknown as {
+        __parity: { app: { corpus: { waitForDocument(title: string): Promise<void> } } };
+      }
+    ).__parity;
+    await app.corpus.waitForDocument(t);
+  }, title);
+}
+
+/** Waits until at least `count` documents are open. */
+export async function waitForDocumentCount(page: Page, count: number): Promise<void> {
+  await page.waitForFunction(
+    (n) =>
+      (
+        window as unknown as {
+          __parity: { app: { platform: { documents(): { titles: string[] } } } };
+        }
+      ).__parity.app.platform.documents().titles.length >= n,
+    count,
+    { timeout: 30_000 },
+  );
+}
+
+/** Visible dialogs (.g-dialog) with their class and text lines. */
+export async function visibleDialogs(page: Page): Promise<{ className: string; text: string[] }[]> {
+  return page.evaluate(() =>
+    [...document.querySelectorAll<HTMLElement>(".g-dialog")]
+      .filter((d) => d.offsetParent !== null)
+      .map((d) => ({
+        className: d.className,
+        text: d.innerText.split(/\s*\n\s*/).filter(Boolean),
+      })),
+  );
+}
+
+const SUBMENUS = "ul.g-menu:not(.g-menu-root):visible";
+
+/** Waits until exactly `count` submenus are open. */
+async function waitForMenus(page: Page, count: number): Promise<void> {
+  await page.waitForFunction(
+    (n) =>
+      [...document.querySelectorAll("ul.g-menu:not(.g-menu-root)")].filter((m) => {
+        const r = m.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && getComputedStyle(m).visibility !== "hidden";
+      }).length === n,
+    count,
+  );
+}
+
+function menuItem(page: Page, depth: number, caption: string) {
+  return page
+    .locator(SUBMENUS)
+    .nth(depth)
+    .locator(":scope > li.g-menu-item", {
+      has: page.locator(`:scope > .g-menu-item-caption:text-is("${caption}")`),
+    })
+    .first();
+}
+
+/**
+ * Opens a main menu and hovers down a path of submenu captions, waiting
+ * for each submenu to open (["File", "Open Recent"] leaves both open).
+ */
+export async function openMenu(page: Page, items: readonly string[]): Promise<void> {
   const [top, ...rest] = items;
   if (!top) throw new Error("empty menu path");
-  await page.locator(`nav.g-menu-bar >> text="${top}"`).first().click();
-  await page.waitForTimeout(300);
-  for (let d = 0; d < rest.length; d++) {
-    const caption = rest[d] as string;
-    const item = page
-      .locator("ul.g-menu:not(.g-menu-root) > li.g-menu-item:visible", {
-        has: page.locator(`:scope > .g-menu-item-caption:text-is("${caption}")`),
-      })
-      .last();
-    if (d < rest.length - 1) {
-      await item.hover();
-      await page.waitForTimeout(350);
-    } else {
-      await item.click();
+  await page
+    .locator("nav.g-menu-bar ul.g-menu-root > li.g-menu-item", {
+      has: page.locator(`:scope > .g-menu-item-caption:text-is("${top}")`),
+    })
+    .click();
+  await waitForMenus(page, 1);
+  for (let depth = 0; depth < rest.length; depth++) {
+    const item = menuItem(page, depth, rest[depth] as string);
+    await item.hover();
+    if (await item.evaluate((li) => li.classList.contains("g-menu-item-menu"))) {
+      await waitForMenus(page, depth + 2);
     }
   }
+}
+
+/** Clicks a main-menu path such as ["Edit", "Settings..."] and waits until the menus closed. */
+export async function clickMenu(page: Page, items: readonly string[]): Promise<void> {
+  const parents = items.slice(0, -1);
+  const last = items[items.length - 1];
+  if (!last) throw new Error("empty menu path");
+  if (parents.length === 0) throw new Error("clickMenu needs a menu item, not only a menu");
+  await openMenu(page, parents);
+  await menuItem(page, parents.length - 1, last).click();
+  await waitForMenus(page, 0);
+}
+
+/** Captions, disabled and checked flags of the deepest open submenu. */
+export async function openMenuItems(
+  page: Page,
+): Promise<{ caption: string | null; disabled: boolean; checked: boolean }[]> {
+  return page.evaluate(() => {
+    const menus = [...document.querySelectorAll<HTMLElement>("ul.g-menu:not(.g-menu-root)")].filter(
+      (m) => m.offsetParent !== null,
+    );
+    const last = menus[menus.length - 1];
+    return last
+      ? [...last.querySelectorAll<HTMLElement>(":scope > li.g-menu-item")].map((li) => ({
+          caption: li.querySelector(":scope > .g-menu-item-caption")?.textContent ?? null,
+          disabled: li.classList.contains("g-disabled"),
+          checked: li.classList.contains("g-menu-item-checked"),
+        }))
+      : [];
+  });
+}
+
+/** The items of a (sub)menu as the user sees them, e.g. ["View", "Canvas"]; closes it again. */
+export async function menuState(
+  page: Page,
+  items: readonly string[],
+): Promise<{ caption: string | null; disabled: boolean; checked: boolean }[]> {
+  await openMenu(page, items);
+  const state = (await openMenuItems(page)).filter((i) => i.caption !== null);
+  await closeMenus(page);
+  return state;
+}
+
+/** Closes open menus with Escape and waits until they are gone. */
+export async function closeMenus(page: Page): Promise<void> {
+  await page.keyboard.press("Escape");
+  await waitForMenus(page, 0);
 }
 
 /** Opens Edit > Settings... and waits for the dialog. */
 export async function openSettingsDialog(page: Page): Promise<void> {
   await clickMenu(page, ["Edit", "Settings..."]);
   await page.locator(".g-settings-dialog").waitFor();
+}
+
+/**
+ * What Edit > Settings... shows: every switch, text field and select by its
+ * data-setting, and the theme selector's caption. Closes it with Cancel.
+ */
+export async function settingsDialogState(page: Page): Promise<Record<string, unknown>> {
+  await openSettingsDialog(page);
+  const state = await page.evaluate(() => {
+    const out: Record<string, unknown> = {};
+    const dialog = document.querySelector(".g-settings-dialog");
+    for (const e of dialog?.querySelectorAll<HTMLInputElement | HTMLSelectElement>(
+      "[data-setting]",
+    ) ?? []) {
+      const key = e.getAttribute("data-setting") ?? "?";
+      out[key] = e instanceof HTMLInputElement && e.type === "checkbox" ? e.checked : e.value;
+    }
+    out.themeSelector =
+      dialog?.querySelector<HTMLElement>(".g-theme-selector")?.innerText.trim() ?? null;
+    return out;
+  });
+  await page.locator('.g-settings-dialog button:text-is("Cancel")').click();
+  await page.locator(".g-settings-dialog").waitFor({ state: "detached" });
+  return state;
 }
 
 /** Clicks "Save Changes" in the settings dialog and waits for it to close. */
@@ -300,6 +472,55 @@ export async function downloadDocument(page: Page): Promise<{ name: string; byte
   return { name: d.suggestedFilename(), bytes: fs.readFileSync(file) };
 }
 
+/**
+ * A saved .gvdesign in comparable form: the gzip header bytes, the
+ * gunzipped scene with random ids renamed (normalize.ts), and its preview
+ * image decoded in the page (size and a hash of the decoded pixels, so a
+ * different preview render or JPEG quality shows up). `savedAfter` is the
+ * time the save started: the save time stamp `lmd` must lie between it and
+ * now; normalize.ts then replaces it with "<time>".
+ */
+export async function savedDocument(
+  page: Page,
+  bytes: Buffer,
+  savedAfter: number,
+): Promise<Record<string, unknown>> {
+  const scene = JSON.parse(zlib.gunzipSync(bytes).toString("utf8")) as Record<string, Json>;
+  const preview = scene._preview;
+  let previewInfo: unknown = null;
+  if (typeof preview === "string") {
+    previewInfo = await page.evaluate(async (url) => {
+      const image = new Image();
+      image.src = url;
+      await image.decode();
+      const canvas = document.createElement("canvas");
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+      ctx.drawImage(image, 0, 0);
+      const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      const digest = await crypto.subtle.digest("SHA-256", pixels);
+      return {
+        mime: /^data:([^;,]+)/.exec(url)?.[1] ?? null,
+        width: canvas.width,
+        height: canvas.height,
+        pixelsSha256: [...new Uint8Array(digest)]
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join(""),
+      };
+    }, preview);
+  }
+  const lmd = scene.lmd;
+  const lmdInRun = typeof lmd === "number" && lmd >= savedAfter && lmd <= Date.now();
+  const withoutPreview = { ...scene, _preview: "<preview, see previewImage>" };
+  return {
+    gzipHeader: bytes.subarray(0, 10).toString("hex"),
+    lmdInRun,
+    previewImage: previewInfo,
+    document: normalizeDocument(withoutPreview as Json),
+  };
+}
+
 /** Normalizes the random ids inside a serialized node string. */
 export function normalizeNodeString(json: string): unknown {
   return normalizeDocument(JSON.parse(json) as Json);
@@ -315,9 +536,179 @@ export const SAMPLE_FONT = path.join(
   "NotoSansAdlam-Regular.ttf",
 );
 
+/**
+ * A font for the migration scenarios that the app doesn't ship: the old
+ * app's OpenSans-ExtraBold.ttf with "Open Sans" renamed to "Mig Fonts" in
+ * its name table (same length, so nothing else moves). The app lists it as
+ * family "Mig Fonts Extrabold"; an unknown family falls back to Open Sans
+ * Regular, which looks different. Written to a temp file on first use.
+ */
+export const MIGRATION_FONT_FAMILY = "Mig Fonts Extrabold";
+let migrationFont: { file: string; bytes: Buffer } | undefined;
+export function migrationFontFile(): { file: string; bytes: Buffer } {
+  if (migrationFont) return migrationFont;
+  const bytes = Buffer.from(
+    fs.readFileSync(path.join(LEGACY_ROOT, "public", "assets", "font", "OpenSans-ExtraBold.ttf")),
+  );
+  const tables = bytes.readUInt16BE(4);
+  for (let i = 0; i < tables; i++) {
+    const entry = 12 + i * 16;
+    if (bytes.toString("latin1", entry, entry + 4) !== "name") continue;
+    const start = bytes.readUInt32BE(entry + 8);
+    const end = start + bytes.readUInt32BE(entry + 12);
+    const pairs: [Buffer, Buffer][] = [
+      [Buffer.from("Open Sans", "latin1"), Buffer.from("Mig Fonts", "latin1")],
+      [Buffer.from("Open Sans", "utf16le").swap16(), Buffer.from("Mig Fonts", "utf16le").swap16()],
+    ];
+    for (const [from, to] of pairs) {
+      for (
+        let at = bytes.indexOf(from, start);
+        at >= 0 && at < end;
+        at = bytes.indexOf(from, at + 1)
+      ) {
+        to.copy(bytes, at);
+      }
+    }
+  }
+  const file = path.join(tempDir("font"), "MigFonts-ExtraBold.ttf");
+  fs.writeFileSync(file, bytes);
+  migrationFont = { file, bytes };
+  return migrationFont;
+}
+
 /** A writable temp folder for files a driver hands to the page or a tool. */
 export function tempDir(label: string): string {
   return fs.mkdtempSync(path.join(os.tmpdir(), `gd-platform-${label}-`));
+}
+
+// ---------------------------------------------------------------------------
+// File System Access API stand-in
+// ---------------------------------------------------------------------------
+
+/**
+ * Installs stand-ins for showSaveFilePicker / showOpenFilePicker (before the
+ * next load) that log every call (options, permission requests, writes) to
+ * window.__fsaLog and keep the written bytes in window.__fsaWritten (base64,
+ * one entry per write). Files to open are read from window.__fsaOpen as
+ * base64.
+ */
+export async function installFsaStub(page: Page): Promise<void> {
+  await page.addInitScript(() => {
+    const w = window as unknown as {
+      __fsaLog: unknown[];
+      __fsaWritten: string[];
+      __fsaOpen: { name: string; base64: string }[];
+      showSaveFilePicker: unknown;
+      showOpenFilePicker: unknown;
+    };
+    w.__fsaLog = [];
+    w.__fsaWritten = [];
+    w.__fsaOpen = [];
+    const log = (entry: unknown) => w.__fsaLog.push(JSON.parse(JSON.stringify(entry)) as unknown);
+    const describe = async (data: unknown): Promise<unknown> => {
+      const blob = data instanceof Blob ? data : new Blob([data as BlobPart]);
+      const bytes = new Uint8Array(await blob.arrayBuffer());
+      let binary = "";
+      for (const b of bytes) binary += String.fromCharCode(b);
+      w.__fsaWritten.push(btoa(binary));
+      return {
+        kind: data instanceof Blob ? "Blob" : Object.prototype.toString.call(data),
+        type: data instanceof Blob ? data.type : null,
+        // The bytes themselves are compared through savedDocument().
+        write: w.__fsaWritten.length - 1,
+      };
+    };
+    const handle = (name: string, file: File | null) => ({
+      kind: "file",
+      name,
+      getFile: async () => {
+        log({ call: "getFile", name });
+        return file ?? new File([], name);
+      },
+      queryPermission: async (o: unknown) => {
+        log({ call: "queryPermission", name, options: o ?? null });
+        return "granted";
+      },
+      requestPermission: async (o: unknown) => {
+        log({ call: "requestPermission", name, options: o ?? null });
+        return "granted";
+      },
+      createWritable: async (o: unknown) => {
+        log({ call: "createWritable", name, options: o ?? null });
+        return {
+          truncate: async (n: number) => log({ call: "truncate", name, size: n }),
+          seek: async (n: number) => log({ call: "seek", name, position: n }),
+          write: async (d: unknown) => log({ call: "write", name, data: await describe(d) }),
+          close: async () => log({ call: "close", name }),
+        };
+      },
+      isSameEntry: async () => false,
+    });
+    w.showSaveFilePicker = async (options: unknown) => {
+      log({ call: "showSaveFilePicker", options: options ?? null });
+      const suggested =
+        (options as { suggestedName?: string } | undefined)?.suggestedName ?? "file";
+      return handle(suggested, null);
+    };
+    w.showOpenFilePicker = async (options: unknown) => {
+      log({ call: "showOpenFilePicker", options: options ?? null });
+      return w.__fsaOpen.map((f) =>
+        handle(f.name, new File([Uint8Array.from(atob(f.base64), (c) => c.charCodeAt(0))], f.name)),
+      );
+    };
+  });
+}
+
+export async function fsaLog(page: Page): Promise<unknown[]> {
+  return page.evaluate(() => (window as unknown as { __fsaLog: unknown[] }).__fsaLog);
+}
+
+/** Bytes of the `index`th write through a stubbed file handle. */
+export async function fsaWritten(page: Page, index: number): Promise<Buffer> {
+  const b64 = await page.evaluate(
+    (i) => (window as unknown as { __fsaWritten: string[] }).__fsaWritten[i] ?? null,
+    index,
+  );
+  if (b64 === null) throw new Error(`no write #${index} through the file handle`);
+  return Buffer.from(b64, "base64");
+}
+
+/** Clears the stub's call log (the written bytes stay, numbered on). */
+export async function clearFsaLog(page: Page): Promise<void> {
+  await page.evaluate(() => {
+    (window as unknown as { __fsaLog: unknown[] }).__fsaLog.length = 0;
+  });
+}
+
+/** Waits until the stub saw a handle closed (`count` closes in the current log). */
+export async function waitForFsaClose(page: Page, count = 1): Promise<void> {
+  await page.waitForFunction(
+    (n) =>
+      (window as unknown as { __fsaLog: { call: string }[] }).__fsaLog.filter(
+        (e) => e.call === "close",
+      ).length >= n,
+    count,
+    { timeout: 30_000 },
+  );
+}
+
+/**
+ * The first save of a new document with the File System Access API: File >
+ * Save opens the "file or cloud" chooser, "Save to File" picks a handle and
+ * writes through it. Needs installFsaStub before the app loaded.
+ */
+export async function fsaFirstSave(page: Page): Promise<{ chooser: string[]; savedAfter: number }> {
+  await clickMenu(page, ["File", "Save"]);
+  const dialog = page.locator(".g-save-chooser-dialog");
+  await dialog.waitFor();
+  // Class names only: the chooser's cloud button is recorded (and dropped)
+  // in dropped.spec.ts.
+  const chooser = (await visibleDialogs(page)).map((d) => d.className).sort();
+  const savedAfter = Date.now();
+  await dialog.getByText("Save to File").first().click();
+  await waitForFsaClose(page);
+  await settle(page);
+  return { chooser, savedAfter };
 }
 
 // ---------------------------------------------------------------------------

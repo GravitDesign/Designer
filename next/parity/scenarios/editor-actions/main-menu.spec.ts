@@ -3,10 +3,10 @@
 // caption, shortcut hint and state classes (disabled, checked, hidden,
 // divider). Recorded on a document with one selected rectangle, so the
 // enabled states differ from an empty document.
-import type { Locator, Page } from "@playwright/test";
+import { expect, type Locator, type Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
-import { runProbe } from "./lib.ts";
+import { menuState, openedSubmenu, runProbe } from "./lib.ts";
 
 interface Entry {
   caption: string;
@@ -44,8 +44,9 @@ async function dump(page: Page, menu: Locator, depth: number): Promise<Entry[]> 
     for (let i = 0; i < entries.length; i++) {
       const e = entries[i] as Entry;
       if (!e.shown || !e.classes.includes("g-menu-item-menu")) continue;
+      const before = await menuState(page);
       await menu.locator(":scope > li").nth(i).hover();
-      await page.waitForTimeout(250);
+      await openedSubmenu(page, before);
       const sub = await lastMenu(page);
       e.submenu = await dump(page, sub, depth - 1);
     }
@@ -67,7 +68,7 @@ async function mainMenu(page: Page): Promise<unknown> {
     const menu = await lastMenu(page);
     out[tops[i] as string] = await dump(page, menu, 2);
     await page.keyboard.press("Escape");
-    await page.waitForTimeout(200);
+    await expect(page.locator(MENUS)).toHaveCount(0);
   }
   return { menuBar: tops, menus: out };
 }

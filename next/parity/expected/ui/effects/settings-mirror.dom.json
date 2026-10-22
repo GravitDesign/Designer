@@ -5,6 +5,9 @@
    "properties-panel",
    "effects-properties-panel"
   ],
+  "attrs": {
+   "style": ""
+  },
   "children": [
    {
     "tag": "div",
@@ -223,13 +226,19 @@
                                 "cls": [
                                  "g-input-slider-thumb",
                                  "generic"
-                                ]
+                                ],
+                                "attrs": {
+                                 "style": "left: 60%;"
+                                }
                                },
                                {
                                 "tag": "div",
                                 "cls": [
                                  "g-input-slider-background"
-                                ]
+                                ],
+                                "attrs": {
+                                 "style": "width: 60%;"
+                                }
                                }
                               ]
                              }
@@ -244,6 +253,9 @@
                         "cls": [
                          "column"
                         ],
+                        "attrs": {
+                         "style": "width: 40px;"
+                        },
                         "children": [
                          {
                           "tag": "div",
@@ -279,6 +291,9 @@
                 "cls": [
                  "column"
                 ],
+                "attrs": {
+                 "style": "width: 40px;"
+                },
                 "children": [
                  {
                   "tag": "div",
@@ -309,6 +324,9 @@
                 "cls": [
                  "column"
                 ],
+                "attrs": {
+                 "style": "width: 40px;"
+                },
                 "children": [
                  {
                   "tag": "div",
@@ -353,6 +371,9 @@
                },
                {
                 "tag": "label",
+                "attrs": {
+                 "style": "width: 40px;"
+                },
                 "children": [
                  {
                   "tag": "span",
@@ -362,6 +383,9 @@
                },
                {
                 "tag": "label",
+                "attrs": {
+                 "style": "width: 40px;"
+                },
                 "children": [
                  {
                   "tag": "span",

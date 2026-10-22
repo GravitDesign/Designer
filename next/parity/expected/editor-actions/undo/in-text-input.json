@@ -1,7 +1,16 @@
 {
  "typed": "1005",
- "afterUndo": "100",
- "undoStates": [
+ "afterKeyUndo": "100",
+ "undoAfterKey": [
+  "Insert Element(s)"
+ ],
+ "typedAgain": "1007",
+ "viaAction": {
+  "enabled": true,
+  "focusKept": true,
+  "value": "100"
+ },
+ "undoAfterAction": [
   "Insert Element(s)"
  ]
 }

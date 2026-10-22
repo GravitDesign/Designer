@@ -3,6 +3,14 @@
  "id": "edit.undo",
  "info": {
   "title": "Undo Group Selection",
+  "fullTitle": "Undo Group Selection",
+  "info": null,
+  "icon": "gravit-icon-undo",
+  "category": [
+   "Edit"
+  ],
+  "group": "undo_redo",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +22,11 @@
  },
  "before": {
   "selection": [
-   "group"
+   {
+    "node": "group",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,6 +34,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Group Selection"
@@ -29,21 +42,21 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "group",
-       "@id": "id4",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
@@ -543,11 +556,18 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id5",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id10",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -555,6 +575,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -563,17 +584,17 @@
   ],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
@@ -1071,6 +1092,14 @@
  },
  "infoAfter": {
   "title": "Undo Insert Element(s)",
+  "fullTitle": "Undo Insert Element(s)",
+  "info": null,
+  "icon": "gravit-icon-undo",
+  "category": [
+   "Edit"
+  ],
+  "group": "undo_redo",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,

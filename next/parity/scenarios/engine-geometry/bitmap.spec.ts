@@ -121,6 +121,50 @@ const scenarios = defineScenarios([
     res.toString = bmp.toString();
     return res;
   }),
+  geo("bitmap/encode", ["ENG-GEOM-013"], async (_L, G) => {
+    // toImageBuffer / toImageBlob: PNG and JPEG bytes at the default 72 DPI
+    // and at other DPIs, which rewrite the PNG pHYs chunk and the JPEG JFIF
+    // density. The bytes come from the browser's encoder (the same in both
+    // apps); the DPI patching is the engine's.
+    const canvas = document.createElement("canvas");
+    canvas.width = 6;
+    canvas.height = 4;
+    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+    const img = ctx.createImageData(6, 4);
+    for (let i = 0; i < img.data.length; i += 4) {
+      img.data[i] = (i * 7) % 256;
+      img.data[i + 1] = (i * 13) % 256;
+      img.data[i + 2] = 200;
+      img.data[i + 3] = i % 8 ? 255 : 128;
+    }
+    ctx.putImageData(img, 0, 0);
+    const bmp = new G.GBitmap(canvas);
+    const base64 = (buf: ArrayBuffer) => {
+      let bin = "";
+      for (const b of new Uint8Array(buf)) bin += String.fromCharCode(b);
+      return btoa(bin);
+    };
+    const buffer = (type: string, quality: unknown, dpi: unknown) =>
+      new Promise<string>((resolve) => {
+        bmp.toImageBuffer(type, (b: ArrayBuffer) => resolve(base64(b)), quality, dpi);
+      });
+    const out: Record<string, unknown> = {};
+    for (const [type, quality] of [
+      ["image/png", undefined],
+      ["png", undefined],
+      ["image/jpeg", 0.9],
+      ["jpg", 0.5],
+    ] as const) {
+      for (const dpi of [undefined, 72, 144, 300]) {
+        out[`${type} q${String(quality)} dpi${String(dpi)}`] = await buffer(type, quality, dpi);
+      }
+    }
+    // setDPI changes the DPI used when none is passed.
+    bmp.setDPI(96);
+    out["png after setDPI(96)"] = await buffer("image/png", undefined, undefined);
+    out["jpeg after setDPI(96)"] = await buffer("image/jpeg", 0.9, undefined);
+    return out;
+  }),
 ]);
 
 paritySuite("engine-geometry bitmap", scenarios, { newApp: false });

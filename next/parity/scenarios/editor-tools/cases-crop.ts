@@ -26,7 +26,7 @@ export const cropCases: ToolCase[] = [
   },
   {
     id: "crop/handles-overlay",
-    covers: [...CROP, "EDT-HANDLE-022", "EDT-CROP-004", "EDT-ELEDIT-042"],
+    covers: [...CROP, "EDT-HANDLE-022", "EDT-CROP-004", "EDT-ELEDIT-042", "EDT-XFORM-007"],
     fixture: IMAGE,
     steps: [...enterCrop, move(600, 500), shot(70, 60, 320, 260)],
   },

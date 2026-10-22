@@ -5,6 +5,9 @@
    "g-menu",
    "g-menu-bottom"
   ],
+  "attrs": {
+   "style": "left: 10px; top: 32px;"
+  },
   "children": [
    {
     "tag": "li",
@@ -17,7 +20,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -37,6 +43,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": ""
+      },
       "text": "Alt+N"
      },
      {
@@ -45,6 +54,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -66,7 +78,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -86,6 +101,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -94,6 +112,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -116,7 +137,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -136,6 +160,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": ""
+      },
       "text": "Shift+Ctrl+Alt+N"
      },
      {
@@ -144,6 +171,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -172,7 +202,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -192,6 +225,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": ""
+      },
       "text": "Ctrl+O"
      },
      {
@@ -200,6 +236,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -221,7 +260,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -241,6 +283,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -249,6 +294,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -279,6 +327,9 @@
       "cls": [
        "g-menu-item-icon"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "i",
@@ -306,6 +357,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": ""
+      },
       "text": "Ctrl+S"
      },
      {
@@ -314,6 +368,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -335,7 +392,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -355,6 +415,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": ""
+      },
       "text": "Shift+Ctrl+Alt+S"
      },
      {
@@ -363,6 +426,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -386,6 +452,9 @@
      "g-menu-item",
      "has-shortcut"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -394,6 +463,9 @@
      "g-menu-item",
      "g-menu-item-divider"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -407,7 +479,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -427,6 +502,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -435,6 +513,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -464,7 +545,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -484,6 +568,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -492,6 +579,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -523,6 +613,9 @@
       "cls": [
        "g-menu-item-icon"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "i",
@@ -550,6 +643,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": ""
+      },
       "text": "Ctrl+P"
      },
      {
@@ -558,6 +654,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -588,6 +687,9 @@
       "cls": [
        "g-menu-item-icon"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "i",
@@ -615,6 +717,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -623,6 +728,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -641,6 +749,9 @@
    "g-menu",
    "g-menu-right"
   ],
+  "attrs": {
+   "style": "left: 268.219px; top: 289.469px;"
+  },
   "children": [
    {
     "tag": "li",
@@ -655,7 +766,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -675,6 +789,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": ""
+      },
       "text": "Shift+Ctrl+E"
      },
      {
@@ -683,6 +800,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -710,7 +830,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -730,6 +853,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -738,6 +864,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -758,7 +887,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -778,6 +910,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -786,6 +921,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -806,7 +944,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -826,6 +967,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -834,6 +978,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -857,7 +1004,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -877,6 +1027,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -885,6 +1038,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -903,6 +1059,9 @@
    "g-menu",
    "g-menu-right"
   ],
+  "attrs": {
+   "style": "left: 495.61px; top: 408.469px;"
+  },
   "children": [
    {
     "tag": "li",
@@ -915,7 +1074,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -935,6 +1097,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -943,6 +1108,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -963,7 +1131,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -983,6 +1154,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -991,6 +1165,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1011,7 +1188,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -1031,6 +1211,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1039,6 +1222,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1061,7 +1247,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -1081,6 +1270,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1089,6 +1281,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1118,7 +1313,10 @@
       "tag": "span",
       "cls": [
        "g-menu-item-icon"
-      ]
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
@@ -1138,6 +1336,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -1146,6 +1347,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {

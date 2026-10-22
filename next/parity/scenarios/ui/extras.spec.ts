@@ -30,6 +30,46 @@ const selection = (page: Page) =>
     (window as unknown as AppWindow).__parity.app.selection().map((n) => n.getNodeName()),
   );
 
+/**
+ * Stops Chromium's own contextmenu events (its touch long-press gesture
+ * sends one) before any page handler sees them, so a menu that still opens
+ * comes from the app's long-press handling, which triggers a jQuery
+ * "contextmenu" event instead of a native one. Counts the blocked events.
+ */
+async function blockNativeContextMenu(page: Page): Promise<void> {
+  await page.evaluate(() => {
+    const w = window as unknown as { __nativeContextMenus: number };
+    w.__nativeContextMenus = 0;
+    window.addEventListener(
+      "contextmenu",
+      (e) => {
+        w.__nativeContextMenus++;
+        e.stopImmediatePropagation();
+        e.preventDefault();
+      },
+      true,
+    );
+  });
+}
+
+/** A real touch press at a point, held for `ms`. */
+async function touchPress(page: Page, x: number, y: number, ms: number): Promise<void> {
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] });
+  await page.waitForTimeout(ms);
+  await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  await cdp.detach();
+}
+
+const openMenus = (page: Page) =>
+  page.evaluate(
+    () =>
+      [...document.querySelectorAll(".g-overlay, ul.g-menu:not(.g-menu-root)")].filter((m) => {
+        const r = m.getBoundingClientRect();
+        return r.width > 0 && getComputedStyle(m).visibility !== "hidden";
+      }).length,
+  );
+
 async function openStyleCreator(page: Page): Promise<void> {
   await page.click(".sidebar-inspector .g-styles-field");
   await settle(page, 300);
@@ -124,12 +164,13 @@ const list: SurfaceSpec[] = [
     open: { settings: { touch: true } },
     setup: async (page) => {
       await S.rect(page);
-      // A real touch press held past the 500 ms long-press delay.
-      const cdp = await page.context().newCDPSession(page);
-      const point = [{ x: 600, y: 400 }];
-      await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: point });
-      await page.waitForTimeout(900);
-      await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+      await blockNativeContextMenu(page);
+      await touchPress(page, 600, 400, 900);
+      // The menu must come from the app's own long-press handling.
+      await page
+        .locator(".g-overlay:visible, ul.g-menu:not(.g-menu-root):visible")
+        .first()
+        .waitFor();
       await settle(page, 400);
     },
     shot: [".g-overlay", "ul.g-menu:not(.g-menu-root)"],
@@ -197,6 +238,37 @@ const list: SurfaceSpec[] = [
 
 const scenarios: Scenario[] = [
   ...surfaces(list),
+  behaviour(
+    "touch/long-press-vs-short-press",
+    ["ACT-CTX-012", "UI-TOUCH-018"],
+    async (page) => {
+      await S.rect(page);
+      await blockNativeContextMenu(page);
+      // A short press (well under the 500 ms delay) opens nothing.
+      await touchPress(page, 600, 400, 150);
+      await settle(page, 700);
+      const short = await openMenus(page);
+      await touchPress(page, 600, 400, 900);
+      await page
+        .locator(".g-overlay:visible, ul.g-menu:not(.g-menu-root):visible")
+        .first()
+        .waitFor();
+      await settle(page);
+      return {
+        short,
+        long: await openMenus(page),
+        overlay: await page.evaluate(() =>
+          [...document.querySelectorAll(".g-overlay")]
+            .filter((m) => m.getBoundingClientRect().width > 0)
+            .map((m) => [...m.classList].sort()),
+        ),
+        nativeContextMenus: await page.evaluate(
+          () => (window as unknown as { __nativeContextMenus: number }).__nativeContextMenus,
+        ),
+      };
+    },
+    { settings: { touch: true } },
+  ),
   behaviour("pages/drag-reorders", ["UI-PAGES-009"], async (page) => {
     await S.a4Document(page);
     await page.click("#left-sidebars .page-toolbar button:has(.gravit-icon-addpage)");
@@ -209,6 +281,12 @@ const scenarios: Scenario[] = [
     await page.mouse.down();
     await page.waitForTimeout(700);
     await drag(page, [a.x + 60, a.y + a.height / 2], [b.x + 60, b.y + b.height - 3], { steps: 10 });
+    // The panel briefly holds the old rows next to the new ones while it
+    // rebuilds; read once only the two rows are left.
+    await page.waitForFunction(
+      (q) => document.querySelectorAll(q).length === 2,
+      "#left-sidebars .pages .page-row .page-title",
+    );
     return page.evaluate(() =>
       [...document.querySelectorAll("#left-sidebars .pages .page-row .page-title")].map(
         (t) => t.textContent,

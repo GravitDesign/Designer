@@ -1,0 +1,407 @@
+[
+  {
+    "id": "editor-arrange-ignores-always-back",
+    "covers": ["EDT-EDITOR-021"],
+    "scenarios": ["editor-tools/editor/arrange-order-always-back"],
+    "patch": {
+      "old": "const orig = app.newInfiniteDocument; let done = false; app.newInfiniteDocument = function () { const r = orig.apply(this, arguments); if (!done) { done = true; const E = app.editor().constructor; E.validateBlockInsertion = function () { return true; }; } return r; };"
+    }
+  },
+  {
+    "id": "editor-convert-to-paths-noop",
+    "covers": ["EDT-EDITOR-019"],
+    "scenarios": ["editor-tools/editor/convert-join-split"],
+    "patch": {
+      "old": "const orig = app.newInfiniteDocument; let done = false; app.newInfiniteDocument = function () { const r = orig.apply(this, arguments); if (!done) { done = true; const E = app.editor().constructor; E.prototype.convertSelectionToPaths = function () {}; } return r; };"
+    }
+  },
+  {
+    "id": "editor-insert-ignores-selection",
+    "covers": ["EDT-EDITOR-017"],
+    "scenarios": [
+      "editor-tools/editor/insert-above-selection",
+      "editor-tools/editor/api-insert-elements"
+    ],
+    "patch": {
+      "old": "const orig = app.newInfiniteDocument; let done = false; app.newInfiniteDocument = function () { const r = orig.apply(this, arguments); if (!done) { done = true; const E = app.editor().constructor; const ins = E.prototype.insertElements; E.prototype.insertElements = function (e, t, i, above, o, a, s) { return ins.call(this, e, t, i, false, o, a, s); }; } return r; };"
+    }
+  },
+  {
+    "id": "editor-constrain-passthrough",
+    "covers": ["EDT-EDITOR-023"],
+    "scenarios": ["editor-tools/editor/api-convert-to-constrain"],
+    "patch": {
+      "old": "const orig = app.newInfiniteDocument; let done = false; app.newInfiniteDocument = function () { const r = orig.apply(this, arguments); if (!done) { done = true; const E = app.editor().constructor; E.convertToConstrain = function (x, y, px, py) { return new G.GPoint(px, py); }; } return r; };"
+    }
+  },
+  {
+    "id": "editor-blink-noop",
+    "covers": ["EDT-SEL-011"],
+    "scenarios": ["editor-tools/editor/api-select-pattern-and-blink"],
+    "patch": {
+      "old": "const orig = app.newInfiniteDocument; let done = false; app.newInfiniteDocument = function () { const r = orig.apply(this, arguments); if (!done) { done = true; const E = app.editor().constructor; E.prototype.blinkSelection = function () {}; } return r; };"
+    }
+  },
+  {
+    "id": "editor-center-selection-noop",
+    "covers": ["EDT-EDITOR-022"],
+    "scenarios": ["editor-tools/editor/api-exchange-and-center"],
+    "patch": {
+      "old": "const orig = app.newInfiniteDocument; let done = false; app.newInfiniteDocument = function () { const r = orig.apply(this, arguments); if (!done) { done = true; const E = app.editor().constructor; E.prototype.centerSelection = function () {}; } return r; };"
+    }
+  },
+  {
+    "id": "editor-no-active-page-by-mouse",
+    "covers": ["EDT-EDITOR-016"],
+    "scenarios": ["editor-tools/editor/active-page-by-mouse"],
+    "patch": {
+      "old": "const orig = app.newInfiniteDocument; let done = false; app.newInfiniteDocument = function () { const r = orig.apply(this, arguments); if (!done) { done = true; const E = app.editor().constructor; E.prototype.updateByMousePosition = function () {}; } return r; };"
+    }
+  },
+  {
+    "id": "editor-text-direction-ignored",
+    "covers": ["EDT-TEXTEDIT-030"],
+    "scenarios": [
+      "editor-tools/editor/text-direction-rtl",
+      "editor-tools/editor/text-direction-ttb",
+      "editor-tools/editor/text-direction-btt"
+    ],
+    "patch": {
+      "old": "G.GText.prototype._setDirection = function () { return null; };"
+    }
+  },
+  {
+    "id": "editor-symbol-labels-off",
+    "covers": ["EDT-GUIDE-019"],
+    "scenarios": ["editor-tools/editor/symbol-labels-on"],
+    "patch": {
+      "old": "const orig = app.newInfiniteDocument; let done = false; app.newInfiniteDocument = function () { const r = orig.apply(this, arguments); if (!done) { done = true; app.view().getViewConfiguration().symbolLabelsVisible = false; Object.defineProperty(app.view().getViewConfiguration(), 'symbolLabelsVisible', { get() { return false; }, set() {} }); } return r; };"
+    }
+  },
+  {
+    "id": "eledit-add-stop-colour",
+    "covers": ["EDT-ELEDIT-049"],
+    "scenarios": ["editor-tools/eledit/gradient-linear-add-and-slide-stop"],
+    "patch": {
+      "old": "const E = app.require(276); const prepare = E.prototype._prepareNewStop; E.prototype._prepareNewStop = function (p) { const stop = prepare.call(this, p); stop.opacity = 0.5; return stop; };"
+    }
+  },
+  {
+    "id": "eledit-gradient-no-snap",
+    "covers": ["EDT-ELEDIT-050", "EDT-ELEDIT-053"],
+    "scenarios": [
+      "editor-tools/eledit/gradient-linear-end-snaps",
+      "editor-tools/eledit/gradient-angular-handles"
+    ],
+    "patch": {
+      "old": "app.require(276).prototype._getSnapPoints = function () { return []; };"
+    }
+  },
+  {
+    "id": "eledit-radial-no-move-cursor",
+    "covers": ["EDT-ELEDIT-052"],
+    "scenarios": ["editor-tools/eledit/gradient-radial-hover"],
+    "patch": {
+      "old": "const E = app.require(780); const cursor = E.prototype.getCursor; E.prototype.getCursor = function (part, t) { return part === E.MOVE_HANDLE_PART_ID ? null : cursor.call(this, part, t); };"
+    }
+  },
+  {
+    "id": "eledit-page-no-label-part",
+    "covers": ["EDT-ELEDIT-032", "EDT-ELEDIT-023"],
+    "scenarios": [
+      "editor-tools/eledit/page-label-select-and-drag",
+      "editor-tools/eledit/page-label-drag-overlaps"
+    ],
+    "patch": {
+      "old": "const E = app.require(331); const base = Object.getPrototypeOf(E.prototype)._getPartInfoAt; E.prototype._getPartInfoAt = function (a, b, c) { return base.call(this, a, b, c); };"
+    }
+  },
+  {
+    "id": "eledit-page-no-collision-avoidance",
+    "covers": ["EDT-ELEDIT-033"],
+    "scenarios": ["editor-tools/eledit/page-label-shift-drag-avoids-collision"],
+    "patch": {
+      "old": "G.GPage.prototype.doCollisionlessTransform = function (t) { return t; };"
+    }
+  },
+  {
+    "id": "eledit-page-resize-not-written",
+    "covers": ["EDT-ELEDIT-032"],
+    "scenarios": ["editor-tools/eledit/page-resize"],
+    "patch": {
+      "old": "const E = app.require(331); const apply = E.prototype._applyPartMove; E.prototype._applyPartMove = function (e, t, i, n) { const page = this.getElement(); const w = page.getProperty('w'); const h = page.getProperty('h'); apply.call(this, e, t, i, n); page.setProperties(['w', 'h'], [w, h]); };"
+    }
+  },
+  {
+    "id": "eledit-no-catch-handle",
+    "covers": ["EDT-ELEDIT-024", "EDT-HANDLE-023"],
+    "scenarios": [
+      "editor-tools/eledit/catch-handle-overlay",
+      "editor-tools/eledit/catch-handle-drag"
+    ],
+    "patch": {
+      "old": "const E = app.require(274); app.require(155).prototype._catchHandleAllowed = function () { return false; }; E.prototype._catchHandleAllowed = function () { return false; }; E.prototype._getCatchPartInfoAt = function () { return null; };"
+    }
+  },
+  {
+    "id": "eledit-drop-on-border-fills",
+    "covers": ["EDT-ELEDIT-026"],
+    "scenarios": ["editor-tools/eledit/pattern-drop-on-border-and-fill"],
+    "patch": {
+      "old": "const E = app.require(128); const drop = E.prototype.acceptDrop; E.prototype.acceptDrop = function (e, t, i, hit) { if (hit && typeof hit.type === 'number') { hit = Object.assign(Object.create(Object.getPrototypeOf(hit)), hit, { type: -1 }); } return drop.call(this, e, t, i, hit); };"
+    }
+  },
+  {
+    "id": "eledit-no-adaptive-outline",
+    "covers": ["EDT-ELEDIT-014"],
+    "scenarios": [
+      "editor-tools/eledit/adaptive-outline-white",
+      "editor-tools/eledit/adaptive-outline-dark"
+    ],
+    "patch": {
+      "old": "app.require(39).getOutlineColor = function (e, t, i, n) { return n; };"
+    }
+  },
+  {
+    "id": "eledit-max-editors-limit",
+    "covers": ["EDT-ELEDIT-055"],
+    "scenarios": ["editor-tools/eledit/many-sub-path-editors-not-drawn"],
+    "patch": {
+      "old": "app.require(24).maxNumberOfEditorsToDraw = 3000;"
+    }
+  },
+  {
+    "id": "eledit-no-relayout",
+    "covers": ["EDT-ELEDIT-017"],
+    "scenarios": ["editor-tools/eledit/page-resize-relayouts-anchored-child"],
+    "patch": {
+      "old": "G.GPage.prototype._layoutAnchorContents = function () {};"
+    }
+  },
+  {
+    "id": "eledit-compound-box-not-geometry",
+    "covers": ["EDT-ELEDIT-038"],
+    "scenarios": ["editor-tools/eledit/compound-shape-resize-and-boolean-op"],
+    "patch": {
+      "old": "const E = app.require(1082); E.prototype.getBox = function () { return this.getPaintElement().getGeometryBBox().expanded(10, 10, 10, 10); };"
+    }
+  },
+  {
+    "id": "annot-seq-not-max-plus-one",
+    "covers": ["EDT-ANNOT-016"],
+    "scenarios": ["editor-tools/annotations/two-placed", "editor-tools/annotations/rectangle"],
+    "patch": {
+      "old": "let p = G.GRectangleAnnotation.prototype; while (!Object.prototype.hasOwnProperty.call(p, 'setProperties')) p = Object.getPrototypeOf(p); const sp = p.setProperties; p.setProperties = function (names, values) { const i = names.indexOf('seq'); if (i >= 0 && names.indexOf('uid') >= 0) { values = values.slice(); values[i] = 1; } return sp.apply(this, [names, values].concat([].slice.call(arguments, 2))); };"
+    }
+  },
+  {
+    "id": "annot-always-visible",
+    "covers": ["EDT-ANNOT-006", "EDT-ANNOT-017"],
+    "scenarios": [
+      "editor-tools/annotations/sidebar-closed-shot",
+      "editor-tools/annotations/resolve-hides-shot"
+    ],
+    "patch": {
+      "old": "const orig = app.newInfiniteDocument; let done = false; app.newInfiniteDocument = function () { const r = orig.apply(this, arguments); if (!done) { done = true; Object.getPrototypeOf(app.view().getViewConfiguration()).isElementAnnotationsVisible = function () { return !!this.annotations; }; } return r; };"
+    }
+  },
+  {
+    "id": "annot-resolve-not-stored",
+    "covers": ["EDT-ANNOT-004", "EDT-ANNOT-005"],
+    "scenarios": ["editor-tools/annotations/resolve-hides", "editor-tools/annotations/resolve-all"],
+    "patch": {
+      "old": "let p = G.GRectangleAnnotation.prototype; while (!Object.prototype.hasOwnProperty.call(p, 'setProperties')) p = Object.getPrototypeOf(p); const sp = p.setProperties; p.setProperties = function (names, values) { const i = names.indexOf('rsv'); if (i >= 0 && this.hasMixin && this.hasMixin(G.GAnnotation)) { values = values.slice(); values[i] = false; } return sp.apply(this, [names, values].concat([].slice.call(arguments, 2))); };"
+    }
+  },
+  {
+    "id": "annot-panel-click-no-scroll",
+    "covers": ["EDT-ANNOT-018"],
+    "scenarios": ["editor-tools/annotations/panel-click-selects-and-scrolls"],
+    "patch": {
+      "old": "const orig = app.newInfiniteDocument; let done = false; app.newInfiniteDocument = function () { const r = orig.apply(this, arguments); if (!done) { done = true; Object.getPrototypeOf(app.designer.getWindows().getActiveWindow()).scrollIntoView = function () {}; } return r; };"
+    }
+  },
+  {
+    "id": "annot-mode-allows-all-tools",
+    "covers": ["EDT-TOOLMGR-027", "EDT-TOOLMGR-028"],
+    "scenarios": ["editor-tools/annotations/mode-and-blocked-shortcuts"],
+    "patch": {
+      "old": "app.designer.canActivateTool = function () { return true; };"
+    }
+  },
+  {
+    "id": "annot-panel-delete-keeps-node",
+    "covers": ["EDT-ANNOT-016"],
+    "scenarios": ["editor-tools/annotations/panel-menu-delete"],
+    "patch": {
+      "old": "G.GAnnotationsList.prototype.removeChild = function () {};"
+    }
+  },
+  {
+    "id": "tools-guides-not-painted",
+    "covers": ["EDT-GUIDE-005", "EDT-GUIDE-008"],
+    "scenarios": [
+      "editor-tools/snap/smart-guide-overlay",
+      "editor-tools/snap/equal-spacing-overlay"
+    ],
+    "patch": {
+      "old": "app.require(210).prototype.paint = function () {};"
+    }
+  },
+  {
+    "id": "tools-distance-helper-off",
+    "covers": ["EDT-TOOL-022", "EDT-GUIDE-021", "EDT-GUIDE-022"],
+    "scenarios": [
+      "editor-tools/pointer/alt-distance-guides-overlay",
+      "editor-tools/pointer/alt-distance-nudge-overlay"
+    ],
+    "patch": {
+      "old": "app.require(24).showDistance = false; const orig = app.newInfiniteDocument; let done = false; app.newInfiniteDocument = function () { const r = orig.apply(this, arguments); if (!done) { done = true; app.require(24).showDistance = false; } return r; };"
+    }
+  },
+  {
+    "id": "tools-meta-drop-gathers-nothing",
+    "covers": ["EDT-TOOL-012"],
+    "scenarios": ["editor-tools/pointer/meta-drag-into-image-mask"],
+    "patch": {
+      "old": "const tm = app.designer.getToolManager(); const toolNamed = (n) => { for (let i = 0; i < tm.getToolCount(); i++) if (String(tm.getTool(i)) === '[Object ' + n + ']') return tm.getTool(i); }; Object.getPrototypeOf(toolNamed('GPointerTool'))._gatherItemsForAdd = function () { return []; };"
+    }
+  },
+  {
+    "id": "tools-freehand-digits-ignored",
+    "covers": ["EDT-TOOL-059"],
+    "scenarios": ["editor-tools/freehand/digit-opacity"],
+    "patch": {
+      "old": "const tm = app.designer.getToolManager(); const toolNamed = (n) => { for (let i = 0; i < tm.getToolCount(); i++) if (String(tm.getTool(i)) === '[Object ' + n + ']') return tm.getTool(i); }; const p = Object.getPrototypeOf(toolNamed('GFreehandTool')); const kd = p._keyDown; p._keyDown = function (e) { if (/^[0-9]$/.test(String(e.key))) return; return kd.call(this, e); };"
+    }
+  },
+  {
+    "id": "tools-freehand-never-continues",
+    "covers": ["EDT-TOOL-058"],
+    "scenarios": ["editor-tools/freehand/continue-within-500ms"],
+    "patch": {
+      "old": "const tm = app.designer.getToolManager(); const toolNamed = (n) => { for (let i = 0; i < tm.getToolCount(); i++) if (String(tm.getTool(i)) === '[Object ' + n + ']') return tm.getTool(i); }; const sm = Object.getPrototypeOf(toolNamed('GFreehandTool')._smoothingManager); const st = sm.start; sm.start = function () { return st.call(this, null); };"
+    }
+  },
+  {
+    "id": "tools-freehand-window-longer",
+    "covers": ["EDT-TOOL-058"],
+    "scenarios": ["editor-tools/freehand/new-stroke-after-500ms"],
+    "patch": {
+      "old": "const tm = app.designer.getToolManager(); const toolNamed = (n) => { for (let i = 0; i < tm.getToolCount(); i++) if (String(tm.getTool(i)) === '[Object ' + n + ']') return tm.getTool(i); }; const t = toolNamed('GFreehandTool'); const p = Object.getPrototypeOf(t); const md = p._mouseDown; p._mouseDown = function (e) { if (this._lastReleasedPos) for (const r of this._lastReleasedPos) r.time += 1; return md.call(this, e); };"
+    }
+  },
+  {
+    "id": "tools-fill-key-hides-fills",
+    "covers": ["EDT-VIEW-031"],
+    "scenarios": ["editor-tools/view/toggle-fill-and-border-visibility"],
+    "patch": {
+      "old": "document.addEventListener('keydown', (e) => { if (e.key !== 'f') return; for (const n of app.selection()) { const l = n.getPaintLayers(); for (let x = l.getFirstChild(); x; x = x.getNext()) if (x instanceof G.GStylable.FillPaintLayer) x.setProperty('_vs', false); } }, true);"
+    }
+  },
+  {
+    "id": "tools-bbox-guide-toggle-noop",
+    "covers": ["EDT-SNAP-004"],
+    "scenarios": ["editor-tools/snap/bbox-guide-toggled-off"],
+    "patch": {
+      "old": "for (const a of app.designer.getActions()) if (a.getId() === 'view.toggle-guide.guide.bbox') a.execute = function () {};"
+    }
+  },
+  {
+    "id": "tools-fit-layer-fits-selection",
+    "covers": ["EDT-VIEW-016"],
+    "scenarios": ["editor-tools/view/fit-selection-and-layer"],
+    "patch": {
+      "old": "const acts = app.designer.getActions(); const sel = acts.find((a) => a.getId() === 'view.zoom.fit-selection'); for (const a of acts) if (a.getId() === 'view.zoom.fit-current-layer') a.execute = function () { return sel.execute(); };"
+    }
+  },
+  {
+    "id": "tools-show-grid-keeps-document",
+    "covers": ["EDT-VIEW-021"],
+    "scenarios": ["editor-tools/view/show-grid-document"],
+    "patch": {
+      "old": "for (const a of app.designer.getActions()) if (a.getId() === 'view.canvas.show-grid') a.execute = function () { app.view().getViewConfiguration().gridVisible = !app.view().getViewConfiguration().gridVisible; app.view().invalidate(); };"
+    }
+  },
+  {
+    "id": "tools-initial-view-not-centred",
+    "covers": ["EDT-VIEW-018"],
+    "scenarios": [
+      "editor-tools/extra/initial-view-on-open-view-large-page",
+      "editor-tools/extra/initial-view-on-open-view-small-page",
+      "editor-tools/extra/initial-view-on-open-view-infinite-offset"
+    ],
+    "patch": {
+      "old": "app.require(1503).prototype.centerAndZoom = function () {};"
+    }
+  },
+  {
+    "id": "tools-no-inline-hints",
+    "covers": ["EDT-TOOLMGR-012"],
+    "scenarios": [
+      "editor-tools/shapes/rectangle-plain",
+      "editor-tools/shapes/rectangle-size-hint",
+      "editor-tools/shapes/line-size-hint",
+      "editor-tools/pointer/resize-and-rotate-hints"
+    ],
+    "patch": {
+      "old": "const orig = app.newInfiniteDocument; let done = false; app.newInfiniteDocument = function () { const r = orig.apply(this, arguments); if (!done) { done = true; const V = app.view().constructor.prototype; V.updateInlineHint = function () {}; } return r; };"
+    }
+  },
+  {
+    "id": "tools-no-quick-render",
+    "covers": ["EDT-VIEW-006", "EDT-VIEW-007"],
+    "scenarios": ["editor-tools/view/zoom-quick-render"],
+    "patch": {
+      "old": "app.require(166).NO_WEBGL_WHEN_ZOOMING = false; app.require(166).RERENDER_ZOOM_AFTER_MS = 0;"
+    }
+  },
+  {
+    "id": "tools-zoom-never-rerenders",
+    "covers": ["EDT-VIEW-006", "EDT-VIEW-007"],
+    "scenarios": ["editor-tools/view/zoom-render-after-wheel"],
+    "patch": {
+      "old": "app.require(166).RERENDER_ZOOM_AFTER_MS = 1e9;"
+    }
+  },
+  {
+    "id": "tools-long-press-too-early",
+    "covers": ["EDT-TOUCH-009"],
+    "scenarios": ["editor-tools/touch/long-press-context-menu-state"],
+    "patch": {
+      "old": "app.require(519).LONG_PRESS_TIME_OUT = 100;"
+    }
+  },
+  {
+    "id": "tools-connector-is-a-second-pen",
+    "covers": ["EDT-TOOLMGR-001", "EDT-TOOL-062"],
+    "scenarios": ["editor-tools/toolmgr/registry"],
+    "patch": {
+      "old": "const tm = app.designer.getToolManager(); Object.setPrototypeOf(tm.getTool(23), Object.getPrototypeOf(tm.getTool(5)));"
+    }
+  },
+  {
+    "id": "tools-individual-selection-keeps-containers",
+    "covers": ["EDT-SEL-002"],
+    "scenarios": ["editor-tools/pointer/selection-queries"],
+    "patch": {
+      "old": "const orig = app.newInfiniteDocument; let done = false; app.newInfiniteDocument = function () { const r = orig.apply(this, arguments); if (!done) { done = true; app.editor().constructor.prototype.getIndividualSelection = function () { return this.getSelection(); }; } return r; };"
+    }
+  },
+  {
+    "id": "tools-tool-change-never-light",
+    "covers": ["EDT-TOOLMGR-004", "EDT-TOOLMGR-009"],
+    "scenarios": ["editor-tools/view/space-temporary-hand"],
+    "patch": {
+      "old": "const tm = app.designer.getToolManager(); const E = tm.constructor.ToolChangedEvent; const ev = tm.trigger; tm.trigger = function (e) { if (e instanceof E) e.light = false; return ev.apply(this, arguments); };"
+    }
+  },
+  {
+    "id": "tools-preview-outline-straight",
+    "covers": ["EDT-TOOL-009", "EDT-ELEDIT-010"],
+    "scenarios": ["editor-tools/subselect/ellipse-arc-handle-drag"],
+    "patch": {
+      "old": "const rv = G.GEllipse.prototype.readVertex; G.GEllipse.prototype.readVertex = function (v) { const r = rv.call(this, v); if (r && v.command === G.GVertex.Command.Curve2) v.command = G.GVertex.Command.Line; return r; };"
+    }
+  }
+]

@@ -17,7 +17,7 @@
   },
   "blob": {
    "@": "paintLayer",
-   "@id": "<id>"
+   "@id": "id1"
   }
  },
  "fillPaintLayer": {
@@ -31,7 +31,7 @@
   },
   "blob": {
    "@": "fillPaintLayer",
-   "@id": "<id>"
+   "@id": "id2"
   }
  },
  "borderPaintLayer": {
@@ -60,7 +60,7 @@
   },
   "blob": {
    "@": "borderPaintLayer",
-   "@id": "<id>"
+   "@id": "id3"
   }
  },
  "paintLayers": {
@@ -68,7 +68,7 @@
   "props": {},
   "blob": {
    "@": "paintLayers",
-   "@id": "<id>"
+   "@id": "id4"
   }
  },
  "effects": {
@@ -124,13 +124,13 @@
    "ict": "R",
    "ocr": 0,
    "icr": 0,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "polygon",
-   "@id": "<id>",
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "@id": "id5",
+   "_layId": "id6",
+   "_effId": "id7"
   }
  },
  "path": {
@@ -169,14 +169,14 @@
    "csc": true,
    "closed": false,
    "rtxt": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "path",
-   "@id": "<id>",
+   "@id": "id8",
    "pts": [],
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id9",
+   "_effId": "id10"
   }
  },
  "ellipse": {
@@ -217,13 +217,13 @@
    "ea": 3.141592653589793,
    "etp": 0,
    "closed": true,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "ellipse",
-   "@id": "<id>",
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "@id": "id11",
+   "_layId": "id12",
+   "_effId": "id13"
   }
  },
  "rectangle": {
@@ -278,16 +278,16 @@
    "bl_ct": "R",
    "bl_sx": 0,
    "bl_sy": 0,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "rectangle",
-   "@id": "<id>",
+   "@id": "id14",
    "uf": true,
    "ct": "R",
    "sl": 0,
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id15",
+   "_effId": "id16"
   }
  },
  "compoundpath": {
@@ -324,14 +324,14 @@
    "scc": true,
    "evenodd": true,
    "csc": true,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "compoundpath",
-   "@id": "<id>",
+   "@id": "id17",
    "paths": [],
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id18",
+   "_effId": "id19"
   }
  },
  "compoundpath.paths": {
@@ -411,14 +411,14 @@
    "_bkpPath": null,
    "sc": false,
    "_ed": true,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "text",
-   "@id": "<id>",
-   "#": "<id>",
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "@id": "id20",
+   "#": "id21",
+   "_layId": "id22",
+   "_effId": "id23"
   }
  },
  "style": {
@@ -463,16 +463,16 @@
   },
   "blob": {
    "@": "style",
-   "@id": "<id>",
-   "_effId": "<id>",
-   "_layId": "<id>"
+   "@id": "id24",
+   "_effId": "id25",
+   "_layId": "id26"
   }
  },
  "GPGEdge": {
   "restoredAs": "GPGEdge",
   "props": {
    "uid": {
-    "_uid": "<id>"
+    "_uid": "id88"
    },
    "cSt": false
   },
@@ -482,14 +482,14 @@
   "restoredAs": "GPGFacet",
   "props": {
    "uid": {
-    "_uid": "<id>"
+    "_uid": "id27"
    },
    "cSt": false
   },
   "blob": {
    "@": "GPGFacet",
    "props": [
-    "<id>",
+    "id27",
     false
    ],
    "_layId": null
@@ -499,7 +499,7 @@
   "restoredAs": "GPGAnchor",
   "props": {
    "uid": {
-    "_uid": "<id>"
+    "_uid": "id28"
    },
    "x": 0,
    "y": 0
@@ -507,7 +507,7 @@
   "blob": {
    "@": "GPGAnchor",
    "props": [
-    "<id>",
+    "id28",
     0,
     0
    ]
@@ -545,14 +545,14 @@
    "trf": null,
    "bool": 1,
    "scc": true,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "Paths Graph",
-   "@id": "<id>",
+   "@id": "id29",
    "anchors": "{\"@\":\"MapContainer\"}",
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id30",
+   "_effId": "id31"
   }
  },
  "GPathsGraph.Edges": {
@@ -598,14 +598,14 @@
    "csc": true,
    "closed": false,
    "rtxt": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "connector",
-   "@id": "<id>",
+   "@id": "id32",
    "pts": [],
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id33",
+   "_effId": "id34"
   }
  },
  "cmt": {
@@ -630,7 +630,7 @@
   },
   "blob": {
    "@": "cmt",
-   "@id": "<id>"
+   "@id": "id35"
   }
  },
  "ant": {
@@ -721,14 +721,14 @@
    "asgn": null,
    "Guid": null,
    "atp": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "ant",
-   "@id": "<id>",
-   "#": "<id>",
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "@id": "id36",
+   "#": "id37",
+   "_layId": "id38",
+   "_effId": "id39"
   }
  },
  "anr": {
@@ -799,16 +799,16 @@
    "asgn": null,
    "Guid": null,
    "atp": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "anr",
-   "@id": "<id>",
+   "@id": "id40",
    "uf": true,
    "ct": "R",
    "sl": 0,
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id41",
+   "_effId": "id42"
   }
  },
  "ane": {
@@ -865,13 +865,13 @@
    "asgn": null,
    "Guid": null,
    "atp": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "ane",
-   "@id": "<id>",
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "@id": "id43",
+   "_layId": "id44",
+   "_effId": "id45"
   }
  },
  "anh": {
@@ -926,14 +926,14 @@
    "Guid": null,
    "atp": null,
    "rtxt": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "anh",
-   "@id": "<id>",
+   "@id": "id46",
    "pts": [],
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id47",
+   "_effId": "id48"
   }
  },
  "anc": {
@@ -988,14 +988,14 @@
    "Guid": null,
    "atp": null,
    "rtxt": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "anc",
-   "@id": "<id>",
+   "@id": "id49",
    "pts": [],
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id50",
+   "_effId": "id51"
   }
  },
  "anarr": {
@@ -1050,14 +1050,14 @@
    "Guid": null,
    "atp": null,
    "rtxt": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "anarr",
-   "@id": "<id>",
+   "@id": "id52",
    "pts": [],
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id53",
+   "_effId": "id54"
   }
  },
  "anp": {
@@ -1112,14 +1112,14 @@
    "Guid": null,
    "atp": null,
    "rtxt": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "anp",
-   "@id": "<id>",
+   "@id": "id55",
    "pts": [],
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id56",
+   "_effId": "id57"
   }
  },
  "GWebGLEffect": {
@@ -1179,7 +1179,7 @@
   "props": "<throws>",
   "blob": {
    "@": "styles",
-   "@id": "<id>"
+   "@id": "id58"
   }
  },
  "layer": {
@@ -1198,7 +1198,7 @@
    "prt": true,
    "cls": "pattern:C#[0,168,255]",
    "frm": false,
-   "sref": "<id>",
+   "sref": "<undefined>",
    "hacr": null,
    "habox": null,
    "hsbox": null,
@@ -1218,10 +1218,10 @@
   },
   "blob": {
    "@": "layer",
-   "@id": "<id>",
+   "@id": "id59",
    "cls": "C#[0,168,255]",
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id60",
+   "_effId": "id61"
   }
  },
  "annlst": {
@@ -1236,7 +1236,7 @@
   },
   "blob": {
    "@": "annlst",
-   "@id": "<id>"
+   "@id": "id62"
   }
  },
  "page": {
@@ -1263,7 +1263,7 @@
   },
   "blob": {
    "@": "page",
-   "@id": "<id>"
+   "@id": "id63"
   }
  },
  "image": {
@@ -1330,17 +1330,17 @@
    "pw": null,
    "ph": null,
    "itrf": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "image",
-   "@id": "<id>",
+   "@id": "id64",
    "ipfc": false,
    "uf": true,
    "ct": "R",
    "sl": 0,
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id65",
+   "_effId": "id66"
   }
  },
  "GGLNoiseEffect": {
@@ -1364,7 +1364,7 @@
   },
   "blob": {
    "@": "swatch",
-   "@id": "<id>"
+   "@id": "id67"
   }
  },
  "group": {
@@ -1398,12 +1398,12 @@
    "vcf": null,
    "trf": null,
    "frm": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "group",
-   "@id": "<id>",
-   "_effId": "<id>"
+   "@id": "id68",
+   "_effId": "id69"
   }
  },
  "symbol": {
@@ -1444,14 +1444,14 @@
    "sbl": null,
    "swp": null,
    "swpori": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "symbol",
-   "@id": "<id>",
+   "@id": "id70",
    "dsb": [],
    "sbl": [],
-   "_effId": "<id>"
+   "_effId": "id71"
   }
  },
  "swatches": {
@@ -1459,7 +1459,7 @@
   "props": "<throws>",
   "blob": {
    "@": "swatches",
-   "@id": "<id>"
+   "@id": "id72"
   }
  },
  "scene": {
@@ -1486,7 +1486,7 @@
    "hgl": null,
    "vgl": null,
    "name": null,
-   "__ids": "<id>",
+   "__ids": [],
    "rb": false,
    "cst": null,
    "dpi": 72,
@@ -1501,7 +1501,7 @@
   },
   "blob": {
    "@": "scene",
-   "@id": "<id>",
+   "@id": "id73",
    "lmd": null,
    "dictionary": {
     "entries": []
@@ -1522,7 +1522,7 @@
    "name": null,
    "lkt": null,
    "plkt": 0,
-   "sref": "<id>",
+   "sref": "<undefined>",
    "_sdf": null,
    "_sbl": "normal",
    "_sfop": 1,
@@ -1633,17 +1633,17 @@
    "textTrf": null,
    "collab": true,
    "Guid": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "collabtext",
-   "@id": "<id>",
+   "@id": "id74",
    "ipfc": false,
    "uf": true,
    "ct": "R",
    "sl": 0,
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id75",
+   "_effId": "id76"
   }
  },
  "ancotext": {
@@ -1715,18 +1715,18 @@
    "Guid": null,
    "atp": null,
    "targetGuid": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "ancotext",
-   "@id": "<id>",
+   "@id": "id77",
    "img": "assets/img/annotation/collaborative-text-annotation.svg",
    "uf": true,
    "ct": "R",
    "sl": 0,
    "plkt": 318,
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id78",
+   "_effId": "id79"
   }
  },
  "imagegrid": {
@@ -1765,13 +1765,13 @@
    "mg": 0.1,
    "off": null,
    "grid": null,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "imagegrid",
-   "@id": "<id>",
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "@id": "id80",
+   "_layId": "id81",
+   "_effId": "id82"
   }
  },
  "imagegrid.images": {
@@ -1812,13 +1812,13 @@
    "bool": 1,
    "scc": true,
    "evenodd": false,
-   "sref": "<id>"
+   "sref": "<undefined>"
   },
   "blob": {
    "@": "Compound Shape",
-   "@id": "<id>",
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "@id": "id83",
+   "_layId": "id84",
+   "_effId": "id85"
   }
  },
  "slice": {
@@ -1855,7 +1855,7 @@
   },
   "blob": {
    "@": "slice",
-   "@id": "<id>"
+   "@id": "id86"
   }
  },
  "GGLBulgePinchEffect": {
@@ -2401,7 +2401,7 @@
   },
   "blob": {
    "@": "ann",
-   "@id": "<id>"
+   "@id": "id87"
   }
  }
 }

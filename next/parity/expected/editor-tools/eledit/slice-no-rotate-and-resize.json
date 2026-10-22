@@ -1,0 +1,216 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:slice"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    null
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      100,
+      150,
+      130
+     ],
+     "trf": null,
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Modify Slice"
+  },
+  "cursor": {
+   "cls": "g-cursor-select-upleft-downright",
+   "css": "url(\"/assets/cursor/select-upleft-downright.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "drawn",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:slice"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       100,
+       80
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select",
+    "css": "url(\"/assets/cursor/select.cur\"), auto"
+   },
+   "hint": null,
+   "focus": "div"
+  },
+  {
+   "label": "rotate-zone",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:slice"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       100,
+       80
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-upleft-downright",
+    "css": "url(\"/assets/cursor/select-upleft-downright.cur\"), auto"
+   },
+   "hint": null,
+   "focus": "div"
+  },
+  {
+   "label": "corner",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:slice"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       100,
+       80
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-upleft-downright",
+    "css": "url(\"/assets/cursor/select-upleft-downright.cur\"), auto"
+   },
+   "hint": null,
+   "focus": "div"
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "slice",
+      "@id": "id4",
+      "x": 100,
+      "y": 100,
+      "w": 150,
+      "h": 130
+     }
+    ],
+    "#": "id5",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "__ids": [
+   "id6",
+   "id7",
+   "id8"
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

@@ -5,6 +5,7 @@ import {
   action,
   behaviour,
   drag,
+  hoverLong,
   insertShapes,
   settle,
   surfaces,
@@ -42,6 +43,31 @@ async function richTree(page: Page): Promise<void> {
 const row = (n: number) => `#left-sidebars .layers .layer-row >> nth=${n}`;
 
 const list: SurfaceSpec[] = [
+  {
+    // The only scenario with scrollbars (prepare() hides them elsewhere):
+    // forty layers overflow the layers list, so the app's own scrollbar
+    // styles (::-webkit-scrollbar rules per theme) show up.
+    id: "layers/scrollbars",
+    covers: ["UI-LAYERS-001", "UI-THEME-004", "UI-SIDEBAR-002"],
+    scrollbars: true,
+    setup: async (page) => {
+      await insertShapes(
+        page,
+        Array.from({ length: 40 }, (_, i) => ({
+          type: "GRectangle" as const,
+          x: 300 + (i % 10) * 60,
+          y: 300 + Math.floor(i / 10) * 60,
+          w: 40,
+          h: 40,
+          select: false,
+        })),
+      );
+      await page.mouse.move(120, 500);
+      await settle(page, 300);
+    },
+    shot: LEFT,
+    dom: false,
+  },
   { id: "layers/empty", covers: LAYERS, shot: LEFT },
   { id: "layers/tree", covers: [...LAYERS, "UI-LAYERS-015"], setup: richTree, shot: LEFT },
   {
@@ -84,8 +110,8 @@ const list: SurfaceSpec[] = [
     covers: ["UI-LAYERS-008", "UI-LAYERS-009"],
     setup: async (page) => {
       await richTree(page);
-      await page.hover(`${row(1)} >> .layer-visibility`);
-      await page.waitForTimeout(1200);
+      // Waits past the tooltip delay for the tooltip to show.
+      await hoverLong(page, `${row(1)} >> .layer-visibility`);
     },
     shot: [...LEFT, ".g-tooltip", ".g-rich-tooltip-container"],
     dom: false,
@@ -151,7 +177,8 @@ const list: SurfaceSpec[] = [
       if (!a || !b) throw new Error("no rows");
       await page.mouse.move(a.x + 60, a.y + a.height / 2);
       await page.mouse.down();
-      await page.waitForTimeout(700);
+      // Shorter than the 500 ms long press, which would open the row menu.
+      await page.waitForTimeout(200);
       await page.mouse.move(b.x + 60, b.y + b.height / 2, { steps: 10 });
       await settle(page, 300);
     },
@@ -211,11 +238,16 @@ const list: SurfaceSpec[] = [
     id: "pages/rename",
     covers: ["UI-PAGES-008"],
     setup: async (page) => {
+      // An infinite canvas has no page rows; a fixed-size document has one.
+      await S.a4Document(page);
       await page.dblclick("#left-sidebars .pages .page-row .page-title");
+      // The rename box is an input laid over the row (input.g-auto-edit).
+      await page.locator("input.g-auto-edit").waitFor();
       await settle(page, 300);
       await page.keyboard.type("Cover");
     },
     shot: LEFT,
+    dom: [...LEFT, "input.g-auto-edit"],
   },
   {
     id: "pages/locked-hidden",
@@ -276,7 +308,17 @@ const list: SurfaceSpec[] = [
       await S.rect(page);
       await page.click("#left-sidebars .toolbar-export button:has(.gravit-icon-plus)");
       await settle(page, 200);
-      await page.locator("#left-sidebars .export-panel input").first().click();
+      // The arrow next to the size box opens the preset list.
+      await page
+        .locator(
+          "#left-sidebars .export-panel .export-properties-row button:has(.gravit-icon-down)",
+        )
+        .first()
+        .click();
+      await page
+        .locator(".g-overlay:visible, ul.g-menu:not(.g-menu-root):visible")
+        .first()
+        .waitFor();
       await settle(page, 400);
     },
     shot: ["#left-sidebars .export-panel", ".g-overlay", "ul.g-menu:not(.g-menu-root)"],
@@ -391,19 +433,66 @@ const scenarios: Scenario[] = [
       ),
     );
   }),
+  behaviour("export/size-preset-picked", ["UI-FIELD-050", "UI-FIELD-162"], async (page) => {
+    await S.rect(page);
+    await page.click("#left-sidebars .toolbar-export button:has(.gravit-icon-plus)");
+    await settle(page, 200);
+    const out: unknown[] = [];
+    for (const preset of ["0.5x", "512w"]) {
+      await page
+        .locator(
+          "#left-sidebars .export-panel .export-properties-row button:has(.gravit-icon-down)",
+        )
+        .first()
+        .click();
+      const menu = page.locator("ul.g-menu:not(.g-menu-root):visible");
+      const presets = await menu.locator("li > .g-menu-item-caption").allTextContents();
+      await menu
+        .locator("li.g-menu-item", {
+          has: page.locator(`:scope > .g-menu-item-caption:text-is("${preset}")`),
+        })
+        .click();
+      await settle(page);
+      out.push({
+        presets,
+        box: await page
+          .locator("#left-sidebars .export-panel input[type=text]")
+          .first()
+          .inputValue(),
+        stored: await page.evaluate(
+          () =>
+            (
+              window as unknown as {
+                __parity: {
+                  app: { selection(): { getProperty(k: string, custom: boolean): unknown }[] };
+                };
+              }
+            ).__parity.app
+              .selection()[0]
+              ?.getProperty("__export", true) ?? null,
+        ),
+      });
+    }
+    return out;
+  }),
   behaviour("export/rows-stored", ["UI-FIELD-049", "UI-STORAGE-015"], async (page) => {
     await S.rect(page);
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       await page.click("#left-sidebars .toolbar-export button:has(.gravit-icon-plus)");
       await settle(page, 200);
     }
+    const rows = await page.locator("#left-sidebars .export-panel .export-properties-row").count();
+    if (rows !== 5) throw new Error(`expected 5 export rows, found ${rows}`);
     return page.evaluate(() => {
       const { app } = (
         window as unknown as {
-          __parity: { app: { selection(): { getProperty(k: string): unknown }[] } };
+          __parity: {
+            app: { selection(): { getProperty(k: string, custom: boolean): unknown }[] };
+          };
         }
       ).__parity;
-      return JSON.parse(JSON.stringify(app.selection()[0]?.getProperty("__export") ?? null));
+      // The panel writes the rows as a custom property of the element.
+      return app.selection()[0]?.getProperty("__export", true) ?? null;
     });
   }),
 ];

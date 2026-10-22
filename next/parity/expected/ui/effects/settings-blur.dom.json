@@ -5,6 +5,9 @@
    "properties-panel",
    "effects-properties-panel"
   ],
+  "attrs": {
+   "style": ""
+  },
   "children": [
    {
     "tag": "div",
@@ -183,6 +186,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 75%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -214,13 +220,19 @@
                           "cls": [
                            "g-input-slider-thumb",
                            "generic"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "left: 10%;"
+                          }
                          },
                          {
                           "tag": "div",
                           "cls": [
                            "g-input-slider-background"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "width: 10%;"
+                          }
                          }
                         ]
                        }
@@ -235,6 +247,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 25%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -270,6 +285,9 @@
                 "children": [
                  {
                   "tag": "label",
+                  "attrs": {
+                   "style": "width: 75%;"
+                  },
                   "children": [
                    {
                     "tag": "span",
@@ -278,7 +296,10 @@
                   ]
                  },
                  {
-                  "tag": "label"
+                  "tag": "label",
+                  "attrs": {
+                   "style": "width: 25%;"
+                  }
                  }
                 ]
                }
@@ -302,6 +323,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 25%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -344,6 +368,9 @@
                 "children": [
                  {
                   "tag": "label",
+                  "attrs": {
+                   "style": "width: 25%;"
+                  },
                   "children": [
                    {
                     "tag": "span",

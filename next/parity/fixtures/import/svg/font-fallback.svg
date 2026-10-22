@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Font families that the app doesn't have under these exact names: the
+     SVG importer asks its font provider for the closest available family
+     (Levenshtein distance, FMT-IMPORT-028). -->
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="200">
+  <text x="10" y="30" font-family="Open San" font-size="20">Near Open Sans</text>
+  <text x="10" y="70" font-family="Robotto" font-size="20">Near Roboto</text>
+  <text x="10" y="110" font-family="Lato Bold" font-size="20">Family with weight</text>
+  <text x="10" y="150" font-family="Times New Roman" font-size="20">Serif system font</text>
+  <text x="10" y="190" font-family="Qwxzv Unknown" font-size="20">Unknown family</text>
+  <text x="180" y="30" font-family="gravit-desiner" font-size="20">Near an imported font</text>
+</svg>

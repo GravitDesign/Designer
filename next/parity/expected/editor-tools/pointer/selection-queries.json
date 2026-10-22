@@ -1,0 +1,123 @@
+{
+ "none": {
+  "has": null,
+  "selection": null,
+  "geometry": null,
+  "paint": null,
+  "path": null,
+  "individual": null
+ },
+ "rect": {
+  "has": true,
+  "selection": [
+   "rectangle"
+  ],
+  "geometry": [
+   100,
+   100,
+   80,
+   60
+  ],
+  "paint": [
+   93,
+   93,
+   94,
+   74
+  ],
+  "path": null,
+  "individual": [
+   "rectangle"
+  ]
+ },
+ "path": {
+  "has": true,
+  "selection": [
+   "path"
+  ],
+  "geometry": [
+   300,
+   100,
+   60,
+   60
+  ],
+  "paint": [
+   299.29337047515617,
+   99.29337047515615,
+   61.41325904968767,
+   61.41325904968768
+  ],
+  "path": "path",
+  "individual": [
+   "path"
+  ]
+ },
+ "pathAndRect": {
+  "has": true,
+  "selection": [
+   "path",
+   "rectangle"
+  ],
+  "geometry": [
+   100,
+   100,
+   260,
+   60
+  ],
+  "paint": [
+   93,
+   93,
+   267.70662952484383,
+   74
+  ],
+  "path": null,
+  "individual": [
+   "path",
+   "rectangle"
+  ]
+ },
+ "groupAndChild": {
+  "has": true,
+  "selection": [
+   "group",
+   "rectangle"
+  ],
+  "geometry": [
+   100,
+   300,
+   140,
+   60
+  ],
+  "paint": [
+   100,
+   300,
+   140,
+   60
+  ],
+  "path": null,
+  "individual": [
+   "rectangle"
+  ]
+ },
+ "group": {
+  "has": true,
+  "selection": [
+   "group"
+  ],
+  "geometry": [
+   100,
+   300,
+   140,
+   60
+  ],
+  "paint": [
+   100,
+   300,
+   140,
+   60
+  ],
+  "path": null,
+  "individual": [
+   "group"
+  ]
+ }
+}

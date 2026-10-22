@@ -3,6 +3,15 @@
  "id": "modify.resetinstance",
  "info": {
   "title": "Reset Instance",
+  "fullTitle": "Reset Instance",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Symbol"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -14,7 +23,11 @@
  },
  "before": {
   "selection": [
-   "symbol:Master"
+   {
+    "node": "symbol:Master",
+    "@id": "id1",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,6 +35,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Duplicate"
@@ -29,26 +43,26 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "symbol",
-       "@id": "id4",
+       "@id": "id5",
        "$": [
         {
          "@": "rectangle",
-         "@id": "id5",
-         "&": "id6",
+         "@id": "id6",
+         "&": "id7",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -66,43 +80,43 @@
          "_sdf": 107,
          "_layers": {
           "@": "paintLayers",
-          "@id": "id7",
+          "@id": "id8",
           "$": [
            {
             "@": "fillPaintLayer",
-            "@id": "id8",
-            "&": "id9",
+            "@id": "id9",
+            "&": "id10",
             "_pt": "C#[235,235,235]"
            }
           ],
-          "&": "id10"
+          "&": "id11"
          },
-         "_effId": "id11"
+         "_effId": "id12"
         }
        ],
-       "#": "id12",
-       "&": "id13",
+       "#": "id13",
+       "&": "id14",
        "frame": [
         100,
         100,
         80,
         50
        ],
-       "masterRef": "id12",
-       "masterMultiRef": "id13",
+       "masterRef": "id13",
+       "masterMultiRef": "id14",
        "dsb": [],
        "sbl": [],
        "name": "Master",
-       "_effId": "id14"
+       "_effId": "id15"
       },
       {
        "@": "symbol",
-       "@id": "id15",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
          "@id": "id16",
-         "&": "id6",
+         "&": "id7",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -125,29 +139,29 @@
            {
             "@": "fillPaintLayer",
             "@id": "id18",
-            "&": "id9",
+            "&": "id10",
             "_pt": "C#[235,235,235]"
            }
           ],
-          "&": "id10"
+          "&": "id11"
          },
-         "_effId": "id11"
+         "_effId": "id12"
         }
        ],
        "#": "id19",
-       "&": "id13",
+       "&": "id14",
        "frame": [
         100,
         100,
         80,
         50
        ],
-       "masterRef": "id12",
-       "masterMultiRef": "id13",
+       "masterRef": "id13",
+       "masterMultiRef": "id14",
        "dsb": [],
        "sbl": [],
        "name": "Master",
-       "_effId": "id14"
+       "_effId": "id15"
       }
      ],
      "#": "id20",
@@ -550,7 +564,7 @@
    ],
    "lmd": "<time>",
    "_links": {
-    "rid12": [
+    "id13": [
      "id102"
     ]
    },
@@ -584,7 +598,7 @@
    "symbolDictionary": {
     "entries": [
      {
-      "uuid": "id13",
+      "uuid": "id14",
       "value": null,
       "references": 1
      }
@@ -592,10 +606,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "symbol:Master"
+   {
+    "node": "symbol:Master",
+    "@id": "id1",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -603,6 +620,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Duplicate"
@@ -612,6 +630,15 @@
  },
  "infoAfter": {
   "title": "Reset Instance",
+  "fullTitle": "Reset Instance",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Symbol"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,

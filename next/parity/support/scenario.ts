@@ -45,8 +45,19 @@ export interface Scenario<A = unknown> {
   /** Runs in Node and drives the page (pointer, keyboard, screenshots). */
   driver?: (context: ScenarioContext, args: A) => Promise<unknown>;
   args?: A;
+  /**
+   * File the scenario loads (path from next/, gzip or plain JSON). Its ids
+   * are kept unchanged in "document" output instead of being renamed, so a
+   * new app that regenerates ids on load or save shows up as a difference.
+   */
+  keepIdsOf?: string | ((args: A) => string);
   /** Keys dropped from a document before comparing (compared elsewhere). */
   dropKeys?: readonly string[];
+  /**
+   * Run in a browser of its own instead of the worker's, for outputs that
+   * depend on state the browser keeps across pages (WebGL rasterization).
+   */
+  freshBrowser?: boolean;
   /** Milliseconds; defaults to the Playwright test timeout. */
   timeout?: number;
   /** File extension of the expected file, e.g. ".pdf" for kind "bytes". */

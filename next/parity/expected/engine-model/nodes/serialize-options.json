@@ -1,4 +1,114 @@
 {
+ "plain": {
+  "@": "group",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "rectangle",
+    "@id": "id2",
+    "uf": true,
+    "ct": "R",
+    "sl": 0,
+    "trf": [
+     5,
+     0,
+     0,
+     5,
+     5,
+     5
+    ],
+    "name": "R",
+    "_layId": "id3",
+    "_effId": "id4"
+   },
+   {
+    "@": "ellipse",
+    "@id": "id5",
+    "trf": [
+     5,
+     0,
+     0,
+     5,
+     10,
+     10
+    ],
+    "_layId": "id6",
+    "_effId": "id7"
+   }
+  ],
+  "_effId": "id8"
+ },
+ "copy": {
+  "@": "group",
+  "$": [
+   {
+    "@": "rectangle",
+    "uf": true,
+    "ct": "R",
+    "sl": 0,
+    "trf": [
+     5,
+     0,
+     0,
+     5,
+     5,
+     5
+    ],
+    "name": "R",
+    "_layId": "id3",
+    "_effId": "id4"
+   },
+   {
+    "@": "ellipse",
+    "trf": [
+     5,
+     0,
+     0,
+     5,
+     10,
+     10
+    ],
+    "_layId": "id6",
+    "_effId": "id7"
+   }
+  ],
+  "_effId": "id8"
+ },
+ "array": [
+  {
+   "@": "rectangle",
+   "@id": "id2",
+   "uf": true,
+   "ct": "R",
+   "sl": 0,
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    5,
+    5
+   ],
+   "name": "R",
+   "_layId": "id3",
+   "_effId": "id4"
+  },
+  {
+   "@": "ellipse",
+   "@id": "id5",
+   "trf": [
+    5,
+    0,
+    0,
+    5,
+    10,
+    10
+   ],
+   "_layId": "id6",
+   "_effId": "id7"
+  }
+ ],
+ "beautified": "{\n    \"@\": \"rectangle\",\n    \"@id\": \"id2\",\n    \"uf\": true,\n    \"ct\": \"R\",\n    \"sl\": 0,\n    \"trf\": [\n        5,\n        0,\n        0,\n        5,\n        5,\n        5\n    ],\n    \"name\": \"R\",\n    \"_layId\": \"id3\",\n    \"_effId\": \"id4\"\n}",
  "idLength": 6,
  "idChars": true,
  "plainKeys": [
@@ -46,6 +156,7 @@
    "_effId"
   ]
  ],
+ "custom": "<undefined>",
  "arrayNames": [
   "rectangle",
   "ellipse"

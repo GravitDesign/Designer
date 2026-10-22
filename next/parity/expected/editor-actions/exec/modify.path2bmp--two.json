@@ -3,6 +3,14 @@
  "id": "modify.path2bmp",
  "info": {
   "title": "Flatten",
+  "fullTitle": "Flatten",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify"
+  ],
+  "group": "structure-bitmap",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,8 +22,16 @@
  },
  "before": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -23,27 +39,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id3",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id4",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id5",
+       "pgid": "id4",
+       "aid": "id5"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -61,21 +78,21 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id6",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id7"
+        "&": "id8"
        },
-       "_effId": "id8"
+       "_effId": "id9"
       },
       {
        "@": "rectangle",
-       "@id": "id9",
+       "@id": "id2",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -535,10 +552,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "image"
+   {
+    "node": "image",
+    "@id": "id112",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -546,6 +566,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Flatten"
@@ -553,22 +574,22 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id3",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id4",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id5",
+       "pgid": "id4",
+       "aid": "id5"
       },
       {
        "@": "image",
        "@id": "id112",
-       "url": "dictionary://rid113",
+       "url": "dictionary://id116",
        "iw": 260,
        "ih": 170,
        "pw": 260,
@@ -1022,7 +1043,7 @@
    "dictionary": {
     "entries": [
      {
-      "uuid": "rid113",
+      "uuid": "id116",
       "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQQAAACqCAYAAABLaTEgAAAGIElEQVR4AezWCU4cSRBA0R7uwP0P2IfwIIFKArtRLZmVsbyRsVm6syJfoK95ez6ff3zEMXj4j8BCgbeFz/ZoAgSCCQhCsIUYh8BKAUFYqe/ZBAYKjDhKEEYoOoNAEQFBKLJI1yAwQkAQRig6g0ARAUEoskjXyC0QZXpBiLIJcxAIICAIAZZgBAJRBAQhyibMQSCAgCAEWIIRcgtUml4QKm3TXQhcFBCEi4DeTqCSgCBU2qa7ELgoIAgXAb09t4DpvwsIwncPXxFoLSAIrdfv8gS+CwjCdw9fEWgtIAit15/78qYfLyAI402dSCCtgCCkXZ3BCYwXEITxpk4kkFZAENKuLvfgpo8pIAgx92IqAksEBGEJu4cSiCkgCDH3YioCSwQEYQl77oeavq6AINTdrZsROCwgCIfJvIFAXQFBqLtbNyNwWEAQDpPlfoPpCfwmIAi/6fgZgWYCgtBs4a5L4DcBQfhNx88INBMQhEQLNyqB2QKCMFvY+QQSCQhComUZlcBsAUGYLex8AokEBOGmZXkMgQwCgpBhS2YkcJOAINwE7TEEMggIQoYtmZHATQKCsAPaSwh0ERCELpt2TwI7BARhB5KXEOgiIAhdNu2eBHYIlA/CDgMvIUDgS0AQviD8Q4DA4yEIfgsIENgEBGGj8AmBvwWez+efTh+hg/D3enyHAIGZAoIwU9fZBJIJCEKyhRmXwEwBQZip62wCyQSmBSGZg3EJEPgQEIQPBH8IEPgUEIRPB38TIPAhIAgfCP4QIPAp8M8gfP7I3wQIdBN4e39//89HHINuv4DuG0vA/yHE2odpCCwVEISl/B5OYLLAweMF4SCYlxOoLCAIlbfrbgQOCgjCQTAvJ1BZQBAqb9fdcgssmF4QFqB7JIGoAoIQdTPmIrBAQBAWoHskgagCghB1M+bKLZB0ekFIujhjE5ghIAgzVJ1JIKmAICRdnLEJzBAQhBmqzswt0Hh6QWi8fFcn8FNAEH6K+JpAYwFBaLx8VyfwU0AQfor4OreA6S8JCMIlPm8mUEtAEGrt020IXBIQhEt83kygloAg1Npn7tuYfrmAICxfgQEIxBEQhDi7MAmB5QKCsHwFBiAQR0AQ4uwi9ySmLyEgCCXW6BIExggIwhhHpxAoISAIJdboEgTGCAjCGMfcp5iewJeAIHxB+IcAgcdDEPwWECCwCQjCRuETAgQEIfvvgPkJDBQQhIGYjiKQXUAQsm/Q/AQGCgjCQExHEcguIAgrN+jZBIIJCEKwhRiHwEoBQVip79kEggkIQrCFGIfASgFBOKvvfQQKCghCwaW6EoGzAoJwVs77CBQUEISCS3UlAmcFegbhrJb3ESguIAjFF+x6BI4ICMIRLa8lUFxAEIov2PUIHBHIF4Qjt/NaAgQOCQjCIS4vJlBbQBBq79ftCBwSEIRDXF5MoLbAvUGobel2BNILCEL6FboAgXECgjDO0kkE0gsIQvoVugCBcQL7gzDumU4iQCCogCAEXYyxCKwQEIQV6p5JIKiAIARdjLEIzBN4fbIgvLbxEwLtBASh3cpdmMBrAUF4beMnBNoJCEK7lbtwboG50wvCXF+nE0glIAip1mVYAnMFBGGur9MJpBIQhFTrMmxugfjTC0L8HZmQwG0CgnAbtQcRiC8gCPF3ZEICtwkIwm3UHpRboMf0gtBjz25JYJeAIOxi8iICPQQEocee3ZLALgFB2MXkRbkFTL9XQBD2SnkdgQYCgtBgya5IYK+AIOyV8joCDQQEocGSc1/R9HcKCMKd2p5FILiAIARfkPEI3CkgCHdqexaB4AKCEHxBucczfTYBQci2MfMSmCggCBNxHU0gm4AgZNuYeQlMFBCEibi5jzZ9RwFB6Lh1dybwQkAQXsD4NoGOAoLQcevuTOCFgCC8gMn9bdMTOCcgCOfcvItASQFBKLlWlyJwTkAQzrl5F4GSAoIQbq0GIrBOQBDW2XsygXACghBuJQYisE5AENbZezKBcAKCMHQlDiOQW0AQcu/P9ASGCgjCUE6HEcgtIAi592d6AkMFBGHj9AkBAoLgd4AAgU1AEDYKnxAgIAh+BwgQ2ASKBGG7j08IELgg8D8AAAD//zWdzWQAAAAGSURBVAMA/otyc+m+xWkAAAAASUVORK5CYII=",
       "references": 1
      }
@@ -1035,6 +1056,14 @@
  },
  "infoAfter": {
   "title": "Flatten",
+  "fullTitle": "Flatten",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify"
+  ],
+  "group": "structure-bitmap",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -1046,8 +1075,16 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1055,6 +1092,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1065,7 +1103,11 @@
  },
  "afterRedo": {
   "selection": [
-   "image"
+   {
+    "node": "image",
+    "@id": "id112",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1073,6 +1115,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Flatten"

@@ -1,0 +1,161 @@
+[
+  {
+    "id": "ea-duplicate-keeps-originals-selected",
+    "covers": ["EDT-DUP-001"],
+    "scenarios": [
+      "editor-actions/exec/edit.duplicate",
+      "editor-actions/shortcuts/edit",
+      "editor-actions/clipboard/keyboard"
+    ],
+    "patch": {
+      "old": "const proto = app.require(53).GEditor.prototype; const clone = proto.cloneSelection; proto.cloneSelection = function () { const keep = (this.getSelection() || []).slice(); const out = clone.apply(this, arguments); this.updateSelection(false, keep); return out; };"
+    }
+  },
+  {
+    "id": "ea-crop-confirm-noop",
+    "covers": ["ACT-MODIFY-005", "EDT-CROP-005"],
+    "scenarios": ["editor-actions/exec/modify.crop"],
+    "patch": {
+      "old": "app.designer.getAction('modify.crop').execute = function () {};"
+    }
+  },
+  {
+    "id": "ea-crop-cancel-keeps-crop",
+    "covers": ["ACT-MODIFY-006", "EDT-CROP-006"],
+    "scenarios": [
+      "editor-actions/exec/modify.cancel-crop",
+      "editor-actions/context-menu/crop-menu"
+    ],
+    "patch": {
+      "old": "app.designer.getAction('modify.cancel-crop').execute = function () { const t = app.require(53); const tm = app.designer.getToolManager(); if (tm.getActiveTool() instanceof t.GSelectTool) tm.getActiveTool().setEditMode(t.GSelectTool.EditMode.Select); };"
+    }
+  },
+  {
+    "id": "ea-shortcuts-dialog-hints",
+    "covers": ["ACT-KEY-037"],
+    "scenarios": ["editor-actions/dialogs/help.shortcuts"],
+    "patch": {
+      "old": "const A = app.require(31); const hint = A.prototype.getShortcutHint; A.prototype.getShortcutHint = function (o) { return o && o.isWordMode ? 'X' : hint.apply(this, arguments); };"
+    }
+  },
+  {
+    "id": "ea-copy-event-without-xml",
+    "covers": ["EDT-CLIP-001", "EDT-CLIP-003"],
+    "scenarios": ["editor-actions/clipboard/keyboard"],
+    "patch": {
+      "old": "for (const id of ['edit.copy', 'edit.cut']) { const a = app.designer.getAction(id); const orig = a._copySelectionToClipboard; a._copySelectionToClipboard = function (e, t) { if (t && t.clipboardData) { const set = t.clipboardData.setData.bind(t.clipboardData); t.clipboardData.setData = function (type, data) { if (type !== 'text/xml') set(type, data); }; } return orig.call(this, e, t); }; }"
+    }
+  },
+  {
+    "id": "ea-paste-ignores-gravit-xml",
+    "covers": ["EDT-CLIP-008", "EDT-CLIP-009"],
+    "scenarios": ["editor-actions/clipboard/keyboard", "editor-actions/clipboard/paste-events"],
+    "patch": {
+      "old": "const paste = app.designer.getPaste(); const handle = paste._handlePasteData; paste._handlePasteData = function (d) { if (d && typeof d['text/xml'] === 'string' && d['text/xml'].indexOf('<gravit') === 0) return; return handle.apply(this, arguments); };"
+    }
+  },
+  {
+    "id": "ea-eyedropper-border-noop",
+    "covers": ["ACT-KEY-002"],
+    "scenarios": ["editor-actions/layers/panel-keys"],
+    "patch": {
+      "old": "app.designer.getAction('edit.eyedropper.border').execute = function () {};"
+    }
+  },
+  {
+    "id": "ea-undo-in-field-undoes-document",
+    "covers": ["EDT-UNDO-009"],
+    "scenarios": ["editor-actions/undo/in-text-input"],
+    "patch": {
+      "old": "app.designer.getAction('edit.undo').execute = function () { app.designer.getActiveDocument().getEditor().undoState(); };"
+    }
+  },
+  {
+    "id": "ea-selection-handles-not-hidden",
+    "covers": ["ACT-VIEW-031"],
+    "scenarios": ["editor-actions/extras/selection-handles-hidden"],
+    "patch": {
+      "old": "app.require(53).GEditor.prototype.hideSelection = function () {};"
+    }
+  },
+  {
+    "id": "ea-mac-meta-is-control",
+    "covers": ["ACT-KEY-027"],
+    "scenarios": ["editor-actions/shortcuts/mac"],
+    "patch": {
+      "old": "const K = app.require(15).GKey; const short = K.toLocalizedShort; K.toLocalizedShort = function (k) { return k === K.Constant.META || k === K.Constant.COMMAND ? 'Ctrl' : short.apply(this, arguments); };"
+    }
+  },
+  {
+    "id": "ea-two-stroke-no-window",
+    "covers": ["ACT-KEY-029"],
+    "scenarios": ["editor-actions/shortcuts/compound", "editor-actions/shortcuts/joint-type"],
+    "patch": {
+      "old": "app.require(31).SHORTCUT_DELAY = 0;"
+    }
+  },
+  {
+    "id": "ea-opacity-digits-ignored",
+    "covers": ["ACT-KEY-004"],
+    "scenarios": ["editor-actions/shortcuts/opacity"],
+    "patch": {
+      "old": "const a = app.designer.getAction('edit.change-opacity'); a._getOpacityLevel = function () { return 1; };"
+    }
+  },
+  {
+    "id": "ea-debug-export-off",
+    "covers": ["EDT-UNDO-011"],
+    "scenarios": ["editor-actions/extras/debug-export-and-copy-exclusion"],
+    "patch": {
+      "old": "app.require(53).GEditor.prototype.exportStates = function () { return null; };"
+    }
+  },
+  {
+    "id": "ea-copy-exclusion-ignored",
+    "covers": ["EDT-CLIP-021"],
+    "scenarios": ["editor-actions/extras/debug-export-and-copy-exclusion"],
+    "patch": {
+      "old": "const ser = G.GNode.serialize; G.GNode.serialize = function (n, o) { if (o && o.copyIgnoreProperties) o = Object.assign({}, o, { copyIgnoreProperties: null }); return ser.call(this, n, o); };"
+    }
+  },
+  {
+    "id": "ea-swatch-drag-without-pattern",
+    "covers": ["EDT-DND-011"],
+    "scenarios": ["editor-actions/dnd/fill-swatch-drag"],
+    "patch": {
+      "old": "const set = DataTransfer.prototype.setData; DataTransfer.prototype.setData = function (t) { if (t === 'application/gravit+pattern') return; return set.apply(this, arguments); };"
+    }
+  },
+  {
+    "id": "ea-touch-drag-polyfill-missing",
+    "covers": ["EDT-DND-012"],
+    "scenarios": ["editor-actions/dnd/touch-swatch-drag"],
+    "patch": {
+      "old": "window.addEventListener('touchmove', function (e) { e.stopPropagation(); }, true);"
+    }
+  },
+  {
+    "id": "ea-go-to-master-no-fit",
+    "covers": ["EDT-SYMBOL-008"],
+    "scenarios": ["editor-actions/symbols/touch-go-to-master-instance-selected"],
+    "patch": {
+      "old": "app.designer.getAction('view.zoom.fit-selection').execute = function () {};"
+    }
+  },
+  {
+    "id": "ea-pages-collide",
+    "covers": ["ADD-SCENE-002"],
+    "scenarios": ["editor-actions/extras/page-resize-overlap"],
+    "patch": {
+      "old": "const P = G.GPage.prototype; const set = P.setProperties; P.setProperties = function (k, v) { const out = set.apply(this, arguments); if (k.indexOf('w') >= 0 && this.getProperty('name') === 'P1') { const s = this.getScene(); const next = s && s.getChildren().find((n) => n instanceof G.GPage && n !== this); if (next) next.setProperty('off', next.getProperty('off').translated(600, 0)); } return out; };"
+    }
+  },
+  {
+    "id": "ea-selection-identity",
+    "covers": ["EDT-CLIP-010"],
+    "scenarios": ["editor-actions/exec/paste.paste", "editor-actions/clipboard/keyboard"],
+    "patch": {
+      "old": "const paste = app.designer.getPaste(); const handle = paste._handlePasteData; paste._handlePasteData = function () { const ed = app.designer.getActiveDocument().getEditor(); const keep = (ed.getSelection() || []).slice(); const out = handle.apply(this, arguments); if (keep.length) ed.updateSelection(false, keep); return out; };"
+    }
+  }
+]

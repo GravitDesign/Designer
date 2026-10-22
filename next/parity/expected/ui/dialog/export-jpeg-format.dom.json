@@ -194,7 +194,8 @@
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "jpeg-quality"
+           "data-setting": "jpeg-quality",
+           "style": ""
           },
           "children": [
            {
@@ -209,6 +210,9 @@
             "cls": [
              "control"
             ],
+            "attrs": {
+             "style": "width: 55%; height: 100%; display: flex; justify-content: center;"
+            },
             "children": [
              {
               "tag": "div",
@@ -224,7 +228,8 @@
                 ],
                 "attrs": {
                  "min": "25",
-                 "max": "100"
+                 "max": "100",
+                 "style": "align-self: center;"
                 },
                 "children": [
                  {
@@ -239,13 +244,19 @@
                     "cls": [
                      "g-input-slider-thumb",
                      "generic"
-                    ]
+                    ],
+                    "attrs": {
+                     "style": "left: 89.3333%;"
+                    }
                    },
                    {
                     "tag": "div",
                     "cls": [
                      "g-input-slider-background"
-                    ]
+                    ],
+                    "attrs": {
+                     "style": "width: 89.3333%;"
+                    }
                    }
                   ]
                  }
@@ -316,6 +327,9 @@
                  },
                  {
                   "tag": "option",
+                  "attrs": {
+                   "style": "display: none;"
+                  },
                   "hidden": true
                  }
                 ]
@@ -327,6 +341,9 @@
                  "g-pattern-chooser",
                  "only-picker"
                 ],
+                "attrs": {
+                 "style": "display: none;"
+                },
                 "hidden": true
                }
               ]
@@ -338,63 +355,72 @@
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "color-space"
+           "data-setting": "color-space",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "ignore-effects"
+           "data-setting": "ignore-effects",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "decimal-places-precision"
+           "data-setting": "decimal-places-precision",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "convert-text-to-path"
+           "data-setting": "convert-text-to-path",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "export-all"
+           "data-setting": "export-all",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "layer-as-id"
+           "data-setting": "layer-as-id",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "export-preserve-editing-capabilities"
+           "data-setting": "export-preserve-editing-capabilities",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "do-not-downsample-images"
+           "data-setting": "do-not-downsample-images",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "storage-destination"
+           "data-setting": "storage-destination",
+           "style": "display: none;"
           },
           "hidden": true
          }
@@ -414,6 +440,9 @@
          "preview-image",
          "content"
         ],
+        "attrs": {
+         "style": "background: url(data:(309 chars));"
+        },
         "children": [
          {
           "tag": "img",

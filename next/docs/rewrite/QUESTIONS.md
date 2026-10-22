@@ -14,12 +14,21 @@ languages come from gApi.fetchTranslationsURL (module 1037) and the server's
 /i18n-url route returns {}. The language switch action (module 1620) is never
 registered.
 
-The old app lists 15 locales but only ever shows English, and no translated
-strings exist anywhere in the repo. The new app keeps the 15-entry language
-table, the same lookup by locale key and English as the only string table.
-Locale screenshots in the parity suite therefore compare English in both apps,
-with each of the 15 language codes set. If translation files turn up, they
-can be dropped into `next/src/locale/` without code changes.
+The app's own strings (menus, panels, dialogs) are English only: no other
+translations of the Designer project exist in the repo, and the `language`
+setting is ignored. The engine's own tables (chunk.vendor.js modules 885/941)
+do hold translations for engine strings, and the engine picks them from
+`navigator.language`: with a German, Japanese or Chinese browser the library's
+"Load more…" reads "Mehr laden…", "もっと読み込む…", "装载更多…" and
+`GLocale.getLanguage()` returns 1, 12 or 2 (recorded in ui/i18n/browser-* and
+the locale-* screenshot variants). So users see mostly English with a few
+translated engine strings.
+
+The new app keeps exactly that: English app strings, the engine tables for
+all their languages, the language chosen from `navigator.language`, and the
+`language` setting ignored. Whether this mixed state is intended is the open
+question. The parity suite pins the browser to en-US except in the locale
+scenarios, which set the browser language explicitly.
 
 ## Q-002 Language codes differ between client and server
 
@@ -79,5 +88,13 @@ Autosave, version history, templates and recent files only work with the
 cloud backend, which doesn't exist. With the cloud code dropped, the old app
 has no local autosave and no recent-files list that survives a reload. The
 new app keeps that: no new autosave or recent-files persistence is invented.
-The autosave worker is ported so the code path exists, but it is only
-triggered where the old app triggered it.
+
+For a local document the old app's auto-save only ever shows cloud prompts
+("save to cloud", or "enable Auto-Save?" leading there) after a few
+minutes. Those prompts are part of the dropped cloud flow, so the new app
+doesn't show them (parity/scenarios/platform/autosave.spec.ts checks they
+are gone, and that a reload recovers nothing, as before).
+
+Also dropped: the "dev mods" setting (UI-STORAGE-011), which evaluates code
+stored in localStorage against the old webpack module ids and can't work
+with a different build.

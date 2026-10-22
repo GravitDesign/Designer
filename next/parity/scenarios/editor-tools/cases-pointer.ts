@@ -1,3 +1,4 @@
+import type { Scenario } from "../../support/scenario.ts";
 import type { ToolCase } from "./case.ts";
 import type { Fixture } from "./fixture.ts";
 import {
@@ -12,7 +13,9 @@ import {
   move,
   press,
   probe,
+  probeToolChanges,
   shot,
+  shotGuides,
   up,
   wait,
   tool,
@@ -52,7 +55,7 @@ const STACK: Fixture = {
   ],
 };
 
-const SEL = ["EDT-SEL-001", "EDT-SEL-002", "EDT-SEL-003", "EDT-SEL-007"];
+const SEL = ["EDT-SEL-001", "EDT-SEL-003"];
 
 export const pointerCases: ToolCase[] = [
   {
@@ -106,9 +109,7 @@ export const pointerCases: ToolCase[] = [
   {
     id: "pointer/selected-handles-overlay",
     covers: [
-      "EDT-XFORM-007",
       "EDT-SNAP-015",
-      "EDT-VIEW-037",
       "EDT-HANDLE-001",
       "EDT-HANDLE-002",
       "EDT-HANDLE-003",
@@ -269,7 +270,7 @@ export const pointerCases: ToolCase[] = [
     id: "pointer/move-drag-overlay",
     covers: ["EDT-TOOL-009", "EDT-ELEDIT-010", "EDT-GUIDE-005", "EDT-GUIDE-007"],
     fixture: THREE,
-    steps: [down(200, 160), move(220, 170), move(237, 183), shot(60, 60, 500, 380)],
+    steps: [down(200, 160), move(220, 170), move(237, 183), shotGuides(60, 60, 500, 380)],
   },
   {
     id: "pointer/move-shift-constrains",
@@ -291,7 +292,7 @@ export const pointerCases: ToolCase[] = [
   },
   {
     id: "pointer/alt-drag-duplicates",
-    covers: ["EDT-TOOL-011", "EDT-NUDGE-007", "EDT-CURSOR-003"],
+    covers: ["EDT-TOOL-011", "EDT-NUDGE-007"],
     fixture: THREE,
     steps: [
       ...click(200, 160),
@@ -306,25 +307,48 @@ export const pointerCases: ToolCase[] = [
     ],
   },
   {
+    // Meta (Ctrl on Windows) while moving images lets them drop into a
+    // shape: the selection must be images only, and the target a path
+    // based shape (or an image grid) that contains the dragged box or the
+    // pointer. The image ends up as the ellipse's content.
     id: "pointer/meta-drag-into-image-mask",
     covers: ["EDT-TOOL-012"],
     fixture: {
       shapes: [
-        { type: "image", x: 300, y: 100, w: 256, h: 192 },
-        { type: "ellipse", x: 100, y: 120, w: 80, h: 80, fill: [30, 136, 229] },
+        { type: "ellipse", x: 300, y: 100, w: 240, h: 200, fill: [30, 136, 229] },
+        { type: "image", x: 100, y: 120, w: 96, h: 72 },
       ],
     },
     steps: [
-      ...click(140, 160),
-      down(140, 160),
+      ...click(148, 156),
+      down(148, 156),
       move(200, 170),
       keyDown("Control"),
-      move(250, 180),
-      move(400, 200),
-      probe("over-image"),
+      move(300, 190),
+      move(420, 200),
+      probe("over-ellipse"),
       up(),
       keyUp("Control"),
-      wait(100),
+      probe("dropped", true),
+    ],
+  },
+  {
+    // The same drag without Meta only moves the image.
+    id: "pointer/drag-image-over-shape-without-meta",
+    covers: ["EDT-TOOL-012"],
+    fixture: {
+      shapes: [
+        { type: "ellipse", x: 300, y: 100, w: 240, h: 200, fill: [30, 136, 229] },
+        { type: "image", x: 100, y: 120, w: 96, h: 72 },
+      ],
+    },
+    steps: [
+      ...click(148, 156),
+      down(148, 156),
+      move(200, 170),
+      move(300, 190),
+      move(420, 200),
+      up(),
     ],
   },
   {
@@ -395,6 +419,25 @@ export const pointerCases: ToolCase[] = [
       probe("rotating"),
       up(),
       keyUp("Shift"),
+    ],
+  },
+  {
+    // With the size and angle hints switched on (the app turns them off),
+    // resizing shows "w × h" and rotating shows the angle at the cursor.
+    id: "pointer/resize-and-rotate-hints",
+    covers: ["EDT-TOOLMGR-012", "EDT-XFORM-001", "EDT-XFORM-004"],
+    fixture: { ...RED_SELECTED, editorOptions: { sizeTooltip: true, angleTooltip: true } },
+    steps: [
+      down(300, 220),
+      move(320, 240),
+      move(360, 250),
+      probe("resizing"),
+      up(),
+      down(368, 258),
+      move(360, 290),
+      move(300, 330),
+      probe("rotating"),
+      up(),
     ],
   },
   {
@@ -655,9 +698,9 @@ export const pointerCases: ToolCase[] = [
   },
   {
     id: "pointer/alt-distance-guides-overlay",
-    covers: ["EDT-TOOL-022", "EDT-GUIDE-021", "EDT-GUIDE-022", "EDT-EDITOR-008"],
+    covers: ["EDT-TOOL-022", "EDT-GUIDE-021", "EDT-GUIDE-022", "EDT-EDITOR-008", "EDT-VIEW-037"],
     fixture: RED_SELECTED,
-    steps: [move(450, 170), keyDown("Alt"), move(452, 171), shot(80, 80, 440, 160)],
+    steps: [move(450, 170), keyDown("Alt"), move(452, 171), shotGuides(80, 80, 440, 160)],
   },
   {
     id: "pointer/alt-distance-nudge-overlay",
@@ -669,7 +712,7 @@ export const pointerCases: ToolCase[] = [
       move(452, 171),
       press("ArrowRight"),
       press("ArrowRight"),
-      shot(80, 80, 440, 160),
+      shotGuides(80, 80, 440, 160),
     ],
   },
   {
@@ -749,8 +792,10 @@ export const pointerCases: ToolCase[] = [
     fixture: THREE,
     steps: [
       move(600, 500),
+      probeToolChanges("start"),
       keyDown("e"),
       wait(100),
+      probeToolChanges("e-held"),
       ...drag(
         [550, 400],
         [
@@ -760,7 +805,75 @@ export const pointerCases: ToolCase[] = [
       ),
       wait(500),
       keyUp("e"),
-      probe("after"),
+      probeToolChanges("after"),
     ],
+  },
+];
+
+/**
+ * The editor's selection queries for several selections: hasSelection,
+ * getSelection, getSelectionBBox (geometry and paint), getPathSelection
+ * (the single selected path or compound path) and getIndividualSelection
+ * (containers whose selected children are selected too drop out).
+ */
+export const pointerInPage: Scenario[] = [
+  {
+    id: "editor-tools/pointer/selection-queries",
+    covers: ["EDT-SEL-002"],
+    kind: "json",
+    inPage: ({ G, app }) => {
+      const ed = app.editor();
+      const rect = (x: number, y: number, w: number, h: number): unknown => {
+        const r = new G.GRectangle();
+        r.setProperty("trf", new G.GTransform(w / 2, 0, 0, h / 2, x + w / 2, y + h / 2));
+        return r;
+      };
+      const a = rect(100, 100, 80, 60);
+      const path = new G.GPath(false);
+      for (const [x, y] of [
+        [300, 100],
+        [360, 160],
+      ]) {
+        const ap = new G.GPathBase.AnchorPoint();
+        ap.setProperties(["x", "y"], [x, y]);
+        path.getAnchorPoints().appendChild(ap);
+      }
+      const group = new G.GGroup();
+      const b = rect(100, 300, 40, 40);
+      const c = rect(200, 320, 40, 40);
+      group.appendChild(b);
+      group.appendChild(c);
+      ed.insertElements([a, path, group]);
+      // A drop shadow makes the paint box larger than the geometry box.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- engine node
+      (a as any).getEffects().appendChild(new G.GDropShadowEffect());
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- engine objects
+      const box = (r: any): number[] | null =>
+        r ? [r.getX(), r.getY(), r.getWidth(), r.getHeight()] : null;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- engine nodes
+      const names = (list: any[] | null): string[] | null =>
+        list ? list.map((n) => n.getNodeName()) : null;
+      const query = (nodes: unknown[]): unknown => {
+        ed.clearSelection();
+        if (nodes.length > 0) ed.updateSelection(false, nodes);
+        const p = ed.getPathSelection();
+        return {
+          has: ed.hasSelection(),
+          selection: names(ed.getSelection()),
+          geometry: box(ed.getSelectionBBox(true)),
+          paint: box(ed.getSelectionBBox(false)),
+          path: p ? p.getNodeName() : null,
+          individual: names(ed.getIndividualSelection()),
+        };
+      };
+      return {
+        none: query([]),
+        rect: query([a]),
+        path: query([path]),
+        pathAndRect: query([path, a]),
+        groupAndChild: query([group, b]),
+        group: query([group]),
+      };
+    },
   },
 ];

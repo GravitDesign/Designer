@@ -5,6 +5,9 @@
    "properties-panel",
    "effects-properties-panel"
   ],
+  "attrs": {
+   "style": ""
+  },
   "children": [
    {
     "tag": "div",
@@ -156,7 +159,8 @@
               "tag": "input",
               "attrs": {
                "type": "file",
-               "accept": ".acv"
+               "accept": ".acv",
+               "style": "position: absolute; left: -10000px;"
               }
              },
              {

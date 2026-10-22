@@ -20,6 +20,15 @@
  "id": "modify.simplify",
  "info": {
   "title": "Simplify Path",
+  "fullTitle": "Simplify Path",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -31,7 +40,11 @@
  },
  "before": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -39,27 +52,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -520,7 +534,11 @@
  },
  "after": {
   "selection": [
-   "path"
+   {
+    "node": "path",
+    "@id": "id106",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -528,6 +546,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Simplify Path"
@@ -535,17 +554,17 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "path",
@@ -555,29 +574,29 @@
         [
          "AADIQgAAyEI=",
          "#",
-         "rid107"
+         "id107"
         ],
         [
          "AABIQwAAyEI=",
          "#",
-         "rid108"
+         "id108"
         ],
         [
          "AABIQwAAIEM=",
          "#",
-         "rid109"
+         "id109"
         ],
         [
          "AADIQgAAIEM=",
          "#",
-         "rid110"
+         "id110"
         ]
        ],
        "reftxt": null,
        "refanchors": [],
        "_layers": {
         "@": "paintLayers",
-        "@id": "id107",
+        "@id": "id111",
         "$": [
          {
           "@": "fillPaintLayer",
@@ -585,9 +604,9 @@
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id108"
+        "&": "id112"
        },
-       "_effId": "id109"
+       "_effId": "id113"
       }
      ],
      "#": "id9",
@@ -992,7 +1011,7 @@
    "__ids": [
     "id87",
     "id88",
-    "id110",
+    "id114",
     "id90",
     "id91",
     "id92",
@@ -1020,6 +1039,15 @@
  },
  "infoAfter": {
   "title": "Simplify Path",
+  "fullTitle": "Simplify Path",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -1031,7 +1059,11 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1039,6 +1071,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1049,7 +1082,11 @@
  },
  "afterRedo": {
   "selection": [
-   "path"
+   {
+    "node": "path",
+    "@id": "id106",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1057,6 +1094,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Simplify Path"

@@ -1,0 +1,152 @@
+[
+  {
+    "id": "platform-save-no-preview",
+    "covers": ["FMT-THUMB-002", "RUN-SAVE-006"],
+    "scenarios": [
+      "platform/files/download-fallback",
+      "platform/files/fsa-save",
+      "platform/gvthumb/saved-file",
+      "platform/gvthumb/fsa-saved",
+      "platform/gvthumb/corpus/shapes-rectangles"
+    ],
+    "patch": {
+      "old": "const GDocument = app.require(163); GDocument.prototype.buildPreview = function () { return Promise.reject(new Error('mutation: no preview')); };"
+    }
+  },
+  {
+    "id": "platform-save-stays-modified",
+    "covers": ["RUN-SAVE-005", "FMT-STORAGE-017"],
+    "scenarios": [
+      "platform/files/download-fallback",
+      "platform/files/fsa-save",
+      "platform/files/unsaved-guard"
+    ],
+    "patch": {
+      "old": "const GDocument = app.require(163); GDocument.prototype.isModified = function () { return true; };"
+    }
+  },
+  {
+    "id": "platform-unsaved-guard-off",
+    "covers": ["FMT-STORAGE-017"],
+    "scenarios": ["platform/files/unsaved-guard"],
+    "patch": {
+      "old": "window.onbeforeunload = null;"
+    }
+  },
+  {
+    "id": "platform-open-only-first-file",
+    "covers": ["FMT-STORAGE-005", "FMT-STORAGE-006"],
+    "scenarios": ["platform/files/fsa-open", "platform/files/input-fallback-open"],
+    "patch": {
+      "old": "const d = app.designer; const open = d.openDocument; let calls = 0; d.openDocument = function (...a) { if (calls++ % 2 === 1) return undefined; return open.apply(this, a); };"
+    }
+  },
+  {
+    "id": "platform-recent-files-written",
+    "covers": ["FMT-STORAGE-013", "UI-STORAGE-004"],
+    "scenarios": ["platform/files/recent-files"],
+    "patch": {
+      "old": "const d = app.designer; const open = d.openDocument; d.openDocument = function (...a) { localStorage.setItem('recent_documents', JSON.stringify(['mutation'])); return open.apply(this, a); };"
+    }
+  },
+  {
+    "id": "platform-drop-opens-document",
+    "covers": ["FMT-STORAGE-015"],
+    "scenarios": ["platform/files/window-drop"],
+    "patch": {
+      "old": "window.addEventListener('drop', () => app.designer.newInfiniteDocument(), true);"
+    }
+  },
+  {
+    "id": "platform-tabs-more-button-inert",
+    "covers": ["FMT-STORAGE-016"],
+    "scenarios": ["platform/files/tabs-overflow", "platform/files/tabs-overflow-list"],
+    "patch": {
+      "old": "window.$('.more-button').off('click');"
+    }
+  },
+  {
+    "id": "platform-theme-setting-misread",
+    "covers": ["UI-STORAGE-002", "RUN-STORAGE-001"],
+    "scenarios": ["platform/storage/migration-settings"],
+    "patch": {
+      "old": "const d = app.designer; const get = d.getSetting.bind(d); d.getSetting = (key) => (key === 'theme' ? 'light' : get(key));"
+    }
+  },
+  {
+    "id": "platform-global-swatches-lost",
+    "covers": ["UI-STORAGE-003"],
+    "scenarios": ["platform/storage/migration-swatches-flags"],
+    "patch": {
+      "old": "const d = app.designer; const get = d.getSwatches.bind(d); d.getSwatches = (scope) => (String(scope).startsWith('global') ? [] : get(scope));"
+    }
+  },
+  {
+    "id": "platform-imported-font-unreadable",
+    "covers": ["UI-STORAGE-012", "FMT-GVD-012"],
+    "scenarios": ["platform/storage/migration-fonts"],
+    "patch": {
+      "old": "const get = IDBObjectStore.prototype.get; IDBObjectStore.prototype.get = function (key) { return get.call(this, String(key).startsWith('Mig Fonts') ? '__mutation_missing__' : key); };"
+    }
+  },
+  {
+    "id": "platform-pwa-week-counter-not-stored",
+    "covers": ["FMT-PWA-004", "UI-STORAGE-007"],
+    "scenarios": ["platform/pwa/install-prompt"],
+    "patch": {
+      "old": "const set = Storage.prototype.setItem; Storage.prototype.setItem = function (key, value) { if (key === 'pwa.show-install-dialog-3-times-a-week') return undefined; return set.call(this, key, value); };"
+    }
+  },
+  {
+    "id": "platform-cloud-autosave-prompt-gone",
+    "covers": ["FMT-AUTOSAVE-003", "FMT-AUTOSAVE-004"],
+    "scenarios": ["platform/autosave/enabled-local-document"],
+    "patch": {
+      "old": "app.require(1276).prototype._showSyncDialog = function () {};"
+    }
+  },
+  {
+    "id": "platform-dev-mod-buttons-gone",
+    "covers": ["UI-STORAGE-011"],
+    "scenarios": ["platform/dropped/dev-mods"],
+    "patch": {
+      "old": "for (const e of document.querySelectorAll('.custom_codes_button')) e.remove();"
+    }
+  },
+  {
+    "id": "electron-window-min-size",
+    "target": "electron-main",
+    "covers": ["FMT-ELECTRON-004"],
+    "scenarios": ["electron/window"],
+    "patch": {
+      "old": "app.on('browser-window-created', (_event, w) => setTimeout(() => w.setMinimumSize(640, 480), 0));"
+    }
+  },
+  {
+    "id": "electron-application-menu-set",
+    "target": "electron-main",
+    "covers": ["FMT-ELECTRON-005", "ACT-MENU-010"],
+    "scenarios": ["electron/window"],
+    "patch": {
+      "old": "const { Menu } = require('electron'); app.on('browser-window-created', () => setTimeout(() => Menu.setApplicationMenu(Menu.buildFromTemplate([{ label: 'Mutation' }])), 0));"
+    }
+  },
+  {
+    "id": "electron-no-single-instance-lock",
+    "target": "electron-main",
+    "covers": ["FMT-ELECTRON-003"],
+    "scenarios": ["electron/single-instance"],
+    "patch": {
+      "old": "app.requestSingleInstanceLock = () => true;"
+    }
+  },
+  {
+    "id": "electron-random-port",
+    "target": "electron-main",
+    "covers": ["FMT-ELECTRON-002"],
+    "scenarios": ["electron/window", "electron/settings-persist", "electron/port-in-use"],
+    "patch": {
+      "old": "const http = require('http'); const listen = http.Server.prototype.listen; http.Server.prototype.listen = function (port, ...rest) { return listen.call(this, port === 47823 ? 0 : port, ...rest); };"
+    }
+  }
+]

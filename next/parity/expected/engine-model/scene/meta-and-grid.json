@@ -43,6 +43,7 @@
    "Axonometric": "axo"
   }
  },
+ "hasGrid": "<undefined>",
  "fixedSized": 600,
  "transformSettings": {
   "borderScale": null,
@@ -90,11 +91,11 @@
  },
  "blob": {
   "@": "scene",
-  "@id": "<id>",
+  "@id": "id1",
   "$": [
    {
     "@": "page",
-    "@id": "<id>",
+    "@id": "id2",
     "off": [],
     "name": "Page 1"
    }
@@ -115,7 +116,9 @@
   "vgl": [
    5
   ],
-  "__ids": "<id>",
+  "__ids": [
+   "id3"
+  ],
   "dictionary": {
    "entries": []
   },
@@ -125,11 +128,11 @@
  },
  "blobSave": {
   "@": "scene",
-  "@id": "<id>",
+  "@id": "id1",
   "$": [
    {
     "@": "page",
-    "@id": "<id>",
+    "@id": "id2",
     "off": [],
     "name": "Page 1"
    }
@@ -150,7 +153,9 @@
   "vgl": [
    5
   ],
-  "__ids": "<id>",
+  "__ids": [
+   "id3"
+  ],
   "dictionary": {
    "entries": []
   },

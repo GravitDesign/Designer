@@ -24,4 +24,26 @@ export interface CorpusHooks {
   fontsReady(): boolean;
   /** The active view has no scheduled repaint and no queued tile render. */
   viewIdle(): boolean;
+  /**
+   * Saves the active document with the app's own save code (File >
+   * Download File, action file.save-as.gvdesign) and resolves with the
+   * bytes of the file that save writes, base64 encoded. The bytes must come
+   * out of the real save path, never be built some other way: the compat
+   * scenarios open them in the old app to prove that files saved by the
+   * new app open the same there (parity/scenarios/compat).
+   */
+  saveDocumentBytes(timeout?: number): Promise<string>;
+  /**
+   * Opens `base64` as a file named `fileName` through the app's own open
+   * path (File > Open Local File, action file.open, which reads the chosen
+   * File), then waits like waitForDocument for the title (`fileName`
+   * without ".gvdesign").
+   */
+  openDocumentBytes(base64: string, fileName: string): Promise<void>;
+  /**
+   * Every open document in tab order: its title, its load state ("ready"
+   * once loaded and shown, "loading" while the file is still being read or
+   * when reading it failed, "loaded" in between) and whether it has a scene.
+   */
+  documentStates(): { title: string; status: string; hasScene: boolean }[];
 }

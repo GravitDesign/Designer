@@ -3,6 +3,14 @@
  "id": "modify.path2bmp",
  "info": {
   "title": "Flatten",
+  "fullTitle": "Flatten",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify"
+  ],
+  "group": "structure-bitmap",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +22,11 @@
  },
  "before": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,27 +34,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -507,10 +520,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "image"
+   {
+    "node": "image",
+    "@id": "id107",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -518,6 +534,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Flatten"
@@ -525,22 +542,22 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "image",
        "@id": "id107",
-       "url": "dictionary://rid108",
+       "url": "dictionary://id111",
        "iw": 104,
        "ih": 64,
        "pw": 104,
@@ -994,7 +1011,7 @@
    "dictionary": {
     "entries": [
      {
-      "uuid": "rid108",
+      "uuid": "id111",
       "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGgAAABACAYAAAD24zL6AAABiklEQVR4AeyTUYoCMRBEw55hvf8B3Tu4+tfMNEalii7kCYFMjJXyvcnPWrcbI5fBXdDiE0wAQcFyHtUQ9KAQPE6Crte/xZhjcHxXToKOG3ieJYCgWf7b0xG0RTS7AUGz/LenI2iL6JMNut8gSMfSkoQgC1ZdKIJ0LC1JCLJg1YUiSMfSkoQgC1ZdKIJ0LC1JCLJg1YUiSMfSkoSggjVxiqBEK6UTggqMxCmCEq2UTggqMBKnCEq0UjohqMBInCIo0UrphKACI3GKoEQrpdMXCCr/5gunCAqXiiAEhRMIr8cNQlA4gfB63CAEhRMIr8cNQlA4gfB6YzconEtMPQTFqOiLIKjnErOKoBgVfREE9VxiVhEUo6IvgqCeS8wqgmJU9EUQ1HOJWUVQjIq+yJuC+hBWfQQQ5GMrSUaQBKMvBEE+tpJkBEkw+kIQ5GMrSUaQBKMvBEE+tpJkBEkw+kIQ5GP7evKTnQh6Aifhq5Ogy+V3MeYYHF+Kk6DjBp5nCSBolv/2dARtEc1u+AcAAP//BqEiXQAAAAZJREFUAwAZ3O/AXWKSvAAAAABJRU5ErkJggg==",
       "references": 1
      }
@@ -1007,6 +1024,14 @@
  },
  "infoAfter": {
   "title": "Flatten",
+  "fullTitle": "Flatten",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify"
+  ],
+  "group": "structure-bitmap",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -1018,7 +1043,11 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1026,6 +1055,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1036,7 +1066,11 @@
  },
  "afterRedo": {
   "selection": [
-   "image"
+   {
+    "node": "image",
+    "@id": "id107",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1044,6 +1078,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Flatten"

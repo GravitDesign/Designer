@@ -18,7 +18,16 @@
   };
   // Module 53 is the editor namespace (GElementEditor, GPathEditor, ...).
   const editorNs = () => P.app.require(53);
+  let bootSidebars = null;
   P.app.editorActions = {
+    /**
+     * Puts the sidebars back the way they were when the page booted. The
+     * shared page reset does not restore them, and their width changes
+     * where an infinite-canvas paste lands (the centre of the view).
+     */
+    resetSidebars() {
+      if (bootSidebars) P.app.editorActions.setSidebars(bootSidebars);
+    },
     /** Selects anchor points of a path (by index) as the path editor's part selection. */
     selectAnchorPoints(path, indices) {
       const Ed = editorNs();
@@ -34,12 +43,32 @@
       );
       return true;
     },
-    /** Turns image crop mode on or off for a selected image (what a double click does). */
-    setImageCropMode(image, on) {
-      const editor = editorNs().GElementEditor.getEditor(image);
-      if (!editor) return false;
-      editor.setEditMode(on);
-      return true;
+    /**
+     * Edit mode of the active tool when it is the pointer or subselect
+     * tool ("Select", "Transform" or "Edit"), otherwise null. Double
+     * clicking an image switches it to "Edit" (crop); Confirm Cropping
+     * switches back to "Select".
+     */
+    toolEditMode() {
+      const tool = designer.getToolManager().getActiveTool();
+      const modes = editorNs().GSelectTool.EditMode;
+      if (!(tool instanceof editorNs().GSelectTool)) return null;
+      const mode = tool.getEditMode();
+      return Object.keys(modes).find((k) => modes[k] === mode) || String(mode);
+    },
+    /** Whether the transform box (pointer tool in Transform mode) is open on the selection. */
+    transformBoxActive() {
+      const doc = designer.getActiveDocument();
+      const editor = doc && editorNs().GElementEditor.getEditor(doc.getScene());
+      return !!editor && !!editor.isTransformBoxActive();
+    },
+    /**
+     * Sets a GEditorOptions entry. The app fills these from its build
+     * configuration (propertiesExcludedFromCopying is null in this build),
+     * so a scenario sets one to check the code that reads it.
+     */
+    setEditorOption(name, value) {
+      editorNs().GEditorOptions[name] = value;
     },
     /** Value of a GEditorOptions entry (e.g. propertiesExcludedFromCopying). */
     editorOption(name) {
@@ -74,8 +103,17 @@
       if (!a) return null;
       let checked = null;
       if (a.isCheckable()) checked = !!a.isChecked();
+      // Category path from the top-level menu down, e.g. ["Edit", "Paste"].
+      const category = [];
+      for (let c = a.getCategory(); c; c = c.parent) category.unshift(titleText(c.label));
       return {
         title: titleText(a.getTitle()),
+        fullTitle: titleText(a.getFullTitle()),
+        info: titleText(a.getInfo()),
+        icon: a.getIcon() || null,
+        category,
+        group: a.getGroup() || null,
+        pro: !!a.isPro(),
         available: !!a.isAvailable(),
         visible: !!a.isVisible(),
         enabled: !!designer.canExecuteAction(id),
@@ -136,4 +174,5 @@
       };
     },
   };
+  bootSidebars = P.app.editorActions.sidebars();
 })();

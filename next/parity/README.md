@@ -93,3 +93,29 @@ old app's folder), the new one on 3192 once it exists.
 - Every scenario names the INVENTORY.md items it covers.
 - Keep expected files small: PNGs at the size needed, not full screens,
   unless the full screen is the point.
+- Scenario code uses only `window.__parity` (`G` and contract hooks). The
+  old app's globals (`gDesigner`, `app.designer`, `app.require`) are
+  banned by lint outside `old-hooks.js`.
+- Every browser context uses `PARITY_CONTEXT` (en-US, UTC, light colour
+  scheme, device scale 1). Spread it into any `browser.newContext()` call.
+  WebGL runs on SwiftShader (playwright.config.ts).
+- Shared pages are reset between scenarios (`app.resetState()`: documents,
+  clipboard, settings, localStorage, tool). If the reset can't restore
+  something, the page is replaced. Scenarios must still not depend on
+  what ran before them.
+- `json` outputs keep -0, NaN, ±Infinity and undefined as tagged strings
+  (`"<-0>"`, ...), so don't convert them yourself.
+- A scenario that loads a file sets `keepIdsOf` to that file, so ids that
+  come from the file must survive unchanged instead of being renamed.
+- Don't round recorded numbers unless the old app itself rounds them.
+
+## Proving scenarios can fail
+
+- `npm run parity:prove -- <path>` changes every output and checks every
+  test fails. That only proves the comparison runs.
+- `npm run parity:mutations` proves the outputs depend on the features:
+  each entry in `parity/mutations/<area>.json` breaks one feature in the
+  page (`patch.old`, later `patch.new`) and lists the scenarios that must
+  then fail. Add a mutation for every feature whose scenario could pass
+  while recording nothing useful (a "no error" result, a screenshot of the
+  wrong surface).

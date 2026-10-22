@@ -3,6 +3,14 @@
  "id": "file.new.clipboard",
  "info": {
   "title": "New from Clipboard",
+  "fullTitle": "New from Clipboard",
+  "info": null,
+  "icon": null,
+  "category": [
+   "File"
+  ],
+  "group": "document",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,8 +22,16 @@
  },
  "before": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -23,27 +39,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id3",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id4",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id5",
+       "pgid": "id4",
+       "aid": "id5"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -61,21 +78,21 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id6",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id7"
+        "&": "id8"
        },
-       "_effId": "id8"
+       "_effId": "id9"
       },
       {
        "@": "rectangle",
-       "@id": "id9",
+       "@id": "id2",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -563,79 +580,22 @@
    "types": [
     "application/gravit+node"
    ],
-   "node": [
-    {
-     "@": "rectangle",
-     "@id": "id4",
-     "uf": true,
-     "ct": "R",
-     "sl": 0,
-     "reftxt": null,
-     "refanchors": [],
-     "trf": [
-      50,
-      0,
-      0,
-      30,
-      150,
-      130
-     ],
-     "name": "A",
-     "_sdf": 107,
-     "_layers": {
-      "@": "paintLayers",
-      "@id": "id5",
-      "$": [
-       {
-        "@": "fillPaintLayer",
-        "@id": "id6",
-        "_pt": "C#[235,235,235]"
-       }
-      ],
-      "&": "id7"
-     },
-     "_effId": "id8"
-    },
-    {
-     "@": "rectangle",
-     "@id": "id9",
-     "uf": true,
-     "ct": "R",
-     "sl": 0,
-     "reftxt": null,
-     "refanchors": [],
-     "trf": [
-      30,
-      0,
-      0,
-      60,
-      330,
-      210
-     ],
-     "name": "B",
-     "_sdf": 107,
-     "_layers": {
-      "@": "paintLayers",
-      "@id": "id10",
-      "$": [
-       {
-        "@": "fillPaintLayer",
-        "@id": "id11",
-        "_pt": "C#[235,235,235]"
-       }
-      ],
-      "&": "id12"
-     },
-     "_effId": "id13"
-    }
-   ]
+   "node": "[{\"@\":\"rectangle\",\"@id\":\"id1\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[50,0,0,30,150,130],\"name\":\"A\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id6\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id7\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id8\"},\"_effId\":\"id9\"},{\"@\":\"rectangle\",\"@id\":\"id2\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,60,330,210],\"name\":\"B\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id10\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id11\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id12\"},\"_effId\":\"id13\"}]",
+   "system": []
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -643,6 +603,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Paste"
   ],
@@ -663,7 +624,7 @@
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -681,21 +642,21 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id6",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id7"
+        "&": "id8"
        },
-       "_effId": "id8"
+       "_effId": "id9"
       },
       {
        "@": "rectangle",
-       "@id": "id9",
+       "@id": "id2",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -777,11 +738,20 @@
    "types": [
     "application/gravit+node"
    ],
-   "node": null
+   "node": null,
+   "system": []
   }
  },
  "infoAfter": {
   "title": "New from Clipboard",
+  "fullTitle": "New from Clipboard",
+  "info": null,
+  "icon": null,
+  "category": [
+   "File"
+  ],
+  "group": "document",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -799,6 +769,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [],
   "redo": [
    "Paste"
@@ -867,13 +838,22 @@
    "types": [
     "application/gravit+node"
    ],
-   "node": null
+   "node": null,
+   "system": []
   }
  },
  "afterRedo": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -881,6 +861,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Paste"
   ],
@@ -915,7 +896,8 @@
    "types": [
     "application/gravit+node"
    ],
-   "node": null
+   "node": null,
+   "system": []
   }
  }
 }

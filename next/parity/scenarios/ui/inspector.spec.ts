@@ -2,7 +2,7 @@ import type { Page } from "@playwright/test";
 import * as ids from "./ids.ts";
 import { paritySuite } from "../../support/suite.ts";
 import type { Scenario } from "../../support/scenario.ts";
-import { behaviour, settle, surfaces, type SurfaceSpec } from "./lib.ts";
+import { behaviour, insertShapes, settle, surfaces, type SurfaceSpec } from "./lib.ts";
 import * as S from "./states.ts";
 
 const BASE = [
@@ -517,8 +517,163 @@ list.push({
   themes: ["light"],
 });
 
+interface WriteWindow {
+  __parity: {
+    G: { GPattern: { serialize(p: unknown): string } };
+    app: {
+      selection(): ElementLike[];
+      scene(): { queryAll(q: string): ElementLike[] };
+    };
+  };
+}
+interface ElementLike {
+  getNodeName(): string;
+  getProperty(k: string): unknown;
+  getGeometryBBox(): { getX(): number; getY(): number; getWidth(): number; getHeight(): number };
+  getPaintLayers(): { getFirstChild(): { getProperty(k: string): unknown } };
+}
+
+/** The element properties the dimension and appearance fields write. */
+async function elementState(page: Page, query: string): Promise<unknown> {
+  return page.evaluate((q) => {
+    const { G, app } = (window as unknown as WriteWindow).__parity;
+    return app
+      .scene()
+      .queryAll(q)
+      .map((n) => {
+        const b = n.getGeometryBBox();
+        const trf = n.getProperty("trf") as { getMatrix(): number[] } | null;
+        const fill = n.getPaintLayers().getFirstChild();
+        return {
+          name: n.getNodeName(),
+          bbox: [b.getX(), b.getY(), b.getWidth(), b.getHeight()],
+          trf: trf ? trf.getMatrix() : null,
+          hacr: n.getProperty("hacr"),
+          vacr: n.getProperty("vacr"),
+          _stop: n.getProperty("_stop"),
+          _sbl: n.getProperty("_sbl"),
+          fill: {
+            _pt: G.GPattern.serialize(fill.getProperty("_pt")),
+            _op: fill.getProperty("_op"),
+            _vs: fill.getProperty("_vs"),
+            _bl: fill.getProperty("_bl"),
+          },
+        };
+      });
+  }, query);
+}
+
+/** Selects every element of the scene, as Ctrl+A on the canvas does. */
+async function selectAll(page: Page): Promise<void> {
+  await page.mouse.click(900, 800);
+  await page.keyboard.press("Control+A");
+  await settle(page);
+}
+
+const align = (page: Page, id: string) =>
+  page.click(`.sidebar-inspector .main-toolbar .svg-button[data-action="${id}"]:visible`);
+
 const scenarios: Scenario[] = [
   ...surfaces(list),
+  behaviour(
+    "inspector/writes-rotation-and-anchors",
+    ["UI-FIELD-004", "UI-FIELD-006", "UI-FIELD-007"],
+    async (page) => {
+      await S.rect(page);
+      const out: Record<string, unknown> = {};
+      await S.typeDimension(page, "rotate", "30");
+      out.rotated = await elementState(page, "rectangle");
+      // Start, then End on top of it gives Stretch; Middle replaces it.
+      for (const anchor of ["hacr-start", "hacr-end", "vacr-middle", "vacr-end"]) {
+        await page.click(`.sidebar-inspector .anchor-panel .${anchor}`);
+        await settle(page);
+        out[anchor] = await elementState(page, "rectangle");
+      }
+      out.buttons = await page.evaluate(() =>
+        [...document.querySelectorAll(".sidebar-inspector .anchor-panel .g-button")].map(
+          (b) => b.className,
+        ),
+      );
+      return out;
+    },
+  ),
+  behaviour("inspector/writes-align-distribute", ["UI-FIELD-008"], async (page) => {
+    await insertShapes(page, [
+      { type: "GRectangle", x: 420, y: 300, w: 80, h: 60 },
+      { type: "GEllipse", x: 560, y: 380, w: 100, h: 100 },
+      { type: "GRectangle", x: 900, y: 340, w: 60, h: 120 },
+    ]);
+    await selectAll(page);
+    const out: Record<string, unknown> = {};
+    const disabled = () =>
+      page.evaluate(() =>
+        [...document.querySelectorAll(".sidebar-inspector .main-toolbar .svg-button")]
+          .filter((b) => (b as HTMLElement).offsetParent !== null)
+          .map((b) => `${b.getAttribute("data-action")}:${b.classList.contains("g-disabled")}`),
+      );
+    out.buttons = await disabled();
+    for (const id of [
+      "arrange.distribute.horizontal",
+      "arrange.align.align-bottom",
+      "arrange.align.align-left",
+    ]) {
+      await align(page, id);
+      await settle(page);
+      out[id] = await elementState(page, "rectangle, ellipse");
+    }
+    return out;
+  }),
+  behaviour(
+    "inspector/writes-appearance",
+    ["UI-FIELD-020", "UI-FIELD-021", "UI-FIELD-058", "UI-FIELD-059", "UI-FIELD-060"],
+    async (page) => {
+      await S.rect(page);
+      const out: Record<string, unknown> = { initial: await elementState(page, "rectangle") };
+      const typeInto = async (selector: string, value: string) => {
+        const box = page.locator(selector).first();
+        await box.click();
+        await page.keyboard.press("Control+A");
+        await page.keyboard.type(value);
+        await page.keyboard.press("Enter");
+        await settle(page);
+      };
+      await typeInto('.sidebar-inspector input[data-property="_stop"]:visible', "40");
+      out.opacity = await elementState(page, "rectangle");
+      await page.selectOption(
+        '.sidebar-inspector select[data-property="_sbl"]:visible',
+        "multiply",
+      );
+      await settle(page);
+      out.blend = await elementState(page, "rectangle");
+      await page.selectOption('.sidebar-inspector select[data-property="_sbl"]:visible', "!m");
+      await settle(page);
+      out.inverseMask = await elementState(page, "rectangle");
+      await typeInto('.sidebar-inspector .fill-block input[data-property="_op"]:visible', "25");
+      out.fillOpacity = await elementState(page, "rectangle");
+      await page.selectOption(
+        '.sidebar-inspector .fill-block select[data-property="_bl"]:visible',
+        "screen",
+      );
+      await settle(page);
+      out.fillBlend = await elementState(page, "rectangle");
+      await page.click('.sidebar-inspector .fill-block [data-property="_vs"]:visible');
+      await settle(page);
+      out.fillHidden = await elementState(page, "rectangle");
+      out.fields = await page.evaluate(() =>
+        [
+          '.sidebar-inspector input[data-property="_stop"]',
+          '.sidebar-inspector select[data-property="_sbl"]',
+          '.sidebar-inspector .fill-block input[data-property="_op"]',
+          '.sidebar-inspector .fill-block select[data-property="_bl"]',
+        ].map((sel) =>
+          [...document.querySelectorAll<HTMLInputElement>(sel)]
+            .filter((e) => e.offsetParent !== null)
+            .map((e) => e.value),
+        ),
+      );
+      return out;
+    },
+  ),
   behaviour(
     "inspector/typed-size-moves-rect",
     ["UI-FIELD-001", "UI-FIELD-002", "UI-FIELD-159"],

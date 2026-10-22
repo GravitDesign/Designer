@@ -5,6 +5,9 @@
    "g-overlay",
    "no-padding"
   ],
+  "attrs": {
+   "style": "position: absolute; top: 518px; left: 1315px;"
+  },
   "children": [
    {
     "tag": "div",
@@ -17,6 +20,9 @@
       "cls": [
        "toolbar"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "select",
@@ -148,6 +154,9 @@
       "cls": [
        "gradient-editor"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -155,6 +164,9 @@
       "cls": [
        "pattern-editor"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -162,6 +174,9 @@
       "cls": [
        "noise-editor"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -173,7 +188,8 @@
        {
         "tag": "input",
         "attrs": {
-         "type": "color"
+         "type": "color",
+         "style": "position: absolute; visibility: hidden;"
         },
         "props": {
          "value": "#3366cc"
@@ -199,7 +215,10 @@
           "tag": "div",
           "cls": [
            "marker"
-          ]
+          ],
+          "attrs": {
+           "style": "left: 195px; top: 24px;"
+          }
          }
         ]
        },
@@ -243,7 +262,8 @@
             ],
             "attrs": {
              "min": "0",
-             "max": "360"
+             "max": "360",
+             "style": "background: linear-gradient(90deg, rgb(255, 0, 0) 5.55556%, rgb(255, 85, 0) 11.1111%, rgb(255, 170, 0) 16.6667%, rgb(255, 255, 0) 22.2222%, rgb(170, 255, 0) 27.7778%, rgb(85, 255, 0) 33.3333%, rgb(0, 255, 0) 38.8889%, rgb(0, 255, 85) 44.4444%, rgb(0, 255, 170) 50%, rgb(0, 255, 255) 55.5556%, rgb(0, 170, 255) 61.1111%, rgb(0, 85, 255) 66.6667%, rgb(0, 0, 255) 72.2222%, rgb(85, 0, 255) 77.7778%, rgb(170, 0, 255) 83.3333%, rgb(255, 0, 255) 88.8889%, rgb(255, 0, 170) 94.4444%, rgb(255, 0, 85) 100%, rgb(255, 0, 0) 105.556%); box-sizing: border-box;"
             },
             "children": [
              {
@@ -258,7 +278,10 @@
                 "cls": [
                  "g-input-slider-thumb",
                  "custom"
-                ]
+                ],
+                "attrs": {
+                 "style": "box-sizing: border-box; left: 61.1111%;"
+                }
                }
               ]
              }
@@ -273,7 +296,8 @@
             ],
             "attrs": {
              "min": "0",
-             "max": "100"
+             "max": "100",
+             "style": "box-sizing: border-box;"
             },
             "children": [
              {
@@ -288,7 +312,10 @@
                 "cls": [
                  "g-input-slider-thumb",
                  "custom"
-                ]
+                ],
+                "attrs": {
+                 "style": "box-sizing: border-box; left: 100%;"
+                }
                }
               ]
              }
@@ -307,18 +334,27 @@
             "cls": [
              "color-preview"
             ],
+            "attrs": {
+             "style": "background: url(data:(309 chars));"
+            },
             "children": [
              {
               "tag": "div",
               "cls": [
                "color-preview-old"
-              ]
+              ],
+              "attrs": {
+               "style": "background: rgb(51, 102, 204);"
+              }
              },
              {
               "tag": "div",
               "cls": [
                "color-preview-new"
-              ]
+              ],
+              "attrs": {
+               "style": "background: rgb(51, 102, 204);"
+              }
              },
              {
               "tag": "div",
@@ -340,13 +376,17 @@
         "children": [
          {
           "tag": "label",
+          "attrs": {
+           "style": "width: 27%;"
+          },
           "children": [
            {
             "tag": "input",
             "attrs": {
              "data-long-press-delay": "500",
              "type": "text",
-             "draggable": "false"
+             "draggable": "false",
+             "style": ""
             },
             "props": {
              "value": "#3366CC"
@@ -360,6 +400,9 @@
          },
          {
           "tag": "label",
+          "attrs": {
+           "style": "width: 15%;"
+          },
           "children": [
            {
             "tag": "input",
@@ -379,6 +422,9 @@
          },
          {
           "tag": "label",
+          "attrs": {
+           "style": "width: 15%;"
+          },
           "children": [
            {
             "tag": "input",
@@ -398,6 +444,9 @@
          },
          {
           "tag": "label",
+          "attrs": {
+           "style": "width: 15%;"
+          },
           "children": [
            {
             "tag": "input",
@@ -417,6 +466,9 @@
          },
          {
           "tag": "label",
+          "attrs": {
+           "style": "width: 18%;"
+          },
           "children": [
            {
             "tag": "input",
@@ -443,6 +495,9 @@
       "cls": [
        "gradient-actions"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -517,7 +572,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)), url(data:(309 chars));"
             }
            },
            {
@@ -527,7 +583,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(23, 23, 23), rgb(23, 23, 23)), url(data:(309 chars));"
             }
            },
            {
@@ -537,7 +594,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(46, 46, 46), rgb(46, 46, 46)), url(data:(309 chars));"
             }
            },
            {
@@ -547,7 +605,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(70, 70, 70), rgb(70, 70, 70)), url(data:(309 chars));"
             }
            },
            {
@@ -557,7 +616,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(93, 93, 93), rgb(93, 93, 93)), url(data:(309 chars));"
             }
            },
            {
@@ -567,7 +627,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(116, 116, 116), rgb(116, 116, 116)), url(data:(309 chars));"
             }
            },
            {
@@ -577,7 +638,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(139, 139, 139), rgb(139, 139, 139)), url(data:(309 chars));"
             }
            },
            {
@@ -587,7 +649,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(162, 162, 162), rgb(162, 162, 162)), url(data:(309 chars));"
             }
            },
            {
@@ -597,7 +660,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(185, 185, 185), rgb(185, 185, 185)), url(data:(309 chars));"
             }
            },
            {
@@ -607,7 +671,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(209, 209, 209), rgb(209, 209, 209)), url(data:(309 chars));"
             }
            },
            {
@@ -617,7 +682,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(232, 232, 232), rgb(232, 232, 232)), url(data:(309 chars));"
             }
            },
            {
@@ -627,7 +693,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255)), url(data:(309 chars));"
             }
            }
           ]
@@ -645,7 +712,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(152, 0, 0), rgb(152, 0, 0)), url(data:(309 chars));"
             }
            },
            {
@@ -655,7 +723,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(255, 0, 0), rgb(255, 0, 0)), url(data:(309 chars));"
             }
            },
            {
@@ -665,7 +734,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(255, 153, 0), rgb(255, 153, 0)), url(data:(309 chars));"
             }
            },
            {
@@ -675,7 +745,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(255, 255, 0), rgb(255, 255, 0)), url(data:(309 chars));"
             }
            },
            {
@@ -685,7 +756,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(0, 255, 0), rgb(0, 255, 0)), url(data:(309 chars));"
             }
            },
            {
@@ -695,7 +767,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(0, 255, 255), rgb(0, 255, 255)), url(data:(309 chars));"
             }
            },
            {
@@ -705,7 +778,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(0, 150, 136), rgb(0, 150, 136)), url(data:(309 chars));"
             }
            },
            {
@@ -715,7 +789,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(96, 125, 139), rgb(96, 125, 139)), url(data:(309 chars));"
             }
            },
            {
@@ -725,7 +800,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(74, 134, 232), rgb(74, 134, 232)), url(data:(309 chars));"
             }
            },
            {
@@ -735,7 +811,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(0, 0, 255), rgb(0, 0, 255)), url(data:(309 chars));"
             }
            },
            {
@@ -745,7 +822,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(153, 0, 255), rgb(153, 0, 255)), url(data:(309 chars));"
             }
            },
            {
@@ -755,7 +833,8 @@
             ],
             "attrs": {
              "data-long-press-delay": "500",
-             "draggable": "false"
+             "draggable": "false",
+             "style": "background: linear-gradient(rgb(255, 0, 255), rgb(255, 0, 255)), url(data:(309 chars));"
             }
            }
           ]
@@ -769,7 +848,8 @@
          "mixer-palette"
         ],
         "attrs": {
-         "data-palette": "mixer"
+         "data-palette": "mixer",
+         "style": "display: none;"
         },
         "hidden": true
        },
@@ -780,7 +860,8 @@
          "used-palette"
         ],
         "attrs": {
-         "data-palette": "used"
+         "data-palette": "used",
+         "style": "display: none;"
         },
         "hidden": true
        },
@@ -792,7 +873,8 @@
          "global"
         ],
         "attrs": {
-         "data-palette": "swatches"
+         "data-palette": "swatches",
+         "style": "display: none;"
         },
         "hidden": true
        },
@@ -804,7 +886,8 @@
          "document"
         ],
         "attrs": {
-         "data-palette": "swatches"
+         "data-palette": "swatches",
+         "style": "display: none;"
         },
         "hidden": true
        }

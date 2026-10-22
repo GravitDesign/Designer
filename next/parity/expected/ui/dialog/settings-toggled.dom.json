@@ -327,6 +327,9 @@
           "cls": [
            "text-description"
           ],
+          "attrs": {
+           "style": "vertical-align: middle;"
+          },
           "children": [
            {
             "tag": "div",
@@ -351,7 +354,8 @@
             ],
             "attrs": {
              "data-setting": "theme",
-             "type": "button"
+             "type": "button",
+             "style": "min-width: 170px; width: max-content;"
             },
             "text": "Light Theme (default)"
            }
@@ -570,7 +574,8 @@
                 "attrs": {
                  "data-setting": "decimals-num-val",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "width: 60px;"
                 },
                 "props": {
                  "value": "2"
@@ -808,6 +813,9 @@
           "cls": [
            "text-description"
           ],
+          "attrs": {
+           "style": "vertical-align: middle;"
+          },
           "children": [
            {
             "tag": "div",

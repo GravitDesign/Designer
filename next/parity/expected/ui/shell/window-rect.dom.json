@@ -2,6 +2,9 @@
  {
   "tag": "div",
   "id": "toolbar",
+  "attrs": {
+   "style": "left: 0px; top: 36px; right: 0px;"
+  },
   "children": [
    {
     "tag": "div",
@@ -159,6 +162,9 @@
          "left-attached",
          "attached-button"
         ],
+        "attrs": {
+         "style": "width: 15px;"
+        },
         "text": "-"
        },
        {
@@ -166,6 +172,9 @@
         "cls": [
          "gravit-zoom-manual-input"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
@@ -209,6 +218,9 @@
          "right-attached",
          "attached-button"
         ],
+        "attrs": {
+         "style": "width: 15px;"
+        },
         "text": "+"
        }
       ]
@@ -1240,6 +1252,9 @@
         "cls": [
          "g-collaborators"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
@@ -1249,6 +1264,9 @@
          "g-highlight-button",
          "highlighted"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        }
       ]

@@ -5,6 +5,9 @@
    "bring-to-front"
   ],
   "id": "left-sidebars",
+  "attrs": {
+   "style": "width: 320px; top: 48px; height: 952px;"
+  },
   "children": [
    {
     "tag": "div",
@@ -92,6 +95,9 @@
     "cls": [
      "sidebar-selector"
     ],
+    "attrs": {
+     "style": ""
+    },
     "hidden": true
    },
    {
@@ -102,6 +108,9 @@
      "multiple",
      "g-active"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
@@ -139,7 +148,8 @@
          "toogle-page-mode"
         ],
         "attrs": {
-         "data-title": "Toggle Single / Multipage Mode"
+         "data-title": "Toggle Single / Multipage Mode",
+         "style": "margin-right: 5px;"
         },
         "children": [
          {
@@ -213,7 +223,8 @@
        "g-active"
       ],
       "attrs": {
-       "g-touch-tool": "pages"
+       "g-touch-tool": "pages",
+       "style": "height: 70px;"
       },
       "children": [
        {
@@ -224,12 +235,18 @@
          "g-virtual-list",
          "g-virtual-tree"
         ],
+        "attrs": {
+         "style": "overflow: auto; position: relative;"
+        },
         "children": [
          {
           "tag": "div",
           "cls": [
            "vscroller"
-          ]
+          ],
+          "attrs": {
+           "style": "height: 63px;"
+          }
          },
          {
           "tag": "div",
@@ -240,7 +257,8 @@
           ],
           "id": "rowId",
           "attrs": {
-           "draggable": "false"
+           "draggable": "false",
+           "style": "top: 0px; padding-left: 15px; width: 0px;"
           },
           "children": [
            {
@@ -321,7 +339,8 @@
        "g-touch-toolbar-panel"
       ],
       "attrs": {
-       "g-touch-tool": "layers"
+       "g-touch-tool": "layers",
+       "style": "height: 70px;"
       },
       "hidden": true
      },
@@ -348,7 +367,8 @@
        "g-touch-toolbar-panel"
       ],
       "attrs": {
-       "g-touch-tool": "layers"
+       "g-touch-tool": "layers",
+       "style": "margin: 0px;"
       },
       "hidden": true
      }
@@ -361,6 +381,9 @@
      "sidebar-library",
      "multiple"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -370,6 +393,9 @@
      "sidebar-symbols",
      "multiple"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    }
   ]

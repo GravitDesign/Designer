@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- in-page code drives the untyped engine through the G namespace */
 import type { ParityHandle } from "../../support/scenario.ts";
 import { normalizePdfString } from "./pdf-normalize.ts";
-import { normalizeRandomTokens, svgGraphicSource } from "./normalize-ids.ts";
 
 /**
  * In-page helpers for the import/export scenarios. `makePageLib` is sent to
@@ -13,9 +12,7 @@ import { normalizeRandomTokens, svgGraphicSource } from "./normalize-ids.ts";
 export function makePageLib(
   p: ParityHandle,
   extras: {
-    normalizePdf: (s: string) => string;
-    normalizeTokens: (s: string) => string;
-    svgGraphicSource: (s: string) => { start: number; end: number; b64: string } | null;
+    normalizePdf: (s: string, since: number, until: number) => string;
   },
 ) {
   const G = p.G;
@@ -333,19 +330,18 @@ export function makePageLib(
 
   /**
    * What the user sees of the active document as JSON: the active page's
-   * children (node, name, bbox, fill/border patterns, text), the selection,
-   * the top undo step and the open documents.
+   * children (node, name, exact bbox, fill/border patterns, text), the
+   * selection, the top undo step and the open documents.
    */
   const sceneState = () => {
     const page = app.scene().getActivePage();
     const editor = app.editor();
-    const round = (v: number) => Math.round(v * 1000) / 1000;
     const describe = (n: any): any => {
       const b = n.getGeometryBBox ? n.getGeometryBBox() : null;
       const out: Record<string, any> = {
         node: n.getNodeName(),
         name: n.getProperty("name") ?? null,
-        bbox: b ? [b.getX(), b.getY(), b.getWidth(), b.getHeight()].map(round) : null,
+        bbox: b ? [b.getX(), b.getY(), b.getWidth(), b.getHeight()] : null,
       };
       if (n.getPaintLayers && n.getPaintLayers()) {
         out.layers = n
@@ -368,7 +364,7 @@ export function makePageLib(
       return out;
     };
     return {
-      documents: app.designer.getDocuments().map((d: any) => d.getTitle()),
+      documents: io.documents().map((d: { title: string }) => d.title),
       active: app.document().getTitle(),
       page: page.getProperty("name"),
       children: page
@@ -382,28 +378,59 @@ export function makePageLib(
     };
   };
 
-  /** Normalizes a base64 PDF the way pdf-normalize.ts describes. */
-  const normalizePdfB64 = (b64: string) => btoa(extras.normalizePdf(atob(b64)));
-
-  /** Random ids renamed (see normalize-ids.ts). */
-  const normalizeTokens = (text: string) => extras.normalizeTokens(text);
+  /**
+   * Normalizes a base64 PDF the way pdf-normalize.ts describes; `since` is
+   * Date.now() from before the export started.
+   */
+  const normalizePdfB64 = (b64: string, since: number) =>
+    btoa(extras.normalizePdf(atob(b64), since, Date.now()));
 
   /**
-   * An exported SVG made comparable: the zlib editing data of
-   * gravitGraphicSource is inflated in place ("inflated:" + JSON) and every
-   * random id is renamed (see normalize-ids.ts).
+   * Renames the random ids of JSON nested two levels deep in strings, which
+   * the shared normalizer (support/normalize.ts) doesn't reach: a texture
+   * pattern "T#{...}" made by the SVG importer holds its tile, a serialized
+   * group, as JSON text in "n". Only values of id keys (and compact "#" /
+   * "&" references) at that depth are renamed, to "~n1", "~n2", ... in
+   * order of appearance; the text around them stays as it is.
    */
-  const normalizeSvg = async (svg: string) => {
-    const src = extras.svgGraphicSource(svg);
-    let out = svg;
-    if (src) {
-      const text = new TextDecoder().decode(Uint8Array.from(atob(src.b64), (c) => c.charCodeAt(0)));
-      const bytes = Uint8Array.from(text, (c) => c.charCodeAt(0));
-      const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate"));
-      const json = await new Response(stream).text();
-      out = svg.slice(0, src.start) + "inflated:" + json + svg.slice(src.end);
-    }
-    return extras.normalizeTokens(out);
+  const renameDeepIds = (json: string) => {
+    const keys = ["@id", "#", "&", "_effId", "_layId", "uuid"];
+    const ids: string[] = [];
+    const add = (id: string) => {
+      if (!ids.includes(id)) ids.push(id);
+    };
+    const parseNested = (v: string): unknown => {
+      const m = /^(?:[A-Za-z]#)?([[{][\s\S]*[\]}])$/.exec(v);
+      if (!m) return undefined;
+      try {
+        return JSON.parse(m[1] as string);
+      } catch {
+        return undefined;
+      }
+    };
+    const collect = (v: unknown, depth: number): void => {
+      if (typeof v === "string") {
+        const parsed = parseNested(v);
+        if (parsed !== undefined) collect(parsed, depth + 1);
+      } else if (Array.isArray(v)) {
+        for (let i = 0; i < v.length; i++) {
+          const next = v[i + 1];
+          if (depth >= 2 && (v[i] === "#" || v[i] === "&") && typeof next === "string") {
+            add(next);
+            i++;
+          } else collect(v[i], depth);
+        }
+      } else if (v && typeof v === "object") {
+        for (const [k, c] of Object.entries(v)) {
+          if (depth >= 2 && keys.includes(k) && typeof c === "string") add(c);
+          else collect(c, depth);
+        }
+      }
+    };
+    collect(JSON.parse(json), 0);
+    if (ids.length === 0) return json;
+    const any = new RegExp("(?<![A-Za-z0-9])(" + ids.join("|") + ")(?![A-Za-z0-9])", "g");
+    return json.replace(any, (id: string) => "~n" + (ids.indexOf(id) + 1));
   };
 
   /** base64 bytes as UTF-8 text. */
@@ -412,8 +439,7 @@ export function makePageLib(
 
   return {
     utf8,
-    normalizeTokens,
-    normalizeSvg,
+    renameDeepIds,
     sceneState,
     normalizePdfB64,
     G,
@@ -445,7 +471,7 @@ export type PageLib = ReturnType<typeof makePageLib>;
 export function inPageWithLib<A>(
   fn: (p: ParityHandle, args: A, L: PageLib) => unknown,
 ): (p: ParityHandle, args: A) => unknown {
-  const source = `(p, a) => (${fn.toString()})(p, a, (${makePageLib.toString()})(p, { normalizePdf: (${normalizePdfString.toString()}), normalizeTokens: (${normalizeRandomTokens.toString()}), svgGraphicSource: (${svgGraphicSource.toString()}) }))`;
+  const source = `(p, a) => (${fn.toString()})(p, a, (${makePageLib.toString()})(p, { normalizePdf: (${normalizePdfString.toString()}) }))`;
   const wrapper = (): never => {
     throw new Error("in-page scenario functions only run in the page");
   };

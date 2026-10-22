@@ -1,0 +1,58 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "window-overlay"
+  ],
+  "attrs": {
+   "style": "inset: 73px 300px 0px 250px;"
+  },
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "window-overlay-container"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "window-overlay-content"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "attrs": {
+         "style": "padding: 6px; display: inline-block; background-color: rgb(51, 51, 51); border-radius: 6px;"
+        },
+        "children": [
+         {
+          "tag": "p",
+          "attrs": {
+           "style": "line-height: 1.5em; margin: 10px;"
+          },
+          "text": "Unable to save the document. Do you have the right permissions?"
+         },
+         {
+          "tag": "button",
+          "attrs": {
+           "style": "margin: 10px;"
+          },
+          "text": "Cancel"
+         },
+         {
+          "tag": "button",
+          "attrs": {
+           "style": "margin: 10px;"
+          },
+          "text": "Try again"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

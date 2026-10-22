@@ -5,7 +5,7 @@
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
 import { EXPORT_CASES, type ExportCase } from "./export-cases.ts";
-import { fixtureBase64, renderPdf } from "./node-lib.ts";
+import { fixtureBase64, normalizeSvg, renderPdf } from "./node-lib.ts";
 import { inPageWithLib } from "./page-lib.ts";
 
 interface CaseArgs {
@@ -23,6 +23,7 @@ const images = {
 
 /** Builds the case's document, exports it and returns base64 output. */
 const runCase = inPageWithLib(async (_p, a: CaseArgs, L) => {
+  const since = Date.now();
   const { G, app } = L;
   app.document().setTitle("Export Test");
   const built = await L.build(a.c.doc, { png: a.png, jpg: a.jpg });
@@ -58,8 +59,9 @@ const runCase = inPageWithLib(async (_p, a: CaseArgs, L) => {
   }
   const out = await L.exportB64(ex);
   if (a.decode) return L.decodeToPng(out.b64, out.mime);
-  if (a.c.format === "svg") return L.normalizeSvg(L.utf8(out.b64));
-  return a.normalize ? L.normalizePdfB64(out.b64) : out.b64;
+  // SVG is normalized in Node (normalize-ids.ts), which needs zlib.
+  if (a.c.format === "svg") return L.utf8(out.b64);
+  return a.normalize ? L.normalizePdfB64(out.b64, since) : out.b64;
 });
 
 const extension: Record<ExportCase["format"], string> = {
@@ -73,14 +75,28 @@ function scenariosFor(c: ExportCase): Scenario<CaseArgs>[] {
   const id = `import-export/export/${c.id}`;
   const args: CaseArgs = { c, ...images, normalize: c.format === "pdf", decode: false };
   const list: Scenario<CaseArgs>[] = [
-    {
-      id,
-      covers: c.covers,
-      kind: c.format === "svg" ? "text" : "bytes",
-      extension: extension[c.format],
-      inPage: runCase,
-      args,
-    },
+    c.format === "svg"
+      ? {
+          id,
+          covers: c.covers,
+          kind: "text",
+          extension: extension[c.format],
+          args,
+          driver: async ({ page }, a) =>
+            normalizeSvg(
+              (await page.evaluate(
+                `(${runCase.toString()})(window.__parity, ${JSON.stringify(a)})`,
+              )) as string,
+            ),
+        }
+      : {
+          id,
+          covers: c.covers,
+          kind: "bytes",
+          extension: extension[c.format],
+          inPage: runCase,
+          args,
+        },
   ];
   if (c.format === "png" || c.format === "jpg") {
     list.push({

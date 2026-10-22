@@ -16,7 +16,6 @@ import {
   waitForImport,
 } from "./node-lib.ts";
 import { inPageWithLib } from "./page-lib.ts";
-import { normalizeRandomTokens } from "./normalize-ids.ts";
 
 /** Builds the shapes document, selects elements and fixes the view. */
 const setup = inPageWithLib(async (_p, a: { select: string[]; doc?: string }, L) => {
@@ -150,7 +149,78 @@ const nodeXml =
   ]) +
   "</gravit>";
 
+/** Selects the element of the active page with this name. */
+async function selectByName(page: Page, name: string): Promise<void> {
+  await page.evaluate((n) => {
+    const app = (
+      window as unknown as {
+        __parity: {
+          app: {
+            scene(): { getActivePage(): { getChildren(): { getProperty(k: string): unknown }[] } };
+            editor(): { updateSelection(t: boolean, s: unknown[]): void };
+          };
+        };
+      }
+    ).__parity.app;
+    const el = app
+      .scene()
+      .getActivePage()
+      .getChildren()
+      .find((c) => c.getProperty("name") === n);
+    app.editor().updateSelection(false, el ? [el] : []);
+  }, name);
+}
+
+/**
+ * Copy style (FMT-CLIP-011): with the pointer over the Appearance fill
+ * (or border) row of the selected element, Ctrl+C copies that one paint
+ * layer instead of the element. The payload is then pasted onto another
+ * element the way the system clipboard hands it back (a paste event), which
+ * adds the layer to it (FMT-CLIP-006).
+ */
+const copyStyle: Scenario<unknown> = {
+  id: `${CLIP}/copy-style`,
+  covers: ["FMT-CLIP-011", "FMT-CLIP-006", "FMT-CLIP-010"],
+  kind: "json",
+  driver: async ({ page }) => {
+    page.setDefaultTimeout(15_000);
+    await runInPage(page, setup, { select: ["box"] });
+    const out: Record<string, unknown> = {};
+    for (const [row, target] of [
+      ["fill-block", "Oval"],
+      ["border-block", "Rounded"],
+    ] as const) {
+      await selectByName(page, "Box");
+      const block = page.locator(`.sidebar-inspector .${row}`).first();
+      await block.click({ position: { x: 5, y: 5 } });
+      await block.hover({ position: { x: 5, y: 5 } });
+      await page.evaluate(() => {
+        (window as unknown as { __copies: unknown[] }).__copies.length = 0;
+      });
+      await page.keyboard.press("Control+c");
+      await page.waitForFunction(
+        () => (window as unknown as { __copies: unknown[] }).__copies.length > 0,
+      );
+      const copied = JSON.parse(await runInPage<string>(page, copies, {})) as {
+        xml?: { content: unknown };
+      }[];
+      const xml = await page.evaluate(
+        () =>
+          (window as unknown as { __copies: { data: Record<string, string> }[] }).__copies[0]?.data[
+            "text/xml"
+          ] ?? "",
+      );
+      await selectByName(page, target);
+      await focusCanvas(page);
+      const outcome = await pasteEvent(page, [{ type: "text/xml", text: xml }]);
+      out[row] = { copied, outcome, state: await runInPage(page, state, {}) };
+    }
+    return out;
+  },
+};
+
 const scenarios = defineScenarios<unknown>([
+  copyStyle,
   {
     id: `${CLIP}/copy-payload`,
     covers: ["FMT-CLIP-010", "FMT-GVD-016", "ACT-EDIT-004"],
@@ -161,7 +231,7 @@ const scenarios = defineScenarios<unknown>([
       await focusCanvas(page);
       await page.keyboard.press("Control+c");
       await page.waitForTimeout(500);
-      return normalizeRandomTokens(await runInPage<string>(page, copies, {}));
+      return runInPage<string>(page, copies, {});
     },
   },
   {
@@ -174,7 +244,7 @@ const scenarios = defineScenarios<unknown>([
       await focusCanvas(page);
       await page.keyboard.press("Control+c");
       await page.waitForTimeout(500);
-      return normalizeRandomTokens(await runInPage<string>(page, copies, {}));
+      return runInPage<string>(page, copies, {});
     },
   },
   {
@@ -430,12 +500,10 @@ const scenarios = defineScenarios<unknown>([
       );
       const m = /^<gravit[^>]*>([\s\S]*)<\/gravit>$/.exec(text);
       const parsed = m ? JSON.parse((m[1] ?? "").replace(/&amp;/g, "&")) : text;
-      return normalizeRandomTokens(
-        JSON.stringify({
-          wrapper: m ? text.slice(0, text.indexOf(">") + 1) : null,
-          content: parsed,
-        }),
-      );
+      return JSON.stringify({
+        wrapper: m ? text.slice(0, text.indexOf(">") + 1) : null,
+        content: parsed,
+      });
     },
   },
 ]);

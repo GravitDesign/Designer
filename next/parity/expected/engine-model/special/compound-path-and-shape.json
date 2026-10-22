@@ -76,13 +76,13 @@
   "evenodd": true,
   "blob": {
    "@": "compoundpath",
-   "@id": "<id>",
+   "@id": "id1",
    "paths": [
-    "{\"@\":\"path\",\"@id\":\"<id>\",\"closed\":true,\"pts\":[[\"AAAAAAAAAAA=\"],[\"AADIQgAAAAA=\"],[\"AADIQgAAyEI=\"],[\"AAAAAAAAyEI=\"]],\"_layId\":\"<id>\",\"_effId\":\"<id>\"}",
-    "{\"@\":\"path\",\"@id\":\"<id>\",\"closed\":true,\"pts\":[[\"AADIQQAAyEE=\"],[\"AACWQgAAyEE=\"],[\"AACWQgAAlkI=\"],[\"AADIQQAAlkI=\"]],\"_layId\":\"<id>\",\"_effId\":\"<id>\"}"
+    "{\"@\":\"path\",\"@id\":\"id2\",\"closed\":true,\"pts\":[[\"AAAAAAAAAAA=\"],[\"AADIQgAAAAA=\"],[\"AADIQgAAyEI=\"],[\"AAAAAAAAyEI=\"]],\"_layId\":\"id3\",\"_effId\":\"id4\"}",
+    "{\"@\":\"path\",\"@id\":\"id5\",\"closed\":true,\"pts\":[[\"AADIQQAAyEE=\"],[\"AACWQgAAyEE=\"],[\"AACWQgAAlkI=\"],[\"AADIQQAAlkI=\"]],\"_layId\":\"id6\",\"_effId\":\"id7\"}"
    ],
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id8",
+   "_effId": "id9"
   },
   "pathsKids": [
    "path",
@@ -91,13 +91,13 @@
  },
  "compoundPathRoundTrip": {
   "@": "compoundpath",
-  "@id": "<id>",
+  "@id": "id1",
   "paths": [
-   "{\"@\":\"path\",\"@id\":\"<id>\",\"closed\":true,\"pts\":[[\"AAAAAAAAAAA=\"],[\"AADIQgAAAAA=\"],[\"AADIQgAAyEI=\"],[\"AAAAAAAAyEI=\"]],\"_layId\":\"<id>\",\"_effId\":\"<id>\"}",
-   "{\"@\":\"path\",\"@id\":\"<id>\",\"closed\":true,\"pts\":[[\"AADIQQAAyEE=\"],[\"AACWQgAAyEE=\"],[\"AACWQgAAlkI=\"],[\"AADIQQAAlkI=\"]],\"_layId\":\"<id>\",\"_effId\":\"<id>\"}"
+   "{\"@\":\"path\",\"@id\":\"id2\",\"closed\":true,\"pts\":[[\"AAAAAAAAAAA=\"],[\"AADIQgAAAAA=\"],[\"AADIQgAAyEI=\"],[\"AAAAAAAAyEI=\"]],\"_layId\":\"id3\",\"_effId\":\"id4\"}",
+   "{\"@\":\"path\",\"@id\":\"id5\",\"closed\":true,\"pts\":[[\"AADIQQAAyEE=\"],[\"AACWQgAAyEE=\"],[\"AACWQgAAlkI=\"],[\"AADIQQAAlkI=\"]],\"_layId\":\"id6\",\"_effId\":\"id7\"}"
   ],
-  "_layId": "<id>",
-  "_effId": "<id>"
+  "_layId": "id8",
+  "_effId": "id9"
  },
  "compoundShape-or": {
   "verts": [
@@ -444,11 +444,11 @@
  },
  "compoundShapeBlob": {
   "@": "Compound Shape",
-  "@id": "<id>",
+  "@id": "id10",
   "$": [
    {
     "@": "rectangle",
-    "@id": "<id>",
+    "@id": "id11",
     "uf": true,
     "ct": "R",
     "sl": 0,
@@ -460,12 +460,12 @@
      50,
      50
     ],
-    "_layId": "<id>",
-    "_effId": "<id>"
+    "_layId": "id12",
+    "_effId": "id13"
    },
    {
     "@": "ellipse",
-    "@id": "<id>",
+    "@id": "id14",
     "trf": [
      20,
      0,
@@ -474,13 +474,13 @@
      40,
      40
     ],
-    "_layId": "<id>",
-    "_effId": "<id>"
+    "_layId": "id15",
+    "_effId": "id16"
    }
   ],
   "evenodd": true,
-  "_layId": "<id>",
-  "_effId": "<id>"
+  "_layId": "id17",
+  "_effId": "id18"
  },
  "compoundShapeLegacy": {
   "verts": 6,

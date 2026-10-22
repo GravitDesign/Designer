@@ -3,6 +3,14 @@
  "id": "modify.swap-paint-layers",
  "info": {
   "title": "Swap fill and border",
+  "fullTitle": "Swap fill and border",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify"
+  ],
+  "group": null,
+  "pro": false,
   "available": true,
   "visible": false,
   "enabled": true,
@@ -14,11 +22,31 @@
  },
  "before": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B",
-   "ellipse:C",
-   "rectangle:D",
-   "ellipse:E"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   },
+   {
+    "node": "ellipse:C",
+    "@id": "id3",
+    "path": "0/3"
+   },
+   {
+    "node": "rectangle:D",
+    "@id": "id4",
+    "path": "0/4"
+   },
+   {
+    "node": "ellipse:E",
+    "@id": "id5",
+    "path": "0/5"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -26,27 +54,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id6",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id7",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id8",
+       "pgid": "id7",
+       "aid": "id8"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -66,27 +95,27 @@
        "_stop": 0.5,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id9",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id10",
           "_pt": "C#[255,0,0]"
          },
          {
           "@": "borderPaintLayer",
-          "@id": "id7",
+          "@id": "id11",
           "_bw": 3,
           "_pt": "C#[0,0,255]"
          }
         ],
-        "&": "id8"
+        "&": "id12"
        },
-       "_effId": "id9"
+       "_effId": "id13"
       },
       {
        "@": "rectangle",
-       "@id": "id10",
+       "@id": "id2",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -104,27 +133,27 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id11",
+        "@id": "id14",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id12",
+          "@id": "id15",
           "_pt": "C#[255,0,0]"
          },
          {
           "@": "borderPaintLayer",
-          "@id": "id13",
+          "@id": "id16",
           "_bw": 3,
           "_pt": "C#[0,0,0]"
          }
         ],
-        "&": "id14"
+        "&": "id17"
        },
-       "_effId": "id15"
+       "_effId": "id18"
       },
       {
        "@": "ellipse",
-       "@id": "id16",
+       "@id": "id3",
        "reftxt": null,
        "refanchors": [],
        "trf": [
@@ -140,27 +169,27 @@
        "_stop": 0.5,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id17",
+        "@id": "id19",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id18",
+          "@id": "id20",
           "_pt": "C#[0,255,0]"
          },
          {
           "@": "borderPaintLayer",
-          "@id": "id19",
+          "@id": "id21",
           "_bw": 3,
           "_pt": "C#[0,0,255]"
          }
         ],
-        "&": "id20"
+        "&": "id22"
        },
-       "_effId": "id21"
+       "_effId": "id23"
       },
       {
        "@": "rectangle",
-       "@id": "id22",
+       "@id": "id4",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -178,26 +207,26 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id23",
+        "@id": "id24",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id24",
+          "@id": "id25",
           "_pt": "C#[255,0,0]"
          },
          {
           "@": "borderPaintLayer",
-          "@id": "id25",
+          "@id": "id26",
           "_pt": "C#[0,0,255]"
          }
         ],
-        "&": "id26"
+        "&": "id27"
        },
-       "_effId": "id27"
+       "_effId": "id28"
       },
       {
        "@": "ellipse",
-       "@id": "id28",
+       "@id": "id5",
        "reftxt": null,
        "refanchors": [],
        "trf": [
@@ -664,14 +693,33 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B",
-   "ellipse:C",
-   "rectangle:D",
-   "ellipse:E"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   },
+   {
+    "node": "ellipse:C",
+    "@id": "id3",
+    "path": "0/3"
+   },
+   {
+    "node": "rectangle:D",
+    "@id": "id4",
+    "path": "0/4"
+   },
+   {
+    "node": "ellipse:E",
+    "@id": "id5",
+    "path": "0/5"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -679,6 +727,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Swap fill and border"
@@ -686,21 +735,21 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id6",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id7",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id8",
+       "pgid": "id7",
+       "aid": "id8"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -720,7 +769,7 @@
        "_stop": 0.5,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id9",
         "$": [
          {
           "@": "borderPaintLayer",
@@ -734,13 +783,13 @@
           "_pt": "C#[0,0,255]"
          }
         ],
-        "&": "id8"
+        "&": "id12"
        },
-       "_effId": "id9"
+       "_effId": "id13"
       },
       {
        "@": "rectangle",
-       "@id": "id10",
+       "@id": "id2",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -758,7 +807,7 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id11",
+        "@id": "id14",
         "$": [
          {
           "@": "borderPaintLayer",
@@ -772,13 +821,13 @@
           "_pt": "C#[0,0,0]"
          }
         ],
-        "&": "id14"
+        "&": "id17"
        },
-       "_effId": "id15"
+       "_effId": "id18"
       },
       {
        "@": "ellipse",
-       "@id": "id16",
+       "@id": "id3",
        "reftxt": null,
        "refanchors": [],
        "trf": [
@@ -794,7 +843,7 @@
        "_stop": 0.5,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id17",
+        "@id": "id19",
         "$": [
          {
           "@": "borderPaintLayer",
@@ -808,13 +857,13 @@
           "_pt": "C#[0,0,255]"
          }
         ],
-        "&": "id20"
+        "&": "id22"
        },
-       "_effId": "id21"
+       "_effId": "id23"
       },
       {
        "@": "rectangle",
-       "@id": "id22",
+       "@id": "id4",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -832,7 +881,7 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id23",
+        "@id": "id24",
         "$": [
          {
           "@": "borderPaintLayer",
@@ -846,13 +895,13 @@
           "_pt": "C#[0,0,255]"
          }
         ],
-        "&": "id26"
+        "&": "id27"
        },
-       "_effId": "id27"
+       "_effId": "id28"
       },
       {
        "@": "ellipse",
-       "@id": "id28",
+       "@id": "id5",
        "reftxt": null,
        "refanchors": [],
        "trf": [
@@ -1321,6 +1370,14 @@
  },
  "infoAfter": {
   "title": "Swap fill and border",
+  "fullTitle": "Swap fill and border",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify"
+  ],
+  "group": null,
+  "pro": false,
   "available": true,
   "visible": false,
   "enabled": true,
@@ -1332,11 +1389,31 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B",
-   "ellipse:C",
-   "rectangle:D",
-   "ellipse:E"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   },
+   {
+    "node": "ellipse:C",
+    "@id": "id3",
+    "path": "0/3"
+   },
+   {
+    "node": "rectangle:D",
+    "@id": "id4",
+    "path": "0/4"
+   },
+   {
+    "node": "ellipse:E",
+    "@id": "id5",
+    "path": "0/5"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1344,6 +1421,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1354,11 +1432,31 @@
  },
  "afterRedo": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B",
-   "ellipse:C",
-   "rectangle:D",
-   "ellipse:E"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   },
+   {
+    "node": "ellipse:C",
+    "@id": "id3",
+    "path": "0/3"
+   },
+   {
+    "node": "rectangle:D",
+    "@id": "id4",
+    "path": "0/4"
+   },
+   {
+    "node": "ellipse:E",
+    "@id": "id5",
+    "path": "0/5"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1366,6 +1464,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Swap fill and border"

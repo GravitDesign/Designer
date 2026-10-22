@@ -74,7 +74,17 @@ export interface Fixture {
   actions?: readonly string[];
   /** Tool class name to activate at the end, e.g. "GRectangleTool". */
   tool?: string;
+  /**
+   * Source text of a function ({ G, app }) => void | Promise<void> run
+   * last, for scenes the shape list can't describe (gradients, pages,
+   * locks ...). Write it with fixtureScript(); like all in-page code it
+   * may only use window.__parity (G and contract hooks).
+   */
+  script?: string;
 }
+
+/** Source text for Fixture.script. */
+export const fixtureScript = (fn: (parity: ParityHandle) => unknown): string => fn.toString();
 
 /**
  * Builds a fixture in the page. Sent as source text, so it must not use
@@ -235,5 +245,10 @@ export async function buildFixture({ G, app }: ParityHandle, spec: Fixture): Pro
     );
   }
   for (const id of spec.actions ?? []) app.execute(id);
-  if (spec.tool) app.activateTool(spec.tool);
+  if (spec.tool && !app.activateTool(spec.tool)) throw new Error(`no tool ${spec.tool}`);
+  if (spec.script) {
+    // The script arrives as source text, like every in-page function.
+    const run = (0, eval)(`(${spec.script})`) as (p: ParityHandle) => unknown;
+    await run({ G, app });
+  }
 }

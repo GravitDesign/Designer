@@ -120,5 +120,99 @@
     await settle();
   }
 
-  app.corpus = { settle, waitForDocument, assetsReady, fontsReady, viewIdle };
+  const toBase64 = (bytes) => {
+    let s = "";
+    for (let i = 0; i < bytes.length; i += 0x8000) {
+      s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    }
+    return btoa(s);
+  };
+  const fromBase64 = (b64) => {
+    const s = atob(b64);
+    const out = new Uint8Array(s.length);
+    for (let i = 0; i < s.length; i++) out[i] = s.charCodeAt(i);
+    return out;
+  };
+
+  // Saves the active document through File > Download File (action
+  // file.save-as.gvdesign), the same code a user runs. The local storage
+  // hands the bytes to FileSaver, which turns them into a Blob URL and
+  // clicks a download link; the Blob is taken from URL.createObjectURL on
+  // the way, and the click is let through (Playwright accepts downloads).
+  async function saveDocumentBytes(timeout) {
+    const original = URL.createObjectURL;
+    let captured = null;
+    URL.createObjectURL = function (blob) {
+      // The preview JPEG goes through a FileReader, not a Blob URL, so the
+      // first non-image Blob is the file.
+      if (!captured && blob instanceof Blob && !/^image\//.test(blob.type)) captured = blob;
+      return original.apply(this, arguments);
+    };
+    try {
+      app.execute("file.save-as.gvdesign");
+      const start = Date.now();
+      while (!captured) {
+        if (Date.now() - start > (timeout || 60000)) {
+          throw new Error("corpus.saveDocumentBytes: the save produced no file");
+        }
+        await sleep(20);
+      }
+    } finally {
+      URL.createObjectURL = original;
+    }
+    return toBase64(new Uint8Array(await captured.arrayBuffer()));
+  }
+
+  // Opens bytes as a file through File > Open Local File (action
+  // file.open): the action shows the hidden file input, which gets the
+  // bytes as a File instead of a native picker, then the app reads it the
+  // way it reads any chosen file. Resolves once the document is loaded
+  // (waitForDocument).
+  async function openDocumentBytes(base64, fileName) {
+    const click = HTMLInputElement.prototype.click;
+    let input = null;
+    HTMLInputElement.prototype.click = function () {
+      if (this.type === "file") {
+        // Keep the input instead of opening the native file picker.
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        input = this;
+      } else click.call(this);
+    };
+    try {
+      app.execute("file.open");
+      const start = Date.now();
+      while (!input) {
+        if (Date.now() - start > 10000) throw new Error("corpus.openDocumentBytes: no file input");
+        await sleep(10);
+      }
+    } finally {
+      HTMLInputElement.prototype.click = click;
+    }
+    const transfer = new DataTransfer();
+    transfer.items.add(new File([fromBase64(base64)], fileName));
+    input.files = transfer.files;
+    input.dispatchEvent(new Event("change"));
+    await waitForDocument(fileName.replace(/\.gvdesign$/, ""));
+  }
+
+  // Every open document with its load state.
+  function documentStates() {
+    const names = { 1: "ready", 10: "loading", 12: "loaded" };
+    return app.designer.getDocuments().map((d) => ({
+      title: d.getTitle(),
+      status: names[d.getStatus()] || String(d.getStatus()),
+      hasScene: !!d.getScene(),
+    }));
+  }
+
+  app.corpus = {
+    documentStates,
+    settle,
+    waitForDocument,
+    assetsReady,
+    fontsReady,
+    viewIdle,
+    saveDocumentBytes,
+    openDocumentBytes,
+  };
 })();

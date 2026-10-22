@@ -5,6 +5,9 @@
    "g-overlay",
    "no-padding"
   ],
+  "attrs": {
+   "style": "position: absolute; top: 518px; left: 1315px;"
+  },
   "children": [
    {
     "tag": "div",
@@ -17,6 +20,9 @@
       "cls": [
        "toolbar"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "select",
@@ -148,6 +154,9 @@
       "cls": [
        "gradient-editor"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -155,6 +164,9 @@
       "cls": [
        "pattern-editor"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "div",
@@ -172,7 +184,10 @@
             "tag": "div",
             "cls": [
              "pattern-preview"
-            ]
+            ],
+            "attrs": {
+             "style": "background-image: url(data:(841 chars)); background-repeat: no-repeat; background-position: center center; background-size: contain;"
+            }
            }
           ]
          },
@@ -281,6 +296,9 @@
                 "cls": [
                  "column"
                 ],
+                "attrs": {
+                 "style": "width: 100%;"
+                },
                 "children": [
                  {
                   "tag": "div",
@@ -376,13 +394,19 @@
                         "cls": [
                          "g-input-slider-thumb",
                          "generic"
-                        ]
+                        ],
+                        "attrs": {
+                         "style": "left: 47.3684%;"
+                        }
                        },
                        {
                         "tag": "div",
                         "cls": [
                          "g-input-slider-background"
-                        ]
+                        ],
+                        "attrs": {
+                         "style": "width: 47.3684%;"
+                        }
                        }
                       ]
                      }
@@ -397,6 +421,9 @@
                 "cls": [
                  "column"
                 ],
+                "attrs": {
+                 "style": "width: 40px;"
+                },
                 "children": [
                  {
                   "tag": "div",
@@ -468,6 +495,9 @@
              "column",
              "no-padding"
             ],
+            "attrs": {
+             "style": "width: 40px;"
+            },
             "children": [
              {
               "tag": "div",
@@ -557,6 +587,9 @@
       "cls": [
        "noise-editor"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -564,6 +597,9 @@
       "cls": [
        "color-editor"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -571,6 +607,9 @@
       "cls": [
        "gradient-actions"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -588,7 +627,8 @@
          {
           "tag": "button",
           "attrs": {
-           "data-palette": "colors"
+           "data-palette": "colors",
+           "style": "display: none;"
           },
           "hidden": true
          },
@@ -607,14 +647,16 @@
          {
           "tag": "button",
           "attrs": {
-           "data-palette": "used"
+           "data-palette": "used",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "button",
           "attrs": {
-           "data-palette": "mixer"
+           "data-palette": "mixer",
+           "style": "display: none;"
           },
           "hidden": true
          }
@@ -627,7 +669,8 @@
          "colors-palette"
         ],
         "attrs": {
-         "data-palette": "colors"
+         "data-palette": "colors",
+         "style": "display: none;"
         },
         "hidden": true
        },
@@ -638,7 +681,8 @@
          "mixer-palette"
         ],
         "attrs": {
-         "data-palette": "mixer"
+         "data-palette": "mixer",
+         "style": "display: none;"
         },
         "hidden": true
        },
@@ -649,7 +693,8 @@
          "used-palette"
         ],
         "attrs": {
-         "data-palette": "used"
+         "data-palette": "used",
+         "style": "display: none;"
         },
         "hidden": true
        },
@@ -661,7 +706,8 @@
          "global"
         ],
         "attrs": {
-         "data-palette": "swatches"
+         "data-palette": "swatches",
+         "style": ""
         },
         "children": [
          {
@@ -773,7 +819,8 @@
          "document"
         ],
         "attrs": {
-         "data-palette": "swatches"
+         "data-palette": "swatches",
+         "style": ""
         },
         "children": [
          {

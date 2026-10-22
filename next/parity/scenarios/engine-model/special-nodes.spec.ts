@@ -199,10 +199,10 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
       img.setProperty("url", url);
       for (
         let i = 0;
-        i < 200 && img.getStatus() !== null && img.getStatus() !== G.GImage.ImageStatus.Error;
+        i < 300 && img.getStatus() !== null && img.getStatus() !== G.GImage.ImageStatus.Error;
         i++
       )
-        await H.sleep(25);
+        await H.frame();
       const blob = H.blob(img);
       const out: Record<string, unknown> = {
         statuses,
@@ -228,6 +228,56 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
         ],
       };
       return out;
+    }),
+  },
+  {
+    id: "engine-model/special/image-cmyk-jpeg",
+    covers: ["ENG-NODE-035", "ENG-NODE-034"],
+    kind: "json",
+    // An 8 x 6 CMYK JPEG (made with Pillow: cyan rising left to right,
+    // magenta top to bottom, yellow on the right half, black on the bottom
+    // half) and a plain RGB JPEG for comparison.
+    args: {
+      cmyk: "data:image/jpeg;base64,/9j/7gAOQWRvYmUAZAAAAAAA/9sAQwACAQEBAQECAQEBAgICAgIEAwICAgIFBAQDBAYFBgYGBQYGBgcJCAYHCQcGBggLCAkKCgoKCgYICwwLCgwJCgoK/8AAFAgABgAIBEMRAE0RAFkRAEsRAP/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/aAA4EQwBNAFkASwAAPwDvP+Dkf/mP/wDbX+tWP+Ijv4/f88NU/wDAhf8A4qm/8Hzn/Nrv/c7f+4Cv1c/4bW+Kn/QA8P8A/gLP/wDHq//Z",
+      rgb: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAIBAQEBAQIBAQECAgICAgQDAgICAgUEBAMEBgUGBgYFBgYGBwkIBgcJBwYGCAsICQoKCgoKBggLDAsKDAkKCgr/2wBDAQICAgICAgUDAwUKBwYHCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgr/wAARCAAGAAgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC5RRRX5Gf5Tn//2Q==",
+    },
+    inPage: withHelpers(async (_p, a: { cmyk: string; rgb: string }, H) => {
+      const G = H.G;
+      const I = G.GImage;
+      const load = async (url: string) => {
+        const img = new I();
+        const converts: unknown[] = [];
+        const statuses: unknown[] = [];
+        img.addEventListener(I.ConvertStatusEvent, (e: { status: unknown }) =>
+          converts.push(e.status),
+        );
+        img.addEventListener(I.StatusEvent, (e: { status: unknown }) => statuses.push(e.status));
+        H.add(img);
+        img.setProperty("url", url);
+        // Loaded, and for a JPEG the colour check has finished.
+        const settled = () =>
+          img.getStatus() === I.ImageStatus.Error ||
+          (img.getStatus() === I.ImageStatus.Loaded &&
+            [I.ConvertStatus.None, I.ConvertStatus.Converted, I.ConvertStatus.Failed].includes(
+              converts[converts.length - 1],
+            ));
+        for (let i = 0; i < 300 && !settled(); i++) await H.frame();
+        if (!settled()) throw new Error("the image did not settle");
+        await H.frame();
+        // The decoded pixels, as the element paints them at 1:1.
+        const bmp = img.toBitmap(1, 1);
+        const canvas = bmp.getHTMLElement(true) as HTMLCanvasElement;
+        const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+        return {
+          statuses,
+          converts,
+          convertStatus: img.getConvertStatus ? img.getConvertStatus() : "<no getter>",
+          size: H.props(img, ["iw", "ih"]),
+          pixels: Array.from(ctx.getImageData(0, 0, canvas.width, canvas.height).data),
+          width: canvas.width,
+        };
+      };
+      return { convertStatuses: I.ConvertStatus, cmyk: await load(a.cmyk), rgb: await load(a.rgb) };
     }),
   },
   {
@@ -363,6 +413,7 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
     kind: "json",
     open: { newDocument: true, settings: {} },
     driver: async ({ page }) => {
+      await page.clock.install();
       await page.evaluate(() => {
         const w = window as unknown as { __parity: { app: { activateTool(n: string): boolean } } };
         if (!w.__parity.app.activateTool("GPathsGraphTool")) throw new Error("no paths graph tool");
@@ -380,8 +431,10 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
         await page.mouse.move(x0 + dx, y0 + dy, { steps: 4 });
         await page.mouse.down();
         await page.mouse.up();
-        // Slow enough that two clicks never count as a double click.
-        await page.waitForTimeout(600);
+        // The tool takes two presses closer than its double-click time
+        // (Date.now based) as a double click; the fake clock moves on far
+        // enough that they never are.
+        await page.clock.runFor(1000);
       }
       await page.keyboard.press("Escape");
       return page.evaluate(() => {
@@ -418,13 +471,21 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
           };
         };
         // Anchor, edge and facet uids are random; name them uid1, uid2, ...
-        // in order of first appearance so the references stay visible.
+        // in order of first appearance so the references stay visible. A
+        // uid is the first entry of a node's props; any other string equal
+        // to one is a reference to it.
         const uids = new Map<string, string>();
-        const relabel = (x: unknown): unknown => {
-          if (typeof x === "string" && /^[A-Za-z0-9]{32}$/.test(x)) {
-            if (!uids.has(x)) uids.set(x, "uid" + (uids.size + 1));
-            return uids.get(x);
+        const parts = ["anchors", "edges", "facets"].map(nested);
+        for (const part of parts) {
+          const list = (part as { props?: unknown[] } | null)?.props ?? [];
+          for (const props of list) {
+            const uid = Array.isArray(props) ? props[0] : null;
+            if (typeof uid === "string" && /^[A-Za-z0-9]{32}$/.test(uid) && !uids.has(uid))
+              uids.set(uid, "uid" + (uids.size + 1));
           }
+        }
+        const relabel = (x: unknown): unknown => {
+          if (typeof x === "string") return uids.get(x) ?? x;
           if (Array.isArray(x)) return x.map(relabel);
           if (x && typeof x === "object")
             return Object.fromEntries(Object.entries(x).map(([k, v]) => [k, relabel(v)]));
@@ -433,9 +494,9 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
         return relabel({
           found: true,
           keys: Object.keys(blob).filter((k) => !["@id", "_layId", "_effId"].includes(k)),
-          anchors: nested("anchors"),
-          edges: nested("edges"),
-          facets: nested("facets"),
+          anchors: parts[0],
+          edges: parts[1],
+          facets: parts[2],
           geometry: (() => {
             const b = (
               pg.getGeometryBBox as () => {

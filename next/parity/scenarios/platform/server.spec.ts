@@ -3,9 +3,10 @@
 // request goes through Playwright's request API to the base URL of the app
 // under test, so the same scenarios check the new server on its own port.
 // The license, subscription and cloud routes are in dropped.spec.ts.
+import { openApp } from "../../support/apps.ts";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios } from "../../support/scenario.ts";
-import { recordResponse } from "./lib.ts";
+import { base, recordResponse } from "./lib.ts";
 
 /** The static files the old index.html and the app load, plus the rest of public/. */
 const STATIC_FILES = [
@@ -143,6 +144,31 @@ const scenarios = defineScenarios([
         });
       }
       return out;
+    },
+  },
+  {
+    id: "platform/server/online-probe",
+    covers: ["FMT-SERVER-004", "FMT-SERVER-020"],
+    kind: "json",
+    open: { newDocument: false },
+    // The online check the app makes while it starts: which requests reach
+    // /connection/test, on the app's own origin (gApi.url is
+    // location.origin), until no request was made for a second.
+    driver: async ({ page, kind }) => {
+      const origin = base(kind);
+      const probes = new Set<string>();
+      let last = Date.now();
+      page.on("request", (r) => {
+        last = Date.now();
+        if (!r.url().includes("/connection/test")) return;
+        const sameOrigin = r.url().startsWith(origin + "/");
+        probes.add(`${r.method()} ${sameOrigin ? r.url().slice(origin.length) : r.url()}`);
+      });
+      const probe = page.waitForRequest(/\/connection\/test/, { timeout: 30_000 });
+      await openApp(page, kind, { newDocument: false });
+      await probe;
+      while (Date.now() - last < 1000) await page.waitForTimeout(100);
+      return [...probes].sort();
     },
   },
   {

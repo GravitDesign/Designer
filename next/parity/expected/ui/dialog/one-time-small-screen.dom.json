@@ -1,0 +1,68 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-dialog",
+   "g-system-dialog",
+   "g-onetime-dialog"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-content"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "message"
+      ],
+      "text": "Please note that Gravit Designer may not work optimally on your device. For an optimal experience, it should be a device with a screen width of at least 1024 pixels width, 2 GB RAM and a CPU with 2.2 Ghz."
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-footer"
+    ],
+    "children": [
+     {
+      "tag": "label",
+      "children": [
+       {
+        "tag": "input",
+        "attrs": {
+         "type": "checkbox"
+        },
+        "props": {
+         "checked": false
+        }
+       },
+       {
+        "tag": "span",
+        "text": "Don't show this again"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "buttons"
+      ],
+      "children": [
+       {
+        "tag": "button",
+        "cls": [
+         "primary"
+        ],
+        "text": "OK"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

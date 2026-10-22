@@ -3,6 +3,14 @@
  "id": "edit.copy",
  "info": {
   "title": "Copy",
+  "fullTitle": "Copy",
+  "info": null,
+  "icon": "gravit-icon-copy",
+  "category": [
+   "Edit"
+  ],
+  "group": "ccp",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -20,6 +28,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -500,10 +509,10 @@
   },
   "clipboard": {
    "types": [],
-   "node": null
+   "node": null,
+   "system": []
   }
  },
- "returned": true,
  "after": {
   "selection": [],
   "active": {
@@ -512,6 +521,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -519,11 +529,20 @@
   "doc": "unchanged",
   "clipboard": {
    "types": [],
-   "node": null
+   "node": null,
+   "system": []
   }
  },
  "infoAfter": {
   "title": "Copy",
+  "fullTitle": "Copy",
+  "info": null,
+  "icon": "gravit-icon-copy",
+  "category": [
+   "Edit"
+  ],
+  "group": "ccp",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,

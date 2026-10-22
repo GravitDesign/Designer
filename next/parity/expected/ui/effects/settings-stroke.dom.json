@@ -5,6 +5,9 @@
    "properties-panel",
    "effects-properties-panel"
   ],
+  "attrs": {
+   "style": ""
+  },
   "children": [
    {
     "tag": "div",
@@ -197,6 +200,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 75%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -228,13 +234,19 @@
                           "cls": [
                            "g-input-slider-thumb",
                            "generic"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "left: 22.4%;"
+                          }
                          },
                          {
                           "tag": "div",
                           "cls": [
                            "g-input-slider-background"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "width: 22.4%;"
+                          }
                          }
                         ]
                        }
@@ -249,6 +261,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 40px;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -310,6 +325,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 75%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -341,13 +359,19 @@
                           "cls": [
                            "g-input-slider-thumb",
                            "generic"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "left: 70.303%;"
+                          }
                          },
                          {
                           "tag": "div",
                           "cls": [
                            "g-input-slider-background"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "width: 70.303%;"
+                          }
                          }
                         ]
                        }
@@ -362,6 +386,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 40px;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -423,6 +450,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 75%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -454,13 +484,19 @@
                           "cls": [
                            "g-input-slider-thumb",
                            "generic"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "left: 35.35%;"
+                          }
                          },
                          {
                           "tag": "div",
                           "cls": [
                            "g-input-slider-background"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "width: 35.35%;"
+                          }
                          }
                         ]
                        }
@@ -475,6 +511,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 40px;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -536,6 +575,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 50px;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -557,7 +599,8 @@
                         ],
                         "attrs": {
                          "data-drag-mode": "1",
-                         "draggable": "true"
+                         "draggable": "true",
+                         "style": "background: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255)), url(data:(309 chars));"
                         },
                         "children": [
                          {
@@ -622,6 +665,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 20px;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -691,6 +737,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 100%;"
+                  },
                   "children": [
                    {
                     "tag": "div",

@@ -3,6 +3,15 @@
  "id": "arrange.transform.rotate-180-left",
  "info": {
   "title": "Rotate 180° Left",
+  "fullTitle": "Rotate 180° Left",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Transform"
+  ],
+  "group": "arrange/transform-rotate-left",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,8 +23,16 @@
  },
  "before": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -23,27 +40,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id3",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id4",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id5",
+       "pgid": "id4",
+       "aid": "id5"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -61,21 +79,21 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id6",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id7"
+        "&": "id8"
        },
-       "_effId": "id8"
+       "_effId": "id9"
       },
       {
        "@": "rectangle",
-       "@id": "id9",
+       "@id": "id2",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -535,11 +553,18 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -547,6 +572,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Rotate 180° Left"
@@ -554,21 +580,21 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id3",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id4",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id5",
+       "pgid": "id4",
+       "aid": "id5"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -586,21 +612,21 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id6",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id7"
+        "&": "id8"
        },
-       "_effId": "id8"
+       "_effId": "id9"
       },
       {
        "@": "rectangle",
-       "@id": "id9",
+       "@id": "id2",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -1062,6 +1088,15 @@
  },
  "infoAfter": {
   "title": "Rotate 180° Left",
+  "fullTitle": "Rotate 180° Left",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Transform"
+  ],
+  "group": "arrange/transform-rotate-left",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -1073,8 +1108,16 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1082,6 +1125,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1092,8 +1136,16 @@
  },
  "afterRedo": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1101,6 +1153,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Rotate 180° Left"

@@ -5,7 +5,7 @@
 import type { Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
-import { runKeyChecks, type KeyCheck } from "./keys.ts";
+import { frames, runKeyChecks, type KeyCheck } from "./keys.ts";
 import { sceneToClient } from "./lib.ts";
 
 const clickRow =
@@ -16,7 +16,7 @@ const clickRow =
       .filter({ hasText: new RegExp(`^${name}$`) })
       .first()
       .click();
-    await page.waitForTimeout(100);
+    await frames(page);
   };
 
 const clickCanvas = async (page: Page): Promise<void> => {
@@ -30,7 +30,27 @@ const L = { center: true, shell: true } as const;
 const overB = async (page: Page): Promise<void> => {
   const p = await sceneToClient(page, 280, 130);
   await page.mouse.move(p.x, p.y);
-  await page.waitForTimeout(300);
+  await frames(page);
+};
+
+/**
+ * After the eyedropper key: records whether the eyedropper picker opened,
+ * then moves over B and clicks to pick its colour.
+ */
+const pickB = async (page: Page): Promise<unknown> => {
+  const picker = page.locator(".g-eye-dropper-picker:visible");
+  let shown = true;
+  try {
+    await picker.first().waitFor({ timeout: 3000 });
+  } catch {
+    shown = false;
+  }
+  const p = await sceneToClient(page, 280, 130);
+  await page.mouse.move(p.x, p.y);
+  // The eyedropper samples the rendered canvas; let it paint.
+  await frames(page, 3);
+  await page.mouse.click(p.x, p.y);
+  return { eyedropperShown: shown };
 };
 
 const checks: KeyCheck[] = [
@@ -41,11 +61,12 @@ const checks: KeyCheck[] = [
     prepare: clickRow("C"),
     keys: ["Alt+KeyR"],
     act: async (page) => {
+      // Alt+R turns the row's name into a text field.
+      await page.waitForFunction(() => document.activeElement?.tagName === "INPUT");
       await page.keyboard.press("Control+KeyA");
       await page.keyboard.type("Renamed");
       await page.keyboard.press("Enter");
     },
-    wait: 300,
     args: L,
   },
   {
@@ -124,8 +145,7 @@ const checks: KeyCheck[] = [
     name: "multi-page-f6",
     setup: "pages3",
     id: "view.toggle-multi-page-mode",
-    keys: ["F6", "F6"],
-    gap: 200,
+    keys: ["F6"],
     args: { view: true },
   },
   {
@@ -134,15 +154,7 @@ const checks: KeyCheck[] = [
     id: "edit.eyedropper.fill",
     prepare: overB,
     keys: ["Control+Alt+KeyC"],
-    act: async (page) => {
-      await page.waitForTimeout(200);
-      const p = await sceneToClient(page, 280, 130);
-      await page.mouse.move(p.x, p.y);
-      // The eyedropper samples the rendered canvas; let it settle.
-      await page.waitForTimeout(400);
-      await page.mouse.click(p.x, p.y);
-    },
-    wait: 300,
+    act: pickB,
     args: { center: true, tool: true },
   },
   {
@@ -151,32 +163,16 @@ const checks: KeyCheck[] = [
     id: "edit.eyedropper.fill",
     prepare: overB,
     keys: ["KeyI"],
-    act: async (page) => {
-      await page.waitForTimeout(200);
-      const p = await sceneToClient(page, 280, 130);
-      await page.mouse.move(p.x, p.y);
-      // The eyedropper samples the rendered canvas; let it settle.
-      await page.waitForTimeout(400);
-      await page.mouse.click(p.x, p.y);
-    },
-    wait: 300,
+    act: pickB,
     args: { center: true, tool: true },
   },
   {
     name: "eyedropper-border",
-    setup: "eyedrop",
+    setup: "eyedrop-border",
     id: "edit.eyedropper.border",
     prepare: overB,
     keys: ["Control+Shift+Alt+KeyC"],
-    act: async (page) => {
-      await page.waitForTimeout(200);
-      const p = await sceneToClient(page, 280, 130);
-      await page.mouse.move(p.x, p.y);
-      // The eyedropper samples the rendered canvas; let it settle.
-      await page.waitForTimeout(400);
-      await page.mouse.click(p.x, p.y);
-    },
-    wait: 300,
+    act: pickB,
     args: { center: true, tool: true },
   },
 ];

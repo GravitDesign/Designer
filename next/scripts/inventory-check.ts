@@ -17,6 +17,7 @@ const testRoots = [
   "src",
   "parity/scenarios",
   "parity/self-test",
+  "parity/corpus",
   "e2e",
   "server",
   "electron",
@@ -33,7 +34,8 @@ function walk(dir: string): void {
       if (entry.name !== "node_modules") walk(full);
     } else if (
       /\.(test|spec)\.tsx?$/.test(entry.name) ||
-      full.includes(`${path.sep}scenarios${path.sep}`)
+      full.includes(`${path.sep}scenarios${path.sep}`) ||
+      full.endsWith(`${path.sep}corpus${path.sep}documents.ts`)
     ) {
       const text = fs.readFileSync(full, "utf8");
       for (const m of text.matchAll(idPattern)) {

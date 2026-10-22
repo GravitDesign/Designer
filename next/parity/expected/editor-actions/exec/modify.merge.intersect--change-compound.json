@@ -3,6 +3,15 @@
  "id": "modify.merge.intersect",
  "info": {
   "title": "Intersect",
+  "fullTitle": "Create Compound (Intersect)",
+  "info": null,
+  "icon": "gravit-icon-merge-intersect",
+  "category": [
+   "Modify",
+   "Modify/Create Compound Shape"
+  ],
+  "group": "structure-boolean/combine",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +23,11 @@
  },
  "before": {
   "selection": [
-   "Compound Shape"
+   {
+    "node": "Compound Shape",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,6 +35,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Combine"
@@ -29,21 +43,21 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "Compound Shape",
-       "@id": "id4",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
@@ -553,10 +567,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "Compound Shape"
+   {
+    "node": "Compound Shape",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -564,6 +581,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Combine",
@@ -572,21 +590,21 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "Compound Shape",
-       "@id": "id4",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
@@ -1099,6 +1117,15 @@
  },
  "infoAfter": {
   "title": "Intersect",
+  "fullTitle": "Create Compound (Intersect)",
+  "info": null,
+  "icon": "gravit-icon-merge-intersect",
+  "category": [
+   "Modify",
+   "Modify/Create Compound Shape"
+  ],
+  "group": "structure-boolean/combine",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -1110,7 +1137,11 @@
  },
  "afterUndo": {
   "selection": [
-   "Compound Shape"
+   {
+    "node": "Compound Shape",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1118,6 +1149,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Combine"
@@ -1129,7 +1161,11 @@
  },
  "afterRedo": {
   "selection": [
-   "Compound Shape"
+   {
+    "node": "Compound Shape",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1137,6 +1173,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Combine",

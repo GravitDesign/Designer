@@ -3,6 +3,14 @@
  "id": "edit.cut",
  "info": {
   "title": "Cut",
+  "fullTitle": "Cut",
+  "info": null,
+  "icon": "gravit-icon-cut",
+  "category": [
+   "Edit"
+  ],
+  "group": "ccp",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +22,11 @@
  },
  "before": {
   "selection": [
-   "group"
+   {
+    "node": "group",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,6 +34,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Group Selection"
@@ -29,21 +42,21 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "group",
-       "@id": "id4",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
@@ -544,10 +557,10 @@
   },
   "clipboard": {
    "types": [],
-   "node": null
+   "node": null,
+   "system": []
   }
  },
- "returned": true,
  "after": {
   "selection": [],
   "active": {
@@ -564,6 +577,7 @@
    }
   ],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Group Selection",
@@ -572,17 +586,17 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       }
      ],
      "#": "id16",
@@ -1015,76 +1029,30 @@
    "types": [
     "application/gravit+node"
    ],
-   "node": [
+   "node": "[{\"@\":\"group\",\"$\":[{\"@\":\"rectangle\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,30,130,130],\"name\":\"A\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"$\":[{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id8\"},\"_effId\":\"id9\"},{\"@\":\"rectangle\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,30,230,150],\"name\":\"B\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"$\":[{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id13\"},\"_effId\":\"id14\"}],\"_effId\":\"id15\"}]",
+   "system": [
     {
-     "@": "group",
-     "$": [
-      {
-       "@": "rectangle",
-       "uf": true,
-       "ct": "R",
-       "sl": 0,
-       "reftxt": null,
-       "refanchors": [],
-       "trf": [
-        30,
-        0,
-        0,
-        30,
-        130,
-        130
-       ],
-       "name": "A",
-       "_sdf": 107,
-       "_layers": {
-        "@": "paintLayers",
-        "$": [
-         {
-          "@": "fillPaintLayer",
-          "_pt": "C#[235,235,235]"
-         }
-        ],
-        "&": "id8"
-       },
-       "_effId": "id9"
-      },
-      {
-       "@": "rectangle",
-       "uf": true,
-       "ct": "R",
-       "sl": 0,
-       "reftxt": null,
-       "refanchors": [],
-       "trf": [
-        30,
-        0,
-        0,
-        30,
-        230,
-        150
-       ],
-       "name": "B",
-       "_sdf": 107,
-       "_layers": {
-        "@": "paintLayers",
-        "$": [
-         {
-          "@": "fillPaintLayer",
-          "_pt": "C#[235,235,235]"
-         }
-        ],
-        "&": "id13"
-       },
-       "_effId": "id14"
-      }
-     ],
-     "_effId": "id15"
+     "event": "writeText",
+     "data": {
+      "open": "<gravit mimeType=\"application/gravit+node\" restricted=\"false\">",
+      "json": "[{\"@\":\"group\",\"$\":[{\"@\":\"rectangle\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,30,130,130],\"name\":\"A\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"$\":[{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id8\"},\"_effId\":\"id9\"},{\"@\":\"rectangle\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,30,230,150],\"name\":\"B\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"$\":[{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id13\"},\"_effId\":\"id14\"}],\"_effId\":\"id15\"}]",
+      "close": "</gravit>",
+      "escapedAmpLtGtOnly": true
+     }
     }
    ]
   }
  },
  "infoAfter": {
   "title": "Cut",
+  "fullTitle": "Cut",
+  "info": null,
+  "icon": "gravit-icon-cut",
+  "category": [
+   "Edit"
+  ],
+  "group": "ccp",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -1096,7 +1064,11 @@
  },
  "afterUndo": {
   "selection": [
-   "group"
+   {
+    "node": "group",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1104,6 +1076,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Group Selection"
@@ -1116,70 +1089,16 @@
    "types": [
     "application/gravit+node"
    ],
-   "node": [
+   "node": "[{\"@\":\"group\",\"$\":[{\"@\":\"rectangle\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,30,130,130],\"name\":\"A\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"$\":[{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id8\"},\"_effId\":\"id9\"},{\"@\":\"rectangle\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,30,230,150],\"name\":\"B\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"$\":[{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id13\"},\"_effId\":\"id14\"}],\"_effId\":\"id15\"}]",
+   "system": [
     {
-     "@": "group",
-     "$": [
-      {
-       "@": "rectangle",
-       "uf": true,
-       "ct": "R",
-       "sl": 0,
-       "reftxt": null,
-       "refanchors": [],
-       "trf": [
-        30,
-        0,
-        0,
-        30,
-        130,
-        130
-       ],
-       "name": "A",
-       "_sdf": 107,
-       "_layers": {
-        "@": "paintLayers",
-        "$": [
-         {
-          "@": "fillPaintLayer",
-          "_pt": "C#[235,235,235]"
-         }
-        ],
-        "&": "id8"
-       },
-       "_effId": "id9"
-      },
-      {
-       "@": "rectangle",
-       "uf": true,
-       "ct": "R",
-       "sl": 0,
-       "reftxt": null,
-       "refanchors": [],
-       "trf": [
-        30,
-        0,
-        0,
-        30,
-        230,
-        150
-       ],
-       "name": "B",
-       "_sdf": 107,
-       "_layers": {
-        "@": "paintLayers",
-        "$": [
-         {
-          "@": "fillPaintLayer",
-          "_pt": "C#[235,235,235]"
-         }
-        ],
-        "&": "id13"
-       },
-       "_effId": "id14"
-      }
-     ],
-     "_effId": "id15"
+     "event": "writeText",
+     "data": {
+      "open": "<gravit mimeType=\"application/gravit+node\" restricted=\"false\">",
+      "json": "[{\"@\":\"group\",\"$\":[{\"@\":\"rectangle\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,30,130,130],\"name\":\"A\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"$\":[{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id8\"},\"_effId\":\"id9\"},{\"@\":\"rectangle\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,30,230,150],\"name\":\"B\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"$\":[{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id13\"},\"_effId\":\"id14\"}],\"_effId\":\"id15\"}]",
+      "close": "</gravit>",
+      "escapedAmpLtGtOnly": true
+     }
     }
    ]
   }
@@ -1192,6 +1111,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Group Selection",
@@ -1203,70 +1123,16 @@
    "types": [
     "application/gravit+node"
    ],
-   "node": [
+   "node": "[{\"@\":\"group\",\"$\":[{\"@\":\"rectangle\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,30,130,130],\"name\":\"A\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"$\":[{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id8\"},\"_effId\":\"id9\"},{\"@\":\"rectangle\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,30,230,150],\"name\":\"B\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"$\":[{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id13\"},\"_effId\":\"id14\"}],\"_effId\":\"id15\"}]",
+   "system": [
     {
-     "@": "group",
-     "$": [
-      {
-       "@": "rectangle",
-       "uf": true,
-       "ct": "R",
-       "sl": 0,
-       "reftxt": null,
-       "refanchors": [],
-       "trf": [
-        30,
-        0,
-        0,
-        30,
-        130,
-        130
-       ],
-       "name": "A",
-       "_sdf": 107,
-       "_layers": {
-        "@": "paintLayers",
-        "$": [
-         {
-          "@": "fillPaintLayer",
-          "_pt": "C#[235,235,235]"
-         }
-        ],
-        "&": "id8"
-       },
-       "_effId": "id9"
-      },
-      {
-       "@": "rectangle",
-       "uf": true,
-       "ct": "R",
-       "sl": 0,
-       "reftxt": null,
-       "refanchors": [],
-       "trf": [
-        30,
-        0,
-        0,
-        30,
-        230,
-        150
-       ],
-       "name": "B",
-       "_sdf": 107,
-       "_layers": {
-        "@": "paintLayers",
-        "$": [
-         {
-          "@": "fillPaintLayer",
-          "_pt": "C#[235,235,235]"
-         }
-        ],
-        "&": "id13"
-       },
-       "_effId": "id14"
-      }
-     ],
-     "_effId": "id15"
+     "event": "writeText",
+     "data": {
+      "open": "<gravit mimeType=\"application/gravit+node\" restricted=\"false\">",
+      "json": "[{\"@\":\"group\",\"$\":[{\"@\":\"rectangle\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,30,130,130],\"name\":\"A\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"$\":[{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id8\"},\"_effId\":\"id9\"},{\"@\":\"rectangle\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,30,230,150],\"name\":\"B\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"$\":[{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id13\"},\"_effId\":\"id14\"}],\"_effId\":\"id15\"}]",
+      "close": "</gravit>",
+      "escapedAmpLtGtOnly": true
+     }
     }
    ]
   }

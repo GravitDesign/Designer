@@ -5,6 +5,9 @@
    "properties-panel",
    "effects-properties-panel"
   ],
+  "attrs": {
+   "style": ""
+  },
   "children": [
    {
     "tag": "div",
@@ -197,6 +200,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 75%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -213,7 +219,8 @@
                       "attrs": {
                        "data-property": "hue",
                        "min": "0",
-                       "max": "360"
+                       "max": "360",
+                       "style": "background: linear-gradient(90deg, rgb(255, 0, 0) 5.55556%, rgb(255, 85, 0) 11.1111%, rgb(255, 170, 0) 16.6667%, rgb(255, 255, 0) 22.2222%, rgb(170, 255, 0) 27.7778%, rgb(85, 255, 0) 33.3333%, rgb(0, 255, 0) 38.8889%, rgb(0, 255, 85) 44.4444%, rgb(0, 255, 170) 50%, rgb(0, 255, 255) 55.5556%, rgb(0, 170, 255) 61.1111%, rgb(0, 85, 255) 66.6667%, rgb(0, 0, 255) 72.2222%, rgb(85, 0, 255) 77.7778%, rgb(170, 0, 255) 83.3333%, rgb(255, 0, 255) 88.8889%, rgb(255, 0, 170) 94.4444%, rgb(255, 0, 85) 100%, rgb(255, 0, 0) 105.556%);"
                       },
                       "children": [
                        {
@@ -228,7 +235,10 @@
                           "cls": [
                            "g-input-slider-thumb",
                            "custom"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "left: 100%;"
+                          }
                          }
                         ]
                        }
@@ -243,6 +253,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 40px;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -301,6 +314,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 75%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -317,7 +333,8 @@
                       "attrs": {
                        "data-property": "saturation",
                        "min": "0",
-                       "max": "100"
+                       "max": "100",
+                       "style": "background: linear-gradient(90deg, rgb(255, 255, 255) 20%, rgb(255, 204, 204) 40%, rgb(255, 153, 153) 60%, rgb(255, 102, 102) 80%, rgb(255, 51, 51) 100%, rgb(255, 0, 0) 120%);"
                       },
                       "children": [
                        {
@@ -332,7 +349,10 @@
                           "cls": [
                            "g-input-slider-thumb",
                            "custom"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "left: 100%;"
+                          }
                          }
                         ]
                        }
@@ -347,6 +367,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 40px;"
+                  },
                   "children": [
                    {
                     "tag": "div",

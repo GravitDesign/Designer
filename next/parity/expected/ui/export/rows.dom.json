@@ -42,7 +42,8 @@
     ],
     "id": "btn-export",
     "attrs": {
-     "data-title": "Export..."
+     "data-title": "Export...",
+     "style": ""
     },
     "children": [
      {
@@ -89,6 +90,9 @@
    "properties-panel",
    "export-panel"
   ],
+  "attrs": {
+   "style": ""
+  },
   "children": [
    {
     "tag": "div",
@@ -109,6 +113,9 @@
         "cls": [
          "column"
         ],
+        "attrs": {
+         "style": "width: 30%;"
+        },
         "children": [
          {
           "tag": "div",
@@ -122,7 +129,8 @@
              {
               "tag": "input",
               "attrs": {
-               "type": "text"
+               "type": "text",
+               "style": "margin: 0px; width: 70%;"
               },
               "props": {
                "value": "1x"
@@ -133,12 +141,18 @@
               "cls": [
                "g-flat"
               ],
+              "attrs": {
+               "style": "width: 30%;"
+              },
               "children": [
                {
                 "tag": "span",
                 "cls": [
                  "gravit-icon-down"
-                ]
+                ],
+                "attrs": {
+                 "style": "font-size: 12px;"
+                }
                }
               ]
              }
@@ -153,6 +167,9 @@
         "cls": [
          "column"
         ],
+        "attrs": {
+         "style": "width: 35%;"
+        },
         "children": [
          {
           "tag": "div",
@@ -179,6 +196,9 @@
         "cls": [
          "column"
         ],
+        "attrs": {
+         "style": "width: 30%;"
+        },
         "children": [
          {
           "tag": "div",
@@ -222,6 +242,9 @@
         "cls": [
          "column"
         ],
+        "attrs": {
+         "style": "width: 5%;"
+        },
         "children": [
          {
           "tag": "div",
@@ -263,6 +286,9 @@
         "cls": [
          "column"
         ],
+        "attrs": {
+         "style": "width: 30%;"
+        },
         "children": [
          {
           "tag": "div",
@@ -276,7 +302,8 @@
              {
               "tag": "input",
               "attrs": {
-               "type": "text"
+               "type": "text",
+               "style": "margin: 0px; width: 70%;"
               },
               "props": {
                "value": "2x"
@@ -287,12 +314,18 @@
               "cls": [
                "g-flat"
               ],
+              "attrs": {
+               "style": "width: 30%;"
+              },
               "children": [
                {
                 "tag": "span",
                 "cls": [
                  "gravit-icon-down"
-                ]
+                ],
+                "attrs": {
+                 "style": "font-size: 12px;"
+                }
                }
               ]
              }
@@ -307,6 +340,9 @@
         "cls": [
          "column"
         ],
+        "attrs": {
+         "style": "width: 35%;"
+        },
         "children": [
          {
           "tag": "div",
@@ -333,6 +369,9 @@
         "cls": [
          "column"
         ],
+        "attrs": {
+         "style": "width: 30%;"
+        },
         "children": [
          {
           "tag": "div",
@@ -376,6 +415,9 @@
         "cls": [
          "column"
         ],
+        "attrs": {
+         "style": "width: 5%;"
+        },
         "children": [
          {
           "tag": "div",
@@ -417,6 +459,9 @@
         "cls": [
          "column"
         ],
+        "attrs": {
+         "style": "width: 30%;"
+        },
         "children": [
          {
           "tag": "div",
@@ -430,7 +475,8 @@
              {
               "tag": "input",
               "attrs": {
-               "type": "text"
+               "type": "text",
+               "style": "margin: 0px; width: 70%;"
               },
               "props": {
                "value": "3x"
@@ -441,12 +487,18 @@
               "cls": [
                "g-flat"
               ],
+              "attrs": {
+               "style": "width: 30%;"
+              },
               "children": [
                {
                 "tag": "span",
                 "cls": [
                  "gravit-icon-down"
-                ]
+                ],
+                "attrs": {
+                 "style": "font-size: 12px;"
+                }
                }
               ]
              }
@@ -461,6 +513,9 @@
         "cls": [
          "column"
         ],
+        "attrs": {
+         "style": "width: 35%;"
+        },
         "children": [
          {
           "tag": "div",
@@ -487,6 +542,9 @@
         "cls": [
          "column"
         ],
+        "attrs": {
+         "style": "width: 30%;"
+        },
         "children": [
          {
           "tag": "div",
@@ -530,6 +588,9 @@
         "cls": [
          "column"
         ],
+        "attrs": {
+         "style": "width: 5%;"
+        },
         "children": [
          {
           "tag": "div",
@@ -558,6 +619,9 @@
       "children": [
        {
         "tag": "label",
+        "attrs": {
+         "style": "width: 30%;"
+        },
         "children": [
          {
           "tag": "span",
@@ -567,6 +631,9 @@
        },
        {
         "tag": "label",
+        "attrs": {
+         "style": "width: 35%;"
+        },
         "children": [
          {
           "tag": "span",
@@ -576,6 +643,9 @@
        },
        {
         "tag": "label",
+        "attrs": {
+         "style": "width: 30%;"
+        },
         "children": [
          {
           "tag": "span",
@@ -584,7 +654,10 @@
         ]
        },
        {
-        "tag": "label"
+        "tag": "label",
+        "attrs": {
+         "style": "width: 5%;"
+        }
        }
       ]
      }

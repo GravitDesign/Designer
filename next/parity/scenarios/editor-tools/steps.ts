@@ -1,5 +1,7 @@
+import path from "node:path";
 import type { Page } from "@playwright/test";
-import { RANDOM_ID_ARRAY_KEYS, RANDOM_ID_KEYS } from "../../support/normalize.ts";
+import { NEXT_ROOT } from "../../support/env.ts";
+import { openFile } from "../corpus/lib.ts";
 
 /**
  * Input sequences as data. Both apps replay the same list through
@@ -67,11 +69,46 @@ export type Step =
       readonly doc?: boolean;
       /** Also record class and text of the first element matching this selector. */
       readonly dom?: string;
+      /** Also record the tool changes since the previous one (toolChanges hook). */
+      readonly toolChanges?: boolean;
     }
   | { readonly op: "freezeCaret" }
+  /**
+   * Pins Date.now() and new Date() to `time` (ms) from now on, while
+   * timers keep running (page.clock.setFixedTime). Tools that compare wall
+   * clock times (the freehand tool's 500 ms continue window) then see
+   * exactly the gaps the case sets, whatever the machine load.
+   */
+  | { readonly op: "fixTime"; readonly time: number }
+  /**
+   * Replaces the page's timers and clock with Playwright's fake clock and
+   * pauses it (page.clock.install + pauseAt), so timed phases (the 750 ms
+   * re-render after a wheel zoom) only advance through "runClock". While
+   * the clock is paused no animation frame runs, so steps don't wait for
+   * one.
+   */
+  | { readonly op: "pauseClock" }
+  /** Advances the paused fake clock by `ms`, firing due timers and frames. */
+  | { readonly op: "runClock"; readonly ms: number }
+  /**
+   * Opens a file (path from next/) through File > Open Local File and
+   * waits until its document is ready (corpus openFile).
+   */
+  | { readonly op: "openFile"; readonly file: string }
   /** Full canvas repaint (app.editorTools.repaint). */
   | { readonly op: "repaint" }
-  | { readonly op: "shot"; readonly rect: Rect };
+  | {
+      readonly op: "shot";
+      readonly rect: Rect;
+      /**
+       * Send the last pointer position again after the full repaint, so
+       * the active tool paints its transient overlays (snap lines,
+       * distance guides) once more; the full repaint drops them. Only for
+       * shots of those overlays: the extra partial repaint can change edge
+       * antialiasing elsewhere from run to run.
+       */
+      readonly guides?: boolean;
+    };
 
 // Constructors, so case files read like input scripts.
 export const move = (x: number, y: number, steps?: number): Step => ({
@@ -128,11 +165,26 @@ export const clickElement = (selector: string, count?: number): Step => ({
 export const tool = (name: string): Step => ({ op: "tool", name });
 export const probe = (label: string, doc?: boolean): Step => ({ op: "probe", label, doc });
 export const probeDom = (label: string, dom: string): Step => ({ op: "probe", label, dom });
+export const probeToolChanges = (label: string): Step => ({
+  op: "probe",
+  label,
+  toolChanges: true,
+});
 export const freezeCaret = (): Step => ({ op: "freezeCaret" });
+export const fixTime = (time: number): Step => ({ op: "fixTime", time });
+export const openFileStep = (file: string): Step => ({ op: "openFile", file });
+export const pauseClock = (): Step => ({ op: "pauseClock" });
+export const runClock = (ms: number): Step => ({ op: "runClock", ms });
 export const repaint = (): Step => ({ op: "repaint" });
 export const shot = (x: number, y: number, w: number, h: number): Step => ({
   op: "shot",
   rect: [x, y, w, h],
+});
+/** A shot that shows the tool's transient guides (see the shot step). */
+export const shotGuides = (x: number, y: number, w: number, h: number): Step => ({
+  op: "shot",
+  rect: [x, y, w, h],
+  guides: true,
 });
 export const shotView = (x: number, y: number, w: number, h: number): Step => ({
   op: "shot",
@@ -158,9 +210,15 @@ export interface Probe {
   label: string;
   state: unknown;
   cursor: CursorInfo;
-  hint: string | null;
+  hint: HintInfo | null;
+  /**
+   * The focused element (tag, id and classes), so a key that "did
+   * nothing" can be told apart from a key that went into a text field.
+   */
+  focus: string | null;
   doc?: unknown;
   dom?: { cls: string; text: string } | null;
+  toolChanges?: unknown[];
 }
 
 export interface CursorInfo {
@@ -168,6 +226,15 @@ export interface CursorInfo {
   cls: string | null;
   /** Computed CSS cursor with the page origin removed from URLs. */
   css: string;
+}
+
+/** The inline hint (coordinates, size, angle) shown next to the cursor. */
+export interface HintInfo {
+  /** innerHTML of the hint; line breaks are <br>. */
+  html: string;
+  /** CSS left and top the tool placed it at, in view pixels. */
+  left: string;
+  top: string;
 }
 
 export interface ReplayResult {
@@ -215,7 +282,7 @@ export async function readCursor(page: Page): Promise<CursorInfo> {
   });
 }
 
-async function readHint(page: Page): Promise<string | null> {
+async function readHint(page: Page): Promise<HintInfo | null> {
   return page.evaluate(() => {
     const el = document.querySelector(".g-editor-widget .inline-hint") as HTMLElement | null;
     if (!el) return null;
@@ -223,7 +290,17 @@ async function readHint(page: Page): Promise<string | null> {
     if (style.display === "none" || style.visibility === "hidden" || el.offsetParent === null) {
       return null;
     }
-    return el.innerText;
+    return { html: el.innerHTML, left: el.style.left, top: el.style.top };
+  });
+}
+
+async function readFocus(page: Page): Promise<string | null> {
+  return page.evaluate(() => {
+    const el = document.activeElement;
+    if (!el) return null;
+    const id = el.id ? `#${el.id}` : "";
+    const cls = [...el.classList].map((c) => `.${c}`).join("");
+    return `${el.tagName.toLowerCase()}${id}${cls}`;
   });
 }
 
@@ -275,6 +352,11 @@ export async function replay(
   /** Last mouse position sent, in client pixels. */
   let cur: Pt | null = null;
   let cdp: Awaited<ReturnType<ReturnType<Page["context"]>["newCDPSession"]>> | null = null;
+  /** Fake clock paused: animation frames don't run, so don't wait for one. */
+  let clockPaused = false;
+  const frame = async (): Promise<void> => {
+    if (!clockPaused) await settle(page);
+  };
 
   const toClient = async (at: At): Promise<Pt> => {
     if ("view" in at) return [origin[0] + at.view[0], origin[1] + at.view[1]];
@@ -301,7 +383,7 @@ export async function replay(
         const [fx, fy] = cur ?? [x, y];
         for (let i = 1; i <= n; i++) {
           await page.mouse.move(fx + ((x - fx) * i) / n, fy + ((y - fy) * i) / n);
-          if (i < n) await settle(page);
+          if (i < n) await frame();
         }
         cur = [x, y];
         break;
@@ -414,14 +496,31 @@ export async function replay(
         lastRelease = Date.now();
         break;
       }
-      case "tool":
-        await page.evaluate(
+      case "tool": {
+        const activated = await page.evaluate(
           (name) =>
             (
               window as unknown as { __parity: { app: { activateTool(n: string): boolean } } }
             ).__parity.app.activateTool(name),
           step.name,
         );
+        if (!activated) throw new Error(`activateTool(${step.name}) found no such tool`);
+        break;
+      }
+      case "fixTime":
+        await page.clock.setFixedTime(step.time);
+        break;
+      case "pauseClock":
+        await page.clock.install();
+        await page.clock.pauseAt(Date.now() + 1000);
+        clockPaused = true;
+        break;
+      case "runClock":
+        if (!clockPaused) throw new Error("runClock needs pauseClock first");
+        await page.clock.runFor(step.ms);
+        break;
+      case "openFile":
+        await openFile(page, path.join(NEXT_ROOT, step.file));
         break;
       case "repaint":
         await page.evaluate(() =>
@@ -438,13 +537,14 @@ export async function replay(
         );
         break;
       case "probe": {
-        await settle(page);
+        await frame();
         const { state, doc } = await readState(page, !!step.doc);
         const probe: Probe = {
           label: step.label,
           state,
           cursor: await readCursor(page),
           hint: await readHint(page),
+          focus: await readFocus(page),
         };
         if (step.doc) probe.doc = doc;
         if (step.dom) {
@@ -453,18 +553,60 @@ export async function replay(
             return el ? { cls: el.className, text: (el as HTMLElement).innerText } : null;
           }, step.dom);
         }
+        if (step.toolChanges) {
+          probe.toolChanges = await page.evaluate(() =>
+            (
+              window as unknown as {
+                __parity: { app: { editorTools: { toolChanges(): unknown[] } } };
+              }
+            ).__parity.app.editorTools.toolChanges(),
+          );
+        }
         probes.push(probe);
         break;
       }
       case "shot": {
-        // A full repaint first: incremental repaints of dirty areas can leave
-        // edge antialiasing that depends on the order areas were painted.
-        await page.evaluate(() =>
-          (
-            window as unknown as { __parity: { app: { editorTools: { repaint(): void } } } }
-          ).__parity.app.editorTools.repaint(),
-        );
-        await settle(page);
+        // Let pending work finish first (corpus settle: no repaint or tile
+        // render queued for ten frames), so no late partial repaint of a
+        // hover or selection change lands after the full repaint below.
+        // Comparing two captures alone can't tell a finished render from
+        // one that paused under load.
+        const idle = async (): Promise<void> => {
+          if (clockPaused) return;
+          await page.evaluate(() =>
+            (
+              window as unknown as {
+                __parity: { app: { corpus: { settle(): Promise<void> } } };
+              }
+            ).__parity.app.corpus.settle(),
+          );
+        };
+        await idle();
+        // A full repaint: incremental repaints of dirty areas can leave
+        // edge antialiasing that depends on the order areas were painted,
+        // and the old editors pick their adaptive outline colour from the
+        // bottom-right pixel of the canvas being painted, so a partial
+        // repaint can tint handles and outlines. Twice, because the first
+        // can itself cause partial repaints (handle icons that load on
+        // first use) at a load-dependent moment.
+        for (let i = 0; i < 2; i++) {
+          await page.evaluate(() =>
+            (
+              window as unknown as { __parity: { app: { editorTools: { repaint(): void } } } }
+            ).__parity.app.editorTools.repaint(),
+          );
+          await frame();
+          await idle();
+        }
+        // The full repaint drops what tools paint only into the areas they
+        // invalidate on a pointer move (snap lines, distance guides and
+        // their labels). Sending the last pointer position again makes the
+        // active tool paint them once more.
+        if (step.guides && cur) {
+          await page.mouse.move(cur[0], cur[1], { steps: 1 });
+          await frame();
+          await idle();
+        }
         let rect: Rect4;
         if ("view" in step.rect) {
           const [x, y, w, h] = step.rect.view;
@@ -486,96 +628,137 @@ export async function replay(
     }
     // Touch sequences are timing sensitive (double tap within 300 ms), so
     // they don't wait for a frame after every event.
-    if (step.op !== "touch") await settle(page);
+    if (step.op !== "touch") await frame();
   }
   return { probes };
 }
 
 /**
- * Renames the random ids of a serialized document, more thoroughly than
- * the shared normalizer, which this output passes through afterwards:
- * - anchor points serialize as arrays like [<binary xy>, "#", <random id>],
- *   where the id follows a "#" marker inside an array;
- * - text on a path keeps copies of nodes as JSON strings inside JSON
- *   strings (reftxt, atPath);
- * - the scene's _links map is keyed by random ids;
- * - images refer to their data as "dictionary://<random id>".
- * Ids are collected from the same keys the shared normalizer uses, from
- * "#" markers in arrays and from nested JSON strings, in order of first
- * appearance, and every string or object key equal to one is renamed to
- * "rid<n>", so references keep their structure.
+ * What this area's output needs beyond the shared normalizer
+ * (support/normalize.ts), which runs on it afterwards:
  *
- * Any other 32-character alphanumeric string is a random id as well
- * (paths graph anchors, edges and facets keep theirs in "props" arrays and
- * "euid" fields; text-on-path links refer to them), so it is renamed the
- * same way. No real content in these documents has that shape.
- *
- * Annotations also carry their creation and modification wall-clock time
- * (time, mtime: Date.now() in ms); those numbers become "<time>".
+ * - Paths graphs keep their anchors, edges and facets as JSON text whose
+ *   elements carry random 32-character ids the shared normalizer doesn't
+ *   know: the first item of a GPGAnchor, GPGEdge or GPGFacet "props"
+ *   array, the two anchor references at props[2] and props[3] of an edge,
+ *   and the "euid" edge reference of a facet. These are renamed to
+ *   "pgid<n>" in order of first appearance, wherever the same string
+ *   occurs; inside JSON text the renaming is textual, so the text itself
+ *   is still compared.
+ * - Text on a path keeps a JSON copy of its path (atPath) inside the JSON
+ *   copy of its text (reftxt), two string levels deep. The shared
+ *   normalizer renames ids one level deep only, so ids found two or more
+ *   levels deep (under @id, #, &, _effId, _layId or after a "#" marker)
+ *   are renamed to "nid<n>" here, everywhere they occur, escaped or not.
+ * - Annotations stamp their creation and change times (time, mtime) with
+ *   Date.now(). On annotation nodes (nodes with "@" and "uid") a number
+ *   between `since` and now becomes "<time>". Any other value, or a time
+ *   outside the run, stays as it is and shows up as a difference.
  */
-const RANDOM_ID = /^[A-Za-z0-9]{32}$/;
+const PATHS_GRAPH_ITEMS: ReadonlySet<string> = new Set(["GPGAnchor", "GPGEdge", "GPGFacet"]);
+const PATHS_GRAPH_ID = /^[A-Za-z0-9]{32}$/;
 const ANNOTATION_TIME_KEYS: ReadonlySet<string> = new Set(["time", "mtime"]);
 
-export function normalizeIds(value: unknown): unknown {
+export function normalizeIds(value: unknown, since: number): unknown {
   const ids = new Map<string, string>();
+  const now = Date.now() + 1000;
+  const add = (id: unknown): void => {
+    if (typeof id !== "string") return;
+    if (!PATHS_GRAPH_ID.test(id))
+      throw new Error(`unexpected paths graph id ${JSON.stringify(id)}`);
+    if (!ids.has(id)) ids.set(id, `pgid${ids.size + 1}`);
+  };
   const looksLikeJson = (v: string): boolean =>
     (v.startsWith("{") && v.endsWith("}")) || (v.startsWith("[") && v.endsWith("]"));
-  const parse = (v: string): unknown => {
-    try {
-      return JSON.parse(v) as unknown;
-    } catch {
-      return undefined;
-    }
-  };
-  const add = (id: unknown): void => {
-    if (typeof id === "string" && !ids.has(id)) ids.set(id, `rid${ids.size + 1}`);
-  };
-  const DICT = "dictionary://";
   const collect = (v: unknown): void => {
     if (typeof v === "string") {
-      if (RANDOM_ID.test(v)) add(v);
-      else if (v.startsWith(DICT)) add(v.slice(DICT.length));
-      else if (looksLikeJson(v)) {
-        const nested = parse(v);
-        if (nested !== undefined) collect(nested);
+      if (!looksLikeJson(v)) return;
+      try {
+        collect(JSON.parse(v) as unknown);
+      } catch {
+        // Not JSON after all.
       }
     } else if (Array.isArray(v)) {
-      for (let i = 0; i < v.length; i++) {
-        if (v[i] === "#") add(v[i + 1]);
-        collect(v[i]);
+      v.forEach(collect);
+    } else if (v && typeof v === "object") {
+      const o = v as Record<string, unknown>;
+      const props = o.props;
+      if (typeof o["@"] === "string" && PATHS_GRAPH_ITEMS.has(o["@"]) && Array.isArray(props)) {
+        add(props[0]);
+        if (o["@"] === "GPGEdge") {
+          add(props[2]);
+          add(props[3]);
+        }
       }
+      if (typeof o.euid === "string") add(o.euid);
+      Object.values(o).forEach(collect);
+    }
+  };
+  // Ids at least two JSON string levels deep.
+  const deep = new Map<string, string>();
+  const DEEP_KEYS = new Set(["@id", "#", "&", "_effId", "_layId"]);
+  const collectDeep = (v: unknown, depth: number): void => {
+    if (typeof v === "string") {
+      if (!looksLikeJson(v)) return;
+      try {
+        collectDeep(JSON.parse(v) as unknown, depth + 1);
+      } catch {
+        // Not JSON after all.
+      }
+    } else if (Array.isArray(v)) {
+      v.forEach((item, i) => {
+        if (depth >= 2 && item === "#" && typeof v[i + 1] === "string") addDeep(v[i + 1]);
+        collectDeep(item, depth);
+      });
     } else if (v && typeof v === "object") {
       for (const [k, child] of Object.entries(v)) {
-        if (RANDOM_ID_KEYS.has(k)) add(child);
-        else if (RANDOM_ID_ARRAY_KEYS.has(k) && Array.isArray(child)) child.forEach(add);
-        collect(child);
+        if (depth >= 2 && DEEP_KEYS.has(k) && typeof child === "string") addDeep(child);
+        collectDeep(child, depth);
       }
     }
   };
+  const addDeep = (id: string): void => {
+    if (!/^[A-Za-z0-9]{6,32}$/.test(id))
+      throw new Error(`unexpected nested id ${JSON.stringify(id)}`);
+    if (!deep.has(id)) deep.set(id, `nid${deep.size + 1}`);
+  };
+  const renameDeep = (text: string): string => {
+    let out = text;
+    for (const [id, name] of deep)
+      out = out.replace(new RegExp(`(?<=")${id}(?=\\\\|")`, "g"), name);
+    return out;
+  };
+  const renameText = (text: string): string =>
+    text.replace(/"([A-Za-z0-9]{32})"/g, (token, inner: string) => {
+      const renamed = ids.get(inner);
+      return renamed === undefined ? token : `"${renamed}"`;
+    });
   const rename = (v: unknown): unknown => {
     if (typeof v === "string") {
-      const r = ids.get(v);
-      if (r !== undefined) return r;
-      if (v.startsWith(DICT)) return DICT + (ids.get(v.slice(DICT.length)) ?? v.slice(DICT.length));
-      if (looksLikeJson(v)) {
-        const nested = parse(v);
-        if (nested !== undefined && typeof nested === "object" && nested !== null) {
-          return JSON.stringify(rename(nested));
-        }
-      }
-      return v;
+      const renamed = ids.get(v) ?? deep.get(v);
+      if (renamed !== undefined) return renamed;
+      return looksLikeJson(v) ? renameDeep(renameText(v)) : v;
     }
     if (Array.isArray(v)) return v.map(rename);
     if (v && typeof v === "object") {
+      const o = v as Record<string, unknown>;
+      const annotation = typeof o["@"] === "string" && "uid" in o;
       const out: Record<string, unknown> = {};
-      for (const [k, child] of Object.entries(v)) {
-        out[ids.get(k) ?? k] =
-          ANNOTATION_TIME_KEYS.has(k) && typeof child === "number" ? "<time>" : rename(child);
+      for (const [k, child] of Object.entries(o)) {
+        out[k] =
+          annotation &&
+          ANNOTATION_TIME_KEYS.has(k) &&
+          typeof child === "number" &&
+          child >= since &&
+          child <= now
+            ? "<time>"
+            : rename(child);
       }
       return out;
     }
     return v;
   };
   collect(value);
+  collectDeep(value, 0);
   return rename(value);
 }

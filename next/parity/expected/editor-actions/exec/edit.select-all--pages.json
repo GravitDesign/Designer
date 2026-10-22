@@ -3,6 +3,14 @@
  "id": "edit.select-all",
  "info": {
   "title": "Select All",
+  "fullTitle": "Select All",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Edit"
+  ],
+  "group": "select",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -13,15 +21,14 @@
   "additional": []
  },
  "before": {
-  "selection": [
-   "rectangle:A"
-  ],
+  "selection": [],
   "active": {
    "page": "P1",
    "layer": null
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -473,7 +480,26 @@
     {
      "@": "page",
      "@id": "id87",
-     "#": "id88",
+     "$": [
+      {
+       "@": "ellipse",
+       "@id": "id88",
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        100,
+        0,
+        0,
+        75,
+        250,
+        175
+       ],
+       "name": "E2",
+       "_layId": "id89",
+       "_effId": "id90"
+      }
+     ],
+     "#": "id91",
      "w": 400,
      "h": 300,
      "off": [
@@ -489,8 +515,30 @@
     },
     {
      "@": "page",
-     "@id": "id89",
-     "#": "id90",
+     "@id": "id92",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id93",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        180,
+        0,
+        0,
+        30,
+        200,
+        230
+       ],
+       "name": "R3",
+       "_layId": "id94",
+       "_effId": "id95"
+      }
+     ],
+     "#": "id96",
      "w": 400,
      "h": 300,
      "off": [
@@ -507,12 +555,6 @@
    ],
    "lmd": "<time>",
    "__ids": [
-    "id91",
-    "id92",
-    "id93",
-    "id94",
-    "id95",
-    "id96",
     "id97",
     "id98",
     "id99",
@@ -527,7 +569,15 @@
     "id108",
     "id109",
     "id110",
-    "id111"
+    "id111",
+    "id112",
+    "id113",
+    "id114",
+    "id115",
+    "id116",
+    "id117",
+    "id118",
+    "id119"
    ],
    "dictionary": {
     "entries": []
@@ -537,10 +587,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id4",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "P1",
@@ -548,6 +601,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -556,6 +610,14 @@
  },
  "infoAfter": {
   "title": "Select All",
+  "fullTitle": "Select All",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Edit"
+  ],
+  "group": "select",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,

@@ -3,6 +3,14 @@
  "id": "edit.delete",
  "info": {
   "title": "Delete",
+  "fullTitle": "Delete",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Edit"
+  ],
+  "group": "ccp",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -16,7 +24,11 @@
  },
  "before": {
   "selection": [
-   "Compound Shape"
+   {
+    "node": "Compound Shape",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -24,6 +36,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Combine"
@@ -31,21 +44,21 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "Compound Shape",
-       "@id": "id4",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
@@ -555,7 +568,6 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [],
   "active": {
@@ -564,6 +576,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Combine",
@@ -572,17 +585,17 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       }
      ],
      "#": "id18",
@@ -1014,6 +1027,14 @@
  },
  "infoAfter": {
   "title": "Delete",
+  "fullTitle": "Delete",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Edit"
+  ],
+  "group": "ccp",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -1027,7 +1048,11 @@
  },
  "afterUndo": {
   "selection": [
-   "Compound Shape"
+   {
+    "node": "Compound Shape",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1035,6 +1060,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Combine"
@@ -1052,6 +1078,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Combine",

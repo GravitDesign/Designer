@@ -3,6 +3,15 @@
  "id": "modify.converttorawpath",
  "info": {
   "title": "Convert to Raw Path",
+  "fullTitle": "Convert to Raw Path",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +23,11 @@
  },
  "before": {
   "selection": [
-   "text:T"
+   {
+    "node": "text:T",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,27 +35,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "text",
-       "@id": "id4",
+       "@id": "id1",
        "#": "id5",
        "ct": [
         {
@@ -519,10 +533,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "compoundpath"
+   {
+    "node": "compoundpath",
+    "@id": "id105",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -530,6 +547,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Convert to Raw Path"
@@ -537,33 +555,33 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "compoundpath",
        "@id": "id105",
        "paths": [
-        "{\"@\":\"path\",\"@id\":\"rid106\",\"closed\":true,\"pts\":[[\"AJvhQgAz1kI=\",\"#\",\"rid107\"],[\"AJvhQgDB8kI=\",\"#\",\"rid108\"],[\"AEneQgDB8kI=\",\"#\",\"rid109\"],[\"AEneQgBR5UI=\",\"#\",\"rid110\"],[\"AD/PQgBR5UI=\",\"#\",\"rid111\"],[\"AD/PQgDB8kI=\",\"#\",\"rid112\"],[\"AO3LQgDB8kI=\",\"#\",\"rid113\"],[\"AO3LQgAz1kI=\",\"#\",\"rid114\"],[\"AD/PQgAz1kI=\",\"#\",\"rid115\"],[\"AD/PQgBZ4kI=\",\"#\",\"rid116\"],[\"AEneQgBZ4kI=\",\"#\",\"rid117\"],[\"AEneQgAz1kI=\",\"#\",\"rid118\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"rid119\",\"_effId\":\"rid120\"}",
-        "{\"@\":\"path\",\"@id\":\"rid121\",\"closed\":true,\"pts\":[[\"AP7xQgAl80I=\",\"#\",\"rid122\",\"h\",\"ACn0QgAl80I=\"],[\"AP7xQgAl80I=\",\"#\",\"rid123\"],[\"AP7xQgAl80I=\",\"#\",\"rid124\"],[\"gIDqQgBB8EI=\",\"#\",\"rid125\",\"h\",\"AD/tQgAl80I=\"],[\"gIDqQgBB8EI=\",\"#\",\"rid126\"],[\"gIDqQgBB8EI=\",\"#\",\"rid127\"],[\"AMLnQgA66EI=\",\"#\",\"rid128\",\"h\",\"AMLnQgBd7UI=\"],[\"AMLnQgA66EI=\",\"#\",\"rid129\"],[\"AMLnQgA66EI=\",\"#\",\"rid130\"],[\"gE7qQgAB4EI=\",\"#\",\"rid131\",\"h\",\"AMLnQgAN40I=\"],[\"gE7qQgAB4EI=\",\"#\",\"rid132\"],[\"gE7qQgAB4EI=\",\"#\",\"rid133\"],[\"ACfxQgD13EI=\",\"#\",\"rid134\",\"h\",\"ANvsQgD13EI=\"],[\"ACfxQgD13EI=\",\"#\",\"rid135\"],[\"ACfxQgD13EI=\",\"#\",\"rid136\"],[\"AIX3QoCa30I=\",\"#\",\"rid137\",\"h\",\"AC31QgD13EI=\"],[\"AIX3QoCa30I=\",\"#\",\"rid138\"],[\"AIX3QoCa30I=\",\"#\",\"rid139\"],[\"AN35QgCW5kI=\",\"#\",\"rid140\",\"h\",\"AN35QgBA4kI=\"],[\"AN35QgCW5kI=\",\"#\",\"rid141\"],[\"AN35QgCj6EI=\",\"#\",\"rid142\"],[\"AB7rQgCj6EI=\",\"#\",\"rid143\"],[\"AB7rQgCj6EI=\",\"#\",\"rid144\"],[\"gAXtQgBc7kI=\",\"#\",\"rid145\",\"h\",\"ADfrQgBo7EI=\"],[\"gAXtQgBc7kI=\",\"#\",\"rid146\"],[\"gAXtQgBc7kI=\",\"#\",\"rid147\"],[\"ABzyQgBQ8EI=\",\"#\",\"rid148\",\"h\",\"ANTuQgBQ8EI=\"],[\"ABzyQgBQ8EI=\",\"#\",\"rid149\"],[\"ABzyQgBQ8EI=\",\"#\",\"rid150\"],[\"APL4QgDe7kI=\",\"#\",\"rid151\",\"h\",\"AJH1QgBQ8EI=\"],[\"APL4QgDe7kI=\",\"#\",\"rid152\"],[\"APL4QgDC8UI=\",\"#\",\"rid153\"],[\"APL4QgDC8UI=\",\"#\",\"rid154\"],[\"gLH1QoDS8kI=\",\"#\",\"rid155\",\"h\",\"ADr3QgCA8kI=\"],[\"gLH1QoDS8kI=\",\"#\",\"rid156\"],[\"gLH1QoDS8kI=\",\"#\",\"rid157\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"rid158\",\"_effId\":\"rid159\"}",
-        "{\"@\":\"path\",\"@id\":\"rid160\",\"closed\":true,\"pts\":[[\"AB3xQgCs30I=\",\"#\",\"rid161\",\"h\",\"AKfzQgCs30I=\"],[\"AB3xQgCs30I=\",\"#\",\"rid162\"],[\"AB3xQgCs30I=\",\"#\",\"rid163\"],[\"gADtQgBa4UI=\",\"#\",\"rid164\",\"h\",\"AInuQgCs30I=\"],[\"gADtQgBa4UI=\",\"#\",\"rid165\"],[\"gADtQgBa4UI=\",\"#\",\"rid166\"],[\"ADLrQgAA5kI=\",\"#\",\"rid167\",\"h\",\"AHjrQgAI40I=\"],[\"ADLrQgAA5kI=\",\"#\",\"rid168\"],[\"AGP2QgAA5kI=\",\"#\",\"rid169\"],[\"AGP2QgAA5kI=\",\"#\",\"rid170\"],[\"AAX1QoBN4UI=\",\"#\",\"rid171\",\"h\",\"AGP2QgDv4kI=\"],[\"AAX1QoBN4UI=\",\"#\",\"rid172\"],[\"AAX1QoBN4UI=\",\"#\",\"rid173\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"rid174\",\"_effId\":\"rid175\"}",
-        "{\"@\":\"path\",\"@id\":\"rid176\",\"closed\":true,\"pts\":[[\"AFEBQwBd1EI=\",\"#\",\"rid177\"],[\"AFEBQwDB8kI=\",\"#\",\"rid178\"],[\"AGT/QgDB8kI=\",\"#\",\"rid179\"],[\"AGT/QgBd1EI=\",\"#\",\"rid180\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"rid181\",\"_effId\":\"rid182\"}",
-        "{\"@\":\"path\",\"@id\":\"rid183\",\"closed\":true,\"pts\":[[\"AGAGQwBd1EI=\",\"#\",\"rid184\"],[\"AGAGQwDB8kI=\",\"#\",\"rid185\"],[\"AMEEQwDB8kI=\",\"#\",\"rid186\"],[\"AMEEQwBd1EI=\",\"#\",\"rid187\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"rid188\",\"_effId\":\"rid189\"}",
-        "{\"@\":\"path\",\"@id\":\"rid190\",\"closed\":true,\"pts\":[[\"AA0TQwAI6EI=\",\"#\",\"rid191\",\"h\",\"AA0TQwDv4kI=\"],[\"AA0TQwAI6EI=\",\"#\",\"rid192\"],[\"AA0TQwAI6EI=\",\"#\",\"rid193\"],[\"gLsRQ4A08EI=\",\"#\",\"rid194\",\"h\",\"AA0TQwBE7UI=\"],[\"gLsRQ4A08EI=\",\"#\",\"rid195\"],[\"gLsRQ4A08EI=\",\"#\",\"rid196\"],[\"ABcOQwAl80I=\",\"#\",\"rid197\",\"h\",\"AGoQQwAl80I=\"],[\"ABcOQwAl80I=\",\"#\",\"rid198\"],[\"ABcOQwAl80I=\",\"#\",\"rid199\"],[\"gIoLQwDM8UI=\",\"#\",\"rid200\",\"h\",\"gKcMQwAl80I=\"],[\"gIoLQwDM8UI=\",\"#\",\"rid201\"],[\"gIoLQwDM8UI=\",\"#\",\"rid202\"],[\"gNIJQwDu7UI=\",\"#\",\"rid203\",\"h\",\"gG0KQwBz8EI=\"],[\"gNIJQwDu7UI=\",\"#\",\"rid204\"],[\"gNIJQwDu7UI=\",\"#\",\"rid205\"],[\"gDcJQwAI6EI=\",\"#\",\"rid206\",\"h\",\"gDcJQwBp60I=\"],[\"gDcJQwAI6EI=\",\"#\",\"rid207\"],[\"gDcJQwAI6EI=\",\"#\",\"rid208\"],[\"gIYKQ4Dg30I=\",\"#\",\"rid209\",\"h\",\"gDcJQwDM4kI=\"],[\"gIYKQ4Dg30I=\",\"#\",\"rid210\"],[\"gIYKQ4Dg30I=\",\"#\",\"rid211\"],[\"gCgOQwD13EI=\",\"#\",\"rid212\",\"h\",\"gNULQwD13EI=\"],[\"gCgOQwD13EI=\",\"#\",\"rid213\"],[\"gCgOQwD13EI=\",\"#\",\"rid214\"],[\"QLoRQwDy30I=\",\"#\",\"rid215\",\"h\",\"gGcQQwD13EI=\"],[\"QLoRQwDy30I=\",\"#\",\"rid216\"],[\"QLoRQwDy30I=\",\"#\",\"rid217\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"rid218\",\"_effId\":\"rid219\"}",
-        "{\"@\":\"path\",\"@id\":\"rid220\",\"closed\":true,\"pts\":[[\"gOUKQwAI6EI=\",\"#\",\"rid221\",\"h\",\"gOUKQwDk40I=\"],[\"gOUKQwAI6EI=\",\"#\",\"rid222\"],[\"gOUKQwAI6EI=\",\"#\",\"rid223\"],[\"gLcLQwBI7kI=\",\"#\",\"rid224\",\"h\",\"gOUKQwAi7EI=\"],[\"gLcLQwBI7kI=\",\"#\",\"rid225\"],[\"gLcLQwBI7kI=\",\"#\",\"rid226\"],[\"ACEOQwBu8EI=\",\"#\",\"rid227\",\"h\",\"gIkMQwBu8EI=\"],[\"ACEOQwBu8EI=\",\"#\",\"rid228\"],[\"ACEOQwBu8EI=\",\"#\",\"rid229\"],[\"wIsQQ4BK7kI=\",\"#\",\"rid230\",\"h\",\"gLgPQwBu8EI=\"],[\"wIsQQ4BK7kI=\",\"#\",\"rid231\"],[\"wIsQQ4BK7kI=\",\"#\",\"rid232\"],[\"AF8RQwAI6EI=\",\"#\",\"rid233\",\"h\",\"AF8RQwAn7EI=\"],[\"AF8RQwAI6EI=\",\"#\",\"rid234\"],[\"AF8RQwAI6EI=\",\"#\",\"rid235\"],[\"wIsQQ4DU4UI=\",\"#\",\"rid236\",\"h\",\"AF8RQwDz40I=\"],[\"wIsQQ4DU4UI=\",\"#\",\"rid237\"],[\"wIsQQ4DU4UI=\",\"#\",\"rid238\"],[\"ABwOQwC230I=\",\"#\",\"rid239\",\"h\",\"gLgPQwC230I=\"],[\"ABwOQwC230I=\",\"#\",\"rid240\"],[\"ABwOQwC230I=\",\"#\",\"rid241\"],[\"ALULQwDN4UI=\",\"#\",\"rid242\",\"h\",\"gIQMQwC230I=\"],[\"ALULQwDN4UI=\",\"#\",\"rid243\"],[\"ALULQwDN4UI=\",\"#\",\"rid244\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"rid245\",\"_effId\":\"rid246\"}"
+        "{\"@\":\"path\",\"@id\":\"id106\",\"closed\":true,\"pts\":[[\"AJvhQgAz1kI=\",\"#\",\"id107\"],[\"AJvhQgDB8kI=\",\"#\",\"id108\"],[\"AEneQgDB8kI=\",\"#\",\"id109\"],[\"AEneQgBR5UI=\",\"#\",\"id110\"],[\"AD/PQgBR5UI=\",\"#\",\"id111\"],[\"AD/PQgDB8kI=\",\"#\",\"id112\"],[\"AO3LQgDB8kI=\",\"#\",\"id113\"],[\"AO3LQgAz1kI=\",\"#\",\"id114\"],[\"AD/PQgAz1kI=\",\"#\",\"id115\"],[\"AD/PQgBZ4kI=\",\"#\",\"id116\"],[\"AEneQgBZ4kI=\",\"#\",\"id117\"],[\"AEneQgAz1kI=\",\"#\",\"id118\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id119\",\"_effId\":\"id120\"}",
+        "{\"@\":\"path\",\"@id\":\"id121\",\"closed\":true,\"pts\":[[\"AP7xQgAl80I=\",\"#\",\"id122\",\"h\",\"ACn0QgAl80I=\"],[\"AP7xQgAl80I=\",\"#\",\"id123\"],[\"AP7xQgAl80I=\",\"#\",\"id124\"],[\"gIDqQgBB8EI=\",\"#\",\"id125\",\"h\",\"AD/tQgAl80I=\"],[\"gIDqQgBB8EI=\",\"#\",\"id126\"],[\"gIDqQgBB8EI=\",\"#\",\"id127\"],[\"AMLnQgA66EI=\",\"#\",\"id128\",\"h\",\"AMLnQgBd7UI=\"],[\"AMLnQgA66EI=\",\"#\",\"id129\"],[\"AMLnQgA66EI=\",\"#\",\"id130\"],[\"gE7qQgAB4EI=\",\"#\",\"id131\",\"h\",\"AMLnQgAN40I=\"],[\"gE7qQgAB4EI=\",\"#\",\"id132\"],[\"gE7qQgAB4EI=\",\"#\",\"id133\"],[\"ACfxQgD13EI=\",\"#\",\"id134\",\"h\",\"ANvsQgD13EI=\"],[\"ACfxQgD13EI=\",\"#\",\"id135\"],[\"ACfxQgD13EI=\",\"#\",\"id136\"],[\"AIX3QoCa30I=\",\"#\",\"id137\",\"h\",\"AC31QgD13EI=\"],[\"AIX3QoCa30I=\",\"#\",\"id138\"],[\"AIX3QoCa30I=\",\"#\",\"id139\"],[\"AN35QgCW5kI=\",\"#\",\"id140\",\"h\",\"AN35QgBA4kI=\"],[\"AN35QgCW5kI=\",\"#\",\"id141\"],[\"AN35QgCj6EI=\",\"#\",\"id142\"],[\"AB7rQgCj6EI=\",\"#\",\"id143\"],[\"AB7rQgCj6EI=\",\"#\",\"id144\"],[\"gAXtQgBc7kI=\",\"#\",\"id145\",\"h\",\"ADfrQgBo7EI=\"],[\"gAXtQgBc7kI=\",\"#\",\"id146\"],[\"gAXtQgBc7kI=\",\"#\",\"id147\"],[\"ABzyQgBQ8EI=\",\"#\",\"id148\",\"h\",\"ANTuQgBQ8EI=\"],[\"ABzyQgBQ8EI=\",\"#\",\"id149\"],[\"ABzyQgBQ8EI=\",\"#\",\"id150\"],[\"APL4QgDe7kI=\",\"#\",\"id151\",\"h\",\"AJH1QgBQ8EI=\"],[\"APL4QgDe7kI=\",\"#\",\"id152\"],[\"APL4QgDC8UI=\",\"#\",\"id153\"],[\"APL4QgDC8UI=\",\"#\",\"id154\"],[\"gLH1QoDS8kI=\",\"#\",\"id155\",\"h\",\"ADr3QgCA8kI=\"],[\"gLH1QoDS8kI=\",\"#\",\"id156\"],[\"gLH1QoDS8kI=\",\"#\",\"id157\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id158\",\"_effId\":\"id159\"}",
+        "{\"@\":\"path\",\"@id\":\"id160\",\"closed\":true,\"pts\":[[\"AB3xQgCs30I=\",\"#\",\"id161\",\"h\",\"AKfzQgCs30I=\"],[\"AB3xQgCs30I=\",\"#\",\"id162\"],[\"AB3xQgCs30I=\",\"#\",\"id163\"],[\"gADtQgBa4UI=\",\"#\",\"id164\",\"h\",\"AInuQgCs30I=\"],[\"gADtQgBa4UI=\",\"#\",\"id165\"],[\"gADtQgBa4UI=\",\"#\",\"id166\"],[\"ADLrQgAA5kI=\",\"#\",\"id167\",\"h\",\"AHjrQgAI40I=\"],[\"ADLrQgAA5kI=\",\"#\",\"id168\"],[\"AGP2QgAA5kI=\",\"#\",\"id169\"],[\"AGP2QgAA5kI=\",\"#\",\"id170\"],[\"AAX1QoBN4UI=\",\"#\",\"id171\",\"h\",\"AGP2QgDv4kI=\"],[\"AAX1QoBN4UI=\",\"#\",\"id172\"],[\"AAX1QoBN4UI=\",\"#\",\"id173\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id174\",\"_effId\":\"id175\"}",
+        "{\"@\":\"path\",\"@id\":\"id176\",\"closed\":true,\"pts\":[[\"AFEBQwBd1EI=\",\"#\",\"id177\"],[\"AFEBQwDB8kI=\",\"#\",\"id178\"],[\"AGT/QgDB8kI=\",\"#\",\"id179\"],[\"AGT/QgBd1EI=\",\"#\",\"id180\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id181\",\"_effId\":\"id182\"}",
+        "{\"@\":\"path\",\"@id\":\"id183\",\"closed\":true,\"pts\":[[\"AGAGQwBd1EI=\",\"#\",\"id184\"],[\"AGAGQwDB8kI=\",\"#\",\"id185\"],[\"AMEEQwDB8kI=\",\"#\",\"id186\"],[\"AMEEQwBd1EI=\",\"#\",\"id187\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id188\",\"_effId\":\"id189\"}",
+        "{\"@\":\"path\",\"@id\":\"id190\",\"closed\":true,\"pts\":[[\"AA0TQwAI6EI=\",\"#\",\"id191\",\"h\",\"AA0TQwDv4kI=\"],[\"AA0TQwAI6EI=\",\"#\",\"id192\"],[\"AA0TQwAI6EI=\",\"#\",\"id193\"],[\"gLsRQ4A08EI=\",\"#\",\"id194\",\"h\",\"AA0TQwBE7UI=\"],[\"gLsRQ4A08EI=\",\"#\",\"id195\"],[\"gLsRQ4A08EI=\",\"#\",\"id196\"],[\"ABcOQwAl80I=\",\"#\",\"id197\",\"h\",\"AGoQQwAl80I=\"],[\"ABcOQwAl80I=\",\"#\",\"id198\"],[\"ABcOQwAl80I=\",\"#\",\"id199\"],[\"gIoLQwDM8UI=\",\"#\",\"id200\",\"h\",\"gKcMQwAl80I=\"],[\"gIoLQwDM8UI=\",\"#\",\"id201\"],[\"gIoLQwDM8UI=\",\"#\",\"id202\"],[\"gNIJQwDu7UI=\",\"#\",\"id203\",\"h\",\"gG0KQwBz8EI=\"],[\"gNIJQwDu7UI=\",\"#\",\"id204\"],[\"gNIJQwDu7UI=\",\"#\",\"id205\"],[\"gDcJQwAI6EI=\",\"#\",\"id206\",\"h\",\"gDcJQwBp60I=\"],[\"gDcJQwAI6EI=\",\"#\",\"id207\"],[\"gDcJQwAI6EI=\",\"#\",\"id208\"],[\"gIYKQ4Dg30I=\",\"#\",\"id209\",\"h\",\"gDcJQwDM4kI=\"],[\"gIYKQ4Dg30I=\",\"#\",\"id210\"],[\"gIYKQ4Dg30I=\",\"#\",\"id211\"],[\"gCgOQwD13EI=\",\"#\",\"id212\",\"h\",\"gNULQwD13EI=\"],[\"gCgOQwD13EI=\",\"#\",\"id213\"],[\"gCgOQwD13EI=\",\"#\",\"id214\"],[\"QLoRQwDy30I=\",\"#\",\"id215\",\"h\",\"gGcQQwD13EI=\"],[\"QLoRQwDy30I=\",\"#\",\"id216\"],[\"QLoRQwDy30I=\",\"#\",\"id217\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id218\",\"_effId\":\"id219\"}",
+        "{\"@\":\"path\",\"@id\":\"id220\",\"closed\":true,\"pts\":[[\"gOUKQwAI6EI=\",\"#\",\"id221\",\"h\",\"gOUKQwDk40I=\"],[\"gOUKQwAI6EI=\",\"#\",\"id222\"],[\"gOUKQwAI6EI=\",\"#\",\"id223\"],[\"gLcLQwBI7kI=\",\"#\",\"id224\",\"h\",\"gOUKQwAi7EI=\"],[\"gLcLQwBI7kI=\",\"#\",\"id225\"],[\"gLcLQwBI7kI=\",\"#\",\"id226\"],[\"ACEOQwBu8EI=\",\"#\",\"id227\",\"h\",\"gIkMQwBu8EI=\"],[\"ACEOQwBu8EI=\",\"#\",\"id228\"],[\"ACEOQwBu8EI=\",\"#\",\"id229\"],[\"wIsQQ4BK7kI=\",\"#\",\"id230\",\"h\",\"gLgPQwBu8EI=\"],[\"wIsQQ4BK7kI=\",\"#\",\"id231\"],[\"wIsQQ4BK7kI=\",\"#\",\"id232\"],[\"AF8RQwAI6EI=\",\"#\",\"id233\",\"h\",\"AF8RQwAn7EI=\"],[\"AF8RQwAI6EI=\",\"#\",\"id234\"],[\"AF8RQwAI6EI=\",\"#\",\"id235\"],[\"wIsQQ4DU4UI=\",\"#\",\"id236\",\"h\",\"AF8RQwDz40I=\"],[\"wIsQQ4DU4UI=\",\"#\",\"id237\"],[\"wIsQQ4DU4UI=\",\"#\",\"id238\"],[\"ABwOQwC230I=\",\"#\",\"id239\",\"h\",\"gLgPQwC230I=\"],[\"ABwOQwC230I=\",\"#\",\"id240\"],[\"ABwOQwC230I=\",\"#\",\"id241\"],[\"ALULQwDN4UI=\",\"#\",\"id242\",\"h\",\"gIQMQwC230I=\"],[\"ALULQwDN4UI=\",\"#\",\"id243\"],[\"ALULQwDN4UI=\",\"#\",\"id244\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id245\",\"_effId\":\"id246\"}"
        ],
        "refanchors": [],
-       "_layId": "id106",
-       "_effId": "id107"
+       "_layId": "id247",
+       "_effId": "id248"
       }
      ],
      "#": "id8",
@@ -968,7 +986,7 @@
    "__ids": [
     "id86",
     "id87",
-    "id108",
+    "id249",
     "id89",
     "id90",
     "id91",
@@ -996,6 +1014,15 @@
  },
  "infoAfter": {
   "title": "Convert to Raw Path",
+  "fullTitle": "Convert to Raw Path",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -1007,7 +1034,11 @@
  },
  "afterUndo": {
   "selection": [
-   "text:T"
+   {
+    "node": "text:T",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1015,6 +1046,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1023,22 +1055,22 @@
   ],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "text",
-       "@id": "id4",
-       "#": "id109",
+       "@id": "id1",
+       "#": "id250",
        "ct": [
         {
          "text": "Hello",
@@ -1516,7 +1548,11 @@
  },
  "afterRedo": {
   "selection": [
-   "compoundpath"
+   {
+    "node": "compoundpath",
+    "@id": "id105",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1524,6 +1560,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Convert to Raw Path"

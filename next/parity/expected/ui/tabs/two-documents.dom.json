@@ -2,6 +2,9 @@
  {
   "tag": "div",
   "id": "header",
+  "attrs": {
+   "style": "top: 0px;"
+  },
   "children": [
    {
     "tag": "div",
@@ -36,6 +39,9 @@
             "cls": [
              "g-menu-item-icon"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -56,6 +62,9 @@
             "cls": [
              "g-menu-item-shortcut"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -64,6 +73,9 @@
              "g-menu-item-detach",
              "gravit-icon-detach"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -86,6 +98,9 @@
             "cls": [
              "g-menu-item-icon"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -106,6 +121,9 @@
             "cls": [
              "g-menu-item-shortcut"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -114,6 +132,9 @@
              "g-menu-item-detach",
              "gravit-icon-detach"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -136,6 +157,9 @@
             "cls": [
              "g-menu-item-icon"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -156,6 +180,9 @@
             "cls": [
              "g-menu-item-shortcut"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -164,6 +191,9 @@
              "g-menu-item-detach",
              "gravit-icon-detach"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -186,6 +216,9 @@
             "cls": [
              "g-menu-item-icon"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -206,6 +239,9 @@
             "cls": [
              "g-menu-item-shortcut"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -214,6 +250,9 @@
              "g-menu-item-detach",
              "gravit-icon-detach"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -236,6 +275,9 @@
             "cls": [
              "g-menu-item-icon"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -256,6 +298,9 @@
             "cls": [
              "g-menu-item-shortcut"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -264,6 +309,9 @@
              "g-menu-item-detach",
              "gravit-icon-detach"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -339,7 +387,8 @@
            {
             "tag": "input",
             "attrs": {
-             "type": "text"
+             "type": "text",
+             "style": "display: none;"
             },
             "props": {
              "value": "Untitled-1*"
@@ -353,13 +402,19 @@
           "cls": [
            "close"
           ],
+          "attrs": {
+           "style": "pointer-events: auto;"
+          },
           "text": "✕"
          },
          {
           "tag": "span",
           "cls": [
            "sync-status"
-          ]
+          ],
+          "attrs": {
+           "style": "pointer-events: auto;"
+          }
          }
         ]
        },
@@ -386,7 +441,8 @@
            {
             "tag": "input",
             "attrs": {
-             "type": "text"
+             "type": "text",
+             "style": "display: none;"
             },
             "props": {
              "value": "Untitled-2"
@@ -400,6 +456,9 @@
           "cls": [
            "close"
           ],
+          "attrs": {
+           "style": "pointer-events: auto;"
+          },
           "text": "✕"
          }
         ]
@@ -425,6 +484,9 @@
       "cls": [
        "moreTab"
       ],
+      "attrs": {
+       "style": "left: -109.359px; max-height: 950px;"
+      },
       "hidden": true
      }
     ]
@@ -435,6 +497,9 @@
      "section",
      "busy"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -452,6 +517,9 @@
        "gravit-user-bonhomme",
        "user-avatar"
       ],
+      "attrs": {
+       "style": "background-image: none; background-color: rgb(179, 0, 0);"
+      },
       "text": "T"
      },
      {

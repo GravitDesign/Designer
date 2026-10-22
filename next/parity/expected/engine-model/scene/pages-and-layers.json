@@ -299,15 +299,15 @@
      "@": "layer",
      "cls": "C#[0,168,255]",
      "name": "Sub",
-     "_layId": "<id>",
-     "_effId": "<id>"
+     "_layId": "id1",
+     "_effId": "id2"
     }
    ],
    "cls": "C#[0,168,255]",
    "__active": true,
    "name": "L2",
-   "_layId": "<id>",
-   "_effId": "<id>"
+   "_layId": "id3",
+   "_effId": "id4"
   }
  },
  "afterDeleteLayer": {
@@ -396,15 +396,15 @@
  },
  "blob": {
   "@": "scene",
-  "@id": "<id>",
+  "@id": "id5",
   "$": [
    {
     "@": "page",
-    "@id": "<id>",
+    "@id": "id6",
     "$": [
      {
       "@": "rectangle",
-      "@id": "<id>",
+      "@id": "id7",
       "uf": true,
       "ct": "R",
       "sl": 0,
@@ -418,8 +418,8 @@
        35,
        40
       ],
-      "_layId": "<id>",
-      "_effId": "<id>"
+      "_layId": "id8",
+      "_effId": "id9"
      }
     ],
     "w": 70,
@@ -435,7 +435,7 @@
    },
    {
     "@": "page",
-    "@id": "<id>",
+    "@id": "id10",
     "w": 1200,
     "h": 300,
     "bl": 5,
@@ -456,7 +456,7 @@
    },
    {
     "@": "page",
-    "@id": "<id>",
+    "@id": "id11",
     "w": 0,
     "h": 0,
     "bl": 5,
@@ -477,7 +477,12 @@
    }
   ],
   "lmd": "<now>",
-  "__ids": "<id>",
+  "__ids": [
+   "id12",
+   "id13",
+   "id14",
+   "id15"
+  ],
   "pi": 1,
   "pgx": 3,
   "dictionary": {

@@ -1,55 +1,119 @@
 // Smaller editor behaviours that do not fit the other files: clone with
-// offset, the transaction debug export when debugging is off, the copy
-// exclusion option, copying a style row the mouse is over, panning with
-// Space, Play mode page keys, and dragging a symbol from the Symbols panel.
+// offset, the transaction debug export, the copy exclusion option,
+// copying a style row the mouse is over, panning with Space, hiding the
+// selection handles, Play mode page keys, and dragging a symbol from the
+// Symbols panel.
 import type { Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
-import { runKeyChecks, type KeyCheck } from "./keys.ts";
-import { runProbe, sceneToClient, type Loose } from "./lib.ts";
+import { frames, runKeyChecks, signature, waitForChange, type KeyCheck } from "./keys.ts";
+import { runProbe, sceneToClient, type Loose, type ProbeArgs } from "./lib.ts";
 
-const inPage: Scenario[] = [
-  {
-    id: "editor-actions/extras/clone-selection-with-offset",
-    covers: ["EDT-DUP-002", "EDT-DUP-001"],
-    kind: "json",
-    inPage: ({ G, app }) => {
-      const r = new G.GRectangle();
-      r.setProperty("trf", new G.GTransform(20, 0, 0, 10, 100, 100));
-      app.editor().insertElements([r]);
-      app.editor().cloneSelection(true);
-      const first = app
-        .selection()
-        .map((n: { getProperty(k: string): unknown }) => String(n.getProperty("trf")));
-      app.editor().cloneSelection(true);
-      const second = app
-        .selection()
-        .map((n: { getProperty(k: string): unknown }) => String(n.getProperty("trf")));
-      return {
-        first,
-        second,
-        rects: app.scene().queryAll("rectangle").length,
-        undo: app
-          .editor()
-          .getUndoStates()
-          .map((s: { name: string }) => s.name),
-      };
+type AppWindow = { __parity: { G: Loose; app: Loose } };
+
+/**
+ * Clone with offset: cloneSelection(true) shifts each copy by cloneShift
+ * and keeps the transform box open when it was open. The transform box
+ * is opened with Q (pointer tool in Transform mode), as a user does.
+ */
+async function cloneWithOffset(page: Page): Promise<string> {
+  const base: ProbeArgs = { setup: "rect", center: true, tool: true };
+  await runProbe(page, { ...base, phase: "setup" });
+  const before = await signature(page, base);
+  await page.keyboard.press("KeyQ");
+  await waitForChange(page, base, before);
+  const out = await page.evaluate(() => {
+    const { app } = (window as unknown as AppWindow).__parity;
+    const E = app.editorActions;
+    const state = () => ({
+      trf: app.selection().map((n: Loose) => String(n.getProperty("trf"))),
+      transformBox: E.transformBoxActive(),
+      toolEditMode: E.toolEditMode(),
+    });
+    const start = state();
+    app.editor().cloneSelection(true);
+    const first = state();
+    app.editor().cloneSelection(true);
+    const second = state();
+    return {
+      start,
+      first,
+      second,
+      rects: app.scene().queryAll("rectangle").length,
+      undo: app
+        .editor()
+        .getUndoStates()
+        .map((s: { name: string }) => s.name),
+    };
+  });
+  const doc = JSON.parse(await runProbe(page, { ...base, phase: "after" })) as unknown;
+  return JSON.stringify({ ...out, probe: doc });
+}
+
+/**
+ * The transaction debug export with steps debugging switched on (the
+ * enable_steps_debug setting), and the copy exclusion list set (the old
+ * build leaves it null). Both are switched off again at the end.
+ */
+function debugExportAndCopyExclusion(P: { G: Loose; app: Loose }): string {
+  const { G, app } = P;
+  const E = app.editorActions;
+  const ed = app.editor();
+  const out: Record<string, unknown> = {
+    offBefore: {
+      exportStates: ed.exportStates(),
+      propertiesExcludedFromCopying: E.editorOption("propertiesExcludedFromCopying"),
     },
-  },
-  {
-    id: "editor-actions/extras/debug-export-off-and-copy-options",
-    covers: ["EDT-UNDO-011", "EDT-CLIP-021"],
-    kind: "json",
-    inPage: ({ app }) => ({
-      exportStates: app.editor().exportStates(),
-      propertiesExcludedFromCopying: app.editorActions.editorOption(
-        "propertiesExcludedFromCopying",
-      ),
-    }),
-  },
-];
-
-type AppWindow = { __parity: { app: Loose } };
+  };
+  app.setSetting("enable_steps_debug", true);
+  try {
+    // The export after each step, or the error it throws.
+    const exported = () => {
+      try {
+        const raw = ed.exportStates();
+        if (typeof raw !== "string") return raw;
+        const parsed = JSON.parse(raw);
+        // Undo state ids are random uuids under "id"; keep only their form.
+        for (const st of parsed.states || []) {
+          st.id = typeof st.id === "string" ? `<uuid of ${st.id.length} chars>` : st.id;
+        }
+        return parsed;
+      } catch (e) {
+        return { exportError: String((e as Error).message) };
+      }
+    };
+    out.exportStatesEmpty = exported();
+    const r = new G.GRectangle();
+    r.setProperties(["trf", "name"], [new G.GTransform(20, 0, 0, 10, 100, 100), "Named"]);
+    ed.insertElements([r]);
+    out.exportStatesAfterInsert = exported();
+    app.execute("arrange.transform.rotate-90-left");
+    out.exportStatesAfterRotate = exported();
+  } finally {
+    app.setSetting("enable_steps_debug", false);
+  }
+  out.exportStatesAfterOff = ed.exportStates();
+  // The list names the node's own "@" keys that a copy leaves out (a
+  // copy keeps the other "@" keys and drops "@id"). Copy and duplicate
+  // both pass it to GNode.serialize.
+  const node = app.selection()[0];
+  node["@kept"] = "kept";
+  node["@dropped"] = "dropped";
+  E.setEditorOption("propertiesExcludedFromCopying", ["@dropped"]);
+  try {
+    E.clipboardClear();
+    app.execute("edit.copy");
+    out.copied = E.clipboardGet("application/gravit+node");
+    app.execute("edit.duplicate");
+    out.duplicateKeys = app
+      .selection()
+      .map((n: Loose) => ({ kept: n["@kept"] ?? null, dropped: n["@dropped"] ?? null }));
+  } finally {
+    E.setEditorOption("propertiesExcludedFromCopying", null);
+  }
+  out.optionAfter = E.editorOption("propertiesExcludedFromCopying");
+  return JSON.stringify(out);
+}
 
 const selectByName = (name: string) => (page: Page) =>
   page.evaluate((n) => {
@@ -67,8 +131,11 @@ const hover = (selector: string) => async (page: Page) => {
     .locator(selector)
     .first()
     .hover({ position: { x: 3, y: 8 } });
-  await page.waitForTimeout(100);
+  await frames(page);
 };
+
+const activeTool = (page: Page): Promise<string> =>
+  page.evaluate(() => (window as unknown as AppWindow).__parity.app.activeTool() as string);
 
 const keyChecks: KeyCheck[] = [
   // Ctrl+C with the mouse over the fill row copies that fill only; Ctrl+V
@@ -87,7 +154,6 @@ const keyChecks: KeyCheck[] = [
       await page.mouse.move(700, 800);
       await page.keyboard.press("Control+KeyV");
     },
-    wait: 400,
     args: { center: true, clipboard: true },
   },
   {
@@ -99,7 +165,6 @@ const keyChecks: KeyCheck[] = [
       await hover(".border-properties-panel .g-property-row")(page);
     },
     keys: ["Control+KeyX"],
-    wait: 400,
     args: { center: true, clipboard: true },
   },
   {
@@ -108,7 +173,6 @@ const keyChecks: KeyCheck[] = [
     id: "edit.delete",
     prepare: hover(".fill-properties-panel .g-property-row"),
     keys: ["Delete"],
-    wait: 300,
     args: { center: true },
   },
   // Space held while dragging pans the view and restores the tool after.
@@ -119,16 +183,21 @@ const keyChecks: KeyCheck[] = [
     act: async (page) => {
       const p = await sceneToClient(page, 400, 400);
       await page.mouse.move(p.x, p.y);
+      const tool = await activeTool(page);
       await page.keyboard.down("Space");
-      await page.waitForTimeout(100);
-      const during = await page.evaluate(() =>
-        (window as unknown as AppWindow).__parity.app.activeTool(),
+      await page.waitForFunction(
+        (t) => (window as unknown as AppWindow).__parity.app.activeTool() !== t,
+        tool,
       );
+      const during = await activeTool(page);
       await page.mouse.down();
       for (let i = 1; i <= 5; i++) await page.mouse.move(p.x + i * 20, p.y + i * 10);
       await page.mouse.up();
       await page.keyboard.up("Space");
-      await page.waitForTimeout(100);
+      await page.waitForFunction(
+        (t) => (window as unknown as AppWindow).__parity.app.activeTool() === t,
+        tool,
+      );
       return { toolWhileSpace: during };
     },
     args: { center: true, view: true, tool: true },
@@ -149,46 +218,136 @@ const keyChecks: KeyCheck[] = [
       await page.mouse.move(a.x + 100, a.y + 70, { steps: 2 });
       await page.mouse.up();
     },
-    wait: 200,
     args: { center: true, tool: true },
   },
 ];
 
+/**
+ * Show Selection Handles switched off with its shortcut: the selected
+ * rectangle is drawn without its handles and bounding box.
+ */
+async function hiddenHandles(page: Page): Promise<Buffer> {
+  const base: ProbeArgs = { setup: "rect", center: true };
+  await runProbe(page, { ...base, phase: "setup" });
+  await page.keyboard.press("Control+Shift+KeyX");
+  await page.waitForFunction(
+    () =>
+      (window as unknown as AppWindow).__parity.app.editorActions.actionInfo(
+        "view.canvas.show-selection-handles",
+      ).checked === false,
+  );
+  await frames(page, 3);
+  // Rectangle A is 100x60 at (100, 100); keep a margin for the handles.
+  const tl = await sceneToClient(page, 80, 80);
+  return page.screenshot({
+    clip: { x: Math.round(tl.x), y: Math.round(tl.y), width: 140, height: 100 },
+  });
+}
+
 async function playKeys(page: Page, arrow: boolean): Promise<Buffer> {
   await runProbe(page, { setup: "pages3", phase: "setup" });
   await page.evaluate(() => (window as unknown as AppWindow).__parity.app.execute("view.play"));
-  await page.waitForTimeout(1000);
+  // Play mode starts once the browser has entered fullscreen.
+  await page.waitForFunction(() => !!document.fullscreenElement);
+  await frames(page, 4);
   if (arrow) {
     await page.keyboard.press("ArrowDown");
-    await page.waitForTimeout(500);
+    await frames(page, 4);
   }
-  // Downscaled to keep the file small; the page content is large shapes.
   return page.screenshot({ clip: { x: 0, y: 0, width: 1600, height: 1000 }, scale: "css" });
 }
 
 async function symbolsPanelDrag(page: Page): Promise<string> {
   await runProbe(page, { setup: "symbol-master", phase: "setup", center: true });
+  // The second setup keeps the master and records "before"; the probe
+  // resets the sidebars, so the Symbols panel is opened after it.
+  const base: ProbeArgs = { setup: "empty" };
+  await runProbe(page, { ...base, phase: "setup" });
   await page.evaluate(() =>
     (window as unknown as AppWindow).__parity.app.execute("view.toggle-sidebar.symbols"),
   );
-  await page.waitForTimeout(500);
-  await runProbe(page, { setup: "empty", phase: "setup" });
+  const before = await signature(page, base);
   const tile = page.locator(".sidebar-symbols [draggable=true]").first();
   const to = await sceneToClient(page, 400, 300);
   await tile.dragTo(page.locator("body"), {
     targetPosition: { x: Math.round(to.x), y: Math.round(to.y) },
   });
-  await page.waitForTimeout(500);
-  return runProbe(page, { setup: "empty", phase: "after" });
+  await waitForChange(page, base, before);
+  return runProbe(page, { ...base, phase: "after" });
 }
 
-const drivers: Scenario[] = [
+/**
+ * Resizing a page next to another one. The collision rule (ADD-SCENE-002)
+ * only runs when GSceneOptions.pagesCanOverlap is false; the old app
+ * leaves it at its default true, so a widened page overlaps its
+ * neighbour and no page offset ("off") moves. Pages are resized in a
+ * transaction, as the page inspector does.
+ */
+function pageResize(P: { G: Loose; app: Loose }): unknown {
+  const { G, app } = P;
+  const scene = app.scene();
+  const ed = app.editor();
+  const pages = () =>
+    scene
+      .getChildren()
+      .filter((n: Loose) => n instanceof G.GPage)
+      .map((p: Loose) => ({
+        name: p.getProperty("name"),
+        w: p.getProperty("w"),
+        h: p.getProperty("h"),
+        off: String(p.getProperty("off")),
+        bbox: String(p.getPaintBBox()),
+      }));
+  const p1 = scene.getActivePage();
+  p1.setProperties(["w", "h", "name"], [400, 300, "P1"]);
+  const p2 = scene.insertPage();
+  p2.setProperty("name", "P2");
+  const start = pages();
+  const resize = (page: Loose, w: number, h: number) => {
+    ed.beginTransaction();
+    page.setProperties(["w", "h"], [w, h]);
+    ed.commitTransaction("Resize page");
+  };
+  resize(p1, 900, 300);
+  const widened = pages();
+  resize(p2, 400, 700);
+  const taller = pages();
+  app.execute("edit.undo");
+  const undone = pages();
+  return { start, widened, taller, undone };
+}
+
+const scenarios: Scenario[] = [
+  {
+    id: "editor-actions/extras/page-resize-overlap",
+    covers: ["ADD-SCENE-002"],
+    kind: "json",
+    inPage: pageResize as (p: unknown) => unknown,
+  },
+  {
+    id: "editor-actions/extras/clone-selection-with-offset",
+    covers: ["EDT-DUP-002", "EDT-DUP-001"],
+    kind: "document",
+    driver: ({ page }) => cloneWithOffset(page),
+  },
+  {
+    id: "editor-actions/extras/debug-export-and-copy-exclusion",
+    covers: ["EDT-UNDO-011", "EDT-CLIP-021"],
+    kind: "document",
+    inPage: debugExportAndCopyExclusion as (p: unknown) => string,
+  },
   {
     id: "editor-actions/extras/panel-hover-and-space",
     covers: ["EDT-CLIP-005", "EDT-CLIP-011", "EDT-DUP-003", "ACT-KEY-032", "ACT-KEY-033"],
     kind: "document",
     timeout: 240_000,
     driver: ({ page }) => runKeyChecks(page, keyChecks),
+  },
+  {
+    id: "editor-actions/extras/selection-handles-hidden",
+    covers: ["ACT-VIEW-031"],
+    kind: "png",
+    driver: ({ page }) => hiddenHandles(page),
   },
   {
     id: "editor-actions/extras/play-mode-first-page",
@@ -210,4 +369,4 @@ const drivers: Scenario[] = [
   },
 ];
 
-paritySuite("editor-actions extras", defineScenarios([...inPage, ...drivers]), { newApp: false });
+paritySuite("editor-actions extras", defineScenarios(scenarios), { newApp: false });

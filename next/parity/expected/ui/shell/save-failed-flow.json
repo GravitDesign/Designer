@@ -1,0 +1,37 @@
+{
+ "failed": {
+  "overlay": [
+   "Unable to save the document. Do you have the right permissions? CancelTry again"
+  ],
+  "dialogs": [
+   {
+    "cls": [
+     "g-dialog"
+    ],
+    "text": "There was no enough space on your disk. Please free some space and try again OK"
+   }
+  ],
+  "writes": 1
+ },
+ "retried": {
+  "overlay": [
+   "Unable to save the document. Do you have the right permissions? CancelTry again"
+  ],
+  "dialogs": [
+   {
+    "cls": [
+     "g-dialog"
+    ],
+    "text": "There was no enough space on your disk. Please free some space and try again OK"
+   }
+  ],
+  "writes": 2
+ },
+ "cancelled": {
+  "overlay": [],
+  "writes": 2
+ },
+ "tabs": [
+  "Untitled-1*"
+ ]
+}

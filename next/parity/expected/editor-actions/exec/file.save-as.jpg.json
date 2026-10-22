@@ -3,6 +3,15 @@
  "id": "file.save-as.jpg",
  "info": {
   "title": "JPEG Image (.jpg)",
+  "fullTitle": "JPEG Image (.jpg)",
+  "info": null,
+  "icon": null,
+  "category": [
+   "File",
+   "File/Export"
+  ],
+  "group": "export/file-type",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +23,11 @@
  },
  "before": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,27 +35,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -503,7 +517,11 @@
  },
  "after": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -511,6 +529,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -519,6 +538,15 @@
  },
  "infoAfter": {
   "title": "JPEG Image (.jpg)",
+  "fullTitle": "JPEG Image (.jpg)",
+  "info": null,
+  "icon": null,
+  "category": [
+   "File",
+   "File/Export"
+  ],
+  "group": "export/file-type",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,

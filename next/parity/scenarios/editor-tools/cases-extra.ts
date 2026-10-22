@@ -12,6 +12,7 @@ import {
   keyDown,
   keyUp,
   move,
+  openFileStep,
   press,
   probe,
   repaint,
@@ -313,12 +314,19 @@ export const extraCases: ToolCase[] = [
       press("Escape"),
     ],
   },
-  {
-    id: "extra/initial-view-on-open",
+  // The initial view of an opened file: a page larger than the view is
+  // fitted, a smaller one is shown at 100 % and centred, and on an
+  // infinite canvas the content is centred at 100 %. The files hold one
+  // rectangle each: a 2400 x 1600 page with a rectangle at (200, 200),
+  // a 400 x 300 page with one at (50, 50), and an infinite canvas with a
+  // 300 x 200 rectangle at (1500, 900).
+  ...["view-large-page", "view-small-page", "view-infinite-offset"].map((name): ToolCase => ({
+    id: `extra/initial-view-on-open-${name}`,
     covers: ["EDT-VIEW-018", "EDT-VIEW-002", "EDT-VIEW-003"],
     keepInitialView: true,
-    steps: [wait(300), probe("initial")],
-  },
+    keepIdsOf: `parity/scenarios/editor-tools/files/${name}.gvdesign`,
+    steps: [openFileStep(`parity/scenarios/editor-tools/files/${name}.gvdesign`), probe("opened")],
+  })),
   {
     id: "extra/show-slices-toggle",
     covers: ["EDT-VIEW-028"],

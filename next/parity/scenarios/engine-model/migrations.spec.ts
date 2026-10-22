@@ -98,14 +98,11 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
     id: "engine-model/migrations/legacy-scene",
     covers: ["ENG-SER-015", "ENG-SER-016", "ENG-SER-017", "ENG-SER-009", "ENG-SER-010"],
     kind: "document",
-    dropKeys: ["_sdf"],
     inPage: withHelpers((_p, _a, H) => {
       const G = H.G;
       const load = (blob: Record<string, unknown>) =>
         H.attempt(() =>
-          H.linksAsEntries(
-            JSON.parse(G.GNode.serialize(G.GNode.deserialize(JSON.stringify(blob)))),
-          ),
+          JSON.parse(G.GNode.serialize(G.GNode.deserialize(JSON.stringify(blob)))),
         ) as unknown;
       // No "dictionary": a pre-3.10 document. Page settings stored on the
       // scene are forwarded to its page.
@@ -204,7 +201,9 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
         (styles.getChildren() as { getProperty(n: string): unknown }[])
           .find((x) => x.getProperty("name") === name)
           ?.getProperty("_sdf");
-      const before = names.map((n) => [n, sdfOf(n as string) === null ? null : "type id"]);
+      // `_sdf` is the type id of the class the default style is for; the
+      // numbers are saved in files, so they are recorded as they are.
+      const before = names.map((n) => [n, sdfOf(n as string)]);
       const rect = sdfOf("Rectangle Default");
       const ell = sdfOf("Ellipse Default");
       const st = (
@@ -214,13 +213,15 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
         }[]
       ).find((x) => x.getProperty("name") === "Ellipse Default");
       st?.setProperty("_sdf", 99999);
+      const broken = sdfOf("Ellipse Default");
       const repaired = H.attempt(() => {
         styles.repairSdf();
-        return sdfOf("Ellipse Default") === ell;
+        return [sdfOf("Ellipse Default"), sdfOf("Ellipse Default") === ell];
       });
       return {
         before,
         sameTypeAsRectangle: rect === ell,
+        broken,
         repaired,
         stylesNode: G.GNode.getName(styles),
       };

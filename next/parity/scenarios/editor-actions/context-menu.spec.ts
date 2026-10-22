@@ -7,7 +7,8 @@
 import type { Locator, Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
-import { runProbe, sceneToClient, type ProbeArgs } from "./lib.ts";
+import { signature, waitForChange } from "./keys.ts";
+import { menuState, openedSubmenu, runProbe, sceneToClient, type ProbeArgs } from "./lib.ts";
 
 interface MenuItem {
   caption: string;
@@ -65,8 +66,9 @@ async function submenu(
   menu: Locator,
   caption: string,
 ): Promise<{ menu: Locator; items: MenuItem[] }> {
+  const before = await menuState(page);
   await item(menu, caption).hover({ timeout: 5000 });
-  await page.waitForTimeout(250);
+  await openedSubmenu(page, before);
   const sub = await openMenu(page);
   return { menu: sub, items: await dumpMenu(sub) };
 }
@@ -95,9 +97,12 @@ async function chooseFromCanvasMenu(
   at: [number, number],
   path: string[],
   args: Partial<ProbeArgs> = {},
+  prepare?: (page: Page, base: ProbeArgs) => Promise<void>,
 ): Promise<unknown> {
   const base: ProbeArgs = { setup, center: true, ...args };
   await runProbe(page, { ...base, phase: "setup" });
+  if (prepare) await prepare(page, base);
+  const before = await signature(page, base);
   let menu = await rightClickScene(page, at[0], at[1]);
   const shown = await dumpMenu(menu);
   for (let i = 0; i < path.length - 1; i++)
@@ -108,12 +113,20 @@ async function chooseFromCanvasMenu(
     : item(menu, last);
   const lastItems = await dumpMenu(menu);
   await target.click();
-  await page.waitForTimeout(300);
+  await waitForChange(page, base, before);
   return {
     topLevelCaptions: shown.filter((i) => i.shown).map((i) => i.caption),
     lastMenu: lastItems,
     ...((await after(page, base)) as object),
   };
+}
+
+/** Enters crop mode on image "I" (40x20 at 100,100) with a real double click. */
+async function doubleClickImage(page: Page, base: ProbeArgs): Promise<void> {
+  const before = await signature(page, base);
+  const c = await sceneToClient(page, 120, 110);
+  await page.mouse.dblclick(c.x, c.y);
+  await waitForChange(page, base, before);
 }
 
 async function layersPanelRightClick(page: Page): Promise<unknown> {
@@ -147,8 +160,9 @@ async function rowMenu(
   if (items.some((i) => i.caption === "Apply to"))
     sub = (await submenu(page, menu, "Apply to")).items;
   if (choose) {
+    const before = await signature(page, base);
     await item(await openMenu(page), choose).click();
-    await page.waitForTimeout(300);
+    await waitForChange(page, base, before);
   } else await page.keyboard.press("Escape");
   return { items, sub, ...((await after(page, base)) as object) };
 }
@@ -277,9 +291,14 @@ const scenarios: Scenario[] = [
     covers: ["ACT-CTX-004", "ACT-MODIFY-006", "EDT-CROP-006"],
     kind: "document",
     driver: ({ page }) =>
-      chooseFromCanvasMenu(page, "image-crop", [120, 110], ["Cancel Cropping"]).then(
-        JSON.stringify,
-      ),
+      chooseFromCanvasMenu(
+        page,
+        "image",
+        [120, 110],
+        ["Cancel Cropping"],
+        {},
+        doubleClickImage,
+      ).then(JSON.stringify),
   },
   {
     id: "editor-actions/context-menu/layers-panel",

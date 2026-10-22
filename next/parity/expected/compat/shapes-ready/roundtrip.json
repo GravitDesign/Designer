@@ -1,0 +1,1162 @@
+{
+ "@": "scene",
+ "@id": "G0Leaf",
+ "$": [
+  {
+   "@": "page",
+   "@id": "ZSimM4",
+   "$": [
+    {
+     "@": "annlst",
+     "@id": "W2ly24",
+     "pgid": "ZSimM4",
+     "aid": "W2ly24"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "i08Co5",
+     "ssn": "Rounded Rectangle",
+     "pvp": "[\"annot\",[1,2,\"-1 + rlen\",1,-1,4,1,-1,2,\"-1 + rlen\",4,2,\"-1 + rlen - hlen\",1,-1,4,1,-1,2,\"-1 + rlen - hlen\",2,1,-1,2,\"1 - rlen\",4,2,\"-1 + rlen\",1,1,4,1,-1,2,\"1 - rlen + hlen\",4,2,\"-1 + rlen - hlen\",1,1,2,2,\"1 - rlen\",1,1,4,1,1,2,\"1 - rlen\",4,2,\"1 - rlen + hlen\",1,1,4,1,1,2,\"1 - rlen + hlen\",2,1,1,2,\"-1 + rlen\",4,2,\"1 - rlen\",1,-1,4,1,1,2,\"-1 + rlen - hlen\",4,2,\"1 - rlen + hlen\",1,-1,5],[{\"x0\":-0.67,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-0.99,\"maxX\":0}],[{\"name\":\"rlen\",\"expression\":\"1 + annot[0].X\"},{\"name\":\"hlen\",\"expression\":\"sqrt((1 + annot[0].X) * (1 + annot[0].X) * 2) * 0.310026286\"}]]",
+     "apv": "[-0.67,-1]",
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      50,
+      50
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "rxsOmT",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "ExDaw3",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "i0ymYc",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "UJAj8HTPdJI15hR5sjSoZySyvUtld53C"
+     },
+     "_effId": "fmnlHtm9WxEquwAeNeSMMwhEOxnBusDT"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "yfgcch",
+     "ssn": "Snip Single Corner Rectangle",
+     "pvp": "[\"annot\",[1,1,-1,1,1,2,1,1,1,1,2,1,1,2,\"-1 + len\",2,2,\"1 - len\",1,-1,2,1,-1,1,-1,5],[{\"x0\":0.67,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":0,\"maxX\":0.99}],[{\"name\":\"len\",\"expression\":\"1 - annot[0].X\"}]]",
+     "apv": "[0.67,-1]",
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      170,
+      50
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "XgRouL",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "hEhxP7",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "lp91uz",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "Sz2deCbbmtuenHdlQSkMnCA8nUIQweuu"
+     },
+     "_effId": "JeNSk8urCNQtqJPmR266v03EdYYCTqOg"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "gg1Sxq",
+     "ssn": "Snip Same Side Corner Rectangle",
+     "pvp": "[\"annot\",[1,1,-1,2,\"1 - blen\",2,2,\"-1 + blen\",1,1,2,2,\"1 - blen\",1,1,2,1,1,2,\"1 - blen\",2,1,1,2,\"-1 + tlen\",2,2,\"1 - tlen\",1,-1,2,2,\"-1 + tlen\",1,-1,2,1,-1,2,\"-1 + tlen\",5],[{\"x0\":-1,\"y0\":1,\"X\":\"x\",\"Y\":1,\"minX\":-1,\"maxX\":0},{\"x0\":0.67,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":0,\"maxX\":1}],[{\"name\":\"tlen\",\"expression\":\"1 - annot[1].X\"},{\"name\":\"blen\",\"expression\":\"1 + annot[0].X\"}]]",
+     "apv": "[-1,1,0.67,-1]",
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      290,
+      50
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "twYuBG",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "UQuX8u",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "w2dzjh",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "eMZhr6NtjqCPkntzXXQC1q1Muex246Ey"
+     },
+     "_effId": "NTFAuoWixiVKURjuigO8gRUG8qguARFx"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "U7ubuX",
+     "ssn": "Snip Diagonal Corner Rectangle",
+     "pvp": "[\"annot\",[1,1,-1,2,\"1 - trbllen\",2,2,\"-1 + trbllen\",1,1,2,2,\"1 - tlbrlen\",1,1,2,1,1,2,\"1 - tlbrlen\",2,1,1,2,\"-1 + trbllen\",2,2,\"1 - trbllen\",1,-1,2,2,\"-1 + tlbrlen\",1,-1,2,1,-1,2,\"-1 + tlbrlen\",5],[{\"x0\":-1,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-1,\"maxX\":0},{\"x0\":0.67,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":0,\"maxX\":1}],[{\"name\":\"trbllen\",\"expression\":\"1 - annot[1].X\"},{\"name\":\"tlbrlen\",\"expression\":\"1 + annot[0].X\"}]]",
+     "apv": "[-1,-1,0.67,-1]",
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      410,
+      50
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "4DmhlL",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "lc497E",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "S04C5A",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "1Ewok5uq6gcTt0i1JaBkKPsUITD3W3nC"
+     },
+     "_effId": "YR2raWObYT3tJyJRidjp62J15I3XNjZ7"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "JK6ugy",
+     "ssn": "Snip and Round Single Corner Rectangle",
+     "pvp": "[\"annot\",[1,1,-1,1,1,2,1,1,1,1,2,1,1,2,\"-1 + trlen\",2,2,\"1 - trlen\",1,-1,2,2,\"-1 + tlrlen\",1,-1,4,1,-1,2,\"-1 + tlrlen\",4,2,\"-1 + tlrlen - tlhlen\",1,-1,4,1,-1,2,\"-1 + tlrlen - tlhlen\",5],[{\"x0\":-0.67,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-0.99,\"maxX\":0},{\"x0\":0.67,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":0,\"maxX\":1}],[{\"name\":\"trlen\",\"expression\":\"1 - annot[1].X\"},{\"name\":\"tlrlen\",\"expression\":\"1 + annot[0].X\"},{\"name\":\"tlhlen\",\"expression\":\"sqrt((1 + annot[0].X) * (1 + annot[0].X) * 2) * 0.310026286\"}]]",
+     "apv": "[-0.67,-1,0.67,-1]",
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      530,
+      50
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "ybQfJ3",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "AqdjMF",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "UjuhAD",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "jH8BxPjbof6K5u35VY8cMKvKxuf4OJul"
+     },
+     "_effId": "u6jXrmTz4H8SFLddpyi0paGdQeXzzgIj"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "LGHJqo",
+     "ssn": "Round Single Corner Rectangle",
+     "pvp": "[\"annot\",[1,1,-1,1,1,2,1,1,1,1,2,1,1,2,\"-1 + rlen\",4,2,\"1 - rlen\",1,-1,4,1,1,2,\"-1 + rlen - hlen\",4,2,\"1 - rlen + hlen\",1,-1,4,1,-1,1,-1,5],[{\"x0\":0.67,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":0,\"maxX\":0.99}],[{\"name\":\"rlen\",\"expression\":\"1 - annot[0].X\"},{\"name\":\"hlen\",\"expression\":\"sqrt((1 - annot[0].X) * (1 - annot[0].X) * 2) * 0.310026286\"}]]",
+     "apv": "[0.67,-1]",
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      650,
+      50
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "f3a2ZS",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "PFIcNp",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "B5LKYQ",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "a8hnMUqYGKTigqvzYl1RujhtYbk39Uz7"
+     },
+     "_effId": "spEKLdQKs9TVrdr1jppsj8noPHGGvprA"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "Dekwhd",
+     "ssn": "Round Same Side Corner Rectangle",
+     "pvp": "[\"annot\",[1,2,\"-1 + trlen\",1,-1,4,1,-1,2,\"-1 + trlen\",4,2,\"-1 + trlen - thlen\",1,-1,4,1,-1,2,\"-1 + trlen - thlen\",2,1,-1,2,\"1 - brlen\",4,2,\"-1 + brlen\",1,1,4,1,-1,2,\"1 - brlen + bhlen\",4,2,\"-1 + brlen - bhlen\",1,1,2,2,\"1 - brlen\",1,1,4,1,1,2,\"1 - brlen\",4,2,\"1 - brlen + bhlen\",1,1,4,1,1,2,\"1 - brlen + bhlen\",2,1,1,2,\"-1 + trlen\",4,2,\"1 - trlen\",1,-1,4,1,1,2,\"-1 + trlen - thlen\",4,2,\"1 - trlen + thlen\",1,-1,5],[{\"x0\":-0.99,\"y0\":1,\"X\":\"x\",\"Y\":1,\"minX\":-0.99,\"maxX\":0},{\"x0\":0.67,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":0,\"maxX\":0.99}],[{\"name\":\"brlen\",\"expression\":\"1 + annot[0].X\"},{\"name\":\"bhlen\",\"expression\":\"sqrt((1 + annot[0].X) * (1 + annot[0].X) * 2) * 0.310026286\"},{\"name\":\"trlen\",\"expression\":\"1 - annot[1].X\"},{\"name\":\"thlen\",\"expression\":\"sqrt((1 - annot[1].X) * (1 - annot[1].X) * 2) * 0.310026286\"}]]",
+     "apv": "[-0.99,1,0.67,-1]",
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      50,
+      170
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "jnhIHl",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "Kaegjy",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "mKadZS",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "FBMP4gHV9jwZLdOYb7fSS2A45twZvjHx"
+     },
+     "_effId": "CwjUmbLEHHmvP7MlFF3uQYRKWRpU2IgC"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "TjJSdh",
+     "ssn": "Round Diagonal Corner Rectangle",
+     "pvp": "[\"annot\",[1,2,\"-1 + tlbrrlen\",1,-1,4,1,-1,2,\"-1 + tlbrrlen\",4,2,\"-1 + tlbrrlen - tlbrhlen\",1,-1,4,1,-1,2,\"-1 + tlbrrlen - tlbrhlen\",2,1,-1,2,\"1 - trblrlen\",4,2,\"-1 + trblrlen\",1,1,4,1,-1,2,\"1 - trblrlen + trblhlen\",4,2,\"-1 + trblrlen - trblhlen\",1,1,2,2,\"1 - tlbrrlen\",1,1,4,1,1,2,\"1 - tlbrrlen\",4,2,\"1 - tlbrrlen + tlbrhlen\",1,1,4,1,1,2,\"1 - tlbrrlen + tlbrhlen\",2,1,1,2,\"-1 + trblrlen\",4,2,\"1 - trblrlen\",1,-1,4,1,1,2,\"-1 + trblrlen - trblhlen\",4,2,\"1 - trblrlen + trblhlen\",1,-1,5],[{\"x0\":-0.67,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-0.99,\"maxX\":0},{\"x0\":0.99,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":0,\"maxX\":0.99}],[{\"name\":\"trblrlen\",\"expression\":\"1 - annot[1].X\"},{\"name\":\"trblhlen\",\"expression\":\"sqrt((1 - annot[1].X) * (1 - annot[1].X) * 2) * 0.310026286\"},{\"name\":\"tlbrrlen\",\"expression\":\"1 + annot[0].X\"},{\"name\":\"tlbrhlen\",\"expression\":\"sqrt((1 + annot[0].X) * (1 + annot[0].X) * 2) * 0.310026286\"}]]",
+     "apv": "[-0.67,-1,0.99,-1]",
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      170,
+      170
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "CaNZZN",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "2iPU85",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "suKcVL",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "kdZ8vY4QVviKjBJ90jTAfXNz2DclfPbP"
+     },
+     "_effId": "CwIDY68RDcEGpyK2fPCr8UwrJ56Ixhzd"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "6qIu06",
+     "ssn": "Triangle",
+     "pvp": "[\"annot\",[1,1,-1,1,1,2,1,1,1,1,2,2,\"topx\",1,-1,5],[{\"x0\":0,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-1,\"maxX\":1}],[{\"name\":\"topx\",\"expression\":\"annot[0].X\"}]]",
+     "apv": "[0,-1]",
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      290,
+      170
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "ziHR6G",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "TI6Et8",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "sDiR6j",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "vwcD3vudcbvYWpseKVH4W8jjtPH1rpir"
+     },
+     "_effId": "SY47xUvxVpEa13Hl6KsnWEJg10vemzSy"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "jsw6oc",
+     "ssn": "Parallelogram",
+     "pvp": "[\"annot\",[1,1,-1,1,1,2,2,\"-1 + sidelen\",1,1,2,1,1,1,-1,2,2,\"1 - sidelen\",1,-1,5],[{\"x0\":-0.67,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-1,\"maxX\":1}],[{\"name\":\"sidelen\",\"expression\":\"1 - annot[0].X\"}]]",
+     "apv": "[-0.67,-1]",
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      410,
+      170
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "pCA5la",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "CsHdEl",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "0N567O",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "9zkZHsOYgnvSjpso4VuJAFZnd9AYqbrr"
+     },
+     "_effId": "za7k4dtgfu3OgcevbEqEghyF189vojZL"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "8mZt7y",
+     "ssn": "Trapezoid",
+     "pvp": "[\"annot\",[1,1,-1,1,1,2,1,1,1,1,2,2,\"1 - len\",1,-1,2,2,\"-1 + len\",1,-1,5],[{\"x0\":-0.67,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-1,\"maxX\":0}],[{\"name\":\"len\",\"expression\":\"1 + annot[0].X\"}]]",
+     "apv": "[-0.67,-1]",
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      530,
+      170
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "Ea58LD",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "FzsskT",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "ovl3vY",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "YYJqwlTaOoZfgapyPfRl2go0p5HFG3tZ"
+     },
+     "_effId": "rKddCWmRCGvL44pb3b9iOoFSLzmIUDjR"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "d5FbZs",
+     "ssn": "Hexagon",
+     "pvp": "[\"annot\",[1,1,1,1,0,2,2,\"1 - len\",1,-0.8660254,2,2,\"-1 + len\",1,-0.8660254,2,1,-1,1,0,2,2,\"-1 + len\",1,0.8660254,2,2,\"1 - len\",1,0.8660254,5],[{\"x0\":-0.5,\"y0\":-0.8660254,\"X\":\"x\",\"Y\":-0.8660254,\"minX\":-1,\"maxX\":0}],[{\"name\":\"len\",\"expression\":\"1 + annot[0].X\"}]]",
+     "apv": "[-0.5,-0.8660254]",
+     "trf": [
+      50,
+      0,
+      0,
+      57.735027171258494,
+      650,
+      170
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "YgvACX",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "tHofdk",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "N9rf6d",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "goVIi14gjNHESx4wJwXmTGzwMme8Utjz"
+     },
+     "_effId": "pZKWtFA7k2mqhCXdj6jwZEO4WStpqk4c"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "jTmwAS",
+     "ssn": "Octagon",
+     "pvp": "[\"annot\",[1,1,0.92387953,2,\"-0.92387953 + len\",2,2,\"0.92387953 - len\",1,-0.92387953,2,2,\"-0.92387953 + len\",1,-0.92387953,2,1,-0.92387953,2,\"-0.92387953 + len\",2,1,-0.92387953,2,\"0.92387953 - len\",2,2,\"-0.92387953 + len\",1,0.92387953,2,2,\"0.92387953 - len\",1,0.92387953,2,1,0.92387953,2,\"0.92387953 - len\",5],[{\"x0\":-0.38268343,\"y0\":-0.92387953,\"X\":\"x\",\"Y\":-0.92387953,\"minX\":-0.92387953,\"maxX\":0}],[{\"name\":\"len\",\"expression\":\"0.92387953 + annot[0].X\"}]]",
+     "apv": "[-0.38268343,-0.92387953]",
+     "trf": [
+      54.11961016172747,
+      0,
+      0,
+      54.11961016172747,
+      50,
+      290
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "PUJU4w",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "crbzSw",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "eZo7Vo",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "sjpUKIonknLFALpCLlYHjy2ed9QYeiFF"
+     },
+     "_effId": "UcaRd0fxIEVyosBOIWqWF41xTKbYdBlJ"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "ziXVdR",
+     "ssn": "Frame",
+     "pvp": "[\"annot\",[1,1,-1,1,1,2,1,1,1,1,2,1,1,1,-1,2,1,-1,1,-1,5,1,2,\"-1 + width\",2,\"1 - width\",2,2,\"1 - width\",2,\"1 - width\",2,2,\"1 - width\",2,\"-1 + width\",2,2,\"-1 + width\",2,\"-1 + width\",5],[{\"x0\":-0.75,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-1,\"maxX\":0}],[{\"name\":\"width\",\"expression\":\"1 + annot[0].X\"}]]",
+     "apv": "[-0.75,-1]",
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      170,
+      290
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "NynFGZ",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "Ze41FF",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "Wsbf5P",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "vsnkBgqGZf2SgA1snzD2ZHcEL7D365TJ"
+     },
+     "_effId": "chQFhaBzt0Q2KXSryPtsq3SmarCq5lmf"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "E1qVaS",
+     "ssn": "Half Frame",
+     "pvp": "[\"annot\",[1,1,1,1,-1,2,1,-1,1,-1,2,1,-1,1,1,2,2,\"-1 + xwidth\",2,\"1 - xwidth\",2,2,\"-1 + xwidth\",2,\"-1 + ywidth\",2,2,\"1 - ywidth\",2,\"-1 + ywidth\",5],[{\"x0\":-0.33,\"y0\":-1,\"X\":\"x\",\"Y\":-1,\"minX\":-1,\"maxX\":1},{\"x0\":-1,\"y0\":-0.33,\"X\":-1,\"Y\":\"y\",\"minY\":-1,\"maxY\":1}],[{\"name\":\"xwidth\",\"expression\":\"1 + annot[0].X\"},{\"name\":\"ywidth\",\"expression\":\"min(1 + annot[1].Y, 1 - annot[0].X)\"}]]",
+     "apv": "[-0.33,-1,-1,-0.33]",
+     "trf": [
+      50,
+      0,
+      0,
+      50,
+      290,
+      290
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "EW3g3r",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "ccasi2",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "xGg4dv",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "bxuckFI0TDtI02syHisS4lgSGpWZ5WX6"
+     },
+     "_effId": "NjybfyOVOdD986JfUe5yM5huezbHWmy2"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "vfHxYv",
+     "ssn": "Right Arrow",
+     "pvp": "[\"annot\",[1,1,-2,2,\"-shaftWidth / 2\",2,1,-2,2,\"shaftWidth / 2\",2,2,\"1 - arrowheadLen\",2,\"shaftWidth / 2\",2,2,\"1 - arrowheadLen\",1,0.75,2,1,1,1,0,2,2,\"1 - arrowheadLen\",1,-0.75,2,2,\"1 - arrowheadLen\",2,\"-shaftWidth / 2\",5],[{\"maxX\":0.99,\"Y\":-0.75,\"x0\":0,\"y0\":-0.75,\"X\":\"x\",\"minX\":-1.99},{\"x0\":-2,\"y0\":-0.25,\"X\":-2,\"Y\":\"y\",\"minY\":-0.74,\"maxY\":-0.01}],[{\"name\":\"arrowheadLen\",\"expression\":\"1 - annot[0].X\"},{\"name\":\"shaftWidth\",\"expression\":\"-annot[1].Y * 2\"}]]",
+     "apv": "[0,-0.75,-2,-0.25]",
+     "trf": [
+      33.33333333333333,
+      0,
+      0,
+      66.66666666666666,
+      426.66666666666663,
+      290
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "t90Vo2",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "QxPA3m",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "KvOzYX",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "PcNr2Y6gMaFSsQjdMH27bAQm0jl9CCwx"
+     },
+     "_effId": "WwY4UXVrEvSE8BuxoDc6UjksL5EdbhPI"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "4XOyKW",
+     "ssn": "Left-Right Arrow",
+     "pvp": "[\"annot\",[1,2,\"-3 + arrowheadLen\",2,\"-shaftWidth / 2\",2,2,\"-3 + arrowheadLen\",1,-0.75,2,1,-3,1,0,2,2,\"-3 + arrowheadLen\",1,0.75,2,2,\"-3 + arrowheadLen\",2,\"shaftWidth / 2\",2,2,\"1 - arrowheadLen\",2,\"shaftWidth / 2\",2,2,\"1 - arrowheadLen\",1,0.75,2,1,1,1,0,2,2,\"1 - arrowheadLen\",1,-0.75,2,2,\"1 - arrowheadLen\",2,\"-shaftWidth / 2\",5],[{\"x0\":0,\"y0\":-0.75,\"X\":\"x\",\"Y\":-0.75,\"minX\":-0.99,\"maxX\":0.99},{\"x0\":-3,\"y0\":-0.25,\"X\":-3,\"Y\":\"y\",\"minY\":-0.74,\"maxY\":-0.01}],[{\"name\":\"arrowheadLen\",\"expression\":\"1 - annot[0].X\"},{\"name\":\"shaftWidth\",\"expression\":\"-annot[1].Y * 2\"}]]",
+     "apv": "[0,-0.75,-3,-0.25]",
+     "trf": [
+      25,
+      0,
+      0,
+      66.66666666666666,
+      555,
+      290
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "W6cabN",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "dW2CEA",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "msQkeU",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "sVLjzBymU8MeVMWuAxUwmILkRqeiKU80"
+     },
+     "_effId": "YG2ZWo4EXmXeXtQ2lom0SH34C3NphN53"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "Ce2b75",
+     "ssn": "Plus",
+     "pvp": "[\"annot\",[1,1,-0.36,2,\"-0.36 + len\",2,1,-0.36,2,\"0.36 - len\",2,2,\"-0.36 + len\",2,\"0.36 - len\",2,2,\"-0.36 + len\",1,0.36,2,2,\"0.36 - len\",1,0.36,2,2,\"0.36 - len\",2,\"0.36 - len\",2,1,0.36,2,\"0.36 - len\",2,1,0.36,2,\"-0.36 + len\",2,2,\"0.36 - len\",2,\"-0.36 + len\",2,2,\"0.36 - len\",1,-0.36,2,2,\"-0.36 + len\",1,-0.36,2,2,\"-0.36 + len\",2,\"-0.36 + len\",5],[{\"x0\":-0.36,\"y0\":-0.12,\"X\":-0.36,\"Y\":\"y\",\"minY\":-0.36,\"maxY\":0}],[{\"name\":\"len\",\"expression\":\"0.36 + annot[0].Y\"}]]",
+     "apv": "[-0.36,-0.12]",
+     "trf": [
+      138.88888888888889,
+      0,
+      0,
+      138.88888888888889,
+      650,
+      290
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "YHmUQW",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "D1sEnM",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "DUO9OK",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "XTZTymlyWB8zqLeoNITzohRQNdSqAv88"
+     },
+     "_effId": "9u0mhZ3Dx1AgRzhbiDy1mXJPKlAX8c9r"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "HJbZRl",
+     "ssn": "Multiply",
+     "pvp": "[\"annot\",[1,1,-0.33941126,2,\"-projHeight\",2,2,\"-0.33941126 + projHeight\",1,0,2,1,-0.33941126,2,\"projHeight\",2,2,\"-projHeight\",1,0.33941126,2,1,0,2,\"0.33941126 - projHeight\",2,2,\"projHeight\",1,0.33941126,2,1,0.33941126,2,\"projHeight\",2,2,\"0.33941126 - projHeight\",1,0,2,1,0.33941126,2,\"-projHeight\",2,2,\"projHeight\",1,-0.33941126,2,1,0,2,\"-0.33941126 + projHeight\",2,2,\"-projHeight\",1,-0.33941126,5],[{\"x0\":-0.33941126,\"y0\":-0.16970563,\"X\":-0.33941126,\"Y\":\"y\",\"minY\":-0.33941126,\"maxY\":0}],[{\"name\":\"projHeight\",\"expression\":\"-annot[0].Y\"}]]",
+     "apv": "[-0.33941126,-0.16970563]",
+     "trf": [
+      147.3139105638393,
+      0,
+      0,
+      147.3139105638393,
+      50,
+      410
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "Tc0XVc",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "euuNNY",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "rX1WqN",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "gTEvRyJemajFlX2B8zeodvNbWVsfl8tt"
+     },
+     "_effId": "vwMHQF806lBDxvtWaPaFMrdM9KuTJ181"
+    },
+    {
+     "@": "Ready Shape",
+     "@id": "KzG6o6",
+     "ssn": "Equal",
+     "pvp": "[\"annot\",[1,1,-0.36,2,\"-0.3 + len\",2,1,0.36,2,\"-0.3 + len\",2,1,0.36,1,-0.3,2,1,-0.36,1,-0.3,5,1,1,-0.36,2,\"0.3 - len\",2,1,0.36,2,\"0.3 - len\",2,1,0.36,1,0.3,2,1,-0.36,1,0.3,5],[{\"x0\":-0.36,\"y0\":-0.06,\"X\":-0.36,\"Y\":\"y\",\"minY\":-0.3,\"maxY\":0}],[{\"name\":\"len\",\"expression\":\"0.3 + annot[0].Y\"}]]",
+     "apv": "[-0.36,-0.06]",
+     "trf": [
+      138.88888888888889,
+      0,
+      0,
+      166.66666666666669,
+      170,
+      410
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "DlDiGR",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "ICeSFH",
+        "_pt": "C#[120,200,160]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "fhtyKL",
+        "_bw": 2,
+        "_pt": "C#[20,60,40]"
+       }
+      ],
+      "&": "q5pzzFjjC7F2X8e3yseLyCfh4IKV1EG1"
+     },
+     "_effId": "m0VhMJi7IfKzjisMHrENRnNxivjIZ8Rq"
+    }
+   ],
+   "#": "T8BNSbSHt7y4u65mubLLNA2lVyOZQIVt",
+   "w": 0,
+   "h": 0,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "name": "Page 1"
+  },
+  {
+   "@": "styles",
+   "@id": "W2c3sD",
+   "$": [
+    {
+     "@": "style",
+     "@id": "kN95sE",
+     "#": "m8LWultm6NRvW8YGBteaZReke4ERh5zi",
+     "name": "Shape Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 94,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "MSWQRl",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "bb1VLz",
+        "_pt": "C#[255,255,255]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "XMlDFD",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "AxDL3eOAV05Z6nreAGh8QAF7Asxot7Al"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "oxM2Td",
+     "#": "jLlBgKSSmQWYqL0LY286TgLd5h8Z5zqi",
+     "name": "Text Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL",
+      "T",
+      "P"
+     ],
+     "_sdf": 133,
+     "_layId": "IVT1HtuZJqVJdVuK1vh41hMA8k4sUfpB",
+     "_fc": "C#[0,0,0]"
+    },
+    {
+     "@": "style",
+     "@id": "q4DCGY",
+     "#": "OP3YCvdunhTWYTXLDZYbkWYpGIMOgt6z",
+     "name": "Rectangle Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 107,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "0yIShX",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "j33j4A",
+        "_pt": "C#[235,235,235]"
+       }
+      ],
+      "&": "nUJMFbHgTGmNqOM34FqGI2dIWfzQ9SkA"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "fSHbao",
+     "#": "AreENx2m9ShntzTh6pPDN6VlhhH4SR8z",
+     "name": "Ellipse Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 104,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "iBJnFU",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "PnA0rC",
+        "_pt": "C#[235,235,235]"
+       }
+      ],
+      "&": "KmNhcO7bQOTlNNAlXbSA6Qy3CuCcqjBm"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "ENHfSp",
+     "#": "orJwaBiLfaivCZWL4ziXgHxCl2rJBNI5",
+     "name": "Polygon Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 102,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "A0CQtx",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "xs5Zpq",
+        "_pt": "C#[235,235,235]"
+       }
+      ],
+      "&": "uhKw69rZanDdr3NgHvSCFRC9auojsDLA"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "vq1UJI",
+     "#": "CJ40S9iIGxHDvvWATsSF9DTJke1Rjh0H",
+     "name": "Path Default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 103,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "itp38B",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "2N23Pu",
+        "_pt": "C#[255,255,255]",
+        "_vs": false
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "3XVZVl",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "HcdphAyq8CbzxFrqLO5DUBYVqC3huy6u"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "Pw0oI5",
+     "#": "OGkYvHkYCK2Bw7qHlSkGLeycce9rnaux",
+     "name": "Path graph default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 142,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "DlXIDM",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "aWv1Hq",
+        "_pt": "C#[255,255,255]",
+        "_vs": false
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "PQP9G4",
+        "_blc": "round",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "ccpA731hkvYGtdlZcOoipTeTGlm2gLuW"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "0y8c7t",
+     "#": "vyykzmq8XO37orri85ONX71MYotCexoG",
+     "name": "Connector default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 146,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "OhnuBi",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "glk2IB",
+        "_blc": "butt",
+        "_bhm": "A",
+        "_btm": "A",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "VxxSPStSJ5dfInkhJQlqvIBa6JltRPba"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "kD5LgC",
+     "#": "II3dAM0liFTrLhpGeqMQK27NKrWKQos7",
+     "name": "Text annotation default",
+     "ps": [
+      "S",
+      "T"
+     ],
+     "_sdf": 148,
+     "_sbl": "multiply",
+     "_fc": "C#[0,0,0]"
+    },
+    {
+     "@": "style",
+     "@id": "GMl7Fl",
+     "#": "nni4mTcauE7XlFD5r3wXSqLGrWOLvpRr",
+     "name": "Rectangle annotation default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 150,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "d7Ms0b",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "W6abRk",
+        "_pt": "C#[230,2,2]",
+        "_op": 0,
+        "_bl": "multiply"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "rLgKKc",
+        "_bw": 2,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "1S3jfnfK00sMPNDoY6vFV0PJ016pY081"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "R05HnD",
+     "#": "RDUXqxDuDa1ymlE8CxIdbyc003PH86xY",
+     "name": "Ellipse annotation default",
+     "ps": [
+      "S",
+      "BL",
+      "FL"
+     ],
+     "_sdf": 151,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "WpU5US",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "4u77vL",
+        "_pt": "C#[230,2,2]",
+        "_op": 0,
+        "_bl": "multiply"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "n47b7D",
+        "_bw": 2,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "uork92biFITP4mEHy5ZYjbHvuUMYS1dU"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "iRnKZz",
+     "#": "Rf2qCe9dCGi0urmIz9VX6prlEFIvDFU8",
+     "name": "Pencil annotation default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 155,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "oXv73G",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "5B6xNg",
+        "_bw": 2,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "akPungI10vcwezpUEZosYBtEQa8PuE60"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "nShGaM",
+     "#": "6aD2FHc6YzaBK0TR6xCqOX0FVq3ZcDQN",
+     "name": "Highlighter annotation default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 152,
+     "_stop": 0.5,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "0MADpF",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "bVAwd2",
+        "_bw": 12,
+        "_pt": "C#[248,206,28]"
+       }
+      ],
+      "&": "yIYlr4KVh8gSL8bptLatkNT6Ku0W3CMO"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "OxkAjG",
+     "#": "by3ghcUePk610zPIPDIfT5JK5FDo0rqC",
+     "name": "Arrow annotation default",
+     "ps": [
+      "S",
+      "BL"
+     ],
+     "_sdf": 154,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "d3b6ZB",
+      "$": [
+       {
+        "@": "borderPaintLayer",
+        "@id": "82hJuD",
+        "_bw": 2,
+        "_blc": "butt",
+        "_bhmi": 0,
+        "_btm": "A",
+        "_btmi": 0,
+        "_pt": "C#[230,2,2]"
+       }
+      ],
+      "&": "QaHmOsfCfG2zwZ6es59rYkjuvbPG7R7y"
+     }
+    },
+    {
+     "@": "style",
+     "@id": "l40PB8",
+     "#": "rdJcoKCg3PYBWsOXHjZMq657kVauvUfM",
+     "name": "Comment annotation default",
+     "ps": [
+      "S",
+      "BL",
+      "FL",
+      "E"
+     ],
+     "_sdf": 153,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "1TMcL1",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "JjFxCU",
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "iVUjdbuNDlBftiYxLPDi6Vwmrg0wUW11"
+     },
+     "_effId": "fLiyXgWpLbxrWqRXKMyKuAgVaM2eZwAp"
+    }
+   ]
+  }
+ ],
+ "lmd": "<time>",
+ "cfs": null,
+ "__ids": [
+  "id1",
+  "id2",
+  "id3",
+  "id4",
+  "id5",
+  "id6",
+  "id7",
+  "id8",
+  "id9",
+  "id10",
+  "id11",
+  "id12",
+  "id13",
+  "id14",
+  "id15",
+  "id16",
+  "id17",
+  "id18",
+  "id19",
+  "id20",
+  "id21",
+  "id22",
+  "id23",
+  "id24",
+  "id25",
+  "id26",
+  "id27",
+  "id28",
+  "id29",
+  "id30",
+  "id31",
+  "id32",
+  "id33",
+  "id34",
+  "id35",
+  "id36",
+  "id37",
+  "id38"
+ ],
+ "dictionary": {
+  "entries": []
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}

@@ -1,0 +1,11 @@
+{
+ "code": null,
+ "timedOut": true,
+ "events": [
+  {
+   "event": "showErrorBox",
+   "title": "A JavaScript error occurred in the main process",
+   "content": "Uncaught Exception:\nError: listen EADDRINUSE: address already in use 127.0.0.1:47823\n    at Server.setupListenHandle [as _listen2] (node:net:1908:16)\n    at listenInCluster (node:net:1965:12)\n    at doListen (node:net:2139:7)\n    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)"
+  }
+ ]
+}

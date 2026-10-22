@@ -1,10 +1,518 @@
 {
- "gzipMagic": "1f8b",
+ "gzip": {
+  "magic": "1f8b",
+  "method": 8,
+  "flags": 0,
+  "mtime": 0,
+  "xfl": 2,
+  "os": 3
+ },
  "firstKey": "{\"_preview\":",
  "preview": {
   "mime": "image/jpeg",
   "width": 600,
   "height": 257
  },
- "restEqualsSerializedScene": true
+ "restEqualsSerializedScene": true,
+ "document": {
+  "@": "scene",
+  "@id": "He4toN",
+  "$": [
+   {
+    "@": "page",
+    "@id": "nNv26c",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "Y3SB87",
+      "pgid": "nNv26c",
+      "aid": "Y3SB87"
+     },
+     {
+      "@": "ellipse",
+      "@id": "vSbb6K",
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [
+       100,
+       0,
+       0,
+       60,
+       100,
+       60
+      ],
+      "_sdf": 104,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "gtV947",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "Y4SXzN",
+         "_pt": "C#[250,180,60]"
+        }
+       ],
+       "&": "lPLQIxve5Q6vhfhIpkaD0t2bylg1iHi0"
+      },
+      "_effId": "jLmuWdF7jf9QdyYepmb66UOthARdsMo6"
+     },
+     {
+      "@": "slice",
+      "@id": "rdbIK7",
+      "x": -10,
+      "y": -10,
+      "w": 120,
+      "h": 80,
+      "name": "Slice trim"
+     },
+     {
+      "@": "slice",
+      "@id": "o1dzV4",
+      "trm": false,
+      "cls": "C#[255,0,0]",
+      "x": 100,
+      "y": 40,
+      "w": 120,
+      "name": "Slice no trim"
+     },
+     {
+      "@": "slice",
+      "@id": "C08IyH",
+      "x": 260,
+      "w": 80,
+      "h": 80,
+      "name": "Empty slice"
+     }
+    ],
+    "#": "J7vJBgr5mpym99sTQTTe3veFeTbzsoVe",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   },
+   {
+    "@": "styles",
+    "@id": "F9K7Ui",
+    "$": [
+     {
+      "@": "style",
+      "@id": "fEcmwY",
+      "#": "gQkJBdHgF6cHUeJWtx6SBnAcskxIdHpb",
+      "name": "Shape Default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 94,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "neniaX",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "tONFN7",
+         "_pt": "C#[255,255,255]"
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "Q7O09H",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "QNJ5LyoBkZhgPjSkXXNn66rF73LaUbWM"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "d6z9hQ",
+      "#": "mhdRrxxzUS6QadrFP0Atc99ckGUYDRap",
+      "name": "Text Default",
+      "ps": [
+       "S",
+       "BL",
+       "FL",
+       "T",
+       "P"
+      ],
+      "_sdf": 133,
+      "_layId": "eSEMK6c8TeeOszRPyNxNyDtOI05DmbEn",
+      "_fc": "C#[0,0,0]"
+     },
+     {
+      "@": "style",
+      "@id": "EiGnbk",
+      "#": "JOz4jlXmqsoD9GBbh9XGB1iT2J6TCKXg",
+      "name": "Rectangle Default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 107,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "6h19XA",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "5dnozA",
+         "_pt": "C#[235,235,235]"
+        }
+       ],
+       "&": "NpquORQPYIhz4IANkviVbL0eA80yGWun"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "czSeCs",
+      "#": "GZFg51uhbDW6d0yzq0pQ0uuTDxWJtnzB",
+      "name": "Ellipse Default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 104,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "NjhhaD",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "xENs9g",
+         "_pt": "C#[235,235,235]"
+        }
+       ],
+       "&": "z6vCcXLwSMJHLoNAU5qbvMFrunrkYFAs"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "tfrP8q",
+      "#": "2dK02YkOU9HBkWvUH1yqcT5QWEY4zLjf",
+      "name": "Polygon Default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 102,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "loa9so",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "HIHJaN",
+         "_pt": "C#[235,235,235]"
+        }
+       ],
+       "&": "vbD3AFFHBdJTbzyLsM6Z72IFIKxyBeHM"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "t5whDN",
+      "#": "Lale3noRIcYlaApSxgkTuaoeMXrctv3G",
+      "name": "Path Default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 103,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "ptToQs",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "IXbQAH",
+         "_pt": "C#[255,255,255]",
+         "_vs": false
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "CAskTd",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "FyYkUlwzGowP7LDjOT82PwnrXvypruSD"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "DKf2Uj",
+      "#": "Ms37fv4vkuKJoq1YJiAw6A6dY19WXCap",
+      "name": "Path graph default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 142,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "NGbh7k",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "SuzaMa",
+         "_pt": "C#[255,255,255]",
+         "_vs": false
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "LL7Qym",
+         "_blc": "round",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "jFy30clMrKorsXE0I3LoF98UMNaz6hoN"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "xTyb5N",
+      "#": "vLwKUikW8iS8yPG5yXJnwEFDBwcPvlLg",
+      "name": "Connector default",
+      "ps": [
+       "S",
+       "BL"
+      ],
+      "_sdf": 146,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "AjLisO",
+       "$": [
+        {
+         "@": "borderPaintLayer",
+         "@id": "gaEcca",
+         "_blc": "butt",
+         "_bhm": "A",
+         "_btm": "A",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "VjTbrAbnT8Gl13oVqzv22gk6gtwqjh02"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "0hakRC",
+      "#": "0NngAJgHg1UNEnejQAb0ISLYBALZKZ9w",
+      "name": "Text annotation default",
+      "ps": [
+       "S",
+       "T"
+      ],
+      "_sdf": 148,
+      "_sbl": "multiply",
+      "_fc": "C#[0,0,0]"
+     },
+     {
+      "@": "style",
+      "@id": "7CSvKp",
+      "#": "CXz1Ljw6GqBSlveAbIksY6c3YFRUWkhw",
+      "name": "Rectangle annotation default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 150,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "s2RpZ0",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "eZpZxU",
+         "_pt": "C#[230,2,2]",
+         "_op": 0,
+         "_bl": "multiply"
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "WtvRwp",
+         "_bw": 2,
+         "_pt": "C#[230,2,2]"
+        }
+       ],
+       "&": "UQJvdEPBZUZUQ1lcW3ws9c0zVKKSumwl"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "JRBXLd",
+      "#": "5AfG8hbwmLtEMvRnzDHZfQbNHF3Pnafi",
+      "name": "Ellipse annotation default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 151,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "bsmDhF",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "0p1vmo",
+         "_pt": "C#[230,2,2]",
+         "_op": 0,
+         "_bl": "multiply"
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "k8UQnp",
+         "_bw": 2,
+         "_pt": "C#[230,2,2]"
+        }
+       ],
+       "&": "lqhtzZSOqzJKX74rstuuk1UMklGN67xh"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "vcvtBi",
+      "#": "xIH0eYOrIt5Ovmq4i36IzwkUbwbpC4kV",
+      "name": "Pencil annotation default",
+      "ps": [
+       "S",
+       "BL"
+      ],
+      "_sdf": 155,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "0hcsy9",
+       "$": [
+        {
+         "@": "borderPaintLayer",
+         "@id": "j6VNtX",
+         "_bw": 2,
+         "_pt": "C#[230,2,2]"
+        }
+       ],
+       "&": "G45FzUSpa9GOBcxiVlhkwAyLL7Bxxv9V"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "Cj2l44",
+      "#": "HHT6x9PhKvH0zwny609xX4gbyXljZcpr",
+      "name": "Highlighter annotation default",
+      "ps": [
+       "S",
+       "BL"
+      ],
+      "_sdf": 152,
+      "_stop": 0.5,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "5rksO4",
+       "$": [
+        {
+         "@": "borderPaintLayer",
+         "@id": "L046On",
+         "_bw": 12,
+         "_pt": "C#[248,206,28]"
+        }
+       ],
+       "&": "VNofph7Lx3YypfFWvw5oX3YEwHUTGThr"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "CC0PbQ",
+      "#": "XxTS9prBX52V3AgpSzumKUkWxaXOBq8y",
+      "name": "Arrow annotation default",
+      "ps": [
+       "S",
+       "BL"
+      ],
+      "_sdf": 154,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "ZNZjah",
+       "$": [
+        {
+         "@": "borderPaintLayer",
+         "@id": "LKHqMI",
+         "_bw": 2,
+         "_blc": "butt",
+         "_bhmi": 0,
+         "_btm": "A",
+         "_btmi": 0,
+         "_pt": "C#[230,2,2]"
+        }
+       ],
+       "&": "Xu6DaSa1H5miaoUIvaWsrltC4toqh030"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "mUpdgN",
+      "#": "4gJvy1K7mhic84oJgav49E5NbYZm7aE1",
+      "name": "Comment annotation default",
+      "ps": [
+       "S",
+       "BL",
+       "FL",
+       "E"
+      ],
+      "_sdf": 153,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "lw3ztR",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "skrgOp",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "cRgg2sRyGcpKMraZfPkdJ3QZdf0Gr3tA"
+      },
+      "_effId": "AadkQIJCuvV6BqcY1OgxdBzKjuIrLmhb"
+     }
+    ]
+   }
+  ],
+  "lmd": "<time>",
+  "cfs": null,
+  "__ids": [
+   "id1",
+   "id2",
+   "id3",
+   "id4",
+   "id5",
+   "id6",
+   "id7",
+   "id8",
+   "id9",
+   "id10",
+   "id11",
+   "id12",
+   "id13",
+   "id14",
+   "id15",
+   "id16",
+   "id17",
+   "id18",
+   "id19",
+   "id20",
+   "id21",
+   "id22"
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
 }

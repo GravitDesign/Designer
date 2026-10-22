@@ -2,6 +2,9 @@
  {
   "tag": "div",
   "id": "footer",
+  "attrs": {
+   "style": "left: 250px; width: 1050px;"
+  },
   "children": [
    {
     "tag": "div",
@@ -50,7 +53,8 @@
           "tag": "div",
           "cls": [
            "message"
-          ]
+          ],
+          "text": "Something happened in the parity test"
          }
         ]
        }

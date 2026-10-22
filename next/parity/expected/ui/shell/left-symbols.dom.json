@@ -2,12 +2,18 @@
  {
   "tag": "div",
   "id": "left-sidebars",
+  "attrs": {
+   "style": "width: 250px; top: 73px; height: 927px;"
+  },
   "children": [
    {
     "tag": "div",
     "cls": [
      "sidebar-selector"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
@@ -29,6 +35,9 @@
         "cls": [
          "g-badge"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        }
       ]
@@ -52,6 +61,9 @@
         "cls": [
          "g-badge"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        }
       ]
@@ -77,6 +89,9 @@
         "cls": [
          "g-badge"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        }
       ]
@@ -90,6 +105,9 @@
      "sidebar-outline",
      "multiple"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -99,6 +117,9 @@
      "sidebar-library",
      "multiple"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -109,6 +130,9 @@
      "multiple",
      "g-active"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
@@ -119,6 +143,9 @@
       "children": [
        {
         "tag": "label",
+        "attrs": {
+         "style": "flex-grow: 1;"
+        },
         "text": "Symbols"
        },
        {

@@ -5,9 +5,22 @@
   ],
   "db": null
  },
- "chooser": {
-  "multiple": true,
-  "accept": ".ttf,.otf,.ttc,.dfont"
+ "first": {
+  "chooser": {
+   "multiple": true,
+   "accept": ".ttf,.otf,.ttc,.dfont"
+  },
+  "outcome": "font list written",
+  "trace": {
+   "reads": [
+    "gravit-icons.ttf"
+   ],
+   "writes": [
+    "gravitFonts:gravit-designer_400_N",
+    "gravitFonts:_gravit_font_list_"
+   ],
+   "errors": []
+  }
  },
  "after": {
   "families": [
@@ -21,6 +34,22 @@
    ]
   }
  },
+ "secondImport": {
+  "chooser": {
+   "multiple": true,
+   "accept": ".ttf,.otf,.ttc,.dfont"
+  },
+  "outcome": "font list written",
+  "trace": {
+   "reads": [
+    "gravit-icons.ttf"
+   ],
+   "writes": [
+    "gravitFonts:_gravit_font_list_"
+   ],
+   "errors": []
+  }
+ },
  "again": {
   "families": [
    "Open Sans",
@@ -31,6 +60,20 @@
     "_gravit_font_list_",
     "gravit-designer_400_N"
    ]
+  }
+ },
+ "brokenImport": {
+  "chooser": {
+   "multiple": true,
+   "accept": ".ttf,.otf,.ttc,.dfont"
+  },
+  "outcome": "read, nothing written",
+  "trace": {
+   "reads": [
+    "broken.ttf"
+   ],
+   "writes": [],
+   "errors": []
   }
  },
  "broken": {

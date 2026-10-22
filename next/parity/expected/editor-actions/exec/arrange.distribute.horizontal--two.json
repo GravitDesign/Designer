@@ -3,6 +3,15 @@
  "id": "arrange.distribute.horizontal",
  "info": {
   "title": "Distribute Horizontally",
+  "fullTitle": "Distribute Horizontally",
+  "info": null,
+  "icon": "<svg class=\"align-svg\" xmlns=\"http://www.w3.org/2000/svg\" style=\"isolation:isolate\" viewBox=\"3 2 20 20\" width=\"20\" height=\"20\"><rect id=\"align-area\" x=\"4\" y=\"6\" width=\"4\" height=\"12\" fill=\"#FFF\"/><rect id=\"align-area\" x=\"18\" y=\"8\" width=\"4\" height=\"8\" fill=\"#FFF\"/><rect id=\"align-shape\" x=\"10\" y=\"3\" width=\"2\" height=\"18\" fill=\"#3A98FF\"/><rect id=\"align-shape\" x=\"14\" y=\"3\" width=\"2\" height=\"18\" fill=\"#3A98FF\"/></svg>",
+  "category": [
+   "Modify",
+   "Modify/Align"
+  ],
+  "group": "arrange/align-distribute",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -14,8 +23,16 @@
  },
  "before": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -23,27 +40,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id3",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id4",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id5",
+       "pgid": "id4",
+       "aid": "id5"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -61,21 +79,21 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id6",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id7"
+        "&": "id8"
        },
-       "_effId": "id8"
+       "_effId": "id9"
       },
       {
        "@": "rectangle",
-       "@id": "id9",
+       "@id": "id2",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -535,11 +553,18 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -547,6 +572,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -555,6 +581,15 @@
  },
  "infoAfter": {
   "title": "Distribute Horizontally",
+  "fullTitle": "Distribute Horizontally",
+  "info": null,
+  "icon": "<svg class=\"align-svg\" xmlns=\"http://www.w3.org/2000/svg\" style=\"isolation:isolate\" viewBox=\"3 2 20 20\" width=\"20\" height=\"20\"><rect id=\"align-area\" x=\"4\" y=\"6\" width=\"4\" height=\"12\" fill=\"#FFF\"/><rect id=\"align-area\" x=\"18\" y=\"8\" width=\"4\" height=\"8\" fill=\"#FFF\"/><rect id=\"align-shape\" x=\"10\" y=\"3\" width=\"2\" height=\"18\" fill=\"#3A98FF\"/><rect id=\"align-shape\" x=\"14\" y=\"3\" width=\"2\" height=\"18\" fill=\"#3A98FF\"/></svg>",
+  "category": [
+   "Modify",
+   "Modify/Align"
+  ],
+  "group": "arrange/align-distribute",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,

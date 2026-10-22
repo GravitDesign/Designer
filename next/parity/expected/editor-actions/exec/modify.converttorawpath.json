@@ -3,6 +3,15 @@
  "id": "modify.converttorawpath",
  "info": {
   "title": "Convert to Raw Path",
+  "fullTitle": "Convert to Raw Path",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +23,11 @@
  },
  "before": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,27 +35,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -507,10 +521,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "path"
+   {
+    "node": "path",
+    "@id": "id107",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -518,6 +535,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Convert to Raw Path"
@@ -525,17 +543,17 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "path",
@@ -545,29 +563,29 @@
         [
          "AADIQgAAyEI=",
          "#",
-         "rid108"
+         "id108"
         ],
         [
          "AABIQwAAyEI=",
          "#",
-         "rid109"
+         "id109"
         ],
         [
          "AABIQwAAIEM=",
          "#",
-         "rid110"
+         "id110"
         ],
         [
          "AADIQgAAIEM=",
          "#",
-         "rid111"
+         "id111"
         ]
        ],
        "reftxt": null,
        "refanchors": [],
        "_layers": {
         "@": "paintLayers",
-        "@id": "id108",
+        "@id": "id112",
         "$": [
          {
           "@": "fillPaintLayer",
@@ -581,9 +599,9 @@
           "_pt": "C#[0,0,255]"
          }
         ],
-        "&": "id109"
+        "&": "id113"
        },
-       "_effId": "id110"
+       "_effId": "id114"
       }
      ],
      "#": "id10",
@@ -988,7 +1006,7 @@
    "__ids": [
     "id88",
     "id89",
-    "id111",
+    "id115",
     "id91",
     "id92",
     "id93",
@@ -1016,6 +1034,15 @@
  },
  "infoAfter": {
   "title": "Convert to Raw Path",
+  "fullTitle": "Convert to Raw Path",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -1027,7 +1054,11 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1035,6 +1066,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1045,7 +1077,11 @@
  },
  "afterRedo": {
   "selection": [
-   "path"
+   {
+    "node": "path",
+    "@id": "id107",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1053,6 +1089,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Convert to Raw Path"

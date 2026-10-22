@@ -16,11 +16,7 @@
   "step": "event 1",
   "keys": {
    "pwa.closed-install-pwa-dialog-date": null,
-   "pwa.show-install-dialog-3-times-a-week": {
-    "jsonString": [
-     "<epoch ms>"
-    ]
-   }
+   "pwa.show-install-dialog-3-times-a-week": "\"[1767607200000]\""
   },
   "dialogs": []
  },
@@ -28,12 +24,7 @@
   "step": "event 2",
   "keys": {
    "pwa.closed-install-pwa-dialog-date": null,
-   "pwa.show-install-dialog-3-times-a-week": {
-    "jsonString": [
-     "<epoch ms>",
-     "<epoch ms>"
-    ]
-   }
+   "pwa.show-install-dialog-3-times-a-week": "\"[1767607200000,1767607200000]\""
   },
   "dialogs": []
  },
@@ -41,12 +32,7 @@
   "step": "event 3",
   "keys": {
    "pwa.closed-install-pwa-dialog-date": null,
-   "pwa.show-install-dialog-3-times-a-week": {
-    "jsonString": [
-     "<epoch ms>",
-     "<epoch ms>"
-    ]
-   }
+   "pwa.show-install-dialog-3-times-a-week": "\"[1767607200000,1767607200000]\""
   },
   "dialogs": [
    "g-dialog g-install-pwa-dialog"
@@ -56,12 +42,7 @@
   "step": "after Escape",
   "keys": {
    "pwa.closed-install-pwa-dialog-date": null,
-   "pwa.show-install-dialog-3-times-a-week": {
-    "jsonString": [
-     "<epoch ms>",
-     "<epoch ms>"
-    ]
-   }
+   "pwa.show-install-dialog-3-times-a-week": "\"[1767607200000,1767607200000]\""
   },
   "dialogs": []
  },

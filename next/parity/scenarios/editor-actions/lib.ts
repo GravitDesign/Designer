@@ -1,4 +1,4 @@
-import type { Page } from "@playwright/test";
+import { expect, type Page } from "@playwright/test";
 import type { ParityHandle } from "../../support/scenario.ts";
 
 /**
@@ -24,9 +24,13 @@ export interface ProbeArgs {
   /**
    * "all": setup, execute, record (default).
    * "setup": setup and record the before state only, keep it for "after".
+   * "run": record the before state again (a driver changed it after
+   *   "setup"), then execute and record like "all".
    * "after": record the after state of a previous "setup" call.
+   * "signature": the current state as one string, so a driver can wait
+   *   until an action has changed something (see keys.ts waitForChange).
    */
-  phase?: "all" | "setup" | "after";
+  phase?: "all" | "setup" | "run" | "after" | "signature";
   /** Skip running the action (only record its state). */
   run?: boolean;
   /** Run edit.undo/edit.redo when the action pushed undo states (default true). */
@@ -37,14 +41,18 @@ export interface ProbeArgs {
   view?: boolean;
   /** Also record windows, documents and sidebars. */
   shell?: boolean;
-  /** Also record the internal clipboard MIME types and node content. */
+  /**
+   * Also record the internal clipboard (MIME types and node data) and what
+   * the app wrote to the system clipboard since the setup: the
+   * clipboardData of each copy/cut event and navigator.clipboard writes.
+   */
   clipboard?: boolean;
+  /** localStorage keys to record (container properties such as the tooltip switch). */
+  storage?: string[];
   /** Put these nodes (selection after setup, by default) into the internal clipboard first. */
   copyFirst?: "selection" | "fill-layer" | "border-layer" | "effect" | "none";
   /** Fill a system prompt dialog that the action opens with this value, then press OK. */
   prompt?: string | null;
-  /** Milliseconds to wait after executing (async clipboard access). */
-  settle?: number;
   /** Restore checkable state and settings after recording (default true). */
   restore?: boolean;
   /** Actions run after the setup and before recording "before". */
@@ -157,7 +165,11 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
   };
   const image = async (name: string, x: number, y: number) => {
     const img = new G.GImage();
-    img.setProperties(["url", "trf"], [pngDataUrl(40, 20), new G.GTransform(1, 0, 0, 1, x, y)]);
+    // Placed images carry the same transform for the frame (trf) and the
+    // image content (itrf); with itrf unset the image is drawn in place
+    // but can't be hit with the mouse.
+    const at = new G.GTransform(1, 0, 0, 1, x, y);
+    img.setProperties(["url", "trf", "itrf"], [pngDataUrl(40, 20), at, at]);
     named(img, name);
     insert([img]);
     await waitFor(() => !img.getStatus() && img.getProperty("iw") > 0);
@@ -351,6 +363,27 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
       select([p]);
       E.selectAnchorPoints(p, [1]);
     },
+    "path-anchor-smooth": () => {
+      // Like path-anchor, but the selected anchor is a smooth (symmetric)
+      // point with handles, so changing it to a straight corner shows.
+      const p = path(
+        "P",
+        [
+          [100, 100],
+          [200, 140],
+          [300, 100],
+          [400, 160],
+        ],
+        false,
+      );
+      p.getAnchorPoints()
+        .getChildByIndex(1)
+        .setProperties(["tp", "hlx", "hly", "hrx", "hry"], ["TS", 160, 160, 240, 120]);
+      insert([p]);
+      app.activateTool("GSubSelectTool");
+      select([p]);
+      E.selectAnchorPoints(p, [1]);
+    },
     "path-many": () => {
       // A jittery open path with many points for simplify: a slow wave
       // (amplitude 30) with +-3 noise on every point.
@@ -400,14 +433,8 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
       select([byName("T")]);
     },
     image: async () => {
+      // Crop mode is entered by the drivers with a real double click.
       await image("I", 100, 100);
-    },
-    "image-crop": async () => {
-      const img = await image("I", 100, 100);
-      select([img]);
-      ed().setSelectionDetail(true);
-      // Entering crop mode is what a double click on the image does.
-      E.setImageCropMode(img, true);
     },
     symbol: () => {
       const a1 = rect("A", 100, 100, 80, 50);
@@ -470,10 +497,13 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
       fixedPage(400, 300);
       page().setProperty("name", "P1");
       insert([rect("A", 50, 50, 100, 60)]);
+      // Each page has its own content, so going to the wrong page shows.
       const p2 = scene().insertPage();
       p2.setProperty("name", "P2");
+      p2.appendChild(ellipse("E2", 150, 100, 200, 150));
       const p3 = scene().insertPage();
       p3.setProperty("name", "P3");
+      p3.appendChild(rect("R3", 20, 200, 360, 60));
       scene().setActivePage(
         scene()
           .getChildren()
@@ -518,6 +548,12 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
       border(b1, [0, 0, 255], 6);
       select([a1]);
     },
+    "eyedrop-border": () => {
+      // As eyedrop, but A has a border, which the border eyedropper needs.
+      runSetup("eyedrop");
+      border(byName("A"), [0, 128, 0], 2);
+      select([byName("A")]);
+    },
     "two-windows": () => {
       insert([rect("A", 100, 100, 50, 50)]);
       app.execute("view.clone");
@@ -530,84 +566,88 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
   };
 
   // --------------------------------------------------------------- recording
-  const nodeLabel = (n: Loose) => {
+  // Selected nodes with their identity: the node id (renamed stably by the
+  // harness normalizer like every other "@id") and the child-index path
+  // from the scene, so an original and its copy never record the same.
+  const indexPath = (n: Loose) => {
+    const parts: number[] = [];
+    for (let c = n; c && c.getParent && c.getParent(); c = c.getParent()) {
+      parts.unshift(c.getParent().getChildren().indexOf(c));
+    }
+    return parts.join("/");
+  };
+  const nodeRecord = (n: Loose) => {
     const name =
       n.getProperty && n.hasProperty && n.hasProperty("name") ? n.getProperty("name") : null;
-    return name ? `${n.getNodeName()}:${name}` : String(n.getNodeName());
+    return {
+      node: name ? `${n.getNodeName()}:${name}` : String(n.getNodeName()),
+      "@id": n.hasMixin && n.hasMixin(G.GNode.Identity) ? n.getId() : null,
+      path: indexPath(n),
+    };
   };
-  const selection = () => (ed().getSelection() || []).map(nodeLabel);
-  // The harness normalizer (normalize.ts) renames @id, #, &, _effId, _layId
-  // and __ids, but misses ids inside JSON strings held in arrays (compound
-  // path "paths") and the old app's other random 32-character ids: the
-  // third element of each anchor point in "pts", "sbl" entries, the keys of
-  // "_links", dictionary entry "uuid"s and the "dictionary://<uuid>" image
-  // URLs that refer to them. They are renamed here to rid1, rid2, ... in
-  // order of first appearance in the whole record, so before/after/undo
-  // stay comparable.
-  const stabilize = (value: unknown): unknown => {
-    const ids = new Map<string, string>();
-    const RID = /^[A-Za-z0-9]{32}$/;
-    // Keys whose values are random ids (as in normalize.ts).
-    const ID_KEYS = new Set(["@id", "#", "&", "_effId", "_layId"]);
-    const DICT = /^dictionary:\/\/([A-Za-z0-9]{32})$/;
-    const add = (v: string) => {
-      if (!ids.has(v)) ids.set(v, `rid${ids.size + 1}`);
-    };
-    const nested = (v: string): unknown => {
-      const first = v.charAt(0);
-      if ((first !== "{" && first !== "[") || v.length < 2) return undefined;
-      try {
-        return JSON.parse(v);
-      } catch {
-        return undefined;
-      }
-    };
-    // Pass 1: collect ids in depth-first order, inside nested JSON too.
-    const collect = (v: unknown, key: string | null): void => {
-      if (typeof v === "string") {
-        if (RID.test(v) || (key !== null && ID_KEYS.has(key))) add(v);
-        const m = DICT.exec(v);
-        if (m) add(m[1] as string);
-        const n = nested(v);
-        if (n !== undefined) collect(n, null);
-        return;
-      }
-      if (Array.isArray(v)) {
-        for (const c of v) collect(c, null);
-        return;
-      }
-      if (v && typeof v === "object") {
+  const selection = () => (ed().getSelection() || []).map(nodeRecord);
+  // Two places the harness normalizer (support/normalize.ts) can't reach:
+  // - "sbl" lists ids of nodes that need not be in the document (random
+  //   per run); those are numbered in order of first appearance;
+  //   the same goes for node JSON nested in strings that has an "sbl";
+  // - "reftxt" holds text JSON whose "atPath" is JSON text again: ids two
+  //   levels deep are not renamed, so both levels are recorded parsed,
+  //   with a flag that re-serializing gives back the original text.
+  const fixDoc = (doc: Loose) => {
+    const known = new Set<string>();
+    const nestedSymbol = (v: unknown) =>
+      typeof v === "string" && v.startsWith("{") && v.includes('"sbl"');
+    const collect = (v: Loose) => {
+      if (nestedSymbol(v)) collect(JSON.parse(v));
+      else if (Array.isArray(v)) v.forEach(collect);
+      else if (v && typeof v === "object") {
         for (const [k, c] of Object.entries(v)) {
-          if (RID.test(k)) add(k);
-          collect(c, k);
+          if (typeof c === "string" && ["@id", "#", "&", "_effId", "_layId"].includes(k))
+            known.add(c);
+          collect(c);
         }
       }
     };
-    // Pass 2: rename every collected id wherever it appears.
-    const rename = (v: unknown): unknown => {
-      if (typeof v === "string") {
-        const r = ids.get(v);
-        if (r) return r;
-        const m = DICT.exec(v);
-        if (m) return `dictionary://${ids.get(m[1] as string) ?? m[1]}`;
-        const n = nested(v);
-        if (n !== undefined) return JSON.stringify(rename(n));
-        return v;
+    collect(doc);
+    const unresolved = new Map<string, string>();
+    const fix = (v: Loose): Loose => {
+      // Nested node JSON with an "sbl" list (symbol dictionary entries).
+      if (nestedSymbol(v)) {
+        const parsed = JSON.parse(v);
+        return { parsed: fix(parsed), exact: JSON.stringify(parsed) === v };
       }
-      if (Array.isArray(v)) return v.map(rename);
-      if (v && typeof v === "object") {
-        const out: Record<string, unknown> = {};
-        for (const [k, c] of Object.entries(v)) out[ids.get(k) ?? k] = rename(c);
-        return out;
+      if (Array.isArray(v)) return v.map(fix);
+      if (!v || typeof v !== "object") return v;
+      const out: Record<string, unknown> = {};
+      for (const [k, c] of Object.entries(v)) {
+        if (k === "sbl" && Array.isArray(c)) {
+          out[k] = c.map((id: unknown) => {
+            if (typeof id !== "string" || known.has(id)) return id;
+            if (!unresolved.has(id)) {
+              unresolved.set(id, `<ref not in document ${unresolved.size + 1}>`);
+            }
+            return unresolved.get(id);
+          });
+        } else if (k === "reftxt" && typeof c === "string" && c.startsWith("[")) {
+          const parsed = JSON.parse(c);
+          const exact = JSON.stringify(parsed) === c;
+          for (const t of parsed) {
+            if (t && typeof t.atPath === "string" && t.atPath.startsWith("{")) {
+              const p = JSON.parse(t.atPath);
+              t.atPathExact = JSON.stringify(p) === t.atPath;
+              t.atPath = p;
+            }
+          }
+          out[k] = { parsed: fix(parsed), exact };
+        } else out[k] = fix(c);
       }
-      return v;
+      return out;
     };
-    collect(value, null);
-    return rename(value);
+    return fix(doc);
   };
   const docJson = () => {
     try {
-      return JSON.parse(app.serialize({ save: true }));
+      return fixDoc(JSON.parse(app.serialize({ save: true })));
     } catch (e) {
       // The old app can fail to serialize (see BUGS: flatten + undo + redo).
       // Keep the message without the random dictionary key.
@@ -642,11 +682,109 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
     for (const k of a.settings || []) out[k] = app.setting(k);
     return out;
   };
-  const clipState = () => {
-    const types = E.clipboardTypes();
-    const node = E.clipboardGet("application/gravit+node");
-    return { types, node: node ? JSON.parse(node) : null };
+  const storageState = () => {
+    const out: Record<string, unknown> = {};
+    for (const k of a.storage || []) out[k] = localStorage.getItem(k);
+    return out;
   };
+
+  // System clipboard: the app writes it in its copy/cut event handlers
+  // (clipboardData.setData) or through navigator.clipboard when it runs
+  // from the menu. Both are logged from the setup on; the clipboard
+  // promises are tracked so the probe can wait for them instead of
+  // sleeping.
+  interface ClipHooks {
+    log: unknown[];
+    pending: Set<Promise<unknown>>;
+  }
+  // The gravit wrapper holds the node JSON HTML-escaped. It is recorded
+  // split into the wrapper tags and the unescaped JSON, so the harness can
+  // rename the ids inside it, plus whether the body is escaped exactly as
+  // the old app does it (only &, < and >).
+  const splitGravitXml = (s: string) => {
+    const m = /^(<gravit [^>]*>)([\s\S]*)(<\/gravit>)$/.exec(s);
+    if (!m) return s;
+    const body = m[2] as string;
+    const div = document.createElement("div");
+    div.innerHTML = body;
+    const json = div.textContent ?? "";
+    const escaped = json.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return { open: m[1], json, close: m[3], escapedAmpLtGtOnly: escaped === body };
+  };
+  const clipHooks = (): ClipHooks => {
+    if (w.__eaClip) return w.__eaClip as ClipHooks;
+    const hooks: ClipHooks = { log: [], pending: new Set() };
+    w.__eaClip = hooks;
+    for (const type of ["copy", "cut"]) {
+      // On window, so it runs after the app's document listener.
+      window.addEventListener(type, (e) => {
+        const dt = (e as ClipboardEvent).clipboardData;
+        const data: Record<string, unknown> = {};
+        const types = dt ? Array.from(dt.types) : [];
+        for (const t of types) {
+          const v = (dt as DataTransfer).getData(t);
+          data[t] = t === "text/xml" ? splitGravitXml(v) : v;
+        }
+        hooks.log.push({ event: type, defaultPrevented: e.defaultPrevented, types, data });
+      });
+    }
+    const track = <T>(p: Promise<T>): Promise<T> => {
+      hooks.pending.add(p);
+      const done = () => hooks.pending.delete(p);
+      p.then(done, done);
+      return p;
+    };
+    const cb = navigator.clipboard as Loose;
+    if (cb) {
+      const writeText = cb.writeText.bind(cb);
+      cb.writeText = (text: string) => {
+        hooks.log.push({ event: "writeText", data: splitGravitXml(String(text)) });
+        return track(writeText(text));
+      };
+      const write = cb.write.bind(cb);
+      cb.write = (items: ClipboardItem[]) => {
+        hooks.log.push({ event: "write", types: items.map((i) => Array.from(i.types)) });
+        return track(write(items));
+      };
+      for (const name of ["read", "readText"]) {
+        const fn = cb[name].bind(cb);
+        cb[name] = () => track(fn());
+      }
+    }
+    const perms = navigator.permissions as Loose;
+    if (perms) {
+      const query = perms.query.bind(perms);
+      perms.query = (d: unknown) => track(query(d));
+    }
+    return hooks;
+  };
+  // Waits until no clipboard promise is pending and the handlers that run
+  // after them (the app's fallbacks and alerts) have run.
+  const clipboardIdle = async () => {
+    const hooks = clipHooks();
+    for (let i = 0; i < 50; i++) {
+      if (hooks.pending.size === 0) {
+        await sleep(0);
+        if (hooks.pending.size === 0) return;
+      }
+      await Promise.allSettled([...hooks.pending]);
+    }
+    throw new Error("clipboard promises did not settle");
+  };
+  const clipState = () => ({
+    types: E.clipboardTypes(),
+    node: E.clipboardGet("application/gravit+node"),
+    system: clipHooks().log.slice(),
+  });
+  const waitImages = () =>
+    waitFor(() => {
+      let pending = false;
+      scene().acceptChildren(function v(n: Loose) {
+        if (n instanceof G.GImage && n.getStatus()) pending = true;
+        if (n.acceptChildren) n.acceptChildren(v);
+      });
+      return !pending;
+    }, 15000);
   const dialogs = () =>
     Array.from(document.querySelectorAll(".g-dialog-container.visible")).map((d) => ({
       className: (d as HTMLElement).className.replace(/\s*\bvisible\b/, ""),
@@ -672,25 +810,30 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
       layer: layer ? layer.getProperty("name") : null,
     };
   };
-  const capture = () => {
+  const capture = (all = false) => {
     const s: Record<string, unknown> = {
       selection: selection(),
       active: activeNames(),
       dialogs: dialogs(),
       selectionDetail: !!ed().hasSelectionDetail(),
+      inlineEditing: !!ed().isInlineEditing(),
       undo: undoNames(),
       redo: redoNames(),
       doc: docJson(),
     };
-    if (a.view) s.view = viewState();
+    if (all || a.view) s.view = viewState();
     if (a.settings) s.settings = settingsState();
-    if (a.shell) {
+    if (a.storage) s.storage = storageState();
+    if (all || a.shell) {
       s.windows = E.windows();
       s.documents = E.documents();
       s.sidebars = E.sidebars();
     }
-    if (a.clipboard) s.clipboard = clipState();
-    if (a.tool) s.tool = app.activeTool();
+    if (all || a.clipboard) s.clipboard = clipState();
+    if (all || a.tool) {
+      s.tool = app.activeTool();
+      s.toolEditMode = E.toolEditMode();
+    }
     return s;
   };
   // Documents compared without the save time (lmd), which changes per call.
@@ -705,13 +848,20 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
   };
 
   const phase = a.phase || "all";
+  if (phase === "signature") {
+    await clipboardIdle();
+    return JSON.stringify(capture(true), (k, v) => (k === "lmd" ? undefined : v));
+  }
   if (phase === "all" || phase === "setup") {
     // Start from one document, the pointer tool, no open dialog and the
-    // clipboard empty, whatever the previous scenario on this page did.
+    // clipboard empty. The harness resets shared pages between scenarios;
+    // this also isolates the checks inside one driver scenario.
+    E.resetSidebars();
     E.closeOtherDocuments();
     closeDialogs();
     app.activateTool("GPointerTool");
     if (!a.options || a.options.clearClipboard !== false) E.clipboardClear();
+    clipHooks().log.length = 0;
     const setup = setups[a.setup];
     if (!setup) throw new Error(`unknown setup ${a.setup}`);
     await setup();
@@ -756,13 +906,16 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
       for (const n of ed().getSelection())
         if (n.getAnchorPoints) E.selectAnchorPoints(n, o.anchors);
     }
+    if (typeof o.opacity === "number") {
+      for (const n of ed().getSelection()) n.setProperty("_stop", o.opacity);
+    }
     if (a.center) app.execute("view.magnification.100");
     const settingsBefore: Record<string, unknown> = {};
     for (const k of a.settings || []) settingsBefore[k] = app.setting(k);
     const before = capture();
     const info = a.id ? E.actionInfo(a.id) : null;
     w.__eaState = { before, info, settingsBefore, sidebars: E.sidebars() };
-    if (phase === "setup") return JSON.stringify(stabilize({ before, info }));
+    if (phase === "setup") return JSON.stringify({ before, info });
   }
   const state = w.__eaState as {
     before: Loose;
@@ -770,13 +923,18 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
     settingsBefore: Record<string, unknown>;
     sidebars: unknown;
   };
+  if (phase === "run") {
+    // A driver changed the state after "setup" (e.g. a double click).
+    state.before = capture();
+    state.info = a.id ? E.actionInfo(a.id) : null;
+  }
   const result: Record<string, unknown> = {
     setup: a.setup,
     id: a.id ?? null,
     info: state.info,
     before: state.before,
   };
-  if (phase === "all" && a.id && a.run !== false) {
+  if ((phase === "all" || phase === "run") && a.id && a.run !== false) {
     const opened: string[] = [];
     const origOpen = window.open;
     window.open = ((url?: string | URL) => {
@@ -784,7 +942,7 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
       return null;
     }) as typeof window.open;
     try {
-      result.returned = (await app.execute(a.id, a.execArgs)) ?? null;
+      await app.execute(a.id, a.execArgs);
     } finally {
       window.open = origOpen;
     }
@@ -806,11 +964,12 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
         (dlg.querySelector(".g-dialog-footer button.primary") as HTMLElement).click();
       }
     }
-    if (a.settle) await sleep(a.settle);
+    // Menu clipboard actions finish asynchronously (navigator.clipboard).
+    await clipboardIdle();
     if (opened.length) result.opened = opened;
-    await sleep(0);
-    await waitTexts();
   }
+  await waitTexts();
+  await waitImages();
   const after = capture();
   closeDialogs();
   result.after = strip(state.before, after);
@@ -834,7 +993,8 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
       doc: same(r.doc, after.doc) ? "same as after" : r.doc,
     };
   }
-  // Put back toggles and settings so the next scenario on a shared page starts clean.
+  // Put back toggles and settings so the next check of a driver scenario
+  // starts clean (the harness resets shared pages between scenarios).
   if (a.restore !== false && a.id) {
     const info = E.actionInfo(a.id);
     if (state.info && info && state.info.checkable && info.checked !== state.info.checked) {
@@ -846,7 +1006,7 @@ export async function probe(P: ParityHandle, a: ProbeArgs): Promise<string> {
       if (JSON.stringify(app.setting(k)) !== JSON.stringify(v)) app.setSetting(k, v);
     }
   }
-  return JSON.stringify(stabilize(result));
+  return JSON.stringify(result);
 }
 
 /** Runs `probe` in the page from Node (driver scenarios). */
@@ -878,4 +1038,26 @@ export async function sceneToClient(
     },
     { x, y },
   );
+}
+
+const OPEN_MENUS = "ul.g-menu:not(.g-menu-root):visible";
+
+/** Count and text of the visible menus, to see a submenu open (see openedSubmenu). */
+export async function menuState(page: Page): Promise<string[]> {
+  return page.locator(OPEN_MENUS).allInnerTexts();
+}
+
+/**
+ * Waits until hovering an item has opened its submenu: one more menu is
+ * visible, or the last one was replaced by a different one (hovering the
+ * next item of a menu closes the previous item's submenu).
+ */
+export async function openedSubmenu(page: Page, before: string[]): Promise<void> {
+  await expect
+    .poll(async () => {
+      const now = await menuState(page);
+      if (now.length > before.length) return true;
+      return now.length === before.length && now.length >= 2 && now.at(-1) !== before.at(-1);
+    })
+    .toBe(true);
 }

@@ -128,6 +128,8 @@ const boolBody = (
 };
 
 const scenarios = defineScenarios([
+  // The op numbers are file format: compound shape children store them as
+  // `bool`. The ops themselves are checked by the scenarios below.
   geo("boolean/constants", ["ENG-BOOL-001"], (L, G) => {
     const B = G.GVertexPolyBoolean;
     return [

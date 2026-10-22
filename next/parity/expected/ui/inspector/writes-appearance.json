@@ -1,0 +1,219 @@
+{
+ "initial": [
+  {
+   "name": "rectangle",
+   "bbox": [
+    500,
+    340,
+    200,
+    120
+   ],
+   "trf": [
+    100,
+    0,
+    0,
+    60,
+    600,
+    400
+   ],
+   "hacr": null,
+   "vacr": null,
+   "_stop": 1,
+   "_sbl": "normal",
+   "fill": {
+    "_pt": "C#[235,235,235]",
+    "_op": 1,
+    "_vs": true,
+    "_bl": "normal"
+   }
+  }
+ ],
+ "opacity": [
+  {
+   "name": "rectangle",
+   "bbox": [
+    500,
+    340,
+    200,
+    120
+   ],
+   "trf": [
+    100,
+    0,
+    0,
+    60,
+    600,
+    400
+   ],
+   "hacr": null,
+   "vacr": null,
+   "_stop": 0.4,
+   "_sbl": "normal",
+   "fill": {
+    "_pt": "C#[235,235,235]",
+    "_op": 1,
+    "_vs": true,
+    "_bl": "normal"
+   }
+  }
+ ],
+ "blend": [
+  {
+   "name": "rectangle",
+   "bbox": [
+    500,
+    340,
+    200,
+    120
+   ],
+   "trf": [
+    100,
+    0,
+    0,
+    60,
+    600,
+    400
+   ],
+   "hacr": null,
+   "vacr": null,
+   "_stop": 0.4,
+   "_sbl": "multiply",
+   "fill": {
+    "_pt": "C#[235,235,235]",
+    "_op": 1,
+    "_vs": true,
+    "_bl": "normal"
+   }
+  }
+ ],
+ "inverseMask": [
+  {
+   "name": "rectangle",
+   "bbox": [
+    500,
+    340,
+    200,
+    120
+   ],
+   "trf": [
+    100,
+    0,
+    0,
+    60,
+    600,
+    400
+   ],
+   "hacr": null,
+   "vacr": null,
+   "_stop": 0.4,
+   "_sbl": "!m",
+   "fill": {
+    "_pt": "C#[235,235,235]",
+    "_op": 1,
+    "_vs": true,
+    "_bl": "normal"
+   }
+  }
+ ],
+ "fillOpacity": [
+  {
+   "name": "rectangle",
+   "bbox": [
+    500,
+    340,
+    200,
+    120
+   ],
+   "trf": [
+    100,
+    0,
+    0,
+    60,
+    600,
+    400
+   ],
+   "hacr": null,
+   "vacr": null,
+   "_stop": 0.4,
+   "_sbl": "!m",
+   "fill": {
+    "_pt": "C#[235,235,235]",
+    "_op": 0.25,
+    "_vs": true,
+    "_bl": "normal"
+   }
+  }
+ ],
+ "fillBlend": [
+  {
+   "name": "rectangle",
+   "bbox": [
+    500,
+    340,
+    200,
+    120
+   ],
+   "trf": [
+    100,
+    0,
+    0,
+    60,
+    600,
+    400
+   ],
+   "hacr": null,
+   "vacr": null,
+   "_stop": 0.4,
+   "_sbl": "!m",
+   "fill": {
+    "_pt": "C#[235,235,235]",
+    "_op": 0.25,
+    "_vs": true,
+    "_bl": "screen"
+   }
+  }
+ ],
+ "fillHidden": [
+  {
+   "name": "rectangle",
+   "bbox": [
+    500,
+    340,
+    200,
+    120
+   ],
+   "trf": [
+    100,
+    0,
+    0,
+    60,
+    600,
+    400
+   ],
+   "hacr": null,
+   "vacr": null,
+   "_stop": 0.4,
+   "_sbl": "!m",
+   "fill": {
+    "_pt": "C#[235,235,235]",
+    "_op": 0.25,
+    "_vs": false,
+    "_bl": "screen"
+   }
+  }
+ ],
+ "fields": [
+  [
+   "40%"
+  ],
+  [
+   "!m"
+  ],
+  [
+   "25%"
+  ],
+  [
+   "screen"
+  ]
+ ]
+}

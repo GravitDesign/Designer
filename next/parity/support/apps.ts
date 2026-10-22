@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import type { BrowserContext, Page } from "@playwright/test";
 import { NEW_URL, OLD_URL, NEXT_ROOT } from "./env.ts";
+import { activeMutationPatch } from "./mutations.ts";
 
 export type AppKind = "old" | "new";
 
@@ -18,6 +19,12 @@ export interface OpenOptions {
   fileSystemAccess?: boolean;
   /** Extra settings merged into localStorage "designer.settings". */
   settings?: Record<string, unknown>;
+  /**
+   * Open the page in a touch-enabled context (`"ontouchstart" in window`),
+   * for the touch-only code paths. Applied when the harness creates the
+   * context (scenario `open`); it can't be switched on an existing page.
+   */
+  hasTouch?: boolean;
   /** Create an empty infinite-canvas document and close the welcome dialog. */
   newDocument?: boolean;
 }
@@ -36,6 +43,19 @@ function oldAreaHooks(): string[] {
     .filter((e) => e.isDirectory() && fs.existsSync(path.join(dir, e.name, "old-hooks.js")))
     .map((e) => fs.readFileSync(path.join(dir, e.name, "old-hooks.js"), "utf8"));
 }
+
+/**
+ * Browser context settings every parity page uses, so recordings don't
+ * depend on the machine: the old engine picks its strings from
+ * navigator.language, and dates and number formats follow the locale and
+ * time zone. Spread these into every browser.newContext() call.
+ */
+export const PARITY_CONTEXT = {
+  locale: "en-US",
+  timezoneId: "UTC",
+  deviceScaleFactor: 1,
+  colorScheme: "light",
+} as const;
 
 export function appUrl(kind: AppKind): string {
   return kind === "old" ? OLD_URL : NEW_URL;
@@ -96,27 +116,37 @@ async function waitUntilBooted(page: Page, kind: AppKind): Promise<void> {
 /** Opens one of the two apps and waits until window.__parity is usable. */
 export async function openApp(page: Page, kind: AppKind, options: OpenOptions = {}): Promise<void> {
   await prepareContext(page, options);
-  // Under heavy parallel load an app boot occasionally stalls (about 1 in
-  // 150 loads while eight suites ran at once). Booting is not what the
-  // tests compare, so a stalled boot gets one reload before failing.
+  // Under heavy parallel load an app boot occasionally stalls or the
+  // navigation is aborted (ERR_NO_BUFFER_SPACE, chrome-error redirects:
+  // Windows runs short of sockets). Booting is not what the tests compare,
+  // so a failed boot is retried up to three times with a pause in between.
+  const attempts = 3;
   for (let attempt = 1; ; attempt++) {
     try {
       await page.goto(appUrl(kind));
       await waitUntilBooted(page, kind);
       break;
     } catch (error) {
-      if (attempt >= 2) {
-        throw new Error(`the ${kind} app did not boot twice in a row: ${String(error)}`, {
-          cause: error,
-        });
+      if (attempt >= attempts) {
+        throw new Error(
+          `the ${kind} app did not boot ${attempts} times in a row: ${String(error)}`,
+          {
+            cause: error,
+          },
+        );
       }
-      console.warn(`[parity] ${kind} app did not boot, reloading once: ${String(error)}`);
+      console.warn(
+        `[parity] ${kind} app did not boot (attempt ${attempt}), retrying: ${String(error)}`,
+      );
+      await new Promise((resolve) => setTimeout(resolve, 2000 * attempt));
     }
   }
   if (kind === "old") {
     await page.evaluate(oldHarness);
     for (const hooks of oldAreaHooks()) await page.evaluate(hooks);
   }
+  const mutation = activeMutationPatch(kind);
+  if (mutation) await page.evaluate(mutation);
   if (options.newDocument) {
     await page.evaluate(() => {
       (window as unknown as ParityWindow).__parity.app.newInfiniteDocument();

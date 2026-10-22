@@ -1,0 +1,53 @@
+[
+ {
+  "query": "?d=abc123",
+  "requests": [
+   "GET /file/abc123?lang=0",
+   "GET /file?type=application%2Fgravit%2Bdesign&accessed=true&sort=-accessed&parent=*&limit=10&lang=0"
+  ],
+  "tabs": [
+   "abc123"
+  ],
+  "dialogs": [
+   "g-dialog g-system-dialog g-custom-dialog g-file-can-not-be-found-dialog"
+  ],
+  "url": "<origin>/"
+ },
+ {
+  "query": "?token=tok123",
+  "requests": [
+   "GET /file?token=tok123&type=application%2Fgravit%2Bdesign&accessed=true&sort=-accessed&parent=*&limit=10&lang=0",
+   "GET /share/tok123/full?token=tok123&lang=0"
+  ],
+  "tabs": [
+   "tok123"
+  ],
+  "dialogs": [
+   "g-dialog g-system-dialog g-custom-dialog g-file-can-not-be-found-dialog"
+  ],
+  "url": "<origin>/"
+ },
+ {
+  "query": "?storeContent=1",
+  "requests": [
+   "GET /file?type=application%2Fgravit%2Bdesign&accessed=true&sort=-accessed&parent=*&limit=10&lang=0",
+   "GET /store/v1/content/details/1?lang=0"
+  ],
+  "tabs": [
+   "1"
+  ],
+  "dialogs": [],
+  "url": "<origin>/"
+ },
+ {
+  "query": "?directlink=https%3A%2F%2Fexample.invalid%2Fx.gvdesign",
+  "requests": [
+   "GET /file?directlink=https%3A%2F%2Fexample.invalid%2Fx.gvdesign&type=application%2Fgravit%2Bdesign&accessed=true&sort=-accessed&parent=*&limit=10&lang=0"
+  ],
+  "tabs": [],
+  "dialogs": [
+   "g-dialog g-new-document-dialog"
+  ],
+  "url": "<origin>/?directlink=https%3A%2F%2Fexample.invalid%2Fx.gvdesign"
+ }
+]

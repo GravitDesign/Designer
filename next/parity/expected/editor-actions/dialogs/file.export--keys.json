@@ -9,6 +9,15 @@
  ],
  "info": {
   "title": "Advanced Export...",
+  "fullTitle": "Advanced Export...",
+  "info": null,
+  "icon": null,
+  "category": [
+   "File",
+   "File/Export"
+  ],
+  "group": "export/export",
+  "pro": true,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -21,7 +30,10 @@
  "dialogs": [
   {
    "className": "g-dialog-container g-system-dialog g-confirm-dialog-container",
-   "text": "Do you want to save this file before exporting?"
+   "lines": [
+    "Do you want to save this file before exporting?",
+    "NoYes"
+   ]
   }
  ],
  "events": [],

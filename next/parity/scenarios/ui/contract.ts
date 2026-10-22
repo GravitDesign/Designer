@@ -6,7 +6,8 @@
 export interface UiHooks {
   /**
    * Shows a plain text notification in the notification panel, as
-   * gDesigner.addNotification(message) does in the old app (UI-NOTIFY-001).
+   * gDesigner.addNotification({ message }) does in the old app when it
+   * reports an error (UI-NOTIFY-001).
    */
   notify(message: string): void;
 }

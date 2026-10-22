@@ -36,22 +36,16 @@ export interface Exportable {
   downsampleImages?: boolean;
 }
 
-export interface FileTypeRow {
-  /** Table key, e.g. "GVDESIGN". */
-  key: string;
-  ext: string;
-  mime: string;
-  category?: string;
-  load?: boolean;
-  store?: boolean;
-  import_image?: boolean;
-  pro?: boolean;
+export interface DocumentInfo {
+  title: string;
+  /** Load status: "Init", "Ready", "Loading", "Loaded", "LoadFailed", ... */
+  status: string;
 }
 
 export interface ImportExportHooks {
   /**
-   * Resolves once every image of the active scene (or of `root`) has
-   * loaded or failed, no font is pending, the boxes of all texts stopped
+   * Resolves once every image and texture pattern of the active scene (or
+   * of `root`) has loaded or failed, no font is pending, the boxes of all texts stopped
    * changing (texts lay out again once their font loads) and that held
    * for a few frames. Rejects after 30 s.
    */
@@ -99,16 +93,8 @@ export interface ImportExportHooks {
   svgUnsupportedFeatures(node: any): unknown[];
   /** Whether the PDF exporter accepts the node (raster size guard). */
   pdfIsSupported(node: any, withEffects: boolean, size: string): boolean;
-  /** Class names in the importer registry, in registry order. */
-  importerNames(): string[];
-  /** Class names in the exporter registry, in registry order. */
-  exporterNames(): string[];
-  /** The file-type table in table order. */
-  fileTypes(): FileTypeRow[];
-  /** Extensions offered by open, place and drop, in order. */
-  openFileTypes(): string[];
-  /** The worker URL the PDF importer gives pdf.js. */
-  pdfWorkerSrc(): string;
+  /** The open documents in tab order (what the tab bar shows, plus load status). */
+  documents(): DocumentInfo[];
   /** A Blob's bytes as base64 (no data: prefix). */
   blobToBase64(blob: Blob): Promise<string>;
 }

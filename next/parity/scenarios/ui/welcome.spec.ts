@@ -21,10 +21,12 @@ async function openPreset(page: Page, index: number): Promise<void> {
 
 /** What the active document looks like after creating it from the dialog. */
 async function documentInfo(page: Page): Promise<unknown> {
-  await page.waitForFunction(() => {
-    const d = (window as unknown as { gDesigner: { getActiveDocument(): unknown } }).gDesigner;
-    return !!d.getActiveDocument();
-  });
+  await page.waitForFunction(
+    () =>
+      !!(
+        window as unknown as { __parity: { app: { document(): unknown } } }
+      ).__parity.app.document(),
+  );
   await settle(page);
   return page.evaluate(() => {
     const { app } = (window as unknown as { __parity: { app: ParityApp } }).__parity;
@@ -240,20 +242,24 @@ const scenarios = [
     ),
   ),
   behaviour(
-    "welcome/escape-keeps-dialog",
+    "welcome/escape-closes-dialog",
     ["RUN-START-001", "UI-WELCOME-002"],
     async (page) => {
-      await page.keyboard.press("Escape");
-      await settle(page, 300);
-      return {
+      const state = async () => ({
         open: await page.locator(".g-new-document-dialog-container.visible").count(),
-        documents: await page.evaluate(
+        tabs: await page.locator("#header .tabs .tab").count(),
+        document: await page.evaluate(
           () =>
-            (
-              window as unknown as { gDesigner: { getDocuments(): unknown[] } }
-            ).gDesigner.getDocuments().length,
+            !!(
+              window as unknown as { __parity: { app: { document(): unknown } } }
+            ).__parity.app.document(),
         ),
-      };
+      });
+      const before = await state();
+      await page.keyboard.press("Escape");
+      await page.locator(".g-new-document-dialog-container.visible").waitFor({ state: "detached" });
+      await settle(page);
+      return { before, afterEscape: await state() };
     },
     WELCOME,
   ),

@@ -2,9 +2,11 @@
  {
   "tag": "ul",
   "cls": [
-   "g-menu",
-   "g-page-option-menu"
+   "g-menu"
   ],
+  "attrs": {
+   "style": "left: 560px; top: 340px;"
+  },
   "children": [
    {
     "tag": "li",
@@ -18,11 +20,14 @@
       "cls": [
        "g-menu-item-icon"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "i",
         "cls": [
-         "gravit-icon-duplicate"
+         "gravit-icon-crop"
         ]
        }
       ]
@@ -32,7 +37,7 @@
       "cls": [
        "g-menu-item-caption"
       ],
-      "text": "Duplicate Page"
+      "text": "Confirm Cropping"
      },
      {
       "tag": "span",
@@ -45,6 +50,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -53,6 +61,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -66,8 +77,7 @@
    {
     "tag": "li",
     "cls": [
-     "g-menu-item",
-     "has-icon"
+     "g-menu-item"
     ],
     "children": [
      {
@@ -75,21 +85,16 @@
       "cls": [
        "g-menu-item-icon"
       ],
-      "children": [
-       {
-        "tag": "i",
-        "cls": [
-         "gravit-icon-delete"
-        ]
-       }
-      ]
+      "attrs": {
+       "style": "display: none;"
+      }
      },
      {
       "tag": "span",
       "cls": [
        "g-menu-item-caption"
       ],
-      "text": "Delete Page"
+      "text": "Cancel Cropping"
      },
      {
       "tag": "span",
@@ -102,6 +107,9 @@
       "cls": [
        "g-menu-item-shortcut"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -110,120 +118,9 @@
        "g-menu-item-detach",
        "gravit-icon-detach"
       ],
-      "hidden": true
-     },
-     {
-      "tag": "span",
-      "cls": [
-       "g-menu-item-tail"
-      ]
-     }
-    ]
-   },
-   {
-    "tag": "li",
-    "cls": [
-     "g-menu-item",
-     "has-icon"
-    ],
-    "children": [
-     {
-      "tag": "span",
-      "cls": [
-       "g-menu-item-icon"
-      ],
-      "children": [
-       {
-        "tag": "i",
-        "cls": [
-         "gravit-icon-copy"
-        ]
-       }
-      ]
-     },
-     {
-      "tag": "span",
-      "cls": [
-       "g-menu-item-caption"
-      ],
-      "text": "Copy Page"
-     },
-     {
-      "tag": "span",
-      "cls": [
-       "g-menu-item-info"
-      ]
-     },
-     {
-      "tag": "span",
-      "cls": [
-       "g-menu-item-shortcut"
-      ],
-      "hidden": true
-     },
-     {
-      "tag": "span",
-      "cls": [
-       "g-menu-item-detach",
-       "gravit-icon-detach"
-      ],
-      "hidden": true
-     },
-     {
-      "tag": "span",
-      "cls": [
-       "g-menu-item-tail"
-      ]
-     }
-    ]
-   },
-   {
-    "tag": "li",
-    "cls": [
-     "g-menu-item",
-     "has-icon"
-    ],
-    "children": [
-     {
-      "tag": "span",
-      "cls": [
-       "g-menu-item-icon"
-      ],
-      "children": [
-       {
-        "tag": "i",
-        "cls": [
-         "gravit-icon-export"
-        ]
-       }
-      ]
-     },
-     {
-      "tag": "span",
-      "cls": [
-       "g-menu-item-caption"
-      ],
-      "text": "Export Page"
-     },
-     {
-      "tag": "span",
-      "cls": [
-       "g-menu-item-info"
-      ]
-     },
-     {
-      "tag": "span",
-      "cls": [
-       "g-menu-item-shortcut"
-      ],
-      "hidden": true
-     },
-     {
-      "tag": "span",
-      "cls": [
-       "g-menu-item-detach",
-       "gravit-icon-detach"
-      ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {

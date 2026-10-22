@@ -6,6 +6,8 @@ import globals from "globals";
 export default tseslint.config(
   {
     ignores: [
+      "dist-electron/",
+      "public/",
       "node_modules/",
       "dist/",
       "release/",
@@ -35,5 +37,23 @@ export default tseslint.config(
     languageOptions: { globals: { ...globals.browser } },
     // Some of these files also list their globals in a /* global */ comment.
     rules: { "no-redeclare": ["error", { builtinGlobals: false }] },
+  },
+  {
+    // Scenario code runs in both apps, so it may only use window.__parity
+    // (G and the app hooks of a contract), never the old app's globals.
+    files: ["parity/scenarios/**/*.ts"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "Identifier[name='gDesigner']",
+          message: "Use a hook from the area's contract instead of the old app's gDesigner.",
+        },
+        {
+          selector: "MemberExpression[property.name=/^(designer|require)$/][object.name='app']",
+          message: "app.designer and app.require exist only in the old app; add a contract hook.",
+        },
+      ],
+    },
   },
 );

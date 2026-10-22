@@ -194,7 +194,8 @@
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "jpeg-quality"
+           "data-setting": "jpeg-quality",
+           "style": "display: none;"
           },
           "hidden": true
          },
@@ -231,6 +232,9 @@
                 "children": [
                  {
                   "tag": "option",
+                  "attrs": {
+                   "style": "display: none;"
+                  },
                   "hidden": true
                  },
                  {
@@ -253,6 +257,9 @@
                  "g-pattern-chooser",
                  "only-picker"
                 ],
+                "attrs": {
+                 "style": ""
+                },
                 "children": [
                  {
                   "tag": "span",
@@ -262,7 +269,8 @@
                   ],
                   "attrs": {
                    "data-drag-mode": "1",
-                   "draggable": "true"
+                   "draggable": "true",
+                   "style": "background: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255)), url(data:(309 chars));"
                   }
                  }
                 ]
@@ -276,35 +284,40 @@
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "color-space"
+           "data-setting": "color-space",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "ignore-effects"
+           "data-setting": "ignore-effects",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "decimal-places-precision"
+           "data-setting": "decimal-places-precision",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "convert-text-to-path"
+           "data-setting": "convert-text-to-path",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "export-all"
+           "data-setting": "export-all",
+           "style": ""
           },
           "children": [
            {
@@ -342,28 +355,32 @@
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "layer-as-id"
+           "data-setting": "layer-as-id",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "export-preserve-editing-capabilities"
+           "data-setting": "export-preserve-editing-capabilities",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "do-not-downsample-images"
+           "data-setting": "do-not-downsample-images",
+           "style": "display: none;"
           },
           "hidden": true
          },
          {
           "tag": "div",
           "attrs": {
-           "data-setting": "storage-destination"
+           "data-setting": "storage-destination",
+           "style": "display: none;"
           },
           "hidden": true
          }
@@ -383,6 +400,9 @@
          "preview-image",
          "content"
         ],
+        "attrs": {
+         "style": "background: url(data:(309 chars));"
+        },
         "children": [
          {
           "tag": "img",

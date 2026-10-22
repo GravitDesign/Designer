@@ -3,6 +3,15 @@
  "id": "arrange.order.send-back",
  "info": {
   "title": "Send to Back",
+  "fullTitle": "Send to Back",
+  "info": null,
+  "icon": "gravit-icon-send-to-back",
+  "category": [
+   "Modify",
+   "Modify/Arrange"
+  ],
+  "group": "arrange/arrange",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +23,11 @@
  },
  "before": {
   "selection": [
-   "rectangle:B"
+   {
+    "node": "rectangle:B",
+    "@id": "id1",
+    "path": "0/0"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,6 +35,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Arrange Order"
@@ -29,15 +43,15 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "rectangle",
-       "@id": "id3",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -70,7 +84,7 @@
       {
        "@": "annlst",
        "@id": "id8",
-       "pgid": "id2",
+       "pgid": "id3",
        "aid": "id8"
       },
       {
@@ -601,10 +615,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "rectangle:B"
+   {
+    "node": "rectangle:B",
+    "@id": "id1",
+    "path": "0/0"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -612,6 +629,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Arrange Order"
@@ -621,6 +639,15 @@
  },
  "infoAfter": {
   "title": "Send to Back",
+  "fullTitle": "Send to Back",
+  "info": null,
+  "icon": "gravit-icon-send-to-back",
+  "category": [
+   "Modify",
+   "Modify/Arrange"
+  ],
+  "group": "arrange/arrange",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,

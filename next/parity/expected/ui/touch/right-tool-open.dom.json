@@ -5,6 +5,9 @@
    "bring-to-front"
   ],
   "id": "right-sidebars",
+  "attrs": {
+   "style": "width: 370px; top: 48px; height: 952px;"
+  },
   "children": [
    {
     "tag": "div",
@@ -173,6 +176,9 @@
     "cls": [
      "sidebar-selector"
     ],
+    "attrs": {
+     "style": ""
+    },
     "hidden": true
    },
    {
@@ -184,6 +190,9 @@
      "align-active",
      "g-active"
     ],
+    "attrs": {
+     "style": "bottom: 0px;"
+    },
     "children": [
      {
       "tag": "div",
@@ -195,6 +204,9 @@
       "children": [
        {
         "tag": "hr",
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
@@ -206,7 +218,8 @@
          "g-active"
         ],
         "attrs": {
-         "g-touch-tool": "dimension.align"
+         "g-touch-tool": "dimension.align",
+         "style": ""
         },
         "children": [
          {
@@ -291,6 +304,9 @@
             "cls": [
              "normal"
             ],
+            "attrs": {
+             "style": "stroke: transparent;"
+            },
             "hidden": true
            },
            {
@@ -318,6 +334,9 @@
             "cls": [
              "normal"
             ],
+            "attrs": {
+             "style": "stroke: transparent;"
+            },
             "hidden": true
            },
            {
@@ -345,6 +364,9 @@
             "cls": [
              "normal"
             ],
+            "attrs": {
+             "style": "stroke: transparent;"
+            },
             "hidden": true
            },
            {
@@ -385,6 +407,9 @@
             "cls": [
              "normal"
             ],
+            "attrs": {
+             "style": "stroke: transparent;"
+            },
             "hidden": true
            },
            {
@@ -412,6 +437,9 @@
             "cls": [
              "normal"
             ],
+            "attrs": {
+             "style": "stroke: transparent;"
+            },
             "hidden": true
            },
            {
@@ -439,6 +467,9 @@
             "cls": [
              "normal"
             ],
+            "attrs": {
+             "style": "stroke: transparent;"
+            },
             "hidden": true
            },
            {
@@ -589,12 +620,16 @@
          "g-touch-toolbar-panel"
         ],
         "attrs": {
-         "g-touch-tool": "dimension.dimension"
+         "g-touch-tool": "dimension.dimension",
+         "style": ""
         },
         "hidden": true
        },
        {
         "tag": "hr",
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
@@ -605,7 +640,8 @@
          "g-touch-toolbar-label"
         ],
         "attrs": {
-         "g-touch-tool": "dimension.dimension"
+         "g-touch-tool": "dimension.dimension",
+         "style": "display: none;"
         },
         "hidden": true
        },
@@ -617,12 +653,16 @@
          "g-touch-toolbar-panel"
         ],
         "attrs": {
-         "g-touch-tool": "dimension.dimension"
+         "g-touch-tool": "dimension.dimension",
+         "style": "display: none;"
         },
         "hidden": true
        },
        {
         "tag": "hr",
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
@@ -635,7 +675,8 @@
          "g-touch-toolbar-label"
         ],
         "attrs": {
-         "g-touch-tool": "document"
+         "g-touch-tool": "document",
+         "style": "display: none;"
         },
         "hidden": true
        },
@@ -647,12 +688,16 @@
          "g-touch-toolbar-panel"
         ],
         "attrs": {
-         "g-touch-tool": "document"
+         "g-touch-tool": "document",
+         "style": "display: none;"
         },
         "hidden": true
        },
        {
         "tag": "hr",
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
@@ -663,7 +708,8 @@
          "g-touch-toolbar-label"
         ],
         "attrs": {
-         "g-touch-tool": "document"
+         "g-touch-tool": "document",
+         "style": "display: none;"
         },
         "hidden": true
        },
@@ -675,12 +721,16 @@
          "g-touch-toolbar-panel"
         ],
         "attrs": {
-         "g-touch-tool": "document"
+         "g-touch-tool": "document",
+         "style": "display: none;"
         },
         "hidden": true
        },
        {
         "tag": "hr",
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
@@ -688,6 +738,9 @@
         "cls": [
          "appearance-divider"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
@@ -700,7 +753,8 @@
          "g-touch-toolbar-label"
         ],
         "attrs": {
-         "g-touch-tool": "appearance"
+         "g-touch-tool": "appearance",
+         "style": ""
         },
         "hidden": true
        },
@@ -711,10 +765,16 @@
          "appearance-properties-panel",
          "display-none"
         ],
+        "attrs": {
+         "style": ""
+        },
         "hidden": true
        },
        {
         "tag": "hr",
+        "attrs": {
+         "style": ""
+        },
         "hidden": true
        },
        {
@@ -728,7 +788,8 @@
          "g-touch-toolbar-label"
         ],
         "attrs": {
-         "g-touch-tool": "fill"
+         "g-touch-tool": "fill",
+         "style": ""
         },
         "hidden": true
        },
@@ -740,12 +801,16 @@
          "g-touch-toolbar-panel"
         ],
         "attrs": {
-         "g-touch-tool": "fill"
+         "g-touch-tool": "fill",
+         "style": ""
         },
         "hidden": true
        },
        {
         "tag": "hr",
+        "attrs": {
+         "style": ""
+        },
         "hidden": true
        },
        {
@@ -760,7 +825,8 @@
          "g-touch-toolbar-label"
         ],
         "attrs": {
-         "g-touch-tool": "border"
+         "g-touch-tool": "border",
+         "style": ""
         },
         "hidden": true
        },
@@ -772,12 +838,16 @@
          "g-touch-toolbar-panel"
         ],
         "attrs": {
-         "g-touch-tool": "border"
+         "g-touch-tool": "border",
+         "style": ""
         },
         "hidden": true
        },
        {
         "tag": "hr",
+        "attrs": {
+         "style": ""
+        },
         "hidden": true
        },
        {
@@ -791,7 +861,8 @@
          "g-touch-toolbar-label"
         ],
         "attrs": {
-         "g-touch-tool": "effect"
+         "g-touch-tool": "effect",
+         "style": ""
         },
         "hidden": true
        },
@@ -803,7 +874,8 @@
          "g-touch-toolbar-panel"
         ],
         "attrs": {
-         "g-touch-tool": "effect"
+         "g-touch-tool": "effect",
+         "style": ""
         },
         "hidden": true
        }
@@ -822,6 +894,9 @@
        "panels",
        "history-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      }
     ]
@@ -834,6 +909,9 @@
      "multiple",
      "align-active"
     ],
+    "attrs": {
+     "style": "display: none; bottom: 0px;"
+    },
     "hidden": true
    }
   ]

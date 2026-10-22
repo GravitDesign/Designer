@@ -33,6 +33,15 @@
       for (const key of Object.keys(ctor)) {
         if (ctor[key] === value) return key;
       }
+      // Ids kept on a mixin namespace of the class, e.g.
+      // GBlockEditor.LabelHolder.LABEL_PART_ID (page and symbol labels).
+      for (const key of Object.keys(ctor)) {
+        const inner = ctor[key];
+        if (!inner || (typeof inner !== "function" && typeof inner !== "object")) continue;
+        for (const sub of Object.keys(inner)) {
+          if (inner[sub] === value) return `${key}.${sub}`;
+        }
+      }
     }
     return value;
   };
@@ -69,10 +78,45 @@
     return out;
   };
 
+  // Only for worldToView, which maps input coordinates and is never
+  // recorded; everything a probe records keeps the engine's own numbers.
   const round = (v) => Math.round(v * 1e6) / 1e6;
 
+  // The outline the editor paints for a preview: the element's vertices
+  // as [command, x, y] (GVertex numbering of commands), at most 400 of
+  // them. Coordinates are rounded to 1e-9: a preview built from the
+  // pointer moves came out a last bit apart between runs
+  // (204.04274849909712 vs 204.0427484990971 in subselect/drag-handle).
+  const outline = (el) => {
+    if (!el || !el.rewindVertices || !el.rewindVertices(0)) return null;
+    const v = new G.GVertex();
+    const out = [];
+    const r9 = (n) => Math.round(n * 1e9) / 1e9;
+    while (out.length < 400 && el.readVertex(v)) out.push([v.command, r9(v.x), r9(v.y)]);
+    return out;
+  };
+
+  // Every ToolChangedEvent of the tool manager since the last
+  // toolChanges() call (the hooks are installed once per page).
+  const toolChangeLog = [];
+  {
+    const tm = app.designer.getToolManager();
+    const name = (t) => (t ? String(t).replace(/^\[Object (.*)\]$/, "$1") : null);
+    tm.addEventListener(tm.constructor.ToolChangedEvent, (e) => {
+      toolChangeLog.push({ previous: name(e.previousTool), next: name(e.newTool), light: e.light });
+    });
+  }
+
   app.editorTools = {
+    toolChanges() {
+      return toolChangeLog.splice(0, toolChangeLog.length);
+    },
     prepareView(zoom, originX, originY) {
+      // The renderer caches a tile when painting it took longer than 50 ms
+      // of wall-clock time (GRendererConfig, module 166), and a cached tile
+      // can come back with other edge antialiasing. Under load that made
+      // shots differ from run to run, so time-based caching is turned off.
+      app.require(166).CACHE_WHEN_DRAWING_LONGER_THAN = Infinity;
       const view = app.view();
       view.transform(-originX, -originY, zoom);
       view.invalidate();
@@ -107,17 +151,18 @@
           const ed = editorOf(n);
           const el = ed && ed.getPaintElement ? ed.getPaintElement() : n;
           const bbox = el && el.getGeometryBBox ? el.getGeometryBBox() : null;
-          const box = bbox
-            ? [bbox.getX(), bbox.getY(), bbox.getWidth(), bbox.getHeight()].map(round)
-            : null;
+          const box = bbox ? [bbox.getX(), bbox.getY(), bbox.getWidth(), bbox.getHeight()] : null;
           const trf = el && el.getProperty ? el.getProperty("trf") : null;
-          return { box, trf: trf ? trf.getMatrix().map(round) : null, isPreview: el !== n };
+          const isPreview = el !== n;
+          const out = { box, trf: trf ? trf.getMatrix() : null, isPreview };
+          if (isPreview) out.outline = outline(el);
+          return out;
         }),
         selectEditMode: tool && typeof tool.getEditMode === "function" ? tool.getEditMode() : null,
         inlineEditing: editor.isInlineEditing(),
         textSelection: null,
-        zoom: round(view.getZoom()),
-        scroll: [round(view.getScrollX()), round(view.getScrollY())],
+        zoom: view.getZoom(),
+        scroll: [view.getScrollX(), view.getScrollY()],
         undo: editor.hasUndoState() ? editor.getUndoStateName() : null,
       };
       if (editor.isInlineEditing()) {
@@ -129,13 +174,37 @@
       return out;
     },
     document() {
-      // The scene without the default style list (constant and large) and
-      // without __ids (a random list of style ids).
+      // The whole scene, styles included. lmd (save time) is dropped; the
+      // shared normalizer renames the random ids.
       const scene = JSON.parse(app.serialize({ save: true }));
-      if (Array.isArray(scene.$)) scene.$ = scene.$.filter((c) => c["@"] !== "styles");
-      delete scene.__ids;
       delete scene.lmd;
       return scene;
+    },
+    activateToolAt(index) {
+      // For tools that share a name with another one (the connector tool
+      // reports "GPenTool"), so activateTool(name) can't reach them.
+      // Registration order is recorded by toolmgr/registry.
+      const tm = app.designer.getToolManager();
+      if (index < 0 || index >= tm.getToolCount()) return false;
+      tm.activateTool(tm.getTool(index));
+      return tm.getActiveTool() === tm.getTool(index);
+    },
+    toolRegistry() {
+      // Every tool in the tool manager: its name, default cursor and the
+      // indices of the tools whose class it is an instance of (itself, and
+      // e.g. the pen for the connector tool, which extends it and reuses
+      // its name). Two entries sharing a class list each other.
+      const tm = app.designer.getToolManager();
+      const tools = [];
+      for (let i = 0; i < tm.getToolCount(); i++) tools.push(tm.getTool(i));
+      return tools.map((tool, index) => ({
+        index,
+        name: String(tool).replace(/^\[Object (.*)\]$/, "$1"),
+        cursor: tool.getCursor ? tool.getCursor() : null,
+        instanceOf: tools
+          .map((other, j) => (tool instanceof other.constructor ? j : -1))
+          .filter((j) => j >= 0),
+      }));
     },
     repaint() {
       // Full repaint of scene and editor overlay, e.g. after lazily loaded

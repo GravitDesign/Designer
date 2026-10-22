@@ -52,6 +52,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -563,7 +564,11 @@
  },
  "after": {
   "selection": [
-   "rectangle:R"
+   {
+    "node": "rectangle:R",
+    "@id": "id4",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -571,6 +576,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],

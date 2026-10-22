@@ -106,6 +106,29 @@ export async function image(page: Page): Promise<void> {
   await placeImage(page);
 }
 
+/** Types a value into an inspector dimension box (x, y, w, h, rotate). */
+export async function typeDimension(page: Page, dimension: string, value: string): Promise<void> {
+  const box = page
+    .locator(`.sidebar-inspector input[data-dimension="${dimension}"]:visible`)
+    .first();
+  await box.click();
+  await page.keyboard.press("Control+A");
+  await page.keyboard.type(value);
+  await page.keyboard.press("Enter");
+  await settle(page);
+}
+
+/**
+ * Places the test image and moves it through the inspector to x 500, y
+ * 300, so it lies on the visible canvas (it is placed at the origin, under
+ * the left sidebar). It then covers (500, 300) - (620, 380) on screen.
+ */
+export async function imageOnCanvas(page: Page): Promise<void> {
+  await placeImage(page);
+  await typeDimension(page, "x", "500");
+  await typeDimension(page, "y", "300");
+}
+
 export async function newLayer(page: Page): Promise<void> {
   await page.click("#left-sidebars .layer-toolbar button:has(.gravit-icon-addlayer)");
   await settle(page, 300);

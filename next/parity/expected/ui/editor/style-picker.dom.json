@@ -5,12 +5,18 @@
    "g-overlay",
    "no-padding"
   ],
+  "attrs": {
+   "style": "position: absolute; top: 442px; left: 1282.23px;"
+  },
   "children": [
    {
     "tag": "div",
     "cls": [
      "g-style-editor"
     ],
+    "attrs": {
+     "style": "width: 250px;"
+    },
     "children": [
      {
       "tag": "div",
@@ -34,6 +40,9 @@
          },
          {
           "tag": "span",
+          "attrs": {
+           "style": "align-self: center; width: 165px; margin-left: 10px;"
+          },
           "text": "No Shared Style"
          }
         ]

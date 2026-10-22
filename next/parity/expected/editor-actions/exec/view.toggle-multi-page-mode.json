@@ -3,6 +3,14 @@
  "id": "view.toggle-multi-page-mode",
  "info": {
   "title": "Toggle multipage mode",
+  "fullTitle": "Toggle multipage mode",
+  "info": null,
+  "icon": null,
+  "category": [
+   "View"
+  ],
+  "group": null,
+  "pro": false,
   "available": true,
   "visible": false,
   "enabled": true,
@@ -14,7 +22,11 @@
  },
  "before": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "P1",
@@ -22,27 +34,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -473,7 +486,26 @@
     {
      "@": "page",
      "@id": "id87",
-     "#": "id88",
+     "$": [
+      {
+       "@": "ellipse",
+       "@id": "id88",
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        100,
+        0,
+        0,
+        75,
+        250,
+        175
+       ],
+       "name": "E2",
+       "_layId": "id89",
+       "_effId": "id90"
+      }
+     ],
+     "#": "id91",
      "w": 400,
      "h": 300,
      "off": [
@@ -489,8 +521,30 @@
     },
     {
      "@": "page",
-     "@id": "id89",
-     "#": "id90",
+     "@id": "id92",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id93",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        180,
+        0,
+        0,
+        30,
+        200,
+        230
+       ],
+       "name": "R3",
+       "_layId": "id94",
+       "_effId": "id95"
+      }
+     ],
+     "#": "id96",
      "w": 400,
      "h": 300,
      "off": [
@@ -507,12 +561,6 @@
    ],
    "lmd": "<time>",
    "__ids": [
-    "id91",
-    "id92",
-    "id93",
-    "id94",
-    "id95",
-    "id96",
     "id97",
     "id98",
     "id99",
@@ -527,7 +575,15 @@
     "id108",
     "id109",
     "id110",
-    "id111"
+    "id111",
+    "id112",
+    "id113",
+    "id114",
+    "id115",
+    "id116",
+    "id117",
+    "id118",
+    "id119"
    ],
    "dictionary": {
     "entries": []
@@ -549,10 +605,13 @@
    "symbolLabelsVisible": true
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "page:P1"
+   {
+    "node": "page:P1",
+    "@id": "id3",
+    "path": "0"
+   }
   ],
   "active": {
    "page": "P1",
@@ -560,6 +619,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Toggle Single / Multipage Mode"
@@ -567,21 +627,21 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -1012,7 +1072,26 @@
     {
      "@": "page",
      "@id": "id87",
-     "#": "id88",
+     "$": [
+      {
+       "@": "ellipse",
+       "@id": "id88",
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        100,
+        0,
+        0,
+        75,
+        250,
+        175
+       ],
+       "name": "E2",
+       "_layId": "id89",
+       "_effId": "id90"
+      }
+     ],
+     "#": "id91",
      "w": 400,
      "h": 300,
      "off": [
@@ -1028,8 +1107,30 @@
     },
     {
      "@": "page",
-     "@id": "id89",
-     "#": "id90",
+     "@id": "id92",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id93",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        180,
+        0,
+        0,
+        30,
+        200,
+        230
+       ],
+       "name": "R3",
+       "_layId": "id94",
+       "_effId": "id95"
+      }
+     ],
+     "#": "id96",
      "w": 400,
      "h": 300,
      "off": [
@@ -1046,12 +1147,6 @@
    ],
    "lmd": "<time>",
    "__ids": [
-    "id91",
-    "id92",
-    "id93",
-    "id94",
-    "id95",
-    "id96",
     "id97",
     "id98",
     "id99",
@@ -1066,7 +1161,15 @@
     "id108",
     "id109",
     "id110",
-    "id111"
+    "id111",
+    "id112",
+    "id113",
+    "id114",
+    "id115",
+    "id116",
+    "id117",
+    "id118",
+    "id119"
    ],
    "mve": true,
    "dictionary": {
@@ -1091,6 +1194,14 @@
  },
  "infoAfter": {
   "title": "Toggle multipage mode",
+  "fullTitle": "Toggle multipage mode",
+  "info": null,
+  "icon": null,
+  "category": [
+   "View"
+  ],
+  "group": null,
+  "pro": false,
   "available": true,
   "visible": false,
   "enabled": true,
@@ -1102,7 +1213,11 @@
  },
  "afterUndo": {
   "selection": [
-   "page:P1"
+   {
+    "node": "page:P1",
+    "@id": "id3",
+    "path": "0"
+   }
   ],
   "active": {
    "page": "P1",
@@ -1110,6 +1225,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1118,21 +1234,21 @@
   ],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -1563,7 +1679,26 @@
     {
      "@": "page",
      "@id": "id87",
-     "#": "id88",
+     "$": [
+      {
+       "@": "ellipse",
+       "@id": "id88",
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        100,
+        0,
+        0,
+        75,
+        250,
+        175
+       ],
+       "name": "E2",
+       "_layId": "id89",
+       "_effId": "id90"
+      }
+     ],
+     "#": "id91",
      "w": 400,
      "h": 300,
      "off": [
@@ -1579,8 +1714,30 @@
     },
     {
      "@": "page",
-     "@id": "id89",
-     "#": "id90",
+     "@id": "id92",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id93",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        180,
+        0,
+        0,
+        30,
+        200,
+        230
+       ],
+       "name": "R3",
+       "_layId": "id94",
+       "_effId": "id95"
+      }
+     ],
+     "#": "id96",
      "w": 400,
      "h": 300,
      "off": [
@@ -1597,12 +1754,6 @@
    ],
    "lmd": "<time>",
    "__ids": [
-    "id91",
-    "id92",
-    "id93",
-    "id94",
-    "id95",
-    "id96",
     "id97",
     "id98",
     "id99",
@@ -1617,7 +1768,15 @@
     "id108",
     "id109",
     "id110",
-    "id111"
+    "id111",
+    "id112",
+    "id113",
+    "id114",
+    "id115",
+    "id116",
+    "id117",
+    "id118",
+    "id119"
    ],
    "mve": false,
    "dictionary": {
@@ -1642,7 +1801,11 @@
  },
  "afterRedo": {
   "selection": [
-   "page:P1"
+   {
+    "node": "page:P1",
+    "@id": "id3",
+    "path": "0"
+   }
   ],
   "active": {
    "page": "P1",
@@ -1650,6 +1813,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Toggle Single / Multipage Mode"

@@ -1,6 +1,6 @@
 import { PNG } from "pngjs";
-import { test, expect, type Browser, type Page } from "@playwright/test";
-import { isolateNetwork, openApp, type AppKind } from "./apps.ts";
+import { chromium, test, expect, type Browser, type Page } from "@playwright/test";
+import { PARITY_CONTEXT, isolateNetwork, openApp, type AppKind } from "./apps.ts";
 import fs from "node:fs";
 import path from "node:path";
 import { NEXT_ROOT, RECORDING } from "./env.ts";
@@ -29,7 +29,7 @@ export interface SuiteOptions {
  */
 const SABOTAGE = process.env.GD_PARITY_SABOTAGE === "1";
 
-function sabotage(output: StoredOutput, scenario: Scenario): StoredOutput {
+export function sabotage(output: StoredOutput, scenario: Scenario): StoredOutput {
   if (scenario.kind === "png") {
     // Flip one pixel channel, keeping the PNG valid.
     return flipFirstPixel(output);
@@ -50,7 +50,8 @@ function canSharePage(scenario: Scenario): boolean {
     !scenario.open?.theme &&
     !scenario.open?.language &&
     !scenario.open?.settings &&
-    !scenario.open?.fileSystemAccess
+    !scenario.open?.fileSystemAccess &&
+    !scenario.open?.hasTouch
   );
 }
 
@@ -60,8 +61,10 @@ async function newAppPage(
   scenario: Scenario | undefined,
 ): Promise<Page> {
   const context = await browser.newContext({
+    ...PARITY_CONTEXT,
     viewport: { width: 1600, height: 1000 },
     acceptDownloads: true,
+    hasTouch: scenario?.open?.hasTouch === true,
   });
   await isolateNetwork(context);
   const page = await context.newPage();
@@ -69,11 +72,16 @@ async function newAppPage(
   return page;
 }
 
-async function freshDocument(page: Page): Promise<void> {
-  await page.evaluate(() => {
-    const app = (window as unknown as { __parity: { app: { newInfiniteDocument(): void } } })
-      .__parity.app;
-    app.newInfiniteDocument();
+/**
+ * Returns a shared page to its boot state with one empty document (see
+ * resetState in old-harness.js and the new app's bridge). Returns what the
+ * reset could not restore.
+ */
+async function resetSharedPage(page: Page): Promise<string[]> {
+  return page.evaluate(() => {
+    const app = (window as unknown as { __parity: { app: { resetState(): string[] } } }).__parity
+      .app;
+    return app.resetState();
   });
 }
 
@@ -91,10 +99,30 @@ function defineSide(kind: AppKind, scenarios: readonly Scenario[]): void {
         if (scenario.timeout) test.setTimeout(scenario.timeout);
         let page: Page;
         let owned = false;
-        if (canSharePage(scenario)) {
+        let ownBrowser: Browser | undefined;
+        if (scenario.freshBrowser) {
+          // Some outputs (WebGL effects) depend on state the GPU process
+          // keeps across contexts; these get a browser of their own.
+          ownBrowser = await chromium.launch(test.info().project.use.launchOptions);
+          page = await newAppPage(ownBrowser, kind, scenario);
+          owned = true;
+        } else if (canSharePage(scenario)) {
+          if (shared) {
+            // Scenarios share a page to save boot time, so the state one
+            // leaves behind (settings, clipboard, tool, documents) must not
+            // reach the next. If the reset can't restore something, the
+            // page is replaced by a freshly booted one.
+            const left = await resetSharedPage(shared);
+            if (left.length > 0) {
+              console.warn(
+                `[parity] ${scenario.id}: replacing the shared page, reset left ${left.join(", ")}`,
+              );
+              await shared.context().close();
+              shared = undefined;
+            }
+          }
           shared ??= await newAppPage(browser, kind, undefined);
           page = shared;
-          await freshDocument(page);
         } else {
           page = await newAppPage(browser, kind, scenario);
           owned = true;
@@ -139,6 +167,7 @@ function defineSide(kind: AppKind, scenarios: readonly Scenario[]): void {
           assertSameOutput(scenario, expected as StoredOutput, actual, kind);
         } finally {
           if (owned) await page.context().close();
+          await ownBrowser?.close();
         }
       });
     }

@@ -130,6 +130,7 @@ const scenarios = defineScenarios([
                     { element: unknown; data: { type: number; vertex: unknown } | null }[] | null;
                   if (!res) return null;
                   return res.map((h) => ({
+                    element: h.element ? G.GNode.getName(h.element) : h.element,
                     self: h.element === el,
                     type: h.data ? h.data.type : null,
                     vertex: h.data ? L.enc(h.data.vertex) : null,

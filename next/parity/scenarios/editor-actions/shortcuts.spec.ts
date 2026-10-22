@@ -9,10 +9,13 @@
 // Shortcuts whose action opens a dialog, a file picker or a download are
 // in dialogs.spec.ts and files.spec.ts, clipboard keys in
 // clipboard.spec.ts, Layers-panel keys in layers.spec.ts.
+import type { Page } from "@playwright/test";
+import { PARITY_CONTEXT, isolateNetwork, openApp, type AppKind } from "../../support/apps.ts";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
 import { ACTION_ITEMS } from "./action-items.ts";
-import { AFTER_DELAY, runKeyChecks, type KeyCheck } from "./keys.ts";
+import { runKeyChecks, type KeyCheck } from "./keys.ts";
+import type { Loose } from "./lib.ts";
 
 const SNAP = ["snap_disabled", "snap_zones", "snap_guides"];
 const VIEW = ["rulers_visible", "guide_lines_visible", "symbol_labels_visible"];
@@ -86,6 +89,22 @@ const groups: Group[] = [
         keys: ["Control+Shift+Alt+KeyN"],
         args: { copyFirst: "selection", shell: true },
       },
+      // Shortcuts of actions that are not available in the browser are
+      // never bound (ACT-KEY-025): Open Local File for Safari and Quit.
+      {
+        name: "unavailable-open-safari",
+        setup: "rects2",
+        id: "file.open.safari",
+        keys: ["Control+Alt+KeyO"],
+        args: { shell: true },
+      },
+      {
+        name: "unavailable-quit",
+        setup: "rects2",
+        id: "file.quit",
+        keys: ["Control+KeyQ"],
+        args: { shell: true },
+      },
     ],
   },
   {
@@ -97,37 +116,33 @@ const groups: Group[] = [
         setup: "rects2",
         id: "edit.change-opacity",
         keys: ["Shift+Digit5"],
-        wait: AFTER_DELAY,
       },
       {
         name: "shift-0",
         setup: "rects2",
         id: "edit.change-opacity",
         keys: ["Shift+Digit0"],
-        wait: AFTER_DELAY,
-        args: { pre: [] },
+        // Shift+0 means 100%, so start from 50%.
+        args: { options: { opacity: 0.5 } },
       },
       {
         name: "shift-2-5",
         setup: "rects2",
         id: "edit.change-opacity",
         keys: ["Shift+Digit2", "Shift+Digit5"],
-        wait: AFTER_DELAY,
       },
       {
         name: "shift-0-5",
         setup: "rects2",
         id: "edit.change-opacity",
         keys: ["Shift+Digit0", "Shift+Digit5"],
-        wait: AFTER_DELAY,
       },
       {
         name: "shift-2-then-late-5",
         setup: "rects2",
         id: "edit.change-opacity",
         keys: ["Shift+Digit2", "Shift+Digit5"],
-        gap: AFTER_DELAY,
-        wait: AFTER_DELAY,
+        stepwise: true,
       },
     ],
   },
@@ -239,35 +254,30 @@ const groups: Group[] = [
         setup: "overlap",
         id: "modify.merge",
         keys: ["Control+Shift+KeyY"],
-        wait: AFTER_DELAY,
       },
       {
         name: "union",
         setup: "overlap",
         id: "modify.merge.union",
         keys: ["Control+Shift+KeyY", "KeyU"],
-        wait: AFTER_DELAY,
       },
       {
         name: "subtract",
         setup: "overlap",
         id: "modify.merge.subtract",
         keys: ["Control+Shift+KeyY", "KeyS"],
-        wait: AFTER_DELAY,
       },
       {
         name: "intersect",
         setup: "overlap",
         id: "modify.merge.intersect",
         keys: ["Control+Shift+KeyY", "KeyI"],
-        wait: AFTER_DELAY,
       },
       {
         name: "difference",
         setup: "overlap",
         id: "modify.merge.difference",
         keys: ["Control+Shift+KeyY", "KeyX"],
-        wait: AFTER_DELAY,
       },
       // A sub-key after the 500 ms window: union runs on timeout, then X is
       // the swap-paint-layers key.
@@ -276,8 +286,7 @@ const groups: Group[] = [
         setup: "overlap",
         id: "modify.merge",
         keys: ["Control+Shift+KeyY", "KeyX"],
-        gap: AFTER_DELAY,
-        wait: AFTER_DELAY,
+        stepwise: true,
       },
       // Another key inside the window cancels the main action.
       {
@@ -285,7 +294,6 @@ const groups: Group[] = [
         setup: "overlap",
         id: "modify.merge",
         keys: ["Control+Shift+KeyY", "KeyQ"],
-        wait: AFTER_DELAY,
         args: { tool: true },
       },
       {
@@ -293,7 +301,6 @@ const groups: Group[] = [
         setup: "compound",
         id: "modify.merge.intersect",
         keys: ["Control+Shift+KeyY", "KeyI"],
-        wait: AFTER_DELAY,
       },
     ],
   },
@@ -331,7 +338,6 @@ const groups: Group[] = [
         setup: "path-anchor",
         id: "modify.change-anchor-points-joint-type",
         keys: ["Control+Alt+KeyA"],
-        wait: AFTER_DELAY,
       },
       ...(
         [
@@ -343,10 +349,10 @@ const groups: Group[] = [
         ] as const
       ).map(([t, k]): KeyCheck => ({
         name: t,
-        setup: "path-anchor",
+        // A smooth anchor, so that changing it to straight shows.
+        setup: t === "straight" ? "path-anchor-smooth" : "path-anchor",
         id: `modify.change-anchor-points-joint-type.${t}`,
         keys: ["Control+Alt+KeyA", k],
-        wait: AFTER_DELAY,
       })),
     ],
   },
@@ -401,6 +407,13 @@ const groups: Group[] = [
         setup: "scattered",
         id: "view.zoom.in",
         keys: ["Control+Shift+Equal"],
+        args: { view: true },
+      },
+      {
+        name: "zoom-in-numpad-plus",
+        setup: "scattered",
+        id: "view.zoom.in",
+        keys: ["Control+NumpadAdd"],
         args: { view: true },
       },
       {
@@ -603,6 +616,95 @@ const scenarios: Scenario[] = groups.map((g) => {
     timeout: 240_000,
     driver: ({ page }) => runKeyChecks(page, g.checks),
   };
+});
+
+// The mac half of the modifier mapping (ACT-KEY-027): META becomes
+// Command, REMOVE becomes Backspace, and hints use the ⌘⌥⇧⌃ glyphs. The
+// old app reads the OS from navigator.platform, so this page reports
+// "MacIntel" and a mac user agent.
+const MAC_UA =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
+
+const HINT_IDS = [
+  "edit.undo",
+  "edit.redo",
+  "edit.delete",
+  "edit.duplicate",
+  "edit.copy",
+  "modify.group",
+  "modify.merge",
+  "modify.change-anchor-points-joint-type",
+  "arrange.align.align-left",
+  "arrange.order.send-front",
+  "view.zoom.in",
+  "zoom.out",
+  "view.toggle-snap",
+  "view.toggle-sidebar.outline",
+  "edit.change-opacity",
+  "file.save-as.gvdesign",
+  "view.change-active-page.next",
+];
+
+const macChecks: KeyCheck[] = [
+  { name: "cmd-g-groups", setup: "rects2", id: "modify.group", keys: ["Meta+KeyG"] },
+  { name: "ctrl-g-does-not", setup: "rects2", id: "modify.group", keys: ["Control+KeyG"] },
+  {
+    name: "cmd-z-undoes",
+    setup: "rects2",
+    id: "edit.undo",
+    keys: ["Meta+KeyZ"],
+    args: { pre: ["modify.group"], undo: false },
+  },
+  { name: "cmd-d-duplicates", setup: "rects2", id: "edit.duplicate", keys: ["Meta+KeyD"] },
+  { name: "backspace-deletes", setup: "rects2", id: "edit.delete", keys: ["Backspace"] },
+  { name: "delete-key", setup: "rects2", id: "edit.delete", keys: ["Delete"] },
+  {
+    name: "cmd-equal-zooms",
+    setup: "scattered",
+    id: "view.zoom.in",
+    keys: ["Meta+Equal"],
+    args: { view: true },
+  },
+];
+
+async function macShortcuts(page: Page, kind: AppKind): Promise<string> {
+  const browser = page.context().browser();
+  if (!browser) throw new Error("no browser");
+  const context = await browser.newContext({
+    ...PARITY_CONTEXT,
+    viewport: { width: 1600, height: 1000 },
+    userAgent: MAC_UA,
+  });
+  try {
+    await isolateNetwork(context);
+    await context.addInitScript(() => {
+      Object.defineProperty(Navigator.prototype, "platform", { get: () => "MacIntel" });
+    });
+    const mac = await context.newPage();
+    await openApp(mac, kind, { newDocument: true });
+    const hints = await mac.evaluate(
+      (ids) =>
+        ids.map((id) => {
+          const info = (
+            window as unknown as { __parity: { app: Loose } }
+          ).__parity.app.editorActions.actionInfo(id);
+          return { id, shortcut: info.shortcut, additional: info.additional };
+        }),
+      HINT_IDS,
+    );
+    const keys = JSON.parse(await runKeyChecks(mac, macChecks)) as unknown;
+    return JSON.stringify({ hints, keys });
+  } finally {
+    await context.close();
+  }
+}
+
+scenarios.push({
+  id: "editor-actions/shortcuts/mac",
+  covers: ["ACT-KEY-027", "ACT-KEY-026", "ACT-KEY-025", "ACT-EDIT-011", "ACT-MODIFY-001"],
+  kind: "document",
+  timeout: 240_000,
+  driver: ({ page, kind }) => macShortcuts(page, kind),
 });
 
 paritySuite("editor-actions shortcuts", defineScenarios(scenarios), { newApp: false });

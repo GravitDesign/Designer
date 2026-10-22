@@ -1,32 +1,254 @@
 [
- "GPointerTool",
- "GSubSelectTool",
- "GLassoTool",
- "GLayerTool",
- "GLineTool",
- "GPenTool",
- "GBezigonTool",
- "GPathsGraphTool",
- "GFreehandTool",
- "GMagicTool",
- "GRectangleTool",
- "GEllipseTool",
- "GTriangleTool",
- "GPolygonTool",
- "GStarTool",
- "GSimpleShapeTool",
- "GTextTool",
- "GKnifeTool",
- "GFillTool",
- "GSliceTool",
- "GFillTool",
- "GHandTool",
- "GZoomTool",
- "GPenTool",
- "GEllipseAnnotationTool",
- "GPencilAnnotationTool",
- "GRectangleAnnotationTool",
- "GArrowAnnotationTool",
- "GCommentAnnotationTool",
- "GHighlighterAnnotationTool"
+ {
+  "index": 0,
+  "name": "GPointerTool",
+  "cursor": "select",
+  "instanceOf": [
+   0
+  ]
+ },
+ {
+  "index": 1,
+  "name": "GSubSelectTool",
+  "cursor": "select-inverse",
+  "instanceOf": [
+   1
+  ]
+ },
+ {
+  "index": 2,
+  "name": "GLassoTool",
+  "cursor": "lasso",
+  "instanceOf": [
+   1,
+   2
+  ]
+ },
+ {
+  "index": 3,
+  "name": "GLayerTool",
+  "cursor": "select",
+  "instanceOf": [
+   3
+  ]
+ },
+ {
+  "index": 4,
+  "name": "GLineTool",
+  "cursor": "cross",
+  "instanceOf": [
+   4
+  ]
+ },
+ {
+  "index": 5,
+  "name": "GPenTool",
+  "cursor": null,
+  "instanceOf": [
+   5
+  ]
+ },
+ {
+  "index": 6,
+  "name": "GBezigonTool",
+  "cursor": null,
+  "instanceOf": [
+   6
+  ]
+ },
+ {
+  "index": 7,
+  "name": "GPathsGraphTool",
+  "cursor": null,
+  "instanceOf": [
+   7
+  ]
+ },
+ {
+  "index": 8,
+  "name": "GFreehandTool",
+  "cursor": "pen-start",
+  "instanceOf": [
+   8
+  ]
+ },
+ {
+  "index": 9,
+  "name": "GMagicTool",
+  "cursor": "pen-start",
+  "instanceOf": [
+   8,
+   9
+  ]
+ },
+ {
+  "index": 10,
+  "name": "GRectangleTool",
+  "cursor": "cross",
+  "instanceOf": [
+   10
+  ]
+ },
+ {
+  "index": 11,
+  "name": "GEllipseTool",
+  "cursor": "cross",
+  "instanceOf": [
+   11
+  ]
+ },
+ {
+  "index": 12,
+  "name": "GTriangleTool",
+  "cursor": "cross",
+  "instanceOf": [
+   12,
+   13
+  ]
+ },
+ {
+  "index": 13,
+  "name": "GPolygonTool",
+  "cursor": "cross",
+  "instanceOf": [
+   13
+  ]
+ },
+ {
+  "index": 14,
+  "name": "GStarTool",
+  "cursor": "cross",
+  "instanceOf": [
+   13,
+   14
+  ]
+ },
+ {
+  "index": 15,
+  "name": "GSimpleShapeTool",
+  "cursor": "cross",
+  "instanceOf": [
+   15
+  ]
+ },
+ {
+  "index": 16,
+  "name": "GTextTool",
+  "cursor": "cross",
+  "instanceOf": [
+   16
+  ]
+ },
+ {
+  "index": 17,
+  "name": "GKnifeTool",
+  "cursor": null,
+  "instanceOf": [
+   17
+  ]
+ },
+ {
+  "index": 18,
+  "name": "GFillTool",
+  "cursor": "pipette",
+  "instanceOf": [
+   18,
+   20
+  ]
+ },
+ {
+  "index": 19,
+  "name": "GSliceTool",
+  "cursor": "cross",
+  "instanceOf": [
+   19
+  ]
+ },
+ {
+  "index": 20,
+  "name": "GFillTool",
+  "cursor": "pipette",
+  "instanceOf": [
+   18,
+   20
+  ]
+ },
+ {
+  "index": 21,
+  "name": "GHandTool",
+  "cursor": "hand-open",
+  "instanceOf": [
+   21
+  ]
+ },
+ {
+  "index": 22,
+  "name": "GZoomTool",
+  "cursor": "zoom-none",
+  "instanceOf": [
+   22
+  ]
+ },
+ {
+  "index": 23,
+  "name": "GPenTool",
+  "cursor": null,
+  "instanceOf": [
+   5,
+   23
+  ]
+ },
+ {
+  "index": 24,
+  "name": "GEllipseAnnotationTool",
+  "cursor": "cross-ellipse",
+  "instanceOf": [
+   11,
+   24
+  ]
+ },
+ {
+  "index": 25,
+  "name": "GPencilAnnotationTool",
+  "cursor": "cross-freehand",
+  "instanceOf": [
+   8,
+   25
+  ]
+ },
+ {
+  "index": 26,
+  "name": "GRectangleAnnotationTool",
+  "cursor": "cross-rectangle",
+  "instanceOf": [
+   10,
+   26
+  ]
+ },
+ {
+  "index": 27,
+  "name": "GArrowAnnotationTool",
+  "cursor": "cross-arrow",
+  "instanceOf": [
+   4,
+   27
+  ]
+ },
+ {
+  "index": 28,
+  "name": "GCommentAnnotationTool",
+  "cursor": "comment",
+  "instanceOf": [
+   28
+  ]
+ },
+ {
+  "index": 29,
+  "name": "GHighlighterAnnotationTool",
+  "cursor": "cross-highlight",
+  "instanceOf": [
+   8,
+   29
+  ]
+ }
 ]

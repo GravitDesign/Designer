@@ -13,6 +13,18 @@
 export interface ActionInfo {
   /** Resolved (English) title, e.g. "Undo Group Selection". */
   title: string | null;
+  /** getFullTitle(), the title the shortcuts dialog lists. */
+  fullTitle: string | null;
+  /** getInfo() text, or null. */
+  info: string | null;
+  /** Icon class (e.g. "gravit-icon-copy"), or null. */
+  icon: string | null;
+  /** Category labels from the top-level menu down, e.g. ["Edit", "Paste"]. */
+  category: string[];
+  /** Menu group id (e.g. "ccp/paste"), or null. */
+  group: string | null;
+  /** isPro(). */
+  pro: boolean;
   /** isAvailable() without a context (false hides it from the main menu). */
   available: boolean;
   /** isVisible(); false for shortcut-only actions. */
@@ -58,6 +70,8 @@ export interface EditorActionsHooks {
   /** Closes every document except the active one, without asking. */
   closeOtherDocuments(): void;
   sidebars(): SidebarState;
+  /** Restores the sidebars of a freshly booted page (shared pages keep them otherwise). */
+  resetSidebars(): void;
   setSidebars(state: SidebarState): void;
   /**
    * Makes the given anchor points (by index) the path editor's part
@@ -67,7 +81,18 @@ export interface EditorActionsHooks {
   // The path is an engine node; typed loosely like ParityHandle.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   selectAnchorPoints(path: any, indices: number[]): boolean;
-  /** Turns image crop mode on/off for a selected image, as a double click does. */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setImageCropMode(image: any, on: boolean): boolean;
+  /**
+   * Edit mode of the active pointer or subselect tool: "Select",
+   * "Transform" or "Edit" (a double click on an image enters "Edit", its
+   * crop mode); null for other tools.
+   */
+  toolEditMode(): string | null;
+  /** Whether the transform box (Q, pointer tool in Transform mode) is open. */
+  transformBoxActive(): boolean;
+  /**
+   * Sets an editor option (GEditorOptions) the app takes from its build
+   * configuration, e.g. propertiesExcludedFromCopying (null in the old
+   * build), so the code that reads it can be checked.
+   */
+  setEditorOption(name: string, value: unknown): void;
 }

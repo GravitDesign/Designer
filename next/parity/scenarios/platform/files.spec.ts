@@ -3,7 +3,8 @@
 // handle or a download, and what is (not) remembered afterwards. The File
 // System Access API is stubbed in the page so the calls the app makes can
 // be recorded; the fallbacks run on Playwright's file chooser and download
-// events.
+// events. Saved files are recorded in full (savedDocument: the gunzipped,
+// id-normalized scene and its decoded preview).
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
@@ -11,52 +12,30 @@ import type { Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios } from "../../support/scenario.ts";
 import {
+  clearFsaLog,
   clickMenu,
+  closeMenus,
+  documents,
   downloadDocument,
   drawSample,
+  fsaFirstSave,
+  fsaLog,
+  fsaWritten,
+  installFsaStub,
   localStorageEntries,
+  openMenu,
+  openMenuItems,
   reopen,
+  savedDocument,
   settle,
   storageDiff,
   tempDir,
+  visibleDialogs,
+  waitForDocumentCount,
+  waitForFsaClose,
+  waitForOpened,
   waitForStartupWrites,
 } from "./lib.ts";
-
-interface DocState {
-  titles: string[];
-  active: string | null;
-  modified: boolean | null;
-  nodes: string[];
-}
-
-/** Open documents, the active one, its modified flag and its page content. */
-async function documents(page: Page): Promise<DocState> {
-  return page.evaluate(() => {
-    const { app } = (window as unknown as { __parity: { app: ParityApp } }).__parity;
-    interface Node {
-      getNodeName(): string;
-      getFirstChild(): Node | null;
-      getNext(): Node | null;
-    }
-    interface ParityApp {
-      designer: { getDocuments(): { getTitle(): string }[] };
-      document(): { getTitle(): string; isModified(): boolean } | null;
-      scene(): { getActivePage(): Node };
-    }
-    const doc = app.document();
-    const nodes: string[] = [];
-    if (doc) {
-      for (let n = app.scene().getActivePage().getFirstChild(); n; n = n.getNext())
-        nodes.push(n.getNodeName());
-    }
-    return {
-      titles: app.designer.getDocuments().map((d) => d.getTitle()),
-      active: doc ? doc.getTitle() : null,
-      modified: doc ? doc.isModified() : null,
-      nodes,
-    };
-  });
-}
 
 /** A .gvdesign the way the app stores it: the scene JSON, gzipped. */
 async function sampleFile(page: Page): Promise<Buffer> {
@@ -69,86 +48,67 @@ async function sampleFile(page: Page): Promise<Buffer> {
 }
 
 /** Visible dialogs by class name. */
-async function dialogs(page: Page): Promise<string[]> {
-  return page.evaluate(() =>
-    [...document.querySelectorAll<HTMLElement>(".g-dialog")]
-      .filter((d) => d.offsetParent !== null)
-      .map((d) => d.className)
-      .sort(),
-  );
+async function dialogClasses(page: Page): Promise<string[]> {
+  return (await visibleDialogs(page)).map((d) => d.className).sort();
 }
 
-/**
- * Installs stand-ins for showSaveFilePicker / showOpenFilePicker that log
- * every call (options, permission requests, writes) to window.__fsaLog.
- * Files to open are read from window.__fsaOpen as base64.
- */
-async function installFsaStub(page: Page): Promise<void> {
-  await page.addInitScript(() => {
-    const w = window as unknown as {
-      __fsaLog: unknown[];
-      __fsaOpen: { name: string; base64: string }[];
-      showSaveFilePicker: unknown;
-      showOpenFilePicker: unknown;
-    };
-    w.__fsaLog = [];
-    w.__fsaOpen = [];
-    const log = (entry: unknown) => w.__fsaLog.push(JSON.parse(JSON.stringify(entry)) as unknown);
-    const describe = async (data: unknown): Promise<unknown> => {
-      const blob = data instanceof Blob ? data : new Blob([data as BlobPart]);
-      const bytes = new Uint8Array(await blob.arrayBuffer());
-      return {
-        kind: data instanceof Blob ? "Blob" : Object.prototype.toString.call(data),
-        type: data instanceof Blob ? data.type : null,
-        // The exact size depends on the save time stamp (lmd) inside the
-        // gzip stream, so only "something was written" is recorded.
-        nonEmpty: bytes.length > 0,
-        head: [...bytes.slice(0, 3)].map((b) => b.toString(16).padStart(2, "0")).join(""),
-      };
-    };
-    const handle = (name: string, file: File | null) => ({
-      kind: "file",
-      name,
-      getFile: async () => {
-        log({ call: "getFile", name });
-        return file ?? new File([], name);
-      },
-      queryPermission: async (o: unknown) => {
-        log({ call: "queryPermission", name, options: o ?? null });
-        return "granted";
-      },
-      requestPermission: async (o: unknown) => {
-        log({ call: "requestPermission", name, options: o ?? null });
-        return "granted";
-      },
-      createWritable: async (o: unknown) => {
-        log({ call: "createWritable", name, options: o ?? null });
-        return {
-          truncate: async (n: number) => log({ call: "truncate", name, size: n }),
-          seek: async (n: number) => log({ call: "seek", name, position: n }),
-          write: async (d: unknown) => log({ call: "write", name, data: await describe(d) }),
-          close: async () => log({ call: "close", name }),
-        };
-      },
-      isSameEntry: async () => false,
-    });
-    w.showSaveFilePicker = async (options: unknown) => {
-      log({ call: "showSaveFilePicker", options: options ?? null });
-      const suggested =
-        (options as { suggestedName?: string } | undefined)?.suggestedName ?? "file";
-      return handle(suggested, null);
-    };
-    w.showOpenFilePicker = async (options: unknown) => {
-      log({ call: "showOpenFilePicker", options: options ?? null });
-      return w.__fsaOpen.map((f) =>
-        handle(f.name, new File([Uint8Array.from(atob(f.base64), (c) => c.charCodeAt(0))], f.name)),
-      );
+/** Tab titles in the header, in order. */
+async function tabTitles(page: Page): Promise<string[]> {
+  return page.locator("#header .tabs .tab .title .cover").allTextContents();
+}
+
+/** Opens fifteen more documents through the harness, so the tabs overflow. */
+async function openManyDocuments(page: Page): Promise<void> {
+  await page.evaluate(() => {
+    const { app } = (window as unknown as { __parity: { app: { newInfiniteDocument(): void } } })
+      .__parity;
+    for (let i = 0; i < 15; i++) app.newInfiniteDocument();
+  });
+  await waitForDocumentCount(page, 16);
+  await settle(page);
+}
+
+/** Clicks the "more" button and waits until its list is shown with the active tab marked. */
+async function openTabsList(page: Page): Promise<void> {
+  await page.locator("#header .more-button .more-symbol").click();
+  await page.waitForFunction(() => {
+    const list = document.querySelector<HTMLElement>("#header .moreTab");
+    return (
+      !!list &&
+      getComputedStyle(list).visibility === "visible" &&
+      !!list.querySelector(".more-tab-icon")
+    );
+  });
+  await settle(page);
+}
+
+/** The header tabs (which fit the row) and the "more" list. */
+async function tabsState(page: Page): Promise<unknown> {
+  return page.evaluate(() => {
+    const row = document.querySelector<HTMLElement>("#header .section.windows");
+    const box = row?.getBoundingClientRect();
+    const right = box ? box.right : 0;
+    const bottom = box ? box.bottom : 0;
+    const more = document.querySelector<HTMLElement>("#header .more-button");
+    const list = document.querySelector<HTMLElement>("#header .moreTab");
+    return {
+      tabs: [...document.querySelectorAll<HTMLElement>("#header .tabs > .tab")].map((t) => ({
+        title: t.querySelector(".title .cover")?.textContent ?? null,
+        active: t.classList.contains("g-active"),
+        // Tabs that wrapped below the header row or past its end are cut off.
+        inView:
+          t.getBoundingClientRect().top < bottom && t.getBoundingClientRect().right <= right + 1,
+      })),
+      moreButton: more
+        ? { active: more.classList.contains("active"), shown: more.offsetParent !== null }
+        : null,
+      moreList: [...document.querySelectorAll<HTMLElement>("#header .moreTab > .tab")].map((t) => ({
+        title: t.querySelector(".title .cover")?.textContent ?? null,
+        marked: !!t.querySelector(".more-tab-icon"),
+      })),
+      moreListVisible: !!list && getComputedStyle(list).visibility === "visible",
     };
   });
-}
-
-async function fsaLog(page: Page): Promise<unknown[]> {
-  return page.evaluate(() => (window as unknown as { __fsaLog: unknown[] }).__fsaLog);
 }
 
 const scenarios = defineScenarios([
@@ -163,21 +123,20 @@ const scenarios = defineScenarios([
     ],
     kind: "json",
     // Without the File System Access API, File > Download File saves
-    // through a Blob download and clears the modified flag.
+    // through a Blob download and clears the modified flag. The file itself
+    // is recorded in full.
     driver: async ({ page }) => {
       await drawSample(page);
       const before = await documents(page);
+      const savedAfter = Date.now();
       const { name, bytes } = await downloadDocument(page);
       await settle(page);
-      const scene = JSON.parse(zlib.gunzipSync(bytes).toString("utf8")) as Record<string, unknown>;
       return {
         before,
         suggestedFilename: name,
-        head: bytes.subarray(0, 3).toString("hex"),
-        keys: Object.keys(scene).sort(),
-        preview: String(scene._preview).slice(0, 23),
+        file: await savedDocument(page, bytes, savedAfter),
         after: await documents(page),
-        tabs: await page.locator("#header .tabs .tab .title .cover").allTextContents(),
+        tabs: await tabTitles(page),
       };
     },
   },
@@ -186,7 +145,8 @@ const scenarios = defineScenarios([
     covers: ["FMT-STORAGE-011", "RUN-SAVE-004"],
     kind: "json",
     // File > Save on a new document without the API: nothing is saved and
-    // the old app throws (it calls an unregistered cloud action).
+    // the old app throws (it calls an unregistered cloud action) while
+    // handling the click.
     driver: async ({ page }) => {
       const errors: string[] = [];
       page.on("pageerror", (e) => errors.push(e.message));
@@ -194,8 +154,13 @@ const scenarios = defineScenarios([
       page.on("download", () => downloads++);
       await drawSample(page);
       await clickMenu(page, ["File", "Save"]);
-      await page.waitForTimeout(2000);
-      return { errors, downloads, dialogs: await dialogs(page), documents: await documents(page) };
+      await settle(page);
+      return {
+        errors,
+        downloads,
+        dialogs: await dialogClasses(page),
+        documents: await documents(page),
+      };
     },
   },
   {
@@ -213,41 +178,33 @@ const scenarios = defineScenarios([
     open: { fileSystemAccess: true },
     // With the API: Save on a new document opens the "file or cloud"
     // chooser, Save to File picks a handle and writes through it; the
-    // second Ctrl+S writes to the same handle without a picker.
+    // second Ctrl+S writes to the same handle without a picker. Both
+    // written files are recorded in full.
     driver: async ({ page, kind }) => {
       await installFsaStub(page);
       await reopen(page, kind, { newDocument: true, fileSystemAccess: true });
       await drawSample(page);
-      await clickMenu(page, ["File", "Save"]);
-      await page.waitForTimeout(800);
-      const chooser = await dialogs(page);
-      await page.locator(".g-save-chooser-dialog").getByText("Save to File").first().click();
-      await page.waitForFunction(() =>
-        (window as unknown as { __fsaLog: { call: string }[] }).__fsaLog.some(
-          (e) => e.call === "close",
-        ),
-      );
-      await settle(page);
-      const first = { log: await fsaLog(page), documents: await documents(page) };
-      await page.evaluate(() => {
-        (window as unknown as { __fsaLog: unknown[] }).__fsaLog.length = 0;
-      });
+      const { chooser, savedAfter } = await fsaFirstSave(page);
+      const first = {
+        log: await fsaLog(page),
+        file: await savedDocument(page, await fsaWritten(page, 0), savedAfter),
+        documents: await documents(page),
+      };
+      await clearFsaLog(page);
       await drawSample(page);
       await page.mouse.click(900, 700);
+      const secondAfter = Date.now();
       await page.keyboard.press("Control+s");
-      await page.waitForFunction(() =>
-        (window as unknown as { __fsaLog: { call: string }[] }).__fsaLog.some(
-          (e) => e.call === "close",
-        ),
-      );
+      await waitForFsaClose(page);
       await settle(page);
       return {
         chooser,
         first,
         second: {
           log: await fsaLog(page),
+          file: await savedDocument(page, await fsaWritten(page, 1), secondAfter),
           documents: await documents(page),
-          dialogs: await dialogs(page),
+          dialogs: await dialogClasses(page),
         },
       };
     },
@@ -270,15 +227,9 @@ const scenarios = defineScenarios([
         ];
       }, file);
       await clickMenu(page, ["File", "Open Local File..."]);
-      await page.waitForFunction(
-        () =>
-          (
-            window as unknown as { gDesigner: { getDocuments(): unknown[] } }
-          ).gDesigner.getDocuments().length >= 3,
-        null,
-        { timeout: 20_000 },
-      );
-      await settle(page, 500);
+      await waitForDocumentCount(page, 3);
+      await waitForOpened(page, "second");
+      await settle(page);
       return { log: await fsaLog(page), documents: await documents(page) };
     },
   },
@@ -314,15 +265,9 @@ const scenarios = defineScenarios([
         });
         const count = (await documents(page)).titles.length;
         await fc.setFiles(files);
-        await page.waitForFunction(
-          (n) =>
-            (
-              window as unknown as { gDesigner: { getDocuments(): unknown[] } }
-            ).gDesigner.getDocuments().length >= n,
-          count + files.length,
-          { timeout: 20_000 },
-        );
-        await settle(page, 500);
+        await waitForDocumentCount(page, count + files.length);
+        await waitForOpened(page, path.basename(files[files.length - 1] ?? "", ".gvdesign"));
+        await settle(page);
         return { isMultiple: fc.isMultiple(), input, documents: await documents(page) };
       };
       const both = await open([a, b]);
@@ -348,35 +293,13 @@ const scenarios = defineScenarios([
       const chooser = page.waitForEvent("filechooser");
       await clickMenu(page, ["File", "Open Local File..."]);
       await (await chooser).setFiles(file);
-      await page.waitForFunction(
-        () =>
-          (
-            window as unknown as { gDesigner: { getDocuments(): unknown[] } }
-          ).gDesigner.getDocuments().length >= 2,
-      );
-      await settle(page, 500);
+      await waitForDocumentCount(page, 2);
+      await waitForOpened(page, "recent");
+      await settle(page);
       fs.rmSync(dir, { recursive: true, force: true });
-      await clickMenu(page, ["File"]);
-      await page
-        .locator("ul.g-menu:not(.g-menu-root) > li.g-menu-item:visible", {
-          has: page.locator(':scope > .g-menu-item-caption:text-is("Open Recent")'),
-        })
-        .last()
-        .hover();
-      await page.waitForTimeout(400);
-      const recentMenu = await page.evaluate(() => {
-        const menus = [
-          ...document.querySelectorAll<HTMLElement>("ul.g-menu:not(.g-menu-root)"),
-        ].filter((m) => m.offsetParent !== null);
-        const last = menus[menus.length - 1];
-        return last
-          ? [...last.querySelectorAll<HTMLElement>(":scope > li.g-menu-item")].map((li) => ({
-              caption: li.querySelector(":scope > .g-menu-item-caption")?.textContent ?? null,
-              disabled: li.classList.contains("g-disabled"),
-            }))
-          : [];
-      });
-      await page.keyboard.press("Escape");
+      await openMenu(page, ["File", "Open Recent"]);
+      const recentMenu = await openMenuItems(page);
+      await closeMenus(page);
       return { changed: storageDiff(before, await localStorageEntries(page)), recentMenu };
     },
   },
@@ -416,10 +339,12 @@ const scenarios = defineScenarios([
       // beforeunload dialogs need a user gesture on the page first.
       await page.mouse.click(900, 700);
       const modified = (await documents(page)).modified;
+      const asked = page.waitForEvent("dialog");
       await page.evaluate(() => {
         location.reload();
       });
-      await page.waitForTimeout(1500);
+      await asked;
+      await settle(page);
       const afterDismiss = { dialogs: [...seen], stillOpen: (await documents(page)).titles };
       await downloadDocument(page);
       await settle(page);
@@ -452,8 +377,69 @@ const scenarios = defineScenarios([
       for (const type of ["dragenter", "dragover", "drop"]) {
         await canvas.dispatchEvent(type, { dataTransfer, clientX: 700, clientY: 400 });
       }
-      await page.waitForTimeout(2000);
-      return { before, after: await documents(page), dialogs: await dialogs(page) };
+      // Nothing to wait for when nothing opens: read the dropped file once
+      // more, so any read the app queued for it has finished too.
+      await page.evaluate(async (dt) => {
+        const file = dt.files[0];
+        if (file) await file.arrayBuffer();
+      }, dataTransfer);
+      await settle(page);
+      return { before, after: await documents(page), dialogs: await dialogClasses(page) };
+    },
+  },
+  {
+    id: "platform/files/tabs-overflow",
+    covers: ["FMT-STORAGE-016", "FMT-DOCS-005"],
+    kind: "json",
+    // Sixteen open documents: the tabs that don't fit the header row are
+    // cut off, and the "more" button lists a copy of every tab with the
+    // active one marked. Picking a cut-off document there activates it and
+    // moves its tab into view.
+    driver: async ({ page }) => {
+      await openManyDocuments(page);
+      const initial = await tabsState(page);
+      await openTabsList(page);
+      const opened = await tabsState(page);
+      await page.locator("#header .moreTab > .tab", { hasText: "Untitled-14" }).first().click();
+      await page.waitForFunction(() => {
+        const active = document.querySelector<HTMLElement>("#header .tabs > .tab.g-active");
+        const row = document.querySelector<HTMLElement>("#header .section.windows");
+        if (!active || !row) return false;
+        const title = active.querySelector(".title .cover")?.textContent;
+        const r = active.getBoundingClientRect();
+        const box = row.getBoundingClientRect();
+        return title === "Untitled-14" && r.top < box.bottom && r.right <= box.right + 1;
+      });
+      await settle(page);
+      return {
+        initial,
+        opened,
+        picked: { active: (await documents(page)).active, tabs: await tabsState(page) },
+      };
+    },
+  },
+  {
+    id: "platform/files/tabs-overflow-list",
+    covers: ["FMT-STORAGE-016"],
+    kind: "png",
+    // The open "more" list drawn above the toolbar and panels (32b5444).
+    driver: async ({ page }) => {
+      await openManyDocuments(page);
+      await openTabsList(page);
+      const clip = await page.evaluate(() => {
+        const header = document.querySelector<HTMLElement>("#header")?.getBoundingClientRect();
+        const list = document
+          .querySelector<HTMLElement>("#header .moreTab")
+          ?.getBoundingClientRect();
+        if (!header || !list) throw new Error("no header or tab list");
+        // The tabs left of the list, up to the list's right edge: the
+        // account button further right belongs to the dropped cloud login.
+        const x = Math.floor(list.left - 450);
+        const right = Math.ceil(list.right) + 2;
+        const bottom = Math.ceil(Math.max(list.bottom, header.bottom)) + 8;
+        return { x, y: 0, width: right - x, height: bottom };
+      });
+      return page.screenshot({ clip, animations: "disabled", caret: "hide" });
     },
   },
 ]);

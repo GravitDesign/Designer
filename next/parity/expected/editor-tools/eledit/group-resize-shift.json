@@ -1,0 +1,206 @@
+{
+ "final": {
+  "state": {
+   "tool": "GPointerTool",
+   "temporaryTool": null,
+   "selection": [
+    "0/1:group"
+   ],
+   "parts": [
+    null
+   ],
+   "anchors": [
+    null
+   ],
+   "preview": [
+    {
+     "box": [
+      100,
+      100,
+      390,
+      150
+     ],
+     "trf": [
+      1.5,
+      0,
+      0,
+      1.5,
+      -50,
+      -50
+     ],
+     "isPreview": false
+    }
+   ],
+   "selectEditMode": 0,
+   "inlineEditing": false,
+   "textSelection": null,
+   "zoom": 1,
+   "scroll": [
+    -400,
+    -200
+   ],
+   "undo": "Modify Group"
+  },
+  "cursor": {
+   "cls": "g-cursor-select",
+   "css": "url(\"/assets/cursor/select.cur\"), auto"
+  }
+ },
+ "probes": [
+  {
+   "label": "dragging",
+   "state": {
+    "tool": "GPointerTool",
+    "temporaryTool": null,
+    "selection": [
+     "0/1:group"
+    ],
+    "parts": [
+     null
+    ],
+    "anchors": [
+     null
+    ],
+    "preview": [
+     {
+      "box": [
+       100,
+       100,
+       260,
+       100
+      ],
+      "trf": null,
+      "isPreview": false
+     }
+    ],
+    "selectEditMode": 0,
+    "inlineEditing": false,
+    "textSelection": null,
+    "zoom": 1,
+    "scroll": [
+     -400,
+     -200
+    ],
+    "undo": "Insert Element(s)"
+   },
+   "cursor": {
+    "cls": "g-cursor-select-upleft-downright",
+    "css": "url(\"/assets/cursor/select-upleft-downright.cur\"), auto"
+   },
+   "hint": null,
+   "focus": "div"
+  }
+ ],
+ "doc": {
+  "@": "scene",
+  "@id": "id1",
+  "$": [
+   {
+    "@": "page",
+    "@id": "id2",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "id3",
+      "pgid": "id2",
+      "aid": "id3"
+     },
+     {
+      "@": "group",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "rectangle",
+        "@id": "id5",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         90,
+         0,
+         0,
+         75,
+         190,
+         175
+        ],
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id6",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id7",
+           "_pt": "C#[229,57,53]"
+          }
+         ],
+         "&": "id8"
+        },
+        "_effId": "id9"
+       },
+       {
+        "@": "rectangle",
+        "@id": "id10",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         90,
+         0,
+         0,
+         75,
+         400,
+         175
+        ],
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id11",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id12",
+           "_pt": "C#[67,160,71]"
+          }
+         ],
+         "&": "id13"
+        },
+        "_effId": "id14"
+       }
+      ],
+      "trf": [
+       1.5,
+       0,
+       0,
+       1.5,
+       -50,
+       -50
+      ],
+      "_effId": "id15"
+     }
+    ],
+    "#": "id16",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   }
+  ],
+  "__ids": [
+   "id17",
+   "id18",
+   "id19",
+   "id20",
+   "id21"
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
+}

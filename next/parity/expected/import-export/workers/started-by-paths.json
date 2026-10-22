@@ -10,6 +10,21 @@
   "blob:",
   "blob:"
  ],
+ "pdfExport": [
+  "/pdfexport.worker.js?v=*",
+  "/pdfexport.worker.js?v=*",
+  "/pdfexport.worker.js?v=*"
+ ],
+ "pdf": {
+  "name": "Workers.pdf",
+  "head": "%PDF-1.7"
+ },
  "zipExport": [],
- "hardwareConcurrency": true
+ "zip": {
+  "name": "Workers.zip",
+  "entries": [
+   "Cover.png",
+   "Second.png"
+  ]
+ }
 }

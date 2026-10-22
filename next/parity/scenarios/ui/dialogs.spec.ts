@@ -1,12 +1,15 @@
+import { createHash } from "node:crypto";
 import type { Page } from "@playwright/test";
 import * as ids from "./ids.ts";
 import { paritySuite } from "../../support/suite.ts";
 import type { Scenario } from "../../support/scenario.ts";
+import { openApp } from "../../support/apps.ts";
 import {
   behaviour,
   BROWSER_LOCALES,
   start,
   clickMenu,
+  drag,
   NEUTRAL,
   settle,
   shoot,
@@ -42,6 +45,19 @@ const SETTINGS = [
 ];
 
 const openSettings = (page: Page) => clickMenu(page, ["Edit", "Settings..."]);
+
+/**
+ * The SVG exporter names clip paths and similar defs with a random
+ * 32-character suffix (_clipPath_<random>); number them in order of
+ * appearance so the rest of the markup is compared exactly.
+ */
+function svgWithStableIds(svg: string): string {
+  const names = new Map<string, string>();
+  return svg.replace(/_([A-Za-z]+)_([A-Za-z0-9]{32})\b/g, (_m, kind: string, id: string) => {
+    if (!names.has(id)) names.set(id, `<id${names.size + 1}>`);
+    return `_${kind}_${names.get(id) ?? ""}`;
+  });
+}
 
 /** Answers "No" when the app asks to save before exporting. */
 async function skipSavePrompt(page: Page): Promise<void> {
@@ -122,6 +138,7 @@ const list: SurfaceSpec[] = [
     id: "dialog/export-canvas-tall-window",
     covers: ["UI-DIALOG-038"],
     viewport: TALL,
+    clipToWindow: true,
     setup: async (page) => {
       await S.rect(page);
       await clickMenu(page, ["File", "Export", "Advanced Export..."]);
@@ -285,7 +302,12 @@ const list: SurfaceSpec[] = [
           window as unknown as { __parity: { app: { ui: { notify(m: string): void } } } }
         ).__parity.app.ui.notify("Something happened in the parity test"),
       );
-      await settle(page, 700);
+      await page
+        .locator("#footer .g-notification-panel:visible", {
+          hasText: "Something happened in the parity test",
+        })
+        .waitFor();
+      await settle(page, 300);
     },
     shot: ["#footer"],
   },
@@ -345,18 +367,26 @@ const scenarios: Scenario[] = [
       "RUN-THEME-002",
       "RUN-THEME-003",
       "UI-SETTING-007",
+      "UI-THEME-004",
     ],
     kind: "png",
     open: { newDocument: true, theme: "light" },
     driver: async (ctx) => {
       const { page } = ctx;
       await start(ctx, { newDocument: true, theme: "light" });
+      // Page label, rulers, a guide and a selection, so the shot shows
+      // their dark colours too.
+      await S.a4Document(page);
+      await S.rect(page);
+      await clickMenu(page, ["View", "Canvas", "Show Rulers"]);
+      await drag(page, [700, 83], [700, 300], { steps: 10 });
+      await drag(page, [260, 500], [450, 500], { steps: 10 });
       await openSettings(page);
       await page.click(".g-settings-dialog .g-theme-selector");
       await settle(page, 300);
       await page.click(".g-overlay .g-theme-row >> nth=1");
       await page.click('.g-dialog-container.visible button:text-is("Save Changes")');
-      await waitForTheme(page);
+      await waitForTheme(page, "dark");
       await page.mouse.move(NEUTRAL.x, NEUTRAL.y);
       return shoot(page, ["body"]);
     },
@@ -364,13 +394,13 @@ const scenarios: Scenario[] = [
   behaviour(
     "theme/switch-state",
     ["RUN-THEME-002", "RUN-THEME-003", "UI-THEME-001"],
-    async (page) => {
+    async (page, ctx) => {
       await openSettings(page);
       await page.click(".g-settings-dialog .g-theme-selector");
       await settle(page, 300);
       await page.click(".g-overlay .g-theme-row >> nth=1");
       await page.click('.g-dialog-container.visible button:text-is("Save Changes")');
-      await waitForTheme(page);
+      await waitForTheme(page, "dark");
       await settle(page, 400);
       const state = () =>
         page.evaluate(() => ({
@@ -385,12 +415,10 @@ const scenarios: Scenario[] = [
             .backgroundColor,
         }));
       const after = await state();
-      await page.reload();
-      await page.waitForFunction(() => {
-        const d = (window as unknown as { gDesigner?: { isReady?: () => boolean } }).gDesigner;
-        return !!d && !!d.isReady && d.isReady();
-      });
-      await waitForTheme(page);
+      // Load the app again in the same tab: the stored theme must win.
+      await openApp(page, ctx.kind);
+      await waitForTheme(page, "dark");
+      await settle(page, 400);
       return { after, reloaded: await state() };
     },
   ),
@@ -428,7 +456,7 @@ const scenarios: Scenario[] = [
     ["RUN-DIALOG-016", "RUN-SAVE-010", "RUN-MENU-015", "RUN-MENU-016", "RUN-MENU-017"],
     async (page) => {
       await S.rect(page);
-      const names: string[] = [];
+      const files: { name: string; size: number; content: string; head: string }[] = [];
       for (const item of [
         "PNG Image (.png)",
         "JPEG Image (.jpg)",
@@ -437,9 +465,23 @@ const scenarios: Scenario[] = [
         const dl = page.waitForEvent("download", { timeout: 20_000 });
         await clickMenu(page, ["File", "Export", item]);
         await skipSavePrompt(page);
-        names.push((await dl).suggestedFilename());
+        const file = await dl;
+        const chunks: Buffer[] = [];
+        for await (const chunk of await file.createReadStream()) chunks.push(chunk as Buffer);
+        const bytes = Buffer.concat(chunks);
+        // The exported bytes themselves, not only the name the app suggests.
+        files.push({
+          name: file.suggestedFilename(),
+          size: bytes.length,
+          // SHA-256 of the bytes; SVG is text and kept whole, so a
+          // difference is readable.
+          content: file.suggestedFilename().endsWith(".svg")
+            ? svgWithStableIds(bytes.toString("utf8"))
+            : createHash("sha256").update(bytes).digest("hex"),
+          head: bytes.subarray(0, 8).toString("hex"),
+        });
       }
-      return names;
+      return files;
     },
   ),
   behaviour(

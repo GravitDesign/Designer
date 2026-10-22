@@ -9,7 +9,9 @@ import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
 import {
   chooseFiles,
+  clickDialogButton,
   clickMenu,
+  documents,
   fixtureFile,
   runInPage,
   visibleDialogs,
@@ -36,6 +38,8 @@ const OPEN_FIXTURES: Fixture[] = [
   { file: "svg/clip-mask-filter.svg", covers: [...OPEN, ...SVG], record: true },
   { file: "svg/markers-image.svg", covers: [...OPEN, ...SVG], record: true },
   { file: "svg/text.svg", covers: [...OPEN, ...SVG], record: true },
+  // Families that don't exist under these names are mapped to the closest one.
+  { file: "svg/font-fallback.svg", covers: [...OPEN, ...SVG, "FMT-IMPORT-028"], record: true },
   { file: "svg/units-mm.svg", covers: [...OPEN, ...SVG, "FMT-IMPORT-008"], record: true },
   { file: "svg/units-in-noviewbox.svg", covers: [...OPEN, ...SVG, "FMT-IMPORT-008"], record: true },
   { file: "svg/no-size.svg", covers: [...OPEN, ...SVG, "FMT-IMPORT-008"], record: true },
@@ -51,9 +55,19 @@ const OPEN_FIXTURES: Fixture[] = [
   { file: "pdf/images.pdf", covers: [...OPEN, "FMT-IMPORT-009", "FMT-IMPORT-010"], record: true },
   { file: "pdf/plain.pdf", covers: [...OPEN, "FMT-IMPORT-009", "FMT-IMPORT-010"], record: true },
   { file: "pdf/broken.pdf", covers: [...OPEN, "FMT-IMPORT-009"], record: false },
-  { file: "misc/pdf-compatible.ai", covers: [...OPEN, "FMT-IMPORT-011"], record: false },
-  { file: "misc/plain-pdf.ai", covers: [...OPEN, "FMT-IMPORT-011"], record: false },
-  { file: "misc/postscript-only.ai", covers: [...OPEN, "FMT-IMPORT-011"], record: false },
+  // .ai and .sketch are in the file-type table but not in the list open,
+  // place and drop accept (FMT-IMPORT-002), so these are refused before any
+  // importer runs. GSketchImport (FMT-IMPORT-015) is unreachable from the
+  // UI; the AI check runs on the PDF path instead (aiAsPdf below).
+  { file: "misc/pdf-compatible.ai", covers: [...OPEN, "FMT-IMPORT-002"], record: false },
+  { file: "misc/plain-pdf.ai", covers: [...OPEN, "FMT-IMPORT-002"], record: false },
+  { file: "misc/postscript-only.ai", covers: [...OPEN, "FMT-IMPORT-002"], record: false },
+  // CorelDRAW is stubbed out (no engine): refused like any unknown type.
+  {
+    file: "misc/drawing.cdr",
+    covers: [...OPEN, "FMT-IMPORT-002", "FMT-IMPORT-031"],
+    record: false,
+  },
   {
     file: "eps/shapes.eps",
     covers: [
@@ -100,14 +114,14 @@ const OPEN_FIXTURES: Fixture[] = [
   },
   { file: "raster/image.webp", covers: [...OPEN, "FMT-IMPORT-016"], record: false },
   { file: "raster/image.bmp", covers: [...OPEN, "FMT-IMPORT-016"], record: false },
-  { file: "sketch/shapes-v49.sketch", covers: [...OPEN, "FMT-IMPORT-015"], record: false },
-  { file: "sketch/shapes-v52.sketch", covers: [...OPEN, "FMT-IMPORT-015"], record: false },
+  { file: "sketch/shapes-v49.sketch", covers: [...OPEN, "FMT-IMPORT-002"], record: false },
+  { file: "sketch/shapes-v52.sketch", covers: [...OPEN, "FMT-IMPORT-002"], record: false },
 ];
 
 /** Engine render of the active page (1x on white) plus the document's state. */
 const activeDocument = inPageWithLib(async (_p, _a: unknown, L) => {
   await L.io.settle();
-  return L.normalizeTokens(L.app.serialize({ save: true }));
+  return L.renameDeepIds(L.app.serialize({ save: true }));
 });
 
 const activeRender = inPageWithLib(async (_p, a: { scale: number }, L) => {
@@ -117,10 +131,10 @@ const activeRender = inPageWithLib(async (_p, a: { scale: number }, L) => {
 });
 
 const documentsState = inPageWithLib((_p, _a: unknown, L) => {
-  const docs = L.app.designer.getDocuments();
+  const docs: { title: string; status: string }[] = L.io.documents();
   return {
-    titles: docs.map((d: { getTitle(): string }) => d.getTitle()),
-    statuses: docs.map((d: { getStatus(): number }) => d.getStatus()),
+    titles: docs.map((d) => d.title),
+    statuses: docs.map((d) => d.status),
     active: L.app.document() ? L.app.document().getTitle() : null,
     pages: L.app
       .scene()
@@ -139,12 +153,7 @@ const documentsState = inPageWithLib((_p, _a: unknown, L) => {
 
 /** File > Open Local File... with one or more files. */
 async function openFiles(page: Page, files: { name: string; buffer: Buffer }[]): Promise<unknown> {
-  const before = await page.evaluate(
-    () =>
-      (
-        window as unknown as { __parity: { app: { designer: { getDocuments(): unknown[] } } } }
-      ).__parity.app.designer.getDocuments().length,
-  );
+  const before = (await documents(page)).length;
   const chooser = await chooseFiles(
     page,
     () => clickMenu(page, ["File", "Open Local File..."]),
@@ -311,7 +320,20 @@ async function dropFiles(
   y: number,
   timeout = 20_000,
 ): Promise<string> {
-  const before = await importCounts(page);
+  const before = {
+    ...(await importCounts(page)),
+    children: await page.evaluate(
+      () =>
+        (
+          window as unknown as {
+            __parity: { app: { scene(): { getActivePage(): { getChildren(): unknown[] } } } };
+          }
+        ).__parity.app
+          .scene()
+          .getActivePage()
+          .getChildren().length,
+    ),
+  };
   const payload = files.map((f) => ({
     name: f.name,
     type: f.mimeType,
@@ -332,8 +354,26 @@ async function dropFiles(
     await target.dispatchEvent(type, { dataTransfer: handle, clientX: x, clientY: y });
   }
   const outcome = await waitForImport(page, { size: before.size }, timeout);
-  // several files are imported one after the other
-  if (files.length > 1) await waitForImport(page, { size: (await importCounts(page)).size }, 3000);
+  if (files.length > 1) {
+    // Several files are imported one after the other: wait until each one
+    // has added its element to the page.
+    await page
+      .waitForFunction(
+        (n) =>
+          (
+            window as unknown as {
+              __parity: { app: { scene(): { getActivePage(): { getChildren(): unknown[] } } } };
+            }
+          ).__parity.app
+            .scene()
+            .getActivePage()
+            .getChildren().length >= n,
+        before.children + files.length,
+        { timeout },
+      )
+      .catch(() => undefined);
+    await waitForImport(page, { size: -1 }, timeout);
+  }
   return outcome;
 }
 
@@ -388,29 +428,41 @@ const DROP_FIXTURES = [
   { file: "eps/gradient.eps", mime: "application/postscript" },
 ];
 
-function dropScenario(f: { file: string; mime: string }): Scenario<unknown> {
-  return {
-    id: `import-export/import/drop/${f.file.replace(/\//g, "-")}`,
-    covers: ["FMT-IMPORT-024", "FMT-IMPORT-020"],
-    kind: "json",
-    timeout: 120_000,
-    driver: async ({ page }) => {
-      page.setDefaultTimeout(15_000);
-      await runInPage(page, prepareTarget, {});
-      await runInPage(page, prepareView, {});
-      const outcome = await dropFiles(
-        page,
-        [{ ...fixtureFile(f.file), mimeType: f.mime }],
-        700,
-        400,
-      );
-      return {
-        outcome,
-        state: await runInPage(page, targetState, {}),
-        dialogs: await visibleDialogs(page),
-      };
-    },
+function dropScenarios(f: { file: string; mime: string }): Scenario<unknown>[] {
+  const id = `import-export/import/drop/${f.file.replace(/\//g, "-")}`;
+  const drop = async (page: Page) => {
+    page.setDefaultTimeout(15_000);
+    await runInPage(page, prepareTarget, {});
+    await runInPage(page, prepareView, {});
+    return dropFiles(page, [{ ...fixtureFile(f.file), mimeType: f.mime }], 700, 400);
   };
+  return [
+    {
+      id,
+      covers: ["FMT-IMPORT-024", "FMT-IMPORT-020"],
+      kind: "json",
+      timeout: 120_000,
+      driver: async ({ page }) => {
+        const outcome = await drop(page);
+        return {
+          outcome,
+          state: await runInPage(page, targetState, {}),
+          dialogs: await visibleDialogs(page),
+        };
+      },
+    },
+    {
+      // The dropped content itself: geometry, styles and placement.
+      id: `${id}.doc`,
+      covers: ["FMT-IMPORT-024", "FMT-IMPORT-020"],
+      kind: "document",
+      timeout: 120_000,
+      driver: async ({ page }) => {
+        await drop(page);
+        return runInPage(page, activeDocument, {});
+      },
+    },
+  ];
 }
 
 const dropOthers: Scenario<unknown> = {
@@ -482,13 +534,13 @@ const epsHang: Scenario<unknown> = {
     const overlay = await page.locator(".window-overlay:visible").allInnerTexts();
     const during = await runInPage(page, documentsState, {});
     await page.locator(".window-overlay:visible button", { hasText: "Cancel" }).first().click();
-    await page.waitForTimeout(1000);
+    await page.locator(".window-overlay").first().waitFor({ state: "hidden" });
     return {
       opened,
       overlay: overlay.map((t) => t.replace(/\s+/g, " ").trim()),
       during: {
         titles: (during as { titles: string[] }).titles,
-        statuses: (during as { statuses: number[] }).statuses,
+        statuses: (during as { statuses: string[] }).statuses,
       },
       afterCancel: await runInPage(page, documentsState, {}),
       dialogs: await visibleDialogs(page),
@@ -500,7 +552,7 @@ const epsHang: Scenario<unknown> = {
 /** The dialog itself: missing families, proposed replacements, enabled buttons. */
 const missingFontsDialog: Scenario<unknown> = {
   id: "import-export/import/open/pdf-missing-fonts-dialog",
-  covers: ["FMT-IMPORT-029", "FMT-IMPORT-028"],
+  covers: ["FMT-IMPORT-029"],
   kind: "json",
   timeout: 120_000,
   driver: async ({ page }) => {
@@ -529,21 +581,67 @@ const missingFontsDialog: Scenario<unknown> = {
 function missingFonts(choice: "Replace Fonts"): Scenario<unknown> {
   return {
     id: `import-export/import/open/pdf-missing-fonts-${choice === "Replace Fonts" ? "replace" : "other"}`,
-    covers: ["FMT-IMPORT-010", "FMT-IMPORT-029", "FMT-IMPORT-028"],
+    covers: ["FMT-IMPORT-010", "FMT-IMPORT-029"],
     kind: "document",
     timeout: 120_000,
     driver: async ({ page }) => {
       page.setDefaultTimeout(15_000);
       await openFiles(page, [fixtureFile("pdf/vector-2pages.pdf")]);
-      await page.locator(`.g-dialog:visible button:text-is("${choice}")`).click();
-      await page.waitForTimeout(1000);
+      await clickDialogButton(page, choice);
       return runInPage(page, activeDocument, {});
     },
   };
 }
 
+/**
+ * An Illustrator file saved PDF-compatible, opened under a .pdf name: the
+ * PDF importer's isAIFormat check (XMP dc:format) finds it and asks first
+ * (FMT-IMPORT-011); OK imports it as a PDF.
+ */
+function aiAsPdf(): Scenario<unknown>[] {
+  const file = { ...fixtureFile("misc/pdf-compatible.ai"), name: "illustrator.pdf" };
+  const id = "import-export/import/open/ai-saved-as-pdf";
+  return [
+    {
+      id: `${id}.state`,
+      covers: ["FMT-IMPORT-011", "FMT-IMPORT-009", "FMT-IMPORT-003"],
+      kind: "json",
+      timeout: 120_000,
+      driver: async ({ page }) => {
+        page.setDefaultTimeout(15_000);
+        const opened = await openFiles(page, [file]);
+        const asked = await visibleDialogs(page);
+        const during = await runInPage(page, documentsState, {});
+        await clickDialogButton(page, "OK");
+        await waitForImport(page, { size: -1 });
+        return {
+          opened,
+          asked,
+          during,
+          after: await runInPage(page, documentsState, {}),
+          dialogs: await visibleDialogs(page),
+        };
+      },
+    },
+    {
+      id,
+      covers: ["FMT-IMPORT-011", "FMT-IMPORT-009", "FMT-IMPORT-010"],
+      kind: "document",
+      timeout: 120_000,
+      driver: async ({ page }) => {
+        page.setDefaultTimeout(15_000);
+        await openFiles(page, [file]);
+        await clickDialogButton(page, "OK");
+        await waitForImport(page, { size: -1 });
+        return runInPage(page, activeDocument, {});
+      },
+    },
+  ];
+}
+
 const scenarios = defineScenarios<unknown>([
   epsHang,
+  ...aiAsPdf(),
   missingFontsDialog,
   missingFonts("Replace Fonts"),
   openMultiple,
@@ -551,7 +649,7 @@ const scenarios = defineScenarios<unknown>([
   ...roundTrip(true),
   ...roundTrip(false),
   ...PLACE_FIXTURES.flatMap(placeScenarios),
-  ...DROP_FIXTURES.map(dropScenario),
+  ...DROP_FIXTURES.flatMap(dropScenarios),
   dropOthers,
 ]);
 

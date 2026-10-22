@@ -2,12 +2,18 @@
  {
   "tag": "div",
   "id": "right-sidebars",
+  "attrs": {
+   "style": "width: 300px; top: 73px; height: 927px;"
+  },
   "children": [
    {
     "tag": "div",
     "cls": [
      "sidebar-selector"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
@@ -28,6 +34,9 @@
         "cls": [
          "g-badge"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        }
       ]
@@ -53,6 +62,9 @@
         "cls": [
          "g-badge"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        }
       ]
@@ -67,6 +79,9 @@
      "multiple",
      "g-disabled"
     ],
+    "attrs": {
+     "style": "bottom: 0px; display: none;"
+    },
     "hidden": true
    },
    {
@@ -77,6 +92,9 @@
      "multiple",
      "g-active"
     ],
+    "attrs": {
+     "style": "bottom: 0px;"
+    },
     "children": [
      {
       "tag": "div",
@@ -207,6 +225,9 @@
             "cls": [
              "indicator"
             ],
+            "attrs": {
+             "style": "visibility: hidden;"
+            },
             "hidden": true
            }
           ]
@@ -220,6 +241,9 @@
           "children": [
            {
             "tag": "div",
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -228,10 +252,16 @@
              "annotations-property-panel",
              "tool-ellipse"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
             "tag": "div",
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -240,10 +270,16 @@
              "annotations-property-panel",
              "tool-rectangle"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
             "tag": "div",
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -252,10 +288,16 @@
              "annotations-property-panel",
              "tool-pencil"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
             "tag": "div",
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -264,10 +306,16 @@
              "annotations-property-panel",
              "tool-highlighter"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
             "tag": "div",
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -276,10 +324,16 @@
              "annotations-property-panel",
              "tool-line"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
             "tag": "div",
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
@@ -288,10 +342,16 @@
              "annotations-property-panel",
              "tool-comment"
             ],
+            "attrs": {
+             "style": "display: none;"
+            },
             "hidden": true
            },
            {
-            "tag": "div"
+            "tag": "div",
+            "attrs": {
+             "style": ""
+            }
            },
            {
             "tag": "div",
@@ -299,6 +359,9 @@
              "annotations-property-panel",
              "g-annotation-review-docker"
             ],
+            "attrs": {
+             "style": ""
+            },
             "children": [
              {
               "tag": "div",
@@ -306,6 +369,9 @@
                "panel",
                "main-panel"
               ],
+              "attrs": {
+               "style": ""
+              },
               "children": [
                {
                 "tag": "div",
@@ -326,6 +392,9 @@
                   "cls": [
                    "history-actions"
                   ],
+                  "attrs": {
+                   "style": "display: none;"
+                  },
                   "hidden": true
                  }
                 ]
@@ -407,6 +476,9 @@
                  "row",
                  "footer"
                 ],
+                "attrs": {
+                 "style": ""
+                },
                 "children": [
                  {
                   "tag": "div",
@@ -444,6 +516,9 @@
            "annotations-page-toolbar",
            "toolbar"
           ],
+          "attrs": {
+           "style": "display: none;"
+          },
           "hidden": true
          },
          {
@@ -451,6 +526,9 @@
           "cls": [
            "properties-panel"
           ],
+          "attrs": {
+           "style": "display: none;"
+          },
           "hidden": true
          }
         ]

@@ -7,6 +7,15 @@
  "trigger": "execute",
  "info": {
   "title": "Advanced Export...",
+  "fullTitle": "Advanced Export...",
+  "info": null,
+  "icon": null,
+  "category": [
+   "File",
+   "File/Export"
+  ],
+  "group": "export/export",
+  "pro": true,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -19,7 +28,10 @@
  "dialogs": [
   {
    "className": "g-dialog-container g-system-dialog g-alert-dialog-container",
-   "text": "Saving and exporting designs with an empty infinite canvas is not allowed."
+   "lines": [
+    "Saving and exporting designs with an empty infinite canvas is not allowed.",
+    "OK"
+   ]
   }
  ],
  "events": [],

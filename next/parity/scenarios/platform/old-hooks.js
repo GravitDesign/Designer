@@ -9,23 +9,24 @@
   const designer = parity.app.designer;
 
   parity.app.platform = {
-    // Asks the workspace font manager for a font and waits until it is
-    // resolved (some provider had it, e.g. an imported font from IndexedDB)
-    // or failed. Gives up after `timeoutMs` and reports "pending".
-    resolveFont(family, style, weight, timeoutMs) {
-      const fm = designer.getWorkspace().getFontManager();
-      const limit = Date.now() + (timeoutMs || 10000);
-      return new Promise((resolve) => {
-        const check = () => {
-          const font = fm.getFont(family, style, weight);
-          if (font && font.isResolved()) return resolve("resolved");
-          if (font && font.isFailed()) return resolve("failed");
-          if (!font) return resolve("unknown");
-          if (Date.now() > limit) return resolve("pending");
-          window.setTimeout(check, 50);
-        };
-        check();
-      });
+    // The open documents as the tab bar shows them: titles in tab order,
+    // the active one, its modified flag and the node names on its active
+    // page (top level only).
+    documents() {
+      const active = designer.getActiveDocument();
+      const nodes = [];
+      if (active) {
+        const pageNode = active.getScene().getActivePage();
+        for (let n = pageNode ? pageNode.getFirstChild() : null; n; n = n.getNext()) {
+          nodes.push(n.getNodeName());
+        }
+      }
+      return {
+        titles: designer.getDocuments().map((d) => d.getTitle()),
+        active: active ? active.getTitle() : null,
+        modified: active ? active.isModified() : null,
+        nodes,
+      };
     },
   };
 })();

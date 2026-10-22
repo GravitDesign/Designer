@@ -52,9 +52,9 @@ Decisions taken:
 | # | Phase | State |
 | - | ----- | ----- |
 | 1 | Inventory | done (2311 items) |
-| 2 | Parity harness and corpus | not started |
-| 3 | Scaffold next/ | not started |
-| 4 | Engine core | not started |
+| 2 | Parity harness and corpus | all 8 areas recorded; fixing the phase 2 review (phase2-review.md) |
+| 3 | Scaffold next/ | written (src/, server/, electron/, vite configs, CI), commit waits for phase 2 |
+| 4 | Engine core | level 0 ported (engine-core, engine-math, engine-locale, engine-opentype-fork), uncommitted until phase 3 is committed |
 | 5 | File format and import/export | not started |
 | 6 | Editor | not started |
 | 7 | UI | not started |
@@ -63,6 +63,18 @@ Decisions taken:
 | 10 | Final check | not started |
 
 ## Log
+
+- Phase 2 review: 84 findings (28 high). Harness-wide fixes done by the
+  coordinator, uncommitted until the areas re-record: shared-page reset
+  (resetState), tagged -0/NaN/Infinity/undefined, normalize.ts follows more
+  reference forms and keeps loaded ids (keepIdsOf), nested JSON renamed in
+  place, lint ban on old globals in scenarios, PARITY_CONTEXT (en-US, UTC,
+  light) and SwiftShader, mutation testing (parity/mutations,
+  scripts/prove-mutations.ts). Seven fix agents work through the area
+  findings.
+- Re-record with the locale pinned changed one file (a flake in
+  platform/dropped/startup-traffic), so earlier recordings didn't depend
+  on the system locale.
 
 - Phase 1 started: six inventory subagents (engine model, renderer/editor,
   actions/menus, UI, formats/platform, running-app walkthrough).
@@ -112,8 +124,10 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
 - GVertexInfo / GPathsGraph / GCompoundPath quirks from engine-geometry
   (see that area's notes): getPathLength cx2, hit test needs an update
   cycle, addGraphLine refuses GPath.
-- Shapes inserted with editor.insertElements all get the "Rectangle
-  Default" `_sdf` (probably a question, not a bug).
+- engine-model saw shapes inserted with editor.insertElements all get the
+  "Rectangle Default" `_sdf`; engine-model/type-ids shows each kind gets
+  its own when they are inserted together. Check how the first scenario
+  inserted them before calling it a bug.
 
 - Flatten, undo, redo: saving then throws "Missing entry value for
   dictionary://..." (data loss risk).
@@ -165,7 +179,33 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
 - Knife cut of a rectangle along a right-click polyline gives one open path.
 - Alt-drag duplicate shows the plain select cursor instead of SelectPlus.
 
+- Electron, port 47823 taken: the friendly EADDRINUSE box never shows; the
+  ws server re-emits the error, Electron shows "A JavaScript error occurred
+  in the main process", no window opens and the single-instance lock stays
+  held (parity/scenarios/electron port-in-use). Clear bug: fix in the new
+  app with a BUGS-FIXED entry and a `.fixed` expectation.
+- Freehand opacity digits write the legacy `_bop`, which is neither painted
+  nor saved; getOutlineColor calls Math.min with one argument (always the
+  bottom-right pixel); layer `cls` colour has no visible effect; Send to
+  Back ignores AlwaysBack at the first slot; a blocked arrange falls
+  through to a 1 px nudge; insertElements drops annotations when a layer
+  is active; RTL reverses glyph order without mirroring; Delete is ignored
+  for annotations while the panel deletes NoDelete-locked ones;
+  view.toggle-paint-layers-visibility is never registered (Q-005).
+- A mask (`_sbl` m or !m) in a group without its own sub-canvas renders
+  nothing (ellipse-mask and star-inverse-mask groups empty; works with
+  opacity or an effect on the group). Recorded in corpus/masks.
+- A .gvdesign with cut-off JSON stays "loading" forever with no message.
+- Opening a document whose reference ids are already open gives it new
+  ids (text `#` refs, second page's annlst, `__ids` regenerate on load).
+- Symbol labels: the instance is never painted after duplicate in the
+  headless old app (editor-actions symbols/labels-on).
+
 ## Pending harness work
+
+- After all phase 2 fix agents finish: re-record every area once with the
+  final harness (normalize.ts changed after some areas recorded), then two
+  clean runs, prove-failing and all mutations.
 
 - normalize.ts gaps also seen by editor-actions (which works around them
   in lib.ts `stabilize`): anchor ids (third element of `pts` tuples), `sbl`
@@ -181,10 +221,8 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
   inside pattern strings (`"N#{...}"`, `"T#{...}"`) and in compact anchor
   arrays (`[..., "#", id]`); add annotation `time`/`mtime` to TIME_KEYS.
   engine-model works around these in-page today (helpers.ts `clean()`).
-- engine-model drops `_sdf` in document scenarios. It is deterministic in
-  the old app (load-order type ids), and the new app must write the same
-  numbers so its files match the old ones byte for byte. Add a scenario
-  that records `_sdf` per default style and per inserted node type.
+- engine-model drops `_sdf` in document scenarios; engine-model/type-ids
+  now records the numbers separately, and the new engine must match them.
 - platform/dropped.spec.ts: add `removedInNewApp` checks (404 for license,
   subscription, quota, paywall routes; WebSocket upgrade refused) when the
   new server exists.

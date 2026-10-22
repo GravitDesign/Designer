@@ -157,71 +157,191 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
       const G = H.G;
       const s = H.app.scene();
       const ed = H.app.editor();
+      const ws = s.getWorkspace();
+      const pg = H.page();
+      const config = H.app.view().getViewConfiguration();
       const out: Record<string, unknown> = {};
-      out.classes = {
-        page: [typeof G.GPage.InvalidationRequestEvent, typeof G.GPage.AfterThumbnailUpdate],
-        scene: [
-          typeof G.GScene.InvalidationRequestEvent,
-          typeof G.GScene.InvalidationFinishedEvent,
-          typeof G.GScene.RecordedTransactionStartedEvent,
-          typeof G.GScene.RecordedTransactionFinishedEvent,
-        ],
-        image: [typeof G.GImage.StatusEvent, typeof G.GImage.ConvertStatusEvent],
-        texture: typeof G.GTexturePattern.UpdateEvent,
-        font: [
-          typeof G.GFontManager.FontAvailableEvent,
-          typeof G.GFontManager.FontUnavailableEvent,
-          typeof G.GFontManager.ResolveFontEvent,
-          typeof G.GFontManager.QueryFontFamilyEvent,
-        ],
-        symbol: [typeof G.GSymbol.AfterThumbnailUpdate, typeof G.GSymbol.AfterSiblingUpdate],
-        event: [typeof G.GEvent, typeof G.GEventTarget],
+      /** Waits frame by frame until `done` holds (at most about 5 s). */
+      const until = async (what: string, done: () => boolean) => {
+        for (let i = 0; i < 300 && !done(); i++) await H.frame();
+        if (!done()) throw new Error(`timed out waiting for ${what}`);
       };
+      const url = (u: unknown) =>
+        String(u).replace(/^dictionary:\/\/(.*)$/, (_m, id: string) => `dictionary://${H.id(id)}`);
+      // Every event the scene, workspace, dictionary, page and texture fire
+      // during a step, in order. The view repaints asynchronously, so the
+      // InvalidationFinished events (one or more per repaint) are recorded
+      // as the set of distinct payloads seen.
+      let log: unknown[] = [];
+      let finished: string[] = [];
+      s.addEventListener(
+        G.GScene.InvalidationRequestEvent,
+        (e: { area: unknown; page: { getProperty(n: string): unknown } | null }) =>
+          log.push(["scene invalidation", H.r(e.area), e.page ? e.page.getProperty("name") : null]),
+      );
+      s.addEventListener(
+        G.GScene.InvalidationFinishedEvent,
+        (e: { scene: unknown; configuration: unknown; wasDirty: unknown }) => {
+          const key = JSON.stringify([e.scene === s, e.configuration === config, e.wasDirty]);
+          if (!finished.includes(key)) finished.push(key);
+        },
+      );
+      pg.addEventListener(G.GPage.InvalidationRequestEvent, (e: { area: unknown }) =>
+        log.push(["page invalidation", H.r(e.area)]),
+      );
+      let thumbs = 0;
+      pg.addEventListener(
+        G.GPage.AfterThumbnailUpdate,
+        (e: {
+          page: unknown;
+          // A GPaintCanvas holding the rendered thumbnail; its bitmap wraps a
+          // recording canvas, so the PNG comes from the real one behind it.
+          image: {
+            getWidth(): number;
+            getHeight(): number;
+            getBitmap(): { getHTMLElement(real: boolean): HTMLCanvasElement };
+          } | null;
+        }) => {
+          thumbs++;
+          log.push([
+            "thumbnail",
+            e.page === pg,
+            e.image
+              ? [
+                  e.image.getWidth(),
+                  e.image.getHeight(),
+                  e.image.getBitmap().getHTMLElement(true).toDataURL("image/png"),
+                ]
+              : null,
+          ]);
+        },
+      );
+      ws.addEventListener(
+        G.GWorkspace.ResolveUrlEvent,
+        (e: { url: unknown; scene: unknown; resolved: unknown }) =>
+          log.push(["resolve url", url(e.url), e.scene === s, typeof e.resolved]),
+      );
+      s.getDictionary().addEventListener(
+        G.GSceneDictionary.ResolvedMissingEntryEvent,
+        (e: { scene: unknown; entry: { getUrl(): string } }) =>
+          log.push(["missing entry", e.scene === s, url(e.entry.getUrl())]),
+      );
+      const step = async (name: string, fn: () => void, done: () => boolean = () => true) => {
+        log = [];
+        finished = [];
+        fn();
+        await until(name, () => done() && finished.length > 0);
+        out[name] = { events: log.slice(), finished: finished.map((f) => JSON.parse(f)) };
+      };
+      const r = H.rect(20, 20, 20, 20);
+      H.fill(r, H.rgb(255, 0, 0));
+      await step("insert", () => H.add(r));
+      await step("move", () => r.setProperty("trf", H.T(10, 0, 0, 10, 50, 50)));
+      await step("page background", () => pg.setProperty("bck", H.rgb(1, 2, 3)));
+      // Texture fills. In a new paint layer the image URL goes into the scene
+      // dictionary and is resolved through the workspace; set on an existing
+      // layer it is not. Either way the texture asks for a repaint once its
+      // image has loaded.
+      const cv = document.createElement("canvas");
+      cv.width = 2;
+      cv.height = 2;
+      const ctx = cv.getContext("2d") as CanvasRenderingContext2D;
+      ctx.fillStyle = "#00f";
+      ctx.fillRect(0, 0, 2, 1);
+      const texture = () => {
+        const tex = new G.GTexturePattern(cv.toDataURL("image/png"));
+        const state = { updates: 0 };
+        tex.addEventListener(G.GTexturePattern.UpdateEvent, (e: { texture: unknown }) => {
+          state.updates++;
+          log.push(["texture update", e.texture === tex]);
+        });
+        return { tex, state };
+      };
+      const t1 = texture();
+      await step(
+        "texture set on layer",
+        () => r.getPaintLayers().getFirstChild().setProperty("_pt", t1.tex),
+        () => t1.state.updates > 0,
+      );
+      const t2 = texture();
+      await step(
+        "texture in new layer",
+        () => H.fill(r, t2.tex),
+        () => t2.state.updates > 1,
+      );
+      // An image with a relative URL goes through the workspace too: first
+      // the URL itself, then its dictionary entry.
+      const img = new G.GImage();
+      await step(
+        "image url",
+        () => {
+          H.add(img);
+          img.setProperty("url", "assets/does-not-exist.png");
+        },
+        () => log.some((e) => (e as unknown[])[0] === "resolve url"),
+      );
+      out.imageUrlStatus = img.getStatus();
+      // Page thumbnails are rendered after a repaint while the view asks for
+      // them (the pages panel turns this on).
+      config.pageThumbnails = true;
+      try {
+        await step(
+          "thumbnail",
+          () => r.setProperty("trf", H.T(10, 0, 0, 10, 30, 30)),
+          () => thumbs > 0,
+        );
+      } finally {
+        config.pageThumbnails = false;
+      }
+      // Guides ask for invalidation of the area they cover.
+      const guides = ed.getGuides();
+      const guideEvents: unknown[] = [];
+      guides.addEventListener(guides.constructor.InvalidationRequestEvent, (e: { area: unknown }) =>
+        guideEvents.push(H.r(e.area)),
+      );
+      guides.invalidate(new G.GRect(1, 2, 3, 4));
+      guides.invalidate(new G.GRect(5, 5, 0, 0));
+      guides.invalidate();
+      out.guides = guideEvents;
       // Undo and redo run inside RecordedTransactionStarted/Finished, and
       // nodes are flagged as recordedTransaction while they replay.
-      const log: unknown[] = [];
-      const r = H.add(H.rect(0, 0, 10, 10));
-      const started = () => log.push(["started", r.recordedTransaction === true]);
-      const finished = () => log.push(["finished", r.recordedTransaction === true]);
+      const rec: unknown[] = [];
+      const r2 = H.add(H.rect(0, 0, 10, 10));
+      const started = (e: { scene: unknown }) =>
+        rec.push(["started", e.scene === s, r2.recordedTransaction === true]);
+      const ended = (e: { scene: unknown }) =>
+        rec.push(["finished", e.scene === s, r2.recordedTransaction === true]);
       s.addEventListener(G.GScene.RecordedTransactionStartedEvent, started);
-      s.addEventListener(G.GScene.RecordedTransactionFinishedEvent, finished);
+      s.addEventListener(G.GScene.RecordedTransactionFinishedEvent, ended);
       const seen = () =>
-        log.push([
+        rec.push([
           "change",
-          r.recordedTransaction === true,
-          H.attempt(() => r.isRecordedTransaction()),
+          r2.recordedTransaction === true,
+          H.attempt(() => r2.isRecordedTransaction()),
         ]);
       s.addEventListener(G.GNode.AfterPropertiesChangeEvent, seen);
       ed.beginTransaction();
-      r.setProperty("name", "a");
+      r2.setProperty("name", "a");
       ed.commitTransaction("Rename");
-      log.push(["--", "undo"]);
+      rec.push(["--", "undo"]);
       ed.undoState();
-      log.push(["--", "redo"]);
+      rec.push(["--", "redo"]);
       ed.redoState();
       s.removeEventListener(G.GScene.RecordedTransactionStartedEvent, started);
-      s.removeEventListener(G.GScene.RecordedTransactionFinishedEvent, finished);
+      s.removeEventListener(G.GScene.RecordedTransactionFinishedEvent, ended);
       s.removeEventListener(G.GNode.AfterPropertiesChangeEvent, seen);
-      out.recorded = log;
-      // A page asks for invalidation when its content changes.
-      const inv: unknown[] = [];
-      const pageInv = (e: { area: unknown }) => inv.push(["page", H.v(e.area)]);
-      H.page().addEventListener(G.GPage.InvalidationRequestEvent, pageInv);
-      const r2 = H.add(H.rect(100, 100, 20, 10));
-      r2.setProperty("trf", H.T(20, 0, 0, 10, 300, 300));
-      H.page().removeEventListener(G.GPage.InvalidationRequestEvent, pageInv);
-      out.pageInvalidation = inv;
-      // An image with a broken URL reports its status changes.
-      const img = new G.GImage();
+      out.recorded = rec;
+      // An image reports its status changes. Nothing in the engine resolves
+      // a relative URL, so it stays Resolving.
+      const other = new G.GImage();
       const statuses: unknown[] = [];
-      img.addEventListener(G.GImage.StatusEvent, (e: { status: unknown }) =>
+      other.addEventListener(G.GImage.StatusEvent, (e: { status: unknown }) =>
         statuses.push(e.status),
       );
-      H.add(img);
-      img.setProperty("url", "assets/does-not-exist.png");
-      for (let i = 0; i < 200 && img.getStatus() !== G.GImage.ImageStatus.Error; i++)
-        await H.sleep(25);
-      out.imageStatus = { events: statuses, final: img.getStatus() };
+      H.add(other);
+      other.setProperty("url", "assets/missing-too.png");
+      await until("image status", () => statuses.length > 0);
+      out.imageStatus = { events: statuses, final: other.getStatus() };
       return out;
     }),
   },

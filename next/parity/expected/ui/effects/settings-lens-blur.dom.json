@@ -5,6 +5,9 @@
    "properties-panel",
    "effects-properties-panel"
   ],
+  "attrs": {
+   "style": ""
+  },
   "children": [
    {
     "tag": "div",
@@ -197,6 +200,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 75%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -228,13 +234,19 @@
                           "cls": [
                            "g-input-slider-thumb",
                            "generic"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "left: 20%;"
+                          }
                          },
                          {
                           "tag": "div",
                           "cls": [
                            "g-input-slider-background"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "width: 20%;"
+                          }
                          }
                         ]
                        }
@@ -249,6 +261,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 40px;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -310,6 +325,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 75%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -326,7 +344,8 @@
                       "attrs": {
                        "data-property": "brightness",
                        "min": "-100",
-                       "max": "100"
+                       "max": "100",
+                       "style": "background: linear-gradient(90deg, rgb(0, 0, 0) 10%, rgb(51, 51, 51) 20%, rgb(102, 102, 102) 30%, rgb(153, 153, 153) 40%, rgb(204, 204, 204) 50%, rgb(255, 255, 255) 60%, rgb(255, 255, 255) 70%, rgb(255, 255, 255) 80%, rgb(255, 255, 255) 90%, rgb(255, 255, 255) 100%, rgb(255, 255, 255) 110%);"
                       },
                       "children": [
                        {
@@ -341,7 +360,10 @@
                           "cls": [
                            "g-input-slider-thumb",
                            "custom"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "left: 50%;"
+                          }
                          }
                         ]
                        }
@@ -356,6 +378,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 40px;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -414,6 +439,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 75%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -445,13 +473,19 @@
                           "cls": [
                            "g-input-slider-thumb",
                            "generic"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "left: 50%;"
+                          }
                          },
                          {
                           "tag": "div",
                           "cls": [
                            "g-input-slider-background"
-                          ]
+                          ],
+                          "attrs": {
+                           "style": "width: 50%;"
+                          }
                          }
                         ]
                        }
@@ -466,6 +500,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 40px;"
+                  },
                   "children": [
                    {
                     "tag": "div",

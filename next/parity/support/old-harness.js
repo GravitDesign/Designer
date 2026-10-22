@@ -22,6 +22,20 @@
   const designer = window.gDesigner;
   const doc = () => designer.getActiveDocument();
   const toolName = (tool) => String(tool).replace(/^\[Object (.*)\]$/, "$1");
+  const readStorage = () => {
+    const out = {};
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      out[key] = localStorage.getItem(key);
+    }
+    return out;
+  };
+  // State right after boot, which resetState() returns to.
+  const boot = {
+    storage: readStorage(),
+    settings: JSON.parse(JSON.stringify(designer._settings || {})),
+    tool: toolName(designer.getToolManager().getActiveTool()),
+  };
   const app = {
     kind: "old",
     designer,
@@ -33,6 +47,47 @@
     newInfiniteDocument() {
       designer.newInfiniteDocument();
       designer.closeNewDocumentDialog();
+    },
+    /**
+     * Returns a shared page to the state right after boot, then opens one
+     * empty document: closes every document without prompting, empties
+     * the internal clipboard, restores the settings and localStorage and
+     * selects the boot tool. Returns what still differs from boot (empty
+     * when the reset worked); the harness then replaces the page.
+     */
+    resetState() {
+      for (const d of designer.getDocuments().slice()) designer.removeDocument(d, null, true);
+      designer._clipboardMimeTypes = {};
+      // The live settings are designer._settings; getSetting falls back to
+      // the caller's default when a key is missing, so keys that weren't
+      // there at boot are deleted, not set to undefined.
+      const settings = designer._settings;
+      for (const key of Object.keys(settings)) {
+        if (!(key in boot.settings)) Reflect.deleteProperty(settings, key);
+      }
+      for (const [key, value] of Object.entries(boot.settings)) {
+        if (JSON.stringify(settings[key]) !== JSON.stringify(value))
+          designer.setSetting(key, value);
+      }
+      const storage = readStorage();
+      for (const key of Object.keys(storage)) {
+        if (!(key in boot.storage)) localStorage.removeItem(key);
+      }
+      for (const [key, value] of Object.entries(boot.storage)) {
+        if (storage[key] !== value) localStorage.setItem(key, value);
+      }
+      app.activateTool(boot.tool);
+      app.newInfiniteDocument();
+      const left = [];
+      const after = readStorage();
+      for (const key of new Set([...Object.keys(after), ...Object.keys(boot.storage)])) {
+        if (after[key] !== boot.storage[key]) left.push(`localStorage ${key}`);
+      }
+      if (app.activeTool() !== boot.tool) left.push(`tool ${app.activeTool()}`);
+      if (designer.getDocuments().length !== 1) {
+        left.push(`${designer.getDocuments().length} documents`);
+      }
+      return left;
     },
     serialize(options) {
       return G.GNode.serialize(doc().getScene(), options);

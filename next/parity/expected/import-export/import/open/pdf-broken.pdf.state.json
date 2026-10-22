@@ -2,7 +2,7 @@
  "chooser": {
   "multiple": true,
   "accept": ".gvdesign,.png,.heic,.jpg,.jpeg,.svg,.pdf,.eps",
-  "outcome": "timeout"
+  "outcome": "done"
  },
  "dialogs": [
   "OK"
@@ -16,8 +16,8 @@
    "Untitled-2"
   ],
   "statuses": [
-   1,
-   10
+   "Ready",
+   "Loading"
   ],
   "active": "Untitled-2",
   "pages": [

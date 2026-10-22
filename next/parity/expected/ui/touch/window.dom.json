@@ -2,6 +2,9 @@
  {
   "tag": "div",
   "id": "toolbar",
+  "attrs": {
+   "style": "left: 0px; top: 0px; right: 0px;"
+  },
   "children": [
    {
     "tag": "div",
@@ -662,6 +665,9 @@
        "window-button",
        "g-touch-only"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "button",
@@ -762,6 +768,9 @@
         "cls": [
          "g-collaborators"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
@@ -771,6 +780,9 @@
          "g-highlight-button",
          "highlighted"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        }
       ]
@@ -827,12 +839,18 @@
           "cls": [
            "columns"
           ],
+          "attrs": {
+           "style": "height: auto;"
+          },
           "children": [
            {
             "tag": "div",
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 86px;"
+            },
             "children": [
              {
               "tag": "div",
@@ -914,6 +932,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 68px;"
+            },
             "children": [
              {
               "tag": "div",
@@ -1050,6 +1071,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 62px;"
+            },
             "children": [
              {
               "tag": "div",
@@ -1145,12 +1169,18 @@
           "cls": [
            "columns"
           ],
+          "attrs": {
+           "style": "height: auto;"
+          },
           "children": [
            {
             "tag": "div",
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 86px;"
+            },
             "children": [
              {
               "tag": "div",
@@ -1189,6 +1219,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 114px;"
+            },
             "children": [
              {
               "tag": "div",
@@ -1313,6 +1346,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 62px;"
+            },
             "children": [
              {
               "tag": "div",
@@ -1431,6 +1467,9 @@
           "cls": [
            "columns"
           ],
+          "attrs": {
+           "style": "height: auto;"
+          },
           "children": [
            {
             "tag": "div",
@@ -1528,6 +1567,9 @@
           "cls": [
            "columns"
           ],
+          "attrs": {
+           "style": "height: auto;"
+          },
           "children": [
            {
             "tag": "div",

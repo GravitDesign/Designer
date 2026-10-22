@@ -2,12 +2,18 @@
  {
   "tag": "div",
   "id": "left-sidebars",
+  "attrs": {
+   "style": "width: 250px; top: 73px; height: 927px;"
+  },
   "children": [
    {
     "tag": "div",
     "cls": [
      "sidebar-selector"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
@@ -30,6 +36,9 @@
         "cls": [
          "g-badge"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        }
       ]
@@ -53,6 +62,9 @@
         "cls": [
          "g-badge"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        }
       ]
@@ -76,6 +88,9 @@
         "cls": [
          "g-badge"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        }
       ]
@@ -89,6 +104,9 @@
      "sidebar-outline",
      "multiple"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
@@ -128,7 +146,8 @@
          "g-switch"
         ],
         "attrs": {
-         "data-title": "Toggle Single / Multipage Mode"
+         "data-title": "Toggle Single / Multipage Mode",
+         "style": "margin-right: 5px;"
         },
         "children": [
          {
@@ -153,6 +172,9 @@
         "cls": [
          "setting-menu-options"
         ],
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
@@ -199,12 +221,18 @@
          "g-virtual-list",
          "g-virtual-tree"
         ],
+        "attrs": {
+         "style": "overflow: auto; position: relative;"
+        },
         "children": [
          {
           "tag": "div",
           "cls": [
            "vscroller"
-          ]
+          ],
+          "attrs": {
+           "style": "height: 41px; border-right-width: medium; border-right-style: none; border-right-color: currentcolor;"
+          }
          },
          {
           "tag": "div",
@@ -214,7 +242,8 @@
           ],
           "id": "rowId",
           "attrs": {
-           "draggable": "false"
+           "draggable": "false",
+           "style": "top: 0px; padding-left: 15px; width: 249px;"
           },
           "children": [
            {
@@ -268,7 +297,10 @@
           ]
          },
          {
-          "tag": "div"
+          "tag": "div",
+          "attrs": {
+           "style": "position: absolute; height: 7px; top: 34px; width: 249px;"
+          }
          }
         ]
        }
@@ -295,6 +327,9 @@
       "children": [
        {
         "tag": "label",
+        "attrs": {
+         "style": "flex-grow: 1;"
+        },
         "text": "Layers"
        },
        {
@@ -341,12 +376,18 @@
          "g-virtual-list",
          "g-virtual-tree"
         ],
+        "attrs": {
+         "style": "overflow: auto; position: relative;"
+        },
         "children": [
          {
           "tag": "div",
           "cls": [
            "vscroller"
-          ]
+          ],
+          "attrs": {
+           "style": "height: 109px; border-right-width: medium; border-right-style: none; border-right-color: currentcolor;"
+          }
          },
          {
           "tag": "div",
@@ -355,7 +396,8 @@
           ],
           "id": "rowId",
           "attrs": {
-           "draggable": "false"
+           "draggable": "false",
+           "style": "top: 0px; padding-left: 15px; width: 249px;"
           },
           "children": [
            {
@@ -373,7 +415,10 @@
               "cls": [
                "layer-icon",
                "gravit-icon-textbox"
-              ]
+              ],
+              "attrs": {
+               "style": "opacity: initial;"
+              }
              },
              {
               "tag": "span",
@@ -416,7 +461,8 @@
           ],
           "id": "rowId",
           "attrs": {
-           "draggable": "false"
+           "draggable": "false",
+           "style": "top: 34px; padding-left: 15px; width: 249px;"
           },
           "children": [
            {
@@ -435,7 +481,10 @@
               "cls": [
                "layer-icon",
                "gravit-icon-rectangle"
-              ]
+              ],
+              "attrs": {
+               "style": "opacity: initial;"
+              }
              },
              {
               "tag": "span",
@@ -477,7 +526,8 @@
           ],
           "id": "rowId",
           "attrs": {
-           "draggable": "false"
+           "draggable": "false",
+           "style": "top: 68px; padding-left: 15px; width: 249px;"
           },
           "children": [
            {
@@ -503,7 +553,10 @@
               "cls": [
                "layer-icon",
                "gravit-icon-group"
-              ]
+              ],
+              "attrs": {
+               "style": "opacity: initial;"
+              }
              },
              {
               "tag": "span",
@@ -539,7 +592,10 @@
           ]
          },
          {
-          "tag": "div"
+          "tag": "div",
+          "attrs": {
+           "style": "position: absolute; height: 7px; top: 102px; width: 249px;"
+          }
          }
         ]
        }
@@ -585,7 +641,8 @@
         ],
         "id": "btn-export",
         "attrs": {
-         "data-title": "Export..."
+         "data-title": "Export...",
+         "style": "display: none;"
         },
         "hidden": true
        },
@@ -624,7 +681,10 @@
       "cls": [
        "properties-panel",
        "export-panel"
-      ]
+      ],
+      "attrs": {
+       "style": "margin: 0px;"
+      }
      }
     ]
    },
@@ -635,6 +695,9 @@
      "sidebar-library",
      "multiple"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -644,6 +707,9 @@
      "sidebar-symbols",
      "multiple"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    }
   ]

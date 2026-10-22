@@ -5,12 +5,18 @@
    "g-overlay",
    "no-padding"
   ],
+  "attrs": {
+   "style": "position: absolute; top: 442px; left: 1282.23px;"
+  },
   "children": [
    {
     "tag": "div",
     "cls": [
      "g-style-editor"
     ],
+    "attrs": {
+     "style": "width: 250px;"
+    },
     "children": [
      {
       "tag": "div",
@@ -33,6 +39,9 @@
          },
          {
           "tag": "span",
+          "attrs": {
+           "style": "align-self: center; width: 165px; margin-left: 10px;"
+          },
           "text": "No Shared Style"
          }
         ]
@@ -61,11 +70,15 @@
          {
           "tag": "img",
           "attrs": {
-           "src": "data:(338 chars)"
+           "src": "data:(338 chars)",
+           "style": "align-self: center;"
           }
          },
          {
           "tag": "span",
+          "attrs": {
+           "style": "align-self: center; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; width: 200px;"
+          },
           "text": "New Style"
          }
         ]
@@ -135,23 +148,33 @@
     "cls": [
      "style-selector-container"
     ],
+    "attrs": {
+     "style": "display: flex;"
+    },
     "children": [
      {
       "tag": "div",
       "cls": [
        "style-selector-inner-wrapper"
       ],
+      "attrs": {
+       "style": "display: flex; width: 100%; overflow: hidden;"
+      },
       "children": [
        {
         "tag": "div",
         "cls": [
          "g-styles-preview"
         ],
+        "attrs": {
+         "style": "margin-right: 5px; align-self: center;"
+        },
         "children": [
          {
           "tag": "img",
           "attrs": {
-           "src": "data:(338 chars)"
+           "src": "data:(338 chars)",
+           "style": "height: 20px; width: 20px; border-radius: 3px;"
           }
          }
         ]
@@ -163,6 +186,9 @@
          "g-styles-field-container",
          "pro"
         ],
+        "attrs": {
+         "style": "overflow: hidden; margin-right: 5px;"
+        },
         "children": [
          {
           "tag": "span",
@@ -171,7 +197,8 @@
           ],
           "attrs": {
            "data-property": "_styles",
-           "type": "text"
+           "type": "text",
+           "style": "width: 95%; align-self: center; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"
           },
           "text": "New Style"
          }

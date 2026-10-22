@@ -5,6 +5,9 @@
    "g-overlay",
    "no-padding"
   ],
+  "attrs": {
+   "style": "position: absolute; top: 518px; left: 1315px;"
+  },
   "children": [
    {
     "tag": "div",
@@ -17,6 +20,9 @@
       "cls": [
        "toolbar"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "select",
@@ -148,6 +154,9 @@
       "cls": [
        "gradient-editor"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -155,6 +164,9 @@
       "cls": [
        "pattern-editor"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -162,6 +174,9 @@
       "cls": [
        "noise-editor"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -169,6 +184,9 @@
       "cls": [
        "color-editor"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -176,6 +194,9 @@
       "cls": [
        "gradient-actions"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -183,6 +204,9 @@
       "cls": [
        "palettes"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      }
     ]

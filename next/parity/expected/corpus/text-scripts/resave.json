@@ -1,10 +1,737 @@
 {
- "gzipMagic": "1f8b",
+ "gzip": {
+  "magic": "1f8b",
+  "method": 8,
+  "flags": 0,
+  "mtime": 0,
+  "xfl": 2,
+  "os": 3
+ },
  "firstKey": "{\"_preview\":",
  "preview": {
   "mime": "image/jpeg",
   "width": 390,
   "height": 600
  },
- "restEqualsSerializedScene": true
+ "restEqualsSerializedScene": true,
+ "document": {
+  "@": "scene",
+  "@id": "L036bv",
+  "$": [
+   {
+    "@": "page",
+    "@id": "4K8gWm",
+    "$": [
+     {
+      "@": "annlst",
+      "@id": "mv57yV",
+      "pgid": "4K8gWm",
+      "aid": "mv57yV"
+     },
+     {
+      "@": "text",
+      "@id": "9UKez2",
+      "#": "id1",
+      "ct": [
+       {
+        "text": "مرحبا بالعالم",
+        "fontWeight": 400,
+        "fontStyle": "normal",
+        "underline": false,
+        "strikeout": false,
+        "fontColor": {
+         "_value": [
+          0,
+          0,
+          0
+         ]
+        },
+        "fontFamily": "Noto Sans Arabic",
+        "fontSize": 32,
+        "align": "left",
+        "script": "normal",
+        "transformation": null,
+        "charSpacing": null,
+        "wordSpacing": null,
+        "lineSpacing": 1,
+        "paragraphSpacing": "0",
+        "paragraphIndent": 0,
+        "ligatures": false,
+        "langScript": "auto",
+        "variant": null,
+        "fractions": false,
+        "listDepth": 0,
+        "listMarker": null,
+        "stylisticSet": null,
+        "localizedForm": null
+       }
+      ],
+      "content": "[{\"text\":\"مرحبا بالعالم\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Noto Sans Arabic\",\"fontSize\":32,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+      "w": 142,
+      "h": 27.236,
+      "trf": [],
+      "_sdf": 133,
+      "_layId": "E8efEy3MSridtglkHe0Fo3r6imIFSKdE",
+      "_effId": "NvSSJ8azu2qun7G3uiHhy87y9abbpUYh",
+      "_fc": "C#[0,0,0]",
+      "_tff": "Noto Sans Arabic"
+     },
+     {
+      "@": "text",
+      "@id": "eisa1Q",
+      "#": "id2",
+      "ct": [
+       {
+        "text": "שלום עולם",
+        "fontWeight": 400,
+        "fontStyle": "normal",
+        "underline": false,
+        "strikeout": false,
+        "fontColor": {
+         "_value": [
+          0,
+          0,
+          0
+         ]
+        },
+        "fontFamily": "Noto Sans Hebrew",
+        "fontSize": 32,
+        "align": "left",
+        "script": "normal",
+        "transformation": null,
+        "charSpacing": null,
+        "wordSpacing": null,
+        "lineSpacing": 1,
+        "paragraphSpacing": "0",
+        "paragraphIndent": 0,
+        "ligatures": false,
+        "langScript": "auto",
+        "variant": null,
+        "fractions": false,
+        "listDepth": 0,
+        "listMarker": null,
+        "stylisticSet": null,
+        "localizedForm": null
+       }
+      ],
+      "content": "[{\"text\":\"שלום עולם\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Noto Sans Hebrew\",\"fontSize\":32,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+      "w": 142,
+      "h": 27.236,
+      "trf": [
+       1,
+       0,
+       0,
+       1,
+       0,
+       70
+      ],
+      "_sdf": 133,
+      "_layId": "xMkqxxjYGG0931vTXuQw6EF9MIZG6zUX",
+      "_effId": "nH9oF7Ord7SJAXRzEioTioj8FYUVuhgh",
+      "_fc": "C#[0,0,0]",
+      "_tff": "Noto Sans Hebrew"
+     },
+     {
+      "@": "text",
+      "@id": "MzdaMh",
+      "#": "id3",
+      "ct": [
+       {
+        "text": "Hello ",
+        "fontColor": {
+         "_value": [
+          0,
+          0,
+          0
+         ]
+        },
+        "fontFamily": "Open Sans",
+        "fontSize": 24
+       },
+       {
+        "text": "مرحبا",
+        "fontColor": {
+         "_value": [
+          0,
+          0,
+          0
+         ]
+        },
+        "fontFamily": "Noto Sans Arabic",
+        "fontSize": 24
+       },
+       {
+        "text": " world",
+        "fontColor": {
+         "_value": [
+          0,
+          0,
+          0
+         ]
+        },
+        "fontFamily": "Open Sans",
+        "fontSize": 24
+       }
+      ],
+      "content": "[{\"text\":\"Hello \",\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":24},{\"text\":\"مرحبا\",\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Noto Sans Arabic\",\"fontSize\":24},{\"text\":\" world\",\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Open Sans\",\"fontSize\":24}]",
+      "w": 142,
+      "h": 27.236,
+      "trf": [
+       1,
+       0,
+       0,
+       1,
+       0,
+       140
+      ],
+      "_sdf": 133,
+      "_layId": "pCTPuQ3bTVtX24povePxnOmFHxhymolA",
+      "_effId": "Sij3bNpYDv1JgzskdRPjWSnVGsPLhkYj",
+      "_fc": "C#[0,0,0]"
+     },
+     {
+      "@": "text",
+      "@id": "ENvO5m",
+      "#": "id4",
+      "ct": [
+       {
+        "text": "你好世界",
+        "fontWeight": 400,
+        "fontStyle": "normal",
+        "underline": false,
+        "strikeout": false,
+        "fontColor": {
+         "_value": [
+          0,
+          0,
+          0
+         ]
+        },
+        "fontFamily": "Noto Sans CJK SC",
+        "fontSize": 32,
+        "align": "left",
+        "script": "normal",
+        "transformation": null,
+        "charSpacing": null,
+        "wordSpacing": null,
+        "lineSpacing": 1,
+        "paragraphSpacing": "0",
+        "paragraphIndent": 0,
+        "ligatures": false,
+        "langScript": "auto",
+        "variant": null,
+        "fractions": false,
+        "listDepth": 0,
+        "listMarker": null,
+        "stylisticSet": null,
+        "localizedForm": null
+       }
+      ],
+      "content": "[{\"text\":\"你好世界\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Noto Sans CJK SC\",\"fontSize\":32,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+      "w": 142,
+      "h": 27.236,
+      "trf": [
+       1,
+       0,
+       0,
+       1,
+       0,
+       200
+      ],
+      "_sdf": 133,
+      "_layId": "oLo6sttgIZBTZkigd7L0FH1l0DLiNjYL",
+      "_effId": "mzJSiL5HE0Mo6AXoaP9nlBGiZWwhVoLb",
+      "_fc": "C#[0,0,0]",
+      "_tff": "Noto Sans CJK SC"
+     },
+     {
+      "@": "text",
+      "@id": "pkT23k",
+      "#": "id5",
+      "ct": [
+       {
+        "text": "مرحبا بالعالم سطر ثان",
+        "fontWeight": 400,
+        "fontStyle": "normal",
+        "underline": false,
+        "strikeout": false,
+        "fontColor": {
+         "_value": [
+          0,
+          0,
+          0
+         ]
+        },
+        "fontFamily": "Noto Sans Arabic",
+        "fontSize": 20,
+        "align": "left",
+        "script": "normal",
+        "transformation": null,
+        "charSpacing": null,
+        "wordSpacing": null,
+        "lineSpacing": 1,
+        "paragraphSpacing": "0",
+        "paragraphIndent": 0,
+        "ligatures": false,
+        "langScript": "auto",
+        "variant": null,
+        "fractions": false,
+        "listDepth": 0,
+        "listMarker": null,
+        "stylisticSet": null,
+        "localizedForm": null
+       }
+      ],
+      "aw": false,
+      "content": "[{\"text\":\"مرحبا بالعالم سطر ثان\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"C#[0,0,0]\",\"fontFamily\":\"Noto Sans Arabic\",\"fontSize\":20,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+      "w": 200,
+      "h": 27.236,
+      "dir": "rtl",
+      "trf": [
+       1,
+       0,
+       0,
+       1,
+       0,
+       270
+      ],
+      "_sdf": 133,
+      "_layId": "JYEe8VvsSDpYzmoSivIyCr0IkXSIPodP",
+      "_effId": "c06XxgWOK1TiYEcNqBwuW4IO7DoljOtu",
+      "_fc": "C#[0,0,0]",
+      "_tff": "Noto Sans Arabic"
+     }
+    ],
+    "#": "l9ZbUB9SgZPSsu548xw7H53nzKf1YAWx",
+    "w": 0,
+    "h": 0,
+    "off": [],
+    "bck": "C#[255,255,255]",
+    "name": "Page 1"
+   },
+   {
+    "@": "styles",
+    "@id": "70BcF5",
+    "$": [
+     {
+      "@": "style",
+      "@id": "HnqD3q",
+      "#": "cX6vNiQM0qrHUWcGRjXcimTvaeluk0wd",
+      "name": "Shape Default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 94,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "8zV19o",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "CSqEuh",
+         "_pt": "C#[255,255,255]"
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "9HCsPf",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "Qwjkzw3ihFw9ofZFxUmE9EDMSS9VHUok"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "q74m2k",
+      "#": "ETIso68ZNHtzUWrveilhRoqqMKDHa7sw",
+      "name": "Text Default",
+      "ps": [
+       "S",
+       "BL",
+       "FL",
+       "T",
+       "P"
+      ],
+      "_sdf": 133,
+      "_layId": "h4EzIqA3z7OFGJLwJNOqA5cM04nPnYZM",
+      "_fc": "C#[0,0,0]"
+     },
+     {
+      "@": "style",
+      "@id": "4dyjpA",
+      "#": "w371EihKsqaO3oOisznTAmXICfdEhmDj",
+      "name": "Rectangle Default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 107,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "cr4V7Z",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "OdCv7A",
+         "_pt": "C#[235,235,235]"
+        }
+       ],
+       "&": "qIBMcfjAnEtxCIEYEnUOdqJIFi4avatn"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "eqhxbl",
+      "#": "UIjISz6n0lL2hamPCF91KMmIky0L1md1",
+      "name": "Ellipse Default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 104,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "tEgD7F",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "DrWoNU",
+         "_pt": "C#[235,235,235]"
+        }
+       ],
+       "&": "al1Fi18KAsmZGpSa51l9GKB1gNE0wnjW"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "k4AUhf",
+      "#": "IrKmFWRqqGrgSoIh2v0ET5qscWR9x0cd",
+      "name": "Polygon Default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 102,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "jl7rDi",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "6jCvWc",
+         "_pt": "C#[235,235,235]"
+        }
+       ],
+       "&": "Dy4D0GcJckoVdnJ9JRMzv7spPgI8JwCO"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "xn0Gjl",
+      "#": "fn4vy7MGqyEpHZFzIT8Hbf08qWBMhDB0",
+      "name": "Path Default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 103,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "G5mPzB",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "UfjvUA",
+         "_pt": "C#[255,255,255]",
+         "_vs": false
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "iDFaTm",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "xD8QLFReoABipR0dVmIPnwCVcausaMRr"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "keiQX2",
+      "#": "PwffoChuViRzStmyDC7Pa8YFTYsU32Av",
+      "name": "Path graph default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 142,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "29LEcL",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "IT6Lpd",
+         "_pt": "C#[255,255,255]",
+         "_vs": false
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "KFqVgi",
+         "_blc": "round",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "fzAmbGrmcJ3FZDmlXD4yyWMqLxyhgi4d"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "ojXhwB",
+      "#": "1UEUOTCygSrAYfkM7Ovn13JX8okkdSf1",
+      "name": "Connector default",
+      "ps": [
+       "S",
+       "BL"
+      ],
+      "_sdf": 146,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "w6lCuK",
+       "$": [
+        {
+         "@": "borderPaintLayer",
+         "@id": "WNdQ5n",
+         "_blc": "butt",
+         "_bhm": "A",
+         "_btm": "A",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "GWfcaoHhdqhu3xPPAyWkbukNuZjdV35Z"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "DeMhIh",
+      "#": "4xee9aILVA6lm7qE3tHCA7AqdytJZofZ",
+      "name": "Text annotation default",
+      "ps": [
+       "S",
+       "T"
+      ],
+      "_sdf": 148,
+      "_sbl": "multiply",
+      "_fc": "C#[0,0,0]"
+     },
+     {
+      "@": "style",
+      "@id": "PtOfGI",
+      "#": "qLrM8SfdeSCZQxat6jcpc8AUXmfzJicO",
+      "name": "Rectangle annotation default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 150,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "GGHvOm",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "Gf8lvv",
+         "_pt": "C#[230,2,2]",
+         "_op": 0,
+         "_bl": "multiply"
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "Tt8pwK",
+         "_bw": 2,
+         "_pt": "C#[230,2,2]"
+        }
+       ],
+       "&": "ZVGx1OTFh07TSSx8ERGTw0spd3ktG3xC"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "tWRKFN",
+      "#": "FOQ1HqPeyAiqqjSCy7kiRF9w3Qvst9kl",
+      "name": "Ellipse annotation default",
+      "ps": [
+       "S",
+       "BL",
+       "FL"
+      ],
+      "_sdf": 151,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "GIL9Z7",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "t64u3j",
+         "_pt": "C#[230,2,2]",
+         "_op": 0,
+         "_bl": "multiply"
+        },
+        {
+         "@": "borderPaintLayer",
+         "@id": "tnQXe3",
+         "_bw": 2,
+         "_pt": "C#[230,2,2]"
+        }
+       ],
+       "&": "CbHnBi5P2IEjgV9KjDyEdbF2nKa5MwCF"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "uUuXo5",
+      "#": "5IbPGSzML94v7TDrZs3bxOWcytMGJ0hd",
+      "name": "Pencil annotation default",
+      "ps": [
+       "S",
+       "BL"
+      ],
+      "_sdf": 155,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "kKu2Ky",
+       "$": [
+        {
+         "@": "borderPaintLayer",
+         "@id": "cCcCvm",
+         "_bw": 2,
+         "_pt": "C#[230,2,2]"
+        }
+       ],
+       "&": "AWPg2hmo7fAo0fMheOiumTsdDvAKuRuE"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "Hh3joK",
+      "#": "i4OYNrtPtfKlGxhpWza7ncrsOrygeONF",
+      "name": "Highlighter annotation default",
+      "ps": [
+       "S",
+       "BL"
+      ],
+      "_sdf": 152,
+      "_stop": 0.5,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "DfBLem",
+       "$": [
+        {
+         "@": "borderPaintLayer",
+         "@id": "2QRegz",
+         "_bw": 12,
+         "_pt": "C#[248,206,28]"
+        }
+       ],
+       "&": "3DZCN8eLDfeCq4DYwjmF8FM5zvsrPWZH"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "K5YC1o",
+      "#": "oqKwz84gBvLdgGvkc1J75oIbwNwL6tai",
+      "name": "Arrow annotation default",
+      "ps": [
+       "S",
+       "BL"
+      ],
+      "_sdf": 154,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "exElny",
+       "$": [
+        {
+         "@": "borderPaintLayer",
+         "@id": "ehO96m",
+         "_bw": 2,
+         "_blc": "butt",
+         "_bhmi": 0,
+         "_btm": "A",
+         "_btmi": 0,
+         "_pt": "C#[230,2,2]"
+        }
+       ],
+       "&": "2bmrzzbTlcUn4nqb4EK2WItWrcFdYmNH"
+      }
+     },
+     {
+      "@": "style",
+      "@id": "kojOEq",
+      "#": "AHrddUUaY8tpLBnEs24lvMmMQL2HcPPB",
+      "name": "Comment annotation default",
+      "ps": [
+       "S",
+       "BL",
+       "FL",
+       "E"
+      ],
+      "_sdf": 153,
+      "_layers": {
+       "@": "paintLayers",
+       "@id": "rj5CAW",
+       "$": [
+        {
+         "@": "fillPaintLayer",
+         "@id": "Qspcxm",
+         "_pt": "C#[0,0,0]"
+        }
+       ],
+       "&": "e1tiVGTTXjuvvvOB44EoBncHGbnTzV9g"
+      },
+      "_effId": "3ZA3HGKI3hKi8fxlTl335ardhfYweuiD"
+     }
+    ]
+   }
+  ],
+  "lmd": "<time>",
+  "cfs": null,
+  "__ids": [
+   "id6",
+   "id7",
+   "id8",
+   "id9",
+   "id10",
+   "id11",
+   "id12",
+   "id13",
+   "id14",
+   "id15",
+   "id16",
+   "id17",
+   "id18",
+   "id19",
+   "id20",
+   "id21",
+   "id22",
+   "id23",
+   "id24",
+   "id25",
+   "id26",
+   "id27",
+   "id28"
+  ],
+  "dictionary": {
+   "entries": []
+  },
+  "symbolDictionary": {
+   "entries": []
+  }
+ }
 }

@@ -1,4 +1,5 @@
 import type { ToolCase } from "./case.ts";
+import type { Fixture } from "./fixture.ts";
 import { THREE } from "./cases-pointer.ts";
 import {
   action,
@@ -9,8 +10,11 @@ import {
   keyUp,
   move,
   moveView,
+  pauseClock,
   press,
   probe,
+  probeToolChanges,
+  runClock,
   shot,
   shotView,
   type,
@@ -26,6 +30,15 @@ const chord = (mods: readonly string[], key: string): Step[] => [
   press(key),
   ...[...mods].reverse().map(keyUp),
 ];
+
+/** A shadowed rectangle, an image and a text. */
+const EFFECTS: Fixture = {
+  shapes: [
+    { type: "rect", x: 100, y: 100, w: 150, h: 100, fill: [229, 57, 53], shadow: true },
+    { type: "image", x: 300, y: 100, w: 256, h: 192 },
+    { type: "text", x: 100, y: 300, text: "Quick render" },
+  ],
+};
 
 /** The canvas area between the panels, in view pixels. */
 const CANVAS: [number, number, number, number] = [260, 80, 1030, 900];
@@ -54,9 +67,10 @@ export const viewCases: ToolCase[] = [
     steps: [
       move(600, 500),
       tool("GRectangleTool"),
+      probeToolChanges("rectangle"),
       keyDown("Space"),
       wait(50),
-      probe("space-held"),
+      probeToolChanges("space-held"),
       down(600, 500),
       move(580, 480),
       move(550, 450),
@@ -64,7 +78,7 @@ export const viewCases: ToolCase[] = [
       up(),
       keyUp("Space"),
       wait(50),
-      probe("released"),
+      probeToolChanges("released"),
     ],
   },
   {
@@ -253,16 +267,34 @@ export const viewCases: ToolCase[] = [
       keyUp("Control"),
     ],
   },
+  // After a wheel zoom the view renders quickly (no effects, so no drop
+  // shadow) and re-renders fully 750 ms later. The fake clock is paused
+  // before the wheel, so each shot sees exactly one phase.
   {
-    id: "view/zoom-render-after-wheel",
+    id: "view/zoom-quick-render",
     covers: ["EDT-VIEW-006", "EDT-VIEW-007"],
-    fixture: THREE,
+    fixture: EFFECTS,
     steps: [
       move(200, 160),
+      pauseClock(),
       keyDown("Control"),
       wheel(0, -100),
       keyUp("Control"),
-      wait(900),
+      runClock(200),
+      shotView(...CANVAS),
+    ],
+  },
+  {
+    id: "view/zoom-render-after-wheel",
+    covers: ["EDT-VIEW-006", "EDT-VIEW-007"],
+    fixture: EFFECTS,
+    steps: [
+      move(200, 160),
+      pauseClock(),
+      keyDown("Control"),
+      wheel(0, -100),
+      keyUp("Control"),
+      runClock(1000),
       shotView(...CANVAS),
     ],
   },
@@ -297,8 +329,12 @@ export const viewCases: ToolCase[] = [
   {
     id: "view/fit-selection-and-layer",
     covers: ["EDT-VIEW-015", "EDT-VIEW-016"],
-    fixture: { ...THREE, select: [2] },
+    // The three shapes sit in a layer; clicking the ellipse selects it and
+    // makes that layer active, so fitting the layer must show all three.
+    fixture: { shapes: [{ type: "layer", children: THREE.shapes ?? [] }] },
     steps: [
+      ...click(210, 360),
+      probe("ellipse-selected"),
       action("view.zoom.fit-selection"),
       probe("selection"),
       action("view.zoom.fit-current-layer"),
@@ -346,12 +382,7 @@ export const viewCases: ToolCase[] = [
     id: "view/show-grid",
     covers: ["EDT-VIEW-021", "EDT-GUIDE-013", "EDT-GUIDE-014"],
     fixture: THREE,
-    steps: [
-      move(600, 500),
-      ...chord(["Control", "Alt"], "g"),
-      probe("grid-on"),
-      shotView(450, 250, 300, 200),
-    ],
+    steps: [move(600, 500), ...chord(["Control", "Alt"], "g"), shotView(450, 250, 300, 200)],
   },
   {
     id: "view/show-grid-document",
@@ -360,9 +391,9 @@ export const viewCases: ToolCase[] = [
     steps: [
       move(600, 500),
       ...chord(["Control", "Alt"], "g"),
-      probe("on"),
+      probe("on", true),
       ...chord(["Control", "Alt"], "g"),
-      probe("off"),
+      probe("off", true),
     ],
   },
   {
@@ -401,15 +432,27 @@ export const viewCases: ToolCase[] = [
     ],
   },
   {
+    // F and Shift+B do nothing in the old app: the action class
+    // (GTogglePaintLayersVisibilityAction, module 1642) is loaded but never
+    // instantiated, so no action "view.toggle-paint-layers-visibility.*"
+    // exists (see editor-actions' registry). The case records that: the
+    // canvas has the focus (a click on empty canvas, then the selection
+    // made by clicks), and after each key the document still has no
+    // `_vs: false` on the paint layers.
     id: "view/toggle-fill-and-border-visibility",
     covers: ["EDT-VIEW-031"],
-    fixture: { ...THREE, select: [0, 1] },
+    fixture: THREE,
     steps: [
-      move(600, 500),
+      ...click(650, 500),
+      ...click(200, 160),
+      keyDown("Shift"),
+      ...click(450, 170),
+      keyUp("Shift"),
+      probe("selected-canvas-focused"),
       press("f"),
-      probe("fills-hidden"),
+      probe("after-f", true),
       ...chord(["Shift"], "b"),
-      probe("borders-toggled"),
+      probe("after-shift-b", true),
     ],
   },
   {

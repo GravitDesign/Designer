@@ -11,13 +11,19 @@
     "cls": [
      "g-cursor-pixel",
      "g-eye-dropper-preview"
-    ]
+    ],
+    "attrs": {
+     "style": "left: 536.5px; top: 336.5px; box-shadow: rgb(235, 235, 235) 0px 0px 0px 5px;"
+    }
    },
    {
     "tag": "span",
     "cls": [
      "g-eye-dropper-preview-color"
     ],
+    "attrs": {
+     "style": "display: block; top: 405px; left: 545px;"
+    },
     "text": "R:235 G:235 B:235 #EBEBEB"
    },
    {
@@ -25,20 +31,29 @@
     "cls": [
      "g-eye-dropper-preview-color-difference"
     ],
+    "attrs": {
+     "style": "display: block; top: 324px; left: 522px;"
+    },
     "children": [
      {
       "tag": "div",
       "cls": [
        "color-preview",
        "current"
-      ]
+      ],
+      "attrs": {
+       "style": "background: linear-gradient(rgb(235, 235, 235), rgb(235, 235, 235)), url(data:(309 chars));"
+      }
      },
      {
       "tag": "div",
       "cls": [
        "color-preview",
        "new"
-      ]
+      ],
+      "attrs": {
+       "style": "background: rgb(235, 235, 235);"
+      }
      }
     ]
    },
@@ -47,6 +62,9 @@
     "cls": [
      "g-eye-dropper-color-pointer"
     ],
+    "attrs": {
+     "style": "display: block; top: 395px; left: 595px;"
+    },
     "hidden": true
    }
   ]

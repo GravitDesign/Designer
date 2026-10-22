@@ -1,6 +1,6 @@
 import type { ToolCase } from "./case.ts";
 import { THREE } from "./cases-pointer.ts";
-import { probe, repaint, shot, touch, wait, type Pt, type Step } from "./steps.ts";
+import { probe, probeDom, repaint, shot, touch, wait, type Pt, type Step } from "./steps.ts";
 
 const TOUCH_OPEN = { settings: { touch: true } };
 
@@ -127,8 +127,29 @@ export const touchCases: ToolCase[] = [
       wait(700),
       touch("end"),
       wait(300),
-      probe("after"),
       { op: "shot", rect: { view: [596, 356, 220, 454] } },
+    ],
+  },
+  {
+    // The app's own long press (500 ms timer) opens the touch context
+    // menu; a 250 ms press doesn't. No contextmenu event is involved, so
+    // this isn't Chromium's long-press gesture, which also comes later.
+    id: "touch/long-press-context-menu-state",
+    covers: [...TOUCH, "EDT-TOUCH-009", "EDT-TOUCH-012"],
+    touch: true,
+    open: TOUCH_OPEN,
+    fixture: { ...THREE, select: [0] },
+    steps: [
+      touch("start", [200, 160]),
+      wait(250),
+      touch("end"),
+      wait(300),
+      probeDom("short-press", ".context-menu-touch-overlay"),
+      touch("start", [200, 160]),
+      wait(700),
+      touch("end"),
+      wait(300),
+      probeDom("long-press", ".context-menu-touch-overlay"),
     ],
   },
   {

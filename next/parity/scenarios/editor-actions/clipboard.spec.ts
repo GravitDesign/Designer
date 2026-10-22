@@ -12,7 +12,7 @@
 import type { Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
-import { runKeyChecks, type KeyCheck } from "./keys.ts";
+import { CLEAR_INTERNAL_CLIPBOARD as CLEAR, frames, runKeyChecks, type KeyCheck } from "./keys.ts";
 import { probe, type ProbeArgs, type Loose } from "./lib.ts";
 
 const CLIP = { clipboard: true } as const;
@@ -70,55 +70,42 @@ function pasteEvent(data: PasteData): (page: Page) => Promise<unknown> {
     }, data);
 }
 
-/** Waits until the active document has finished loading pasted images. */
-async function waitImages(page: Page): Promise<void> {
-  await page.waitForFunction(() => {
-    const P = (window as unknown as { __parity: { G: Loose; app: Loose } }).__parity;
-    let pending = false;
-    P.app.scene().acceptChildren(function v(n: Loose): void {
-      if (n instanceof P.G.GImage && n.getStatus()) pending = true;
-      if (n.acceptChildren) n.acceptChildren(v);
-    });
-    return !pending;
-  });
-}
-
 const SVG =
   '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20"><rect width="40" height="20" fill="#ff0000"/></svg>';
 
+// The plain-paste checks empty the internal clipboard between the copy and
+// the paste, so the pasted nodes must come through the system clipboard
+// (the copy event's text/xml). Paste in place, replace, inside, style and
+// New from Clipboard only read the internal clipboard.
 const keyChecks: KeyCheck[] = [
-  { name: "copy", setup: "rects2", id: "edit.copy", keys: ["Control+KeyC"], wait: 300, args: CLIP },
+  { name: "copy", setup: "rects2", id: "edit.copy", keys: ["Control+KeyC"], args: CLIP },
   {
     name: "copy-group-child-and-parent",
     setup: "group",
     id: "edit.copy",
     keys: ["Control+KeyC"],
-    wait: 300,
     args: { ...CLIP, options: { selectGroupAndChild: true } },
   },
-  { name: "cut", setup: "rects2", id: "edit.cut", keys: ["Control+KeyX"], wait: 300, args: CLIP },
+  { name: "cut", setup: "rects2", id: "edit.cut", keys: ["Control+KeyX"], args: CLIP },
   {
     name: "copy-paste",
     setup: "rects2",
     id: "paste.paste",
-    keys: ["Control+KeyC", "Control+KeyV"],
-    wait: 500,
+    keys: ["Control+KeyC", CLEAR, "Control+KeyV"],
     args: CLIP,
   },
   {
     name: "copy-paste-fixed-page",
     setup: "fixed-page",
     id: "paste.paste",
-    keys: ["Control+KeyC", "Control+KeyV"],
-    wait: 500,
+    keys: ["Control+KeyC", CLEAR, "Control+KeyV"],
     args: CLIP,
   },
   {
     name: "cut-paste",
     setup: "rects2",
     id: "paste.paste",
-    keys: ["Control+KeyX", "Control+KeyV"],
-    wait: 500,
+    keys: ["Control+KeyX", CLEAR, "Control+KeyV"],
     args: CLIP,
   },
   {
@@ -126,7 +113,6 @@ const keyChecks: KeyCheck[] = [
     setup: "rects3-one",
     id: "edit.paste.in-place",
     keys: ["Control+KeyC", "Control+KeyA", "Control+Shift+KeyV"],
-    wait: 500,
     args: CLIP,
   },
   {
@@ -134,7 +120,6 @@ const keyChecks: KeyCheck[] = [
     setup: "rects3-one",
     id: "edit.paste.replace",
     keys: ["Control+KeyC", "Control+KeyA", "Control+Alt+KeyV"],
-    wait: 500,
     args: CLIP,
   },
   {
@@ -142,7 +127,6 @@ const keyChecks: KeyCheck[] = [
     setup: "rects3-one",
     id: "edit.paste.inside",
     keys: ["Control+KeyC", "Control+Alt+Shift+KeyV"],
-    wait: 500,
     args: CLIP,
   },
   {
@@ -150,7 +134,6 @@ const keyChecks: KeyCheck[] = [
     setup: "styled",
     id: "edit.paste.style",
     keys: ["Control+KeyC", "Control+KeyA", "F4"],
-    wait: 500,
     args: CLIP,
   },
   {
@@ -158,7 +141,6 @@ const keyChecks: KeyCheck[] = [
     setup: "rects2",
     id: "file.new.clipboard",
     keys: ["Control+KeyC", "Control+Shift+Alt+KeyN"],
-    wait: 500,
     args: { ...CLIP, shell: true },
   },
   {
@@ -168,8 +150,6 @@ const keyChecks: KeyCheck[] = [
     // Duplicate, move the copy with the arrow keys, duplicate again: the
     // second copy repeats the offset.
     keys: ["Control+KeyD", "Shift+ArrowRight", "Shift+ArrowDown", "Control+KeyD"],
-    gap: 100,
-    wait: 300,
   },
 ];
 
@@ -180,7 +160,6 @@ const pasteChecks: KeyCheck[] = [
     id: "paste.paste",
     keys: [],
     act: pasteEvent({ strings: { "text/xml": SVG } }),
-    wait: 1000,
   },
   {
     name: "svg-file",
@@ -188,7 +167,6 @@ const pasteChecks: KeyCheck[] = [
     id: "paste.paste",
     keys: [],
     act: pasteEvent({ files: [{ name: "a.svg", type: "image/svg+xml", svg: SVG }] }),
-    wait: 1000,
   },
   {
     name: "png-file",
@@ -196,7 +174,6 @@ const pasteChecks: KeyCheck[] = [
     id: "paste.paste",
     keys: [],
     act: pasteEvent({ files: [{ name: "a.png", type: "image/png", png: [30, 10] }] }),
-    wait: 1000,
   },
   {
     name: "plain-text",
@@ -204,7 +181,6 @@ const pasteChecks: KeyCheck[] = [
     id: "paste.paste",
     keys: [],
     act: pasteEvent({ strings: { "text/plain": "Pasted text" } }),
-    wait: 1000,
   },
   {
     name: "gravit-xml",
@@ -212,7 +188,6 @@ const pasteChecks: KeyCheck[] = [
     id: "paste.paste",
     keys: [],
     act: pasteEvent({ gravitXml: "false" }),
-    wait: 500,
   },
   {
     name: "gravit-xml-restricted",
@@ -220,7 +195,6 @@ const pasteChecks: KeyCheck[] = [
     id: "paste.paste",
     keys: [],
     act: pasteEvent({ gravitXml: "someOtherFile" }),
-    wait: 500,
   },
   {
     name: "annotations-sidebar-blocks-paste",
@@ -235,43 +209,54 @@ const pasteChecks: KeyCheck[] = [
       );
       return pasteEvent({ strings: { "text/plain": "Blocked" } })(page);
     },
-    wait: 500,
     args: { shell: true },
   },
 ];
 
 /** Copies a range of a text being edited inline and pastes it into a textarea to read it. */
 async function inlineTextCopy(page: Page): Promise<unknown> {
+  type W = { __parity: { G: Loose; app: Loose } };
+  const plain = () =>
+    page.evaluate(() =>
+      (window as unknown as W).__parity.app.scene().queryAll("text")[0].getPlainText(),
+    );
   await page.evaluate(() => {
-    const P = (window as unknown as { __parity: { G: Loose; app: Loose } }).__parity;
-    P.app.newInfiniteDocument();
+    (window as unknown as W).__parity.app.newInfiniteDocument();
   });
   await page.evaluate(
     `(${probe.toString()})(window.__parity, ${JSON.stringify({ setup: "text", phase: "setup", center: true } satisfies ProbeArgs)})`,
   );
   // Edit Selection opens the inline text editor on the selected text.
   await page.evaluate(() => {
-    (window as unknown as { __parity: { app: Loose } }).__parity.app.execute("edit.edit");
+    (window as unknown as W).__parity.app.execute("edit.edit");
   });
-  await page.waitForTimeout(300);
+  await page.waitForFunction(() =>
+    (window as unknown as W).__parity.app.editor().isInlineEditing(),
+  );
+  await frames(page);
   await page.keyboard.press("Home");
   await page.keyboard.press("Shift+ArrowRight");
   await page.keyboard.press("Shift+ArrowRight");
   await page.keyboard.press("Shift+ArrowRight");
   await page.keyboard.press("Control+KeyC");
-  await page.waitForTimeout(200);
   const inline = await page.evaluate(() => {
-    const P = (window as unknown as { __parity: { app: Loose } }).__parity;
+    const P = (window as unknown as W).__parity;
     return { inline: !!P.app.editor().isInlineEditing(), tool: P.app.activeTool() };
   });
   // Paste the copied range at the end of the text being edited.
+  const beforePaste = await plain();
   await page.keyboard.press("End");
   await page.keyboard.press("Control+KeyV");
-  await page.waitForTimeout(300);
+  await page.waitForFunction(
+    (b) => (window as unknown as W).__parity.app.scene().queryAll("text")[0].getPlainText() !== b,
+    beforePaste,
+  );
   await page.keyboard.press("Escape");
-  await page.waitForTimeout(200);
+  await page.waitForFunction(
+    () => !(window as unknown as W).__parity.app.editor().isInlineEditing(),
+  );
   const textAfter = await page.evaluate(() => {
-    const P = (window as unknown as { __parity: { G: Loose; app: Loose } }).__parity;
+    const P = (window as unknown as W).__parity;
     const t = P.app.scene().queryAll("text")[0];
     return { plain: t.getPlainText(), texts: P.app.scene().queryAll("text").length };
   });
@@ -282,7 +267,9 @@ async function inlineTextCopy(page: Page): Promise<unknown> {
     ta.focus();
   });
   await page.keyboard.press("Control+KeyV");
-  await page.waitForTimeout(200);
+  await page.waitForFunction(
+    () => (document.getElementById("__ea_paste_target") as HTMLTextAreaElement).value !== "",
+  );
   const pasted = await page.evaluate(() => {
     const ta = document.getElementById("__ea_paste_target") as HTMLTextAreaElement;
     const v = ta.value;
@@ -327,11 +314,7 @@ const scenarios: Scenario[] = [
     covers: ["EDT-CLIP-008", "EDT-CLIP-009", "EDT-CLIP-013", "EDT-CLIP-014", "EDT-CLIP-010"],
     kind: "document",
     timeout: 240_000,
-    driver: async ({ page }) => {
-      const out = await runKeyChecks(page, pasteChecks);
-      await waitImages(page);
-      return out;
-    },
+    driver: ({ page }) => runKeyChecks(page, pasteChecks),
   },
   {
     id: "editor-actions/clipboard/inline-text-copy",
@@ -358,7 +341,6 @@ const styleLayer: Scenario<ProbeArgs>[] = (
     id: "paste.paste",
     copyFirst: copy,
     pre: ["edit.select-all"],
-    settle: 300,
   },
 }));
 

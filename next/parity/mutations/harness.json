@@ -1,0 +1,10 @@
+[
+  {
+    "id": "harness-rect-bbox",
+    "covers": ["ENG-GEOM-001"],
+    "scenarios": ["smoke/rectangle-bbox"],
+    "patch": {
+      "old": "const original = G.GRectangle.prototype.getGeometryBBox; G.GRectangle.prototype.getGeometryBBox = function () { return original.call(this).translated(1, 0); };"
+    }
+  }
+]

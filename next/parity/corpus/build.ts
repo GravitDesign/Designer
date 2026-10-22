@@ -16,7 +16,7 @@ import path from "node:path";
 import { chromium, type Page } from "@playwright/test";
 import { PNG } from "pngjs";
 import * as prettier from "prettier";
-import { isolateNetwork, openApp } from "../support/apps.ts";
+import { PARITY_CONTEXT, isolateNetwork, openApp } from "../support/apps.ts";
 import { NEXT_ROOT } from "../support/env.ts";
 import { CORPUS_DOCUMENTS, EXTRA_FILES, type BuildArgs } from "./documents.ts";
 
@@ -196,11 +196,20 @@ async function main(): Promise<void> {
   fs.mkdirSync(FILES, { recursive: true });
   const selected = CORPUS_DOCUMENTS.filter((d) => names.length === 0 || names.includes(d.name));
   const browser = await chromium.launch({
-    args: ["--font-render-hinting=none", "--disable-gpu-rasterization"],
+    // The same flags as playwright.config.ts, so WebGL runs on SwiftShader.
+    args: [
+      "--font-render-hinting=none",
+      "--disable-gpu-rasterization",
+      "--use-angle=swiftshader",
+      "--enable-unsafe-swiftshader",
+      "--force-color-profile=srgb",
+      "--disable-accelerated-2d-canvas",
+    ],
   });
   try {
     for (const doc of selected) {
       const context = await browser.newContext({
+        ...PARITY_CONTEXT,
         viewport: { width: 1600, height: 1000 },
         deviceScaleFactor: 1,
         acceptDownloads: true,

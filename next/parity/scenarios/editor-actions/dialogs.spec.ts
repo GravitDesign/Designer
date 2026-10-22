@@ -8,7 +8,7 @@ import type { Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
 import { ACTION_ITEMS } from "./action-items.ts";
-import { platform } from "./keys.ts";
+import { NO_CHANGE_WINDOW, platform } from "./keys.ts";
 import { runProbe, type Loose } from "./lib.ts";
 
 interface DialogCheck {
@@ -17,23 +17,36 @@ interface DialogCheck {
   /** Keys to press instead of app.execute(id). */
   keys?: string[];
   setup?: string;
-  /** Selector whose innerText is recorded in full (otherwise only the first line of each dialog). */
-  fullText?: string;
   covers?: string[];
 }
 
-async function visibleDialogs(page: Page, fullText?: string): Promise<unknown> {
-  return page.evaluate((full) => {
-    const out: { className: string; text: string }[] = [];
+/** Every visible dialog with its whole text, line by line. */
+async function visibleDialogs(page: Page): Promise<{ className: string; lines: string[] }[]> {
+  return page.evaluate(() => {
+    const out: { className: string; lines: string[] }[] = [];
     for (const d of Array.from(document.querySelectorAll(".g-dialog-container"))) {
       const el = d as HTMLElement;
       if (!el.classList.contains("visible")) continue;
-      const text = el.innerText.trim();
-      const keep = full && el.matches(full) ? text : (text.split("\n")[0] ?? "");
-      out.push({ className: el.className.replace(/\s*\bvisible\b/, ""), text: keep });
+      out.push({
+        className: el.className.replace(/\s*\bvisible\b/, ""),
+        lines: el.innerText
+          .split("\n")
+          .map((l) => l.trim())
+          .filter((l) => l !== ""),
+      });
     }
     return out;
-  }, fullText ?? null);
+  });
+}
+
+/** Which parts of the shell (header, toolbar, sidebars, ...) are shown. */
+function shellParts(page: Page): Promise<unknown> {
+  return page.evaluate(() =>
+    Array.from(document.querySelectorAll(".frame > *")).map((e) => ({
+      className: (e as HTMLElement).className,
+      shown: (e as HTMLElement).offsetParent !== null,
+    })),
+  );
 }
 
 async function runDialogCheck(page: Page, c: DialogCheck): Promise<string> {
@@ -70,7 +83,30 @@ async function runDialogCheck(page: Page, c: DialogCheck): Promise<string> {
       (window as unknown as { __parity: { app: Loose } }).__parity.app.execute(id);
     }, c.id);
   }
-  await page.waitForTimeout(1500);
+  // Wait until the action shows something (a dialog, a browser event,
+  // fullscreen, a page error, a change of the shell) and that has stopped
+  // changing. An action that shows nothing gets NO_CHANGE_WINDOW.
+  const observe = async () =>
+    JSON.stringify({
+      dialogs: await visibleDialogs(page),
+      events: events.length,
+      errors: errors.length,
+      fullscreen: await page.evaluate(() => !!document.fullscreenElement),
+      parts: await shellParts(page),
+    });
+  const initial = await observe();
+  const t0 = Date.now();
+  let current = initial;
+  while (current === initial && Date.now() - t0 < NO_CHANGE_WINDOW) {
+    await page.waitForTimeout(50);
+    current = await observe();
+  }
+  for (let stable = 0; stable < 2;) {
+    await page.waitForTimeout(100);
+    const next = await observe();
+    stable = next === current ? stable + 1 : 0;
+    current = next;
+  }
   const accept = await page.evaluate(() =>
     Array.from(document.querySelectorAll("input[type=file]")).map((i) => ({
       accept: (i as HTMLInputElement).accept,
@@ -81,17 +117,11 @@ async function runDialogCheck(page: Page, c: DialogCheck): Promise<string> {
     platform: await platform(page),
     trigger: c.keys ?? "execute",
     info,
-    dialogs: await visibleDialogs(page, c.fullText),
-    events: events.sort(),
+    dialogs: await visibleDialogs(page),
+    events,
     fileInputs: events.some((e) => e.startsWith("filechooser")) ? accept : undefined,
     fullscreen: await page.evaluate(() => !!document.fullscreenElement),
-    // Which parts of the shell (header, toolbar, sidebars, ...) are shown.
-    parts: await page.evaluate(() =>
-      Array.from(document.querySelectorAll(".frame > *")).map((e) => ({
-        className: (e as HTMLElement).className,
-        shown: (e as HTMLElement).offsetParent !== null,
-      })),
-    ),
+    parts: await shellParts(page),
     pageErrors: errors.filter((e) => !e.includes("ServiceWorker")),
   };
   return JSON.stringify(result);
@@ -132,7 +162,6 @@ const checks: DialogCheck[] = [
   {
     name: "help.shortcuts",
     id: "help.shortcuts",
-    fullText: ".g-shortcuts-dialog",
     covers: ["ACT-KEY-037", "ACT-KEY-026", "ACT-KEY-027"],
   },
   { name: "help.open-quick-help", id: "help.open-quick-help" },

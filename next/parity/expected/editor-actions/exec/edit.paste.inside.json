@@ -3,6 +3,15 @@
  "id": "edit.paste.inside",
  "info": {
   "title": "Paste Inside Selection",
+  "fullTitle": "Paste Inside Selection",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Edit",
+   "Edit/Paste"
+  ],
+  "group": "ccp/paste",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +23,11 @@
  },
  "before": {
   "selection": [
-   "group"
+   {
+    "node": "group",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,6 +35,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Group Selection"
@@ -29,21 +43,21 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "group",
-       "@id": "id4",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
@@ -543,10 +557,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "group"
+   {
+    "node": "group",
+    "@id": "id1",
+    "path": "0/1/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -554,6 +571,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Group Selection",
@@ -562,21 +580,21 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "group",
-       "@id": "id4",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
@@ -644,7 +662,7 @@
         },
         {
          "@": "group",
-         "@id": "id4",
+         "@id": "id1",
          "$": [
           {
            "@": "rectangle",
@@ -1152,6 +1170,15 @@
  },
  "infoAfter": {
   "title": "Paste Inside Selection",
+  "fullTitle": "Paste Inside Selection",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Edit",
+   "Edit/Paste"
+  ],
+  "group": "ccp/paste",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -1163,7 +1190,11 @@
  },
  "afterUndo": {
   "selection": [
-   "group"
+   {
+    "node": "group",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1171,6 +1202,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Group Selection"
@@ -1182,7 +1214,11 @@
  },
  "afterRedo": {
   "selection": [
-   "group"
+   {
+    "node": "group",
+    "@id": "id1",
+    "path": "0/1/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1190,6 +1226,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Group Selection",

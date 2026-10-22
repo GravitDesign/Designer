@@ -10,12 +10,19 @@ const report = path.resolve("test-results", process.env.GD_RUN ?? "default", "pr
 fs.mkdirSync(path.dirname(report), { recursive: true });
 
 const result = spawnSync(
-  process.platform === "win32" ? "npx.cmd" : "npx",
-  ["playwright", "test", "--project", "parity", "--reporter", "json", ...process.argv.slice(2)],
+  process.execPath,
+  [
+    path.resolve("node_modules", "@playwright", "test", "cli.js"),
+    "test",
+    "--project",
+    "parity",
+    "--reporter",
+    "json",
+    ...process.argv.slice(2),
+  ],
   {
     env: { ...process.env, GD_PARITY_SABOTAGE: "1", PLAYWRIGHT_JSON_OUTPUT_NAME: report },
     stdio: ["ignore", "ignore", "inherit"],
-    shell: process.platform === "win32",
   },
 );
 if (result.error) throw result.error;

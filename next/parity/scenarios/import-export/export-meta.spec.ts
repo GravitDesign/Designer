@@ -3,6 +3,7 @@
 // size specs, limits and the exporter/importer registries.
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios } from "../../support/scenario.ts";
+import { clickMenu } from "./node-lib.ts";
 import { inPageWithLib } from "./page-lib.ts";
 
 /** An exportable as plain JSON. */
@@ -22,16 +23,40 @@ const describeList = inPageWithLib((_p, _a: unknown, L) => {
 
 const scenarios = defineScenarios<any>([
   {
-    id: "import-export/meta/registries",
-    covers: ["FMT-IMPORT-001", "FMT-IMPORT-002", "FMT-EXPORT-001", "FMT-WORKER-009"],
+    // What the importer registry and the file-type table (FMT-IMPORT-001,
+    // FMT-IMPORT-002) offer the user: the accept list and multi-select of
+    // each file chooser. The Export menu (menu/file-import-and-export) shows
+    // the exporters, the workers scenario the pdf.js worker URL.
+    id: "import-export/meta/file-pickers",
+    covers: [
+      "FMT-IMPORT-001",
+      "FMT-IMPORT-002",
+      "FMT-IMPORT-021",
+      "FMT-IMPORT-025",
+      "ACT-FILE-004",
+      "ACT-FILE-010",
+      "ACT-FILE-013",
+    ],
     kind: "json",
-    inPage: inPageWithLib((_p, _a: unknown, L) => ({
-      importers: L.io.importerNames(),
-      exporters: L.io.exporterNames(),
-      fileTypes: L.io.fileTypes(),
-      openFileTypes: L.io.openFileTypes(),
-      pdfWorkerSrc: L.io.pdfWorkerSrc(),
-    })),
+    driver: async ({ page }) => {
+      page.setDefaultTimeout(15_000);
+      const picker = async (menu: string[]) => {
+        const pending = page.waitForEvent("filechooser");
+        await clickMenu(page, menu);
+        const chooser = await pending;
+        const accept = await chooser
+          .element()
+          .evaluate((e) => (e as Element).getAttribute("accept"));
+        // Cancel the picker: an empty selection.
+        await chooser.setFiles([]);
+        return { accept, multiple: chooser.isMultiple() };
+      };
+      return {
+        open: await picker(["File", "Open Local File..."]),
+        place: await picker(["File", "Import", "Place Image..."]),
+        fonts: await picker(["File", "Import", "Add Fonts..."]),
+      };
+    },
   },
   {
     id: "import-export/meta/canvas-limits",

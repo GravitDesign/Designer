@@ -8,6 +8,9 @@
   "children": [
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -16,6 +19,9 @@
      "toolbar",
      "main-toolbar"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "label",
@@ -62,7 +68,10 @@
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -101,7 +110,10 @@
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -137,12 +149,18 @@
         "cls": [
          "normal"
         ],
+        "attrs": {
+         "style": "stroke: transparent;"
+        },
         "children": [
          {
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -172,12 +190,18 @@
         "cls": [
          "normal"
         ],
+        "attrs": {
+         "style": "stroke: transparent;"
+        },
         "children": [
          {
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -207,12 +231,18 @@
         "cls": [
          "normal"
         ],
+        "attrs": {
+         "style": "stroke: transparent;"
+        },
         "children": [
          {
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -254,12 +284,18 @@
         "cls": [
          "normal"
         ],
+        "attrs": {
+         "style": "stroke: transparent;"
+        },
         "children": [
          {
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -289,12 +325,18 @@
         "cls": [
          "normal"
         ],
+        "attrs": {
+         "style": "stroke: transparent;"
+        },
         "children": [
          {
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -324,12 +366,18 @@
         "cls": [
          "normal"
         ],
+        "attrs": {
+         "style": "stroke: transparent;"
+        },
         "children": [
          {
           "tag": "svg",
           "cls": [
            "align-svg"
-          ]
+          ],
+          "attrs": {
+           "style": "isolation:isolate"
+          }
          }
         ]
        },
@@ -413,6 +461,9 @@
      "properties-panel",
      "dimension-panel"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
@@ -453,6 +504,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -475,7 +529,8 @@
                 "attrs": {
                  "data-dimension": "x",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "500"
@@ -492,13 +547,19 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 12%;"
+          }
          },
          {
           "tag": "div",
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -521,7 +582,8 @@
                 "attrs": {
                  "data-dimension": "y",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "340"
@@ -569,6 +631,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -591,7 +656,8 @@
                 "attrs": {
                  "data-dimension": "w",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "280"
@@ -608,6 +674,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 12%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -622,7 +691,8 @@
               ],
               "attrs": {
                "data-title": "Keep Ratio",
-               "data-ratio": "no"
+               "data-ratio": "no",
+               "style": "text-align: center; cursor: pointer;"
               }
              }
             ]
@@ -634,6 +704,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -656,7 +729,8 @@
                 "attrs": {
                  "data-dimension": "h",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "220"
@@ -704,6 +778,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -726,7 +803,8 @@
                 "attrs": {
                  "data-dimension": "rotate",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "0°"
@@ -743,13 +821,19 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 12%;"
+          }
          },
          {
           "tag": "label",
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -779,6 +863,9 @@
        "g-property-row",
        "anchor-panel"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "label",
@@ -806,6 +893,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -887,13 +977,19 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 12%;"
+          }
          },
          {
           "tag": "div",
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -978,6 +1074,9 @@
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -987,6 +1086,9 @@
      "advanced-transform-toolbar",
      "last-toolbar"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "label",
@@ -1015,6 +1117,9 @@
      "properties-panel",
      "advanced-transform-properties"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
@@ -1048,6 +1153,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -1070,7 +1178,8 @@
                 "attrs": {
                  "data-property": "move-x",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "0"
@@ -1087,13 +1196,19 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 12%;"
+          }
          },
          {
           "tag": "div",
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -1116,7 +1231,8 @@
                 "attrs": {
                  "data-property": "move-y",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "0"
@@ -1164,6 +1280,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -1186,7 +1305,8 @@
                 "attrs": {
                  "data-property": "scale-x",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "100%"
@@ -1203,6 +1323,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 12%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -1218,7 +1341,8 @@
               ],
               "attrs": {
                "data-title": "Keep Ratio",
-               "data-ratio": "no"
+               "data-ratio": "no",
+               "style": "text-align: center; cursor: pointer;"
               },
               "hidden": true
              }
@@ -1231,6 +1355,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -1253,7 +1380,8 @@
                 "attrs": {
                  "data-property": "scale-y",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "100%"
@@ -1301,6 +1429,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -1323,7 +1454,8 @@
                 "attrs": {
                  "data-property": "rotate",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "0°"
@@ -1340,13 +1472,19 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 12%;"
+          }
          },
          {
           "tag": "div",
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -1369,7 +1507,8 @@
                 "attrs": {
                  "data-property": "reflect",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "0°"
@@ -1417,6 +1556,9 @@
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -1439,7 +1581,8 @@
                 "attrs": {
                  "data-property": "skew-x",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "0°"
@@ -1456,13 +1599,19 @@
           "cls": [
            "column",
            "no-padding"
-          ]
+          ],
+          "attrs": {
+           "style": "width: 12%;"
+          }
          },
          {
           "tag": "div",
           "cls": [
            "column"
           ],
+          "attrs": {
+           "style": "width: 44%;"
+          },
           "children": [
            {
             "tag": "div",
@@ -1485,7 +1634,8 @@
                 "attrs": {
                  "data-property": "skew-y",
                  "type": "text",
-                 "draggable": "false"
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
                 },
                 "props": {
                  "value": "0°"
@@ -1509,6 +1659,9 @@
       "cls": [
        "copies-apply"
       ],
+      "attrs": {
+       "style": "display: block;"
+      },
       "children": [
        {
         "tag": "div",
@@ -1542,6 +1695,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 44%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -1569,7 +1725,10 @@
             "cls": [
              "column",
              "no-padding"
-            ]
+            ],
+            "attrs": {
+             "style": "width: 12%;"
+            }
            },
            {
             "tag": "div",
@@ -1577,9 +1736,15 @@
              "column",
              "no-padding"
             ],
+            "attrs": {
+             "style": "width: 44%;"
+            },
             "children": [
              {
               "tag": "div",
+              "attrs": {
+               "style": "width: 100%; display: flex; justify-content: center;"
+              },
               "children": [
                {
                 "tag": "div",
@@ -1587,7 +1752,8 @@
                  "g-pivot"
                 ],
                 "attrs": {
-                 "data-property": "pivot"
+                 "data-property": "pivot",
+                 "style": "align-self: center;"
                 },
                 "children": [
                  {
@@ -1692,6 +1858,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 100%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -1704,6 +1873,9 @@
                 "cls": [
                  "transform-button"
                 ],
+                "attrs": {
+                 "style": "margin-top: 5px;"
+                },
                 "text": "Apply"
                }
               ]
@@ -1721,12 +1893,18 @@
       "cls": [
        "copies-apply-touch"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      }
     ]
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1737,6 +1915,9 @@
      "page-toolbar",
      "page-properties-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1745,10 +1926,16 @@
      "properties-panel",
      "page-properties-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1757,6 +1944,9 @@
      "toolbar",
      "scene-properties-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1765,10 +1955,16 @@
      "properties-panel",
      "scene-properties-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1777,10 +1973,16 @@
      "properties-panel",
      "group-frame-property-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1789,10 +1991,16 @@
      "properties-panel",
      "frame-property-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1801,10 +2009,16 @@
      "properties-panel",
      "item-property-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1815,6 +2029,9 @@
      "page-toolbar",
      "symbol-instance-toolbar"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1823,6 +2040,9 @@
      "properties-panel",
      "symbol-instance-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1830,6 +2050,9 @@
     "cls": [
      "appearance-divider"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1840,6 +2063,9 @@
      "appearance-panel-toggle-btn",
      "accordion"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -1848,15 +2074,24 @@
      "properties-panel",
      "appearance-properties-panel"
     ],
+    "attrs": {
+     "style": ""
+    },
     "children": [
      {
       "tag": "div",
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": ""
+      },
       "children": [
        {
         "tag": "hr",
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        },
        {
@@ -1877,6 +2112,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 45%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -1900,13 +2138,19 @@
             "cls": [
              "column",
              "no-padding"
-            ]
+            ],
+            "attrs": {
+             "style": "width: 10%;"
+            }
            },
            {
             "tag": "label",
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 45%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -1947,12 +2191,18 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 45%;"
+            },
             "children": [
              {
               "tag": "div",
               "cls": [
                "prefix"
               ],
+              "attrs": {
+               "style": "width: 50px;"
+              },
               "text": "Space X"
              },
              {
@@ -1981,19 +2231,28 @@
             "cls": [
              "column",
              "no-padding"
-            ]
+            ],
+            "attrs": {
+             "style": "width: 10%;"
+            }
            },
            {
             "tag": "label",
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 45%;"
+            },
             "children": [
              {
               "tag": "div",
               "cls": [
                "prefix"
               ],
+              "attrs": {
+               "style": "width: 50px;"
+              },
               "text": "Space Y"
              },
              {
@@ -2023,6 +2282,9 @@
        },
        {
         "tag": "hr",
+        "attrs": {
+         "style": "display: none;"
+        },
         "hidden": true
        }
       ]
@@ -2032,6 +2294,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -2039,6 +2304,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -2046,6 +2314,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -2054,6 +2325,9 @@
        "appearance-property-panel",
        "text-properties-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -2061,6 +2335,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -2068,6 +2345,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -2076,6 +2356,9 @@
        "appearance-property-panel",
        "slice-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -2083,6 +2366,9 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      },
      {
@@ -2090,12 +2376,18 @@
       "cls": [
        "appearance-property-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      }
     ]
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -2107,6 +2399,9 @@
      "appearance-panel-toggle-btn",
      "accordion"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -2115,10 +2410,16 @@
      "properties-panel",
      "fill-properties-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -2131,6 +2432,9 @@
      "appearance-panel-toggle-btn",
      "accordion"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -2139,10 +2443,16 @@
      "properties-panel",
      "border-properties-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
     "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -2154,6 +2464,9 @@
      "appearance-panel-toggle-btn",
      "accordion"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {
@@ -2162,6 +2475,9 @@
      "properties-panel",
      "effects-properties-panel"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    }
   ]

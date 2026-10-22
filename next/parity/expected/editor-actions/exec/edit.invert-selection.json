@@ -3,6 +3,14 @@
  "id": "edit.invert-selection",
  "info": {
   "title": "Invert Selection",
+  "fullTitle": "Invert Selection",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Edit"
+  ],
+  "group": "select",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +22,11 @@
  },
  "before": {
   "selection": [
-   "rectangle:B"
+   {
+    "node": "rectangle:B",
+    "@id": "id1",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,27 +34,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id5",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -60,21 +73,21 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id6",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id7"
+        "&": "id8"
        },
-       "_effId": "id8"
+       "_effId": "id9"
       },
       {
        "@": "rectangle",
-       "@id": "id9",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -567,11 +580,18 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "rectangle:A",
-   "rectangle:C"
+   {
+    "node": "rectangle:A",
+    "@id": "id5",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:C",
+    "@id": "id14",
+    "path": "0/3"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -579,6 +599,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -587,6 +608,14 @@
  },
  "infoAfter": {
   "title": "Invert Selection",
+  "fullTitle": "Invert Selection",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Edit"
+  ],
+  "group": "select",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,

@@ -38,7 +38,8 @@
      "g-switch"
     ],
     "attrs": {
-     "data-title": "Toggle Single / Multipage Mode"
+     "data-title": "Toggle Single / Multipage Mode",
+     "style": "margin-right: 5px;"
     },
     "children": [
      {
@@ -63,6 +64,9 @@
     "cls": [
      "setting-menu-options"
     ],
+    "attrs": {
+     "style": "display: none;"
+    },
     "hidden": true
    },
    {

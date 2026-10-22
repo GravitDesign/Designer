@@ -5,9 +5,10 @@
 // old app's UI uses; module numbers are the old webpack module ids:
 //   1253 GExporter (export dialog, Export panel, page "Export Page")
 //    797 exporter registry {GBitmapExport, GPDFExport, GSVGExport}
-//   1201 importer registry {GSVGImport, GPDFImport, GSketchImport, GEPSImport, GBitmapImport}
-//    389 file-type table (GDocument.FileTypes source)
-//     15 GPlatform (per-browser canvas limits)
+//
+// The registries and the file-type table are not exposed: scenarios read
+// those facts from what the user sees (file chooser accept lists, the
+// Export menu, the workers an import starts).
 (() => {
   const parity = window.__parity;
   if (!parity || parity.app.importExport) return;
@@ -15,18 +16,40 @@
   const req = app.require;
   const exporter = () => req(1253);
   const exporters = () => req(797);
-  const importers = () => req(1201);
-  const fileTypes = () => req(389);
+  // GDocument status numbers (module 163's status table) by name.
+  const STATUS = {
+    0: "Init",
+    1: "Ready",
+    10: "Loading",
+    11: "LoadFailed",
+    12: "Loaded",
+    13: "LoadCancelled",
+    20: "Saving",
+    21: "SaveFailed",
+    22: "Saved",
+  };
 
   const frame = () => new Promise((resolve) => requestAnimationFrame(() => resolve()));
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+  // Every image and texture pattern under root has finished loading.
   function imagesReady(root) {
     let ready = true;
+    const pattern = (pt) => {
+      if (pt && typeof pt.isReady === "function" && !pt.isReady()) ready = false;
+    };
     const visit = (node) => {
       if (node instanceof G.GImage) {
         const s = node.getStatus();
         if (s !== G.GImage.ImageStatus.Loaded && s !== G.GImage.ImageStatus.Error) ready = false;
+      }
+      if (typeof node.getPaintLayers === "function" && node.getPaintLayers()) {
+        for (let l = node.getPaintLayers().getFirstChild(); l; l = l.getNext()) {
+          pattern(l.getProperty("_pt"));
+        }
+      }
+      if (typeof node.hasProperty === "function" && node.hasProperty("bck")) {
+        pattern(node.getProperty("bck"));
       }
       if (typeof node.getFirstChild === "function") {
         for (let c = node.getFirstChild(); c; c = c.getNext()) visit(c);
@@ -67,8 +90,9 @@
 
   app.importExport = {
     /**
-     * Waits until every image of the active scene (or `root`) has loaded,
-     * no font is pending and a few frames passed without either changing.
+     * Waits until every image and texture pattern of the active scene (or
+     * `root`) has loaded, no font is pending and a few frames passed
+     * without either changing.
      */
     async settle(root) {
       const start = Date.now();
@@ -145,35 +169,15 @@
       return exporters().GPDFExport.isSupported(node, withEffects, size);
     },
 
-    /** The importer registry's class names. */
-    importerNames() {
-      return Object.keys(importers());
-    },
-
-    /** The exporter registry's class names. */
-    exporterNames() {
-      return Object.keys(exporters());
-    },
-
-    /** The file-type table: one row per type, in table order. */
-    fileTypes() {
-      const t = fileTypes();
-      return Object.keys(t)
-        .filter((k) => typeof t[k] === "object")
-        .map((k) => Object.assign({ key: k }, t[k]));
-    },
-
-    /** Extensions offered by open, place and drop (getFileTypesArray). */
-    openFileTypes() {
-      return fileTypes()
-        .getFileTypesArray()
-        .map((t) => t.ext);
-    },
-
-    /** The pdf.js worker URL the PDF importer configured. */
-    pdfWorkerSrc() {
-      const pdfjs = req(792);
-      return pdfjs.GlobalWorkerOptions.workerSrc;
+    /**
+     * The open documents in tab order: title and load status
+     * ("Loading", "Loaded", "LoadFailed", ...).
+     */
+    documents() {
+      return app.designer.getDocuments().map((d) => ({
+        title: d.getTitle(),
+        status: STATUS[d.getStatus()] || String(d.getStatus()),
+      }));
     },
 
     blobToBase64,

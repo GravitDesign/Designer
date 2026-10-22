@@ -1,0 +1,180 @@
+[
+  {
+    "id": "ie-ai-check-skipped",
+    "covers": ["FMT-IMPORT-011"],
+    "scenarios": [
+      "import-export/import/open/ai-saved-as-pdf.state",
+      "import-export/import/open/ai-saved-as-pdf"
+    ],
+    "patch": {
+      "old": "app.require(1201).GPDFImport.isAIFormat = () => Promise.resolve(false);"
+    }
+  },
+  {
+    "id": "ie-pdf-export-no-worker-pool",
+    "covers": ["FMT-EXPORT-021", "FMT-WORKER-012"],
+    "scenarios": ["import-export/workers/started-by-paths"],
+    "patch": {
+      "old": "const E = app.require(797).GPDFExport; const original = E.export; E.export = function (node, options, ...rest) { return original.call(this, node, Object.assign({}, options, { disableWorker: true }), ...rest); };"
+    }
+  },
+  {
+    "id": "ie-zip-web-workers-on",
+    "covers": ["FMT-WORKER-015", "FMT-EXPORT-048"],
+    "scenarios": ["import-export/workers/started-by-paths"],
+    "patch": {
+      "old": "window.zip.useWebWorkers = true;"
+    }
+  },
+  {
+    "id": "ie-ai-offered-by-open",
+    "covers": ["FMT-IMPORT-002"],
+    "scenarios": [
+      "import-export/meta/file-pickers",
+      "import-export/import/open/misc-pdf-compatible.ai.state"
+    ],
+    "patch": {
+      "old": "const types = app.document().constructor.FileTypes; const ai = app.require(389).AI; if (!types.includes(ai)) types.push(ai);"
+    }
+  },
+  {
+    "id": "ie-svg-editing-data-level",
+    "covers": ["FMT-EXPORT-010"],
+    "scenarios": ["import-export/export/svg/preserve-editing"],
+    "patch": {
+      "old": "const deflate = window.pako.deflate; window.pako.deflate = (data, options) => deflate(data, Object.assign({}, options, { level: 1 }));"
+    }
+  },
+  {
+    "id": "ie-pdf-date-offset",
+    "covers": ["FMT-EXPORT-020"],
+    "scenarios": ["import-export/export/pdf/page-72dpi", "import-export/ui/dialog-bytes-pdf"],
+    "patch": {
+      "old": "Date.prototype.getTimezoneOffset = function () { return -60; };"
+    }
+  },
+  {
+    "id": "ie-swatch-file-level",
+    "covers": ["UI-SWATCH-006"],
+    "scenarios": ["import-export/swatches/export-document"],
+    "patch": {
+      "old": "const gzip = window.pako.gzip; window.pako.gzip = (data, options) => gzip(data, Object.assign({}, options, { level: 6 }));"
+    }
+  },
+  {
+    "id": "ie-swatch-import-ignored",
+    "covers": ["UI-SWATCH-006"],
+    "scenarios": ["import-export/swatches/import-document"],
+    "patch": {
+      "old": "app.designer.importSwatches = function () {};"
+    }
+  },
+  {
+    "id": "ie-size-spec-scale",
+    "covers": ["FMT-EXPORT-003"],
+    "scenarios": [
+      "import-export/meta/size-specs",
+      "import-export/export/png/page-2x",
+      "import-export/export/png/page-512w"
+    ],
+    "patch": {
+      "old": "const B = app.require(797).GBitmapExport; const original = B.convertSizeToScale; B.convertSizeToScale = function (...args) { return original.apply(this, args).multiplied(1.25); };"
+    }
+  },
+  {
+    "id": "ie-jpeg-quality-ignored",
+    "covers": ["FMT-EXPORT-005", "FMT-EXPORT-025"],
+    "scenarios": [
+      "import-export/export/jpg/page-q25",
+      "import-export/ui/dialog-canvas-jpg-quality-40-2x"
+    ],
+    "patch": {
+      "old": "const X = app.require(1253); const original = X.exportExportable; X.exportExportable = function (e, ...rest) { if (e && e.format === 'jpg') e.jpegQuality = 100; return original.call(this, e, ...rest); };"
+    }
+  },
+  {
+    "id": "ie-svg-import-force-base-size",
+    "covers": ["FMT-IMPORT-005", "FMT-IMPORT-008"],
+    "scenarios": [
+      "import-export/import/open/svg-units-mm.svg",
+      "import-export/import/open/svg-units-mm.svg.state"
+    ],
+    "patch": {
+      "old": "const S = app.require(1201).GSVGImport; const original = S.import; S.import = function (data, options, ...rest) { return original.call(this, data, Object.assign({}, options, { forceBaseSize: true }), ...rest); };"
+    }
+  },
+  {
+    "id": "ie-copy-style-context-lost",
+    "covers": ["FMT-CLIP-011"],
+    "scenarios": ["import-export/clipboard/copy-style"],
+    "patch": {
+      "old": "app.designer.getMouseOverContext = () => ({ context: null });"
+    }
+  },
+  {
+    "id": "ie-export-name-suffix",
+    "covers": ["FMT-EXPORT-047"],
+    "scenarios": [
+      "import-export/meta/export-names",
+      "import-export/ui/dialog-assets-zip",
+      "import-export/ui/dialog-canvas-png"
+    ],
+    "patch": {
+      "old": "const X = app.require(1253); const original = X.generateExportName; X.generateExportName = function (...args) { return '_' + original.apply(this, args); };"
+    }
+  },
+  {
+    "id": "ie-eps-outline-setting-not-saved",
+    "covers": ["FMT-IMPORT-014"],
+    "scenarios": ["import-export/eps/outline-fonts-setting-ui"],
+    "patch": {
+      "old": "const set = app.designer.setSetting.bind(app.designer); app.designer.setSetting = function (key, value, ...rest) { if (Array.isArray(key) && key.includes('eps_outline_fonts')) { value = value.slice(); value[key.indexOf('eps_outline_fonts')] = true; } return set(key, value, ...rest); };"
+    }
+  },
+  {
+    "id": "ie-print-free-dpi",
+    "covers": ["FMT-EXPORT-051"],
+    "scenarios": ["import-export/ui/print-pdf", "import-export/ui/print"],
+    "patch": {
+      "old": "app.designer.isEnabledProFeatures = () => false;"
+    }
+  },
+  {
+    "id": "ie-drop-shifted",
+    "covers": ["FMT-IMPORT-024", "FMT-IMPORT-020"],
+    "scenarios": [
+      "import-export/import/drop/raster-alpha.png",
+      "import-export/import/drop/raster-alpha.png.doc"
+    ],
+    "patch": {
+      "old": "const D = app.document().constructor.prototype; const original = D.placeOrImport; D.placeOrImport = function (file, position, ...rest) { const p = position && typeof position.x === 'number' ? Object.assign({}, position, { x: position.x + 10 }) : position; return original.call(this, file, p, ...rest); };"
+    }
+  },
+  {
+    "id": "ie-clipboard-mime",
+    "covers": ["FMT-CLIP-010", "FMT-CLIP-005"],
+    "scenarios": [
+      "import-export/clipboard/copy-payload",
+      "import-export/clipboard/paste-event-gravit-node-xml"
+    ],
+    "patch": {
+      "old": "G.GNode.MIME_TYPE = 'application/x-gravit-other';"
+    }
+  },
+  {
+    "id": "ie-local-fonts-list-empty",
+    "covers": ["FMT-IMPORT-026"],
+    "scenarios": ["import-export/fonts/local-fonts-stubbed"],
+    "patch": {
+      "old": "const q = window.queryLocalFonts; Object.defineProperty(window, 'queryLocalFonts', { configurable: true, set() {}, get() { return async () => []; } });"
+    }
+  },
+  {
+    "id": "ie-font-import-no-dedupe",
+    "covers": ["FMT-IMPORT-025"],
+    "scenarios": ["import-export/fonts/import-ttf"],
+    "patch": {
+      "old": "const original = IDBObjectStore.prototype.get; IDBObjectStore.prototype.get = function (key) { return original.call(this, key === '_gravit_font_list_' ? '__none__' : key); };"
+    }
+  }
+]

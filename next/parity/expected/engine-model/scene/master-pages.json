@@ -1,27 +1,399 @@
 {
- "masters": [
-  "Master"
- ],
- "slaves": [
-  "Page 2"
- ],
- "otherMasters": [],
- "linked": false,
- "refCount": 0,
- "mpg": [
+ "refIds": [
   [
-   "Master",
-   1
+   "All",
+   "id1"
   ],
   [
-   "Page 2",
-   1
+   "Odd",
+   "id2"
   ],
   [
-   "Page 3",
-   1
+   "Even",
+   "id3"
+  ],
+  [
+   "P1",
+   "id4"
+  ],
+  [
+   "P2",
+   "id5"
+  ],
+  [
+   "P3",
+   "id6"
+  ],
+  [
+   "P4",
+   "id7"
+  ],
+  [
+   "P5",
+   "id8"
   ]
  ],
- "singleMasterContent": true,
- "blobHasRefs": false
+ "pageRefs": {
+  "pages": [
+   {
+    "name": "P1",
+    "masters": [],
+    "slaves": [
+     "P2"
+    ],
+    "refs": [],
+    "singleMasterContent": false
+   },
+   {
+    "name": "P2",
+    "masters": [
+     "P1"
+    ],
+    "slaves": [],
+    "refs": [
+     "id4"
+    ],
+    "singleMasterContent": false
+   },
+   {
+    "name": "P3",
+    "masters": [],
+    "slaves": [],
+    "refs": [],
+    "singleMasterContent": false
+   },
+   {
+    "name": "P4",
+    "masters": [],
+    "slaves": [],
+    "refs": [],
+    "singleMasterContent": false
+   },
+   {
+    "name": "P5",
+    "masters": [],
+    "slaves": [],
+    "refs": [],
+    "singleMasterContent": false
+   }
+  ],
+  "evenOdd": false,
+  "mastersSlaves": [
+   [
+    "All",
+    []
+   ],
+   [
+    "Odd",
+    []
+   ],
+   [
+    "Even",
+    []
+   ]
+  ]
+ },
+ "mpgSet": {
+  "pages": [
+   {
+    "name": "P1",
+    "masters": [],
+    "slaves": [
+     "P2"
+    ],
+    "refs": [],
+    "singleMasterContent": false
+   },
+   {
+    "name": "P2",
+    "masters": [
+     "P1"
+    ],
+    "slaves": [],
+    "refs": [
+     "id4"
+    ],
+    "singleMasterContent": false
+   },
+   {
+    "name": "P3",
+    "masters": [],
+    "slaves": [],
+    "refs": [],
+    "singleMasterContent": false
+   },
+   {
+    "name": "P4",
+    "masters": [],
+    "slaves": [],
+    "refs": [],
+    "singleMasterContent": false
+   },
+   {
+    "name": "P5",
+    "masters": [],
+    "slaves": [],
+    "refs": [],
+    "singleMasterContent": false
+   }
+  ],
+  "evenOdd": false,
+  "mastersSlaves": [
+   [
+    "All",
+    []
+   ],
+   [
+    "Odd",
+    []
+   ],
+   [
+    "Even",
+    []
+   ]
+  ]
+ },
+ "mpgReassigned": {
+  "pages": [
+   {
+    "name": "P1",
+    "masters": [],
+    "slaves": [
+     "P2"
+    ],
+    "refs": [
+     "id1"
+    ],
+    "singleMasterContent": true
+   },
+   {
+    "name": "P2",
+    "masters": [
+     "P1"
+    ],
+    "slaves": [],
+    "refs": [
+     "id4",
+     "id1"
+    ],
+    "singleMasterContent": true
+   },
+   {
+    "name": "P3",
+    "masters": [],
+    "slaves": [],
+    "refs": [
+     "id1"
+    ],
+    "singleMasterContent": true
+   },
+   {
+    "name": "P4",
+    "masters": [],
+    "slaves": [],
+    "refs": [
+     "id1"
+    ],
+    "singleMasterContent": true
+   },
+   {
+    "name": "P5",
+    "masters": [],
+    "slaves": [],
+    "refs": [
+     "id1"
+    ],
+    "singleMasterContent": true
+   }
+  ],
+  "evenOdd": false,
+  "mastersSlaves": [
+   [
+    "All",
+    [
+     "P1",
+     "P2",
+     "P3",
+     "P4",
+     "P5"
+    ]
+   ],
+   [
+    "Odd",
+    []
+   ],
+   [
+    "Even",
+    []
+   ]
+  ]
+ },
+ "oddEven": {
+  "pages": [
+   {
+    "name": "P1",
+    "masters": [],
+    "slaves": [
+     "P2"
+    ],
+    "refs": [
+     "id2"
+    ],
+    "singleMasterContent": true
+   },
+   {
+    "name": "P2",
+    "masters": [
+     "P1"
+    ],
+    "slaves": [],
+    "refs": [
+     "id4",
+     "id3"
+    ],
+    "singleMasterContent": true
+   },
+   {
+    "name": "P3",
+    "masters": [],
+    "slaves": [],
+    "refs": [
+     "id2"
+    ],
+    "singleMasterContent": true
+   },
+   {
+    "name": "P4",
+    "masters": [],
+    "slaves": [],
+    "refs": [
+     "id3"
+    ],
+    "singleMasterContent": true
+   },
+   {
+    "name": "P5",
+    "masters": [],
+    "slaves": [],
+    "refs": [
+     "id2"
+    ],
+    "singleMasterContent": true
+   }
+  ],
+  "evenOdd": true,
+  "mastersSlaves": [
+   [
+    "All",
+    []
+   ],
+   [
+    "Odd",
+    [
+     "P1",
+     "P3",
+     "P5"
+    ]
+   ],
+   [
+    "Even",
+    [
+     "P2",
+     "P4"
+    ]
+   ]
+  ]
+ },
+ "evenOnly": {
+  "pages": [
+   {
+    "name": "P1",
+    "masters": [],
+    "slaves": [
+     "P2"
+    ],
+    "refs": [
+     "id1"
+    ],
+    "singleMasterContent": true
+   },
+   {
+    "name": "P2",
+    "masters": [
+     "P1"
+    ],
+    "slaves": [],
+    "refs": [
+     "id4",
+     "id3"
+    ],
+    "singleMasterContent": true
+   },
+   {
+    "name": "P3",
+    "masters": [],
+    "slaves": [],
+    "refs": [
+     "id1"
+    ],
+    "singleMasterContent": true
+   },
+   {
+    "name": "P4",
+    "masters": [],
+    "slaves": [],
+    "refs": [
+     "id3"
+    ],
+    "singleMasterContent": true
+   },
+   {
+    "name": "P5",
+    "masters": [],
+    "slaves": [],
+    "refs": [
+     "id1"
+    ],
+    "singleMasterContent": true
+   }
+  ],
+  "evenOdd": true,
+  "mastersSlaves": [
+   [
+    "All",
+    [
+     "P1",
+     "P3",
+     "P5"
+    ]
+   ],
+   [
+    "Odd",
+    []
+   ],
+   [
+    "Even",
+    [
+     "P2",
+     "P4"
+    ]
+   ]
+  ]
+ },
+ "saved": {
+  "mpg": "{\"@\":\"page\",\"@id\":\"id22\",\"$\":[{\"@\":\"rectangle\",\"@id\":\"id23\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[10,0,0,10,10,10],\"_layId\":\"id24\",\"_effId\":\"id25\"}],\"#\":\"id1\",\"bck\":\"C#[255,0,0]\",\"name\":\"All\"}",
+  "ompg": "<absent>",
+  "empg": "{\"@\":\"page\",\"@id\":\"id26\",\"$\":[{\"@\":\"rectangle\",\"@id\":\"id27\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[10,0,0,10,10,10],\"_layId\":\"id28\",\"_effId\":\"id29\"}],\"#\":\"id3\",\"bck\":\"C#[0,0,255]\",\"name\":\"Even\"}",
+  "links": {
+   "id3": [
+    "id18",
+    "id20"
+   ],
+   "id1": [
+    "id16",
+    "id19",
+    "id21"
+   ]
+  }
+ }
 }

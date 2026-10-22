@@ -3,6 +3,15 @@
  "id": "modify.bmp2path",
  "info": {
   "title": "Vectorize Image",
+  "fullTitle": "Vectorize Image",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +23,11 @@
  },
  "before": {
   "selection": [
-   "image:I"
+   {
+    "node": "image:I",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,32 +35,41 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "image",
-       "@id": "id4",
-       "url": "dictionary://rid5",
+       "@id": "id1",
+       "url": "dictionary://id11",
        "iw": 40,
        "ih": 20,
        "pw": 40,
        "ph": 20,
+       "itrf": [
+        1,
+        0,
+        0,
+        1,
+        100,
+        100
+       ],
        "ipfc": true,
        "uf": true,
        "ct": "R",
@@ -84,7 +106,7 @@
    "dictionary": {
     "entries": [
      {
-      "uuid": "rid5",
+      "uuid": "id11",
       "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAUCAYAAAD/Rn+7AAAAUElEQVR4AezVwQkAMAgDwNT9d7YrBJKHhBT8WdBTcBbYyzE4/lqgOqAcwYeFM1jZHEG2Y3deBVXRClZQFVD/5+yg9448GjZHkG7ZnFhBFfQDAAD//w62wZMAAAAGSURBVAMAru932SYZF4QAAAAASUVORK5CYII=",
       "references": 1
      }
@@ -95,10 +117,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "group"
+   {
+    "node": "group",
+    "@id": "id12",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -106,6 +131,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Vectorize Image"
@@ -113,46 +139,46 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "group",
-       "@id": "id11",
+       "@id": "id12",
        "$": [
         {
          "@": "path",
-         "@id": "id12",
+         "@id": "id13",
          "closed": true,
          "pts": [
           [
            "AAAAPwAAAAA=",
            "#",
-           "rid14"
+           "id14"
           ],
           [
            "AAAgQgAAAD8=",
            "#",
-           "rid15"
+           "id15"
           ],
           [
            "AAAeQgAAoEE=",
            "#",
-           "rid16"
+           "id16"
           ],
           [
            "AAAAAAAAnEE=",
            "#",
-           "rid17"
+           "id17"
           ]
          ],
          "reftxt": null,
@@ -160,42 +186,42 @@
          "name": "red",
          "_layers": {
           "@": "paintLayers",
-          "@id": "id13",
+          "@id": "id18",
           "$": [
            {
             "@": "fillPaintLayer",
-            "@id": "id14",
+            "@id": "id19",
             "_pt": "C#[254,0,0]"
            }
           ],
-          "&": "id15"
+          "&": "id20"
          },
-         "_effId": "id16"
+         "_effId": "id21"
         },
         {
          "@": "path",
-         "@id": "id17",
+         "@id": "id22",
          "closed": true,
          "pts": [
           [
            "AAAoQQAAoEA=",
            "#",
-           "rid23"
+           "id23"
           ],
           [
            "AADwQQAAsEA=",
            "#",
-           "rid24"
+           "id24"
           ],
           [
            "AADsQQAAcEE=",
            "#",
-           "rid25"
+           "id25"
           ],
           [
            "AAAgQQAAaEE=",
            "#",
-           "rid26"
+           "id26"
           ]
          ],
          "reftxt": null,
@@ -203,20 +229,20 @@
          "name": "blue",
          "_layers": {
           "@": "paintLayers",
-          "@id": "id18",
+          "@id": "id27",
           "$": [
            {
             "@": "fillPaintLayer",
-            "@id": "id19",
+            "@id": "id28",
             "_pt": "C#[0,0,254]"
            }
           ],
-          "&": "id20"
+          "&": "id29"
          },
-         "_effId": "id21"
+         "_effId": "id30"
         }
        ],
-       "_effId": "id22"
+       "_effId": "id31"
       }
      ],
      "#": "id7",
@@ -231,9 +257,9 @@
    "__ids": [
     "id8",
     "id9",
-    "id23",
-    "id24",
-    "id25"
+    "id32",
+    "id33",
+    "id34"
    ],
    "dictionary": {
     "entries": []
@@ -245,6 +271,15 @@
  },
  "infoAfter": {
   "title": "Vectorize Image",
+  "fullTitle": "Vectorize Image",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -256,7 +291,11 @@
  },
  "afterUndo": {
   "selection": [
-   "image:I"
+   {
+    "node": "image:I",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -264,6 +303,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -272,26 +312,34 @@
   ],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "image",
-       "@id": "id4",
-       "url": "dictionary://rid35",
+       "@id": "id1",
+       "url": "dictionary://id35",
        "iw": 40,
        "ih": 20,
        "pw": 40,
        "ph": 20,
+       "itrf": [
+        1,
+        0,
+        0,
+        1,
+        100,
+        100
+       ],
        "ipfc": true,
        "uf": true,
        "ct": "R",
@@ -328,7 +376,7 @@
    "dictionary": {
     "entries": [
      {
-      "uuid": "rid35",
+      "uuid": "id35",
       "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAUCAYAAAD/Rn+7AAAAUElEQVR4AezVwQkAMAgDwNT9d7YrBJKHhBT8WdBTcBbYyzE4/lqgOqAcwYeFM1jZHEG2Y3deBVXRClZQFVD/5+yg9448GjZHkG7ZnFhBFfQDAAD//w62wZMAAAAGSURBVAMAru932SYZF4QAAAAASUVORK5CYII=",
       "references": 1
      }
@@ -341,7 +389,11 @@
  },
  "afterRedo": {
   "selection": [
-   "group"
+   {
+    "node": "group",
+    "@id": "id12",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -349,6 +401,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Vectorize Image"

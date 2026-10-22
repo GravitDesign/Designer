@@ -128,9 +128,17 @@ export const toolmgrCases: ToolCase[] = [
 export const toolmgrInPage: Scenario[] = [
   {
     id: "editor-tools/toolmgr/registry",
-    covers: ["EDT-TOOLMGR-001", "EDT-TOOLMGR-002", "EDT-TOOL-094"],
+    covers: [
+      "EDT-TOOLMGR-001",
+      "EDT-TOOLMGR-002",
+      "EDT-TOOLMGR-013",
+      "EDT-TOOL-094",
+      "EDT-TOOL-062",
+    ],
     kind: "json",
-    inPage: ({ app }) => app.toolNames(),
+    // Index, name, cursor and class relations, so the connector (which
+    // reuses the pen's name) and the two fill tools can be told apart.
+    inPage: ({ app }) => app.editorTools.toolRegistry(),
   },
   {
     id: "editor-tools/toolmgr/tool-table",

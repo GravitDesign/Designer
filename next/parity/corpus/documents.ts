@@ -456,6 +456,9 @@ export const CORPUS_DOCUMENTS: CorpusDocument[] = [
       "the same image placed several times (one dictionary entry)",
     ],
     covers: [
+      "FMT-GVD-010",
+      "FMT-GVD-011",
+      "EDT-PAINT-037",
       "ENG-NODE-034",
       "FMT-GVD-010",
       "FMT-GVD-011",
@@ -777,6 +780,7 @@ export const CORPUS_DOCUMENTS: CorpusDocument[] = [
       "outside border on an open path",
     ],
     covers: [
+      "EDT-RENDER-011",
       "ENG-BORDER-001",
       "ENG-BORDER-002",
       "ENG-BORDER-005",
@@ -1012,6 +1016,8 @@ export const CORPUS_DOCUMENTS: CorpusDocument[] = [
       "drop shadow on an open path",
     ],
     covers: [
+      "EDT-GL-013",
+      "EDT-GL-015",
       "EDT-RENDER-018",
       "EDT-PAINT-020",
       "EDT-PAINT-023",
@@ -1323,6 +1329,9 @@ export const CORPUS_DOCUMENTS: CorpusDocument[] = [
     covers: [
       ...(covers as string[]),
       "ENG-EFFECT-015",
+      "EDT-GL-001",
+      "EDT-GL-008",
+      "EDT-GL-012",
       "EDT-GL-005",
       "EDT-GL-006",
       "EDT-GL-007",
@@ -1417,6 +1426,80 @@ export const CORPUS_DOCUMENTS: CorpusDocument[] = [
           ),
         );
       });
+    },
+  },
+  {
+    name: "masks",
+    features: [
+      "mask blend (_sbl m) on an ellipse over a gradient rectangle in a group, and over a rectangle and an image",
+      "inverse mask (_sbl !m) with a star",
+      "two masks in one group (they do not overlap), a mask with 50% opacity, an inverse-masked group with a drop shadow",
+    ],
+    covers: [
+      "EDT-RENDER-012",
+      "EDT-RENDER-015",
+      "EDT-RENDER-016",
+      "EDT-PAINT-019",
+      "EDT-PAINT-005",
+      "ENG-BLEND-001",
+    ],
+    build: (L, a) => {
+      const G = L.G;
+      const base = (x: number, y: number) =>
+        L.style(
+          L.rect(x, y, 160, 120),
+          [
+            L.linear([
+              [0, [255, 80, 0]],
+              [0.5, [255, 230, 0]],
+              [1, [0, 120, 255]],
+            ]),
+          ],
+          [[[20, 20, 20], { _bw: 4 }]],
+        );
+      const mask = (shape: unknown, mode: string, props?: Record<string, unknown>) =>
+        L.props(L.style(shape, [[0, 0, 0]], []), { _sbl: mode, ...props });
+      const ellipse = () => L.ellipse(20, 10, 120, 100);
+      const star = (x: number, y: number) => L.polygon(x + 80, y + 60, 56, { pts: 5, ir: 24 });
+      const img = (x: number, y: number) =>
+        L.image(x + 30, y + 30, 100, 62, a.jpeg.url, a.jpeg.w, a.jpeg.h);
+      const groups = [
+        [base(0, 0), mask(ellipse(), "m")],
+        [base(200, 0), mask(star(200, 0), "!m")],
+        [base(400, 160), img(400, 160), mask(L.ellipse(420, 170, 120, 100), "m")],
+        [
+          base(0, 160),
+          mask(L.rect(10, 170, 70, 100), "m"),
+          L.style(L.rect(100, 170, 50, 100), [[0, 160, 80]], []),
+          mask(L.ellipse(90, 160, 80, 60), "m"),
+        ],
+        [base(200, 160), mask(star(200, 160), "m", { _stop: 0.5 })],
+      ];
+      groups.forEach((children) => L.insert(L.group(children)));
+      const shadowed = L.group([base(400, 0), mask(L.ellipse(420, 10, 120, 100), "!m")]);
+      L.fx(shadowed, G.GDropShadowEffect, { r: 6, x: 8, y: 8 });
+      L.insert(shadowed);
+    },
+  },
+  {
+    // An element large enough that its WebGL effect is rendered in tiles
+    // (more than 4M pixels at 100%).
+    name: "effects-large",
+    features: [
+      "a 2200 x 2100 rectangle with a striped gradient and a GL blur (radius 12), larger than one shader tile",
+      "a GL noise effect on a 2400 x 1900 ellipse",
+    ],
+    covers: ["EDT-GL-006", "EDT-GL-009", "EDT-GL-014", "ENG-EFFECT-015"],
+    build: (L) => {
+      const G = L.G;
+      const stripes = [];
+      for (let i = 0; i <= 20; i++) stripes.push([i / 20, i % 2 ? [255, 0, 90] : [0, 70, 255]]);
+      const big = L.style(L.rect(0, 0, 2200, 2100), [L.linear(stripes, Math.PI / 7)], []);
+      L.fx(big, G.GGLBlurEffect, null, { radius: 12 });
+      L.insert(big);
+      const ellipse = L.style(L.ellipse(2300, 100, 2400, 1900), [[40, 180, 120]], []);
+      L.fx(ellipse, G.GGLNoiseEffect, null, { amount: 0.6 });
+      L.insert(ellipse);
     },
   },
   {
@@ -1870,6 +1953,11 @@ export const CORPUS_DOCUMENTS: CorpusDocument[] = [
       "content outside the page (clipped in output)",
     ],
     covers: [
+      "EDT-RENDER-019",
+      "EDT-RENDER-048",
+      "EDT-RENDER-049",
+      "EDT-RENDER-050",
+      "EDT-PAINT-009",
       "ENG-NODE-038",
       "ENG-SCENE-005",
       "EDT-RENDER-019",

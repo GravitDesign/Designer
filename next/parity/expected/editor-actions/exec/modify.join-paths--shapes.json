@@ -3,6 +3,15 @@
  "id": "modify.join-paths",
  "info": {
   "title": "Join Paths",
+  "fullTitle": "Join Paths",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/path",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,8 +23,16 @@
  },
  "before": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -23,27 +40,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id3",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id4",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id5",
+       "pgid": "id4",
+       "aid": "id5"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -61,21 +79,21 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id6",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id7"
+        "&": "id8"
        },
-       "_effId": "id8"
+       "_effId": "id9"
       },
       {
        "@": "rectangle",
-       "@id": "id9",
+       "@id": "id2",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -535,10 +553,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "compoundpath"
+   {
+    "node": "compoundpath",
+    "@id": "id112",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -546,6 +567,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Join Paths"
@@ -553,39 +575,39 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id3",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id4",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id5",
+       "pgid": "id4",
+       "aid": "id5"
       },
       {
        "@": "compoundpath",
        "@id": "id112",
        "paths": [
-        "{\"@\":\"path\",\"@id\":\"rid113\",\"closed\":true,\"pts\":[[\"AACAvwAAgL8=\",\"#\",\"rid114\"],[\"AACAPwAAgL8=\",\"#\",\"rid115\"],[\"AACAPwAAgD8=\",\"#\",\"rid116\"],[\"AACAvwAAgD8=\",\"#\",\"rid117\"]],\"reftxt\":null,\"refanchors\":[],\"trf\":[50,0,0,30,150,130],\"name\":\"A\",\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"rid118\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id6\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"rid119\"},\"_effId\":\"rid120\"}",
-        "{\"@\":\"path\",\"@id\":\"rid121\",\"closed\":true,\"pts\":[[\"AACAvwAAgL8=\",\"#\",\"rid122\"],[\"AACAPwAAgL8=\",\"#\",\"rid123\"],[\"AACAPwAAgD8=\",\"#\",\"rid124\"],[\"AACAvwAAgD8=\",\"#\",\"rid125\"]],\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,60,330,210],\"name\":\"B\",\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"rid126\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id11\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"rid127\"},\"_effId\":\"rid128\"}"
+        "{\"@\":\"path\",\"@id\":\"id113\",\"closed\":true,\"pts\":[[\"AACAvwAAgL8=\",\"#\",\"id114\"],[\"AACAPwAAgL8=\",\"#\",\"id115\"],[\"AACAPwAAgD8=\",\"#\",\"id116\"],[\"AACAvwAAgD8=\",\"#\",\"id117\"]],\"reftxt\":null,\"refanchors\":[],\"trf\":[50,0,0,30,150,130],\"name\":\"A\",\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id118\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id7\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id119\"},\"_effId\":\"id120\"}",
+        "{\"@\":\"path\",\"@id\":\"id121\",\"closed\":true,\"pts\":[[\"AACAvwAAgL8=\",\"#\",\"id122\"],[\"AACAPwAAgL8=\",\"#\",\"id123\"],[\"AACAPwAAgD8=\",\"#\",\"id124\"],[\"AACAvwAAgD8=\",\"#\",\"id125\"]],\"reftxt\":null,\"refanchors\":[],\"trf\":[30,0,0,60,330,210],\"name\":\"B\",\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id126\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id11\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id127\"},\"_effId\":\"id128\"}"
        ],
        "refanchors": [],
        "_layers": {
         "@": "paintLayers",
-        "@id": "id113",
+        "@id": "id129",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id114"
+        "&": "id130"
        },
-       "_effId": "id115"
+       "_effId": "id131"
       }
      ],
      "#": "id14",
@@ -990,7 +1012,7 @@
    "__ids": [
     "id92",
     "id93",
-    "id116",
+    "id132",
     "id96",
     "id97",
     "id98",
@@ -1018,6 +1040,15 @@
  },
  "infoAfter": {
   "title": "Join Paths",
+  "fullTitle": "Join Paths",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Modify",
+   "Modify/Path"
+  ],
+  "group": "structure/path",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -1029,8 +1060,16 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1038,6 +1077,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1048,7 +1088,11 @@
  },
  "afterRedo": {
   "selection": [
-   "compoundpath"
+   {
+    "node": "compoundpath",
+    "@id": "id112",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1056,6 +1100,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Join Paths"

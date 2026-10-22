@@ -14,15 +14,14 @@ export function makeHelpers(p: ParityHandle) {
   const isNum = (x: any) => typeof x === "number";
   /** A rectangle as [x, y, w, h], or null. */
   const r = (b: any) => (b ? [b.getX(), b.getY(), b.getWidth(), b.getHeight()] : null);
-  /** Encodes any property value as plain JSON, keeping its type visible. */
+  /**
+   * Encodes any property value as plain data, keeping its type visible.
+   * undefined, NaN, ±Infinity and -0 pass through; withHelpers tags them on
+   * the way out of the page.
+   */
   const v = (x: any): any => {
-    if (x === undefined) return "<undefined>";
-    if (x === null || typeof x === "boolean" || typeof x === "string") return x;
-    if (isNum(x)) {
-      if (Number.isNaN(x)) return "<NaN>";
-      if (!Number.isFinite(x)) return x > 0 ? "<Infinity>" : "<-Infinity>";
-      return x;
-    }
+    if (x === undefined || x === null) return x;
+    if (typeof x === "boolean" || typeof x === "string" || isNum(x)) return x;
     if (Array.isArray(x)) return x.map(v);
     if (x instanceof G.GPattern) return "pattern:" + G.GPattern.serialize(x);
     if (x instanceof G.GTransform) return { trf: G.GTransform.serialize(x) };
@@ -42,7 +41,8 @@ export function makeHelpers(p: ParityHandle) {
     if (typeof x === "string" && x.startsWith("pattern:"))
       return G.GPattern.deserialize(x.slice(8));
     if (Array.isArray(x)) return x.map(dec);
-    if (x && typeof x === "object") {
+    // Engine objects passed in page code (colors, patterns) stay as they are.
+    if (x && typeof x === "object" && Object.getPrototypeOf(x) === Object.prototype) {
       if (Array.isArray(x.trf)) return G.GTransform.deserialize(x.trf);
       if (Array.isArray(x.rect)) return G.GRect.deserialize(x.rect);
       if (Array.isArray(x.point)) return new G.GPoint(x.point[0], x.point[1]);
@@ -73,51 +73,103 @@ export function makeHelpers(p: ParityHandle) {
   /** Serializes one node and parses it back into an object. */
   const rawBlob = (node: any, options?: any) => JSON.parse(G.GNode.serialize(node, options));
   /**
-   * Replaces the random ids of a parsed blob (node ids, reference ids,
-   * style layer and effect hashes, scene id lists, paths-graph uids) with
-   * "<id>", also inside nested JSON strings and serialized patterns, and
-   * wall-clock timestamps (annotations stamp "time"/"mtime" with now) with
-   * "<now>", so json scenarios stay deterministic. Document scenarios keep
-   * the ids and let the harness rename them instead.
+   * Renames the random ids in json output, which the harness only does for
+   * "document" scenarios. An id is a GUtil.uuid() string (6 characters
+   * for node ids, 32 for the rest) found under a key that holds ids
+   * (node ids, reference ids, style layer and
+   * effect hashes, the scene's id lists, links to styles, annotations and
+   * pages, paths-graph uids). Ids become "id1", "id2", ... in order of
+   * first appearance over the whole scenario, and every other string equal
+   * to one of them (references) is renamed the same way, so it stays
+   * visible which node a reference points to. A value under an id key that
+   * isn't id-shaped (null, a default, a test string, a wrong format) is
+   * kept as it is. JSON nested in strings has its ids replaced in the
+   * text, without re-serializing it.
+   *
+   * Annotations stamp "time"/"mtime" and saved scenes "lmd" with the wall
+   * clock; those become "<now>" when they hold a current timestamp.
    */
-  const ID_KEYS = ["@id", "#", "&", "_effId", "_layId", "__ids", "sref", "_uid", "aid", "pgid"];
+  const ID_KEYS = ["@id", "#", "&", "_effId", "_layId", "sref", "_uid", "aid", "pgid", "uuid"];
+  const ID_ARRAY_KEYS = ["__ids", "refs"];
+  const ID_SHAPE = /^[0-9A-Za-z]{6}(?:[0-9A-Za-z]{26})?$/;
   const TIME_KEYS = ["time", "mtime", "lmd"];
-  const clean = (x: any): any => {
-    // Compact anchor points store references as [..., "#", id, "&", id].
-    if (Array.isArray(x))
-      return x.map((item, i) =>
-        typeof item === "string" && (x[i - 1] === "#" || x[i - 1] === "&") ? "<id>" : clean(item),
-      );
-    if (typeof x === "string") {
-      const m = /^([A-Z]#|pattern:[A-Z]#)?([[{].*[\]}])$/s.exec(x);
-      if (m) {
-        try {
-          return (m[1] ?? "") + JSON.stringify(clean(JSON.parse(m[2] as string)));
-        } catch {
-          return x;
-        }
-      }
-      return x;
+  const idNames = new Map<string, string>();
+  const addId = (x: any) => {
+    if (typeof x === "string" && ID_SHAPE.test(x) && !idNames.has(x))
+      idNames.set(x, "id" + (idNames.size + 1));
+  };
+  /** The JSON text inside a string ("{...}", "L#{...}", "pattern:L#{...}"), if any. */
+  const nestedJson = (x: string) => {
+    const m = /^((?:pattern:)?(?:[A-Za-z]#)?)([[{][\s\S]*[\]}])$/.exec(x);
+    if (!m) return null;
+    try {
+      return { prefix: m[1] as string, text: m[2] as string, value: JSON.parse(m[2] as string) };
+    } catch {
+      return null;
     }
+  };
+  const collect = (x: any) => {
+    if (typeof x === "string") {
+      const n = nestedJson(x);
+      if (n) collect(n.value);
+      return;
+    }
+    if (Array.isArray(x)) {
+      // Compact anchor points store references as [..., "#", id, "&", id].
+      x.forEach((item, i) => {
+        if (i > 0 && (x[i - 1] === "#" || x[i - 1] === "&")) addId(item);
+        collect(item);
+      });
+      return;
+    }
+    if (x && typeof x === "object") {
+      for (const k of Object.keys(x)) {
+        const val = x[k];
+        if (ID_KEYS.includes(k)) addId(val);
+        else if (ID_ARRAY_KEYS.includes(k) && Array.isArray(val)) val.forEach(addId);
+        // Paths-graph nodes store [uid, ...] under "props".
+        else if (k === "props" && Array.isArray(val)) addId(val[0]);
+        collect(val);
+      }
+    }
+  };
+  // A string token inside JSON text: an id is renamed, nested JSON text
+  // (a pattern inside a pattern) is renamed recursively; any other token
+  // stays byte for byte.
+  const renameText = (text: string): string =>
+    text.replace(/"((?:[^"\\]|\\.)*)"/g, (token: string) => {
+      const value = JSON.parse(token) as string;
+      const renamed = rename(value);
+      return renamed === value ? token : JSON.stringify(renamed);
+    });
+  const rename = (x: any): any => {
+    if (typeof x === "string") {
+      const name = idNames.get(x);
+      if (name !== undefined) return name;
+      const n = nestedJson(x);
+      return n ? n.prefix + renameText(n.text) : x;
+    }
+    if (Array.isArray(x)) return x.map(rename);
     if (x && typeof x === "object") {
       const out: Record<string, any> = {};
       for (const k of Object.keys(x)) {
         const val = x[k];
-        if (ID_KEYS.includes(k) && val !== null) out[k] = "<id>";
-        else if (TIME_KEYS.includes(k) && isNum(val) && val > 1e12) out[k] = "<now>";
-        // Paths-graph nodes store [uid, ...] under "props".
-        else if (
-          k === "props" &&
-          Array.isArray(val) &&
-          typeof val[0] === "string" &&
-          val[0].length === 32
-        )
-          out[k] = ["<id>", ...clean(val.slice(1))];
-        else out[k] = clean(val);
+        // Maps keyed by reference id (the scene's _links) rename their keys too.
+        out[idNames.get(k) ?? k] =
+          TIME_KEYS.includes(k) && isNum(val) && val > 1e12 ? "<now>" : rename(val);
       }
       return out;
     }
     return x;
+  };
+  const clean = (x: any): any => {
+    collect(x);
+    return rename(x);
+  };
+  /** The stable name of one id (see clean), registering it if new. */
+  const id = (x: string) => {
+    addId(x);
+    return idNames.get(x) ?? x;
   };
   /** Serializes one node into an object with random ids replaced (see clean). */
   const blob = (node: any, options?: any) => clean(rawBlob(node, options));
@@ -281,28 +333,27 @@ export function makeHelpers(p: ParityHandle) {
     await fonts(t);
     return t;
   };
+  /** A node blob as copied (no node ids), with random ids renamed (see clean). */
+  const stable = (n: any) => blob(n, { copy: true });
+  /** The active document serialized for saving, parsed. */
+  const savedScene = () => JSON.parse(app.serialize({ save: true }));
   /**
-   * A node blob with random ids replaced and without `_sdf`, the runtime type
-   * id of the default style (it depends on module load order).
+   * Turns every paragraph of a text into a list, the way the text
+   * inspector does (toggleList on the document range), and optionally moves
+   * the line `nest` one level deeper, the way Tab does in the editor.
    */
-  const stable = (n: any) => {
-    const b = blob(n, { copy: true });
-    delete b._sdf;
-    return b;
+  const list = async (t: any, marker: string, nest?: string) => {
+    const core = t.getTLCore();
+    if (!core.getDocumentRange().toggleList(marker)) throw new Error("toggleList did nothing");
+    if (nest) {
+      const at = t.getPlainText().indexOf(nest);
+      if (at < 0) throw new Error(`no line ${nest}`);
+      if (!core.getRange(at, at + nest.length).increaseList())
+        throw new Error("increaseList did nothing");
+    }
+    await fonts(t);
+    return t;
   };
-  /**
-   * The scene's `_links` map is keyed by random reference ids, and the
-   * harness only renames ids that appear as values. This turns it into a
-   * list of [key, targets] pairs (in insertion order) so the keys get
-   * renamed too. Use on parsed scene blobs in document scenarios.
-   */
-  const linksAsEntries = (sceneBlob: any) => {
-    if (sceneBlob && sceneBlob._links && typeof sceneBlob._links === "object")
-      sceneBlob._links = Object.entries(sceneBlob._links);
-    return sceneBlob;
-  };
-  /** The active document serialized for saving, with `_links` as entries. */
-  const savedScene = () => linksAsEntries(JSON.parse(app.serialize({ save: true })));
   /** Child node names of a container. */
   const kids = (n: any) => (n.getChildren() as any[]).map((c) => G.GNode.getName(c));
   return {
@@ -317,6 +368,7 @@ export function makeHelpers(p: ParityHandle) {
     blob,
     rawBlob,
     clean,
+    id,
     verts,
     outline,
     T,
@@ -336,15 +388,39 @@ export function makeHelpers(p: ParityHandle) {
     attempt,
     attemptMsg,
     kids,
-    linksAsEntries,
     savedScene,
     text,
+    list,
     warmText,
     stable,
   };
 }
 
 export type Helpers = ReturnType<typeof makeHelpers>;
+
+/**
+ * -0, NaN, ±Infinity and undefined as the tagged strings the harness
+ * defines (runner.ts tagSpecialValues); JSON.stringify would turn them into
+ * 0, null or nothing. Runs in the page on every scenario result; tagged
+ * strings pass through the harness's own tagging unchanged.
+ */
+function tagSpecial(v: unknown): unknown {
+  if (typeof v === "number") {
+    if (Object.is(v, -0)) return "<-0>";
+    if (Number.isNaN(v)) return "<NaN>";
+    if (v === Infinity) return "<Infinity>";
+    if (v === -Infinity) return "<-Infinity>";
+    return v;
+  }
+  if (v === undefined) return "<undefined>";
+  if (Array.isArray(v)) return v.map(tagSpecial);
+  if (v && typeof v === "object") {
+    const out: Record<string, unknown> = {};
+    for (const [k, child] of Object.entries(v)) out[k] = tagSpecial(child);
+    return out;
+  }
+  return v;
+}
 
 /**
  * Wraps an in-page scenario function so it receives the helpers as a third
@@ -354,7 +430,9 @@ export type Helpers = ReturnType<typeof makeHelpers>;
 export function withHelpers<A>(
   fn: (p: ParityHandle, args: A, H: Helpers) => unknown,
 ): (p: ParityHandle, args: unknown) => unknown {
-  const source = `(p, a) => (${fn.toString()})(p, a, (${makeHelpers.toString()})(p))`;
+  const source =
+    `(p, a) => Promise.resolve((${fn.toString()})(p, a, (${makeHelpers.toString()})(p)))` +
+    `.then(${tagSpecial.toString()})`;
   const wrapper = (): never => {
     throw new Error("in-page scenario functions only run in the page");
   };

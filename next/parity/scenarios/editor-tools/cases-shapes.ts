@@ -28,14 +28,7 @@ interface ShapeTool {
 
 const activate = (t: ShapeTool): Step[] => [move(40, 40), tool(t.className)];
 
-const BASE = [
-  "EDT-TOOLMGR-018",
-  "EDT-TOOLMGR-023",
-  "EDT-CURSOR-009",
-  "EDT-TOOLMGR-012",
-  "EDT-TOOLMGR-013",
-  "EDT-TOOLMGR-016",
-];
+const BASE = ["EDT-TOOLMGR-018", "EDT-TOOLMGR-023", "EDT-CURSOR-009", "EDT-TOOLMGR-016"];
 
 const tools: ShapeTool[] = [
   {
@@ -99,8 +92,9 @@ function casesFor(t: ShapeTool): ToolCase[] {
   ];
   return [
     {
+      // The hover probe records the coordinate hint next to the cursor.
       id: `shapes/${t.name}-plain`,
-      covers: covers(),
+      covers: covers("EDT-TOOLMGR-012"),
       steps: [
         ...activate(t),
         move(60, 60),
@@ -209,4 +203,29 @@ function casesFor(t: ShapeTool): ToolCase[] {
   ];
 }
 
-export const shapeCases: ToolCase[] = tools.flatMap(casesFor);
+/**
+ * The app turns the size and angle hints off (GEditorOptions sizeTooltip
+ * and angleTooltip false, only coordinates are shown), so mid-drag hints
+ * are null in every other case. With the options on, the shape tools show
+ * "w × h" (a line its length) at the cursor while dragging.
+ */
+const sizeHintCases: ToolCase[] = ["rectangle", "line"].map((name) => {
+  const t = tools.find((x) => x.name === name) as ShapeTool;
+  return {
+    id: `shapes/${name}-size-hint`,
+    covers: ["EDT-TOOLMGR-012", ...t.covers],
+    fixture: { editorOptions: { sizeTooltip: true, angleTooltip: true } },
+    steps: [
+      ...activate(t),
+      down(100, 100),
+      move(140, 125),
+      probe("mid-drag"),
+      move(230, 190),
+      probe("mid-drag-2"),
+      up(),
+      probe("after"),
+    ],
+  };
+});
+
+export const shapeCases: ToolCase[] = [...tools.flatMap(casesFor), ...sizeHintCases];

@@ -31,12 +31,16 @@
           "cls": [
            "cover"
           ],
+          "attrs": {
+           "style": "display: none;"
+          },
           "hidden": true
          },
          {
           "tag": "input",
           "attrs": {
-           "type": "text"
+           "type": "text",
+           "style": "width: 50px;"
           },
           "props": {
            "value": "Untitled-1Poster"
@@ -49,6 +53,9 @@
         "cls": [
          "close"
         ],
+        "attrs": {
+         "style": "pointer-events: auto;"
+        },
         "text": "✕"
        }
       ]

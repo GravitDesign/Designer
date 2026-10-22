@@ -173,7 +173,7 @@ const scenarios = defineScenarios([
     }
     return { lineIs, solveSpecial, circleLine, circleCircle };
   }),
-  geo("math/distances", ["ENG-GEOM-005", "EDT-SNAP-013"], (L, G) => {
+  geo("math/distances", ["ENG-GEOM-005"], (L, G) => {
     const M = G.GMath;
     const P = (x: unknown, y: unknown) => new G.GPoint(x, y);
     const r = L.floats(54, 60 * 8, -20, 20);

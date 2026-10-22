@@ -5,6 +5,9 @@
    "properties-panel",
    "effects-properties-panel"
   ],
+  "attrs": {
+   "style": ""
+  },
   "children": [
    {
     "tag": "div",
@@ -171,6 +174,9 @@
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 20%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -195,7 +201,8 @@
                         ],
                         "attrs": {
                          "data-drag-mode": "1",
-                         "draggable": "true"
+                         "draggable": "true",
+                         "style": "background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%), url(data:(309 chars));"
                         },
                         "children": [
                          {
@@ -229,13 +236,19 @@
                   "cls": [
                    "column",
                    "no-padding"
-                  ]
+                  ],
+                  "attrs": {
+                   "style": "width: 20%;"
+                  }
                  },
                  {
                   "tag": "label",
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 20%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -263,13 +276,19 @@
                   "cls": [
                    "column",
                    "no-padding"
-                  ]
+                  ],
+                  "attrs": {
+                   "style": "width: 20%;"
+                  }
                  },
                  {
                   "tag": "div",
                   "cls": [
                    "column"
                   ],
+                  "attrs": {
+                   "style": "width: 20%;"
+                  },
                   "children": [
                    {
                     "tag": "div",
@@ -279,12 +298,18 @@
                     "children": [
                      {
                       "tag": "div",
+                      "attrs": {
+                       "style": "display: flex; justify-content: center;"
+                      },
                       "children": [
                        {
                         "tag": "label",
                         "cls": [
                          "g-switch"
                         ],
+                        "attrs": {
+                         "style": "width: 20px; align-self: center;"
+                        },
                         "children": [
                          {
                           "tag": "input",
@@ -317,6 +342,9 @@
                 "children": [
                  {
                   "tag": "label",
+                  "attrs": {
+                   "style": "width: 20%;"
+                  },
                   "children": [
                    {
                     "tag": "span",
@@ -328,10 +356,16 @@
                   "tag": "label",
                   "cls": [
                    "no-padding"
-                  ]
+                  ],
+                  "attrs": {
+                   "style": "width: 20%;"
+                  }
                  },
                  {
                   "tag": "label",
+                  "attrs": {
+                   "style": "width: 20%;"
+                  },
                   "children": [
                    {
                     "tag": "span",
@@ -343,10 +377,16 @@
                   "tag": "label",
                   "cls": [
                    "no-padding"
-                  ]
+                  ],
+                  "attrs": {
+                   "style": "width: 20%;"
+                  }
                  },
                  {
                   "tag": "label",
+                  "attrs": {
+                   "style": "width: 20%;"
+                  },
                   "children": [
                    {
                     "tag": "span",

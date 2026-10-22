@@ -5,6 +5,9 @@
    "g-overlay",
    "advanced-overlay"
   ],
+  "attrs": {
+   "style": "position: absolute; top: 341px; left: 1368px;"
+  },
   "children": [
    {
     "tag": "div",
@@ -19,7 +22,8 @@
        "corner-type"
       ],
       "attrs": {
-       "data-property": "corners-type"
+       "data-property": "corners-type",
+       "style": "margin-bottom: 10px;"
       },
       "children": [
        {
@@ -28,6 +32,9 @@
          "g-property-row",
          "no-label"
         ],
+        "attrs": {
+         "style": "width: 100%;"
+        },
         "children": [
          {
           "tag": "div",
@@ -40,6 +47,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 20%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -61,7 +71,10 @@
                   "tag": "span",
                   "cls": [
                    "gravit-icon-corner-rounded"
-                  ]
+                  ],
+                  "attrs": {
+                   "style": "transform: rotate(0deg);"
+                  }
                  }
                 ]
                }
@@ -74,6 +87,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 20%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -94,7 +110,10 @@
                   "tag": "span",
                   "cls": [
                    "gravit-icon-corner-inverse-rounded"
-                  ]
+                  ],
+                  "attrs": {
+                   "style": "transform: rotate(0deg);"
+                  }
                  }
                 ]
                }
@@ -107,6 +126,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 20%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -127,7 +149,10 @@
                   "tag": "span",
                   "cls": [
                    "gravit-icon-corner-bevel"
-                  ]
+                  ],
+                  "attrs": {
+                   "style": "transform: rotate(0deg);"
+                  }
                  }
                 ]
                }
@@ -140,6 +165,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 20%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -160,7 +188,10 @@
                   "tag": "span",
                   "cls": [
                    "gravit-icon-corner-inset"
-                  ]
+                  ],
+                  "attrs": {
+                   "style": "transform: rotate(0deg);"
+                  }
                  }
                 ]
                }
@@ -173,6 +204,9 @@
             "cls": [
              "column"
             ],
+            "attrs": {
+             "style": "width: 20%;"
+            },
             "children": [
              {
               "tag": "div",
@@ -193,7 +227,10 @@
                   "tag": "span",
                   "cls": [
                    "gravit-icon-corner-fancy"
-                  ]
+                  ],
+                  "attrs": {
+                   "style": "transform: rotate(0deg);"
+                  }
                  }
                 ]
                }
@@ -262,6 +299,9 @@
       "cls": [
        "corners-panel"
       ],
+      "attrs": {
+       "style": "display: none;"
+      },
       "hidden": true
      }
     ]

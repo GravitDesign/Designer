@@ -3,6 +3,14 @@
  "id": "modify.merge",
  "info": {
   "title": "Create Compound",
+  "fullTitle": "Create Compound",
+  "info": null,
+  "icon": "gravit-icon-merge-union",
+  "category": [
+   "Modify"
+  ],
+  "group": "structure-group",
+  "pro": false,
   "available": true,
   "visible": false,
   "enabled": true,
@@ -14,8 +22,16 @@
  },
  "before": {
   "selection": [
-   "rectangle:R",
-   "ellipse:E"
+   {
+    "node": "rectangle:R",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "ellipse:E",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -23,27 +39,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id3",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id4",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id5",
+       "pgid": "id4",
+       "aid": "id5"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -61,21 +78,21 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id6",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id7"
+        "&": "id8"
        },
-       "_effId": "id8"
+       "_effId": "id9"
       },
       {
        "@": "ellipse",
-       "@id": "id9",
+       "@id": "id2",
        "reftxt": null,
        "refanchors": [],
        "trf": [
@@ -532,10 +549,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "Compound Shape"
+   {
+    "node": "Compound Shape",
+    "@id": "id112",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -543,6 +563,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Combine"
@@ -550,17 +571,17 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id3",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id4",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id5",
+       "pgid": "id4",
+       "aid": "id5"
       },
       {
        "@": "Compound Shape",
@@ -568,7 +589,7 @@
        "$": [
         {
          "@": "rectangle",
-         "@id": "id4",
+         "@id": "id1",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -586,21 +607,21 @@
          "_sdf": 107,
          "_layers": {
           "@": "paintLayers",
-          "@id": "id5",
+          "@id": "id6",
           "$": [
            {
             "@": "fillPaintLayer",
-            "@id": "id6",
+            "@id": "id7",
             "_pt": "C#[235,235,235]"
            }
           ],
-          "&": "id7"
+          "&": "id8"
          },
-         "_effId": "id8"
+         "_effId": "id9"
         },
         {
          "@": "ellipse",
-         "@id": "id9",
+         "@id": "id2",
          "reftxt": null,
          "refanchors": [],
          "trf": [
@@ -635,7 +656,7 @@
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
@@ -1076,6 +1097,14 @@
  },
  "infoAfter": {
   "title": "Create Compound",
+  "fullTitle": "Create Compound",
+  "info": null,
+  "icon": "gravit-icon-merge-union",
+  "category": [
+   "Modify"
+  ],
+  "group": "structure-group",
+  "pro": false,
   "available": true,
   "visible": false,
   "enabled": true,
@@ -1087,8 +1116,16 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:R",
-   "ellipse:E"
+   {
+    "node": "rectangle:R",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "ellipse:E",
+    "@id": "id2",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1096,6 +1133,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1106,7 +1144,11 @@
  },
  "afterRedo": {
   "selection": [
-   "Compound Shape"
+   {
+    "node": "Compound Shape",
+    "@id": "id112",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1114,6 +1156,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Combine"

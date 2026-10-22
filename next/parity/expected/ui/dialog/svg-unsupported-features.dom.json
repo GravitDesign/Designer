@@ -16,6 +16,9 @@
       "cls": [
        "message"
       ],
+      "attrs": {
+       "style": "line-height: 1.5em; max-height: 60%; overflow: auto;"
+      },
       "children": [
        {
         "tag": "span",
@@ -30,6 +33,9 @@
      },
      {
       "tag": "div",
+      "attrs": {
+       "style": "margin-top: 10px;"
+      },
       "children": [
        {
         "tag": "label",
@@ -37,7 +43,8 @@
          {
           "tag": "input",
           "attrs": {
-           "type": "checkbox"
+           "type": "checkbox",
+           "style": "margin-right: 5px;"
           },
           "props": {
            "checked": false

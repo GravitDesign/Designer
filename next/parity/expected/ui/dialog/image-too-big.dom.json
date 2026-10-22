@@ -1,0 +1,58 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-dialog"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-content"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "message"
+      ],
+      "attrs": {
+       "style": "line-height: 1.5em;"
+      },
+      "children": [
+       {
+        "tag": "span",
+        "text": "You are attempting to upload a huge image, that may impact the performance of Gravit Designer.Please try to reduce the image size before importing (max. 10MB, 64 megapixels).",
+        "children": [
+         {
+          "tag": "br"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-footer"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "buttons"
+      ],
+      "children": [
+       {
+        "tag": "button",
+        "text": "OK"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

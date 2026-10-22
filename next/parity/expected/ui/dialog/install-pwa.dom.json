@@ -1,0 +1,138 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-dialog",
+   "g-install-pwa-dialog"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-content"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-btn-close"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "cls": [
+         "gravit-icon-close"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "content"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "header"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "main-content"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "title"
+          ],
+          "text": "Install Gravit Designer to your desktop"
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "description"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "text": "Gravit Designer now comes as a PWA (Progressive Web App), that runs like a regular desktop application, no download required. It gives you everything you know (and love) from the current web app, but doesn’t require an internet connection"
+           },
+           {
+            "tag": "a",
+            "attrs": {
+             "href": ""
+            },
+            "text": "(subscription required)"
+           },
+           {
+            "tag": "span",
+            "text": "."
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "buttons"
+          ],
+          "children": [
+           {
+            "tag": "button",
+            "cls": [
+             "primary",
+             "g-button"
+            ],
+            "text": "Install"
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "g-button"
+            ],
+            "text": "Not now"
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "footer"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "text": "After installing, the PWA is available as a regular desktop application and can also be found in"
+           },
+           {
+            "tag": "span",
+            "text": "Chrome apps"
+           },
+           {
+            "tag": "span",
+            "text": "."
+           },
+           {
+            "tag": "span"
+           },
+           {
+            "tag": "a",
+            "attrs": {
+             "href": ""
+            },
+            "text": "More information here"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

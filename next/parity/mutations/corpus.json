@@ -1,0 +1,182 @@
+[
+  {
+    "id": "corpus-webgl-blend-off",
+    "covers": ["EDT-PAINT-004", "EDT-PAINT-046", "EDT-PAINT-047", "EDT-PAINT-048"],
+    "scenarios": [
+      "corpus/blend-modes/render-light",
+      "corpus/blend-modes/bitmap",
+      "corpus/matrix/blend-and-composite"
+    ],
+    "patch": {
+      "old": "const B = app.require(643); B.prototype._isCustomOperation = function () { this._ctx.globalCompositeOperation = this.globalCompositeOperation; return false; };"
+    }
+  },
+  {
+    "id": "corpus-gl-effects-off",
+    "covers": ["EDT-GL-009", "EDT-GL-011", "EDT-GL-014", "ENG-EFFECT-015"],
+    "scenarios": [
+      "corpus/effects-webgl-2/render-light",
+      "corpus/effects-webgl-3/bitmap",
+      "corpus/effects-large/render-dark"
+    ],
+    "patch": {
+      "old": "G.GWebGLEffect.prototype.render = function () { return null; };"
+    }
+  },
+  {
+    "id": "corpus-angular-gradient-off",
+    "covers": ["ENG-GRAD-004", "EDT-PAINT-027"],
+    "scenarios": [
+      "corpus/fills-gradients/render-light",
+      "corpus/fills-gradients/preview",
+      "corpus/matrix/paint-canvas"
+    ],
+    "patch": {
+      "old": "G.GAngularGradient.prototype.getGradient = function () { return null; };"
+    }
+  },
+  {
+    "id": "corpus-text-not-painted",
+    "covers": ["ENG-TEXT-001", "EDT-RENDER-013"],
+    "scenarios": [
+      "corpus/text-layout/render-light",
+      "corpus/text-lists/render-dark",
+      "corpus/text-layout/bitmap"
+    ],
+    "patch": {
+      "old": "G.GText.prototype._paint = function () {};"
+    }
+  },
+  {
+    "id": "corpus-ids-regenerated-on-load",
+    "covers": ["FMT-GVD-004", "FMT-GVD-006"],
+    "scenarios": [
+      "corpus/shapes-rectangles/document",
+      "corpus/symbols/resave",
+      "compat/shapes-rectangles/roundtrip",
+      "corpus/edge/unknown-type/document"
+    ],
+    "patch": {
+      "old": "const restore = G.GNode.restore; G.GNode.restore = function (blob) { if (blob && typeof blob['@id'] === 'string') blob['@id'] = blob['@id'].slice(1) + 'Q'; return restore.apply(this, arguments); };"
+    }
+  },
+  {
+    "id": "corpus-save-loses-a-node",
+    "covers": ["FMT-GVD-001", "FMT-GVD-002"],
+    "scenarios": [
+      "compat/shapes-rectangles/roundtrip",
+      "compat/walkthrough-sample/roundtrip",
+      "corpus/shapes-rectangles/resave"
+    ],
+    "patch": {
+      "old": "const gzip = window.pako.gzip; window.pako.gzip = function (data, options) { return gzip.call(this, typeof data === 'string' ? data.replace('\"@\":\"rectangle\"', '\"@\":\"rectanglx\"') : data, options); };"
+    }
+  },
+  {
+    "id": "corpus-save-deflate-level-1",
+    "covers": ["FMT-GVD-001"],
+    "scenarios": ["corpus/shapes-ellipses/resave", "corpus/edge/uncompressed/resave"],
+    "patch": {
+      "old": "const gzip = window.pako.gzip; window.pako.gzip = function (data, options) { return gzip.call(this, data, Object.assign({}, options, { level: 1 })); };"
+    }
+  },
+  {
+    "id": "corpus-rulers-hidden",
+    "covers": ["EDT-RENDER-024"],
+    "scenarios": [
+      "corpus/shapes-rectangles/render-dark",
+      "corpus/text-layout/render-light",
+      "corpus/window/dark"
+    ],
+    "patch": {
+      "old": "const style = document.createElement('style'); style.textContent = '.g-ruler-widget { visibility: hidden !important; }'; document.head.appendChild(style);"
+    }
+  },
+  {
+    "id": "corpus-outline-mode-off",
+    "covers": ["EDT-RENDER-004", "EDT-RENDER-007", "EDT-PCTX-003"],
+    "scenarios": ["corpus/view/outline-view"],
+    "patch": {
+      "old": "G.GScenePaintConfiguration.prototype.isOutline = function () { return false; };"
+    }
+  },
+  {
+    "id": "corpus-dirty-area-half",
+    "covers": ["EDT-RENDER-032", "EDT-RENDER-033", "EDT-RENDER-045"],
+    "scenarios": ["corpus/view/pan-and-partial-repaint"],
+    "patch": {
+      "old": "const D = app.require(664); const dirty = D.prototype.dirty; D.prototype.dirty = function (x, y, w, h) { return dirty.call(this, x, y, w / 2, h); };"
+    }
+  },
+  {
+    "id": "corpus-no-pixel-sharp",
+    "covers": ["EDT-RENDER-011"],
+    "scenarios": [
+      "corpus/borders-alignment-width/render-light",
+      "corpus/shapes-rectangles/render-light"
+    ],
+    "patch": {
+      "old": "G.GScenePaintConfiguration.prototype.paintSharp = false;"
+    }
+  },
+  {
+    "id": "corpus-canvas-filters-off",
+    "covers": ["EDT-PAINT-007", "EDT-PAINT-041", "EDT-GL-012"],
+    "scenarios": ["corpus/matrix/paint-canvas", "corpus/effects-webgl-1/render-light"],
+    "patch": {
+      "old": "G.GPaintCanvas.prototype.setFilter = function () {};"
+    }
+  },
+  {
+    "id": "corpus-chessboard-flat",
+    "covers": ["EDT-PAINT-009", "EDT-RENDER-048"],
+    "scenarios": [
+      "corpus/pages-settings/render-light",
+      "corpus/window/light",
+      "corpus/matrix/paint-canvas"
+    ],
+    "patch": {
+      "old": "const board = G.GPaintCanvas.createChessboard; G.GPaintCanvas.createChessboard = function (size, a) { return board.call(this, size, a, a); };"
+    }
+  },
+  {
+    "id": "corpus-hit-test-off-by-one",
+    "covers": ["EDT-PAINT-040"],
+    "scenarios": ["corpus/matrix/canvas-geometry"],
+    "patch": {
+      "old": "const hit = G.GPaintCanvas.prototype.hitTest; G.GPaintCanvas.prototype.hitTest = function (p, t) { return hit.call(this, p, t + 1); };"
+    }
+  },
+  {
+    "id": "corpus-mask-counter-off",
+    "covers": ["EDT-PAINT-019", "EDT-RENDER-016"],
+    "scenarios": ["corpus/matrix/canvas-geometry", "corpus/masks/render-light"],
+    "patch": {
+      "old": "G.GPaintCanvas.prototype.setMasked = function () {};"
+    }
+  },
+  {
+    "id": "corpus-open-ignores-plain-json",
+    "covers": ["FMT-GVD-003"],
+    "scenarios": ["corpus/edge/uncompressed/document"],
+    "patch": {
+      "old": "const decode = TextDecoder.prototype.decode; TextDecoder.prototype.decode = function (data) { const bytes = data instanceof Uint8Array ? data : null; if (bytes && bytes.length > 1000 && bytes[0] === 0x7b) throw new Error('mutation: no plain JSON fallback'); return decode.apply(this, arguments); };"
+    }
+  },
+  {
+    "id": "corpus-wheel-zoom-no-snap",
+    "covers": ["EDT-RENDER-023", "EDT-RENDER-039"],
+    "scenarios": ["corpus/view/wheel"],
+    "patch": {
+      "old": "const W = app.require(363); const zoomAt = W.prototype.zoomAt; W.prototype.zoomAt = function (point, zoom) { return zoomAt.call(this, point, zoom * 1.01); };"
+    }
+  },
+  {
+    "id": "corpus-fast-view-no-op",
+    "covers": ["EDT-RENDER-009"],
+    "scenarios": ["corpus/view/fast-view", "corpus/view/fast-view-state"],
+    "patch": {
+      "old": "const A = app.require(1603); (A.default || A).prototype.execute = function () {};"
+    }
+  }
+]

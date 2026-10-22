@@ -20,6 +20,15 @@
  "id": "modify.createsymbol",
  "info": {
   "title": "Create Symbol",
+  "fullTitle": "Create Symbol",
+  "info": null,
+  "icon": "gravit-icon-symbolmaster",
+  "category": [
+   "Modify",
+   "Modify/Symbol"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -31,7 +40,11 @@
  },
  "before": {
   "selection": [
-   "symbol:Master"
+   {
+    "node": "symbol:Master",
+    "@id": "id1",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -39,6 +52,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Duplicate"
@@ -46,26 +60,26 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "symbol",
-       "@id": "id4",
+       "@id": "id5",
        "$": [
         {
          "@": "rectangle",
-         "@id": "id5",
-         "&": "id6",
+         "@id": "id6",
+         "&": "id7",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -83,43 +97,43 @@
          "_sdf": 107,
          "_layers": {
           "@": "paintLayers",
-          "@id": "id7",
+          "@id": "id8",
           "$": [
            {
             "@": "fillPaintLayer",
-            "@id": "id8",
-            "&": "id9",
+            "@id": "id9",
+            "&": "id10",
             "_pt": "C#[235,235,235]"
            }
           ],
-          "&": "id10"
+          "&": "id11"
          },
-         "_effId": "id11"
+         "_effId": "id12"
         }
        ],
-       "#": "id12",
-       "&": "id13",
+       "#": "id13",
+       "&": "id14",
        "frame": [
         100,
         100,
         80,
         50
        ],
-       "masterRef": "id12",
-       "masterMultiRef": "id13",
+       "masterRef": "id13",
+       "masterMultiRef": "id14",
        "dsb": [],
        "sbl": [],
        "name": "Master",
-       "_effId": "id14"
+       "_effId": "id15"
       },
       {
        "@": "symbol",
-       "@id": "id15",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
          "@id": "id16",
-         "&": "id6",
+         "&": "id7",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -142,29 +156,29 @@
            {
             "@": "fillPaintLayer",
             "@id": "id18",
-            "&": "id9",
+            "&": "id10",
             "_pt": "C#[235,235,235]"
            }
           ],
-          "&": "id10"
+          "&": "id11"
          },
-         "_effId": "id11"
+         "_effId": "id12"
         }
        ],
        "#": "id19",
-       "&": "id13",
+       "&": "id14",
        "frame": [
         100,
         100,
         80,
         50
        ],
-       "masterRef": "id12",
-       "masterMultiRef": "id13",
+       "masterRef": "id13",
+       "masterMultiRef": "id14",
        "dsb": [],
        "sbl": [],
        "name": "Master",
-       "_effId": "id14"
+       "_effId": "id15"
       }
      ],
      "#": "id20",
@@ -567,7 +581,7 @@
    ],
    "lmd": "<time>",
    "_links": {
-    "rid12": [
+    "id13": [
      "id102"
     ]
    },
@@ -601,7 +615,7 @@
    "symbolDictionary": {
     "entries": [
      {
-      "uuid": "id13",
+      "uuid": "id14",
       "value": null,
       "references": 1
      }
@@ -611,7 +625,11 @@
  },
  "after": {
   "selection": [
-   "symbol:Promoted"
+   {
+    "node": "symbol:Promoted",
+    "@id": "id120",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -619,6 +637,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Duplicate",
@@ -627,26 +646,26 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "symbol",
-       "@id": "id4",
+       "@id": "id5",
        "$": [
         {
          "@": "rectangle",
-         "@id": "id5",
-         "&": "id6",
+         "@id": "id6",
+         "&": "id7",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -664,34 +683,34 @@
          "_sdf": 107,
          "_layers": {
           "@": "paintLayers",
-          "@id": "id7",
+          "@id": "id8",
           "$": [
            {
             "@": "fillPaintLayer",
-            "@id": "id8",
-            "&": "id9",
+            "@id": "id9",
+            "&": "id10",
             "_pt": "C#[235,235,235]"
            }
           ],
-          "&": "id10"
+          "&": "id11"
          },
-         "_effId": "id11"
+         "_effId": "id12"
         }
        ],
-       "#": "id12",
-       "&": "id13",
+       "#": "id13",
+       "&": "id14",
        "frame": [
         100,
         100,
         80,
         50
        ],
-       "masterRef": "id12",
-       "masterMultiRef": "id13",
+       "masterRef": "id13",
+       "masterMultiRef": "id14",
        "dsb": [],
        "sbl": [],
        "name": "Master",
-       "_effId": "id14"
+       "_effId": "id15"
       },
       {
        "@": "symbol",
@@ -699,12 +718,12 @@
        "$": [
         {
          "@": "symbol",
-         "@id": "id15",
+         "@id": "id1",
          "$": [
           {
            "@": "rectangle",
            "@id": "id16",
-           "&": "id6",
+           "&": "id7",
            "uf": true,
            "ct": "R",
            "sl": 0,
@@ -727,29 +746,29 @@
              {
               "@": "fillPaintLayer",
               "@id": "id18",
-              "&": "id9",
+              "&": "id10",
               "_pt": "C#[235,235,235]"
              }
             ],
-            "&": "id10"
+            "&": "id11"
            },
-           "_effId": "id11"
+           "_effId": "id12"
           }
          ],
          "#": "id19",
-         "&": "id13",
+         "&": "id14",
          "frame": [
           100,
           100,
           80,
           50
          ],
-         "masterRef": "id12",
-         "masterMultiRef": "id13",
+         "masterRef": "id13",
+         "masterMultiRef": "id14",
          "dsb": [],
          "sbl": [],
          "name": "Master",
-         "_effId": "id14"
+         "_effId": "id15"
         }
        ],
        "#": "id121",
@@ -1168,7 +1187,7 @@
    ],
    "lmd": "<time>",
    "_links": {
-    "rid12": [
+    "id13": [
      "id102"
     ]
    },
@@ -1203,7 +1222,7 @@
    "symbolDictionary": {
     "entries": [
      {
-      "uuid": "id13",
+      "uuid": "id14",
       "value": null,
       "references": 1
      },
@@ -1218,6 +1237,15 @@
  },
  "infoAfter": {
   "title": "Create Symbol",
+  "fullTitle": "Create Symbol",
+  "info": null,
+  "icon": "gravit-icon-symbolmaster",
+  "category": [
+   "Modify",
+   "Modify/Symbol"
+  ],
+  "group": "structure/modify",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": false,
@@ -1229,7 +1257,11 @@
  },
  "afterUndo": {
   "selection": [
-   "symbol:Master"
+   {
+    "node": "symbol:Master",
+    "@id": "id1",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1237,6 +1269,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Duplicate"
@@ -1246,26 +1279,26 @@
   ],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "symbol",
-       "@id": "id4",
+       "@id": "id5",
        "$": [
         {
          "@": "rectangle",
-         "@id": "id5",
-         "&": "id6",
+         "@id": "id6",
+         "&": "id7",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -1283,43 +1316,43 @@
          "_sdf": 107,
          "_layers": {
           "@": "paintLayers",
-          "@id": "id7",
+          "@id": "id8",
           "$": [
            {
             "@": "fillPaintLayer",
-            "@id": "id8",
-            "&": "id9",
+            "@id": "id9",
+            "&": "id10",
             "_pt": "C#[235,235,235]"
            }
           ],
-          "&": "id10"
+          "&": "id11"
          },
-         "_effId": "id11"
+         "_effId": "id12"
         }
        ],
-       "#": "id12",
-       "&": "id13",
+       "#": "id13",
+       "&": "id14",
        "frame": [
         100,
         100,
         80,
         50
        ],
-       "masterRef": "id12",
-       "masterMultiRef": "id13",
+       "masterRef": "id13",
+       "masterMultiRef": "id14",
        "dsb": [],
        "sbl": [],
        "name": "Master",
-       "_effId": "id14"
+       "_effId": "id15"
       },
       {
        "@": "symbol",
-       "@id": "id15",
+       "@id": "id1",
        "$": [
         {
          "@": "rectangle",
          "@id": "id16",
-         "&": "id6",
+         "&": "id7",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -1342,29 +1375,29 @@
            {
             "@": "fillPaintLayer",
             "@id": "id18",
-            "&": "id9",
+            "&": "id10",
             "_pt": "C#[235,235,235]"
            }
           ],
-          "&": "id10"
+          "&": "id11"
          },
-         "_effId": "id11"
+         "_effId": "id12"
         }
        ],
        "#": "id19",
-       "&": "id13",
+       "&": "id14",
        "frame": [
         100,
         100,
         80,
         50
        ],
-       "masterRef": "id12",
-       "masterMultiRef": "id13",
+       "masterRef": "id13",
+       "masterMultiRef": "id14",
        "dsb": [],
        "sbl": [],
        "name": "Master",
-       "_effId": "id14"
+       "_effId": "id15"
       }
      ],
      "#": "id20",
@@ -1767,7 +1800,7 @@
    ],
    "lmd": "<time>",
    "_links": {
-    "rid12": [
+    "id13": [
      "id102"
     ]
    },
@@ -1801,14 +1834,28 @@
    "symbolDictionary": {
     "entries": [
      {
-      "uuid": "id13",
+      "uuid": "id14",
       "value": null,
       "references": 1
      },
      {
       "uuid": "id122",
       "value": {
-       "symbol": "{\"@\":\"symbol\",\"@id\":\"id120\",\"#\":\"id121\",\"&\":\"id122\",\"masterRef\":\"id121\",\"masterMultiRef\":\"id122\",\"dsb\":[],\"sbl\":[],\"name\":\"Promoted\",\"_effId\":\"id123\"}",
+       "symbol": {
+        "parsed": {
+         "@": "symbol",
+         "@id": "id120",
+         "#": "id121",
+         "&": "id122",
+         "masterRef": "id121",
+         "masterMultiRef": "id122",
+         "dsb": [],
+         "sbl": [],
+         "name": "Promoted",
+         "_effId": "id123"
+        },
+        "exact": true
+       },
        "image": null
       },
       "references": 0
@@ -1819,7 +1866,11 @@
  },
  "afterRedo": {
   "selection": [
-   "symbol:Promoted"
+   {
+    "node": "symbol:Promoted",
+    "@id": "id120",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1827,6 +1878,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Duplicate",
@@ -1835,26 +1887,26 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "symbol",
-       "@id": "id4",
+       "@id": "id5",
        "$": [
         {
          "@": "rectangle",
-         "@id": "id5",
-         "&": "id6",
+         "@id": "id6",
+         "&": "id7",
          "uf": true,
          "ct": "R",
          "sl": 0,
@@ -1872,34 +1924,34 @@
          "_sdf": 107,
          "_layers": {
           "@": "paintLayers",
-          "@id": "id7",
+          "@id": "id8",
           "$": [
            {
             "@": "fillPaintLayer",
-            "@id": "id8",
-            "&": "id9",
+            "@id": "id9",
+            "&": "id10",
             "_pt": "C#[235,235,235]"
            }
           ],
-          "&": "id10"
+          "&": "id11"
          },
-         "_effId": "id11"
+         "_effId": "id12"
         }
        ],
-       "#": "id12",
-       "&": "id13",
+       "#": "id13",
+       "&": "id14",
        "frame": [
         100,
         100,
         80,
         50
        ],
-       "masterRef": "id12",
-       "masterMultiRef": "id13",
+       "masterRef": "id13",
+       "masterMultiRef": "id14",
        "dsb": [],
        "sbl": [],
        "name": "Master",
-       "_effId": "id14"
+       "_effId": "id15"
       },
       {
        "@": "symbol",
@@ -1907,12 +1959,12 @@
        "$": [
         {
          "@": "symbol",
-         "@id": "id15",
+         "@id": "id1",
          "$": [
           {
            "@": "rectangle",
            "@id": "id16",
-           "&": "id6",
+           "&": "id7",
            "uf": true,
            "ct": "R",
            "sl": 0,
@@ -1935,29 +1987,29 @@
              {
               "@": "fillPaintLayer",
               "@id": "id18",
-              "&": "id9",
+              "&": "id10",
               "_pt": "C#[235,235,235]"
              }
             ],
-            "&": "id10"
+            "&": "id11"
            },
-           "_effId": "id11"
+           "_effId": "id12"
           }
          ],
          "#": "id19",
-         "&": "id13",
+         "&": "id14",
          "frame": [
           100,
           100,
           80,
           50
          ],
-         "masterRef": "id12",
-         "masterMultiRef": "id13",
+         "masterRef": "id13",
+         "masterMultiRef": "id14",
          "dsb": [],
          "sbl": [],
          "name": "Master",
-         "_effId": "id14"
+         "_effId": "id15"
         }
        ],
        "#": "id121",
@@ -2376,7 +2428,7 @@
    ],
    "lmd": "<time>",
    "_links": {
-    "rid12": [
+    "id13": [
      "id102"
     ]
    },
@@ -2411,14 +2463,90 @@
    "symbolDictionary": {
     "entries": [
      {
-      "uuid": "id13",
+      "uuid": "id14",
       "value": null,
       "references": 1
      },
      {
       "uuid": "id122",
       "value": {
-       "symbol": "{\"@\":\"symbol\",\"@id\":\"id120\",\"$\":[{\"@\":\"symbol\",\"@id\":\"id15\",\"$\":[{\"@\":\"rectangle\",\"@id\":\"id16\",\"&\":\"id6\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[40,0,0,25,140,125],\"name\":\"A\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"@id\":\"id17\",\"$\":[{\"@\":\"fillPaintLayer\",\"@id\":\"id18\",\"&\":\"id9\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id10\"},\"_effId\":\"id11\"}],\"#\":\"id19\",\"&\":\"id13\",\"frame\":[100,100,80,50],\"masterRef\":\"id12\",\"masterMultiRef\":\"id13\",\"dsb\":[],\"sbl\":[],\"name\":\"Master\",\"_effId\":\"id14\"}],\"#\":\"id121\",\"&\":\"id122\",\"frame\":[100,100,80,50],\"masterRef\":\"id121\",\"masterMultiRef\":\"id122\",\"dsb\":[],\"sbl\":[],\"name\":\"Promoted\",\"_effId\":\"id123\"}",
+       "symbol": {
+        "parsed": {
+         "@": "symbol",
+         "@id": "id120",
+         "$": [
+          {
+           "@": "symbol",
+           "@id": "id1",
+           "$": [
+            {
+             "@": "rectangle",
+             "@id": "id16",
+             "&": "id7",
+             "uf": true,
+             "ct": "R",
+             "sl": 0,
+             "reftxt": null,
+             "refanchors": [],
+             "trf": [
+              40,
+              0,
+              0,
+              25,
+              140,
+              125
+             ],
+             "name": "A",
+             "_sdf": 107,
+             "_layers": {
+              "@": "paintLayers",
+              "@id": "id17",
+              "$": [
+               {
+                "@": "fillPaintLayer",
+                "@id": "id18",
+                "&": "id10",
+                "_pt": "C#[235,235,235]"
+               }
+              ],
+              "&": "id11"
+             },
+             "_effId": "id12"
+            }
+           ],
+           "#": "id19",
+           "&": "id14",
+           "frame": [
+            100,
+            100,
+            80,
+            50
+           ],
+           "masterRef": "id13",
+           "masterMultiRef": "id14",
+           "dsb": [],
+           "sbl": [],
+           "name": "Master",
+           "_effId": "id15"
+          }
+         ],
+         "#": "id121",
+         "&": "id122",
+         "frame": [
+          100,
+          100,
+          80,
+          50
+         ],
+         "masterRef": "id121",
+         "masterMultiRef": "id122",
+         "dsb": [],
+         "sbl": [],
+         "name": "Promoted",
+         "_effId": "id123"
+        },
+        "exact": true
+       },
        "image": null
       },
       "references": 0

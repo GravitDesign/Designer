@@ -6,6 +6,7 @@
 import type { Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
+import { frames, signature, waitForChange } from "./keys.ts";
 import { probe, runProbe, sceneToClient, type ProbeArgs, type Loose } from "./lib.ts";
 
 /** Builds master "Master" (rect A at 100,100 80x50) and an instance moved to 300,100. */
@@ -14,7 +15,10 @@ async function masterAndInstance(page: Page): Promise<void> {
   await page.evaluate(() => {
     const P = (window as unknown as { __parity: { G: Loose; app: Loose } }).__parity;
     const inst = P.app.selection()[0];
+    // Moved inside a transaction, as the editor moves elements.
+    P.app.editor().beginTransaction();
     inst.transform(new P.G.GTransform(1, 0, 0, 1, 200, 0));
+    P.app.editor().commitTransaction("Move instance");
     const master = P.app
       .scene()
       .getActivePage()
@@ -31,27 +35,31 @@ async function docAndSelection(page: Page): Promise<string> {
 
 async function resizeMaster(page: Page): Promise<string> {
   await masterAndInstance(page);
-  await runProbe(page, { setup: "empty", phase: "setup", options: { keep: true } });
+  const base: ProbeArgs = { setup: "empty" };
+  await runProbe(page, { ...base, phase: "setup" });
+  const before = await signature(page, base);
   // Right-middle resize handle of the master frame (100..180, 100..150).
   const from = await sceneToClient(page, 180, 125);
   await page.mouse.move(from.x, from.y);
   await page.mouse.down();
   for (let i = 1; i <= 5; i++) await page.mouse.move(from.x + i * 8, from.y);
   await page.mouse.up();
-  await page.waitForTimeout(200);
+  await waitForChange(page, base, before);
   return docAndSelection(page);
 }
 
 async function dragLabel(page: Page): Promise<string> {
   await masterAndInstance(page);
-  await runProbe(page, { setup: "empty", phase: "setup", options: { keep: true } });
+  const base: ProbeArgs = { setup: "empty" };
+  await runProbe(page, { ...base, phase: "setup" });
+  const before = await signature(page, base);
   // The label "○ Master" sits just above the master's top-left corner.
   const from = await sceneToClient(page, 118, 87);
   await page.mouse.move(from.x, from.y);
   await page.mouse.down();
   for (let i = 1; i <= 5; i++) await page.mouse.move(from.x + i * 6, from.y + i * 4);
   await page.mouse.up();
-  await page.waitForTimeout(200);
+  await waitForChange(page, base, before);
   return docAndSelection(page);
 }
 
@@ -64,14 +72,89 @@ async function labelShot(page: Page, labels: boolean): Promise<Buffer> {
       P.app.execute("view.canvas.show-symbol-labels");
     }
   }, labels);
-  await page.waitForTimeout(500);
+  await frames(page, 3);
+  // Master at 100..180, instance at 300..380, labels above them.
   const tl = await sceneToClient(page, 80, 70);
   return page.screenshot({
-    clip: { x: Math.round(tl.x), y: Math.round(tl.y), width: 340, height: 100 },
+    clip: { x: Math.round(tl.x), y: Math.round(tl.y), width: 320, height: 100 },
   });
 }
 
+/**
+ * Go to Master in the touch context menu (touch layout, long press).
+ * With real input the long press selects the rectangle inside the
+ * instance, and Go to Master then finds no instance and does nothing.
+ * The second scenario selects the instance through the editor while the
+ * menu is open: Go to Master then selects that instance (not the master, which
+ * it never looks up) and zooms to it, in one undo step.
+ */
+async function goToMaster(page: Page, selectInstance: boolean): Promise<string> {
+  type W = { __parity: { G: Loose; app: Loose } };
+  const base: ProbeArgs = { setup: "symbol-instance", view: true, undo: false };
+  await runProbe(page, { ...base, phase: "setup" });
+  await page.evaluate(() => {
+    const P = (window as unknown as W).__parity;
+    const inst = P.app.selection()[0];
+    P.app.editor().beginTransaction();
+    inst.transform(new P.G.GTransform(1, 0, 0, 1, 300, 200));
+    P.app.editor().commitTransaction("Move instance");
+    P.app.execute("view.magnification.100");
+  });
+  const longPress = async (): Promise<void> => {
+    // The instance's rectangle is 80x50 centred at (440, 325).
+    const p = await sceneToClient(page, 440, 325);
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [p] });
+    await page.locator(".context-menu-touch-overlay").waitFor();
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+    await cdp.detach();
+  };
+  const choose = async (): Promise<unknown> => {
+    await page.locator(".context-menu-touch-overlay .symbol-section .open-menu").click();
+    const items = await page.locator("ul.g-menu:not(.g-menu-root):visible").last().innerText();
+    const before = await signature(page, base);
+    await page
+      .locator("ul.g-menu:not(.g-menu-root):visible li", { hasText: "Go to Master" })
+      .click();
+    const changed = await waitForChange(page, base, before);
+    const after = JSON.parse(await runProbe(page, { ...base, phase: "after" })) as Loose;
+    return {
+      items,
+      changed,
+      selection: after.after.selection,
+      undo: after.after.undo,
+      view: after.after.view,
+    };
+  };
+  await longPress();
+  if (!selectInstance) return JSON.stringify(await choose());
+  await page.evaluate(() => {
+    const P = (window as unknown as W).__parity;
+    const symbols = P.app
+      .scene()
+      .getActivePage()
+      .getChildren()
+      .filter((n: Loose) => n instanceof P.G.GSymbol);
+    P.app.editor().updateSelection(false, symbols);
+  });
+  return JSON.stringify(await choose());
+}
+
 const drivers: Scenario[] = [
+  {
+    id: "editor-actions/symbols/touch-go-to-master",
+    covers: ["EDT-SYMBOL-008"],
+    kind: "document",
+    open: { newDocument: true, settings: { touch: true } },
+    driver: ({ page }) => goToMaster(page, false),
+  },
+  {
+    id: "editor-actions/symbols/touch-go-to-master-instance-selected",
+    covers: ["EDT-SYMBOL-008"],
+    kind: "document",
+    open: { newDocument: true, settings: { touch: true } },
+    driver: ({ page }) => goToMaster(page, true),
+  },
   {
     id: "editor-actions/symbols/resize-master-updates-instance",
     covers: ["EDT-SYMBOL-004", "EDT-SYMBOL-003"],
@@ -118,7 +201,7 @@ const inPage: Scenario<ProbeArgs>[] = [
     covers: ["EDT-SYMBOL-007", "EDT-CLIP-010"],
     kind: "document",
     inPage: probe,
-    args: { setup: "symbol-master", id: "paste.paste", copyFirst: "selection", settle: 300 },
+    args: { setup: "symbol-master", id: "paste.paste", copyFirst: "selection" },
   },
 ];
 

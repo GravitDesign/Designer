@@ -1,0 +1,30 @@
+{
+ "shown": {
+  "dialogs": [
+   {
+    "cls": [
+     "g-dialog",
+     "g-install-pwa-dialog"
+    ],
+    "text": "Install Gravit Designer to your desktop Gravit Designer now comes as a PWA (Progressive Web App), that runs like a regular desktop application, no download required. It gives you everything you know (and love) from the current web app, but doesn’t require an internet connection (subscription required). Install Not now After installing, the PWA is available as a regular desktop application and can also be found in Chrome apps. More information here"
+   }
+  ]
+ },
+ "buttons": [
+  "Install",
+  "Not now"
+ ],
+ "afterNotNow": {
+  "dialogs": [],
+  "keys": {
+   "closedDate": "number",
+   "week": [
+    "number",
+    "number"
+   ]
+  }
+ },
+ "afterMorePrompts": {
+  "dialogs": []
+ }
+}

@@ -3,7 +3,7 @@ import { defineConfig } from "@playwright/test";
 import { LEGACY_ROOT, NEW_PORT, OLD_PORT } from "./parity/support/env.ts";
 
 // The new app is started once its server exists (phase 3 onwards).
-const startNewApp = process.env.GD_SKIP_NEW_APP !== "1" && fs.existsSync("server/dev-entry.ts");
+const startNewApp = process.env.GD_SKIP_NEW_APP !== "1" && fs.existsSync("server/main.ts");
 
 // GD_RUN names the run, so parallel runs keep separate output folders.
 const run = process.env.GD_RUN ?? "default";
@@ -21,7 +21,23 @@ export default defineConfig({
     // fonts, so renders can be compared pixel for pixel.
     deviceScaleFactor: 1,
     viewport: { width: 1600, height: 1000 },
-    launchOptions: { args: ["--font-render-hinting=none", "--disable-gpu-rasterization"] },
+    locale: "en-US",
+    timezoneId: "UTC",
+    colorScheme: "light",
+    // Pin WebGL and canvas to SwiftShader and sRGB, so renders don't depend
+    // on the machine's GPU or display profile.
+    launchOptions: {
+      args: [
+        "--font-render-hinting=none",
+        "--disable-gpu-rasterization",
+        // GPU-accelerated 2D canvas antialiased handle lines differently
+        // between page loads under load; software canvas is stable.
+        "--disable-accelerated-2d-canvas",
+        "--use-angle=swiftshader",
+        "--enable-unsafe-swiftshader",
+        "--force-color-profile=srgb",
+      ],
+    },
   },
   projects: [
     { name: "parity", testDir: "parity/scenarios", testMatch: /\.spec\.ts$/ },
@@ -41,7 +57,7 @@ export default defineConfig({
     ...(startNewApp
       ? [
           {
-            command: "node server/dev-entry.ts",
+            command: "npx vite build && node server/main.ts",
             env: { PORT: String(NEW_PORT) },
             url: `http://127.0.0.1:${NEW_PORT}/connection/test`,
             reuseExistingServer: !process.env.CI,

@@ -3,7 +3,7 @@
 // undo step per pointer drag or nudge. In-page scenarios use the editor's
 // public transaction API; the drag and nudge checks use real mouse and
 // keyboard input.
-import type { Page } from "@playwright/test";
+import { expect, type Page } from "@playwright/test";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios, type Scenario } from "../../support/scenario.ts";
 import { runProbe, sceneToClient, type Loose } from "./lib.ts";
@@ -188,50 +188,76 @@ const inPage: Scenario[] = [
   },
 ];
 
+type W = { __parity: { app: Loose } };
+
+const undoNames = (page: Page): Promise<string[]> =>
+  page.evaluate(() =>
+    (window as unknown as W).__parity.app
+      .editor()
+      .getUndoStates()
+      .map((s: { name: string }) => s.name),
+  );
+
+/** Waits until the undo stack differs from `before` (each step below adds or removes one). */
+async function undoChanged(page: Page, before: string[]): Promise<void> {
+  await page.waitForFunction(
+    (b) =>
+      JSON.stringify(
+        (window as unknown as W).__parity.app
+          .editor()
+          .getUndoStates()
+          .map((s: { name: string }) => s.name),
+      ) !== b,
+    JSON.stringify(before),
+  );
+}
+
 async function dragAndNudge(page: Page): Promise<unknown> {
   await runProbe(page, { setup: "rect", phase: "setup", center: true });
-  const names = () =>
-    page.evaluate(() =>
-      (window as unknown as { __parity: { app: Loose } }).__parity.app
-        .editor()
-        .getUndoStates()
-        .map((s: { name: string }) => s.name),
-    );
   const trf = () =>
     page.evaluate(() =>
-      String(
-        (window as unknown as { __parity: { app: Loose } }).__parity.app
-          .selection()[0]
-          .getProperty("trf"),
-      ),
+      String((window as unknown as W).__parity.app.selection()[0].getProperty("trf")),
     );
-  const out: Record<string, unknown> = { start: await names() };
+  const start = await undoNames(page);
+  const out: Record<string, unknown> = { start };
   // Drag the rectangle (100,100 100x60) by its centre in 10 steps.
   const from = await sceneToClient(page, 150, 130);
   await page.mouse.move(from.x, from.y);
   await page.mouse.down();
   for (let i = 1; i <= 10; i++) await page.mouse.move(from.x + i * 7, from.y + i * 3);
   await page.mouse.up();
-  await page.waitForTimeout(200);
-  out.afterDrag = { undo: await names(), trf: await trf() };
+  await undoChanged(page, start);
+  out.afterDrag = { undo: await undoNames(page), trf: await trf() };
   // Three arrow presses with key up in between: one step each.
-  for (let i = 0; i < 3; i++) await page.keyboard.press("ArrowRight");
-  await page.waitForTimeout(100);
-  out.afterThreeNudges = { undo: await names(), trf: await trf() };
+  for (let i = 0; i < 3; i++) {
+    const before = await undoNames(page);
+    await page.keyboard.press("ArrowRight");
+    await undoChanged(page, before);
+  }
+  out.afterThreeNudges = { undo: await undoNames(page), trf: await trf() };
   // Holding the key (repeats) commits once on key up.
+  const beforeHeld = await undoNames(page);
   await page.keyboard.down("Shift");
   await page.keyboard.down("ArrowDown");
   for (let i = 0; i < 4; i++) await page.keyboard.down("ArrowDown");
   await page.keyboard.up("ArrowDown");
   await page.keyboard.up("Shift");
-  await page.waitForTimeout(100);
-  out.afterHeldShiftNudge = { undo: await names(), trf: await trf() };
+  await undoChanged(page, beforeHeld);
+  out.afterHeldShiftNudge = { undo: await undoNames(page), trf: await trf() };
+  const beforeUndo = await undoNames(page);
   await page.keyboard.press("Control+KeyZ");
-  await page.waitForTimeout(100);
-  out.afterUndo = { undo: await names(), trf: await trf() };
+  await undoChanged(page, beforeUndo);
+  out.afterUndo = { undo: await undoNames(page), trf: await trf() };
   return out;
 }
 
+/**
+ * Undo while a text field has focus: the field's own typing is undone
+ * (document.execCommand("undo")), not the document. Chromium's native
+ * Ctrl+Z would restore the field whatever the app does, so the app's Undo
+ * action is also run directly while the field keeps focus, and the
+ * document's undo stack is recorded each time.
+ */
 async function undoInInput(page: Page): Promise<unknown> {
   await runProbe(page, { setup: "rect", phase: "setup", center: true });
   // The inspector's X field: type a value without committing, then undo.
@@ -243,15 +269,30 @@ async function undoInInput(page: Page): Promise<unknown> {
   await page.keyboard.type("5");
   const typed = await input.inputValue();
   await page.keyboard.press("Control+KeyZ");
-  await page.waitForTimeout(100);
-  const afterUndo = await input.inputValue();
-  const undo = await page.evaluate(() =>
-    (window as unknown as { __parity: { app: Loose } }).__parity.app
-      .editor()
-      .getUndoStates()
-      .map((s: { name: string }) => s.name),
-  );
-  return { typed, afterUndo, undoStates: undo };
+  await expect.poll(() => input.inputValue()).not.toBe(typed);
+  const afterKeyUndo = await input.inputValue();
+  const undoAfterKey = await undoNames(page);
+  await page.keyboard.type("7");
+  const typedAgain = await input.inputValue();
+  const viaAction = await page.evaluate(() => {
+    const P = (window as unknown as W).__parity;
+    const focused = document.activeElement;
+    const enabled = P.app.canExecute("edit.undo");
+    P.app.execute("edit.undo");
+    return {
+      enabled,
+      focusKept: document.activeElement === focused,
+      value: (focused as HTMLInputElement).value,
+    };
+  });
+  return {
+    typed,
+    afterKeyUndo,
+    undoAfterKey,
+    typedAgain,
+    viaAction,
+    undoAfterAction: await undoNames(page),
+  };
 }
 
 const drivers: Scenario[] = [

@@ -180,7 +180,7 @@ const scenarios: Scenario[] = defineScenarios<unknown>([
         getProperty(n: string): unknown;
       }[];
       return JSON.stringify({
-        saved: H.linksAsEntries(JSON.parse(json)),
+        saved: JSON.parse(json),
         sceneRestore,
         restoredPage: JSON.parse(H.ser(pageCopy)),
         restoredSymbols: restored.map((x) => [

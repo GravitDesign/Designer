@@ -10,6 +10,7 @@ import {
   press,
   probe,
   shot,
+  shotGuides,
   up,
   wait,
   type Step,
@@ -33,6 +34,19 @@ const dragNearEdge = (mods: readonly string[] = []): Step[] => [
   probe("near-edge"),
   up(),
   ...[...mods].reverse().map(keyUp),
+];
+
+/**
+ * Drags the small square below the target so its centre lands 3 px left
+ * of the target's vertical centre line (x 375).
+ */
+const dragNearCenter = (): Step[] => [
+  move(140, 160),
+  down(140, 160),
+  move(250, 250),
+  move(372, 340),
+  probe("near-center"),
+  up(),
 ];
 
 const rulersOn: Step[] = [
@@ -73,7 +87,13 @@ export const snapCases: ToolCase[] = [
     id: "snap/smart-guide-overlay",
     covers: ["EDT-GUIDE-005", "EDT-GUIDE-007"],
     fixture: PAIR,
-    steps: [move(140, 160), down(140, 160), move(200, 162), move(257, 163), shot(80, 60, 400, 220)],
+    steps: [
+      move(140, 160),
+      down(140, 160),
+      move(200, 162),
+      move(257, 163),
+      shotGuides(80, 60, 400, 220),
+    ],
   },
   {
     id: "snap/ctrl-inverts-snapping",
@@ -121,10 +141,19 @@ export const snapCases: ToolCase[] = [
     ],
   },
   {
+    // Centre alignment comes only from the shapes (bbox) guide: no anchor
+    // point lies on the target's centre line, unlike its edges, which the
+    // anchor point guide snaps to as well.
+    id: "snap/smart-guide-center",
+    covers: ["EDT-SNAP-004", "EDT-GUIDE-001"],
+    fixture: PAIR,
+    steps: dragNearCenter(),
+  },
+  {
     id: "snap/bbox-guide-toggled-off",
     covers: ["EDT-SNAP-004"],
     fixture: PAIR,
-    steps: [action("view.toggle-guide.guide.bbox"), probe("toggled"), ...dragNearEdge()],
+    steps: [action("view.toggle-guide.guide.bbox"), ...dragNearCenter()],
   },
   {
     id: "snap/equal-spacing",
@@ -143,7 +172,13 @@ export const snapCases: ToolCase[] = [
     id: "snap/equal-spacing-overlay",
     covers: ["EDT-GUIDE-008", "EDT-GUIDE-005", "EDT-GUIDE-021"],
     fixture: THREE_IN_ROW,
-    steps: [move(420, 340), down(420, 340), move(400, 200), move(381, 142), shot(80, 60, 440, 180)],
+    steps: [
+      move(420, 340),
+      down(420, 340),
+      move(400, 200),
+      move(381, 142),
+      shotGuides(80, 60, 440, 180),
+    ],
   },
   {
     id: "snap/grid",
@@ -249,7 +284,7 @@ export const snapCases: ToolCase[] = [
       down(180, 200),
       move(300, 290),
       move(417, 377),
-      shot(280, 260, 240, 200),
+      shotGuides(280, 260, 240, 200),
     ],
   },
   {
@@ -311,7 +346,13 @@ export const snapCases: ToolCase[] = [
       page: { w: 500, h: 400 },
       shapes: [{ type: "rect", x: 100, y: 120, w: 80, h: 80, fill: [229, 57, 53] }],
     },
-    steps: [move(140, 160), down(140, 160), move(80, 100), move(43, 43), shot(-30, -40, 560, 480)],
+    steps: [
+      move(140, 160),
+      down(140, 160),
+      move(80, 100),
+      move(43, 43),
+      shotGuides(-30, -40, 560, 480),
+    ],
   },
   {
     id: "snap/snap-zones",
@@ -323,7 +364,12 @@ export const snapCases: ToolCase[] = [
     id: "snap/snap-zones-overlay",
     covers: ["EDT-SNAP-005", "EDT-XFORM-022"],
     fixture: { ...PAIR, select: [1] },
-    steps: [action("view.toggle-snapzones"), move(176, 196), wait(50), shot(80, 100, 120, 120)],
+    steps: [
+      action("view.toggle-snapzones"),
+      move(176, 196),
+      wait(50),
+      shotGuides(80, 100, 120, 120),
+    ],
   },
   {
     id: "snap/snap-to-pixel-grid-action",

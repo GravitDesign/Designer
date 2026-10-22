@@ -1,0 +1,147 @@
+{
+ "offBefore": {
+  "exportStates": null,
+  "propertiesExcludedFromCopying": null
+ },
+ "exportStatesEmpty": {
+  "startingScene": null,
+  "states": []
+ },
+ "exportStatesAfterInsert": {
+  "startingScene": null,
+  "states": [
+   {
+    "id": "<uuid of 32 chars>",
+    "name": "Insert Element(s)",
+    "data": {
+     "selection": null,
+     "newSelection": [
+      {
+       "parts": null
+      }
+     ],
+     "actions": [
+      {
+       "action": {
+        "parent": null,
+        "makeRecorded": false,
+        "next": null,
+        "data": null
+       }
+      },
+      {
+       "action": {
+        "parent": null,
+        "makeRecorded": false,
+        "next": null,
+        "data": null
+       }
+      },
+      {
+       "isPropertyChangeAction": true,
+       "node": {
+        "@": "rectangle",
+        "@id": "id1",
+        "uf": true,
+        "ct": "R",
+        "sl": 0,
+        "reftxt": null,
+        "refanchors": [],
+        "trf": [
+         20,
+         0,
+         0,
+         10,
+         100,
+         100
+        ],
+        "name": "Named",
+        "_sdf": 107,
+        "_layers": {
+         "@": "paintLayers",
+         "@id": "id2",
+         "$": [
+          {
+           "@": "fillPaintLayer",
+           "@id": "id3",
+           "_pt": "C#[235,235,235]"
+          }
+         ],
+         "&": "id4"
+        },
+        "_effId": "id5"
+       },
+       "properties": [
+        "_sdf"
+       ],
+       "values": [
+        107
+       ],
+       "oldValues": [
+        null
+       ],
+       "action": {
+        "parent": null,
+        "makeRecorded": false,
+        "next": null,
+        "data": null
+       }
+      },
+      {
+       "action": {
+        "parent": null,
+        "makeRecorded": false,
+        "next": null,
+        "data": null
+       }
+      },
+      {
+       "action": {
+        "parent": null,
+        "makeRecorded": false,
+        "next": null,
+        "data": null
+       }
+      },
+      {
+       "action": {
+        "parent": null,
+        "makeRecorded": false,
+        "next": null,
+        "data": null
+       }
+      },
+      {
+       "action": {
+        "parent": null,
+        "makeRecorded": false,
+        "next": null,
+        "data": null
+       }
+      },
+      {
+       "action": {
+        "parent": null,
+        "makeRecorded": false,
+        "next": null,
+        "data": null
+       }
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "exportStatesAfterRotate": {
+  "exportError": "error serializing"
+ },
+ "exportStatesAfterOff": null,
+ "copied": "[{\"@\":\"rectangle\",\"@kept\":\"kept\",\"uf\":true,\"ct\":\"R\",\"sl\":0,\"reftxt\":null,\"refanchors\":[],\"trf\":[1.2246467991473533e-15,-20,10,6.123233995736766e-16,100,100],\"name\":\"Named\",\"_sdf\":107,\"_layers\":{\"@\":\"paintLayers\",\"$\":[{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[235,235,235]\"}],\"&\":\"id4\"},\"_effId\":\"id5\"}]",
+ "duplicateKeys": [
+  {
+   "kept": "kept",
+   "dropped": null
+  }
+ ],
+ "optionAfter": null
+}

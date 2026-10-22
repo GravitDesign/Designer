@@ -3,6 +3,15 @@
  "id": "arrange.align.align-left",
  "info": {
   "title": "Align Left",
+  "fullTitle": "Align Left",
+  "info": null,
+  "icon": "<svg class=\"align-svg\" xmlns=\"http://www.w3.org/2000/svg\" style=\"isolation:isolate\" viewBox=\"53 2 20 20\" width=\"20\" height=\"20\"><rect id=\"align-area\" x=\"62\" y=\"9\" width=\"4\" height=\"12\" transform=\"rotate(-90 64 15)\" fill=\"#FFF\"/><rect id=\"align-area\" x=\"60\" y=\"5\" width=\"4\" height=\"8\" transform=\"rotate(-90 62 9)\" fill=\"#FFF\"/><rect id=\"align-shape\" x=\"54\" y=\"3\" width=\"2\" height=\"18\" transform=\"rotate(-180 55 12)\" fill=\"#3A98FF\"/></svg>",
+  "category": [
+   "Modify",
+   "Modify/Align"
+  ],
+  "group": "arrange/align-horizontal",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -14,7 +23,11 @@
  },
  "before": {
   "selection": [
-   "rectangle:B"
+   {
+    "node": "rectangle:B",
+    "@id": "id1",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -22,27 +35,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id5",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -60,21 +74,21 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id6",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id7"
+        "&": "id8"
        },
-       "_effId": "id8"
+       "_effId": "id9"
       },
       {
        "@": "rectangle",
-       "@id": "id9",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -534,10 +548,13 @@
    }
   }
  },
- "returned": true,
  "after": {
   "selection": [
-   "rectangle:B"
+   {
+    "node": "rectangle:B",
+    "@id": "id1",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -545,6 +562,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Arrange Alignment"
@@ -552,21 +570,21 @@
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id5",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -584,21 +602,21 @@
        "_sdf": 107,
        "_layers": {
         "@": "paintLayers",
-        "@id": "id5",
+        "@id": "id6",
         "$": [
          {
           "@": "fillPaintLayer",
-          "@id": "id6",
+          "@id": "id7",
           "_pt": "C#[235,235,235]"
          }
         ],
-        "&": "id7"
+        "&": "id8"
        },
-       "_effId": "id8"
+       "_effId": "id9"
       },
       {
        "@": "rectangle",
-       "@id": "id9",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -1060,6 +1078,15 @@
  },
  "infoAfter": {
   "title": "Align Left",
+  "fullTitle": "Align Left",
+  "info": null,
+  "icon": "<svg class=\"align-svg\" xmlns=\"http://www.w3.org/2000/svg\" style=\"isolation:isolate\" viewBox=\"53 2 20 20\" width=\"20\" height=\"20\"><rect id=\"align-area\" x=\"62\" y=\"9\" width=\"4\" height=\"12\" transform=\"rotate(-90 64 15)\" fill=\"#FFF\"/><rect id=\"align-area\" x=\"60\" y=\"5\" width=\"4\" height=\"8\" transform=\"rotate(-90 62 9)\" fill=\"#FFF\"/><rect id=\"align-shape\" x=\"54\" y=\"3\" width=\"2\" height=\"18\" transform=\"rotate(-180 55 12)\" fill=\"#3A98FF\"/></svg>",
+  "category": [
+   "Modify",
+   "Modify/Align"
+  ],
+  "group": "arrange/align-horizontal",
+  "pro": false,
   "available": true,
   "visible": true,
   "enabled": true,
@@ -1071,7 +1098,11 @@
  },
  "afterUndo": {
   "selection": [
-   "rectangle:B"
+   {
+    "node": "rectangle:B",
+    "@id": "id1",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1079,6 +1110,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -1089,7 +1121,11 @@
  },
  "afterRedo": {
   "selection": [
-   "rectangle:B"
+   {
+    "node": "rectangle:B",
+    "@id": "id1",
+    "path": "0/2"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -1097,6 +1133,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Arrange Alignment"

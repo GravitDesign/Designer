@@ -15,7 +15,11 @@ type EngineObject = ParityHandle["G"];
 
 /** What `geomLib(G)` returns; the type scenario bodies see as `L`. */
 export interface GeomLib {
-  /** Encodes any engine value as JSON: numbers keep full precision, NaN/Infinity become strings. */
+  /**
+   * Encodes any engine value as plain data. Numbers, undefined, NaN and
+   * -0 are returned as they are; geo() tags the special ones on the way
+   * out of the page.
+   */
   enc(value: unknown): Encoded;
   /** Calls `f` and encodes its result, or `{ throws: true }` if it threw. */
   run(f: () => unknown): Encoded;
@@ -47,8 +51,6 @@ export interface GeomLib {
 }
 
 export function geomLib(G: G): GeomLib {
-  const num = (x: number): number | string =>
-    Number.isNaN(x) ? "NaN" : x === Infinity ? "Infinity" : x === -Infinity ? "-Infinity" : x;
   const isSource = (v: unknown): boolean =>
     !!v &&
     typeof v === "object" &&
@@ -64,7 +66,7 @@ export function geomLib(G: G): GeomLib {
     const v = new G.GVertex();
     let guard = 0;
     while (s.readVertex(v)) {
-      out.push([v.command, num(v.x), num(v.y)]);
+      out.push([v.command, v.x, v.y]);
       if (++guard > 200000) {
         out.push("overflow");
         break;
@@ -73,22 +75,21 @@ export function geomLib(G: G): GeomLib {
     return out;
   };
   const enc = (v: unknown, depth = 0): Encoded => {
-    if (v === undefined) return "undefined";
+    if (v === undefined) return undefined;
     if (v === null) return null;
-    if (typeof v === "number") return num(v);
+    if (typeof v === "number") return v;
     if (typeof v === "string" || typeof v === "boolean") return v;
     if (typeof v === "function") return "function";
     if (depth > 12) return "deep";
     const o = v as EngineObject;
-    if (o instanceof G.GPoint) return { P: [num(o.getX()), num(o.getY())] };
-    if (o instanceof G.GRect)
-      return { R: [num(o.getX()), num(o.getY()), num(o.getWidth()), num(o.getHeight())] };
-    if (o instanceof G.GTransform) return { T: o.getMatrix().map(num) };
-    if (ArrayBuffer.isView(v)) return Array.from(v as unknown as ArrayLike<number>).map(num);
+    if (o instanceof G.GPoint) return { P: [o.getX(), o.getY()] };
+    if (o instanceof G.GRect) return { R: [o.getX(), o.getY(), o.getWidth(), o.getHeight()] };
+    if (o instanceof G.GTransform) return { T: o.getMatrix().slice() };
+    if (ArrayBuffer.isView(v)) return Array.from(v as unknown as ArrayLike<number>);
     if (Array.isArray(v)) return v.map((x) => enc(x, depth + 1));
     if (v instanceof G.GVertex) {
       const vx = v as { command: number; x: number; y: number };
-      return { cmd: vx.command, x: num(vx.x), y: num(vx.y) };
+      return { cmd: vx.command, x: vx.x, y: vx.y };
     }
     if (v instanceof G.GHitResult) {
       const h = v as { segment: unknown; x: unknown; y: unknown; slope: unknown; outline: unknown };
@@ -239,7 +240,28 @@ export function geo(id: string, covers: string[], body: GeoBody): Scenario {
       // the only way to run the same code in both apps.
       const L = (0, eval)(`(${lib})`)(G);
       const fn = (0, eval)(`(${source})`);
-      return fn(L, G, app);
+      // -0, NaN, ±Infinity and undefined as the tagged strings the harness
+      // defines (runner.ts tagSpecialValues); JSON.stringify would turn them
+      // into 0, null or nothing. Tagged strings pass through the harness's
+      // own tagging unchanged.
+      const tag = (v: unknown): unknown => {
+        if (typeof v === "number") {
+          if (Object.is(v, -0)) return "<-0>";
+          if (Number.isNaN(v)) return "<NaN>";
+          if (v === Infinity) return "<Infinity>";
+          if (v === -Infinity) return "<-Infinity>";
+          return v;
+        }
+        if (v === undefined) return "<undefined>";
+        if (Array.isArray(v)) return v.map(tag);
+        if (v && typeof v === "object") {
+          const out: Record<string, unknown> = {};
+          for (const [k, child] of Object.entries(v)) out[k] = tag(child);
+          return out;
+        }
+        return v;
+      };
+      return Promise.resolve(fn(L, G, app)).then(tag);
     },
   };
 }

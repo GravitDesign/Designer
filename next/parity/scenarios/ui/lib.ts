@@ -6,17 +6,20 @@
 // and the old CSS class names, so the same drivers run against the new app.
 import type { Page } from "@playwright/test";
 import { PNG } from "pngjs";
-import { openApp, type OpenOptions } from "../../support/apps.ts";
+import { PARITY_CONTEXT, openApp, type OpenOptions } from "../../support/apps.ts";
 import type { Scenario, ScenarioContext } from "../../support/scenario.ts";
 
 /**
- * Injected identically into both apps: no transitions, animations or caret,
- * and no scrollbars (Chromium's overlay scrollbars fade out on their own
- * timer, which no screenshot can wait for reliably).
+ * Injected identically into both apps: no transitions, animations or caret.
+ * HIDE_SCROLLBARS_CSS also hides the scrollbars for most scenarios, so a
+ * scroll position or overlay scrollbar fading on its own timer can't reach
+ * the shot; ui/shell/scrollbars records the app's scrollbar styles.
  */
 export const FREEZE_CSS =
   "*,*::before,*::after{transition:none!important;animation:none!important;" +
-  "caret-color:transparent!important;scrollbar-width:none!important}" +
+  "caret-color:transparent!important}";
+export const HIDE_SCROLLBARS_CSS =
+  "*,*::before,*::after{scrollbar-width:none!important}" +
   "::-webkit-scrollbar{display:none!important}";
 
 /** A spot over the empty right part of the toolbar: hovers nothing. */
@@ -35,11 +38,22 @@ export interface Clip {
   height: number;
 }
 
-/** Waits until the stylesheet for the current theme is loaded. */
-export async function waitForTheme(page: Page): Promise<void> {
-  await page.waitForFunction(() => {
+/**
+ * Waits until the stylesheet for the current theme is loaded; with
+ * `theme`, until that theme's stylesheet is the one in use (index.html
+ * links the light one, and the app swaps it after boot).
+ */
+export async function waitForTheme(page: Page, theme?: Theme): Promise<void> {
+  await page.waitForFunction((want) => {
     const links = [...document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')];
     const app = links.find((l) => /designer\.browser\.(light|dark)\.css$/.test(l.href));
+    if (want && app && !app.href.endsWith(`designer.browser.${want}.css`)) return false;
+    if (
+      want &&
+      links.some((l) => l !== app && /designer\.browser\.(light|dark)\.css$/.test(l.href))
+    ) {
+      return false;
+    }
     if (!app || !app.sheet) return false;
     try {
       if (app.sheet.cssRules.length === 0) return false;
@@ -49,7 +63,43 @@ export async function waitForTheme(page: Page): Promise<void> {
     // The app keeps #mainframe hidden until init (and a theme load) is done.
     const frame = document.getElementById("mainframe");
     return !frame || getComputedStyle(frame).display !== "none";
+  }, theme);
+}
+
+/** The shell has its normal layout: menu bar on top, canvas below the toolbar. */
+async function laidOut(page: Page): Promise<string> {
+  return page.evaluate(() => {
+    const bar = document.querySelector("nav.g-menu-bar")?.getBoundingClientRect();
+    const windows = document.getElementById("windows")?.getBoundingClientRect();
+    const ok = !!bar && !!windows && bar.top < 10 && bar.height < 60 && windows.top < 200;
+    return ok
+      ? ""
+      : `menu bar ${bar ? `${bar.top}+${bar.height}` : "-"}, windows ${windows ? windows.top : "-"}`;
   });
+}
+
+/**
+ * Waits until the main panels stop moving: the app lays itself out again
+ * after its stylesheet loads and after a window resize (debounced), and a
+ * click during that lands on whatever is passing by.
+ */
+export async function waitForLayout(page: Page): Promise<void> {
+  const boxes = () =>
+    page.evaluate(() =>
+      ["#windows", "#left-sidebars", "#right-sidebars", "#header", "#toolbar"]
+        .map((sel) => {
+          const r = document.querySelector(sel)?.getBoundingClientRect();
+          return r ? `${r.x},${r.y},${r.width},${r.height}` : "-";
+        })
+        .join(" "),
+    );
+  let last = await boxes();
+  for (let stable = 0, i = 0; stable < 3 && i < 100; i++) {
+    await page.waitForTimeout(200);
+    const now = await boxes();
+    stable = now === last ? stable + 1 : 0;
+    last = now;
+  }
 }
 
 /** Fonts loaded, two frames painted and a short quiet period. */
@@ -68,13 +118,24 @@ export async function waitForImages(page: Page): Promise<void> {
   });
 }
 
-/** Common start of every UI driver. */
-export async function prepare(page: Page): Promise<void> {
+/**
+ * Common start of every UI driver. Scrollbars are hidden unless
+ * `scrollbars` is set (ui/shell/scrollbars records them).
+ */
+export async function prepare(page: Page, options: { scrollbars?: boolean } = {}): Promise<void> {
   // Fail fast when a selector or event never shows up.
   page.setDefaultTimeout(30_000);
   await page.addStyleTag({ content: FREEZE_CSS });
-  await waitForTheme(page);
+  if (!options.scrollbars) await page.addStyleTag({ content: HIDE_SCROLLBARS_CSS });
+  // The stored theme's stylesheet, not index.html's light one before the swap.
+  const theme = await page.evaluate(
+    () =>
+      ((JSON.parse(localStorage.getItem("designer.settings") ?? "{}") as { theme?: string })
+        .theme ?? "light") as "light" | "dark",
+  );
+  await waitForTheme(page, theme);
   await waitForImages(page);
+  await waitForLayout(page);
   // Remember where the mouse is, so a repaint can restore hover states.
   await page.evaluate(() => {
     window.addEventListener(
@@ -172,7 +233,12 @@ export async function rerender(page: Page, keepState = false): Promise<void> {
 }
 
 /** Union of the boxes of every visible element matching one of the selectors. */
-export async function clipOf(page: Page, selectors: readonly string[], pad = 0): Promise<Clip> {
+export async function clipOf(
+  page: Page,
+  selectors: readonly string[],
+  pad = 0,
+  clipToWindow = false,
+): Promise<Clip> {
   const box = await page.evaluate(
     ({ selectors: sels, pad: p }) => {
       let x1 = Infinity;
@@ -182,8 +248,10 @@ export async function clipOf(page: Page, selectors: readonly string[], pad = 0):
       for (const sel of sels) {
         for (const el of document.querySelectorAll(sel)) {
           const r = el.getBoundingClientRect();
-          const st = getComputedStyle(el);
-          if (r.width === 0 || r.height === 0 || st.visibility === "hidden") continue;
+          // Fully transparent or hidden boxes (a faded-out tooltip left in
+          // place) don't count.
+          const visible = el.checkVisibility({ opacityProperty: true, visibilityProperty: true });
+          if (r.width === 0 || r.height === 0 || !visible) continue;
           x1 = Math.min(x1, r.left);
           y1 = Math.min(y1, r.top);
           x2 = Math.max(x2, r.right);
@@ -193,18 +261,31 @@ export async function clipOf(page: Page, selectors: readonly string[], pad = 0):
       if (x1 === Infinity) return null;
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const left = Math.max(0, Math.floor(x1 - p));
-      const top = Math.max(0, Math.floor(y1 - p));
-      const right = Math.min(vw, Math.ceil(x2 + p));
-      const bottom = Math.min(vh, Math.ceil(y2 + p));
-      return { x: left, y: top, width: right - left, height: bottom - top };
+      const left = Math.floor(x1 - p);
+      const top = Math.floor(y1 - p);
+      const right = Math.ceil(x2 + p);
+      const bottom = Math.ceil(y2 + p);
+      // Padding may reach past the window edge; the surface itself may not,
+      // or part of it would silently be left out of the shot.
+      // Sub-pixel overhang from fractional layout is not cut content.
+      const outside = x1 < -1 || y1 < -1 || x2 > vw + 1 || y2 > vh + 1;
+      return {
+        x: Math.max(0, left),
+        y: Math.max(0, top),
+        width: Math.min(vw, right) - Math.max(0, left),
+        height: Math.min(vh, bottom) - Math.max(0, top),
+        outside: outside ? `${x1},${y1} - ${x2},${y2} in ${vw}x${vh}` : "",
+      };
     },
     { selectors, pad },
   );
   if (!box || box.width <= 0 || box.height <= 0) {
     throw new Error(`nothing visible for ${selectors.join(", ")}`);
   }
-  return box;
+  if (box.outside && !clipToWindow) {
+    throw new Error(`${selectors.join(", ")} reaches outside the window (${box.outside})`);
+  }
+  return { x: box.x, y: box.y, width: box.width, height: box.height };
 }
 
 /**
@@ -222,10 +303,15 @@ export async function stableShot(page: Page, clip: Clip): Promise<Buffer> {
   throw new Error("screenshot never became stable");
 }
 
-export async function shoot(page: Page, selectors: readonly string[], pad = 0): Promise<Buffer> {
+export async function shoot(
+  page: Page,
+  selectors: readonly string[],
+  pad = 0,
+  clipToWindow = false,
+): Promise<Buffer> {
   await settle(page);
   await rerender(page, true);
-  return stableShot(page, await clipOf(page, selectors, pad));
+  return stableShot(page, await clipOf(page, selectors, pad, clipToWindow));
 }
 
 export interface DomNode {
@@ -241,9 +327,10 @@ export interface DomNode {
 
 /**
  * Structure of the visible subtrees matching the selectors: tag, classes,
- * direct text, the attributes that matter and form state. Inline styles,
- * generated ids and canvas content are left out; hidden subtrees are
- * reported as hidden without children.
+ * direct text, the attributes that matter (with inline styles and aria-*)
+ * and form state. Generated ids are numbered in order of appearance, canvas
+ * content is left out, and hidden subtrees are reported as hidden without
+ * children.
  */
 export async function domOf(page: Page, selectors: readonly string[]): Promise<DomNode[]> {
   await settle(page);
@@ -284,8 +371,25 @@ export async function domOf(page: Page, selectors: readonly string[]): Promise<D
       "max",
       "step",
       "maxlength",
+      "role",
+      "tabindex",
+      "contenteditable",
+      "style",
     ];
+    // Ids with digits are generated (a counter per widget); they are kept
+    // as the order they first appear in, so a label's `for` still names
+    // the same input.
     const volatileId = /\d/;
+    const idNames = new Map<string, string>();
+    const idName = (id: string): string => {
+      if (!volatileId.test(id)) return id;
+      let name = idNames.get(id);
+      if (!name) {
+        name = `<id${idNames.size + 1}>`;
+        idNames.set(id, name);
+      }
+      return name;
+    };
     const isHidden = (el: Element): boolean => {
       const st = getComputedStyle(el);
       return st.display === "none" || st.visibility === "hidden";
@@ -294,12 +398,23 @@ export async function domOf(page: Page, selectors: readonly string[]): Promise<D
       const node: DomNodeLike = { tag: el.tagName.toLowerCase() };
       const cls = [...el.classList];
       if (cls.length) node.cls = cls;
-      if (el.id && !volatileId.test(el.id)) node.id = el.id;
+      if (el.id) node.id = idName(el.id);
       const attrs: Record<string, string> = {};
-      for (const a of ATTRS) {
+      const names = [
+        ...ATTRS,
+        ...el.getAttributeNames().filter((n) => n.startsWith("aria-") && !ATTRS.includes(n)),
+      ];
+      for (const a of names) {
         const v = el.getAttribute(a);
         if (v === null) continue;
-        if ((a === "src" || a === "href") && v.startsWith("data:")) {
+        if (a === "for" || a === "aria-labelledby" || a === "aria-describedby") {
+          attrs[a] = v.split(" ").map(idName).join(" ");
+        } else if (a === "style") {
+          // Inline data URIs (swatch previews, icons) are kept as their length.
+          attrs[a] = v
+            .replace(/url\("?data:[^)]*\)/g, (m) => `url(data:(${m.length} chars))`)
+            .replace(/https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?/g, "");
+        } else if ((a === "src" || a === "href") && v.startsWith("data:")) {
           attrs[a] = `data:(${v.length} chars)`;
         } else if (a === "src" || a === "href") {
           // Absolute URLs differ by port between the apps; keep the path.
@@ -363,6 +478,20 @@ export async function domOf(page: Page, selectors: readonly string[]): Promise<D
 // ---------------------------------------------------------------------------
 // Input helpers
 
+const SUBMENUS = "ul.g-menu:not(.g-menu-root):visible";
+
+/** Waits until exactly `count` submenus are open. */
+async function waitForMenus(page: Page, count: number): Promise<void> {
+  await page.waitForFunction(
+    (n) =>
+      [...document.querySelectorAll("ul.g-menu:not(.g-menu-root)")].filter((m) => {
+        const r = m.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && getComputedStyle(m).visibility !== "hidden";
+      }).length === n,
+    count,
+  );
+}
+
 /** Clicks a top-level menu and hovers down a path of submenu captions. */
 export async function openMenu(page: Page, path: readonly string[]): Promise<void> {
   const [top, ...rest] = path;
@@ -372,16 +501,28 @@ export async function openMenu(page: Page, path: readonly string[]): Promise<voi
       has: page.locator(`:scope > .g-menu-item-caption:text-is("${top}")`),
     })
     .click();
-  await settle(page, 200);
+  await waitForMenus(page, 1);
+  await settle(page);
   for (let depth = 0; depth < rest.length; depth++) {
-    await hoverMenuItem(page, rest[depth] ?? "", depth);
-    await settle(page, 400);
+    const caption = rest[depth] ?? "";
+    await hoverMenuItem(page, caption, depth);
+    // Items with a submenu open it on hover; the last item may be a leaf.
+    const hasSub = await page
+      .locator(SUBMENUS)
+      .nth(depth)
+      .locator(":scope > li.g-menu-item", {
+        has: page.locator(`:scope > .g-menu-item-caption:text-is("${caption}")`),
+      })
+      .first()
+      .evaluate((li) => li.classList.contains("g-menu-item-menu"));
+    if (hasSub) await waitForMenus(page, depth + 2);
+    await settle(page);
   }
 }
 
 /** Hovers the item with this caption in the open (non-root) menu at depth. */
 export async function hoverMenuItem(page: Page, caption: string, depth = -1): Promise<void> {
-  const menus = page.locator("ul.g-menu:not(.g-menu-root):visible");
+  const menus = page.locator(SUBMENUS);
   const n = await menus.count();
   const menu = depth < 0 ? menus.nth(n - 1) : menus.nth(depth);
   const item = menu
@@ -392,11 +533,11 @@ export async function hoverMenuItem(page: Page, caption: string, depth = -1): Pr
   await item.hover();
 }
 
-/** Opens a menu path and clicks its last item. */
+/** Opens a menu path and clicks its last item; waits until the menu closed. */
 export async function clickMenu(page: Page, path: readonly string[]): Promise<void> {
   await openMenu(page, path);
   const last = path[path.length - 1] ?? "";
-  const menus = page.locator("ul.g-menu:not(.g-menu-root):visible");
+  const menus = page.locator(SUBMENUS);
   await menus
     .nth((await menus.count()) - 1)
     .locator(":scope > li.g-menu-item", {
@@ -404,7 +545,8 @@ export async function clickMenu(page: Page, path: readonly string[]): Promise<vo
     })
     .first()
     .click();
-  await settle(page, 300);
+  await waitForMenus(page, 0);
+  await settle(page);
 }
 
 export const OPEN_MENUS = ["ul.g-menu:not(.g-menu-root)"] as const;
@@ -479,35 +621,60 @@ export interface SurfaceSpec {
   locales?: readonly string[];
   /** Also record png + DOM with these language settings (light theme). */
   languages?: readonly string[];
+  /**
+   * The surface reaches past the window and that is the recorded state
+   * (an old layout bug); shoot the part inside the window instead of
+   * failing.
+   */
+  clipToWindow?: boolean;
+  /** Keep the scrollbars (FREEZE_CSS hides them by default). */
+  scrollbars?: boolean;
   timeout?: number;
 }
 
 /**
- * The browser locale the app sees. The engine's strings follow
- * navigator.language (German, Japanese ... tables exist in chunk.vendor.js),
- * so every scenario pins it; the harness context uses the host's locale.
+ * The browser locale every scenario runs with by default. PARITY_CONTEXT
+ * already pins the context to it, so the page the harness opened can be
+ * used as it is.
  */
-export const DEFAULT_LOCALE = "en-US";
+export const DEFAULT_LOCALE = PARITY_CONTEXT.locale;
 
 /** Browser locales recorded for the main surfaces. */
 export const BROWSER_LOCALES: readonly string[] = ["de-DE", "ja-JP", "zh-CN"];
 
 /**
- * Reloads the app with navigator.language / navigator.languages reporting
- * `locale`, then runs prepare(). The harness opened the page with the
- * host's locale; reopening through openApp keeps every other open option.
+ * Gets the page the harness opened ready for a UI driver. The engine's
+ * strings follow navigator.language (German, Japanese ... tables exist in
+ * chunk.vendor.js), so for another `locale` the app is loaded again with
+ * navigator.language / navigator.languages reporting it; `reload` does the
+ * same for a page whose viewport was changed before the app booted. The
+ * reload goes through openApp, so every other open option is kept.
  */
 export async function start(
   { page, kind }: ScenarioContext,
   open: OpenOptions,
-  locale = DEFAULT_LOCALE,
+  locale: string = DEFAULT_LOCALE,
+  options: { reload?: boolean; scrollbars?: boolean } = {},
 ): Promise<void> {
-  await page.addInitScript((lang) => {
-    Object.defineProperty(Navigator.prototype, "language", { get: () => lang });
-    Object.defineProperty(Navigator.prototype, "languages", { get: () => [lang] });
-  }, locale);
-  await openApp(page, kind, open);
-  await prepare(page);
+  if (locale !== DEFAULT_LOCALE) {
+    await page.addInitScript((lang) => {
+      Object.defineProperty(Navigator.prototype, "language", { get: () => lang });
+      Object.defineProperty(Navigator.prototype, "languages", { get: () => [lang] });
+    }, locale);
+  }
+  if (locale !== DEFAULT_LOCALE || options.reload) await openApp(page, kind, open);
+  await prepare(page, { scrollbars: options.scrollbars });
+  const broken = await laidOut(page);
+  if (broken) {
+    // Under load a stylesheet request occasionally fails and the app comes
+    // up unstyled (the menu bar spread over the page). That is not a state
+    // any scenario records, so the app is loaded once more.
+    console.warn(`[parity] the app came up without its layout (${broken}), loading it again`);
+    await openApp(page, kind, open);
+    await prepare(page, { scrollbars: options.scrollbars });
+    const again = await laidOut(page);
+    if (again) throw new Error(`the app came up without its layout twice (${again})`);
+  }
 }
 
 function runner(
@@ -518,11 +685,17 @@ function runner(
 ): (ctx: ScenarioContext) => Promise<unknown> {
   return async (ctx) => {
     const { page } = ctx;
+    // The app lays itself out for the window size it boots in, so a
+    // scenario with its own viewport boots again at that size. A first
+    // boot in the dark theme or another language lays out before that
+    // stylesheet or string table is in the cache, which leaves panels at
+    // positions that vary from run to run; those boot a second time too.
     if (spec.viewport) await page.setViewportSize(spec.viewport);
-    await start(ctx, open, locale);
+    const reload = !!spec.viewport || open.theme === "dark" || !!open.language;
+    await start(ctx, open, locale, { reload, scrollbars: spec.scrollbars });
     if (spec.setup) await spec.setup(page);
     await settle(page);
-    if (output === "png") return shoot(page, spec.shot, spec.pad ?? 0);
+    if (output === "png") return shoot(page, spec.shot, spec.pad ?? 0, spec.clipToWindow);
     const roots = spec.dom === false ? spec.shot : (spec.dom ?? spec.shot);
     return domOf(page, roots);
   };
@@ -583,9 +756,10 @@ export function surfaces(list: readonly SurfaceSpec[]): Scenario[] {
 export function behaviour(
   id: string,
   covers: readonly string[],
-  run: (page: Page) => Promise<unknown>,
+  run: (page: Page, ctx: ScenarioContext) => Promise<unknown>,
   open?: OpenOptions,
   locale?: string,
+  viewport?: { width: number; height: number },
 ): Scenario {
   const full: OpenOptions = { newDocument: true, theme: "light", ...open };
   return {
@@ -594,8 +768,9 @@ export function behaviour(
     kind: "json",
     open: full,
     driver: async (ctx) => {
-      await start(ctx, full, locale);
-      return run(ctx.page);
+      if (viewport) await ctx.page.setViewportSize(viewport);
+      await start(ctx, full, locale, { reload: !!viewport });
+      return run(ctx.page, ctx);
     },
   };
 }

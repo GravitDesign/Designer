@@ -87,7 +87,8 @@
     "cls": "g-cursor-select",
     "css": "url(\"/assets/cursor/select.cur\"), auto"
    },
-   "hint": null
+   "hint": null,
+   "focus": "div"
   },
   {
    "label": "reverse",
@@ -129,7 +130,8 @@
     "cls": "g-cursor-select",
     "css": "url(\"/assets/cursor/select.cur\"), auto"
    },
-   "hint": null
+   "hint": null,
+   "focus": "div"
   }
  ],
  "doc": {
@@ -221,6 +223,13 @@
     "bck": "C#[255,255,255]",
     "name": "Page 1"
    }
+  ],
+  "__ids": [
+   "id17",
+   "id18",
+   "id19",
+   "id20",
+   "id21"
   ],
   "dictionary": {
    "entries": []

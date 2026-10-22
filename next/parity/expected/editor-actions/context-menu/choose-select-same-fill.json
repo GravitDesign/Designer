@@ -106,7 +106,11 @@
  "info": null,
  "before": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -114,27 +118,28 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
   "redo": [],
   "doc": {
    "@": "scene",
-   "@id": "id1",
+   "@id": "id2",
    "$": [
     {
      "@": "page",
-     "@id": "id2",
+     "@id": "id3",
      "$": [
       {
        "@": "annlst",
-       "@id": "id3",
-       "pgid": "id2",
-       "aid": "id3"
+       "@id": "id4",
+       "pgid": "id3",
+       "aid": "id4"
       },
       {
        "@": "rectangle",
-       "@id": "id4",
+       "@id": "id1",
        "uf": true,
        "ct": "R",
        "sl": 0,
@@ -754,9 +759,21 @@
  },
  "after": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B",
-   "rectangle:D"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id10",
+    "path": "0/2"
+   },
+   {
+    "node": "rectangle:D",
+    "@id": "id22",
+    "path": "0/4"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -764,6 +781,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Fill"
@@ -774,7 +792,11 @@
  "infoAfter": null,
  "afterUndo": {
   "selection": [
-   "rectangle:A"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -782,6 +804,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)"
   ],
@@ -792,9 +815,21 @@
  },
  "afterRedo": {
   "selection": [
-   "rectangle:A",
-   "rectangle:B",
-   "rectangle:D"
+   {
+    "node": "rectangle:A",
+    "@id": "id1",
+    "path": "0/1"
+   },
+   {
+    "node": "rectangle:B",
+    "@id": "id10",
+    "path": "0/2"
+   },
+   {
+    "node": "rectangle:D",
+    "@id": "id22",
+    "path": "0/4"
+   }
   ],
   "active": {
    "page": "Page 1",
@@ -802,6 +837,7 @@
   },
   "dialogs": [],
   "selectionDetail": false,
+  "inlineEditing": false,
   "undo": [
    "Insert Element(s)",
    "Fill"

@@ -7,6 +7,7 @@ import { defineScenarios } from "../../support/scenario.ts";
 import {
   base,
   clickMenu,
+  menuState,
   recordResponse,
   reopen,
   settle,
@@ -26,48 +27,26 @@ async function visibleDialogs(page: Page): Promise<string[]> {
 
 /** The File menu entry "Install to Desktop": present, enabled. */
 async function installMenuItem(page: Page): Promise<unknown> {
-  await clickMenu(page, ["File"]);
-  const state = await page.evaluate(() => {
-    const items = [
-      ...document.querySelectorAll<HTMLElement>("ul.g-menu:not(.g-menu-root) > li.g-menu-item"),
-    ]
-      .filter((e) => e.offsetParent !== null)
-      .filter(
-        (e) =>
-          e.querySelector(":scope > .g-menu-item-caption")?.textContent === "Install to Desktop",
-      );
-    return items.map((e) => ({ disabled: e.classList.contains("g-disabled") }));
-  });
-  await page.keyboard.press("Escape");
-  await settle(page, 300);
-  return state;
+  return (await menuState(page, ["File"]))
+    .filter((i) => i.caption === "Install to Desktop")
+    .map((i) => ({ disabled: i.disabled }));
 }
 
-/** The two PWA throttle keys, with time stamps replaced by their type. */
+/**
+ * The page clock is fixed at this time in the install-prompt scenarios, so
+ * the time stamps the throttle keys hold are exact.
+ */
+const NOW = Date.UTC(2026, 0, 5, 10, 0, 0);
+
+/** The two PWA throttle keys as stored (raw strings). */
 async function pwaKeys(page: Page): Promise<unknown> {
   return page.evaluate(() => {
-    const out: Record<string, unknown> = {};
+    const out: Record<string, string | null> = {};
     for (const key of [
       "pwa.closed-install-pwa-dialog-date",
       "pwa.show-install-dialog-3-times-a-week",
     ]) {
-      const raw = localStorage.getItem(key);
-      if (raw === null) {
-        out[key] = null;
-        continue;
-      }
-      // The week key is a JSON string holding a JSON array of epoch ms.
-      const describe = (v: unknown): unknown =>
-        typeof v === "number"
-          ? v > 1e12
-            ? "<epoch ms>"
-            : v
-          : Array.isArray(v)
-            ? v.map(describe)
-            : v;
-      let value: unknown = JSON.parse(raw);
-      if (typeof value === "string") value = { jsonString: describe(JSON.parse(value)) };
-      out[key] = describe(value);
+      out[key] = localStorage.getItem(key);
     }
     return out;
   });
@@ -85,7 +64,7 @@ async function firePrompt(page: Page, outcome: "accepted" | "dismissed"): Promis
     };
     window.dispatchEvent(e);
   }, outcome);
-  await settle(page, 500);
+  await settle(page);
 }
 
 const scenarios = defineScenarios([
@@ -174,8 +153,6 @@ const scenarios = defineScenarios([
         null,
         { timeout: 60_000, polling: 500 },
       );
-      // Anything registered later than the first worker would show up here.
-      await page.waitForTimeout(3000);
       const state = await page.evaluate(async () => ({
         registrations: (await navigator.serviceWorker.getRegistrations()).map((r) => ({
           scope: r.scope,
@@ -227,6 +204,7 @@ const scenarios = defineScenarios([
     // prompt the user accepts: the throttle keys are removed again.
     driver: async ({ page }) => {
       await waitForStartupWrites(page);
+      await page.clock.setFixedTime(NOW);
       const steps: Record<string, unknown>[] = [];
       steps.push({
         step: "start",
@@ -244,7 +222,7 @@ const scenarios = defineScenarios([
       }
       // Close whatever dialog opened, the way a user would.
       await page.keyboard.press("Escape");
-      await settle(page, 300);
+      await settle(page);
       steps.push({
         step: "after Escape",
         keys: await pwaKeys(page),
@@ -252,7 +230,7 @@ const scenarios = defineScenarios([
       });
       steps.push({ step: "menu", menu: await installMenuItem(page) });
       await clickMenu(page, ["File", "Install to Desktop"]);
-      await settle(page, 500);
+      await settle(page);
       steps.push({
         step: "File > Install to Desktop",
         promptCalls: await page.evaluate(
@@ -271,18 +249,19 @@ const scenarios = defineScenarios([
     // The install dialog was closed a day ago: the event only resets the
     // weekly counter and no dialog opens.
     driver: async ({ page, kind }) => {
-      await page.evaluate(() => {
+      await page.evaluate((now) => {
         localStorage.setItem(
           "pwa.closed-install-pwa-dialog-date",
-          JSON.stringify(Date.now() - 86_400_000),
+          JSON.stringify(now - 86_400_000),
         );
         localStorage.setItem(
           "pwa.show-install-dialog-3-times-a-week",
-          JSON.stringify(JSON.stringify([Date.now() - 1000, Date.now() - 500])),
+          JSON.stringify(JSON.stringify([now - 1000, now - 500])),
         );
-      });
+      }, NOW);
       await reopen(page, kind, { newDocument: true });
       await waitForStartupWrites(page);
+      await page.clock.setFixedTime(NOW);
       await firePrompt(page, "dismissed");
       return { keys: await pwaKeys(page), dialogs: await visibleDialogs(page) };
     },
