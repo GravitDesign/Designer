@@ -1,0 +1,85 @@
+{
+ "setup": "empty",
+ "id": "edit.undo",
+ "info": {
+  "title": "Undo",
+  "available": true,
+  "visible": true,
+  "enabled": false,
+  "checkable": false,
+  "checked": null,
+  "global": false,
+  "shortcut": "Ctrl+Z",
+  "additional": []
+ },
+ "before": {
+  "selection": [],
+  "active": {
+   "page": "Page 1",
+   "layer": null
+  },
+  "dialogs": [],
+  "selectionDetail": false,
+  "undo": [],
+  "redo": [],
+  "doc": {
+   "@": "scene",
+   "@id": "id1",
+   "$": [
+    {
+     "@": "page",
+     "@id": "id2",
+     "$": [
+      {
+       "@": "annlst",
+       "@id": "id3",
+       "pgid": "id2",
+       "aid": "id3"
+      }
+     ],
+     "#": "id4",
+     "w": 0,
+     "h": 0,
+     "off": [],
+     "bck": "C#[255,255,255]",
+     "name": "Page 1"
+    }
+   ],
+   "lmd": "<time>",
+   "__ids": [
+    "id5",
+    "id6"
+   ],
+   "dictionary": {
+    "entries": []
+   },
+   "symbolDictionary": {
+    "entries": []
+   }
+  }
+ },
+ "returned": true,
+ "after": {
+  "selection": [],
+  "active": {
+   "page": "Page 1",
+   "layer": null
+  },
+  "dialogs": [],
+  "selectionDetail": false,
+  "undo": [],
+  "redo": [],
+  "doc": "unchanged"
+ },
+ "infoAfter": {
+  "title": "Undo",
+  "available": true,
+  "visible": true,
+  "enabled": false,
+  "checkable": false,
+  "checked": null,
+  "global": false,
+  "shortcut": "Ctrl+Z",
+  "additional": []
+ }
+}

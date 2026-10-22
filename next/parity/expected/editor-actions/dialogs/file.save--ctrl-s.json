@@ -1,0 +1,69 @@
+{
+ "platform": {
+  "userAgentHasWindows": true,
+  "operatingSystem": 1,
+  "hardware": 10
+ },
+ "trigger": [
+  "Control+KeyS"
+ ],
+ "info": {
+  "title": "Save",
+  "available": true,
+  "visible": true,
+  "enabled": true,
+  "checkable": false,
+  "checked": null,
+  "global": true,
+  "shortcut": "Ctrl+S",
+  "additional": []
+ },
+ "dialogs": [],
+ "events": [],
+ "fullscreen": false,
+ "parts": [
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "collapse-none",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": true
+  }
+ ],
+ "pageErrors": [
+  "Unable to execute action 'gravit-cloud.save-as' - not registered."
+ ]
+}

@@ -1,0 +1,127 @@
+{
+ "setup": "image-crop",
+ "id": "modify.crop",
+ "info": {
+  "title": "Confirm Cropping",
+  "available": true,
+  "visible": true,
+  "enabled": true,
+  "checkable": false,
+  "checked": null,
+  "global": false,
+  "shortcut": null,
+  "additional": []
+ },
+ "before": {
+  "selection": [
+   "image:I"
+  ],
+  "active": {
+   "page": "Page 1",
+   "layer": null
+  },
+  "dialogs": [],
+  "selectionDetail": true,
+  "undo": [
+   "Insert Element(s)"
+  ],
+  "redo": [],
+  "doc": {
+   "@": "scene",
+   "@id": "id1",
+   "$": [
+    {
+     "@": "page",
+     "@id": "id2",
+     "$": [
+      {
+       "@": "annlst",
+       "@id": "id3",
+       "pgid": "id2",
+       "aid": "id3"
+      },
+      {
+       "@": "image",
+       "@id": "id4",
+       "url": "dictionary://rid5",
+       "iw": 40,
+       "ih": 20,
+       "pw": 40,
+       "ph": 20,
+       "ipfc": true,
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "csc": false,
+       "trf": [
+        1,
+        0,
+        0,
+        1,
+        100,
+        100
+       ],
+       "name": "I",
+       "_layId": "id5",
+       "_effId": "id6"
+      }
+     ],
+     "#": "id7",
+     "w": 0,
+     "h": 0,
+     "off": [],
+     "bck": "C#[255,255,255]",
+     "name": "Page 1"
+    }
+   ],
+   "lmd": "<time>",
+   "__ids": [
+    "id8",
+    "id9",
+    "id10"
+   ],
+   "dictionary": {
+    "entries": [
+     {
+      "uuid": "rid5",
+      "value": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAUCAYAAAD/Rn+7AAAAUElEQVR4AezVwQkAMAgDwNT9d7YrBJKHhBT8WdBTcBbYyzE4/lqgOqAcwYeFM1jZHEG2Y3deBVXRClZQFVD/5+yg9448GjZHkG7ZnFhBFfQDAAD//w62wZMAAAAGSURBVAMAru932SYZF4QAAAAASUVORK5CYII=",
+      "references": 1
+     }
+    ]
+   },
+   "symbolDictionary": {
+    "entries": []
+   }
+  }
+ },
+ "returned": true,
+ "after": {
+  "selection": [
+   "image:I"
+  ],
+  "active": {
+   "page": "Page 1",
+   "layer": null
+  },
+  "dialogs": [],
+  "selectionDetail": true,
+  "undo": [
+   "Insert Element(s)"
+  ],
+  "redo": [],
+  "doc": "unchanged"
+ },
+ "infoAfter": {
+  "title": "Confirm Cropping",
+  "available": true,
+  "visible": true,
+  "enabled": true,
+  "checkable": false,
+  "checked": null,
+  "global": false,
+  "shortcut": null,
+  "additional": []
+ }
+}

@@ -1,0 +1,26 @@
+{
+ "names": [
+  "inner",
+  "outer"
+ ],
+ "afterCommit": {
+  "name": "A (outer, before inner)",
+  "opacity": 0.5,
+  "blend": "multiply"
+ },
+ "afterUndo1": {
+  "name": null,
+  "opacity": 0.5,
+  "blend": "multiply"
+ },
+ "afterUndo2": {
+  "name": null,
+  "opacity": 1,
+  "blend": "multiply"
+ },
+ "afterRedo": {
+  "name": "A (outer, before inner)",
+  "opacity": 0.5,
+  "blend": "multiply"
+ }
+}

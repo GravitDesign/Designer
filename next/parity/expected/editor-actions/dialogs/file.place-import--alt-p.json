@@ -1,0 +1,75 @@
+{
+ "platform": {
+  "userAgentHasWindows": true,
+  "operatingSystem": 1,
+  "hardware": 10
+ },
+ "trigger": [
+  "Alt+KeyP"
+ ],
+ "info": {
+  "title": "Place Image...",
+  "available": true,
+  "visible": true,
+  "enabled": true,
+  "checkable": false,
+  "checked": null,
+  "global": false,
+  "shortcut": "Alt+P",
+  "additional": []
+ },
+ "dialogs": [],
+ "events": [
+  "filechooser multiple=false"
+ ],
+ "fileInputs": [
+  {
+   "accept": ".png,.heic,.jpg,.jpeg,.svg,.pdf,.eps",
+   "multiple": false
+  }
+ ],
+ "fullscreen": false,
+ "parts": [
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "collapse-none",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": true
+  }
+ ],
+ "pageErrors": []
+}

@@ -107,11 +107,27 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
   Save sets system_fonts_enabled, enable_steps_debug and enable_cache to
   undefined, so they vanish from designer.settings.
 
+- GOpenTypeUtil.getOpenTypeInfo reports weight 400 for OpenSans
+  SemiBoldItalic, ExtraBold and Light (imported fonts get the wrong weight).
+- GVertexInfo / GPathsGraph / GCompoundPath quirks from engine-geometry
+  (see that area's notes): getPathLength cx2, hit test needs an update
+  cycle, addGraphLine refuses GPath.
+- Shapes inserted with editor.insertElements all get the "Rectangle
+  Default" `_sdf` (probably a question, not a bug).
+
 ## Pending harness work
 
 - Pin the browser locale (`locale: "en-US"` in playwright.config.ts) once
   all phase 2 agents are done, then re-record and re-verify every area.
   Today the recordings depend on the Windows system locale (de-DE).
+- normalize.ts: also rename random ids used as object keys (scene `_links`),
+  inside pattern strings (`"N#{...}"`, `"T#{...}"`) and in compact anchor
+  arrays (`[..., "#", id]`); add annotation `time`/`mtime` to TIME_KEYS.
+  engine-model works around these in-page today (helpers.ts `clean()`).
+- engine-model drops `_sdf` in document scenarios. It is deterministic in
+  the old app (load-order type ids), and the new app must write the same
+  numbers so its files match the old ones byte for byte. Add a scenario
+  that records `_sdf` per default style and per inserted node type.
 - platform/dropped.spec.ts: add `removedInNewApp` checks (404 for license,
   subscription, quota, paywall routes; WebSocket upgrade refused) when the
   new server exists.
