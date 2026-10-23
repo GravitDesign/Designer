@@ -12,6 +12,15 @@ const expected = JSON.parse(
   readFileSync(resolve(here, "__fixtures__/old-annotations.json"), "utf8"),
 ) as Record<string, Record<string, unknown>>;
 
+// BUG-003 (BUGS-FIXED.md): the old app restored none of an "ann"'s meta
+// properties, so it read back the defaults and saved only "@". The port
+// restores and saves them as the probe wrote them.
+expected["empty"] = {
+  restored: ["T", "u9", 4, "N", true, true, "L", 2, "e@example.com", ["u9", "u8"]],
+  saved: ["T", "u9", 4, "N", true, true, "L", 2, "e@example.com", ["u9", "u8"]],
+  savedKeys: ["@", "email", "loc", "name", "read", "rmd", "rsv", "seq", "text", "typ", "uid"],
+};
+
 // The whole G namespace and the app hooks, as the parity bridge builds them.
 function merge(modules: Record<string, unknown>): Record<string, unknown> {
   const out: Record<string, unknown> = {};

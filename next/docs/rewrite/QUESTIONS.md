@@ -918,13 +918,7 @@ Kept. Pinned by next/src/engine/style/symbol-dictionary.test.ts "throws when rem
 
 ## Q-072 GEmptyAnnotation restores none of its meta properties
 
-Old location: public/chunk.vendor.js:235463-235468 (module 1035, GEmptyAnnotation `_handleChange`, Restore branch).
-
-What it does: restore calls `restoreProperties(blob, GEmptyAnnotation.MetaProperties, ...)`. GEmptyAnnotation never had a `MetaProperties` static: GNode.inherit copies statics only from GSceneNode and GNode, and neither has one. So nothing is restored. A saved "ann" comes back with the defaults (text, uid, name, seq, rsv, rmd, loc, typ, email, read all lost), and the next save writes only "@". This is data loss for files that contain "ann" annotations.
-
-Why it's unclear: it is plainly a slip (the shape annotations restore `GAnnotation.MetaProperties`), but the fix changes what old files load as and what the defaults-restored scenarios record. It is a BUGS-FIXED candidate: restore with `Annotation.MetaProperties` and `restoreAction`, with a parity exception.
-
-Kept. Pinned by special-annotations.test.ts ("restores none of its meta properties (old slip)") and annotations-probe.test.ts ("empty: restored", "empty: saved", "empty: savedKeys"), recorded from the old app.
+Fixed: see BUGS-FIXED.md BUG-003.
 
 ## Q-073 Annotation model slips kept
 

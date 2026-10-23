@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-003",
+  "why": "An empty annotation (\"ann\") keeps its meta properties through load. No recorded scenario restores an \"ann\" that has meta properties set (defaults-restored restores a bare {\"@\": \"ann\"}, which gives the defaults either way), so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}

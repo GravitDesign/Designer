@@ -84,12 +84,43 @@ describe("GCommentAnnotation", () => {
 });
 
 describe("GEmptyAnnotation", () => {
-  it("restores none of its meta properties (old slip)", () => {
-    const node = Node.deserialize(
-      JSON.stringify({ "@": "ann", text: "T", uid: "u" }),
-    ) as EmptyAnnotation;
-    expect(node.getProperties(["text", "uid"])).toEqual([null, null]);
+  it("BUG-003: keeps its meta properties through save and load", () => {
+    const saved = {
+      "@": "ann",
+      text: "T",
+      uid: "u",
+      seq: 4,
+      name: "N",
+      rsv: true,
+      rmd: true,
+      loc: "L",
+      typ: 2,
+      email: "e@example.com",
+      read: ["u", "v"],
+    };
+    const node = Node.deserialize(JSON.stringify(saved)) as EmptyAnnotation;
+    const names = Object.keys(saved).filter((name) => name !== "@");
+    expect(node.getProperties(names)).toEqual(
+      names.map((name) => saved[name as keyof typeof saved]),
+    );
     expect(node.hasMixin(Reference)).toBe(true);
+    const again = blobOf(node);
+    for (const name of names) expect(again[name]).toEqual(saved[name as keyof typeof saved]);
+  });
+
+  it("BUG-003: loads a hidden one without throwing", () => {
+    const node = Node.deserialize(
+      JSON.stringify({ "@": "ann", vis: false, text: "T" }),
+    ) as EmptyAnnotation;
+    expect(node.getProperties(["vis", "text"])).toEqual([false, "T"]);
+    expect(node.hasFlag(Annotation.Flag["Hidden"] as number)).toBe(true);
+    expect(node.isVisible()).toBe(true);
+    expect(blobOf(node)["vis"]).toBe(false);
+  });
+
+  it("BUG-003: loads one with a uid and no read list", () => {
+    const node = Node.deserialize(JSON.stringify({ "@": "ann", uid: "u" })) as EmptyAnnotation;
+    expect(node.getProperty("uid")).toBe("u");
   });
 
   it("is always visible and throws when vis changes", () => {

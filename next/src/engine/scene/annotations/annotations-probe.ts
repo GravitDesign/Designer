@@ -462,8 +462,8 @@ export function probeAnnotations(G: any, app: any): Record<string, unknown> {
     layer.removeChild(shape);
   }
 
-  // -- GEmptyAnnotation: restore reads no meta properties (old slip), so
-  // a saved "ann" comes back with the defaults and saves them.
+  // -- GEmptyAnnotation: the old restore read no meta properties, so a
+  // saved "ann" came back with the defaults (BUG-003, fixed in the port).
   {
     const saved = {
       "@": "ann",
