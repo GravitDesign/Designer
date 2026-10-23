@@ -214,6 +214,12 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
   saves fine). Contact shadow grows its kept box on every
   getEffectPadding call; MultiEffect.getEffectPadding returns
   [left, right, top, bottom].
+- GEmptyAnnotation ("ann") restores none of its meta properties (text,
+  uid...) on load: data loss. GAnnotationsList.getSelected throws a
+  ReferenceError as soon as anything is selected; GCommentAnnotation
+  initSizeAndPosition throws on a second call (GTransform.invert missing).
+- Restored ready shapes skip all base constructors (no $refs, _effId,
+  _layId, _paintSharp): no pixel snapping, linking may crash.
 - Symbol labels: the instance is never painted after duplicate in the
   headless old app (editor-actions symbols/labels-on).
 

@@ -555,7 +555,7 @@ chunk.vendor.js	996	1570		port	next/src/engine/text/opentype/tables/glyf-parse.t
 chunk.vendor.js	997	419		port	next/src/engine/text/opentype/bidi.ts	engine-opentype-fork	
 chunk.vendor.js	998	6438133		data:HarfBuzz 2.2.0 Emscripten build (rebuild harfbuzz-2.2.0 as wasm with the same hb_* exports; vendor the old asm.js module only as a fallback)	next/src/engine/text/harfbuzz/harfbuzz-2.2.0	engine-fonts	ENG-TEXT-018,FMT-LIB-005
 chunk.vendor.js	999	235		port	next/src/engine/scene/annotations/collab-text-annotation-base.ts	engine-annotations-model	
-chunk.vendor.js	1000	6384		drop:dead code (inline-text "A" annotation, never required)		editor-core	
+chunk.vendor.js	1000	6384		port	src/engine/scene/annotations/collab-text-action.ts	engine-annotations-model	
 chunk.vendor.js	1001	1117	GSceneUtil	port	next/src/engine/scene/scene-util.ts	engine-scene-document	ENG-GEOM-014
 chunk.vendor.js	1002	9382	GVertexSimplifier	port	next/src/engine/geometry/vertex-simplifier.ts	engine-geometry-boolean	ENG-PATHOP-002
 chunk.vendor.js	1003	25364	GImageTracer	port	next/src/engine/geometry/image-tracer.ts	engine-geometry-offset-trace	ENG-PATHOP-004
