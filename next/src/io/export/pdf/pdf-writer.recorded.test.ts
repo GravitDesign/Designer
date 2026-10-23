@@ -79,6 +79,25 @@ interface RecordedPixels {
   pixels?: string;
 }
 
+/**
+ * A font program run on another font: `file` is "assets:<path>" under the
+ * app's assets or a path next to this test.
+ */
+interface RecordedFontCase {
+  id: string;
+  file: string;
+  family: string;
+  texts: string[];
+  expected: { document: string; encoded: string[] };
+}
+
+function fontFileBase64(file: string): string {
+  const full = file.startsWith("assets:")
+    ? path.join(ASSETS_ROOT, file.slice("assets:".length))
+    : path.join(import.meta.dirname, file);
+  return fs.readFileSync(full).toString("base64");
+}
+
 interface RecordedImageCase {
   id: string;
   colorSpace: string;
@@ -92,6 +111,7 @@ const fixture = recorded as unknown as {
   font: { family: string; texts: string[] };
   objects: Record<string, unknown>;
   fonts: { document: string; encoded: string[] };
+  fontCases: RecordedFontCase[];
   images: RecordedImageCase[];
 };
 
@@ -189,6 +209,27 @@ describe("PDF writer against the old classes", () => {
     expect(result.encoded).toEqual(fixture.fonts.encoded);
     expect(result.document).toBe(fixture.fonts.document);
   });
+
+  // More than 100 glyphs (a second ToUnicode block), a CID-keyed CFF font
+  // (FontFile3 / CIDFontType0C, with glyphs above U+FFFF) and a family
+  // named like one of the 14 standard fonts (a non-embedded Type1 with
+  // WinAnsi text).
+  for (const testCase of fixture.fontCases) {
+    it(`embeds fonts like the old classes: ${testCase.id}`, () => {
+      const result = fontProgram(
+        P,
+        G,
+        {
+          fontBytes: fontFileBase64(testCase.file),
+          family: testCase.family,
+          texts: testCase.texts,
+        },
+        pdfSkeleton,
+      );
+      expect(result.encoded).toEqual(testCase.expected.encoded);
+      expect(result.document).toBe(testCase.expected.document);
+    });
+  }
 
   for (const testCase of fixture.images) {
     it(`writes image XObjects: ${testCase.id}`, async () => {

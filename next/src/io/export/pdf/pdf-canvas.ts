@@ -908,6 +908,3 @@ Object.assign(PDFCanvasContext.prototype, {
   _pageOrigin: null,
   _bitmapCache: null,
 });
-
-/** For type checks of nodes the context reads (keeps the import used). */
-export type PDFContextNode = Node;

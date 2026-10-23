@@ -36,8 +36,8 @@ export interface PdfExporter {
 
 export const exporters: {
   BitmapExport: typeof BitmapExport;
-  SVGExport: SvgExporter | null;
-  PDFExport: PdfExporter | null;
+  SVGExport: SvgExporter;
+  PDFExport: PdfExporter;
 } = {
   BitmapExport,
   SVGExport: SvgExport,

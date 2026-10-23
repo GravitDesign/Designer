@@ -9,7 +9,8 @@ import type { PDFOutput } from "./output.ts";
 
 /**
  * A page's content stream. It is always deflated: the document passes its
- * compress flag, but the old constructor ignored it.
+ * compress flag, but the old constructor ignored it (see
+ * "PDF writer quirks kept from the old code" in QUESTIONS.md).
  */
 export class PDFPageContents extends PDFObject {
   _collection: PDFObjectCollection;

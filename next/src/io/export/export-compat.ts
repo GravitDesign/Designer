@@ -4,7 +4,6 @@
 // (WebGL) blend modes, texture, angular and background fills, and with
 // effects enabled any effect other than a drop or an inner shadow.
 import type { Node } from "../../engine/scene/node.ts";
-import type { PropertiesNode } from "../../engine/scene/node-properties.ts";
 import { BlendShader } from "../../engine/paint/webgl/blend-shader.ts";
 import { AngularGradient } from "../../engine/style/angular-gradient.ts";
 import { Background } from "../../engine/style/background.ts";
@@ -24,6 +23,15 @@ interface StylableNode {
 
 function stylable(node: Node): StylableNode {
   return node as unknown as StylableNode;
+}
+
+/**
+ * The live value of a property, as the old code read it (`e.$_sbl`): a
+ * temporary value while one is set (getProperty would give the committed
+ * one), the prototype default when the node doesn't own the property.
+ */
+function liveField(node: unknown, name: string): unknown {
+  return (node as Record<string, unknown>)["$" + name];
 }
 
 export const ExportCompat = {
@@ -60,20 +68,20 @@ export const ExportCompat = {
       if (layers) {
         return layers
           .getLayers(null, true)
-          .some((layer) => ExportCompat.isUnsupportedPattern(layer.getProperty("_pt")));
+          .some((layer) => ExportCompat.isUnsupportedPattern(liveField(layer, "_pt")));
       }
     }
     return false;
   },
 
   hasCustomBlendMode(node: Node): boolean {
-    if (ExportCompat.isCustomBlendMode((node as PropertiesNode).getProperty("_sbl"))) return true;
+    if (ExportCompat.isCustomBlendMode(liveField(node, "_sbl"))) return true;
     if (node.hasMixin(Stylable)) {
       const layers = stylable(node).getPaintLayers();
       if (layers) {
         return layers
           .getLayers(null, true)
-          .some((layer) => ExportCompat.isCustomBlendMode(layer.getProperty("_bl")));
+          .some((layer) => ExportCompat.isCustomBlendMode(liveField(layer, "_bl")));
       }
     }
     return false;
@@ -103,7 +111,7 @@ export const ExportCompat = {
       if (layers) {
         return !!layers
           .getLayers(null, true)
-          .some((layer) => layer.getProperty("_pt") instanceof Background);
+          .some((layer) => liveField(layer, "_pt") instanceof Background);
       }
     }
     return false;

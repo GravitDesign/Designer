@@ -127,15 +127,21 @@ export interface ExportHost {
   getFileTypes(): readonly ExportFileType[];
 }
 
-/** The export formats of GDocument.FileTypes (old module 389). */
-const EXPORT_FILE_TYPES: readonly ExportFileType[] = [
+/**
+ * GDocument.FileTypes (old module 389, getFileTypesArray: GVDESIGN, PNG,
+ * HEIC, JPG, JPEG, SVG, PDF, EPS), ext and mime only, until the app shell
+ * provides the real table. Exporter.export looks up the first item's
+ * format here; svgz and zip are not in the old list either.
+ */
+const DOCUMENT_FILE_TYPES: readonly ExportFileType[] = [
+  { ext: "gvdesign", mime: "application/gravit+design" },
   { ext: "png", mime: "image/png" },
+  { ext: "heic", mime: "image/heic" },
   { ext: "jpg", mime: "image/jpeg" },
   { ext: "jpeg", mime: "image/jpeg" },
   { ext: "svg", mime: "image/svg+xml" },
-  { ext: "svgz", mime: "image/svg+xml" },
   { ext: "pdf", mime: "application/pdf" },
-  { ext: "zip", mime: "application/zip" },
+  { ext: "eps", mime: "application/postscript" },
 ];
 
 const PDF_TYPE: ExportFileType = { ext: "pdf", mime: "application/pdf" };
@@ -143,7 +149,7 @@ const PDF_TYPE: ExportFileType = { ext: "pdf", mime: "application/pdf" };
 let host: ExportHost = {
   getUserFullName: () => Promise.resolve(null),
   getActiveWindowTitle: () => null,
-  getFileTypes: () => EXPORT_FILE_TYPES,
+  getFileTypes: () => DOCUMENT_FILE_TYPES,
 };
 
 function isStorage(target: unknown): target is ExportStorage {
@@ -321,9 +327,7 @@ export class Exporter {
       );
       if (bitmap) bitmap.toImageBlob(type as string, callback, quality);
     } else if ("svg" === format) {
-      const svgExport = exporters.SVGExport;
-      if (!svgExport) throw new Error("SVG export is not ported yet.");
-      svgExport.export(
+      exporters.SVGExport.export(
         element,
         {
           convertTextToPath: exportable.convertTextToPath,
@@ -343,8 +347,6 @@ export class Exporter {
       );
     } else {
       if (format !== PDF_TYPE.ext) throw new Error("Unknown format.");
-      const pdfExport = exporters.PDFExport;
-      if (!pdfExport) throw new Error("PDF export is not ported yet.");
       void host.getUserFullName().then((userName) => {
         const author = userName
           ? userName
@@ -362,7 +364,7 @@ export class Exporter {
           title: host.getActiveWindowTitle(),
           downsampleImages: exportable.downsampleImages,
         };
-        const job: PdfExportJob | null | undefined = pdfExport.export(
+        const job: PdfExportJob | null | undefined = exporters.PDFExport.export(
           element,
           options,
           (error, data) => {

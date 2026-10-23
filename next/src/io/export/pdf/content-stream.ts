@@ -250,7 +250,8 @@ export class PDFGraphics extends PDFObject {
   /** Adds an object (each item of an array), at `index` or at the end. */
   add(object: unknown, index?: number | null): void {
     if (Array.isArray(object)) {
-      for (const item of object) this.add(item);
+      // forEach like the old GUtil.each: holes of a sparse array are skipped.
+      object.forEach((item) => this.add(item));
     } else {
       const value = new PDFValue(object);
       if (null != index) this.pdfObjects.splice(index, 0, value);

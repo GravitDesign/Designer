@@ -96,7 +96,13 @@ export class PDFTLRender extends TLCanvasContext {
     this._text = null;
   }
 
-  /** The outline as a PDF path (the old override of `_putVertices`, whose callers this class replaces). */
+  /**
+   * The outline as a PDF path: the old override of `_putVertices`, renamed
+   * because the base method returns a line count. The base class calls
+   * `_putVertices` only from drawMarker and drawText
+   * (tl-canvas-context.ts), which this class overrides; a new base-class
+   * caller would get the canvas version, not this one.
+   */
   _putPDFVertices(source: VertexReader): PDFPath {
     const path = new PDFPath(this._pdfDoc);
     if (source.rewindVertices(0)) {

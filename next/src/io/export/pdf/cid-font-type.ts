@@ -128,7 +128,8 @@ export class PDFCIDFontType extends PDFFont {
   /**
    * The ToUnicode CMap, in bfrange blocks of 100 glyphs. Code points above
    * U+FFFF were meant as a surrogate pair, but the old code didn't round
-   * the lead surrogate, so they come out as hex with a fraction.
+   * the lead surrogate, so they come out as hex with a fraction (see
+   * "PDF writer quirks kept from the old code" in QUESTIONS.md).
    */
   _updateUnicode(): void {
     let cmap = TO_UNICODE_HEADER;

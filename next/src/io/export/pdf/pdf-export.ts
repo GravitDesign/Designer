@@ -69,8 +69,10 @@ export interface PDFExportDialog {
   message?(text: string): void;
 }
 
-/** Called with an error, or with null and the file's bytes and the document. */
-/** With the default writer the bytes are a Uint8ClampedArray. */
+/**
+ * Called with an error, or with null and the file's bytes and the
+ * document. With the default writer the bytes are a Uint8ClampedArray.
+ */
 export type PDFExportCallback = (
   error: unknown,
   bytes?: Uint8ClampedArray<ArrayBuffer> | null,
@@ -97,7 +99,7 @@ interface StylableNodeLike {
  * canvas can't express it (borders off center, shadows, text, nodes to
  * rasterize). The scene itself is never changed.
  */
-class PDFExportProxy {
+export class PDFExportProxy {
   _context: PDFPaintContext;
   _doc: PDFDocument;
   _options: PDFExportOptions;
@@ -243,13 +245,15 @@ class PDFExportProxy {
       };
     }
     if (this._instanceof(proxy, Anchor)) {
+      // No null check: with the GAnchor default (null) the old proxy threw
+      // a TypeError, and so does this one.
       proxy.getOutEdges = function (this: ProxyNode) {
-        return (this.__source__ as unknown as Anchor)
-          .getOutEdges()
-          ?.map((edge) => self.proxy(edge));
+        const edges = (this.__source__ as unknown as Anchor).getOutEdges() as unknown[];
+        return edges.map((edge) => self.proxy(edge));
       };
       proxy.getInEdges = function (this: ProxyNode) {
-        return (this.__source__ as unknown as Anchor).getInEdges()?.map((edge) => self.proxy(edge));
+        const edges = (this.__source__ as unknown as Anchor).getInEdges() as unknown[];
+        return edges.map((edge) => self.proxy(edge));
       };
     }
     if (this._instanceof(proxy, Text)) {

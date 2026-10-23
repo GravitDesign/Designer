@@ -123,6 +123,24 @@ describe("zip.fs tree", () => {
     expect(fs.find("A/c.txt")).toBeUndefined();
   });
 
+  it("throws on addData without params, after the entry has joined the tree (old zip.js)", () => {
+    const fs = new FS();
+    const folder = fs.root.addDirectory("A");
+    expect(() => folder.addData("x.bin", undefined as never)).toThrow(
+      new TypeError("Cannot read properties of undefined (reading 'Reader')"),
+    );
+    expect(() => folder.addData("y.bin", null as never)).toThrow(
+      new TypeError("Cannot read properties of null (reading 'Reader')"),
+    );
+    expect(folder.children.map((child) => child.name)).toEqual(["x.bin", "y.bin"]);
+    expect(fs.entries.map((entry) => entry?.getFullname() ?? null)).toEqual([
+      null,
+      "A",
+      "A/x.bin",
+      "A/y.bin",
+    ]);
+  });
+
   it("keeps the 128-entry CP437 table of zip.js", () => {
     expect(CP437_TABLE.length).toBe(128);
     expect(CP437_TABLE.charAt(0)).toBe("Ç");

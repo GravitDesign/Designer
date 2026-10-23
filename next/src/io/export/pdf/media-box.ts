@@ -8,7 +8,8 @@ import type { PDFOutput } from "./output.ts";
  * A page box. It is written as `[top left width height]`: the old code
  * put y first and the size where PDF expects the upper right corner.
  * Pages start at 0 0 so the media box comes out right; the bleed box
- * doesn't (kept, see QUESTIONS.md).
+ * doesn't (kept, see "PDF bleed box is written as x y width height" in
+ * QUESTIONS.md).
  */
 export class PDFMediaBox extends PDFObject {
   declare left: number;

@@ -247,11 +247,17 @@ export class ZipFileEntry extends ZipEntryBase {
     parent?: ZipEntryBase,
   ) {
     super(fs, name, params, parent);
-    const p = params || {};
-    this.Reader = p.Reader;
-    this.Writer = p.Writer;
-    this.data = p.data;
-    if (p.getData) this.getData = p.getData;
+    // The old constructor read params.Reader without a default (init's
+    // `params || {}` only replaced init's own copy), so a missing params
+    // threw this TypeError after the entry had joined fs.entries and its
+    // parent's children. Nothing in the app adds an entry without params.
+    if (!params) {
+      throw new TypeError("Cannot read properties of " + String(params) + " (reading 'Reader')");
+    }
+    this.Reader = params.Reader;
+    this.Writer = params.Writer;
+    this.data = params.data;
+    if (params.getData) this.getData = params.getData;
   }
 
   /**

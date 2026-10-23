@@ -3,7 +3,8 @@ import type { PDFOutput } from "./output.ts";
 
 /**
  * `%PDF-1.7` and the binary marker line. The old constructor ignored the
- * version it was given, so every file says 1.7.
+ * version it was given, so every file says 1.7 (see
+ * "PDF writer quirks kept from the old code" in QUESTIONS.md).
  */
 export class PDFHeader {
   declare version: number;

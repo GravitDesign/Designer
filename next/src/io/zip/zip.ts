@@ -9,8 +9,10 @@
 // data always goes through the codec on the main thread in 512 KB chunks,
 // with a setTimeout between chunks, as before.
 //
-// Entries are stored with a data descriptor (bit 3) and the UTF-8 name
-// flag (bit 11, set only for deflated entries), in local time.
+// Every entry, stored or deflated, directories included, gets the flags
+// 0x0808 (data descriptor and UTF-8 names) and local time; the method is
+// 8 (deflate) unless the entry is stored (dontDeflate, level 0 or a
+// directory).
 
 import { Deflater, Inflater, type ZipCodec } from "./pako-codec.ts";
 

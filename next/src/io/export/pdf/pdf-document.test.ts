@@ -6,6 +6,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { Point } from "../../../engine/math/point.ts";
 import { PDFByteStream } from "./byte-stream.ts";
 import { PDFDocument, type PDFExportWorker } from "./pdf-document.ts";
+import { PDFFontStream } from "./font-stream.ts";
 
 function newDocument(workers?: PDFExportWorker[]): PDFDocument {
   return new PDFDocument({ version: 1.7, compress: true, user: "A", title: "T", workers });
@@ -149,6 +150,30 @@ describe("PDFDocument file structure", () => {
     const start = (match?.index ?? 0) + (match?.[0].length ?? 0);
     const data = Buffer.from(text.slice(start, start + Number(match?.[1])), "latin1");
     expect(inflateSync(data).toString("latin1")).toBe("1 0 0 1 5 -7 cm\n0 0 m");
+  });
+
+  it("deflates page contents even without compress (kept old quirk)", () => {
+    const document = new PDFDocument({ version: 1.7, compress: false, user: "A", title: "T" });
+    document.newPage(100, 100);
+    document.add("0 0 m");
+    expect(written(document)).toMatch(/4 0 obj\n<<\/Length \d+\/Filter \/FlateDecode>>stream\n/);
+  });
+
+  it("writes version 1.7 whatever version it is given (kept old quirk)", () => {
+    const document = new PDFDocument({ version: 1.4, compress: true, user: "A", title: "T" });
+    document.newPage(100, 100);
+    expect(written(document).startsWith("%PDF-1.7\n")).toBe(true);
+  });
+
+  it("gives an embedded font file the compressed length as /Length1 (kept old quirk)", () => {
+    const font = new Uint8Array(4000).map((_, i) => i % 7);
+    const stream = new PDFFontStream(font, true);
+    const output = new PDFByteStream();
+    stream.write(output);
+    const text = Buffer.from(output.asArray()).toString("latin1");
+    const length = Number(/\/Length (\d+)/.exec(text)?.[1]);
+    expect(length).toBeLessThan(font.length);
+    expect(text).toContain("/Length1 " + length);
   });
 
   it("flips y against the page height", () => {

@@ -7,11 +7,11 @@
  *
  * Interim parts, until the app shell (phase 7) exists:
  * - documents() reports the interim document list of ./document.ts.
- * - The exporter's host gives no user (the PDF author is then the
- *   default "text.default-export-author") and the active document's
- *   title as the window title (GWindow.getTitle is its document's).
- * - svgUnsupportedFeatures and pdfIsSupported throw while the SVG and PDF
- *   exporters are not in the registry.
+ * - The exporter's host gives "Test" as the user's full name, the name
+ *   of the account the old app's stub server signs in (PDF /Author; see
+ *   "PDF author is the signed-in user's name" in QUESTIONS.md), and the
+ *   active document's title as the window title (GWindow.getTitle is its
+ *   document's).
  */
 import { Image } from "../../engine/scene/image.ts";
 import type { Node } from "../../engine/scene/node.ts";
@@ -37,6 +37,7 @@ const STATUS: Record<number, string> = {
 
 Exporter.setHost({
   ...Exporter.getHost(),
+  getUserFullName: () => Promise.resolve("Test"),
   getActiveWindowTitle: () => getActiveDocument()?.getTitle() ?? null,
 });
 
@@ -192,12 +193,10 @@ export const importExportHooks = {
     },
 
     svgUnsupportedFeatures(node: unknown): unknown[] {
-      if (!exporters.SVGExport) throw new Error("SVG export is not ported yet.");
       return exporters.SVGExport.getUnsupportedFeatures(node);
     },
 
     pdfIsSupported(node: unknown, withEffects: boolean, size: string): boolean {
-      if (!exporters.PDFExport) throw new Error("PDF export is not ported yet.");
       return exporters.PDFExport.isSupported(node, withEffects, size);
     },
 

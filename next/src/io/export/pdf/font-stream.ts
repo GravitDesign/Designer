@@ -6,7 +6,7 @@ import { PDFRawBuffer } from "./raw-buffer.ts";
 /**
  * The font file, deflated when the document compresses. /Length1 is the
  * length of the written (compressed) data, not of the font file as PDF
- * asks; kept from the old code.
+ * asks; kept from the old code (see "PDF writer quirks kept from the old code" in QUESTIONS.md).
  */
 export class PDFFontStream extends PDFStream {
   constructor(buffer: ArrayBuffer | ArrayBufferView, compress: boolean) {

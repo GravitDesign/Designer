@@ -1,6 +1,7 @@
 // GPDFExport (old module 1406) beyond the recorded documents: the raster
 // size guard of isSupported, slices (their page with the slice's
-// background, restored afterwards), progress and the missing callback.
+// background, restored afterwards), progress, the missing callback, the
+// error and abort paths, and the proxies of graph anchors.
 import { inflateSync } from "node:zlib";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { RGBColor } from "../../../engine/color/rgb-color.ts";
@@ -13,9 +14,12 @@ import { Slice } from "../../../engine/scene/slice.ts";
 import { Workspace } from "../../../engine/scene/workspace.ts";
 import { AngularGradient } from "../../../engine/style/angular-gradient.ts";
 import { FillPaintLayer } from "../../../engine/style/fill-paint-layer.ts";
-import type { Page } from "../../../engine/scene/page.ts";
+import { Page } from "../../../engine/scene/page.ts";
+import { Anchor } from "../../../engine/scene/anchor.ts";
 import "../../../engine/style/stylable.ts";
-import { PDFExport } from "./pdf-export.ts";
+import { PDFDocument } from "./pdf-document.ts";
+import { PDFExport, PDFExportProxy } from "./pdf-export.ts";
+import { PDFRasterFallback } from "./raster-fallback.ts";
 
 const limits = {
   absoluteMaxImgLinearDimension: Platform.absoluteMaxImgLinearDimension,
@@ -51,7 +55,28 @@ beforeEach(() => {
 afterEach(() => {
   Object.assign(Platform, limits);
   vi.restoreAllMocks();
+  vi.useRealTimers();
 });
+
+const wait = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
+
+/** A fixed-size white page added to the scene. */
+function addPage(scene: Scene, width: number, height: number): Page {
+  const page = new Page();
+  page.setProperties(["bck", "w", "h"], [RGBColor.WHITE, width, height]);
+  scene.appendChild(page);
+  return page;
+}
+
+/**
+ * Aborting rejects the document's promise before anything listens to it
+ * (an unhandled rejection in the old app too); mark it handled so the test
+ * run doesn't report it. The export's own `.catch` still sees it.
+ */
+function abortHandled(document: PDFDocument): void {
+  document.abort();
+  (document as unknown as { _promise: Promise<unknown> })._promise.catch(() => {});
+}
 
 describe("PDFExport.isSupported", () => {
   it("fails when a node it would rasterize is larger than a canvas can be", () => {
@@ -119,5 +144,122 @@ describe("PDFExport.export", () => {
     expect(page.getProperty("bck")).toBe(background);
     // One element: 0 % when it starts, 50 % after it.
     expect(progress).toEqual([0, 50]);
+  });
+});
+
+describe("PDFExport.export error and abort paths", () => {
+  it("hands a failed raster job to the callback and finishes the document", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "info").mockImplementation(() => {});
+    const failure = new Error("raster failed");
+    vi.spyOn(PDFRasterFallback.prototype, "export").mockImplementation(() =>
+      Promise.reject(failure),
+    );
+    const finish = vi.spyOn(PDFDocument.prototype, "finish");
+    const { page, layer } = newPage(100, 100);
+    // An angular gradient is rasterized.
+    layer.appendChild(rectangle(10, 10, 50, 50, new AngularGradient()));
+    const calls: unknown[][] = [];
+    PDFExport.export(page, { dpi: 72, disableWorker: true }, (...args) => calls.push(args));
+    await wait(100);
+    expect(calls).toEqual([[failure]]);
+    expect(finish).toHaveBeenCalled();
+  });
+
+  it("stops between pages after an abort and calls back without bytes", async () => {
+    const { scene, page } = newPage(100, 100);
+    const second = addPage(scene, 50, 50);
+    const third = addPage(scene, 50, 50);
+    const newPages = vi.spyOn(PDFDocument.prototype, "newPage");
+    const calls: unknown[][] = [];
+    const progress: number[] = [];
+    // The second progress call comes after the first page is done.
+    const document = PDFExport.export(
+      [page, second, third],
+      {
+        dpi: 72,
+        disableWorker: true,
+        progress: (percent) => {
+          progress.push(percent);
+          if (progress.length === 2) abortHandled(document as PDFDocument);
+        },
+      },
+      (...args) => calls.push(args),
+    );
+    await wait(100);
+    // The rejected document promise reaches the callback as an undefined
+    // error, which the exporter takes as "aborted" (old GExporter).
+    expect(calls).toEqual([[undefined]]);
+    expect(newPages).toHaveBeenCalledTimes(1);
+    expect(progress).toEqual([0, 25]);
+  });
+
+  it("never calls back after an abort while nodes are rasterized (kept hang)", async () => {
+    const running: { document?: PDFDocument } = {};
+    const raster = vi.spyOn(PDFRasterFallback.prototype, "export").mockImplementation(() => {
+      abortHandled(running.document as PDFDocument);
+      return Promise.resolve(undefined);
+    });
+    const { scene, page, layer } = newPage(100, 100);
+    layer.appendChild(rectangle(10, 10, 50, 50, new AngularGradient()));
+    layer.appendChild(rectangle(40, 40, 50, 50, new AngularGradient()));
+    const second = addPage(scene, 50, 50);
+    const newPages = vi.spyOn(PDFDocument.prototype, "newPage");
+    const callback = vi.fn();
+    running.document = PDFExport.export([page, second], { dpi: 72, disableWorker: true }, callback);
+    await wait(100);
+    expect(callback).not.toHaveBeenCalled();
+    // The raster loop stopped after the first node; no second page.
+    expect(raster).toHaveBeenCalledTimes(1);
+    expect(newPages).toHaveBeenCalledTimes(1);
+  });
+
+  it("never calls back when a node's paint throws (kept hang)", () => {
+    vi.useFakeTimers();
+    vi.spyOn(Platform, "scheduleFrame").mockImplementation((callback) => {
+      setTimeout(() => callback(0), 0);
+      return 1;
+    });
+    const { page, layer } = newPage(100, 100);
+    layer.appendChild(rectangle(10, 10, 50, 50, new RGBColor([1, 2, 3])));
+    vi.spyOn(Rectangle.prototype, "paint").mockImplementation(() => {
+      throw new Error("paint failed");
+    });
+    const callback = vi.fn();
+    PDFExport.export(page, { dpi: 72, disableWorker: true }, callback);
+    // The error leaves the export's timer instead of reaching the callback.
+    const thrown: unknown[] = [];
+    for (let i = 0; i < 20; i++) {
+      try {
+        vi.advanceTimersByTime(5);
+      } catch (error) {
+        thrown.push(error);
+      }
+    }
+    expect(thrown.map(String)).toEqual(["Error: paint failed"]);
+    expect(callback).not.toHaveBeenCalled();
+  });
+});
+
+describe("PDFExportProxy", () => {
+  it("throws on an anchor without edge lists, like the old proxy", () => {
+    const proxy = new PDFExportProxy(null as never, null as never, {}, null as never).proxy(
+      new Anchor(),
+    );
+    expect(() => proxy.getOutEdges()).toThrow(TypeError);
+    expect(() => proxy.getInEdges()).toThrow(TypeError);
+  });
+
+  it("proxies every edge of an anchor", () => {
+    const anchor = new Anchor();
+    const edge = { name: "edge" };
+    anchor._outEdges = [edge];
+    anchor._inEdges = [];
+    const proxy = new PDFExportProxy(null as never, null as never, {}, null as never).proxy(anchor);
+    const out = proxy.getOutEdges() as { name: string }[];
+    expect(out).toHaveLength(1);
+    expect(out[0]).not.toBe(edge);
+    expect(out[0]?.name).toBe("edge");
+    expect(proxy.getInEdges()).toEqual([]);
   });
 });

@@ -19,7 +19,8 @@ export class PDFArray extends PDFObject {
 
   push(value: unknown): void {
     if (Array.isArray(value)) {
-      for (const item of value) this.push(item);
+      // forEach like the old GUtil.each: holes of a sparse array are skipped.
+      value.forEach((item) => this.push(item));
     } else this.array.push(new PDFValue(value));
   }
 

@@ -40,7 +40,8 @@ export class Raster {
    *
    * The last worker gets the remainder pixels in its range, but they are
    * never copied into its buffer, so they come out as transparent black
-   * (old behaviour, kept).
+   * and give an opaque image a mask (old behaviour, kept; see "Concurrent
+   * PDF raster drops the last pixels" in QUESTIONS.md).
    */
   concurrencyRaster(
     factory: PromiseFactory,
