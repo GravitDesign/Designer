@@ -5,7 +5,7 @@ import type { AppKind } from "./apps.ts";
 import { comparePng, diffJson, formatJsonDiff } from "./compare.ts";
 import { EXPECTED_ROOT, NEXT_ROOT, OUTPUT_ROOT } from "./env.ts";
 import zlib from "node:zlib";
-import { documentIds, normalizeDocumentString, type Json } from "./normalize.ts";
+import { documentIds, normalizeDocumentString, normalizeOrigin, type Json } from "./normalize.ts";
 import { extensionFor, type Scenario } from "./scenario.ts";
 
 /** Output of a scenario in the form it is stored on disk. */
@@ -58,27 +58,47 @@ function idsOfLoadedFile(scenario: Scenario): string[] {
   return documentIds(JSON.parse(bytes.toString("utf8")) as Json);
 }
 
-/** Turns the raw value a scenario returned into its stored form. */
-export function storeOutput(scenario: Scenario, raw: unknown): StoredOutput {
+/**
+ * Turns the raw value a scenario returned into its stored form. `origin`
+ * is the page origin of the app that produced it; text output has it
+ * replaced by a placeholder (normalizeOrigin).
+ */
+export function storeOutput(scenario: Scenario, raw: unknown, origin?: string): StoredOutput {
   switch (scenario.kind) {
     case "json":
-      return Buffer.from(JSON.stringify(tagSpecialValues(raw ?? null), null, 1) + "\n", "utf8");
+      return Buffer.from(
+        normalizeOrigin(JSON.stringify(tagSpecialValues(raw ?? null), null, 1), origin) + "\n",
+        "utf8",
+      );
     case "document": {
       if (typeof raw !== "string") throw new Error("document scenarios must return a JSON string");
       return Buffer.from(
-        normalizeDocumentString(raw, {
-          dropKeys: scenario.dropKeys,
-          keepIds: idsOfLoadedFile(scenario),
-        }) + "\n",
+        normalizeOrigin(
+          normalizeDocumentString(raw, {
+            dropKeys: scenario.dropKeys,
+            keepIds: idsOfLoadedFile(scenario),
+          }),
+          origin,
+        ) + "\n",
         "utf8",
       );
     }
     case "text":
       if (typeof raw !== "string") throw new Error("text scenarios must return a string");
-      return Buffer.from(raw, "utf8");
+      return Buffer.from(normalizeOrigin(raw, origin), "utf8");
     case "png":
     case "bytes":
       return toBuffer(raw, "base64");
+  }
+}
+
+/** The origin of the page, or undefined for a page without one (about:blank). */
+function pageOrigin(page: Page): string | undefined {
+  try {
+    const origin = new URL(page.url()).origin;
+    return origin === "null" ? undefined : origin;
+  } catch {
+    return undefined;
   }
 }
 
@@ -109,7 +129,7 @@ export async function runScenario(
   } else {
     throw new Error(`scenario ${scenario.id} has neither inPage nor driver`);
   }
-  return storeOutput(scenario, raw);
+  return storeOutput(scenario, raw, pageOrigin(page));
 }
 
 export function expectedPath(scenario: Scenario, variant = ""): string {

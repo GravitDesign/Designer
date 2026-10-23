@@ -210,3 +210,17 @@ export function normalizeDocument(doc: Json, options: NormalizeOptions = {}): Js
 export function normalizeDocumentString(json: string, options: NormalizeOptions = {}): string {
   return JSON.stringify(normalizeDocument(JSON.parse(json) as Json, options), null, 1);
 }
+
+/** What the page origin of either app becomes in stored output. */
+export const ORIGIN_PLACEHOLDER = "<origin>";
+
+/**
+ * Replaces the app's own page origin ("http://127.0.0.1:3190" for the old
+ * app, the new app's port for the new one) with one placeholder, so
+ * addresses the apps build from location.origin (rich tooltip videos, for
+ * example) compare equal. Other hosts, ports and schemes stay as they are.
+ */
+export function normalizeOrigin(text: string, origin: string | undefined): string {
+  if (!origin) return text;
+  return text.split(origin).join(ORIGIN_PLACEHOLDER);
+}

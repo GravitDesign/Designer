@@ -4,21 +4,24 @@ import { NEXT_ROOT } from "./env.ts";
 
 /**
  * A parity scenario where the new app deliberately differs from the old
- * one because it fixes a bug. The new app's output is compared against
- * `<scenario id>.fixed.<ext>` instead, which holds the correct behaviour.
+ * one, because it fixes a bug (BUG-NNN, docs/rewrite/BUGS-FIXED.md) or
+ * because a feature was removed (DROP-NNN, docs/rewrite/REMOVED.md). The
+ * new app's output is compared against `<scenario id>.fixed.<ext>`
+ * instead, which holds the intended behaviour.
  */
 export interface ParityException {
   scenario: string;
-  /** Id of the entry in docs/rewrite/BUGS-FIXED.md, e.g. "BUG-001". */
+  /** Id of the entry, e.g. "BUG-001" or "DROP-001". */
   bug: string;
 }
 
 /**
- * The exceptions of one fixed bug: parity/exceptions/BUG-NNN.json.
- * `pending` lists scenarios that will need a `.fixed` file once they are
- * enabled for the new app (not compared yet, so no exception applies).
+ * The exceptions of one entry: parity/exceptions/BUG-NNN.json or
+ * DROP-NNN.json. `pending` lists scenarios that will need a `.fixed`
+ * file once they are enabled for the new app (not compared yet, so no
+ * exception applies).
  */
-interface BugExceptions {
+interface EntryExceptions {
   bug: string;
   why: string;
   scenarios: string[];
@@ -26,6 +29,13 @@ interface BugExceptions {
 }
 
 const EXCEPTIONS_DIR = path.join(NEXT_ROOT, "parity", "exceptions");
+
+/** The document that must describe an entry, by its id prefix. */
+export function documentFor(id: string): "BUGS-FIXED.md" | "REMOVED.md" {
+  if (/^BUG-\d+$/.test(id)) return "BUGS-FIXED.md";
+  if (/^DROP-\d+$/.test(id)) return "REMOVED.md";
+  throw new Error(`parity exception id ${id} is neither BUG-NNN nor DROP-NNN`);
+}
 
 function loadExceptions(): ParityException[] {
   if (!fs.existsSync(EXCEPTIONS_DIR)) return [];
@@ -37,18 +47,19 @@ function loadExceptions(): ParityException[] {
   for (const file of files) {
     const entry = JSON.parse(
       fs.readFileSync(path.join(EXCEPTIONS_DIR, file), "utf8"),
-    ) as BugExceptions;
+    ) as EntryExceptions;
     if (`${entry.bug}.json` !== file) {
       throw new Error(`parity/exceptions/${file} names ${entry.bug}`);
     }
+    documentFor(entry.bug);
     for (const scenario of entry.scenarios) out.push({ scenario, bug: entry.bug });
   }
   return out;
 }
 
 /**
- * Every allowed difference, one file per BUGS-FIXED.md entry, so each fix
- * commit only adds its own file.
+ * Every allowed difference, one file per BUGS-FIXED.md or REMOVED.md
+ * entry, so each commit only adds its own file.
  */
 export const EXCEPTIONS: readonly ParityException[] = loadExceptions();
 
@@ -56,13 +67,24 @@ export function exceptionFor(scenarioId: string): ParityException | undefined {
   return EXCEPTIONS.find((e) => e.scenario === scenarioId);
 }
 
-let bugsFixed: string | undefined;
+const documents = new Map<string, string>();
+
+/** Whether the entry's document has a `## <id>` heading for it. */
+export function isDocumented(id: string): boolean {
+  const name = documentFor(id);
+  let text = documents.get(name);
+  if (text === undefined) {
+    const file = path.join(NEXT_ROOT, "docs", "rewrite", name);
+    text = fs.existsSync(file) ? fs.readFileSync(file, "utf8") : "";
+    documents.set(name, text);
+  }
+  return new RegExp(`^## ${id}\\b`, "m").test(text);
+}
 
 export function assertExceptionIsDocumented(exception: ParityException): void {
-  bugsFixed ??= fs.readFileSync(path.join(NEXT_ROOT, "docs", "rewrite", "BUGS-FIXED.md"), "utf8");
-  if (!new RegExp(`^## ${exception.bug}\\b`, "m").test(bugsFixed)) {
+  if (!isDocumented(exception.bug)) {
     throw new Error(
-      `${exception.scenario} names ${exception.bug}, which BUGS-FIXED.md doesn't have`,
+      `${exception.scenario} names ${exception.bug}, which ${documentFor(exception.bug)} doesn't have`,
     );
   }
 }

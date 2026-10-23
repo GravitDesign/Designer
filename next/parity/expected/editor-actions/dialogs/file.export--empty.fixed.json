@@ -1,0 +1,82 @@
+{
+ "platform": {
+  "userAgentHasWindows": true,
+  "operatingSystem": 1,
+  "hardware": 10
+ },
+ "trigger": "execute",
+ "info": {
+  "title": "Advanced Export...",
+  "fullTitle": "Advanced Export...",
+  "info": null,
+  "icon": null,
+  "category": [
+   "File",
+   "File/Export"
+  ],
+  "group": "export/export",
+  "pro": false,
+  "available": true,
+  "visible": true,
+  "enabled": true,
+  "checkable": false,
+  "checked": null,
+  "global": false,
+  "shortcut": "Shift+Ctrl+E",
+  "additional": []
+ },
+ "dialogs": [
+  {
+   "className": "g-dialog-container g-system-dialog g-alert-dialog-container",
+   "lines": [
+    "Saving and exporting designs with an empty infinite canvas is not allowed.",
+    "OK"
+   ]
+  }
+ ],
+ "events": [],
+ "fullscreen": false,
+ "parts": [
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "collapse-none",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": true
+  }
+ ],
+ "pageErrors": []
+}

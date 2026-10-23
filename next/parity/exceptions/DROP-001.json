@@ -1,0 +1,20 @@
+{
+  "bug": "DROP-001",
+  "why": "No Pro actions. The old bootstrap wrapped some actions in its Pro wrapper, so their info says pro: true; the new app has no licence and no Pro actions. The .fixed files equal the old output except pro: false.",
+  "scenarios": [
+    "editor-actions/exec/font.import",
+    "editor-actions/exec/file.export",
+    "editor-actions/exec/file.export.pdf",
+    "editor-actions/exec/file.save-as.pdf.300",
+    "editor-actions/dialogs/file.export",
+    "editor-actions/dialogs/file.export--empty",
+    "editor-actions/dialogs/file.export--keys",
+    "editor-actions/dialogs/file.export.pdf",
+    "editor-actions/dialogs/file.save-as.pdf.300"
+  ],
+  "pending": [
+    "editor-actions/dialogs/font.import",
+    "editor-actions/exec/view.toggle-touch",
+    "editor-actions/registry/registered"
+  ]
+}

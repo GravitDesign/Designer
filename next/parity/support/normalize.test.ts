@@ -173,4 +173,44 @@ describe("parity exceptions", () => {
       expect(fixed, `${e.scenario} has no .fixed file for ${e.bug}`).toBe(true);
     }
   });
+
+  it("documents every BUG entry in BUGS-FIXED.md and every DROP entry in REMOVED.md", async () => {
+    const { EXCEPTIONS, documentFor, isDocumented } = await import("./exceptions.ts");
+    const ids = [...new Set(EXCEPTIONS.map((e) => e.bug))];
+    expect(ids.some((id) => id.startsWith("DROP-"))).toBe(true);
+    for (const id of ids) expect(isDocumented(id), `${id} is not in ${documentFor(id)}`).toBe(true);
+  });
+
+  it("sends each id prefix to its document", async () => {
+    const { documentFor, isDocumented } = await import("./exceptions.ts");
+    expect(documentFor("BUG-002")).toBe("BUGS-FIXED.md");
+    expect(documentFor("DROP-001")).toBe("REMOVED.md");
+    expect(() => documentFor("FIX-1")).toThrow();
+    // A DROP id is looked up in REMOVED.md only, not in BUGS-FIXED.md.
+    expect(isDocumented("DROP-999")).toBe(false);
+  });
+});
+
+describe("page origins", () => {
+  it("replaces each app's own origin with one placeholder in stored output", async () => {
+    const { storeOutput } = await import("./runner.ts");
+    const scenario = { id: "x", covers: [], kind: "json" as const };
+    const video = (origin: string) => ({ video: origin + "/rich-tooltip-video/Pen_Too.mp4" });
+    const old = storeOutput(scenario, video("http://127.0.0.1:3190"), "http://127.0.0.1:3190");
+    const next = storeOutput(scenario, video("http://127.0.0.1:3260"), "http://127.0.0.1:3260");
+    expect(next.equals(old)).toBe(true);
+    expect(JSON.parse(old.toString("utf8"))).toEqual({
+      video: "<origin>/rich-tooltip-video/Pen_Too.mp4",
+    });
+  });
+
+  it("keeps other hosts, ports and schemes", async () => {
+    const { normalizeOrigin } = await import("./normalize.ts");
+    const origin = "http://127.0.0.1:3190";
+    expect(normalizeOrigin("ws://127.0.0.1:3190/license", origin)).toBe(
+      "ws://127.0.0.1:3190/license",
+    );
+    expect(normalizeOrigin("http://127.0.0.1:3191/x", origin)).toBe("http://127.0.0.1:3191/x");
+    expect(normalizeOrigin("http://127.0.0.1:3190/x", undefined)).toBe("http://127.0.0.1:3190/x");
+  });
 });
