@@ -1,0 +1,30 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: 0 0 400 300
+%%EndComments
+newpath 10 10 moveto 50 0 rlineto 0 40 rlineto -50 0 rlineto closepath 0.2 0.3 0.4 setrgbcolor fill
+newpath 70 10 moveto 100 60 lineto 130 10 lineto closepath eofill
+newpath 150 10 moveto 160 60 190 60 200 10 curveto 10 10 10 -20 20 0 rcurveto stroke
+newpath 250 50 30 0 90 arc stroke
+newpath 250 50 30 90 0 arcn stroke
+newpath 300 20 moveto 350 20 350 70 10 arct 350 70 lineto stroke
+newpath 10 100 moveto 100 100 lineto 2 setlinewidth 1 setlinejoin 2 setlinecap 4 setmiterlimit stroke
+newpath 10 120 moveto 100 120 lineto [5 2 1 2] 3 setdash stroke [] 0 setdash
+gsave 120 100 translate 30 rotate 2 1 scale newpath 0 0 moveto 20 0 lineto 20 20 lineto closepath fill grestore
+gsave [1 0 0.5 1 200 100] concat 0 0 30 30 rectfill grestore
+gsave 0 0 1 setrgbcolor 250 100 40 30 rectstroke grestore
+gsave 300 100 moveto currentpoint translate 0 0 20 20 rectfill grestore
+newpath 10 200 moveto 50 250 lineto 90 200 lineto pathbbox 4 { pop } repeat
+matrix currentmatrix pop
+newpath 10 270 moveto 30 0 rmoveto 20 0 rlineto stroke
+0.5 0.5 transform pop pop 1 1 itransform pop pop 1 1 dtransform pop pop 1 1 idtransform pop pop
+gsave newpath 200 200 50 50 rectclip 0 1 0 setrgbcolor 180 180 100 100 rectfill grestore
+gsave newpath 280 200 moveto 330 200 lineto 305 250 lineto closepath clip newpath 0.9 0.1 0.9 setrgbcolor 270 190 80 80 rectfill grestore
+gsave newpath 280 200 moveto 330 200 lineto 305 250 lineto closepath eoclip newpath initclip 0 0 0 setrgbcolor 360 200 10 10 rectfill grestore
+gsave clipsave newpath 0 0 50 50 rectclip 1 0 0 setrgbcolor 10 280 5 5 rectfill cliprestore 20 280 5 5 rectfill grestore
+gsave 2 2 scale newpath 10 140 moveto 40 140 lineto 3 setlinewidth stroke grestore
+gsave newpath 100 150 moveto 150 150 lineto 150 180 lineto 100 150 lineto [3 3] 0 setdash 1 setlinecap stroke grestore
+[ 10 220 30 20 50 220 30 20 ] rectfill
+newpath 220 280 moveto 260 280 lineto clippath newpath
+newpath 0 0 moveto initmatrix 5 5 lineto stroke
+showpage
+%%EOF

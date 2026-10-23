@@ -1,0 +1,11 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+{ 1 2 3 stop 4 } stopped b clear
+{ 5 } stopped b r
+{ undefinedthing } stopped b
+{ { stop } stopped b 7 r } stopped b
+{ (x) 1 add } stopped b $error /errorname get length r $error /command get length r
+5 stopped b r

@@ -1,0 +1,10 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+1 1 eq b 1 2 eq b 1 1.0 eq b (a) (a) eq b (a) /a eq b /a /a eq b true true eq b true false eq b
+[1] [1] eq b 1 (1) eq b null null eq b
+1 2 ne b 1 1 ne b (a) (b) ne b [1] [1] ne b 1 (1) ne b /a (a) ne b
+3 4 gt b 4 3 gt b (b) (a) gt b 3 4 lt b (a) (b) lt b 4 4 ge b 3 4 ge b (a) (a) ge b 4 4 le b 5 4 le b (b) (a) le b
+{ 1 (a) gt } e { 1 /a lt } e { true 1 ge } e { 1 le } e { eq } e

@@ -1,0 +1,20 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+currentfile 4 string readstring
+abcdefgh
+b s
+/t 3 string def currentfile t readstring
+xyz
+pop pop t s
+{ currentfile 0 string readstring } e
+currentfile 4 string readhexstring
+4142 4344 4546
+b s
+currentfile 2 string readhexstring
+zz41 zz42
+b s
+{ currentfile 0 string readhexstring } e
+(x) (y) writestring 9 r

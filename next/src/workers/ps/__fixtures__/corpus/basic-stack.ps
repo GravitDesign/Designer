@@ -1,0 +1,16 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+1 dup add r 1 2 3 3 copy add add add add r 1 2 exch sub r
+1 2 3 4 5 2 index r clear 1 2 3 4 5 5 1 roll r r r r r 1 2 3 4 3 -1 roll r r r r
+1 2 3 3 0 roll r r r 1 2 3 0 1 roll r r r
+1 2 pop r mark 1 2 3 counttomark r cleartomark count r
+1 2 clear count r countdictstack r countexecstack r
+[1 2] [0 0] copy aload pop add r (ab) (xy) copy s 1 dict 1 dict copy length r
+<< /a 1 >> 2 dict copy /a get r
+1 2 3 3 packedarray [0 0 0] copy s
+1 2 cleartomark count r
+{ -1 copy } e { 1 2 (x) copy } e { 1 (x) roll } e { 9 2 roll } e { 1 1.5 roll } e
+{ 99 index } e { -1 index } e { pop } e { counttomark } e

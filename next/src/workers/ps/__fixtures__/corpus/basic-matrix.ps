@@ -1,0 +1,11 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+matrix s matrix currentmatrix 3 get r matrix defaultmatrix 3 get r
+[1 2 3 4 5 6] identmatrix 1 get r
+2 3 scale matrix currentmatrix 0 get r [1 0 0 1 0 0] setmatrix matrix currentmatrix 0 get r
+2 2 scale initmatrix matrix currentmatrix 0 get r
+{ 5 currentmatrix } e { [1 2] currentmatrix } e { 5 defaultmatrix } e { [1] defaultmatrix } e
+{ 5 identmatrix } e { [1] identmatrix } e { 5 setmatrix } e { [1] setmatrix } e

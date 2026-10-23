@@ -1,0 +1,15 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+systemdict type /dicttype eq b userdict type /dicttype eq b errordict length r $error type /dicttype eq b
+statusdict /product known b currentdict userdict eq b
+1183615869 internaldict type /dicttype eq b
+/d 5 dict def d length r d maxlength r d /k 9 put d /k get r d /k known b d /zz known b d 3 known b d (k) known b
+d /k undef d /k known b
+/k1 1 def /k1 where b pop /nope where b /add where b pop
+/k1 2 store k1 r /fresh 3 store fresh r
+d begin /inner 4 def inner r currentdict d eq b end d /inner get r
+/k1 load r { /undefinedname load } e
+{ 1 2 3 known } e { 1 dict 1 dict known } e { (x) where } e { 1 begin } e { end } e { 1.5 dict } e

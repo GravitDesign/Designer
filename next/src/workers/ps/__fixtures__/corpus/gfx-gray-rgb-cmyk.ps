@@ -1,0 +1,9 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+0.4 setgray currentgray type /arraytype eq b currentrgbcolor r r r currentcmykcolor r r r r
+0.1 0.2 0.3 setrgbcolor currentgray r currentrgbcolor r r r currentcmykcolor r r r r
+0.1 0.2 0.3 0.4 setcmykcolor currentgray r currentrgbcolor r r r currentcmykcolor r r r r
+(a) setgray 1 (a) 1 setrgbcolor 1 1 (a) 1 setcmykcolor 1 1 (a) sethsbcolor
+0.5 1 1 sethsbcolor currentrgbcolor r r r 0 0 5 5 rectfill

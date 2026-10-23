@@ -1,0 +1,14 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/Copy /Helvetica findfont definefont /FontName get length r
+/Copy findfont /FontMatrix get 0 get 1000 mul r
+/Other 5 dict definefont
+/Other 5 definefont
+/Helvetica findfont setfont currentfont /FontName get length r
+7 setfont
+/X 1 2 composefont pop /X findfont length r
+/X undefinefont
+1 undefinefont 2 composefont
+FontDirectory length r GlobalFontDirectory length r SharedFontDirectory length r

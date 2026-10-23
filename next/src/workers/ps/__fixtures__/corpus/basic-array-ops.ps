@@ -1,0 +1,9 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+3 array s 3 array 0 get null eq b 0 array s 5 string s 5 string 0 get r
+1 2 3 3 packedarray s 1 2 3 3 packedarray type /packedarraytype eq b
+(hello) length r /name length r 4 dict length r
+{ -1 array } e { 1.5 array } e { (x) string } e { 5 length } e { 1 maxlength } e

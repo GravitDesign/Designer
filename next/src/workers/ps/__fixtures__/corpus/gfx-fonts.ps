@@ -1,0 +1,15 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/Helvetica findfont dup /FontMatrix get aload pop 6 { r } repeat
+/Helvetica findfont 12 scalefont /FontMatrix get aload pop 6 { r } repeat
+/Helvetica findfont 12 scalefont /ScaleMatrix get aload pop 6 { r } repeat
+/Helvetica findfont 12 scalefont 2 scalefont /ScaleMatrix get aload pop 6 { r } repeat
+/Helvetica findfont [2 0 0 3 0 0] makefont /FontMatrix get aload pop 6 { r } repeat
+/Helvetica findfont 10 scalefont [2 0 0 3 1 1] makefont /ScaleMatrix get aload pop 6 { r } repeat
+/Helvetica findfont [1 2] makefont
+5 [1 0 0 1 0 0] makefont
+/Helvetica findfont 5 makefont
+(x) 3 scalefont
+7 findfont

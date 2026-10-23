@@ -1,0 +1,9 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+0 0 100 100 setbbox 10 10 moveto 1 r
+50 50 lineto 2 r
+newpath 0 0 10 10 setbbox 5 5 10 10 setbbox pathbbox p p
+10 0 0 0 setbbox
+(a) 0 1 1 setbbox

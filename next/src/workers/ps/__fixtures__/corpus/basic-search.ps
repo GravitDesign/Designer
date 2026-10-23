@@ -1,0 +1,12 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+(Hello World) (World) search b s s s
+(Hello World) (zz) search b s
+(Hello World) (Hell) anchorsearch b s s
+(Hello World) (World) anchorsearch b s
+() (x) anchorsearch b s
+(abc) () search b s s s
+{ 1 (x) search } e { (x) 1 anchorsearch } e

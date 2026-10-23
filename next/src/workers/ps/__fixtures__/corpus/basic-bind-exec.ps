@@ -1,0 +1,11 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+/p { 1 2 add } bind def p r /q { 3 4 add } def q r
+{ 5 } exec r 1 2 /add load exec r 6 exec r
+(2 3 add) cvx exec r
+/inner { 2 mul } def /outer { inner 1 add } bind def 5 outer r
+{ 1 2 } readonly bind pop
+{ exec } e

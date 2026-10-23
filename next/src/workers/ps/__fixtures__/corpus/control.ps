@@ -1,0 +1,20 @@
+%!PS
+/sq { newpath 0 0 moveto dup 0 rlineto dup 0 exch rlineto neg 0 rlineto closepath fill } def
+0 1 4 { 10 mul 20 add sq } for
+1 0.5 3 { 30 mul sq } for
+3 { 15 sq } repeat
+/i 0 def { i 4 ge { exit } if /i i 1 add def i 7 mul sq } loop
+[ 5 10 15 ] { sq } forall
+<< /a 1 /b 2 /c 3 >> { exch pop 20 mul sq } forall
+(xyz) { 100 sub sq } forall
+{ 1 2 3 stop 4 } stopped { 33 sq } if clear
+{ undefinedthing } stopped { 44 sq } if
+/proc { 2 mul } bind def 21 proc sq
+{ 5 sq } exec
+4 dict begin /x 12 def x sq end
+/d 3 dict def d /k 9 put d /k get sq d /k known { 1 sq } if d /zz known { 2 sq } { 3 sq } ifelse
+/k where { pop 4 sq } if /notdefined where { pop 5 sq } { 6 sq } ifelse
+countdictstack sq
+save /tmp 7 def tmp sq restore
+gsave 1 0 0 setrgbcolor 8 sq grestore 9 sq
+2 { 1 { 2 { 50 sq } repeat } repeat } repeat

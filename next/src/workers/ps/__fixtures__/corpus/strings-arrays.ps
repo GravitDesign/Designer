@@ -1,0 +1,37 @@
+%!PS
+/bar { 0 rlineto 0 2 rlineto closepath fill } def
+/s (Hello World) def
+s length 0 0 moveto bar
+s 6 5 getinterval length 2 2 moveto bar
+/t 10 string def t 0 (abc) putinterval t 0 get 4 4 moveto bar
+s (World) search { length exch length add exch length add 6 6 moveto bar } if
+s (Hell) anchorsearch { pop length 8 8 moveto bar } if
+/a [ 1 2 3 4 5 ] def a 2 get a length add 10 10 moveto bar
+a 1 3 getinterval aload pop add add 12 12 moveto bar
+/b 3 array def 7 8 9 b astore pop b 2 get 14 14 moveto bar
+a 1 3 getinterval /c exch def c 0 99 put a 1 get 16 16 moveto bar
+123 10 string cvs length 18 18 moveto bar
+255 16 10 string cvrs length 20 20 moveto bar
+(42) cvi 22 22 moveto bar
+(3.5) cvr 24 24 moveto bar
+(abc) cvn type /nametype eq { 3 } { 4 } ifelse 26 26 moveto bar
+[1 2] type /arraytype eq { 3 } { 4 } ifelse 28 28 moveto bar
+<48656c6c6f> length 30 30 moveto bar
+<~87cURD]i,"Ebo80~> length 32 32 moveto bar
+(a\(b\)c\n\101) length 34 34 moveto bar
+16#FF 36 36 moveto bar
+2#1010 1.5e1 add 38 38 moveto bar
+[ 3 { 1 } repeat ] length 40 40 moveto bar
+a xcheck { 1 } { 2 } ifelse 42 42 moveto bar
+{ 1 } xcheck { 3 } { 4 } ifelse 44 44 moveto bar
+a cvx xcheck { 5 } { 6 } ifelse 46 46 moveto bar
+a rcheck { 7 } { 8 } ifelse 48 48 moveto bar
+a readonly wcheck { 1 } { 9 } ifelse 50 50 moveto bar
+/u (abcdef) def u 2 3 getinterval /v exch def v 0 (XY) putinterval u length 52 52 moveto bar
+(x) dup length exch pop 54 54 moveto bar
+mark /k1 1 /k2 2 .5 counttomark 56 56 moveto bar cleartomark
+1 2 3 3 array astore length 58 58 moveto bar
+/z 5 dict def z /q 1 put z length z maxlength add 60 60 moveto bar
+z /q undef z length 62 62 moveto bar
+(abc) 1 get 64 64 moveto bar
+[1 2 3] { 1 add } forall add add 66 66 moveto bar

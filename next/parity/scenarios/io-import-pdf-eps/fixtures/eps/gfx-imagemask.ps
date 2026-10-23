@@ -1,0 +1,9 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+gsave 1 0 0 setrgbcolor 8 2 true [8 0 0 -2 0 2] <f00f> imagemask grestore
+gsave 0 1 0 0 setcmykcolor 8 1 false [8 0 0 -1 0 1] { <a5> } imagemask grestore
+gsave << /ImageType 1 /Width 8 /Height 1 /Decode [1 0] /ImageMatrix [8 0 0 -1 0 1] /DataSource <0f> >> imagemask grestore
+gsave << /ImageType 1 /Width 8 /Height 1 /Decode [0 1] /ImageMatrix [8 0 0 -1 0 1] /DataSource <0f> >> imagemask grestore
+1 1 true [1 0 0 1 0 0] false imagemask

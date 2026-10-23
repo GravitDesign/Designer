@@ -1,0 +1,10 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+save /tmp 7 def tmp r restore /tmp where b
+/a [1 2] def save a 0 9 put a 0 get r restore a 0 get r
+save 0.5 setgray restore 0 0 5 5 rectfill
+save save restore restore 4 r
+{ 5 restore } e { restore } e

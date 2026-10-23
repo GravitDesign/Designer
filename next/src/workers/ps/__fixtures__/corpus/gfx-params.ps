@@ -1,0 +1,8 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+currentblackgeneration type length r { } setblackgeneration currentundercolorremoval pop { } setundercolorremoval currentflat r currenthalftone pop << >> sethalftone currenthalftone length r
+currentcolortransfer 4 { pop } repeat {1} {2} {3} {4} setcolortransfer currenttransfer exec r {5} settransfer currenttransfer exec r
+currentsystemparams length r currentpagedevice length r << >> setpagedevice 1 setuserparams << >> setuserparams
+1 setoverprint currentoverprint b true setoverprint currentoverprint b count r

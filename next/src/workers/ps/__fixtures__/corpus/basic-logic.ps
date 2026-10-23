@@ -1,0 +1,9 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+5 not r true not b 0 not r
+1 4 bitshift r 256 -3 bitshift r -16 -2 bitshift r 1 31 bitshift r
+5 3 and r true false and b 5 3 or r true false or b false false or b
+{ 1.5 not } e { 1.5 2 bitshift } e { 1 true and } e { 1.5 1 or } e { (x) not } e

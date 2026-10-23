@@ -1,0 +1,13 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+/a [1 2 3] def a 0 9 put a 0 get r a 3 4 put a length r a 3 get r
+/t (abc) def t 1 65 put t 1 get r t s t 10 66 put t s
+/d 1 dict def d /x 5 put d /x get r d 7 8 put d 7 get r
+(xyz) 2 get r [5 6] 1 get r
+{ a -1 1 put } e { a 9 1 put } e { a 1.5 1 put } e { t 0 (x) put } e { t 0 1.5 put } e { t -1 65 put } e
+{ d (str) 1 put } e { 5 1 2 put } e { put } e
+{ a 3 get } e { a -1 get } e { a 1.5 get } e { d 1.5 2 array get } e { 5 1 get } e { get } e
+{ d /missing get } e

@@ -1,0 +1,6 @@
+%!PS
+/dump { { 0 0 3 -1 roll 1 rectfill } forall } def
+/len { 0 0 3 -1 roll 2 rectfill } def
+currentfile 0 (END) /SubFileDecode filter 100 string readstring
+abcEN xyzEND rest
+pop dump

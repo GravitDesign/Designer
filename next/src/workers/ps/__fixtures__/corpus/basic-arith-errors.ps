@@ -1,0 +1,12 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+{ (a) 1 add } e { 1 (a) sub } e { /n 2 mul } e { 1 0 div } e { 1 1e-10 div } e
+{ 1 0 idiv } e { 1 0 mod } e { (x) abs } e { (x) neg } e { add } e { 1 sub } e
+{ (x) 2 exp } e { -1 log } e { (q) log } e { (x) sqrt } e { (x) ceiling } e
+{ (x) floor } e { (x) round } e { 1 (x) idiv } e
+$error /errorname get length r
+(a) 1 add
+5 r

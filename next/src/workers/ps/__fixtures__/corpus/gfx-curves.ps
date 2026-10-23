@@ -1,0 +1,8 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+newpath 0 0 moveto 1 2 3 4 5 6 curveto 1 1 2 2 3 3 rcurveto currentpoint p stroke
+newpath 0 0 moveto (a) 2 3 4 5 6 curveto
+newpath 0 0 moveto 1 2 3 4 5 (a) rcurveto
+newpath 1 2 3 4 5 6 curveto

@@ -1,0 +1,12 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+[1] rcheck b 5 rcheck b [1] wcheck b 5 wcheck b [1] readonly wcheck b [1] readonly rcheck b
+1 dict readonly wcheck b (s) executeonly rcheck b [1] executeonly xcheck b
+[1] noaccess rcheck b 1 dict noaccess rcheck b 1 dict readonly noaccess pop
+{ 1 } xcheck b [1] xcheck b [1] cvx xcheck b { 1 } cvlit xcheck b 5 cvx r 5 cvlit r 5 xcheck b
+(add) cvn type /nametype eq b (add) cvx cvn type /operatortype eq b
+1 2 (add) cvx cvn exec r
+{ 5 noaccess } e { 5 readonly } e { 5 executeonly } e { 5 cvn } e { cvx } e

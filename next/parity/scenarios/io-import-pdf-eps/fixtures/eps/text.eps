@@ -1,0 +1,24 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: 0 0 300 200
+%%EndComments
+/Helvetica findfont 12 scalefont setfont
+10 10 moveto (show) show
+10 30 moveto 2 0 (ashow) ashow
+10 50 moveto 3 0 32 (width show) widthshow
+10 70 moveto 1 0 32 1 0 (awidth show) awidthshow
+10 90 moveto (xy) [10 0 10 0] xyshow
+10 110 moveto (xs) [10 10] xshow
+10 130 moveto (ys) [10 10] yshow
+(width) stringwidth pop pop
+/Times-Roman 14 selectfont 150 10 moveto (selectfont) show
+/Courier findfont [10 0 0 12 0 0] makefont setfont 150 30 moveto (makefont) show
+currentfont pop
+/Helvetica-Bold findfont 20 scalefont setfont 150 60 moveto (Bold) true charpath stroke
+2 setlinewidth 150 90 moveto { pop pop 1 0 rmoveto } (kshow) kshow
+150 100 moveto { pop pop } (cshow) cshow
+/MyFont /Helvetica findfont dup length dict copy definefont pop
+/MyFont 10 selectfont 150 120 moveto (defined) show
+/Helvetica findfont 12 scalefont setfont 0 1 0 setrgbcolor 30 rotate 150 140 moveto (rotated) show
+/Helvetica findfont 12 scalefont setfont 10 150 moveto () show
+showpage
+%%EOF

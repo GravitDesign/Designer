@@ -1,0 +1,19 @@
+%!PS
+% arithmetic, comparison and stack operators; results are drawn as rectangle sizes
+/r { 0 0 3 -1 roll 1 rectfill } def
+3 4 add r 10 3 sub r 2.5 4 mul r 7 2 div r 10 3 div r 1 3 div r 17 5 idiv r 17 5 mod r -17 5 mod r
+-3 abs r 5 neg r 2 sqrt r 30 sin r 60 cos r 1 1 atan r 0 1 atan r 2 8 exp r 100 log r 2.71828 ln r
+3.7 ceiling r -3.7 ceiling r 3.2 floor r 3.5 round r -3.5 round r 3.9 truncate r 2.6 cvi r 7 cvr r
+1 2 3 4 5 count r pop pop exch r r
+1 2 3 3 copy add add add add r
+1 2 3 4 5 2 index r 5 1 roll r r r r r
+1 2 3 4 3 -1 roll r r r r
+mark 1 2 3 counttomark r cleartomark
+1 2 eq { 1 } { 2 } ifelse r 2 2 eq { 3 } { 4 } ifelse r 1 2 ne { 5 } if r
+3 4 gt { 6 } { 7 } ifelse r 3 4 lt { 8 } { 9 } ifelse r 4 4 ge { 10 } if r 4 4 le { 11 } if r
+true false and { 12 } { 13 } ifelse r true false or { 14 } if r true not { 15 } { 16 } ifelse r
+5 3 and r 5 3 or r 5 3 xor r 1 4 bitshift r 256 -3 bitshift r 7 not r
+(abc) (abd) lt { 17 } if r (b) (a) gt { 18 } if r
+10 srand rand 1000 mod r rand 1000 mod r rrand 1000 mod r
+1 0 div
+showpage

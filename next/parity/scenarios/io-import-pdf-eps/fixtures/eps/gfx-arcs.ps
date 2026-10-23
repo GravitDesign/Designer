@@ -1,0 +1,11 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+newpath 50 50 20 0 90 arc 50 50 30 270 45 arc currentpoint p stroke
+newpath 50 50 20 90 0 arcn 10 10 5 0 400 arcn stroke
+newpath 50 50 20 0 -90 arc stroke
+newpath 1 2 3 (a) 5 arc
+newpath 1 2 3 4 (a) arcn
+0 0 100 100 setbbox 50 50 10 0 90 arc 1 r
+1 2 3 4 5 6 arct count r

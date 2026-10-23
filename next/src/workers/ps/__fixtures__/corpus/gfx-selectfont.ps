@@ -1,0 +1,10 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/Times-Roman 14 selectfont currentfont /FontMatrix get aload pop 6 { r } repeat
+/Times-Roman [2 0 0 2 0 0] selectfont currentfont /ScaleMatrix get aload pop 6 { r } repeat
+/NewFace 9 selectfont currentfont /FontName get length r
+/Times-Roman (x) selectfont
+7 9 selectfont
+/Times-Roman findfont 10 scalefont /F10 exch definefont pop /F10 3 selectfont currentfont /ScaleMatrix get aload pop 6 { r } repeat

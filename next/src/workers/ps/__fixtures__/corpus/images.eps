@@ -1,0 +1,37 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: 0 0 300 200
+%%EndComments
+gsave 10 10 translate 40 40 scale
+4 4 8 [4 0 0 -4 0 4] { <00ff00ffff00ff0000ff00ffff00ff00> } image grestore
+gsave 60 10 translate 40 40 scale
+4 4 1 [4 0 0 -4 0 4] { <a050a050> } image grestore
+gsave 110 10 translate 40 40 scale
+2 2 8 [2 0 0 -2 0 2] { <ff000000ff000000ffffff00> } false 3 colorimage grestore
+gsave 160 10 translate 40 40 scale
+2 2 8 [2 0 0 -2 0 2] { <ff0000> } { <00ff00> } { <0000ff> } true 3 colorimage grestore
+gsave 210 10 translate 40 40 scale 1 0 0 setrgbcolor
+8 8 true [8 0 0 -8 0 8] { <ff818181818181ff> } imagemask grestore
+gsave 10 60 translate 40 40 scale /DeviceGray setcolorspace
+<< /ImageType 1 /Width 2 /Height 2 /BitsPerComponent 4 /Decode [1 0] /ImageMatrix [2 0 0 -2 0 2] /DataSource <0ff0> >> image grestore
+gsave 60 60 translate 40 40 scale /DeviceCMYK setcolorspace
+<< /ImageType 1 /Width 1 /Height 2 /BitsPerComponent 8 /Decode [0 1 0 1 0 1 0 1] /ImageMatrix [1 0 0 -2 0 2] /DataSource <ff00000000ff0000> >> image grestore
+gsave 110 60 translate 40 40 scale
+2 2 8 [2 0 0 -2 0 2] currentfile /ASCIIHexDecode filter false 3 colorimage
+ff000000ff000000ffffffff>
+grestore
+gsave 160 60 translate 40 40 scale
+2 1 8 [2 0 0 -1 0 1] currentfile /ASCII85Decode filter image
+!!*~>
+grestore
+gsave 210 60 translate 40 40 scale
+4 1 8 [4 0 0 -1 0 1] currentfile /ASCIIHexDecode filter /RunLengthDecode filter image
+FD8080>
+grestore
+gsave 10 110 translate 40 40 scale [/Indexed /DeviceRGB 1 <ff0000 0000ff>] setcolorspace
+<< /ImageType 1 /Width 2 /Height 2 /BitsPerComponent 1 /Decode [0 1] /ImageMatrix [2 0 0 -2 0 2] /DataSource <8040> >> image grestore
+gsave 60 110 translate 40 40 scale
+<< /ImageType 1 /Width 2 /Height 2 /BitsPerComponent 8 /ImageMatrix [2 0 0 -2 0 2] /DataSource <10203040> /Interpolate true >> image grestore
+gsave 110 110 translate 40 40 scale 0 0 1 setrgbcolor
+<< /ImageType 1 /Width 8 /Height 2 /BitsPerComponent 1 /Decode [1 0] /ImageMatrix [8 0 0 -2 0 2] /DataSource <f00f> >> imagemask grestore
+showpage
+%%EOF

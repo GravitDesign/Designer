@@ -1,0 +1,29 @@
+%!PS
+/bar { 0 rlineto 0 2 rlineto closepath fill } def
+/Font /Category findresource pop
+/Helvetica /Font resourcestatus { pop pop 1 } { 2 } ifelse 0 0 moveto bar
+/MyProc << /x 5 >> /ProcSet defineresource pop
+/MyProc /ProcSet findresource /x get 4 4 moveto bar
+/MyProc /ProcSet undefineresource
+(*) { pop } 100 string /Encoding resourceforall
+/StandardEncoding /Encoding findresource length 6 6 moveto bar
+FontDirectory pop
+version pop languagelevel 8 8 moveto bar
+product pop
+currentglobal pop true setglobal /g 1 array def false setglobal
+statusdict pop userdict pop systemdict pop errordict pop $error pop
+currentpacking pop true setpacking /p { 1 2 } def false setpacking
+currentdash pop pop currentlinewidth pop currentlinecap pop currentlinejoin pop currentmiterlimit pop
+currentflat pop 1 setflat currenthalftone pop currentscreen pop pop pop
+currentstrokeadjust pop true setstrokeadjust
+currentoverprint pop true setoverprint
+currentblackgeneration pop currentundercolorremoval pop currenttransfer pop currentcolortransfer pop pop pop pop
+currentpagedevice pop << /PageSize [612 792] >> setpagedevice
+<< /MaxFontCache 100 >> setuserparams
+gstate currentgstate pop
+cachestatus 7 { pop } repeat 100 setcachelimit
+10 10 { pop pop } setscreen
+countexecstack 10 10 moveto bar
+mark 1 2 dictstack length 12 12 moveto bar cleardictstack cleartomark
+/CIDInit /ProcSet findresource begin 12 dict begin begincmap 1 begincodespacerange <00> <ff> endcodespacerange 1 begincidrange <00> <ff> 0 endcidrange endcmap end end
+14 14 moveto 3 bar

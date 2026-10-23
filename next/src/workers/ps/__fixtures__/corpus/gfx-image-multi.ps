@@ -1,0 +1,6 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+gsave /DeviceRGB setcolorspace << /ImageType 1 /Width 2 /Height 1 /BitsPerComponent 8 /Decode [0 1 0 1 0 1] /ImageMatrix [2 0 0 -1 0 1] /MultipleDataSources true /DataSource [ <ff00> <00ff> <8080> ] >> image grestore
+gsave /DeviceRGB setcolorspace << /ImageType 1 /Width 2 /Height 1 /BitsPerComponent 8 /Decode [0 1] /ImageMatrix [2 0 0 -1 0 1] /MultipleDataSources true /DataSource [ <ff00> ] >> image grestore

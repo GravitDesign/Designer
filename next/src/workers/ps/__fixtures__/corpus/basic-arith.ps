@@ -1,0 +1,10 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+3 4 add r 10 3 sub r 2.5 4 mul r -2 -3 mul r 0.1 0.2 add r
+7 2 div r 10 3 div r 2 3 div r 1000000 7 div r 1 3 div 3 mul r 1e-12 1 div r
+17 5 idiv r -17 5 idiv r 17 -5 idiv r 7 2.5 idiv r
+17 5 mod r -17 5 mod r 17 -5 mod r 5.5 2 mod r
+-3 abs r 3.5 abs r 5 neg r -2.5 neg r 0 neg r

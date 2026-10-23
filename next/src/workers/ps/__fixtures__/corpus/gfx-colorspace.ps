@@ -1,0 +1,9 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/DeviceRGB setcolorspace currentcolorspace length r 1 0 0 setcolor 0 0 5 5 rectfill currentcolor r r r
+[/DeviceCMYK] setcolorspace 0 1 0 0 setcolor currentcolor r r r r 0 0 5 5 rectfill
+5 setcolorspace count r
+/DeviceGray setcolorspace (a) setcolor 0 0 5 5 rectfill
+/Pattern setcolorspace << /PatternType 1 >> setcolor currentcolor type /dicttype eq b

@@ -1,0 +1,16 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+true { 1 r } if false { 2 r } if 5 { 3 r } if
+true { 4 } { 5 } ifelse r false { 6 } { 7 } ifelse r 1 { 8 } { 9 } ifelse
+0 1 4 { r } for 1 0.5 3 { r } for 3 -1 1 { r } for 1 1 0 { 99 r } for 0 0.1 0.35 { r } for
+0 1 10 { dup 3 gt { exit } if r } for
+[5 10 15] { r } forall << /a 1 /b 2 >> { r pop } forall (xyz) { r } forall [1 2 3] { dup 2 eq { exit } if r } forall
+1 2 3 3 packedarray { r } forall
+3 { 15 r } repeat 0 { 16 r } repeat 5 { 17 r exit } repeat
+/i 0 def { i 4 ge { exit } if /i i 1 add def i r } loop
+{ 18 r stop } loop 19 r
+{ (x) 1 2 { } for } e { 1 { } forall } e { -1 { } repeat } e { 2 (x) repeat } e { 1 loop } e
+{ 1 2 3 4 } e { for } e

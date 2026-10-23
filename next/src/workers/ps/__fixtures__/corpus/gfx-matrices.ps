@@ -1,0 +1,19 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+[1 2 3 4 5 6] [6 5 4 3 2 1] 6 array concatmatrix aload pop 6 { r } repeat
+[1 2] [3 4] 6 array concatmatrix
+1 2 3 concatmatrix
+[2 0 0 2 0 0] concat 1 1 transform p
+[1 2] concat
+5 concat
+3 4 matrix scale aload pop 6 { r } repeat
+3 4 matrix translate aload pop 6 { r } repeat
+45 matrix rotate aload pop 6 { r } repeat
+(a) scale
+(a) 1 scale
+(a) translate
+(a) rotate
+(a) matrix rotate
+1 (a) matrix scale

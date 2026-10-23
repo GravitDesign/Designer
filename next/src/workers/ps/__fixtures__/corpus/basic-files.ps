@@ -1,0 +1,15 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+currentfile type /filetype eq b currentfile status b
+(x) (r) file type /filetype eq b
+currentfile fileposition type /nulltype eq b
+currentfile 5 setfileposition 1 r
+currentfile bytesavailable r
+currentfile resetfile 2 r
+5 closefile 3 r (x) closefile 4 r
+(a) (b) { } filenameforall 5 r
+{ 5 flushfile } e { 5 fileposition } e { 5 bytesavailable } e { 1.5 currentfile setfileposition } e { 5 resetfile } e
+flush 6 r

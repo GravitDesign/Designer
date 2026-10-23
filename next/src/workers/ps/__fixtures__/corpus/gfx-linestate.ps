@@ -1,0 +1,9 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+3 setlinewidth 1 setlinecap 2 setlinejoin 7 setmiterlimit [4 2] 1 setdash newpath 0 0 moveto 10 10 lineto stroke
+currentdash r length r
+(a) setlinewidth (a) setlinecap (a) setlinejoin (a) setmiterlimit 1 2 setdash (a) [1] setdash
+currentstrokeadjust b true setstrokeadjust b 1 setstrokeadjust
+2 setlinewidth newpath 0 0 moveto 1 1 lineto stroke 3 0 0 3 0 0 6 array astore concat newpath 0 0 moveto 1 1 lineto stroke

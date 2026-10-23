@@ -1,0 +1,8 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+newpath 0 0 moveto 10 0 lineto 10 10 lineto closepath 0.5 setgray fill
+newpath 0 0 moveto 10 0 lineto 10 10 lineto closepath 0 0 1 setrgbcolor eofill
+newpath 0 0 moveto 10 10 lineto 0.2 0.3 0.4 0.5 setcmykcolor stroke
+fill stroke eofill

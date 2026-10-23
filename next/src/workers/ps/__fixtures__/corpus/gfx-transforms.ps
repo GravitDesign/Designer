@@ -1,0 +1,11 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+1 2 transform p 1 2 dtransform p 1 2 itransform p 1 2 idtransform p
+3 4 [2 0 0 2 1 1] transform p 3 4 [2 0 0 2 1 1] dtransform p 3 4 [2 0 0 2 1 1] itransform p 3 4 [2 0 0 2 1 1] idtransform p
+10 20 translate 2 3 scale 30 rotate 1 1 transform p 1 1 itransform p
+(a) transform
+(a) 1 transform
+1 [1 0 0 1 0 0] transform
+[0 0 0 0 0 0] setmatrix 1 1 itransform p

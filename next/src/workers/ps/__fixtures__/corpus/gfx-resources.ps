@@ -1,0 +1,19 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/Font /Category findresource pop 1 r
+/Nope /Category findresource
+/Helvetica /Font resourcestatus b
+/Missing /Font resourcestatus b
+/X /NoCategory resourcestatus
+5 /Font resourcestatus
+/Foo << /a 7 >> /ProcSet defineresource /a get r
+/Foo /ProcSet findresource /a get r
+/Foo /ProcSet undefineresource
+/Foo /ProcSet resourcestatus b
+/Foo 1 /Nope defineresource
+1 /Font findresource
+/A 2 /Generic defineresource r
+/A /Generic findresource r
+/Missing /Generic findresource

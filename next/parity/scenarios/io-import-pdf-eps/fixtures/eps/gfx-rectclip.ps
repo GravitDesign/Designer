@@ -1,0 +1,6 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/p { 1 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+10 10 moveto 0 0 20 30 rectclip 1 1 2 2 rectfill newpath 0 0 moveto 5 5 lineto stroke
+[1 2 3 4] rectclip (a) rectclip (a) 1 2 3 rectclip count r

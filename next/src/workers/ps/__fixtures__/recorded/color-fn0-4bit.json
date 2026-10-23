@@ -1,0 +1,254 @@
+{
+  "outline-sab": {
+    "finished": true,
+    "messages": [
+      { "func": "progress", "data": [2] },
+      { "func": "progress", "data": [4] },
+      { "func": "progress", "data": [7] },
+      { "func": "progress", "data": [8] },
+      { "func": "progress", "data": [11] },
+      { "func": "progress", "data": [13] },
+      { "func": "progress", "data": [16] },
+      { "func": "progress", "data": [18] },
+      { "func": "progress", "data": [19] },
+      { "func": "progress", "data": [21] },
+      { "func": "progress", "data": [25] },
+      { "func": "progress", "data": [27] },
+      { "func": "progress", "data": [28] },
+      { "func": "progress", "data": [33] },
+      { "func": "progress", "data": [34] },
+      { "func": "progress", "data": [39] },
+      { "func": "progress", "data": [43] },
+      { "func": "progress", "data": [46] },
+      { "func": "progress", "data": [47] },
+      { "func": "progress", "data": [48] },
+      { "func": "progress", "data": [50] },
+      { "func": "progress", "data": [51] },
+      { "func": "progress", "data": [55] },
+      { "func": "progress", "data": [56] },
+      { "func": "progress", "data": [62] },
+      { "func": "progress", "data": [66] },
+      { "func": "progress", "data": [67] },
+      { "func": "progress", "data": [68] },
+      { "func": "progress", "data": [70] },
+      { "func": "progress", "data": [71] },
+      { "func": "progress", "data": [72] },
+      { "func": "progress", "data": [73] },
+      { "func": "progress", "data": [75] },
+      { "func": "progress", "data": [76] },
+      { "func": "progress", "data": [77] },
+      { "func": "progress", "data": [82] },
+      { "func": "progress", "data": [83] },
+      { "func": "progress", "data": [88] },
+      { "func": "progress", "data": [91] },
+      { "func": "progress", "data": [92] },
+      { "func": "progress", "data": [93] },
+      {
+        "func": "shfill",
+        "data": [
+          {
+            "type": "linear",
+            "value": [0, 0, 100, 0],
+            "stops": [
+              { "opacity": 1, "color": { "type": "rgb", "value": [0, 0, 0] }, "position": 0 },
+              {
+                "opacity": 1,
+                "color": { "type": "rgb", "value": [255, 255, 255] },
+                "position": 0.25
+              },
+              { "opacity": 1, "color": { "type": "rgb", "value": [85, 85, 85] }, "position": 0.5 },
+              {
+                "opacity": 1,
+                "color": { "type": "rgb", "value": [170, 170, 170] },
+                "position": 0.75
+              },
+              { "opacity": 1, "color": { "type": "rgb", "value": [51, 51, 51] }, "position": 1.25 }
+            ],
+            "transform": [1, 0, 0, -1, 0, 0]
+          },
+          [
+            [
+              [
+                { "type": "moveto", "coord": { "x": 0, "y": 0 } },
+                { "type": "lineto", "coord": { "x": 100, "y": 0 } },
+                { "type": "lineto", "coord": { "x": 100, "y": -50 } },
+                { "type": "closepath", "coord": { "x": 0, "y": 0 } }
+              ]
+            ]
+          ]
+        ]
+      },
+      { "func": "progress", "data": [96] },
+      { "func": "progress", "data": [100] },
+      { "func": "done", "data": [] }
+    ]
+  },
+  "plain-sab": {
+    "finished": true,
+    "messages": [
+      { "func": "progress", "data": [2] },
+      { "func": "progress", "data": [4] },
+      { "func": "progress", "data": [7] },
+      { "func": "progress", "data": [8] },
+      { "func": "progress", "data": [11] },
+      { "func": "progress", "data": [13] },
+      { "func": "progress", "data": [16] },
+      { "func": "progress", "data": [18] },
+      { "func": "progress", "data": [19] },
+      { "func": "progress", "data": [21] },
+      { "func": "progress", "data": [25] },
+      { "func": "progress", "data": [27] },
+      { "func": "progress", "data": [28] },
+      { "func": "progress", "data": [33] },
+      { "func": "progress", "data": [34] },
+      { "func": "progress", "data": [39] },
+      { "func": "progress", "data": [43] },
+      { "func": "progress", "data": [46] },
+      { "func": "progress", "data": [47] },
+      { "func": "progress", "data": [48] },
+      { "func": "progress", "data": [50] },
+      { "func": "progress", "data": [51] },
+      { "func": "progress", "data": [55] },
+      { "func": "progress", "data": [56] },
+      { "func": "progress", "data": [62] },
+      { "func": "progress", "data": [66] },
+      { "func": "progress", "data": [67] },
+      { "func": "progress", "data": [68] },
+      { "func": "progress", "data": [70] },
+      { "func": "progress", "data": [71] },
+      { "func": "progress", "data": [72] },
+      { "func": "progress", "data": [73] },
+      { "func": "progress", "data": [75] },
+      { "func": "progress", "data": [76] },
+      { "func": "progress", "data": [77] },
+      { "func": "progress", "data": [82] },
+      { "func": "progress", "data": [83] },
+      { "func": "progress", "data": [88] },
+      { "func": "progress", "data": [91] },
+      { "func": "progress", "data": [92] },
+      { "func": "progress", "data": [93] },
+      {
+        "func": "shfill",
+        "data": [
+          {
+            "type": "linear",
+            "value": [0, 0, 100, 0],
+            "stops": [
+              { "opacity": 1, "color": { "type": "rgb", "value": [0, 0, 0] }, "position": 0 },
+              {
+                "opacity": 1,
+                "color": { "type": "rgb", "value": [255, 255, 255] },
+                "position": 0.25
+              },
+              { "opacity": 1, "color": { "type": "rgb", "value": [85, 85, 85] }, "position": 0.5 },
+              {
+                "opacity": 1,
+                "color": { "type": "rgb", "value": [170, 170, 170] },
+                "position": 0.75
+              },
+              { "opacity": 1, "color": { "type": "rgb", "value": [51, 51, 51] }, "position": 1.25 }
+            ],
+            "transform": [1, 0, 0, -1, 0, 0]
+          },
+          [
+            [
+              [
+                { "type": "moveto", "coord": { "x": 0, "y": 0 } },
+                { "type": "lineto", "coord": { "x": 100, "y": 0 } },
+                { "type": "lineto", "coord": { "x": 100, "y": -50 } },
+                { "type": "closepath", "coord": { "x": 0, "y": 0 } }
+              ]
+            ]
+          ]
+        ]
+      },
+      { "func": "progress", "data": [96] },
+      { "func": "progress", "data": [100] },
+      { "func": "done", "data": [] }
+    ]
+  },
+  "outline-nosab": {
+    "finished": true,
+    "messages": [
+      { "func": "progress", "data": [2] },
+      { "func": "progress", "data": [4] },
+      { "func": "progress", "data": [7] },
+      { "func": "progress", "data": [8] },
+      { "func": "progress", "data": [11] },
+      { "func": "progress", "data": [13] },
+      { "func": "progress", "data": [16] },
+      { "func": "progress", "data": [18] },
+      { "func": "progress", "data": [19] },
+      { "func": "progress", "data": [21] },
+      { "func": "progress", "data": [25] },
+      { "func": "progress", "data": [27] },
+      { "func": "progress", "data": [28] },
+      { "func": "progress", "data": [33] },
+      { "func": "progress", "data": [34] },
+      { "func": "progress", "data": [39] },
+      { "func": "progress", "data": [43] },
+      { "func": "progress", "data": [46] },
+      { "func": "progress", "data": [47] },
+      { "func": "progress", "data": [48] },
+      { "func": "progress", "data": [50] },
+      { "func": "progress", "data": [51] },
+      { "func": "progress", "data": [55] },
+      { "func": "progress", "data": [56] },
+      { "func": "progress", "data": [62] },
+      { "func": "progress", "data": [66] },
+      { "func": "progress", "data": [67] },
+      { "func": "progress", "data": [68] },
+      { "func": "progress", "data": [70] },
+      { "func": "progress", "data": [71] },
+      { "func": "progress", "data": [72] },
+      { "func": "progress", "data": [73] },
+      { "func": "progress", "data": [75] },
+      { "func": "progress", "data": [76] },
+      { "func": "progress", "data": [77] },
+      { "func": "progress", "data": [82] },
+      { "func": "progress", "data": [83] },
+      { "func": "progress", "data": [88] },
+      { "func": "progress", "data": [91] },
+      { "func": "progress", "data": [92] },
+      { "func": "progress", "data": [93] },
+      {
+        "func": "shfill",
+        "data": [
+          {
+            "type": "linear",
+            "value": [0, 0, 100, 0],
+            "stops": [
+              { "opacity": 1, "color": { "type": "rgb", "value": [0, 0, 0] }, "position": 0 },
+              {
+                "opacity": 1,
+                "color": { "type": "rgb", "value": [255, 255, 255] },
+                "position": 0.25
+              },
+              { "opacity": 1, "color": { "type": "rgb", "value": [85, 85, 85] }, "position": 0.5 },
+              {
+                "opacity": 1,
+                "color": { "type": "rgb", "value": [170, 170, 170] },
+                "position": 0.75
+              },
+              { "opacity": 1, "color": { "type": "rgb", "value": [51, 51, 51] }, "position": 1.25 }
+            ],
+            "transform": [1, 0, 0, -1, 0, 0]
+          },
+          [
+            [
+              [
+                { "type": "moveto", "coord": { "x": 0, "y": 0 } },
+                { "type": "lineto", "coord": { "x": 100, "y": 0 } },
+                { "type": "lineto", "coord": { "x": 100, "y": -50 } },
+                { "type": "closepath", "coord": { "x": 0, "y": 0 } }
+              ]
+            ]
+          ]
+        ]
+      },
+      { "func": "progress", "data": [96] },
+      { "func": "progress", "data": [100] },
+      { "func": "done", "data": [] }
+    ]
+  }
+}

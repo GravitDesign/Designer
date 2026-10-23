@@ -1,0 +1,9 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+currentscreen type /stringtype eq b r r
+currentscreen xcheck b pop pop
+60 45 { pop pop 0 } setscreen 1 r
+cachestatus count r clear 100 setcachelimit count r

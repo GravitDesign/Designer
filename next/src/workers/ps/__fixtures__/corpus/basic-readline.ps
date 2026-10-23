@@ -1,0 +1,17 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+currentfile 50 string readline
+first line
+b s
+currentfile 50 string readline
+
+after blank
+b s
+currentfile 3 string readline
+too long line
+7 r
+{ 5 50 string readline } e
+8 r

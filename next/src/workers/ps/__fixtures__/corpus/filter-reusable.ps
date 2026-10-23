@@ -1,0 +1,5 @@
+%!PS
+/dump { { 0 0 3 -1 roll 1 rectfill } forall } def
+/len { 0 0 3 -1 roll 2 rectfill } def
+/rs (hello world) /ReusableStreamDecode filter def
+rs 5 string readstring pop dump rs bytesavailable len rs resetfile rs 3 string readstring pop dump rs flushfile rs bytesavailable len

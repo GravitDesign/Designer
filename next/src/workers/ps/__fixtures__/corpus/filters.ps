@@ -1,0 +1,27 @@
+%!PS
+/bar { 0 rlineto 0 2 rlineto closepath fill } def
+/f currentfile /ASCIIHexDecode filter def
+f 3 string readstring pop length 0 0 moveto bar
+414243>
+/g currentfile /ASCII85Decode filter def
+g 10 string readstring pop length 4 4 moveto bar
+87cURD]i,"Ebo80~>
+/h currentfile 0 (END) /SubFileDecode filter def
+h 100 string readstring pop length 8 8 moveto bar
+some data END
+/l currentfile /ASCIIHexDecode filter /LZWDecode filter def
+l 10 string readstring pop length 12 12 moveto bar
+800B6050220C0C8501>
+currentfile 50 string readline pop length 16 16 moveto bar
+a line of text
+currentfile 4 string readhexstring pop length 20 20 moveto bar
+01020304
+(abc) 0 () /SubFileDecode filter 2 string readstring pop length 24 24 moveto bar
+/rs currentfile /ReusableStreamDecode filter def
+rs 5 string readstring pop length 28 28 moveto bar
+hello world
+rs resetfile rs 3 string readstring pop length 32 32 moveto bar
+currentfile fileposition pop
+currentfile bytesavailable pop
+currentfile status pop
+(abc) currentfile closefile

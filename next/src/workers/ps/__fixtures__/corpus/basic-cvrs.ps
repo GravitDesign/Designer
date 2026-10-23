@@ -1,0 +1,8 @@
+%!PS
+/r { 0 0 3 -1 roll 1 rectfill } def
+/b { { 1 } { 0 } ifelse r } def
+/s { length r } def
+/e { stopped b } def
+255 16 10 string cvrs s 255 2 10 string cvrs s -255.7 16 10 string cvrs s 10.5 10 10 string cvrs s
+/t 3 string def 1000 36 t cvrs pop t s
+{ 1 40 (x) cvrs } e { (a) 10 (x) cvrs } e { 1 -2 (x) cvrs } e
