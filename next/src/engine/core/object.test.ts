@@ -243,7 +243,9 @@ describe("instanceof on a mixin", () => {
       "TestInstanceofMarker",
       (Base: new () => object) => class extends Base {},
     );
-    class Plain {}
+    class Plain {
+      readonly kind = "plain";
+    }
     const Mixed = Marker(Plain as never);
     const value: unknown = new Mixed();
     expect(value instanceof (Marker as unknown as new () => object)).toBe(false);
