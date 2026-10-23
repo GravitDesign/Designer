@@ -12,6 +12,7 @@ import {
   stringTagToName,
   stringToTag,
   tagToName,
+  variationsByteSize,
 } from "./harfbuzz.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -115,5 +116,13 @@ describe("tags", () => {
     expect(() => (HarfBuzz as unknown as () => void)()).toThrow("static entity");
     expect(HarfBuzz.Buffer).toBe(HarfBuzzBuffer);
     expect(DIRECTIONS.BBT).toBe("bbt");
+  });
+});
+
+describe("BUG-001: HarfBuzz variations memory", () => {
+  it("allocates a tag and a float per axis", () => {
+    expect(variationsByteSize({})).toBe(0);
+    expect(variationsByteSize({ wght: 700 })).toBe(8);
+    expect(variationsByteSize({ wght: 700, wdth: 100, opsz: 12 })).toBe(24);
   });
 });

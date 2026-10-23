@@ -286,6 +286,11 @@ export function scriptNameToOpenTypeScriptTagString(name: string): string {
 }
 
 /** A HarfBuzz text buffer filled with one text; segment properties are guessed from it. */
+/** Bytes of the hb_variation_t array for `variations`: a tag and a float per axis. */
+export function variationsByteSize(variations: Record<string, number>): number {
+  return 8 * Object.keys(variations).length;
+}
+
 export class HarfBuzzBuffer {
   _text: string;
   _hbBuffer: number;
@@ -391,15 +396,16 @@ export class HarfBuzzFont {
   setVariations(variations: Record<string, number>): void {
     const tags = Object.keys(variations);
     const values = Object.values(variations);
-    // As in the old wrapper: `8 * variations.length` is NaN for an object,
-    // which wasm receives as malloc(0), and the loop writes past the block.
-    const pointer = api.malloc(8 * (variations as unknown as unknown[]).length);
+    // BUG-001: the old code allocated `8 * variations.length`, which is NaN
+    // for an object (malloc(0)), and wrote past the block.
+    const pointer = api.malloc(variationsByteSize(variations));
     for (let i = 0; i < tags.length; i++) {
       const tag = stringToTag(tags[i] as string);
       hb.setValue(pointer + 8 * i, tag, "i32");
       hb.setValue(pointer + 8 * i + 4, values[i] as number, "float");
     }
     api.hb_font_set_variations(this._font, pointer, tags.length);
+    api.free(pointer);
   }
 
   /** The old name, typo included. */
@@ -433,6 +439,8 @@ export class HarfBuzzFont {
     }
     const features = this._getFeatures();
     api.hb_shape(this._font, buffer._hbBuffer, features.ptr, features.length);
+    // BUG-001: the old code never freed the feature struct.
+    if (features.ptr) api.free(features.ptr);
     const length = api.hb_buffer_get_length(buffer._hbBuffer);
     const infos = api.hb_buffer_get_glyph_infos(buffer._hbBuffer, 0);
     const positions = api.hb_buffer_get_glyph_positions(buffer._hbBuffer, 0);

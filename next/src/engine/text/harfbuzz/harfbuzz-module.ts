@@ -152,9 +152,14 @@ export class HarfBuzzModule {
     return new TextDecoder().decode(heap.subarray(pointer, end));
   }
 
-  /** Calls `fn` with the string in the heap. The old wrapper never freed it. */
+  /** Calls `fn` with the string in the heap and frees it afterwards. */
   withString<T>(text: string, fn: (pointer: number) => T): T {
-    return fn(this.allocString(text));
+    const pointer = this.allocString(text);
+    try {
+      return fn(pointer);
+    } finally {
+      this.exports.free(pointer);
+    }
   }
 }
 
