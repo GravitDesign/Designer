@@ -313,8 +313,9 @@ export class SvgContext {
 
   /** Drawing another SVG canvas records it as a nested entry with this context's draw state. */
   drawImage(image: unknown, x: number, y: number): void {
-    const source = image as { _canvasContext?: unknown } | null;
-    if (!source || !source._canvasContext) return;
+    // A null image throws a TypeError on this read, as the old `e._canvasContext` did.
+    const source = image as { _canvasContext?: unknown };
+    if (!source._canvasContext) return;
     if (source._canvasContext instanceof SvgContext) {
       const canvas = image as SvgContextCanvas;
       const context = source._canvasContext;

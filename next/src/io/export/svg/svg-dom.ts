@@ -6,8 +6,11 @@
 // implements exactly the part of the DOM the exporter used, with the same
 // semantics (live child lists, attribute order, shallow and deep clones
 // that drop expando fields), and a serializer that writes what Chrome's
-// XMLSerializer writes for such a document. It runs without a browser, so
-// the exporter also runs in workers and in Node tests.
+// XMLSerializer writes for such a document. The DOM itself needs no
+// browser, but the exporter as a whole still does: every SvgPaintCanvas
+// runs the GPaintCanvas constructor, which asks the render scheduler for a
+// canvas (document.createElement("canvas")), and texts lay out on a canvas
+// too. Node tests install a fake canvas for that.
 //
 // What the serializer reproduces (checked against Chrome):
 // - the XML declaration the skeleton was parsed with, comments and CDATA
@@ -19,6 +22,7 @@
 //   written like any other attribute, and a namespace declaration added
 //   right after the tag name when an element's prefix or default namespace
 //   isn't in scope (`<gravitDesigner:x xmlns:gravitDesigner="...">`).
+import { parseCssDeclaration } from "./svg-css.ts";
 
 export const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 const XMLNS_NAMESPACE = "http://www.w3.org/2000/xmlns/";
@@ -332,10 +336,12 @@ export function createParsedDocument(
 
 /**
  * `element.style`: reads one property from the style attribute; writing
- * one rewrites the attribute in Chrome's serialized form. Only what the
- * exporter needs (stroke) is offered; values are normalized the way
- * Chrome's CSSOM prints the ones the exporter writes (colors as
- * `rgb(r, g, b)`, `url("...")`).
+ * one rewrites the attribute in Chrome's serialized form (`name: value;`
+ * joined by spaces). Like Chrome, the attribute is parsed first and
+ * declarations with invalid values are dropped, so they read as "" and
+ * disappear when the attribute is written back; values print the way
+ * Chrome's CSSOM prints them (see svg-css.ts). Only what the exporter
+ * needs (stroke) is offered.
  */
 export class SvgStyleDeclaration {
   constructor(private readonly element: SvgElement) {}
@@ -347,12 +353,13 @@ export class SvgStyleDeclaration {
     for (const part of text.split(";")) {
       const colon = part.indexOf(":");
       if (colon < 0) continue;
-      const name = part.slice(0, colon).trim();
-      const value = part.slice(colon + 1).trim();
-      if (!name || !value) continue;
+      const name = part.slice(0, colon).trim().toLowerCase();
+      if (!name) continue;
+      const value = parseCssDeclaration(name, part.slice(colon + 1));
+      if (null === value) continue;
       const existing = out.find((d) => d[0] === name);
-      if (existing) existing[1] = normalizeCssValue(value);
-      else out.push([name, normalizeCssValue(value)]);
+      if (existing) existing[1] = value;
+      else out.push([name, value]);
     }
     return out;
   }
@@ -371,9 +378,9 @@ export class SvgStyleDeclaration {
   }
 
   /**
-   * Like the CSSOM: undefined is an invalid value and changes nothing,
-   * null or "" removes the property, and setting the value a property
-   * already has leaves the attribute as it was written.
+   * Like the CSSOM: undefined or an invalid value changes nothing, null
+   * or "" removes the property, and setting the value a property already
+   * has leaves the attribute as it was written.
    */
   setProperty(name: string, value: string | null | undefined): void {
     if (void 0 === value) return;
@@ -383,7 +390,8 @@ export class SvgStyleDeclaration {
       if (index < 0) return;
       list.splice(index, 1);
     } else {
-      const normalized = normalizeCssValue(String(value));
+      const normalized = parseCssDeclaration(name, String(value));
+      if (null === normalized) return;
       const existing = list[index];
       if (existing) {
         if (existing[1] === normalized) return;
@@ -392,53 +400,6 @@ export class SvgStyleDeclaration {
     }
     this.element.setAttribute("style", list.map((d) => d[0] + ": " + d[1] + ";").join(" "));
   }
-}
-
-/** Chrome's serialization of the CSS values the exporter writes. */
-function normalizeCssValue(value: string): string {
-  const url = /^url\(\s*['"]?([^'")]*)['"]?\s*\)$/.exec(value);
-  if (url) return 'url("' + url[1] + '")';
-  const hex = /^#([0-9a-fA-F]{3,8})$/.exec(value);
-  if (hex) {
-    let digits = hex[1] as string;
-    if (digits.length === 3 || digits.length === 4) {
-      digits = digits
-        .split("")
-        .map((d) => d + d)
-        .join("");
-    }
-    if (digits.length === 6 || digits.length === 8) {
-      const channel = (i: number) => parseInt(digits.slice(2 * i, 2 * i + 2), 16);
-      if (digits.length === 6)
-        return "rgb(" + channel(0) + ", " + channel(1) + ", " + channel(2) + ")";
-      const alpha = channel(3) / 255;
-      return alpha === 1
-        ? "rgb(" + channel(0) + ", " + channel(1) + ", " + channel(2) + ")"
-        : "rgba(" +
-            channel(0) +
-            ", " +
-            channel(1) +
-            ", " +
-            channel(2) +
-            ", " +
-            roundAlpha(alpha) +
-            ")";
-    }
-  }
-  const rgb = /^rgba?\(([^)]*)\)$/.exec(value);
-  if (rgb) {
-    const parts = (rgb[1] as string).split(",").map((p) => p.trim());
-    if (parts.length === 4 && Number(parts[3]) === 1) parts.pop();
-    return (parts.length === 4 ? "rgba(" : "rgb(") + parts.join(", ") + ")";
-  }
-  return value;
-}
-
-/** An 8-bit alpha the way Chrome prints it: two decimals when they round back to the same byte, else three. */
-function roundAlpha(alpha: number): number {
-  const byte = Math.round(alpha * 255);
-  const two = Math.round((byte / 255) * 100) / 100;
-  return Math.round(two * 255) === byte ? two : Math.round((byte / 255) * 1000) / 1000;
 }
 
 function escapeAttribute(value: string): string {

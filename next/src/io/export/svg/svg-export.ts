@@ -1587,7 +1587,6 @@ export class SvgExport {
     const savedIgnoreContents = context.paintContext._ignoreContents;
     context.paintContext._ignoreContents = false;
     let pageBox: Rect | null = null;
-    let contentGroup: SvgElement;
     if (e instanceof Scene) {
       const root = context.svgDoc.documentElement;
       let width: string | number | null = root.getAttribute("width");
@@ -1601,7 +1600,7 @@ export class SvgExport {
           context._ignoreContents = true;
         } else {
           pageBox = area || new Rect(0, 0, 0, 0);
-          contentGroup = context.createSvgElement("g");
+          const contentGroup = context.createSvgElement("g");
           context.peek().appendChild(contentGroup);
           context.push(contentGroup);
           const dx = 0 - pageBox.getX();
@@ -1661,8 +1660,8 @@ export class SvgExport {
       }
     } else if (!e.hasMixin(Annotation) || e instanceof CommentAnnotation) {
       if (e instanceof Path) {
-        contentGroup = context.createSvgElement("g");
-        void contentGroup;
+        // The old code also created a <g> here that it never used or
+        // attached (createSvgElement has no side effects), so it is left out.
         clipsChildren = e.hasMixin(Container) && e.getChildren().length > 0;
       } else if (e instanceof CompoundShape) annotation = true;
       else if (!(e instanceof Page))
@@ -1825,7 +1824,11 @@ export class SvgExport {
               background,
               pageBox,
             ) as unknown as { paint: Gradient };
-            const gradient = gradientAsSVG(paint.paint, context.svgDoc);
+            const gradient = gradientAsSVG(
+              paint.paint,
+              context.svgDoc,
+              "e._paintContext.canvas.createPatternPaint(...).paint",
+            );
             fill.setAttribute("style", "fill:url(#" + gradient.getAttribute("id") + ");");
             (fill.parentNode as SvgElement).insertBefore(gradient, fill);
           } else if (background instanceof RGBColor || background instanceof CMYKColor) {

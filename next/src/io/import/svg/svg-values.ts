@@ -219,11 +219,20 @@ export function createFont(fontText: string): ParsedFont {
 
 /** canvg's svg.Property: one attribute or style value of an element. */
 export class SvgProperty {
+  declare readonly context: PropertyContext;
+
   constructor(
-    readonly context: PropertyContext,
+    context: PropertyContext,
     public name: string,
     public value: PropertyValue,
-  ) {}
+  ) {
+    // canvg's svg.Property had only `name` and `value` as own keys. The
+    // parser it reads definitions from is kept out of for-in and
+    // GUtil.extend, so copying a property copies what the old one had (a
+    // CSS rule named __proto__ puts a property on Object.prototype, where
+    // every node's default properties are deep-copied with extend).
+    Object.defineProperty(this, "context", { value: context });
+  }
 
   getValue(): PropertyValue {
     return this.value;

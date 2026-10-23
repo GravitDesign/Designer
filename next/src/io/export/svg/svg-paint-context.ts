@@ -28,16 +28,21 @@ export function toFill(color: unknown): unknown {
   return fill;
 }
 
-/** The canvas gradient's SVG element (the old prototype asSVG). */
+/**
+ * The canvas gradient's SVG element (the old prototype asSVG). Only the
+ * linear and the radial gradient had asSVG; for any other the old call
+ * threw Chrome's TypeError, whose message names the expression the
+ * gradient was read from (`source`: "o.fillStyle", "o.strokeStyle", ...).
+ */
 export function gradientAsSVG(
   gradient: Gradient,
   document: SvgElement["ownerDocument"],
+  source = "o.fillStyle",
 ): SvgElement {
   const owner = document as NonNullable<typeof document>;
   if (gradient instanceof LinearGradient) return linearGradientAsSVG(gradient, owner);
   if (gradient instanceof RadialGradient) return radialGradientAsSVG(gradient, owner);
-  // Only the linear and the radial gradient had asSVG.
-  throw new TypeError("o.fillStyle.asSVG is not a function");
+  throw new TypeError(source + ".asSVG is not a function");
 }
 
 /**
@@ -124,7 +129,7 @@ export class SvgPaintContext extends PaintContext {
       if (recorded._isStroke) {
         style.set("fill", "none");
         if (recorded.strokeStyle instanceof Gradient) {
-          const element = gradientAsSVG(recorded.strokeStyle, document);
+          const element = gradientAsSVG(recorded.strokeStyle, document, "o.strokeStyle");
           style.set("stroke", "url(#" + element.getAttribute("id") + ")");
           defs.appendChild(element);
         } else style.set("stroke", recorded.strokeStyle);

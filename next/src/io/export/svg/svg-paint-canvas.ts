@@ -23,8 +23,10 @@ export class SvgPaintCanvas extends Canvas2DPaintCanvas {
 
   /**
    * The old constructor didn't run the GPaintCanvas constructor; this one
-   * has to, which also makes (and drops) a plain canvas context, then puts
-   * the SVG context and a blender on it like the old one did.
+   * has to, so every SVG canvas (sub-canvases included) also gets a
+   * canvas context from the render scheduler, a real canvas element, which
+   * is dropped right away. That needs `document`; the old exporter didn't.
+   * Then the SVG context and a blender go on it like in the old one.
    */
   constructor(context: SvgContext) {
     super();

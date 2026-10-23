@@ -219,3 +219,98 @@ describe("BUG-006: element names that are built-in object members", () => {
     expect(parser().CreateElement(el("toString"))).toBeInstanceOf(SvgMissing);
   });
 });
+
+describe("SvgElementBase and SvgRenderedElementBase (old chunk.vendor.js 245941-245951)", () => {
+  it("gives only rendered elements getBoundingBox and getAbsoluteBoundingBox", () => {
+    for (const name of ["defs", "stop", "mask", "clipPath", "style", "linearGradient"]) {
+      const element = parser().CreateElement(el(name)) as unknown as Record<string, unknown>;
+      expect(element.getBoundingBox, name).toBeUndefined();
+      expect(element.getAbsoluteBoundingBox, name).toBeUndefined();
+    }
+    expect(parser().CreateElement(el("rect", { width: "4", height: "2" }))).toHaveProperty(
+      "getBoundingBox",
+    );
+    const g = parser().CreateElement(el("g")) as unknown as { getBoundingBox(): unknown };
+    expect(() => g.getBoundingBox()).toThrow("getBoundingBox: unimplemented");
+  });
+});
+
+describe("the font provider queue (old chunk.vendor.js 245127-245131)", () => {
+  it("passes every argument of the provider's answer to every waiting query", async () => {
+    const calls: unknown[][] = [];
+    let answer: ((...args: unknown[]) => void) | null = null;
+    const svg = new SvgParser(
+      {
+        fontProvider: {
+          queryFirst(_query: unknown, done: (...args: unknown[]) => void) {
+            answer = done;
+          },
+        },
+      } as unknown as ConstructorParameters<typeof SvgParser>[0],
+      null as unknown as FontManager,
+    );
+    const query = { fontFamily: "A" } as unknown as Parameters<
+      SvgParser["fontProvider"]["queryFirst"]
+    >[0];
+    svg.fontProvider.queryFirst(query, (...args: unknown[]) => calls.push(args));
+    svg.fontProvider.queryFirst(query, (...args: unknown[]) => calls.push(args));
+    (answer as unknown as (...args: unknown[]) => void)({ family: "A" }, "extra", 3);
+    expect(calls).toEqual([
+      [{ family: "A" }, "extra", 3],
+      [{ family: "A" }, "extra", 3],
+    ]);
+  });
+});
+
+describe("R5-E-401: CSS selectors and ids named like Object.prototype members (old behaviour)", () => {
+  // canvg kept CSS rules, definitions and references in plain objects
+  // (old chunk.vendor.js 248074, 245913, 245340). The port keeps that;
+  // these pin it until it is fixed as a bug.
+  it("writes a __proto__ rule onto Object.prototype and still imports", async () => {
+    const proto = Object.prototype as unknown as Record<string, unknown>;
+    try {
+      const result = await importTree(
+        el("svg", { width: "100", height: "100" }, [
+          el("style", {}, [text("__proto__ { fill: red; stroke-width: 3 } rect { stroke: blue }")]),
+          el("rect", { x: "10", y: "10", width: "30", height: "30" }),
+          el("circle", { cx: "70", cy: "25", r: "15", fill: "#0a0" }),
+        ]),
+      );
+      expect(Object.prototype.hasOwnProperty.call(proto, "fill")).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(proto, "stroke-width")).toBe(true);
+      expect(result.error).toBeNull();
+      expect(result.node).toBeTruthy();
+    } finally {
+      Reflect.deleteProperty(proto, "fill");
+      Reflect.deleteProperty(proto, "stroke-width");
+    }
+  });
+
+  it("writes a constructor rule onto the Object function", async () => {
+    const object = Object as unknown as Record<string, unknown>;
+    try {
+      const result = await importTree(
+        el("svg", { width: "100", height: "100" }, [
+          el("style", {}, [text("constructor { fill: red }")]),
+          el("rect", { width: "30", height: "30" }),
+        ]),
+      );
+      expect(Object.prototype.hasOwnProperty.call(object, "fill")).toBe(true);
+      expect(result.error).toBeNull();
+    } finally {
+      Reflect.deleteProperty(object, "fill");
+    }
+  });
+
+  it("fails the import for a use of #toString or of an element with id constructor", async () => {
+    for (const id of ["toString", "constructor"]) {
+      const result = await importTree(
+        el("svg", { width: "100", height: "100" }, [
+          el("defs", {}, [el("rect", { id: "constructor", width: "30", height: "30" })]),
+          el("use", { "xlink:href": "#" + id }),
+        ]),
+      );
+      expect(result.error, id).toBeInstanceOf(TypeError);
+    }
+  });
+});

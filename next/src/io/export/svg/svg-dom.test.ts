@@ -7,6 +7,7 @@ import {
   SvgDocument,
   SvgElement,
 } from "./svg-dom.ts";
+import cssom from "./__fixtures__/cssom-chrome.json" with { type: "json" };
 
 /** The exporter's skeleton, as SvgRenderContext builds it. */
 function skeleton(): SvgDocument {
@@ -104,4 +105,53 @@ describe("svg-dom", () => {
     );
     expect(parent.getElementsByTagName("a")[0]).toBeInstanceOf(SvgElement);
   });
+});
+
+describe("svg-dom style declarations against Chrome's CSSOM", () => {
+  // The source-in step of a paths graph (old chunk.vendor.js 255746-255751)
+  // sets `style.stroke` on paths whose style getSvgStyle wrote: a dash
+  // array as the array's toString, a missing line width as "undefined".
+  // Chrome reparsed the attribute, dropped what was invalid and printed the
+  // rest in its own form.
+  it("rewrites a dashed gradient path's style like Chrome", () => {
+    const doc = skeleton();
+    const path = doc.createElementNS(SVG_NAMESPACE, "path");
+    path.setAttribute(
+      "style",
+      "fill:none;stroke:rgb(0,0,0);stroke-width:undefined;stroke-linecap:round;stroke-dasharray:4,2.5,1;stroke-miterlimit:2.25;",
+    );
+    expect(path.style.stroke).toBe("rgb(0, 0, 0)");
+    path.style.stroke = 'url("#_pattern_x")';
+    // Recorded in Chrome 156.
+    expect(path.getAttribute("style")).toBe(
+      'fill: none; stroke: url("#_pattern_x"); stroke-linecap: round; stroke-dasharray: 4, 2.5, 1; stroke-miterlimit: 2.25;',
+    );
+  });
+
+  it("reads an invalid stroke as empty, so the step leaves the path alone", () => {
+    const doc = skeleton();
+    const path = doc.createElementNS(SVG_NAMESPACE, "path");
+    path.setAttribute("style", "stroke:undefined;fill:none;stroke-dasharray:-1,2;");
+    expect(path.style.stroke).toBe("");
+  });
+
+  // __fixtures__/cssom-chrome.json: style attributes set on an SVG
+  // element of a parsed XML document in Chrome, one property read back,
+  // then style.stroke written (for the onlyIfStroke cases only when the
+  // stroke read back is set and not "none", as the exporter does).
+  for (const c of cssom.cases) {
+    it(`${c.style} | read ${c.read} | stroke = ${JSON.stringify(c.set)}`, () => {
+      const doc = skeleton();
+      const path = doc.createElementNS(SVG_NAMESPACE, "path");
+      path.setAttribute("style", c.style);
+      expect(path.style.getPropertyValue(c.read)).toBe(c.value);
+      let didSet = false;
+      if (!c.onlyIfStroke || (path.style.stroke && "none" !== path.style.stroke)) {
+        path.style.stroke = c.set;
+        didSet = true;
+      }
+      expect(didSet).toBe(c.didSet);
+      expect(path.getAttribute("style")).toBe(c.after);
+    });
+  }
 });

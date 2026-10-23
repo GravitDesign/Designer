@@ -167,6 +167,55 @@ const list = (dir: string) =>
     .filter((f) => /\.svgz?$/.test(f))
     .sort();
 
+/**
+ * R5-E-401: CSS selectors named like Object.prototype members. canvg kept
+ * its CSS rules in a plain object, so a `__proto__ { ... }` rule writes
+ * its declarations onto Object.prototype and `constructor { ... }` onto
+ * the Object function, for the rest of the page's life. These run in a
+ * page of their own (a driver scenario) and record, next to the import,
+ * whether the properties leaked.
+ */
+const PROTO_DIR = path.join(OWN_DIR, "prototype");
+
+function prototypeScenario(file: string): Scenario {
+  const base = scenario(PROTO_DIR, file, DEFAULT_OPTIONS);
+  const { inPage: _unused, ...rest } = base;
+  void _unused;
+  return {
+    ...rest,
+    id: base.id.replace("io-import-svg/", "io-import-svg/prototype/"),
+    driver: async ({ page }, a) => {
+      let result: Record<string, unknown>;
+      try {
+        result = JSON.parse(
+          (await page.evaluate(
+            `(${importInPage.toString()})(window.__parity, ${JSON.stringify(a)})`,
+          )) as string,
+        ) as Record<string, unknown>;
+      } catch (error) {
+        result = { threw: String((error as Error).message).split("\n")[0] };
+      }
+      const leaked = await page.evaluate(() => {
+        const proto = Object.prototype as unknown as Record<string, unknown>;
+        const object = Object as unknown as Record<string, unknown>;
+        const out = {
+          prototypeKeys: ["fill", "stroke", "stroke-width"].filter((k) =>
+            Object.prototype.hasOwnProperty.call(proto, k),
+          ),
+          objectKeys: ["fill", "stroke", "stroke-width"].filter((k) =>
+            Object.prototype.hasOwnProperty.call(object, k),
+          ),
+          plainObjectFill: typeof ({} as Record<string, unknown>).fill,
+        };
+        for (const k of out.prototypeKeys) Reflect.deleteProperty(proto, k);
+        for (const k of out.objectKeys) Reflect.deleteProperty(object, k);
+        return out;
+      });
+      return JSON.stringify({ ...result, leaked });
+    },
+  };
+}
+
 const scenarios = defineScenarios([
   ...list(SHARED_DIR).map((f) => scenario(SHARED_DIR, f, DEFAULT_OPTIONS)),
   ...list(OWN_DIR).map((f) => scenario(OWN_DIR, f, DEFAULT_OPTIONS)),
@@ -177,6 +226,8 @@ const scenarios = defineScenarios([
   scenario(SHARED_DIR, "markers-image.svg", DEFAULT_OPTIONS, "-placed", { place: true }),
   scenario(OWN_DIR, "images.svg", DEFAULT_OPTIONS, "-placed", { place: true }),
   scenario(OWN_DIR, "patterns.svg", DEFAULT_OPTIONS, "-placed", { place: true }),
+  scenario(OWN_DIR, "image-svg-href.svg", DEFAULT_OPTIONS, "-placed", { place: true }),
+  ...list(PROTO_DIR).map(prototypeScenario),
 ]);
 
 paritySuite("io-import-svg", scenarios, { newApp: false });

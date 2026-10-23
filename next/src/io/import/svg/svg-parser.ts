@@ -143,8 +143,12 @@ export type SceneResult = ImportNode | ImportNode[] | null | undefined;
 
 /** The font provider of the import options (the app's font library search). */
 export interface FontProvider {
-  queryFirst(query: FontQuery, callback: (result: FontAnswer | null) => void): void;
+  /** The callback's first argument is the answer; any further ones are passed on too. */
+  queryFirst(query: FontQuery, callback: FontAnswerCallback): void;
 }
+
+/** What waits for a font provider answer. */
+export type FontAnswerCallback = (result: FontAnswer | null, ...more: unknown[]) => void;
 
 /** What the importer asks the font provider (an object whose prototype holds the fields). */
 export interface FontQuery {
@@ -184,14 +188,14 @@ function fontKey(a: unknown, b?: unknown, c?: unknown): string {
  */
 class FontProviderQueue {
   fontsToResolve = 0;
-  fontCallbackMap = new Map<string, ((answer: FontAnswer | null) => void)[]>();
+  fontCallbackMap = new Map<string, FontAnswerCallback[]>();
 
   constructor(
     readonly parser: SvgParser,
     readonly fontProvider: FontProvider | undefined,
   ) {}
 
-  queryFirst(query: FontQuery, callback: (answer: FontAnswer | null) => void): void {
+  queryFirst(query: FontQuery, callback: FontAnswerCallback): void {
     if (0 == this.fontsToResolve) this.parser.beginJob();
     let callbacks = this.fontCallbackMap.get(fontKey(query));
     if (!callbacks) {
@@ -202,11 +206,13 @@ class FontProviderQueue {
     callbacks.push(callback);
     if (1 === callbacks.length) {
       // No provider in the options throws here, as before.
-      (this.fontProvider as FontProvider).queryFirst(query, (answer) => {
+      // Every waiting query gets all the arguments the provider answered
+      // with (the old code applied `arguments`).
+      (this.fontProvider as FontProvider).queryFirst(query, (...answer) => {
         this.fontsToResolve--;
         const waiting = this.fontCallbackMap.get(fontKey(query));
         this.fontCallbackMap.delete(fontKey(query));
-        if (waiting) waiting.forEach((fn) => fn(answer));
+        if (waiting) waiting.forEach((fn) => fn(...answer));
         if (!this.fontsToResolve) this.parser.endJob();
       });
     }
@@ -606,15 +612,6 @@ export class SvgElementBase {
     element.parent = this;
     if ("title" != element.type) this.children.push(element);
   }
-
-  /** The element's bounds (rendered elements); the base has none. */
-  getBoundingBox(): SvgBounds | null {
-    throw new Error("getBoundingBox: unimplemented");
-  }
-
-  getAbsoluteBoundingBox(): SvgBounds | null {
-    return this.getBoundingBox();
-  }
 }
 Object.defineProperty(SvgElementBase.prototype, "captureTextNodes", {
   value: false,
@@ -628,6 +625,19 @@ Object.defineProperty(SvgElementBase.prototype, "captureTextNodes", {
 export class SvgRenderedElementBase extends SvgElementBase {
   _clipPath: unknown = null;
   _transform: Transform | null = null;
+
+  /**
+   * The element's bounds. Only rendered elements have these two methods,
+   * as in canvg, so calling them on a plain element (defs, stop, mask,
+   * ...) is a TypeError.
+   */
+  getBoundingBox(): SvgBounds | null {
+    throw new Error("getBoundingBox: unimplemented");
+  }
+
+  getAbsoluteBoundingBox(): SvgBounds | null {
+    return this.getBoundingBox();
+  }
 
   override setSceneContext(context: SceneContext, node?: ImportNode | null): void {
     if (this.attribute("transform").hasValue()) {
@@ -1550,7 +1560,7 @@ export class SvgPattern extends SvgPromiseCapability {
             height = 100 * heightAttribute.numValue();
             sizeMode = TexturePattern.SizeMode.Percent;
           } else {
-            const bounds = element.getBoundingBox() as SvgBounds;
+            const bounds = (element as SvgRenderedElementBase).getBoundingBox() as SvgBounds;
             width = bounds.width();
             height = bounds.height();
           }
@@ -1666,7 +1676,7 @@ export class SvgLinearGradient extends SvgGradientBase {
     gradientTransform: string | null,
   ): Promise<unknown> {
     return whenReady<unknown>(element, (resolve) => {
-      const box = element.getAbsoluteBoundingBox() as SvgBounds;
+      const box = (element as SvgRenderedElementBase).getAbsoluteBoundingBox() as SvgBounds;
       if (
         !this.attribute("x1").hasValue() &&
         !this.attribute("y1").hasValue() &&
@@ -1838,7 +1848,7 @@ export class SvgLinearGradient extends SvgGradientBase {
           if ((scale = Math.min(scale, userScale)) < Number.MIN_VALUE || scale > Number.MAX_VALUE) {
             scale = 1;
           }
-          const ownBox = element.getBoundingBox() as SvgBounds;
+          const ownBox = (element as SvgRenderedElementBase).getBoundingBox() as SvgBounds;
           const absolute = new Rect(box.x(), box.y(), box.width(), box.height());
           const own = new Rect(ownBox.x(), ownBox.y(), ownBox.width(), ownBox.height());
           if (!Rect.equals(absolute, own)) scale = box.width() / ownBox.width();
@@ -1876,7 +1886,7 @@ export class SvgRadialGradient extends SvgGradientBase {
       let cy: number | undefined;
       let fx: number | undefined;
       let fy: number | undefined;
-      const box = element.getAbsoluteBoundingBox() as SvgBounds;
+      const box = (element as SvgRenderedElementBase).getAbsoluteBoundingBox() as SvgBounds;
       if (!this.attribute("cx").hasValue()) this.attribute("cx", true).value = "50%";
       if (!this.attribute("cy").hasValue()) this.attribute("cy", true).value = "50%";
       if (!this.attribute("r").hasValue()) this.attribute("r", true).value = "50%";
@@ -2340,7 +2350,7 @@ export class SvgTspan extends SvgTextElementBase {
   }
 
   override getAbsoluteBoundingBox(): SvgBounds | null {
-    return (this.parent as SvgElementBase).getBoundingBox();
+    return (this.parent as SvgRenderedElementBase).getBoundingBox();
   }
 }
 Object.defineProperty(SvgTspan.prototype, "captureTextNodes", { value: true, writable: true });
@@ -2423,8 +2433,13 @@ export class SvgImage extends SvgRect {
         this.img = svg.ajax(href);
         this.loaded = true;
       }
-      // canvg also loaded other images into an <img> for drawing; the
-      // scene image loads its URL itself.
+      // Dropped: canvg also loaded every other href into an <img> for
+      // drawing (with crossOrigin "Anonymous" when the `useCORS` option
+      // was set), logged 'ERROR: image "<href>" not found' through
+      // opts.log when it failed, and set `loaded` to true either way.
+      // Nothing reads `img` or `loaded` for those images (the scene image
+      // loads its URL itself), so only that second request and the log
+      // line are gone, and `loaded` stays false.
     }
   }
 
@@ -2663,7 +2678,7 @@ export class SvgUse extends SvgRenderedElementBase {
   }
 
   override getBoundingBox(): SvgBounds | null {
-    return this.element ? this.element.getBoundingBox() : null;
+    return this.element ? (this.element as SvgRenderedElementBase).getBoundingBox() : null;
   }
 }
 

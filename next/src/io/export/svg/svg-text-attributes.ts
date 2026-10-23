@@ -6,7 +6,7 @@
 // before; whitespace is appended to the current word. Writing turns
 // every word into a positioned <text> with its font and paint as inline
 // CSS; gradient fills go on a group around all of them.
-import { equals } from "../../../engine/core/util.ts";
+import { equals, extend } from "../../../engine/core/util.ts";
 import { Point } from "../../../engine/math/point.ts";
 import { Transform } from "../../../engine/math/transform.ts";
 import { Font } from "../../../engine/text/fonts/font.ts";
@@ -36,7 +36,7 @@ export interface FontReference {
   [key: string]: unknown;
 }
 
-/** What a word is made from (the old code copied every field with jQuery.extend). */
+/** What a word is made from (the old code copied every own field with GUtil.extend). */
 export interface WordInit {
   text: string;
   mode: number;
@@ -105,10 +105,10 @@ export class SvgTextWord {
   declare textLocalizedForm: unknown;
 
   constructor(init: WordInit) {
-    // jQuery.extend skipped undefined values, so those keep the defaults.
-    for (const key of Object.keys(init) as (keyof WordInit)[]) {
-      if (void 0 !== init[key]) (this as unknown as Record<string, unknown>)[key] = init[key];
-    }
+    // GUtil.extend copies every own key, undefined values included, so a
+    // word made with lineWidth: undefined reads undefined, not the
+    // prototype's 0 (merge compares these fields with ===).
+    extend(this, init);
   }
 
   append(word: SvgTextWord): void {
@@ -222,6 +222,9 @@ export class SvgTextLine {
       if (word.textUnderline) decorations.push("underline");
       if (word.textStrikeout) decorations.push("line-through");
       if (decorations.length) style.set("text-decoration", decorations.join(" "));
+      // Kept: a text colored by its font color hands the color object here,
+      // which prints as "[Object GRGBColor]" (QUESTIONS.md "SVG export text
+      // font colors").
       const fill = word.fillColor || "none";
       if (!(fill instanceof Gradient)) style.set("fill", fill);
       const stroke = word.strokeColor || "none";

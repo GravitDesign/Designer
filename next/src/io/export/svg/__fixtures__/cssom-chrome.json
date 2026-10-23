@@ -1,0 +1,2651 @@
+{
+  "chrome": "156.0.8078.4",
+  "cases": [
+    {
+      "style": "stroke-width:1;stroke:red;",
+      "read": "stroke-width",
+      "value": "1",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 1; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:2.50;stroke:red;",
+      "read": "stroke-width",
+      "value": "2.5",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 2.5; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:0.30000000000000004;stroke:red;",
+      "read": "stroke-width",
+      "value": "0.3",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 0.3; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:1e-7;stroke:red;",
+      "read": "stroke-width",
+      "value": "1e-07",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 1e-07; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:1e21;stroke:red;",
+      "read": "stroke-width",
+      "value": "1e+21",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 1e+21; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:-1;stroke:red;",
+      "read": "stroke-width",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-width:0;stroke:red;",
+      "read": "stroke-width",
+      "value": "0",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 0; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:.5;stroke:red;",
+      "read": "stroke-width",
+      "value": "0.5",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 0.5; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:5px;stroke:red;",
+      "read": "stroke-width",
+      "value": "5px",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 5px; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:5PX;stroke:red;",
+      "read": "stroke-width",
+      "value": "5px",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 5px; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:50%;stroke:red;",
+      "read": "stroke-width",
+      "value": "50%",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 50%; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:5foo;stroke:red;",
+      "read": "stroke-width",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-width:NaN;stroke:red;",
+      "read": "stroke-width",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-width:Infinity;stroke:red;",
+      "read": "stroke-width",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-width:undefined;stroke:red;",
+      "read": "stroke-width",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-width:null;stroke:red;",
+      "read": "stroke-width",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-width:1.0000001;stroke:red;",
+      "read": "stroke-width",
+      "value": "1",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 1; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:123456789.123;stroke:red;",
+      "read": "stroke-width",
+      "value": "1.23457e+08",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 1.23457e+08; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:0.000001;stroke:red;",
+      "read": "stroke-width",
+      "value": "1e-06",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 1e-06; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:0.00001;stroke:red;",
+      "read": "stroke-width",
+      "value": "1e-05",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 1e-05; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:0.0001;stroke:red;",
+      "read": "stroke-width",
+      "value": "0.0001",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 0.0001; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:999999;stroke:red;",
+      "read": "stroke-width",
+      "value": "999999",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 999999; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:1000000;stroke:red;",
+      "read": "stroke-width",
+      "value": "1e+06",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: 1e+06; stroke: blue;"
+    },
+    {
+      "style": "stroke-width:inherit;stroke:red;",
+      "read": "stroke-width",
+      "value": "inherit",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-width: inherit; stroke: blue;"
+    },
+    {
+      "style": "stroke-miterlimit:10;stroke:red;",
+      "read": "stroke-miterlimit",
+      "value": "10",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-miterlimit: 10; stroke: blue;"
+    },
+    {
+      "style": "stroke-miterlimit:4;stroke:red;",
+      "read": "stroke-miterlimit",
+      "value": "4",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-miterlimit: 4; stroke: blue;"
+    },
+    {
+      "style": "stroke-miterlimit:2.25;stroke:red;",
+      "read": "stroke-miterlimit",
+      "value": "2.25",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-miterlimit: 2.25; stroke: blue;"
+    },
+    {
+      "style": "stroke-miterlimit:0.5;stroke:red;",
+      "read": "stroke-miterlimit",
+      "value": "0.5",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-miterlimit: 0.5; stroke: blue;"
+    },
+    {
+      "style": "stroke-miterlimit:-2;stroke:red;",
+      "read": "stroke-miterlimit",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-miterlimit:1e3;stroke:red;",
+      "read": "stroke-miterlimit",
+      "value": "1000",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-miterlimit: 1000; stroke: blue;"
+    },
+    {
+      "style": "stroke-miterlimit:NaN;stroke:red;",
+      "read": "stroke-miterlimit",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-miterlimit:undefined;stroke:red;",
+      "read": "stroke-miterlimit",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-miterlimit:5px;stroke:red;",
+      "read": "stroke-miterlimit",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "opacity:0.5;stroke:red;",
+      "read": "opacity",
+      "value": "0.5",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "opacity: 0.5; stroke: blue;"
+    },
+    {
+      "style": "opacity:1;stroke:red;",
+      "read": "opacity",
+      "value": "1",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "opacity: 1; stroke: blue;"
+    },
+    {
+      "style": "opacity:2;stroke:red;",
+      "read": "opacity",
+      "value": "2",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "opacity: 2; stroke: blue;"
+    },
+    {
+      "style": "opacity:-1;stroke:red;",
+      "read": "opacity",
+      "value": "-1",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "opacity: -1; stroke: blue;"
+    },
+    {
+      "style": "opacity:50%;stroke:red;",
+      "read": "opacity",
+      "value": "0.5",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "opacity: 0.5; stroke: blue;"
+    },
+    {
+      "style": "opacity:1e-7;stroke:red;",
+      "read": "opacity",
+      "value": "1e-07",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "opacity: 1e-07; stroke: blue;"
+    },
+    {
+      "style": "opacity:NaN;stroke:red;",
+      "read": "opacity",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "opacity:undefined;stroke:red;",
+      "read": "opacity",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "opacity:0.123456789;stroke:red;",
+      "read": "opacity",
+      "value": "0.123457",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "opacity: 0.123457; stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:4,4;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "4, 4",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-dasharray: 4, 4; stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:4;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "4",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-dasharray: 4; stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:4 4;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "4, 4",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-dasharray: 4, 4; stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:4 , 4;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "4, 4",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-dasharray: 4, 4; stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:0,0;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "0, 0",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-dasharray: 0, 0; stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:-1,2;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:1e-7,2;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "1e-07, 2",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-dasharray: 1e-07, 2; stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:0.30000000000000004,1;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "0.3, 1",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-dasharray: 0.3, 1; stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:NaN,1;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:4,;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:,4;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:none;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "none",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-dasharray: none; stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:NONE;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "none",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-dasharray: none; stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:5px,2%;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "5px, 2%",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-dasharray: 5px, 2%; stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:4,4,4;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "4, 4, 4",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-dasharray: 4, 4, 4; stroke: blue;"
+    },
+    {
+      "style": "stroke-dasharray:4,,4;stroke:red;",
+      "read": "stroke-dasharray",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-linecap:round;stroke:red;",
+      "read": "stroke-linecap",
+      "value": "round",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-linecap: round; stroke: blue;"
+    },
+    {
+      "style": "stroke-linecap:ROUND;stroke:red;",
+      "read": "stroke-linecap",
+      "value": "round",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-linecap: round; stroke: blue;"
+    },
+    {
+      "style": "stroke-linecap:square;stroke:red;",
+      "read": "stroke-linecap",
+      "value": "square",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-linecap: square; stroke: blue;"
+    },
+    {
+      "style": "stroke-linecap:butt;stroke:red;",
+      "read": "stroke-linecap",
+      "value": "butt",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-linecap: butt; stroke: blue;"
+    },
+    {
+      "style": "stroke-linecap:x;stroke:red;",
+      "read": "stroke-linecap",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-linejoin:round;stroke:red;",
+      "read": "stroke-linejoin",
+      "value": "round",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-linejoin: round; stroke: blue;"
+    },
+    {
+      "style": "stroke-linejoin:bevel;stroke:red;",
+      "read": "stroke-linejoin",
+      "value": "bevel",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-linejoin: bevel; stroke: blue;"
+    },
+    {
+      "style": "stroke-linejoin:miter;stroke:red;",
+      "read": "stroke-linejoin",
+      "value": "miter",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke-linejoin: miter; stroke: blue;"
+    },
+    {
+      "style": "stroke-linejoin:x;stroke:red;",
+      "read": "stroke-linejoin",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-linejoin:miter-clip;stroke:red;",
+      "read": "stroke-linejoin",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke-linejoin:arcs;stroke:red;",
+      "read": "stroke-linejoin",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "fill-rule:evenodd;stroke:red;",
+      "read": "fill-rule",
+      "value": "evenodd",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill-rule: evenodd; stroke: blue;"
+    },
+    {
+      "style": "fill-rule:nonzero;stroke:red;",
+      "read": "fill-rule",
+      "value": "nonzero",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill-rule: nonzero; stroke: blue;"
+    },
+    {
+      "style": "fill-rule:x;stroke:red;",
+      "read": "fill-rule",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "fill:none;stroke:red;",
+      "read": "fill",
+      "value": "none",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: none; stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "none",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: none;"
+    },
+    {
+      "style": "fill:red;stroke:red;",
+      "read": "fill",
+      "value": "red",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: red; stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "red",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke:red;"
+    },
+    {
+      "style": "fill:RED;stroke:red;",
+      "read": "fill",
+      "value": "red",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: red; stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "RED",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke:red;"
+    },
+    {
+      "style": "fill:transparent;stroke:red;",
+      "read": "fill",
+      "value": "transparent",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: transparent; stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "transparent",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: transparent;"
+    },
+    {
+      "style": "fill:currentColor;stroke:red;",
+      "read": "fill",
+      "value": "currentcolor",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: currentcolor; stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "currentColor",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: currentcolor;"
+    },
+    {
+      "style": "fill:rebeccapurple;stroke:red;",
+      "read": "fill",
+      "value": "rebeccapurple",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rebeccapurple; stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rebeccapurple",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rebeccapurple;"
+    },
+    {
+      "style": "fill:notacolor;stroke:red;",
+      "read": "fill",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "notacolor",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke:red;"
+    },
+    {
+      "style": "fill:#abc;stroke:red;",
+      "read": "fill",
+      "value": "rgb(170, 187, 204)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgb(170, 187, 204); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "#abc",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgb(170, 187, 204);"
+    },
+    {
+      "style": "fill:#abcd;stroke:red;",
+      "read": "fill",
+      "value": "rgba(170, 187, 204, 0.867)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgba(170, 187, 204, 0.867); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "#abcd",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgba(170, 187, 204, 0.867);"
+    },
+    {
+      "style": "fill:#783CB4;stroke:red;",
+      "read": "fill",
+      "value": "rgb(120, 60, 180)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgb(120, 60, 180); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "#783CB4",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgb(120, 60, 180);"
+    },
+    {
+      "style": "fill:#783cb480;stroke:red;",
+      "read": "fill",
+      "value": "rgba(120, 60, 180, 0.5)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgba(120, 60, 180, 0.5); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "#783cb480",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgba(120, 60, 180, 0.5);"
+    },
+    {
+      "style": "fill:#12345;stroke:red;",
+      "read": "fill",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "#12345",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke:red;"
+    },
+    {
+      "style": "fill:rgb(1,2,3);stroke:red;",
+      "read": "fill",
+      "value": "rgb(1, 2, 3)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgb(1, 2, 3); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgb(1,2,3)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgb(1, 2, 3);"
+    },
+    {
+      "style": "fill:rgb(1, 2, 3);stroke:red;",
+      "read": "fill",
+      "value": "rgb(1, 2, 3)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgb(1, 2, 3); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgb(1, 2, 3)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgb(1, 2, 3);"
+    },
+    {
+      "style": "fill:rgba(1,2,3,0.5);stroke:red;",
+      "read": "fill",
+      "value": "rgba(1, 2, 3, 0.5)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgba(1, 2, 3, 0.5); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgba(1,2,3,0.5)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgba(1, 2, 3, 0.5);"
+    },
+    {
+      "style": "fill:rgba(1,2,3,1);stroke:red;",
+      "read": "fill",
+      "value": "rgb(1, 2, 3)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgb(1, 2, 3); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgba(1,2,3,1)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgb(1, 2, 3);"
+    },
+    {
+      "style": "fill:rgba(1,2,3,0);stroke:red;",
+      "read": "fill",
+      "value": "rgba(1, 2, 3, 0)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgba(1, 2, 3, 0); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgba(1,2,3,0)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgba(1, 2, 3, 0);"
+    },
+    {
+      "style": "fill:rgb(1.5,2,3);stroke:red;",
+      "read": "fill",
+      "value": "rgb(2, 2, 3)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgb(2, 2, 3); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgb(1.5,2,3)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgb(2, 2, 3);"
+    },
+    {
+      "style": "fill:rgb(300,2,3);stroke:red;",
+      "read": "fill",
+      "value": "rgb(255, 2, 3)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgb(255, 2, 3); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgb(300,2,3)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgb(255, 2, 3);"
+    },
+    {
+      "style": "fill:rgb(-5,2,3);stroke:red;",
+      "read": "fill",
+      "value": "rgb(0, 2, 3)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgb(0, 2, 3); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgb(-5,2,3)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgb(0, 2, 3);"
+    },
+    {
+      "style": "fill:rgba(1,2,3,0.123456);stroke:red;",
+      "read": "fill",
+      "value": "rgba(1, 2, 3, 0.12)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgba(1, 2, 3, 0.12); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgba(1,2,3,0.123456)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgba(1, 2, 3, 0.12);"
+    },
+    {
+      "style": "fill:rgba(1,2,3,50%);stroke:red;",
+      "read": "fill",
+      "value": "rgba(1, 2, 3, 0.5)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgba(1, 2, 3, 0.5); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgba(1,2,3,50%)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgba(1, 2, 3, 0.5);"
+    },
+    {
+      "style": "fill:rgb(10%,20%,30%);stroke:red;",
+      "read": "fill",
+      "value": "rgb(26, 51, 77)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgb(26, 51, 77); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgb(10%,20%,30%)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgb(26, 51, 77);"
+    },
+    {
+      "style": "fill:rgb(1 2 3);stroke:red;",
+      "read": "fill",
+      "value": "rgb(1, 2, 3)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgb(1, 2, 3); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgb(1 2 3)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgb(1, 2, 3);"
+    },
+    {
+      "style": "fill:rgb(1 2 3 / 0.5);stroke:red;",
+      "read": "fill",
+      "value": "rgba(1, 2, 3, 0.5)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgba(1, 2, 3, 0.5); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgb(1 2 3 / 0.5)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgba(1, 2, 3, 0.5);"
+    },
+    {
+      "style": "fill:rgb(1,2);stroke:red;",
+      "read": "fill",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgb(1,2)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke:red;"
+    },
+    {
+      "style": "fill:url(#a);stroke:red;",
+      "read": "fill",
+      "value": "url(\"#a\")",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: url(\"#a\"); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "url(#a)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: url(\"#a\");"
+    },
+    {
+      "style": "fill:url('#a');stroke:red;",
+      "read": "fill",
+      "value": "url(\"#a\")",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: url(\"#a\"); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "url('#a')",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: url(\"#a\");"
+    },
+    {
+      "style": "fill:url(\"#a\");stroke:red;",
+      "read": "fill",
+      "value": "url(\"#a\")",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: url(\"#a\"); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "url(\"#a\")",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: url(\"#a\");"
+    },
+    {
+      "style": "fill:url(#a) none;stroke:red;",
+      "read": "fill",
+      "value": "url(\"#a\") none",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: url(\"#a\") none; stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "url(#a) none",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: url(\"#a\") none;"
+    },
+    {
+      "style": "fill:url(#a) red;stroke:red;",
+      "read": "fill",
+      "value": "url(\"#a\") red",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: url(\"#a\") red; stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "url(#a) red",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: url(\"#a\") red;"
+    },
+    {
+      "style": "fill:url(#a) x;stroke:red;",
+      "read": "fill",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "url(#a) x",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke:red;"
+    },
+    {
+      "style": "fill:undefined;stroke:red;",
+      "read": "fill",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "undefined",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke:red;"
+    },
+    {
+      "style": "fill:[Object GRGBColor];stroke:red;",
+      "read": "fill",
+      "value": "",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "[Object GRGBColor]",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke:red;"
+    },
+    {
+      "style": "fill:hsl(0,100%,50%);stroke:red;",
+      "read": "fill",
+      "value": "rgb(255, 0, 0)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgb(255, 0, 0); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "hsl(0,100%,50%)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgb(255, 0, 0);"
+    },
+    {
+      "style": "fill:hsl(120,50%,25%);stroke:red;",
+      "read": "fill",
+      "value": "rgb(32, 96, 32)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgb(32, 96, 32); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "hsl(120,50%,25%)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgb(32, 96, 32);"
+    },
+    {
+      "style": "fill:hsla(240,100%,50%,0.5);stroke:red;",
+      "read": "fill",
+      "value": "rgba(0, 0, 255, 0.5)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgba(0, 0, 255, 0.5); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "hsla(240,100%,50%,0.5)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgba(0, 0, 255, 0.5);"
+    },
+    {
+      "style": "fill:hsl(30deg,40%,60%);stroke:red;",
+      "read": "fill",
+      "value": "rgb(194, 153, 112)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgb(194, 153, 112); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "hsl(30deg,40%,60%)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgb(194, 153, 112);"
+    },
+    {
+      "style": "fill:rgba(0,0,0,0.25);stroke:red;",
+      "read": "fill",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgba(0, 0, 0, 0.25); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgba(0,0,0,0.25)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgba(0, 0, 0, 0.25);"
+    },
+    {
+      "style": "fill:rgba(255,255,255,0.004);stroke:red;",
+      "read": "fill",
+      "value": "rgba(255, 255, 255, 0.004)",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: rgba(255, 255, 255, 0.004); stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "rgba(255,255,255,0.004)",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: rgba(255, 255, 255, 0.004);"
+    },
+    {
+      "style": "fill:inherit;stroke:red;",
+      "read": "fill",
+      "value": "inherit",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "fill: inherit; stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "inherit",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: inherit;"
+    },
+    {
+      "style": "fill:none;stroke:none;stroke-width:1;",
+      "read": "stroke",
+      "value": "none",
+      "set": "none",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:none;stroke-width:1;"
+    },
+    {
+      "style": "stroke:none;fill:none;",
+      "read": "stroke",
+      "value": "none",
+      "set": "none",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:none;fill:none;"
+    },
+    {
+      "style": "fill:none;stroke:rgb(0,0,0);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:4,4;stroke-miterlimit:10;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "none",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: none; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 4, 4; stroke-miterlimit: 10; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:rgb(0,0,0);fill:none;stroke-dasharray:4,4;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "none",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: none; fill: none; stroke-dasharray: 4, 4;"
+    },
+    {
+      "style": "fill:none;stroke:rgba(0,0,0,0.25);stroke-width:0.25;stroke-linecap:square;stroke-linejoin:bevel;stroke-dasharray:4;stroke-miterlimit:2;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "none",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: none; stroke-width: 0.25; stroke-linecap: square; stroke-linejoin: bevel; stroke-dasharray: 4; stroke-miterlimit: 2;"
+    },
+    {
+      "style": "stroke:rgba(0,0,0,0.25);fill:none;stroke-dasharray:4;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "none",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: none; fill: none; stroke-dasharray: 4;"
+    },
+    {
+      "style": "fill:none;stroke:#000000;stroke-width:undefined;stroke-linejoin:bevel;stroke-dasharray:4,2.5,1;stroke-miterlimit:2.25;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "none",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: none; stroke-linejoin: bevel; stroke-dasharray: 4, 2.5, 1; stroke-miterlimit: 2.25; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:#000000;fill:none;stroke-dasharray:4,2.5,1;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "none",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: none; fill: none; stroke-dasharray: 4, 2.5, 1;"
+    },
+    {
+      "style": "fill:none;stroke:url(#_rgradient_1);stroke-width:NaN;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0,0;opacity:0.5;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "none",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 0, 0; opacity: 0.5;"
+    },
+    {
+      "style": "stroke:url(#_rgradient_1);fill:none;stroke-dasharray:0,0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "none",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: none; fill: none; stroke-dasharray: 0, 0;"
+    },
+    {
+      "style": "fill:none;stroke:undefined;stroke-width:1e-7;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:10;opacity:0.5;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "",
+      "set": "none",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:undefined;stroke-width:1e-7;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:10;opacity:0.5;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:undefined;fill:none;stroke-dasharray:-1,2;",
+      "read": "stroke",
+      "value": "",
+      "set": "none",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:undefined;fill:none;stroke-dasharray:-1,2;"
+    },
+    {
+      "style": "fill:none;stroke:none;stroke-width:1e+21;stroke-miterlimit:2;opacity:0.5;",
+      "read": "stroke",
+      "value": "none",
+      "set": "rgb(1,2,3)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:none;stroke-width:1e+21;stroke-miterlimit:2;opacity:0.5;"
+    },
+    {
+      "style": "stroke:none;fill:rgb(1,2,3);",
+      "read": "stroke",
+      "value": "none",
+      "set": "rgb(1,2,3)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:none;fill:rgb(1,2,3);"
+    },
+    {
+      "style": "fill:none;stroke:rgb(0,0,0);stroke-width:1;stroke-linecap:round;stroke-dasharray:4,4;stroke-miterlimit:2.25;opacity:0.5;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "rgb(1,2,3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(1, 2, 3); stroke-width: 1; stroke-linecap: round; stroke-dasharray: 4, 4; stroke-miterlimit: 2.25; opacity: 0.5; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:rgb(0,0,0);fill:rgb(1,2,3);stroke-dasharray:4,4;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "rgb(1,2,3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(1, 2, 3); fill: rgb(1, 2, 3); stroke-dasharray: 4, 4;"
+    },
+    {
+      "style": "fill:none;stroke:rgba(0,0,0,0.25);stroke-width:2.5;stroke-linecap:square;stroke-linejoin:bevel;stroke-dasharray:4;opacity:0.25;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "rgb(1,2,3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(1, 2, 3); stroke-width: 2.5; stroke-linecap: square; stroke-linejoin: bevel; stroke-dasharray: 4; opacity: 0.25;"
+    },
+    {
+      "style": "stroke:rgba(0,0,0,0.25);fill:rgb(1,2,3);stroke-dasharray:4;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "rgb(1,2,3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(1, 2, 3); fill: rgb(1, 2, 3); stroke-dasharray: 4;"
+    },
+    {
+      "style": "fill:none;stroke:#000000;stroke-width:0.25;stroke-linejoin:bevel;stroke-dasharray:4,2.5,1;stroke-miterlimit:10;opacity:0.25;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "rgb(1,2,3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(1, 2, 3); stroke-width: 0.25; stroke-linejoin: bevel; stroke-dasharray: 4, 2.5, 1; stroke-miterlimit: 10; opacity: 0.25; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:#000000;fill:rgb(1,2,3);stroke-dasharray:4,2.5,1;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "rgb(1,2,3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(1, 2, 3); fill: rgb(1, 2, 3); stroke-dasharray: 4, 2.5, 1;"
+    },
+    {
+      "style": "fill:none;stroke:url(#_rgradient_1);stroke-width:undefined;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0,0;stroke-miterlimit:2;opacity:0.25;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "rgb(1,2,3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(1, 2, 3); stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 0, 0; stroke-miterlimit: 2; opacity: 0.25;"
+    },
+    {
+      "style": "stroke:url(#_rgradient_1);fill:rgb(1,2,3);stroke-dasharray:0,0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "rgb(1,2,3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(1, 2, 3); fill: rgb(1, 2, 3); stroke-dasharray: 0, 0;"
+    },
+    {
+      "style": "fill:none;stroke:undefined;stroke-width:NaN;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:2.25;opacity:0.25;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "",
+      "set": "rgb(1,2,3)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:undefined;stroke-width:NaN;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:2.25;opacity:0.25;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:undefined;fill:rgb(1,2,3);stroke-dasharray:-1,2;",
+      "read": "stroke",
+      "value": "",
+      "set": "rgb(1,2,3)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:undefined;fill:rgb(1,2,3);stroke-dasharray:-1,2;"
+    },
+    {
+      "style": "fill:none;stroke:none;stroke-width:1e-7;opacity:0;",
+      "read": "stroke",
+      "value": "none",
+      "set": "rgba(10,20,30,0.5)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:none;stroke-width:1e-7;opacity:0;"
+    },
+    {
+      "style": "stroke:none;fill:rgba(10,20,30,0.5);",
+      "read": "stroke",
+      "value": "none",
+      "set": "rgba(10,20,30,0.5)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:none;fill:rgba(10,20,30,0.5);"
+    },
+    {
+      "style": "fill:none;stroke:rgb(0,0,0);stroke-width:1e+21;stroke-linecap:round;stroke-dasharray:4,4;stroke-miterlimit:10;opacity:0;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "rgba(10,20,30,0.5)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgba(10, 20, 30, 0.5); stroke-width: 1e+21; stroke-linecap: round; stroke-dasharray: 4, 4; stroke-miterlimit: 10; opacity: 0; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:rgb(0,0,0);fill:rgba(10,20,30,0.5);stroke-dasharray:4,4;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "rgba(10,20,30,0.5)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgba(10, 20, 30, 0.5); fill: rgba(10, 20, 30, 0.5); stroke-dasharray: 4, 4;"
+    },
+    {
+      "style": "fill:none;stroke:rgba(0,0,0,0.25);stroke-width:1;stroke-linecap:square;stroke-linejoin:bevel;stroke-dasharray:4;stroke-miterlimit:2;opacity:0;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "rgba(10,20,30,0.5)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgba(10, 20, 30, 0.5); stroke-width: 1; stroke-linecap: square; stroke-linejoin: bevel; stroke-dasharray: 4; stroke-miterlimit: 2; opacity: 0;"
+    },
+    {
+      "style": "stroke:rgba(0,0,0,0.25);fill:rgba(10,20,30,0.5);stroke-dasharray:4;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "rgba(10,20,30,0.5)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgba(10, 20, 30, 0.5); fill: rgba(10, 20, 30, 0.5); stroke-dasharray: 4;"
+    },
+    {
+      "style": "fill:none;stroke:#000000;stroke-width:2.5;stroke-linejoin:bevel;stroke-dasharray:4,2.5,1;stroke-miterlimit:2.25;opacity:0;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "rgba(10,20,30,0.5)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgba(10, 20, 30, 0.5); stroke-width: 2.5; stroke-linejoin: bevel; stroke-dasharray: 4, 2.5, 1; stroke-miterlimit: 2.25; opacity: 0; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:#000000;fill:rgba(10,20,30,0.5);stroke-dasharray:4,2.5,1;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "rgba(10,20,30,0.5)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgba(10, 20, 30, 0.5); fill: rgba(10, 20, 30, 0.5); stroke-dasharray: 4, 2.5, 1;"
+    },
+    {
+      "style": "fill:none;stroke:url(#_rgradient_1);stroke-width:0.25;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0,0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "rgba(10,20,30,0.5)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgba(10, 20, 30, 0.5); stroke-width: 0.25; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 0, 0;"
+    },
+    {
+      "style": "stroke:url(#_rgradient_1);fill:rgba(10,20,30,0.5);stroke-dasharray:0,0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "rgba(10,20,30,0.5)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgba(10, 20, 30, 0.5); fill: rgba(10, 20, 30, 0.5); stroke-dasharray: 0, 0;"
+    },
+    {
+      "style": "fill:none;stroke:undefined;stroke-width:undefined;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:10;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "",
+      "set": "rgba(10,20,30,0.5)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:undefined;stroke-width:undefined;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:10;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:undefined;fill:rgba(10,20,30,0.5);stroke-dasharray:-1,2;",
+      "read": "stroke",
+      "value": "",
+      "set": "rgba(10,20,30,0.5)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:undefined;fill:rgba(10,20,30,0.5);stroke-dasharray:-1,2;"
+    },
+    {
+      "style": "fill:none;stroke:none;stroke-width:NaN;stroke-miterlimit:2;",
+      "read": "stroke",
+      "value": "none",
+      "set": "rgba(10,20,30,1)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:none;stroke-width:NaN;stroke-miterlimit:2;"
+    },
+    {
+      "style": "stroke:none;fill:rgba(10,20,30,1);",
+      "read": "stroke",
+      "value": "none",
+      "set": "rgba(10,20,30,1)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:none;fill:rgba(10,20,30,1);"
+    },
+    {
+      "style": "fill:none;stroke:rgb(0,0,0);stroke-width:1e-7;stroke-linecap:round;stroke-dasharray:4,4;stroke-miterlimit:2.25;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "rgba(10,20,30,1)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(10, 20, 30); stroke-width: 1e-07; stroke-linecap: round; stroke-dasharray: 4, 4; stroke-miterlimit: 2.25; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:rgb(0,0,0);fill:rgba(10,20,30,1);stroke-dasharray:4,4;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "rgba(10,20,30,1)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(10, 20, 30); fill: rgb(10, 20, 30); stroke-dasharray: 4, 4;"
+    },
+    {
+      "style": "fill:none;stroke:rgba(0,0,0,0.25);stroke-width:1e+21;stroke-linecap:square;stroke-linejoin:bevel;stroke-dasharray:4;opacity:0.5;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "rgba(10,20,30,1)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(10, 20, 30); stroke-width: 1e+21; stroke-linecap: square; stroke-linejoin: bevel; stroke-dasharray: 4; opacity: 0.5;"
+    },
+    {
+      "style": "stroke:rgba(0,0,0,0.25);fill:rgba(10,20,30,1);stroke-dasharray:4;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "rgba(10,20,30,1)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(10, 20, 30); fill: rgb(10, 20, 30); stroke-dasharray: 4;"
+    },
+    {
+      "style": "fill:none;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-dasharray:4,2.5,1;stroke-miterlimit:10;opacity:0.5;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "rgba(10,20,30,1)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(10, 20, 30); stroke-width: 1; stroke-linejoin: bevel; stroke-dasharray: 4, 2.5, 1; stroke-miterlimit: 10; opacity: 0.5; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:#000000;fill:rgba(10,20,30,1);stroke-dasharray:4,2.5,1;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "rgba(10,20,30,1)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(10, 20, 30); fill: rgb(10, 20, 30); stroke-dasharray: 4, 2.5, 1;"
+    },
+    {
+      "style": "fill:none;stroke:url(#_rgradient_1);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0,0;stroke-miterlimit:2;opacity:0.5;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "rgba(10,20,30,1)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(10, 20, 30); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 0, 0; stroke-miterlimit: 2; opacity: 0.5;"
+    },
+    {
+      "style": "stroke:url(#_rgradient_1);fill:rgba(10,20,30,1);stroke-dasharray:0,0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "rgba(10,20,30,1)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(10, 20, 30); fill: rgb(10, 20, 30); stroke-dasharray: 0, 0;"
+    },
+    {
+      "style": "fill:none;stroke:undefined;stroke-width:0.25;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:2.25;opacity:0.5;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "",
+      "set": "rgba(10,20,30,1)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:undefined;stroke-width:0.25;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:2.25;opacity:0.5;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:undefined;fill:rgba(10,20,30,1);stroke-dasharray:-1,2;",
+      "read": "stroke",
+      "value": "",
+      "set": "rgba(10,20,30,1)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:undefined;fill:rgba(10,20,30,1);stroke-dasharray:-1,2;"
+    },
+    {
+      "style": "fill:none;stroke:none;stroke-width:undefined;opacity:0.25;",
+      "read": "stroke",
+      "value": "none",
+      "set": "#783CB4",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:none;stroke-width:undefined;opacity:0.25;"
+    },
+    {
+      "style": "stroke:none;fill:#783CB4;",
+      "read": "stroke",
+      "value": "none",
+      "set": "#783CB4",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:none;fill:#783CB4;"
+    },
+    {
+      "style": "fill:none;stroke:rgb(0,0,0);stroke-width:NaN;stroke-linecap:round;stroke-dasharray:4,4;stroke-miterlimit:10;opacity:0.25;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "#783CB4",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(120, 60, 180); stroke-linecap: round; stroke-dasharray: 4, 4; stroke-miterlimit: 10; opacity: 0.25; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:rgb(0,0,0);fill:#783CB4;stroke-dasharray:4,4;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "#783CB4",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(120, 60, 180); fill: rgb(120, 60, 180); stroke-dasharray: 4, 4;"
+    },
+    {
+      "style": "fill:none;stroke:rgba(0,0,0,0.25);stroke-width:1e-7;stroke-linecap:square;stroke-linejoin:bevel;stroke-dasharray:4;stroke-miterlimit:2;opacity:0.25;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "#783CB4",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(120, 60, 180); stroke-width: 1e-07; stroke-linecap: square; stroke-linejoin: bevel; stroke-dasharray: 4; stroke-miterlimit: 2; opacity: 0.25;"
+    },
+    {
+      "style": "stroke:rgba(0,0,0,0.25);fill:#783CB4;stroke-dasharray:4;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "#783CB4",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(120, 60, 180); fill: rgb(120, 60, 180); stroke-dasharray: 4;"
+    },
+    {
+      "style": "fill:none;stroke:#000000;stroke-width:1e+21;stroke-linejoin:bevel;stroke-dasharray:4,2.5,1;stroke-miterlimit:2.25;opacity:0.25;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "#783CB4",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(120, 60, 180); stroke-width: 1e+21; stroke-linejoin: bevel; stroke-dasharray: 4, 2.5, 1; stroke-miterlimit: 2.25; opacity: 0.25; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:#000000;fill:#783CB4;stroke-dasharray:4,2.5,1;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "#783CB4",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(120, 60, 180); fill: rgb(120, 60, 180); stroke-dasharray: 4, 2.5, 1;"
+    },
+    {
+      "style": "fill:none;stroke:url(#_rgradient_1);stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0,0;opacity:0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "#783CB4",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(120, 60, 180); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 0, 0; opacity: 0;"
+    },
+    {
+      "style": "stroke:url(#_rgradient_1);fill:#783CB4;stroke-dasharray:0,0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "#783CB4",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(120, 60, 180); fill: rgb(120, 60, 180); stroke-dasharray: 0, 0;"
+    },
+    {
+      "style": "fill:none;stroke:undefined;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:10;opacity:0;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "",
+      "set": "#783CB4",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:undefined;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:10;opacity:0;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:undefined;fill:#783CB4;stroke-dasharray:-1,2;",
+      "read": "stroke",
+      "value": "",
+      "set": "#783CB4",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:undefined;fill:#783CB4;stroke-dasharray:-1,2;"
+    },
+    {
+      "style": "fill:none;stroke:none;stroke-width:0.25;stroke-miterlimit:2;opacity:0;",
+      "read": "stroke",
+      "value": "none",
+      "set": "#abc",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:none;stroke-width:0.25;stroke-miterlimit:2;opacity:0;"
+    },
+    {
+      "style": "stroke:none;fill:#abc;",
+      "read": "stroke",
+      "value": "none",
+      "set": "#abc",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:none;fill:#abc;"
+    },
+    {
+      "style": "fill:none;stroke:rgb(0,0,0);stroke-width:undefined;stroke-linecap:round;stroke-dasharray:4,4;stroke-miterlimit:2.25;opacity:0;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "#abc",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(170, 187, 204); stroke-linecap: round; stroke-dasharray: 4, 4; stroke-miterlimit: 2.25; opacity: 0; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:rgb(0,0,0);fill:#abc;stroke-dasharray:4,4;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "#abc",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(170, 187, 204); fill: rgb(170, 187, 204); stroke-dasharray: 4, 4;"
+    },
+    {
+      "style": "fill:none;stroke:rgba(0,0,0,0.25);stroke-width:NaN;stroke-linecap:square;stroke-linejoin:bevel;stroke-dasharray:4;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "#abc",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(170, 187, 204); stroke-linecap: square; stroke-linejoin: bevel; stroke-dasharray: 4;"
+    },
+    {
+      "style": "stroke:rgba(0,0,0,0.25);fill:#abc;stroke-dasharray:4;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "#abc",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(170, 187, 204); fill: rgb(170, 187, 204); stroke-dasharray: 4;"
+    },
+    {
+      "style": "fill:none;stroke:#000000;stroke-width:1e-7;stroke-linejoin:bevel;stroke-dasharray:4,2.5,1;stroke-miterlimit:10;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "#abc",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(170, 187, 204); stroke-width: 1e-07; stroke-linejoin: bevel; stroke-dasharray: 4, 2.5, 1; stroke-miterlimit: 10; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:#000000;fill:#abc;stroke-dasharray:4,2.5,1;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "#abc",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(170, 187, 204); fill: rgb(170, 187, 204); stroke-dasharray: 4, 2.5, 1;"
+    },
+    {
+      "style": "fill:none;stroke:url(#_rgradient_1);stroke-width:1e+21;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0,0;stroke-miterlimit:2;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "#abc",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: rgb(170, 187, 204); stroke-width: 1e+21; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 0, 0; stroke-miterlimit: 2;"
+    },
+    {
+      "style": "stroke:url(#_rgradient_1);fill:#abc;stroke-dasharray:0,0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "#abc",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: rgb(170, 187, 204); fill: rgb(170, 187, 204); stroke-dasharray: 0, 0;"
+    },
+    {
+      "style": "fill:none;stroke:undefined;stroke-width:1;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:2.25;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "",
+      "set": "#abc",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:undefined;stroke-width:1;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:2.25;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:undefined;fill:#abc;stroke-dasharray:-1,2;",
+      "read": "stroke",
+      "value": "",
+      "set": "#abc",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:undefined;fill:#abc;stroke-dasharray:-1,2;"
+    },
+    {
+      "style": "fill:none;stroke:none;stroke-width:2.5;opacity:0.5;",
+      "read": "stroke",
+      "value": "none",
+      "set": "url(#_lgradient_3)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:none;stroke-width:2.5;opacity:0.5;"
+    },
+    {
+      "style": "stroke:none;fill:url(#_lgradient_3);",
+      "read": "stroke",
+      "value": "none",
+      "set": "url(#_lgradient_3)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:none;fill:url(#_lgradient_3);"
+    },
+    {
+      "style": "fill:none;stroke:rgb(0,0,0);stroke-width:0.25;stroke-linecap:round;stroke-dasharray:4,4;stroke-miterlimit:10;opacity:0.5;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "url(#_lgradient_3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: url(\"#_lgradient_3\"); stroke-width: 0.25; stroke-linecap: round; stroke-dasharray: 4, 4; stroke-miterlimit: 10; opacity: 0.5; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:rgb(0,0,0);fill:url(#_lgradient_3);stroke-dasharray:4,4;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "url(#_lgradient_3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: url(\"#_lgradient_3\"); fill: url(\"#_lgradient_3\"); stroke-dasharray: 4, 4;"
+    },
+    {
+      "style": "fill:none;stroke:rgba(0,0,0,0.25);stroke-width:undefined;stroke-linecap:square;stroke-linejoin:bevel;stroke-dasharray:4;stroke-miterlimit:2;opacity:0.5;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "url(#_lgradient_3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: url(\"#_lgradient_3\"); stroke-linecap: square; stroke-linejoin: bevel; stroke-dasharray: 4; stroke-miterlimit: 2; opacity: 0.5;"
+    },
+    {
+      "style": "stroke:rgba(0,0,0,0.25);fill:url(#_lgradient_3);stroke-dasharray:4;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "url(#_lgradient_3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: url(\"#_lgradient_3\"); fill: url(\"#_lgradient_3\"); stroke-dasharray: 4;"
+    },
+    {
+      "style": "fill:none;stroke:#000000;stroke-width:NaN;stroke-linejoin:bevel;stroke-dasharray:4,2.5,1;stroke-miterlimit:2.25;opacity:0.5;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "url(#_lgradient_3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: url(\"#_lgradient_3\"); stroke-linejoin: bevel; stroke-dasharray: 4, 2.5, 1; stroke-miterlimit: 2.25; opacity: 0.5; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:#000000;fill:url(#_lgradient_3);stroke-dasharray:4,2.5,1;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "url(#_lgradient_3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: url(\"#_lgradient_3\"); fill: url(\"#_lgradient_3\"); stroke-dasharray: 4, 2.5, 1;"
+    },
+    {
+      "style": "fill:none;stroke:url(#_rgradient_1);stroke-width:1e-7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0,0;opacity:0.25;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "url(#_lgradient_3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: url(\"#_lgradient_3\"); stroke-width: 1e-07; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 0, 0; opacity: 0.25;"
+    },
+    {
+      "style": "stroke:url(#_rgradient_1);fill:url(#_lgradient_3);stroke-dasharray:0,0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "url(#_lgradient_3)",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: url(\"#_lgradient_3\"); fill: url(\"#_lgradient_3\"); stroke-dasharray: 0, 0;"
+    },
+    {
+      "style": "fill:none;stroke:undefined;stroke-width:1e+21;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:10;opacity:0.25;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "",
+      "set": "url(#_lgradient_3)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:undefined;stroke-width:1e+21;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:10;opacity:0.25;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:undefined;fill:url(#_lgradient_3);stroke-dasharray:-1,2;",
+      "read": "stroke",
+      "value": "",
+      "set": "url(#_lgradient_3)",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:undefined;fill:url(#_lgradient_3);stroke-dasharray:-1,2;"
+    },
+    {
+      "style": "fill:none;stroke:none;stroke-width:1;stroke-miterlimit:2;opacity:0.25;",
+      "read": "stroke",
+      "value": "none",
+      "set": "transparent",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:none;stroke-width:1;stroke-miterlimit:2;opacity:0.25;"
+    },
+    {
+      "style": "stroke:none;fill:transparent;",
+      "read": "stroke",
+      "value": "none",
+      "set": "transparent",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:none;fill:transparent;"
+    },
+    {
+      "style": "fill:none;stroke:rgb(0,0,0);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:4,4;stroke-miterlimit:2.25;opacity:0.25;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "transparent",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: transparent; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 4, 4; stroke-miterlimit: 2.25; opacity: 0.25; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:rgb(0,0,0);fill:transparent;stroke-dasharray:4,4;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "transparent",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: transparent; fill: transparent; stroke-dasharray: 4, 4;"
+    },
+    {
+      "style": "fill:none;stroke:rgba(0,0,0,0.25);stroke-width:0.25;stroke-linecap:square;stroke-linejoin:bevel;stroke-dasharray:4;opacity:0;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "transparent",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: transparent; stroke-width: 0.25; stroke-linecap: square; stroke-linejoin: bevel; stroke-dasharray: 4; opacity: 0;"
+    },
+    {
+      "style": "stroke:rgba(0,0,0,0.25);fill:transparent;stroke-dasharray:4;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "transparent",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: transparent; fill: transparent; stroke-dasharray: 4;"
+    },
+    {
+      "style": "fill:none;stroke:#000000;stroke-width:undefined;stroke-linejoin:bevel;stroke-dasharray:4,2.5,1;stroke-miterlimit:10;opacity:0;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "transparent",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: transparent; stroke-linejoin: bevel; stroke-dasharray: 4, 2.5, 1; stroke-miterlimit: 10; opacity: 0; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:#000000;fill:transparent;stroke-dasharray:4,2.5,1;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "transparent",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: transparent; fill: transparent; stroke-dasharray: 4, 2.5, 1;"
+    },
+    {
+      "style": "fill:none;stroke:url(#_rgradient_1);stroke-width:NaN;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0,0;stroke-miterlimit:2;opacity:0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "transparent",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: transparent; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 0, 0; stroke-miterlimit: 2; opacity: 0;"
+    },
+    {
+      "style": "stroke:url(#_rgradient_1);fill:transparent;stroke-dasharray:0,0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "transparent",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: transparent; fill: transparent; stroke-dasharray: 0, 0;"
+    },
+    {
+      "style": "fill:none;stroke:undefined;stroke-width:1e-7;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:2.25;opacity:0;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "",
+      "set": "transparent",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:undefined;stroke-width:1e-7;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:2.25;opacity:0;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:undefined;fill:transparent;stroke-dasharray:-1,2;",
+      "read": "stroke",
+      "value": "",
+      "set": "transparent",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:undefined;fill:transparent;stroke-dasharray:-1,2;"
+    },
+    {
+      "style": "fill:none;stroke:none;stroke-width:1e+21;",
+      "read": "stroke",
+      "value": "none",
+      "set": "undefined",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:none;stroke-width:1e+21;"
+    },
+    {
+      "style": "stroke:none;fill:undefined;",
+      "read": "stroke",
+      "value": "none",
+      "set": "undefined",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:none;fill:undefined;"
+    },
+    {
+      "style": "fill:none;stroke:rgb(0,0,0);stroke-width:1;stroke-linecap:round;stroke-dasharray:4,4;stroke-miterlimit:10;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "undefined",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill:none;stroke:rgb(0,0,0);stroke-width:1;stroke-linecap:round;stroke-dasharray:4,4;stroke-miterlimit:10;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:rgb(0,0,0);fill:undefined;stroke-dasharray:4,4;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "undefined",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke:rgb(0,0,0);fill:undefined;stroke-dasharray:4,4;"
+    },
+    {
+      "style": "fill:none;stroke:rgba(0,0,0,0.25);stroke-width:2.5;stroke-linecap:square;stroke-linejoin:bevel;stroke-dasharray:4;stroke-miterlimit:2;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "undefined",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill:none;stroke:rgba(0,0,0,0.25);stroke-width:2.5;stroke-linecap:square;stroke-linejoin:bevel;stroke-dasharray:4;stroke-miterlimit:2;"
+    },
+    {
+      "style": "stroke:rgba(0,0,0,0.25);fill:undefined;stroke-dasharray:4;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "undefined",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke:rgba(0,0,0,0.25);fill:undefined;stroke-dasharray:4;"
+    },
+    {
+      "style": "fill:none;stroke:#000000;stroke-width:0.25;stroke-linejoin:bevel;stroke-dasharray:4,2.5,1;stroke-miterlimit:2.25;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "undefined",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill:none;stroke:#000000;stroke-width:0.25;stroke-linejoin:bevel;stroke-dasharray:4,2.5,1;stroke-miterlimit:2.25;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:#000000;fill:undefined;stroke-dasharray:4,2.5,1;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "undefined",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke:#000000;fill:undefined;stroke-dasharray:4,2.5,1;"
+    },
+    {
+      "style": "fill:none;stroke:url(#_rgradient_1);stroke-width:undefined;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0,0;opacity:0.5;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "undefined",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill:none;stroke:url(#_rgradient_1);stroke-width:undefined;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0,0;opacity:0.5;"
+    },
+    {
+      "style": "stroke:url(#_rgradient_1);fill:undefined;stroke-dasharray:0,0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "undefined",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke:url(#_rgradient_1);fill:undefined;stroke-dasharray:0,0;"
+    },
+    {
+      "style": "fill:none;stroke:undefined;stroke-width:NaN;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:10;opacity:0.5;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "",
+      "set": "undefined",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:undefined;stroke-width:NaN;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:10;opacity:0.5;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:undefined;fill:undefined;stroke-dasharray:-1,2;",
+      "read": "stroke",
+      "value": "",
+      "set": "undefined",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:undefined;fill:undefined;stroke-dasharray:-1,2;"
+    },
+    {
+      "style": "fill:none;stroke:none;stroke-width:1e-7;stroke-miterlimit:2;opacity:0.5;",
+      "read": "stroke",
+      "value": "none",
+      "set": "[Object GRGBColor]",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:none;stroke-width:1e-7;stroke-miterlimit:2;opacity:0.5;"
+    },
+    {
+      "style": "stroke:none;fill:[Object GRGBColor];",
+      "read": "stroke",
+      "value": "none",
+      "set": "[Object GRGBColor]",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:none;fill:[Object GRGBColor];"
+    },
+    {
+      "style": "fill:none;stroke:rgb(0,0,0);stroke-width:1e+21;stroke-linecap:round;stroke-dasharray:4,4;stroke-miterlimit:2.25;opacity:0.5;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "[Object GRGBColor]",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill:none;stroke:rgb(0,0,0);stroke-width:1e+21;stroke-linecap:round;stroke-dasharray:4,4;stroke-miterlimit:2.25;opacity:0.5;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:rgb(0,0,0);fill:[Object GRGBColor];stroke-dasharray:4,4;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "[Object GRGBColor]",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke:rgb(0,0,0);fill:[Object GRGBColor];stroke-dasharray:4,4;"
+    },
+    {
+      "style": "fill:none;stroke:rgba(0,0,0,0.25);stroke-width:1;stroke-linecap:square;stroke-linejoin:bevel;stroke-dasharray:4;opacity:0.25;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "[Object GRGBColor]",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill:none;stroke:rgba(0,0,0,0.25);stroke-width:1;stroke-linecap:square;stroke-linejoin:bevel;stroke-dasharray:4;opacity:0.25;"
+    },
+    {
+      "style": "stroke:rgba(0,0,0,0.25);fill:[Object GRGBColor];stroke-dasharray:4;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "[Object GRGBColor]",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke:rgba(0,0,0,0.25);fill:[Object GRGBColor];stroke-dasharray:4;"
+    },
+    {
+      "style": "fill:none;stroke:#000000;stroke-width:2.5;stroke-linejoin:bevel;stroke-dasharray:4,2.5,1;stroke-miterlimit:10;opacity:0.25;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "[Object GRGBColor]",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill:none;stroke:#000000;stroke-width:2.5;stroke-linejoin:bevel;stroke-dasharray:4,2.5,1;stroke-miterlimit:10;opacity:0.25;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:#000000;fill:[Object GRGBColor];stroke-dasharray:4,2.5,1;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "[Object GRGBColor]",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke:#000000;fill:[Object GRGBColor];stroke-dasharray:4,2.5,1;"
+    },
+    {
+      "style": "fill:none;stroke:url(#_rgradient_1);stroke-width:0.25;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0,0;stroke-miterlimit:2;opacity:0.25;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "[Object GRGBColor]",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill:none;stroke:url(#_rgradient_1);stroke-width:0.25;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0,0;stroke-miterlimit:2;opacity:0.25;"
+    },
+    {
+      "style": "stroke:url(#_rgradient_1);fill:[Object GRGBColor];stroke-dasharray:0,0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "[Object GRGBColor]",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke:url(#_rgradient_1);fill:[Object GRGBColor];stroke-dasharray:0,0;"
+    },
+    {
+      "style": "fill:none;stroke:undefined;stroke-width:undefined;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:2.25;opacity:0.25;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "",
+      "set": "[Object GRGBColor]",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:undefined;stroke-width:undefined;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:2.25;opacity:0.25;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:undefined;fill:[Object GRGBColor];stroke-dasharray:-1,2;",
+      "read": "stroke",
+      "value": "",
+      "set": "[Object GRGBColor]",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:undefined;fill:[Object GRGBColor];stroke-dasharray:-1,2;"
+    },
+    {
+      "style": "fill:none;stroke:none;stroke-width:NaN;opacity:0;",
+      "read": "stroke",
+      "value": "none",
+      "set": "red",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:none;stroke-width:NaN;opacity:0;"
+    },
+    {
+      "style": "stroke:none;fill:red;",
+      "read": "stroke",
+      "value": "none",
+      "set": "red",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:none;fill:red;"
+    },
+    {
+      "style": "fill:none;stroke:rgb(0,0,0);stroke-width:1e-7;stroke-linecap:round;stroke-dasharray:4,4;stroke-miterlimit:10;opacity:0;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "red",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: red; stroke-width: 1e-07; stroke-linecap: round; stroke-dasharray: 4, 4; stroke-miterlimit: 10; opacity: 0; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:rgb(0,0,0);fill:red;stroke-dasharray:4,4;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "red",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: red; fill: red; stroke-dasharray: 4, 4;"
+    },
+    {
+      "style": "fill:none;stroke:rgba(0,0,0,0.25);stroke-width:1e+21;stroke-linecap:square;stroke-linejoin:bevel;stroke-dasharray:4;stroke-miterlimit:2;opacity:0;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "red",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: red; stroke-width: 1e+21; stroke-linecap: square; stroke-linejoin: bevel; stroke-dasharray: 4; stroke-miterlimit: 2; opacity: 0;"
+    },
+    {
+      "style": "stroke:rgba(0,0,0,0.25);fill:red;stroke-dasharray:4;",
+      "read": "stroke",
+      "value": "rgba(0, 0, 0, 0.25)",
+      "set": "red",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: red; fill: red; stroke-dasharray: 4;"
+    },
+    {
+      "style": "fill:none;stroke:#000000;stroke-width:1;stroke-linejoin:bevel;stroke-dasharray:4,2.5,1;stroke-miterlimit:2.25;opacity:0;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "red",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: red; stroke-width: 1; stroke-linejoin: bevel; stroke-dasharray: 4, 2.5, 1; stroke-miterlimit: 2.25; opacity: 0; fill-rule: evenodd;"
+    },
+    {
+      "style": "stroke:#000000;fill:red;stroke-dasharray:4,2.5,1;",
+      "read": "stroke",
+      "value": "rgb(0, 0, 0)",
+      "set": "red",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: red; fill: red; stroke-dasharray: 4, 2.5, 1;"
+    },
+    {
+      "style": "fill:none;stroke:url(#_rgradient_1);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0,0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "red",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "fill: none; stroke: red; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 0, 0;"
+    },
+    {
+      "style": "stroke:url(#_rgradient_1);fill:red;stroke-dasharray:0,0;",
+      "read": "stroke",
+      "value": "url(\"#_rgradient_1\")",
+      "set": "red",
+      "onlyIfStroke": true,
+      "didSet": true,
+      "after": "stroke: red; fill: red; stroke-dasharray: 0, 0;"
+    },
+    {
+      "style": "fill:none;stroke:undefined;stroke-width:0.25;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:10;fill-rule:evenodd;",
+      "read": "stroke",
+      "value": "",
+      "set": "red",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "fill:none;stroke:undefined;stroke-width:0.25;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:-1,2;stroke-miterlimit:10;fill-rule:evenodd;"
+    },
+    {
+      "style": "stroke:undefined;fill:red;stroke-dasharray:-1,2;",
+      "read": "stroke",
+      "value": "",
+      "set": "red",
+      "onlyIfStroke": true,
+      "didSet": false,
+      "after": "stroke:undefined;fill:red;stroke-dasharray:-1,2;"
+    },
+    {
+      "style": "STROKE:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke:red;stroke:undefined;",
+      "read": "stroke",
+      "value": "red",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke:red;stroke:blue;",
+      "read": "stroke",
+      "value": "blue",
+      "set": "green",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: green;"
+    },
+    {
+      "style": "stroke:red;fill:;foo:bar;",
+      "read": "stroke",
+      "value": "red",
+      "set": "blue",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: blue;"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "red",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke:red;"
+    },
+    {
+      "style": "stroke:#ff0000;",
+      "read": "stroke",
+      "value": "rgb(255, 0, 0)",
+      "set": "red",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke: red;"
+    },
+    {
+      "style": "stroke:rgb(255,0,0);",
+      "read": "stroke",
+      "value": "rgb(255, 0, 0)",
+      "set": "#f00",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": "stroke:rgb(255,0,0);"
+    },
+    {
+      "style": "stroke:red;",
+      "read": "stroke",
+      "value": "red",
+      "set": "",
+      "onlyIfStroke": false,
+      "didSet": true,
+      "after": ""
+    }
+  ]
+}
