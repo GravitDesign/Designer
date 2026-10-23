@@ -203,6 +203,20 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
 - Symbol labels: the instance is never painted after duplicate in the
   headless old app (editor-actions symbols/labels-on).
 
+## Pending porting work
+
+- Every port agent reported "old quirks kept" (in its final report and in
+  comments/READMEs next to the code). At the end of phase 4, collect them
+  from the code comments into QUESTIONS.md, one entry per quirk, so the
+  list doesn't live only in conversation logs.
+- Some unit tests read fonts from the repo root's public/assets (e.g.
+  src/engine/text/fonts/harfbuzz.test.ts). At the cutover (phase 9) the
+  old app moves to legacy/, so these paths must go through
+  server/paths.ts ASSETS_ROOT or a shared test helper.
+- engine-geometry-boolean deliberately converts big.js values to numbers
+  in a dead branch of getCubicRoots (the old code would have concatenated
+  strings); unreachable, noted for the record.
+
 ## Pending harness work
 
 - Run `npm run parity:prove` and `npm run parity:mutations` over the whole
