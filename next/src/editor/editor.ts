@@ -770,8 +770,9 @@ export class Editor extends EventTarget {
     return this._scene;
   }
 
-  hasSelection(): boolean {
-    return !!this._selection && this._selection.length > 0;
+  /** Whether anything is selected; null (not false) while there is no selection list, as before. */
+  hasSelection(): boolean | null {
+    return this._selection && this._selection.length > 0;
   }
 
   /** The union of the selection's paint boxes (geometry boxes with `geometry`), skipping empty ones. */

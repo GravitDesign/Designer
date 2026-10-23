@@ -33,4 +33,14 @@ import "./element-editors/simple-shape-editor.ts";
 import "./element-editors/slice-editor.ts";
 import "./element-editors/symbol-editor.ts";
 import "./element-editors/text-editor.ts";
+import "./paths-graph/paths-graph-editor.ts";
+import "./annotations/arrow-annotation-editor.ts";
+import "./annotations/comment-annotation-editor.ts";
+import "./annotations/ellipse-annotation-editor.ts";
+import "./annotations/highlighter-annotation-editor.ts";
+import "./annotations/pencil-annotation-editor.ts";
+import "./annotations/rectangle-annotation-editor.ts";
+import "./annotations/text-annotation-editor.ts";
+// The tools, with the tool manager every editor workspace gets.
+import "./tools/tool-manager.ts";
 export { Editor } from "./editor.ts";

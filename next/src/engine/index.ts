@@ -1,0 +1,166 @@
+// Old: chunk.vendor.js module 1 (the engine namespace, G).
+/**
+ * The engine's public classes, the ones the old engine namespace (module 1,
+ * GScene, GRectangle, GTransform ...) exported, in its order and under
+ * their new names. The app imports engine classes from here or from their
+ * own files.
+ *
+ * Left out, as port-map.tsv says: GRendererCtx and GRendererCtxDbg (the
+ * old command recorder, dropped). The parity bridge builds the G names
+ * itself (src/parity/g/), so this file only re-exports.
+ *
+ * Loading the namespace also loaded the selector engine (module 507),
+ * which adds queryAll and querySingle to every node.
+ */
+import "./scene/selector.ts";
+
+export { Scene } from "./scene/scene.ts";
+export { SceneOptions } from "./scene/scene-options.ts";
+export { RGBColor } from "./color/rgb-color.ts";
+export { ParameterizedVertexProcessor } from "./scene/parameterized-vertex-processor.ts";
+export { OpenTypeFont } from "./text/fonts/open-type-font.ts";
+export { Text } from "./text/text.ts";
+export { Font } from "./text/fonts/font.ts";
+export { OpenTypeUtil } from "./text/fonts/open-type-util.ts";
+export { GObject } from "./core/object.ts";
+export { Event } from "./core/event.ts";
+export { EventTarget } from "./core/event-target.ts";
+export { Locale } from "./core/locale/locale.ts";
+export { System } from "./core/system.ts";
+export { FontManager } from "./text/fonts/font-manager.ts";
+export { Util } from "./core/util.ts";
+export { Workspace } from "./scene/workspace.ts";
+export { Transform } from "./math/transform.ts";
+export { Element } from "./scene/element.ts";
+export { Item } from "./scene/item.ts";
+export { Gradient } from "./style/gradient.ts";
+export { Block } from "./scene/block.ts";
+export { Pattern } from "./style/pattern.ts";
+export { Node } from "./scene/node.ts";
+export { TransactionRecorder } from "./undo/transaction-recorder.ts";
+export { Color } from "./color/color.ts";
+export { ColorHelper } from "./color/color-helper.ts";
+export { TexturePattern } from "./style/texture-pattern.ts";
+export { NoisePattern } from "./style/noise-pattern.ts";
+export { Rect } from "./math/rect.ts";
+export { CompoundPath } from "./scene/compound-path.ts";
+export { SimpleShape } from "./scene/simple-shape.ts";
+export { VertexSource } from "./geometry/vertex-source.ts";
+export { PathsGraph } from "./scene/paths-graph/paths-graph.ts";
+export { Path } from "./scene/path.ts";
+export { PathBase } from "./scene/path-base.ts";
+export { Image } from "./scene/image.ts";
+export { CollabText } from "./scene/annotations/collab-text.ts";
+export { CollaborativeTextAnnotation } from "./scene/annotations/collaborative-text-annotation.ts";
+export { Actionable } from "./scene/annotations/actionable.ts";
+export { Annotable } from "./scene/annotations/annotable.ts";
+export { ActionItem } from "./scene/annotations/action-item.ts";
+export { ImageGrid } from "./scene/image-grid.ts";
+export { PathUtil } from "./geometry/path-util.ts";
+export { CompoundShape } from "./scene/compound-shape.ts";
+export { Layer } from "./scene/layer.ts";
+export { Group } from "./scene/group.ts";
+export { Symbol } from "./scene/symbol.ts";
+export { SceneUtil } from "./scene/scene-util.ts";
+export { Rectangle } from "./scene/rectangle.ts";
+export { Point } from "./math/point.ts";
+export { VertexPolyBoolean } from "./geometry/boolean/vertex-poly-boolean.ts";
+export { Length } from "./math/length.ts";
+export { VertexOffsetter } from "./geometry/vertex-offsetter.ts";
+export { GMath } from "./math/math.ts";
+export { ScenePaintConfiguration } from "./paint/scene-paint-configuration.ts";
+export { Stylable } from "./style/stylable.ts";
+export { Bitmap } from "./paint/bitmap.ts";
+export { VertexSimplifier } from "./geometry/vertex-simplifier.ts";
+export { Shape } from "./scene/shape.ts";
+export { VertexContainer } from "./geometry/vertex-container.ts";
+export { ImageTracer } from "./geometry/image-tracer.ts";
+export { Vertex } from "./geometry/vertex.ts";
+export { PaintCanvas } from "./paint/paint-canvas.ts";
+export { PaintContext } from "./paint/paint-context.ts";
+export { PGEdge } from "./scene/paths-graph/pg-edge.ts";
+export { PGFacet } from "./scene/paths-graph/pg-facet.ts";
+export { Polygon } from "./scene/polygon.ts";
+export { Ellipse } from "./scene/ellipse.ts";
+export { Slice } from "./scene/slice.ts";
+export { Style } from "./style/style.ts";
+export { HitResult } from "./geometry/hit-result.ts";
+export { VertexTransformer } from "./geometry/vertex-transformer.ts";
+export { GLBulgePinchEffect } from "./style/webgl/effects/gl-bulge-pinch-effect.ts";
+export { GLEdgeWorkEffect } from "./style/webgl/effects/gl-edge-work-effect.ts";
+export { BlurEffect } from "./style/effects/blur-effect.ts";
+export { InnerShadowEffect } from "./style/effects/inner-shadow-effect.ts";
+export { GLNoiseEffect } from "./style/webgl/effects/gl-noise-effect.ts";
+export { DropShadowEffect } from "./style/effects/drop-shadow-effect.ts";
+export { GLSepiaEffect } from "./style/webgl/effects/gl-sepia-effect.ts";
+export { GLColorHalfToneEffect } from "./style/webgl/effects/gl-color-half-tone-effect.ts";
+export { GLHexagonalEffect } from "./style/webgl/effects/gl-hexagonal-effect.ts";
+export { ColorGradingEffect } from "./style/effects/color-grading-effect.ts";
+export { GLInnerGlowEffect } from "./style/webgl/effects/gl-inner-glow-effect.ts";
+export { GLZoomBlurEffect } from "./style/webgl/effects/gl-zoom-blur-effect.ts";
+export { GLToonEffect } from "./style/webgl/effects/gl-toon-effect.ts";
+export { GLBloomEffect } from "./style/webgl/effects/gl-bloom-effect.ts";
+export { GLTrueBlurEffect } from "./style/webgl/effects/gl-true-blur-effect.ts";
+export { GLDenoiseEffect } from "./style/webgl/effects/gl-denoise-effect.ts";
+export { GLOuterGlowEffect } from "./style/webgl/effects/gl-outer-glow-effect.ts";
+export { OverlayEffect } from "./style/effects/overlay-effect.ts";
+export { GLBlurEffect } from "./style/webgl/effects/gl-blur-effect.ts";
+export { GLBrightnessContrastEffect } from "./style/webgl/effects/gl-brightness-contrast-effect.ts";
+export { GLSwirlEffect } from "./style/webgl/effects/gl-swirl-effect.ts";
+export { GLVignetteEffect } from "./style/webgl/effects/gl-vignette-effect.ts";
+export { GLStrokeLayerEffect } from "./style/webgl/effects/gl-stroke-layer-effect.ts";
+export { GLInkEffect } from "./style/webgl/effects/gl-ink-effect.ts";
+export { GLUnsharpMaskEffect } from "./style/webgl/effects/gl-unsharp-mask-effect.ts";
+export { GLVibranceEffect } from "./style/webgl/effects/gl-vibrance-effect.ts";
+export { GLDotScreenEffect } from "./style/webgl/effects/gl-dot-screen-effect.ts";
+export { GLSketchEffect } from "./style/webgl/effects/gl-sketch-effect.ts";
+export { GLLensBlurEffect } from "./style/webgl/effects/gl-lens-blur-effect.ts";
+export { GLHueSaturationEffect } from "./style/webgl/effects/gl-hue-saturation-effect.ts";
+export { GLColorAdjustEffect } from "./style/webgl/effects/gl-color-adjust-effect.ts";
+export { GLTiltShiftEffect } from "./style/webgl/effects/gl-tilt-shift-effect.ts";
+export { GLRecolourEffect } from "./style/webgl/effects/gl-recolour-effect.ts";
+export { ColorAdjustMultiEffect } from "./style/effects/color-adjust-multi-effect.ts";
+export { AdjustMultiEffect } from "./style/effects/adjust-multi-effect.ts";
+export { MultiEffect } from "./style/effects/multi-effect.ts";
+export { MirrorEffect } from "./style/effects/mirror-effect.ts";
+export { ContactShadowEffect } from "./style/effects/contact-shadow-effect.ts";
+export { CurvedShadowEffect } from "./style/effects/curved-shadow-effect.ts";
+export { LongShadowEffect } from "./style/effects/long-shadow-effect.ts";
+export { GLBendEffect } from "./style/webgl/effects/gl-bend-effect.ts";
+export { GLDrunkEffect } from "./style/webgl/effects/gl-drunk-effect.ts";
+export { GLFisheyeEffect } from "./style/webgl/effects/gl-fisheye-effect.ts";
+export { LinearGradient } from "./style/linear-gradient.ts";
+export { CMYKColor } from "./color/cmyk-color.ts";
+export { HSVColor } from "./color/hsv-color.ts";
+export { RadialGradient } from "./style/radial-gradient.ts";
+export { AngularGradient } from "./style/angular-gradient.ts";
+export { Background } from "./style/background.ts";
+export { TLPathTextTransformer } from "./text/tl-path-text-transformer.ts";
+export { TLDirectionTextTransformer } from "./text/tl-direction-text-transformer.ts";
+export { TLUtil } from "./text/gtl/tl-util.ts";
+export { LocaleLanguage } from "./core/locale/locale-language.ts";
+export { LocaleKey } from "./core/locale/locale-key.ts";
+export { VertexInfo } from "./geometry/vertex-info.ts";
+export { Page } from "./scene/page.ts";
+export { Dictionary } from "./style/dictionary.ts";
+export { Swatch } from "./style/swatch.ts";
+export { Swatches } from "./style/swatches.ts";
+export { WebGLEffect } from "./style/webgl/webgl-effect.ts";
+export { Connector } from "./scene/connector.ts";
+export { Comment } from "./scene/annotations/comment.ts";
+export { Annotation } from "./scene/annotations/annotation.ts";
+export { AnnotationsList } from "./scene/annotations/annotations-list.ts";
+export { EmptyAnnotation } from "./scene/annotations/empty-annotation.ts";
+export { TextAnnotation } from "./scene/annotations/text-annotation.ts";
+export { HighlighterAnnotation } from "./scene/annotations/highlighter-annotation.ts";
+export { PencilAnnotation } from "./scene/annotations/pencil-annotation.ts";
+export { CommentAnnotation } from "./scene/annotations/comment-annotation.ts";
+export { ArrowAnnotation } from "./scene/annotations/arrow-annotation.ts";
+export { RectangleAnnotation } from "./scene/annotations/rectangle-annotation.ts";
+export { EllipseAnnotation } from "./scene/annotations/ellipse-annotation.ts";
+export { GDate } from "./core/date.ts";
+export { RendererConfig } from "./paint/renderer-config.ts";
+export { SceneDictionary } from "./style/scene-dictionary.ts";
+export { Translation } from "./core/locale/translation-loader.ts";
+export { TranslationNotificationEvent } from "./core/locale/translation-notification-event.ts";
+export { TranslationEvents } from "./core/locale/translation-events.ts";
