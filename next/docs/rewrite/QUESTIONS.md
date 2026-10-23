@@ -1452,3 +1452,292 @@ What it does: every page box is written as `[top left width height]`, so PDF rea
 Why it's unclear: the box is wrong, but the files open and print normally; a reader only uses the bleed box when asked to.
 
 Kept. next/src/io/export/pdf/media-box.ts writes the old order; pinned by the io-export-pdf/export/bleed.pdf parity scenario.
+
+<!-- Editor, editor core and guides (phase 6) -->
+
+## Q-120 BBoxGuide priority names are swapped
+
+Old location: chunk.vendor.js module 153 (GBBoxGuide.hasPriorityDistanceFirst), used by module 210 (GGuides.mapRect).
+
+What it does: `hasPriorityDistanceFirst()` returns true when the priority is `BBOX_FIRST`. GEditor sets `DISTANCE_FIRST`, so mapRect does not return the equal-spacing result straight away; it only takes it when the bbox guide's turn comes and the distance shift is smaller than the edge snap.
+
+Why it's unclear: the method name says the opposite of what it checks. Either the name or the comparison is wrong, but the editor's behaviour (edges win over equal spacing unless spacing is closer) may be what users are used to.
+
+Kept. editor/guides/bbox-guide.ts hasPriorityDistanceFirst; pinned by "calls BBOX_FIRST 'distance first'" in guides.test.ts.
+
+## Q-121 Equal-spacing check ends mapRect
+
+Old location: chunk.vendor.js module 210 (GGuides.mapRect, the `x === this._bboxGuide && v && ...` branch).
+
+What it does: when the bbox guide found an equal-spacing match, its turn in the guide loop always returns: the spaced rect when the spacing shift wins, otherwise the input rect unchanged (the variable it returns starts as the input rect, so `if (r) return r` always fires). The guides after the bbox guide (grid, guide lines, points, page, full pixels) are not asked, and the edge snap the bbox guide itself just found is thrown away.
+
+Why it's unclear: returning the unsnapped rect looks unintended; one would expect the edge snap or the later guides to apply. It only happens when a spacing candidate exists but loses.
+
+Kept. editor/guides/guides.ts mapRect, with a comment pointing here.
+
+## Q-122 Full pixels guide keeps the bottom-right zone
+
+Old location: chunk.vendor.js module 544 (GFullPixelsGuide constructor).
+
+What it does: the constructor removes every allowed snap zone except top-left with `forEach` over the zone list while `disallowSnapZone` splices the same list. The splice shifts bottom-right into the slot already visited, so the list ends as top-left and bottom-right. `mapTopLeftOnly()` is false for this guide, so it also counts as a zonable guide in getBBoxSnapZones, and mapRect can round the bottom-right corner instead of the top-left one.
+
+Why it's unclear: the code clearly means "top-left only"; the result differs because of the mutation during iteration.
+
+Kept. editor/guides/full-pixels-guide.ts; pinned by "keeps bottom-right on the full pixels guide" in guides.test.ts.
+
+## Q-123 Guide lines snap to the first line in reach, not the nearest
+
+Old location: chunk.vendor.js module 739 (GGuideLinesGuide.map).
+
+What it does: of the ruler guides (`hgl`, `vgl`) within the snap distance, the first in the array wins, even when a later one is closer. All other guides pick the closest candidate.
+
+Why it's unclear: with two guide lines a few pixels apart the snap goes to whichever was added first.
+
+Kept. editor/guides/guide-lines-guide.ts map; pinned by "guide lines snap to the first line within the distance" in guides.test.ts.
+
+
+## Q-124 Moving an annotation disables every guide
+
+Old location: chunk.vendor.js module 82 (GEditor.moveSelection, `c.some(... hasMixin(A)) && (g = [_])`).
+
+What it does: when the moved selection contains an annotation, the editor passes `[GBBoxGuide]` (the class itself) as the list of guide ids to mapPoint and mapRect. GGuides compares the list with each guide's string id, so no guide matches and nothing snaps.
+
+Why it's unclear: the intent was probably "snap annotations to boxes only", which would need `[GBBoxGuide.ID]`. As written, annotations never snap while moved.
+
+Kept. editor/editor.ts moveSelection passes the class, cast to the id list type.
+
+## Q-125 isElementModified counts undo states
+
+Old location: chunk.vendor.js module 82 (GEditor.isElementModified).
+
+What it does: it walks the undo states newest first and, inside a state, stops at the first property change of the node (`if (++i < t) break; return !0`). So `count` (default 2) is the number of undo states that changed the node, not the number of changes; two changes in one transaction count once.
+
+Why it's unclear: the name and the counter suggest changes. Callers (the app's "was this edited" checks) may rely on the state count.
+
+Kept. editor/editor.ts isElementModified; pinned by "counts undo states with a change, not changes, in isElementModified" in editor.test.ts.
+
+## Q-126 Both skew handles read the horizontal skew options
+
+Old location: chunk.vendor.js modules 749 and 750 (GSkewHorizontalAnnotation, GSkewVerticalAnnotation).
+
+What it does: both return `GEditorOptions.annotationHandles.tranformBox.skew`; there are no separate vertical options.
+
+Why it's unclear: looks like a copy of the horizontal module, but with one options object there is nothing to get wrong yet.
+
+Kept. editor/handles/skew-vertical-annotation.ts; pinned by "grows icon handles by the annotation pick distance" in editor-core-parts.test.ts.
+
+<!-- Editor, editor view (phase 6) -->
+
+## Q-127 A listener added twice keeps the widget listening
+
+Old location: chunk.vendor.js module 644 (GWidget.addEventListener, removeEventListener, _unregisterInputEventListener).
+
+What it does: every addEventListener for an input event class raises a counter, and the DOM listener goes away when the counter drops to 0. removeEventListener removes every registration of the listener at once (GEventTarget), but lowers the counter only once. A listener added twice and removed leaves the widget listening to the DOM event with no engine listener behind it.
+
+Why it's unclear: it looks like a counting slip, but nothing visible goes wrong: the DOM listener only fills an event nobody receives.
+
+Kept. src/editor/view/widget.ts; pinned by "keeps the DOM listener when a listener added twice is removed (old counting)" in widget.test.ts.
+
+## Q-128 endCaptureInput does not give the focus back
+
+Old location: chunk.vendor.js module 1081 (GEditorWidget.endCaptureInput).
+
+What it does: startCaptureInput remembers document.activeElement and focuses the hidden IME text box. endCaptureInput "restores" the focus with `document.activeElement = this._lastFocus`, an assignment to a read-only property, which sloppy-mode code ignores. The text box is hidden, so the focus falls back to the body.
+
+Why it's unclear: the intent was clearly to focus the previous element again, but the app may rely on the view keeping or losing the focus at that point (the view focuses itself on the next mouse down).
+
+Kept. src/editor/view/editor-widget.ts leaves the assignment out (it would throw in a module) and does not refocus.
+
+## Q-129 Page margin changes never repaint the overlay
+
+Old location: chunk.vendor.js module 1081 (GEditorWidget._afterPropertiesChanged).
+
+What it does: the view repaints its overlay when scene settings change, and for pages it checks `GUtil.containsOneOf(e.properties, this._viewConfiguration.pageDecoration.margin)`. `pageDecoration.margin` is the boolean that turns the margin outline on, not a list of property names, so the check is always false and changing a page's margins (ml, mt, mr, mb) does not repaint the magenta margin outline by itself.
+
+Why it's unclear: the intended list was probably ["ml", "mt", "mr", "mb"]. The outline still updates whenever something else repaints that area, so it may never have been noticed.
+
+Kept. src/editor/view/editor-widget.ts passes the flag on as the old code did.
+
+## Q-130 A finished render sets noWebGL from a field that does not exist
+
+Old location: chunk.vendor.js module 363 (GSceneWidget._repaint).
+
+What it does: before a scene render the view saves `this._scenePaintContext.noWebGL` (a field the paint context never has, so undefined), sets `configuration.noWebGL` from the render parameters (true while panning or zooming), and when the render finishes writes the saved value back to `configuration.noWebGL`. After the first render the configuration's noWebGL is undefined instead of its default false, whatever it was set to before.
+
+Why it's unclear: it reads like the save was meant to read `configuration.noWebGL`. Undefined and false paint the same, but a noWebGL set on the view configuration by other code would be lost after one render.
+
+Kept. src/editor/view/scene-widget.ts (_repaint) reads the missing field and writes it back.
+
+<!-- Editor, element and path editors (phase 6) -->
+
+## Q-131 Outline colour reads the bottom-right pixel
+
+Old location: chunk.vendor.js module 39, GBaseEditor.getOutlineColor.
+
+What it does: clamps the pixel position with `Math.max(0, Math.min(canvas.getWidth() - 1))`, a one-argument Math.min, so x and y are thrown away and the background is always read from the canvas' bottom-right pixel (then cached on the paint context).
+
+Why it's unclear: the callers pass the point just above the left of the element's paint box, so the intent was clearly to read the background next to the element. In a partial repaint the pixel read depends on the dirty area (the eledit/adaptive-outline fixtures work around that).
+
+Kept. base-editor.ts getOutlineColor; pinned by "reads the outline background from the bottom-right pixel whatever x and y are" in base-editor.test.ts.
+
+## Q-132 Segment bend moves the right handle 0.01 further
+
+Old location: chunk.vendor.js module 127, GPathEditor.movePart, PartType.Segment case (around line 28560).
+
+What it does: dragging a segment with SegmentData.Handles moves the left point's right handle by delta * cL, but the right point's left handle by delta * cR + 0.01 on both axes.
+
+Why it's unclear: cL and cR are the same value, so the 0.01 looks like a leftover nudge (perhaps to avoid a degenerate curve), not an intended asymmetry.
+
+Kept. path-editor.ts movePart (comment points here); pinned by "bends a straight segment by dragging it" in path-editor.test.ts.
+
+## Q-133 Compound shape boolean op is named Drop Pattern
+
+Old location: chunk.vendor.js module 1082, GCompoundShapeEditor.setBooleanOp.
+
+What it does: commits the transaction that sets `bool` on the child shapes under the name of LocaleKey("GCompoundShapeEditor", "action.drop-pattern"), "Drop Pattern".
+
+Why it's unclear: the undo entry for a boolean operation says "Drop Pattern", probably copied from GShapeEditor.acceptDrop. The UI never calls setBooleanOp (the inspector writes `bool` itself), so users don't see it.
+
+Kept. compound-shape-editor.ts setBooleanOp; pinned in compound-shape-editor.test.ts.
+
+## Q-134 Group editor's _scaleBorder is never called
+
+Old location: chunk.vendor.js module 751, GGroupEditor._scaleBorder.
+
+What it does: calls `_scaleBorder` on every child editor. Only GGroupEditor defines it, so a group with a non-group child would throw.
+
+Why it's unclear: nothing in either bundle calls it; it looks like a leftover.
+
+Kept. group-editor.ts _scaleBorder; not tested since it is unreachable.
+
+## Q-135 Slice move without a preview adds the whole preview transform
+
+Old location: chunk.vendor.js module 1084, GSliceEditor._applyTransform.
+
+What it does: with a preview it reads the preview rectangle's full `trf`, not the change, and adds its translation to x/y when the scale factor is 1.
+
+Why it's unclear: this only goes wrong for a slice whose box makes the rectangle's own transform have scale factor 1 (a 2 x 2 box). Every other size takes the preview bbox path.
+
+Kept. slice-editor.ts _applyTransform.
+
+## Q-136 Transform box bbox counts disabled skew handles
+
+Old location: chunk.vendor.js module 546, GTransformBox._calculateGeometryBBox.
+
+What it does: the box includes the skew handle points when `annotationHandles.tranformBox.skew` exists, and the rotate handle when `.rotate` exists. It doesn't check their `enabled` flag, so with the default options (both disabled) the scene editor's bbox still reaches 46 px above and right of the box and 46 px below it.
+
+Why it's unclear: painting and hit testing do check `enabled` (_isSkewAnnotationEnabled, _isRotateAnnotationEnabled). It may be on purpose (a roomier repaint area) or a missing `.enabled`.
+
+Kept. transform-box.ts _calculateGeometryBBox; pinned by "counts the skew and rotate handles in its box even when they are off" in transform-box.test.ts.
+
+## Q-137 Transform box centre of 0 counts as no centre
+
+Old location: chunk.vendor.js module 546, GTransformBox constructor.
+
+What it does: `this.cx = t || (tlx + brx) / 2`. A pivot passed as x = 0 or y = 0, for example kept from an earlier box or given to setTransformBoxActive, is replaced by the box centre on that axis.
+
+Why it's unclear: it only shows when the pivot sits exactly on the scene axis. It looks like a truthiness slip rather than intent.
+
+Kept. transform-box.ts constructor; pinned by "rotates around the centre unless one is given; 0 counts as none".
+
+## Q-138 Transform box handle under the mouse always counts as new
+
+Old location: chunk.vendor.js module 545, GSceneEditor.updateTBoxUnderMouse.
+
+What it does: it compares the new PartInfo with the remembered one by `id` and `data` using ==. For handles the data is a freshly mapped point every time, so `newPInfo` is true on every mouse move over a handle. Over the inside (data null) it is false.
+
+Why it's unclear: callers probably use newPInfo to update the cursor only when the part changes, and over handles they update it on every move. Harmless, but looks unintended.
+
+Kept. scene-editor.ts updateTBoxUnderMouse; pinned by "hit tests the box and keeps the dragged part under the mouse".
+
+## Q-139 Page edTransform reads its options unchecked
+
+Old location: chunk.vendor.js module 331, GPageEditor.edTransform.
+
+What it does: `(this._collisionlessTransform || n.doCollisionlessTransform)`. When collision-less transforms are off (the default: pageCollisionTransform = !pagesCanOverlap and pagesCanOverlap is true), a call without options throws a TypeError. The UI paths found (rotation, label move) pass options, and a resize previews through transformBox instead.
+
+Why it's unclear: it would be a crash if some path calls edTransform on a page without options; none was found.
+
+Kept. page-editor.ts edTransform; pinned by "reads edTransform options unchecked without collision-less transforms".
+
+## Q-140 Selection editor repaint before activate throws
+
+Old location: chunk.vendor.js module 745, GSelectionPositionEditor.requestInvalidation.
+
+What it does: it asks `GBaseEditor.getEditor(this._scene)`, which reads `__graphic_editor__` of the scene. Before activate and after deactivate `_scene` is null, so any flag change with invalidation at that time throws.
+
+Why it's unclear: activate sets the scene before the first invalidating call, and nothing seems to touch the editor after deactivate. So it may never happen, but it's fragile.
+
+Kept. selection-position-editor.ts requestInvalidation (not separately pinned).
+
+## Q-141 Ellipse editor adds the centre cross box unmapped
+
+Old location: chunk.vendor.js module 552, GEllipseEditor.getCustomBBox.
+
+What it does: in detail mode it adds the box (cx - 2s - 1, cy - 2s - 1, 2s + 1, 2s + 1), s = centerCrossSize, around getPaintElement().getCenter(true), the centre in scene coordinates. The rest of the custom bbox is in view coordinates, and the box ends at the centre instead of surrounding it.
+
+Why it's unclear: at zoom 1 with no scroll it roughly covers the top-left half of the cross that GShapeEditor._postPaint draws; at other views it covers an unrelated area. It only affects the invalidation/bbox area, so it may be a leftover.
+
+Kept. ellipse-editor.ts getCustomBBox.
+
+## Q-142 Applying a rectangle shoulder drag clears the part selection
+
+Old location: chunk.vendor.js module 330, GRectangleEditor._applyPartMove.
+
+What it does: after committing the radii it collects the selected shoulder parts and calls updatePartSelection(true, thoseParts). Toggle mode removes parts that are already selected, so the moved shoulders end up deselected (the selection becomes null). With no part selection at all, reading _partSelection.length throws.
+
+Why it's unclear: it reads like it meant to keep the shoulders selected. The select tool always selects the part first, so the throw is probably unreachable.
+
+Kept. rectangle-editor.ts _applyPartMove; pinned by "previews the corner radii of a shoulder drag and commits them" in rectangle-editor.test.ts.
+
+<!-- Editor, text and style editors (phase 6) -->
+
+## Q-143 Bold toggle checks a weight that doesn't exist
+
+Old location: chunk.vendor.js module 387 (GTextEditor.handleKeyEvent, lines 68163-68218) and module 752 (GInlineTextEditor._handleKey, lines 103326-103382).
+
+What it does: Ctrl/Cmd+B switches `_tfw` between Bold and Regular. It only does so when the new weight is `GFont.Weight.Normal`, the family is unknown to the font manager, or the family has a variant with the current style and the new weight. `GFont.Weight` has no `Normal` (only Thin to Heavy), so the first test compares with undefined and never holds. Italic has the same shape and works, because `GFont.Style.Normal` exists.
+
+Why it's unclear: the check looks meant to always allow going back to Regular. As written, un-bolding a text whose family lacks a Regular variant in the current style does nothing.
+
+Kept. text-editor.ts and inline-text-editor.ts compare with `WEIGHT_NORMAL` (undefined); text-editor.test.ts pins that un-bolding needs a Regular variant.
+
+## Q-144 Pasted text loses Windows line feeds everywhere
+
+Old location: chunk.vendor.js module 387 (GTextEditor.processPaste, lines 68479-68501).
+
+What it does: before a pasted string goes into the inline edited text, the code runs `GUtil.replaceMicrosoftLineFeed` when `GSystem.OperatingSystem.Windows` is truthy. That is the enum value (1), not the current system, so the replacement runs on every system.
+
+Why it's unclear: it reads like a platform check (`GSystem.operatingSystem === GSystem.OperatingSystem.Windows`). Since CRLF in pasted text should be normalized anyway, the result is probably what users want.
+
+Kept. text-editor.ts processPaste. The text layout turns a CRLF into one line break anyway, so the result is the same with or without the replacement; text-editor.test.ts checks the pasted result.
+
+## Q-145 Radial gradient extra handle returns an end handle without a point
+
+Old location: chunk.vendor.js module 780 (GRadialGradientEditor.updatePartSelection, lines 108163-108205).
+
+What it does: selecting the extra handle (the other radius end) switches the leading axis. When the last stop is not at 1, it returns a new END_HANDLE part info whose `point` is read from the part id, which is a string, so the point is undefined.
+
+Why it's unclear: the end handle's point is never read by movePart (only the move handle's is), so nothing breaks, but the data looks meant to carry the end point.
+
+Kept. radial-gradient-editor.ts updatePartSelection; radial-gradient-editor.test.ts pins the undefined point.
+
+## Q-146 Text resize applies through the element editor, skipping the block editor
+
+Old location: chunk.vendor.js module 387 (GTextEditor._applyPartMove and edTransform, lines 68312-68478).
+
+What it does: the text editor calls `GBoxEditor.prototype.edTransform` and `GElementEditor.prototype._applyPartMove` directly, skipping the block editor's versions in between. It also calls `GShapeEditor.prototype._prepareApplyTransform(this, element)` on the prototype with the editor as the element; that looks for the Layout mixin on the editor and does nothing.
+
+Why it's unclear: it may be on purpose (the block editor's pre-transform handling doesn't apply to text) or a leftover from an older class tree.
+
+Kept. text-editor.ts calls the same base methods; the no-op call is left out with a comment.
+
+## Q-147 Text editor writes two globals
+
+Old location: chunk.vendor.js module 387 (GTextEditor.getFonts, line 68115, and _paintOutline, line 68846).
+
+What it does: `getFonts` assigns `fontProperty` and `_paintOutline` assigns `hsv` without declaring them, which creates `window.fontProperty` and `window.hsv` in the old app.
+
+Why it's unclear: nothing reads them; it's a missing `var`.
+
+Kept as locals. text-editor.ts getFonts and _paintOutline.

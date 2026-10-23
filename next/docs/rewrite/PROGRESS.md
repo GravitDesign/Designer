@@ -56,7 +56,7 @@ Decisions taken:
 | 3 | Scaffold next/ | done |
 | 4 | Engine core | done: all engine clusters ported, review (phase4-review-A..D) fixed; 330+ parity ids pass in the new app; scenarios that need the editor are enabled in phase 6 |
 | 5 | File format and import/export | done: .gvdesign, SVG/PDF/PNG/JPG export, SVG/PDF/AI/EPS/Sketch import, workers; review (phase5-review.md) fixed; export output compared in the browser (io-export-svg/pdf/bitmap); export scenarios that need the editor wait for phase 6 |
-| 6 | Editor | not started |
+| 6 | Editor | in progress: level 8 (editor core, view, guides, element/path/text/style editors) ported; tools (level 9) and touch (level 10) next |
 | 7 | UI | not started |
 | 8 | Platform | not started |
 | 9 | Cutover | not started |
@@ -247,6 +247,20 @@ entries Q-075..Q-119 say where):
   (Q-099), a first union counts as no operation (Q-101), "Regular" fonts
   import as italic (Q-102), borders always import as Inside (Q-103).
 
+From the phase 6 editor port (old behaviour kept and pinned by unit tests):
+- Toggle marquee over a highlighted selected node throws a ReferenceError
+  (`removeFlag++` on an undeclared global, GEditor
+  highlightSelectablesUnderCollision).
+- StyleEdManager.updateActiveEditorCursor reads the never-set
+  `_activeTool` and throws whenever an editor is active and a view exists.
+- The cursor outside the transform box is always the rotate cursor
+  (GSceneEditor.getCursor missing break; listed above).
+- Segment drag at slope ~0/1 builds PartInfo with an undefined type; Shift
+  in detail mode starts the right shoulder from `cl`; outside detail mode
+  Shift gives a NaN translation (GPathEditor; listed above).
+- A slice scaled without a preview gets height 0 (GSliceEditor
+  _applyTransform multiplies by the shear `matrix[1]`).
+
 ## History to repair before the end
 
 The commit check (scratchpad verify-index.sh) silently passed failing
@@ -272,10 +286,22 @@ history check (scratchpad check-history.sh).
 - Scenes need `scene.setShadowExpandArea(9, 9, 9, 11)` as the old app's
   documents set it (exports measure 338x220 instead of 320x200 without it);
   belongs to the document/editor setup.
-- Phase 6: enable import-export/meta canvas-limits, clamp-to-max,
-  unknown-format, pdf-is-supported, exportables-canvas and
-  exportables-assets (they call app.editor().insertElements). Check
-  corpus/text-scripts SVG export once a canvas has drawn the text: the old
+- Phase 6 interim font provider: the text scenarios (engine-model/text/*,
+  styles/default-styles, symbols-branches/text-merge, the text exports,
+  editor-tools api-transactions-and-events) fail with "fonts did not
+  load": the parity app has no font provider or default font until
+  app-fonts-ui (phase 7). Give the interim document host the old app's
+  providers and default font so they can run in phase 6.
+- The real app must import src/editor/index.ts (it registers the element
+  editors after editor.ts); the parity app does through document.ts.
+- Level 9 hooks: registerToolManagerFactory (editor/editor-workspace.ts),
+  Editor.registerPathsGraphEditor, late-bound.ts tool manager lookup in
+  the view.
+- engine-model/events/node-events needs the layers panel (it sets
+  Expanded on the parent group when a child is selected); workers/isolation
+  differs by the COOP/COEP headers (BUG-008): add it to BUG-008.json with a
+  .fixed file when it is ported.
+- Check corpus/text-scripts SVG export once a canvas has drawn the text: the old
   app exports it through the UI, both apps throw "reading 'getMatrix'"
   when the scene is built with G only.
 - The phase 5 fix runs of io-export-pdf/bitmap had 7 and 10 failures in
@@ -296,6 +322,10 @@ history check (scratchpad check-history.sh).
 
 ## Pending harness work
 
+- The in-page font fetches of the io-export-* libraries (fontBytes in
+  newWorkspace) have no retry: under load one fetch failed with "Failed
+  to fetch" (io-export-svg/corpus/slices, level 8 run; passes alone).
+  Retry like openApp does.
 - normalize.ts gaps also seen by editor-actions (which works around them
   in lib.ts `stabilize`): anchor ids (third element of `pts` tuples), `sbl`
   entries, dictionary `uuid`s and `dictionary://<uuid>` URLs, ids inside
