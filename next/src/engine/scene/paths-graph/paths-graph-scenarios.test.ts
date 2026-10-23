@@ -1,9 +1,10 @@
 // Runs the paths graph parity scenarios in Node against the values
 // recorded from the old app, so every number is checked bit for bit
 // without a browser. pathops/paths-graph appends the graph to the active
-// page; until the scene exists (engine-scene-document) a stand-in page
-// that only accepts the child is used, which is why the scenario isn't
-// listed for the browser run yet.
+// page, so a stand-in page that only accepts the child is used here. The
+// browser run lists both paths graph scenarios in
+// parity/ported/engine-paths-graph.json; pathops/paths-graph-paint renders
+// with toBitmap and so only runs there (Node has no canvas).
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";

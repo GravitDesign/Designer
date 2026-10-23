@@ -51,6 +51,8 @@ export class PaintLayer extends Store(Properties(SceneNode)) {
 
   constructor(pattern?: Pattern | null, opacity?: number, visible?: boolean, blend?: string) {
     super();
+    // The old constructor didn't run GSceneNode's, so a layer had no refs.
+    delete (this as { $refs?: string[] }).$refs;
     this._setDefaultProperties(PaintLayer.GeometryProperties, PaintLayer.VisualProperties);
     this.setProperties(
       ["_pt", "_vs", "_op", "_bl"],

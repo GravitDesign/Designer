@@ -24,6 +24,13 @@ export class PaintLayers extends Store(Container(SceneNode)) {
     registerNodeClass(this, "paintLayers", "GStylable.PaintLayers");
   }
 
+  constructor() {
+    super();
+    // The old constructor was empty and didn't run GSceneNode's, so the
+    // container had no refs.
+    delete (this as { $refs?: string[] }).$refs;
+  }
+
   /**
    * The flat style keys of old files (`_fpt`, `_bw`, ...). Restoring a blob
    * with any of them puts them into the last layer of that kind, created

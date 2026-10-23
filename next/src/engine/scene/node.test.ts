@@ -212,6 +212,19 @@ describe("properties", () => {
     expect(m.getProperties(["size", "label"])).toEqual([1, "L"]);
   });
 
+  it("passes values through for a null or false filter, like a missing one", () => {
+    const n = leaf();
+    n.setProperty("size", 4);
+    for (const filter of [null, false] as const) {
+      const blob: NodeBlob = {};
+      n.storeProperties(blob, LeafProperties, filter);
+      expect(blob).toEqual({ size: 4 });
+      const m = leaf(9);
+      m.restoreProperties({ label: "L" }, LeafProperties, filter);
+      expect(m.getProperties(["size", "label"])).toEqual([1, "L"]);
+    }
+  });
+
   it("compares and transfers properties", () => {
     const a = leaf(3);
     const b = leaf(3);

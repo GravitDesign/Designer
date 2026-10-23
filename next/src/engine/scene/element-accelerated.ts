@@ -172,7 +172,9 @@ const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => 
           } else {
             this._insertAccelElement(child, false, true);
             const previous = this._getIndexOfPrevious(child);
-            // Not + 1 here, unlike the geometry case (old behaviour).
+            // Not + 1 here, unlike the geometry case (old behaviour; see
+            // questions-draft "Accelerated index after a visual update of a
+            // child not in the tree").
             this._refreshIndicesForward(child, previous);
           }
         }

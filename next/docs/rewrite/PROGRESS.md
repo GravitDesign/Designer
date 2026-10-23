@@ -225,12 +225,6 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
 
 ## Pending porting work
 
-- engine-text-node must call `registerStylable(Stylable)` from
-  src/engine/text/gtl/late-bound.ts (TLCore.initialize throws until then).
-- engine-effects-webgl must register GGLBlurEffect, GGLBendBlurEffect,
-  GGLDotScreenEffect, GGLSepiaEffect, GGLBrightnessContrastEffect,
-  GGLHueSaturationEffect, GGLColorAdjustEffect node names; canvas effects
-  look them up by name (src/engine/style/effects/effect-paint.ts).
 
 - Every port agent reported "old quirks kept" (in its final report and in
   comments/READMEs next to the code). At the end of phase 4, collect them

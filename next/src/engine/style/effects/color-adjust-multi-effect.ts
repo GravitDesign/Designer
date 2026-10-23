@@ -7,7 +7,9 @@ import { NodeChange } from "../../scene/node-change.ts";
 import type { PropertiesChangeArgs } from "../../scene/node-properties.ts";
 import type { RestoreChangeArgs, StoreChangeArgs } from "../../serialize/blob.ts";
 import { Effect } from "../effect.ts";
-import { glEffectClass, type EffectClass } from "./effect-paint.ts";
+import { GLBrightnessContrastEffect } from "../webgl/effects/gl-brightness-contrast-effect.ts";
+import { GLColorAdjustEffect } from "../webgl/effects/gl-color-adjust-effect.ts";
+import { GLHueSaturationEffect } from "../webgl/effects/gl-hue-saturation-effect.ts";
 import { MultiEffect } from "./multi-effect.ts";
 
 /** The shader parameters of GGLColorAdjustEffect. */
@@ -16,30 +18,6 @@ interface ColorAdjustParameters {
   contrast: number;
   hue: number;
   saturation: number;
-}
-
-/** What this effect uses of GGLColorAdjustEffect (engine-effects-webgl). */
-interface GLColorAdjustEffectLike extends Effect {
-  $shp: ColorAdjustParameters | null;
-}
-
-type GLColorAdjustEffectClass = EffectClass<GLColorAdjustEffectLike> &
-  (new (compatibility?: boolean) => GLColorAdjustEffectLike);
-
-let effectsRegistered = false;
-
-/**
- * Registers the effects (brightness/contrast, hue/saturation). The old
- * module did this when it loaded; they belong to engine-effects-webgl, so
- * here it happens on first construction, when they are sure to be loaded.
- */
-function registerEffects(): void {
-  if (effectsRegistered) return;
-  MultiEffect.register(ColorAdjustMultiEffect, [
-    glEffectClass("GGLBrightnessContrastEffect"),
-    glEffectClass("GGLHueSaturationEffect"),
-  ]);
-  effectsRegistered = true;
 }
 
 /**
@@ -52,13 +30,11 @@ export class ColorAdjustMultiEffect extends MultiEffect {
     registerNodeClass(this, "colorAdjustMultiEffect", "GColorAdjustMultiEffect");
   }
 
-  declare _colorAdjust: GLColorAdjustEffectLike;
+  declare _colorAdjust: GLColorAdjustEffect;
 
   constructor() {
-    registerEffects();
     super();
-    const colorAdjust = glEffectClass("GGLColorAdjustEffect") as GLColorAdjustEffectClass;
-    this._colorAdjust = new colorAdjust(true);
+    this._colorAdjust = new GLColorAdjustEffect(true);
   }
 
   override getNodeNameTranslated(): string {
@@ -74,7 +50,14 @@ export class ColorAdjustMultiEffect extends MultiEffect {
     extents?: Rect,
     element?: unknown,
   ): void {
-    this._colorAdjust.render(canvas, target, root, scale, extents, element);
+    this._colorAdjust.render(
+      canvas,
+      target,
+      root,
+      scale,
+      extents,
+      element as { getScene(): unknown } | null | undefined,
+    );
   }
 
   /**
@@ -94,17 +77,14 @@ export class ColorAdjustMultiEffect extends MultiEffect {
       const changed = args as PropertiesChangeArgs;
       const names = changed.properties;
       const values = changed.values as (Partial<ColorAdjustParameters> | null | undefined)[];
-      const brightnessContrast = glEffectClass("GGLBrightnessContrastEffect");
-      const hueSaturation = glEffectClass("GGLHueSaturationEffect");
       // Without parameters yet, the old code wrote into the class's
       // GeometryProperties table itself.
       const parameters = (this._colorAdjust.$shp ||
-        (glEffectClass("GGLColorAdjustEffect")
-          .GeometryProperties as unknown)) as ColorAdjustParameters;
+        (GLColorAdjustEffect.GeometryProperties as unknown)) as ColorAdjustParameters;
       for (let i = 0; i < names.length; i++) {
         const effectName = (names[i] as string).split("&")[0];
         const value = values[i];
-        if (Node.getName(brightnessContrast) === effectName) {
+        if (Node.getName(GLBrightnessContrastEffect) === effectName) {
           if (value) {
             parameters.brightness = value.brightness as number;
             parameters.contrast = value.contrast as number;
@@ -120,7 +100,7 @@ export class ColorAdjustMultiEffect extends MultiEffect {
             undefined,
             changed.temporary,
           );
-        } else if (Node.getName(hueSaturation) === effectName) {
+        } else if (Node.getName(GLHueSaturationEffect) === effectName) {
           if (value) {
             parameters.hue = value.hue as number;
             parameters.saturation = value.saturation as number;
@@ -159,3 +139,8 @@ export class ColorAdjustMultiEffect extends MultiEffect {
     super.destroy();
   }
 }
+
+// Like the old module, the class tables (GeometryProperties with the
+// prefixed sub-effect properties, VisualProperties, __FX) are set when the
+// module loads, before any instance exists.
+MultiEffect.register(ColorAdjustMultiEffect, [GLBrightnessContrastEffect, GLHueSaturationEffect]);

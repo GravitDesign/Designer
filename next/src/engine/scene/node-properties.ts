@@ -72,8 +72,16 @@ export interface PropertiesApi {
     temporary?: boolean | null,
   ): boolean;
   getTrackTempPropNames(): string[] | null;
-  storeProperties(blob: NodeBlob, defaults: PropertyDefaults, filter?: PropertyFilter): void;
-  restoreProperties(blob: NodeBlob, defaults: PropertyDefaults, filter?: PropertyFilter): void;
+  storeProperties(
+    blob: NodeBlob,
+    defaults: PropertyDefaults,
+    filter?: PropertyFilter | null | false,
+  ): void;
+  restoreProperties(
+    blob: NodeBlob,
+    defaults: PropertyDefaults,
+    filter?: PropertyFilter | null | false,
+  ): void;
   transferProperties(
     source: PropertiesNode,
     defaultsList: readonly PropertyDefaults[],
@@ -282,11 +290,14 @@ export const Properties = defineMixin(
       storeProperties(
         blob: NodeBlob,
         defaults: PropertyDefaults,
-        filter: PropertyFilter = passThrough,
+        filter?: PropertyFilter | null | false,
       ): void {
+        // Any falsy filter (null too, not only a missing one) passes the
+        // values through, as the old `filter || function...` did.
+        const apply = filter || passThrough;
         for (const name in defaults) {
           const defaultValue = defaults[name];
-          const value = filter(name, this._fields["$" + name]);
+          const value = apply(name, this._fields["$" + name]);
           if (!equals(value, defaultValue, true)) blob[name] = value;
         }
       }
@@ -294,13 +305,16 @@ export const Properties = defineMixin(
       restoreProperties(
         blob: NodeBlob,
         defaults: PropertyDefaults,
-        filter: PropertyFilter = passThrough,
+        filter?: PropertyFilter | null | false,
       ): void {
+        // Any falsy filter (null too, not only a missing one) passes the
+        // values through, as the old `filter || function...` did.
+        const apply = filter || passThrough;
         const names: string[] = [];
         const values: unknown[] = [];
         for (const name in defaults) {
           names.push(name);
-          if (Object.hasOwn(blob, name)) values.push(filter(name, blob[name]));
+          if (Object.hasOwn(blob, name)) values.push(apply(name, blob[name]));
           else values.push(defaults[name]);
         }
         this.setProperties(names, values, false);

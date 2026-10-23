@@ -25,8 +25,10 @@ import { Multireference } from "../node-identity.ts";
 import { Properties, type PropertiesChangeArgs } from "../node-properties.ts";
 import { Store } from "../node-store.ts";
 import { MapContainer, Node, registerNodeClass } from "../node.ts";
-import { AnchorPoint, type PathBase } from "../path-base.ts";
+import { AnchorPoint } from "../path-base.ts";
 import type { SceneHooks } from "../scene-node.ts";
+import type { GraphAnchor } from "./graph.ts";
+import type { PGEdge } from "./pg-edge.ts";
 
 // GAnchor was a plain class mixed into GPGAnchor; the old mixing gave it a
 // type id on first use. anchor.ts doesn't register it, so this does.
@@ -43,18 +45,8 @@ const EdgeType = {
   In: 2,
 } as const;
 
-/** What the anchor needs from its edges (GPGEdge). */
-export interface AnchorEdge {
-  getId(): Uid;
-  getStartAngle(): number;
-  getEndAngle(): number;
-  getPathBase(): PathBase;
-  getProperty(name: string, custom?: boolean, defaultValue?: unknown, temporary?: boolean): unknown;
-  hasSameStyle(other: AnchorEdge): boolean;
-  hasStyleBorder(): boolean | null;
-  getFirstSegment(reverse?: boolean | null, t?: number): PathBase;
-  getLastSegment(reverse?: boolean | null, t?: number): PathBase;
-}
+/** The anchor's edges. */
+export type AnchorEdge = PGEdge;
 
 /** An edge at the anchor with the angle it leaves at; `idx` is its index in the in or out list. */
 export class OrderedEdge {
@@ -84,7 +76,7 @@ export interface NextOrderedEdge {
   insidePt: Point | null;
 }
 
-export class PGAnchor extends Multireference(Properties(Store(Node))) {
+export class PGAnchor extends Multireference(Properties(Store(Node))) implements GraphAnchor {
   static {
     registerNodeClass(this, "GPGAnchor", "GPGAnchor");
     markMixins(this, [Anchor]);

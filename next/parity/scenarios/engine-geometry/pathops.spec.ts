@@ -547,6 +547,136 @@ const scenarios = defineScenarios([
     }
     return out;
   }),
+  geo(
+    "pathops/paths-graph-paint",
+    ["ENG-NODE-043", "ENG-NODE-045", "ENG-NODE-046"],
+    (L, G, app) => {
+      // A square split in two facets by a vertical line, with a graph fill
+      // and border. The left facet has its own fill (cSt), two connected
+      // edges share an own wide border (grouped by the depth-first search)
+      // and one more edge has a thin one of its own. Covers the three-pass
+      // facet fill, the custom edge borders, the paint box padding from the
+      // widest custom edge and the edge-before-facet hit order.
+      type Layered = {
+        getPaintLayers(): { appendChild(n: unknown): void };
+        setProperty(k: string, v: unknown): void;
+        getNext(): unknown;
+      };
+      const layer = (kind: string, rgb: number[], props: Record<string, unknown>) => {
+        const l = new G.GStylable[kind]();
+        l.setProperty("_pt", new G.GRGBColor(rgb));
+        const keys = Object.keys(props);
+        if (keys.length)
+          l.setProperties(
+            keys,
+            keys.map((k) => props[k]),
+          );
+        return l;
+      };
+      const g = new G.GPathsGraph();
+      app.scene().getActivePage().appendChild(g);
+      // The style first: facets and edges take the graph's style when they
+      // are made.
+      g.getPaintLayers().appendChild(layer("FillPaintLayer", [40, 90, 220], { _op: 0.8 }));
+      g.getPaintLayers().appendChild(layer("BorderPaintLayer", [0, 0, 0], { _bw: 3 }));
+      const lines: [number[][], boolean][] = [
+        [
+          [
+            [10, 10],
+            [110, 10],
+            [110, 90],
+            [10, 90],
+            [10, 10],
+          ],
+          false,
+        ],
+        [
+          [
+            [60, 10],
+            [60, 90],
+          ],
+          false,
+        ],
+      ];
+      for (const [pts, closed] of lines) {
+        const p = L.path(pts, closed) as { cloneAnchorPoints(): unknown };
+        g.addGraphLine(new G.GPathBase(false, p.cloneAnchorPoints()));
+      }
+      const facet = g.getFacets().getFirstChild() as Layered;
+      facet.setProperty("cSt", true);
+      facet.getPaintLayers().appendChild(layer("FillPaintLayer", [230, 60, 30], { _op: 0.6 }));
+      const edges: Layered[] = [];
+      for (
+        let e = g.getEdges().getFirstChild() as Layered | null;
+        e;
+        e = e.getNext() as Layered | null
+      )
+        edges.push(e);
+      for (const [i, rgb, width] of [
+        [0, [250, 200, 0], 16],
+        [1, [250, 200, 0], 16],
+        [4, [0, 160, 60], 2],
+      ] as [number, number[], number][]) {
+        const e = edges[i] as Layered;
+        e.setProperty("cSt", true);
+        e.getPaintLayers().appendChild(layer("BorderPaintLayer", [...rgb], { _bw: width }));
+      }
+      const indexOf = (list: unknown, item: unknown) => {
+        let i = 0;
+        for (
+          let x = (list as { getFirstChild(): unknown }).getFirstChild() as {
+            getNext(): unknown;
+          } | null;
+          x;
+          x = x.getNext() as typeof x
+        ) {
+          if (x === item) return i;
+          i++;
+        }
+        return -1;
+      };
+      const view = new G.GTransform(1, 0, 0, 1, 0, 0);
+      const probes = [
+        [35, 50],
+        [85, 50],
+        [60, 50],
+        [10, 50],
+        [60, 11],
+        [130, 50],
+      ];
+      const hits = probes.map(([x, y]) =>
+        [false, true].map((force) =>
+          L.run(() => {
+            const res = g.hitTest(new G.GPoint(x, y), view, null, false, -1, 2, force) as
+              | {
+                  element: unknown;
+                  data: {
+                    hitRes: { type: number; vertex: unknown };
+                    edge?: unknown;
+                    facet?: unknown;
+                  } | null;
+                }[]
+              | null;
+            if (!res) return null;
+            return res.map((h) => ({
+              self: h.element === g,
+              type: h.data ? h.data.hitRes.type : null,
+              vertex: h.data ? L.enc(h.data.hitRes.vertex) : null,
+              edge: h.data && h.data.edge ? indexOf(g.getEdges(), h.data.edge) : null,
+              facet: h.data && h.data.facet ? indexOf(g.getFacets(), h.data.facet) : null,
+            }));
+          }),
+        ),
+      );
+      return {
+        edges: edges.length,
+        box: L.run(() => g.getPaintBBox()),
+        hasCustomStyleEdges: L.run(() => g.hasCustomStyleEdges()),
+        hits,
+        image: L.run(() => g.toBitmap(1, 1).toImageDataUrl()),
+      };
+    },
+  ),
   geo("pathops/flatten-element", ["ENG-GEOM-014"], (L, G) => {
     const rect = (x: number) => {
       const r = new G.GRectangle();

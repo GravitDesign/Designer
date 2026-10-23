@@ -43,6 +43,14 @@ function set(node: PaintLayer, values: Record<string, unknown>): void {
 }
 
 describe("paint layers", () => {
+  it("have no refs property, like the old layers and their container", () => {
+    for (const layer of [new FillPaintLayer(), new BorderPaintLayer()]) {
+      expect(layer.hasProperty("refs")).toBe(false);
+      expect(layer.getProperty("refs", false, "default")).toBe("default");
+    }
+    expect(Object.hasOwn(new PaintLayers(), "$refs")).toBe(false);
+  });
+
   it("keep the old type ids and node names", () => {
     expect(getTypeId(PaintLayer)).toBe(75);
     expect(getTypeId(FillPaintLayer)).toBe(77);

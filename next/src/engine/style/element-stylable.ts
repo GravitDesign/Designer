@@ -43,6 +43,15 @@ interface FxCacheEntry {
   fx: Effect;
 }
 
+/**
+ * The cache every stylable element starts with. The old mixin kept one
+ * array on its prototype and the mix copied that reference into every
+ * class, so all elements share it until their first full reset assigns
+ * their own (see questions-draft "Stylable elements share one effect cache
+ * array").
+ */
+const sharedFxCache: FxCacheEntry[] = [];
+
 /** What the mixin needs from the element it is mixed into. */
 export interface ElementStylableBase extends PropertiesNode, SceneNode {
   getPaintBBox(): Rect | null;
@@ -898,7 +907,7 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
     }
   }
   const prototype = ElementStylableMixin.prototype;
-  prototype._fxCache = [];
+  prototype._fxCache = sharedFxCache;
   return ElementStylableMixin;
 };
 

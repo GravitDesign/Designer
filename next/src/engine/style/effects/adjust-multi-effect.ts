@@ -1,35 +1,15 @@
 // Old: chunk.vendor.js module 1027 (GAdjustMultiEffect).
 import { Locale } from "../../core/locale/locale.ts";
 import { registerNodeClass } from "../../scene/node.ts";
-import { glEffectClass } from "./effect-paint.ts";
+import { GLBlurEffect } from "../webgl/effects/gl-blur-effect.ts";
+import { GLDotScreenEffect } from "../webgl/effects/gl-dot-screen-effect.ts";
+import { GLSepiaEffect } from "../webgl/effects/gl-sepia-effect.ts";
 import { MultiEffect } from "./multi-effect.ts";
-
-let effectsRegistered = false;
-
-/**
- * Registers the effects (dot screen, sepia, WebGL blur). The old module
- * did this when it loaded; they belong to engine-effects-webgl, so here it
- * happens on first construction, when they are sure to be loaded.
- */
-function registerEffects(): void {
-  if (effectsRegistered) return;
-  MultiEffect.register(AdjustMultiEffect, [
-    glEffectClass("GGLDotScreenEffect"),
-    glEffectClass("GGLSepiaEffect"),
-    glEffectClass("GGLBlurEffect"),
-  ]);
-  effectsRegistered = true;
-}
 
 /** Dot screen, sepia and blur as one effect. */
 export class AdjustMultiEffect extends MultiEffect {
   static {
     registerNodeClass(this, "adjustMultiEffect", "GAdjustMultiEffect");
-  }
-
-  constructor() {
-    registerEffects();
-    super();
   }
 
   override getNodeNameTranslated(): string {
@@ -40,3 +20,8 @@ export class AdjustMultiEffect extends MultiEffect {
     return "[Object GAdjustMultiEffect]";
   }
 }
+
+// Like the old module, the class tables (GeometryProperties with the
+// prefixed sub-effect properties, VisualProperties, __FX) are set when the
+// module loads, before any instance exists.
+MultiEffect.register(AdjustMultiEffect, [GLDotScreenEffect, GLSepiaEffect, GLBlurEffect]);

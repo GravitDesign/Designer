@@ -65,13 +65,12 @@ import { DirectedEdge, PGFacet } from "./pg-facet.ts";
 
 const Type = AnchorPoint.Type;
 
-function asGraphAnchor(anchor: PGAnchor): GraphAnchor {
-  return anchor as unknown as GraphAnchor;
-}
-
-function asGraphEdge(edge: PGEdge): GraphEdge {
-  return edge as unknown as GraphEdge;
-}
+/**
+ * The old code passed null as drawCanvas's x and y, which the canvas
+ * treats as 0. drawCanvas (paint cluster) is typed for numbers only, so
+ * the null goes through this one cast.
+ */
+const NULL_COORDINATE = null as unknown as number;
 
 /** Orders split points by segment, then parameter. */
 function bySegmentAndSlope(a: SplitPoint, b: SplitPoint): number {
@@ -97,11 +96,7 @@ export class PathsGraphEdges extends MapContainer {
           ? (this._parent.getAnchors().getById(String(edge.getDestinationId())) as PGAnchor | null)
           : null;
         if (source && destination) {
-          this._parent.interconnectAnchors(
-            asGraphAnchor(source),
-            asGraphAnchor(destination),
-            asGraphEdge(edge),
-          );
+          this._parent.interconnectAnchors(source, destination, edge);
         }
       }
     } else if (
@@ -109,7 +104,7 @@ export class PathsGraphEdges extends MapContainer {
       this._parent &&
       this._parent instanceof PathsGraph
     ) {
-      this._parent.disconnectAnchors(asGraphEdge(args as PGEdge));
+      this._parent.disconnectAnchors(args as PGEdge);
     }
     Node.prototype._handleChange.call(this, change, args);
   }
@@ -317,11 +312,11 @@ export class PathsGraph extends GraphMixin(Shape) {
   constructor() {
     super();
     this._anchors = new MapContainer();
-    this._anchors._setParent(this as unknown as ContainerNode);
+    this._anchors._setParent(this);
     this._edges = new PathsGraphEdges();
-    this._edges._setParent(this as unknown as ContainerNode);
+    this._edges._setParent(this);
     this._facets = new MapContainer();
-    this._facets._setParent(this as unknown as ContainerNode);
+    this._facets._setParent(this);
     this.addEventListener(BeforeInsertEvent, this._beforeGeometryChange, this);
     this.addEventListener(BeforeRemoveEvent, this._beforeGeometryChange, this);
     this.addEventListener(AfterInsertEvent, this._geometryChange, this);
@@ -368,32 +363,32 @@ export class PathsGraph extends GraphMixin(Shape) {
     edge: PGEdge,
     next: Node | null,
   ): void {
-    this.interconnectAnchors(asGraphAnchor(source), asGraphAnchor(destination), asGraphEdge(edge));
+    this.interconnectAnchors(source, destination, edge);
     this.addEdgeInPlace(edge, next);
   }
 
   /** Inserts before `next`; an edge without its own style takes the graph's. */
   addEdgeInPlace(edge: PGEdge, next: Node | null): void {
-    if (!edge.getProperty("cSt")) edge.assignStyleFrom(this as unknown as StylableNode);
+    if (!edge.getProperty("cSt")) edge.assignStyleFrom(this);
     this._edges.insertChild(edge, next);
   }
 
   override addEdge(edge: GraphEdge): void {
-    const pgEdge = edge as unknown as PGEdge;
-    if (!pgEdge.getProperty("cSt")) pgEdge.assignStyleFrom(this as unknown as StylableNode);
+    const pgEdge = edge as PGEdge;
+    if (!pgEdge.getProperty("cSt")) pgEdge.assignStyleFrom(this);
     this._edges.insertChild(pgEdge, null);
   }
 
   override addAnchor(anchor: GraphAnchor): void {
-    this._anchors.insertChild(anchor as unknown as PGAnchor, null);
+    this._anchors.insertChild(anchor as PGAnchor, null);
   }
 
   override _removeEdge(edge: GraphEdge): void {
-    this._edges.removeChild(edge as unknown as PGEdge);
+    this._edges.removeChild(edge as PGEdge);
   }
 
   override _removeAnchor(anchor: GraphAnchor): void {
-    this._anchors.removeChild(anchor as unknown as PGAnchor);
+    this._anchors.removeChild(anchor as PGAnchor);
   }
 
   override _getInternalMapAsArray(map: unknown): unknown[] | null {
@@ -599,10 +594,10 @@ export class PathsGraph extends GraphMixin(Shape) {
       if (pieces.length > 1) {
         let anchor: PGAnchor | undefined;
         let from: PGAnchor;
-        const source = edge.getSource() as unknown as PGAnchor;
-        const destination = edge.getDestination() as unknown as PGAnchor;
+        const source = edge.getSource() as PGAnchor;
+        const destination = edge.getDestination() as PGAnchor;
         const next = edge.getNext();
-        this.removeEdge(asGraphEdge(edge));
+        this.removeEdge(edge);
         for (let i = 0; i < pieces.length; ++i) {
           const piece = pieces[i] as PathBase;
           from = (0 == i ? source : anchor) as PGAnchor;
@@ -612,7 +607,7 @@ export class PathsGraph extends GraphMixin(Shape) {
               anchor = new PGAnchor();
               const last = piece.getAnchorPoints().getLastChild() as AnchorPoint;
               anchor.setProperties(["x", "y"], [last.getProperty("x"), last.getProperty("y")]);
-              this.addAnchor(asGraphAnchor(anchor));
+              this.addAnchor(anchor);
               newAnchors.push(anchor);
             }
             const created = new PGEdge();
@@ -636,7 +631,7 @@ export class PathsGraph extends GraphMixin(Shape) {
       action = () => {
         oldFacets._setParent(null);
         this._facets = facets;
-        this._facets._setParent(this as unknown as ContainerNode);
+        this._facets._setParent(this);
       };
     } else action = () => {};
     return action;
@@ -662,7 +657,7 @@ export class PathsGraph extends GraphMixin(Shape) {
       action = () => {
         facets._setParent(null);
         this._facets = oldFacets;
-        this._facets._setParent(this as unknown as ContainerNode);
+        this._facets._setParent(this);
       };
     } else action = () => {};
     return action;
@@ -672,7 +667,7 @@ export class PathsGraph extends GraphMixin(Shape) {
     const oldFacets = this._facets;
     oldFacets._setParent(null);
     this._facets = facets;
-    this._facets._setParent(this as unknown as ContainerNode);
+    this._facets._setParent(this);
     if (this._canEventBeSent(AfterSpecialChangeEvent)) {
       this._sendEvent(new AfterSpecialChangeEvent(this, { oldFacets } satisfies FacetsChange));
     }
@@ -691,8 +686,8 @@ export class PathsGraph extends GraphMixin(Shape) {
     const onPart: PartitionVisitor = (anchors, edges) => {
       if (edges.length) {
         const part: FacetsPart = {
-          anchors: anchors as unknown as PGAnchor[],
-          edges: edges as unknown as PGEdge[],
+          anchors: anchors as PGAnchor[],
+          edges: edges as PGEdge[],
           intFacets: null,
           extFacet: null,
           extInsidePoint: null,
@@ -726,7 +721,7 @@ export class PathsGraph extends GraphMixin(Shape) {
             if (holes.length) facet.extendPath(holes);
           }
           if (facet) {
-            facet.assignStyleFrom(this as unknown as StylableNode);
+            facet.assignStyleFrom(this);
             this._facets.insertChild(facet, undefined);
           }
         }
@@ -809,7 +804,7 @@ export class PathsGraph extends GraphMixin(Shape) {
     };
     for (let i = 0; i < part.edges.length; ++i) {
       const startEdge = part.edges[i] as PGEdge;
-      const ends = startEdge.getAnchors() as unknown as PGAnchor[];
+      const ends = startEdge.getAnchors() as PGAnchor[];
       let seen: PGAnchor[] | null | undefined = visited[String(startEdge.getId())];
       let facet: PGFacet | null = null;
       let cycle: DirectedEdge[] = [];
@@ -843,13 +838,13 @@ export class PathsGraph extends GraphMixin(Shape) {
           if (
             (directed as DirectedEdge).getProperty("direction") == DirectedEdge.Direction.Straight
           ) {
-            next = (anchor = edge.getDestination() as unknown as PGAnchor).getNextEdgeOrdered(
+            next = (anchor = edge.getDestination() as PGAnchor).getNextEdgeOrdered(
               edge,
               PGAnchor.EdgeType.In,
               wantInside,
             );
           } else {
-            next = (anchor = edge.getSource() as unknown as PGAnchor).getNextEdgeOrdered(
+            next = (anchor = edge.getSource() as PGAnchor).getNextEdgeOrdered(
               edge,
               PGAnchor.EdgeType.Out,
               wantInside,
@@ -860,7 +855,7 @@ export class PathsGraph extends GraphMixin(Shape) {
               visited[
                 String(
                   (edge = (directed = new DirectedEdge(
-                    next.edge as unknown as PGEdge,
+                    next.edge as PGEdge,
                     next.type == PGAnchor.EdgeType.Out
                       ? DirectedEdge.Direction.Straight
                       : DirectedEdge.Direction.Reverse,
@@ -1408,7 +1403,7 @@ export class PathsGraph extends GraphMixin(Shape) {
         first.setProperties(["x", "y"], [match.getProperty("x"), match.getProperty("y")]);
       } else {
         (source = new PGAnchor()).setProperties(["x", "y"], [x, y]);
-        this.addAnchor(asGraphAnchor(source));
+        this.addAnchor(source);
       }
     }
     const last = line.getAnchorPoints().getLastChild() as AnchorPoint;
@@ -1436,14 +1431,14 @@ export class PathsGraph extends GraphMixin(Shape) {
         last.setProperties(["x", "y"], [match.getProperty("x"), match.getProperty("y")]);
       } else {
         (destination = new PGAnchor()).setProperties(["x", "y"], [x, y]);
-        this.addAnchor(asGraphAnchor(destination));
+        this.addAnchor(destination);
       }
     }
     if (source != destination) {
       const edge = new PGEdge();
       edge.setPathBase(line);
       if (styleSource) edge.assignStyleFrom(styleSource);
-      this.connectAnchors(asGraphAnchor(source), asGraphAnchor(destination), asGraphEdge(edge));
+      this.connectAnchors(source, destination, edge);
     }
     return new GraphPosition(PosType.Anchor, new AnchorSpec(destination));
   }
@@ -1460,14 +1455,14 @@ export class PathsGraph extends GraphMixin(Shape) {
         null != facet;
         facet = facet.getNext() as PGFacet | null
       ) {
-        if (!facet.getProperty("cSt")) facet.assignStyleFrom(this as unknown as StylableNode);
+        if (!facet.getProperty("cSt")) facet.assignStyleFrom(this);
       }
       for (
         let edge = this._edges.getFirstChild() as PGEdge | null;
         null != edge;
         edge = edge.getNext() as PGEdge | null
       ) {
-        if (!edge.getProperty("cSt")) edge.assignStyleFrom(this as unknown as StylableNode);
+        if (!edge.getProperty("cSt")) edge.assignStyleFrom(this);
       }
     }
   }
@@ -1488,7 +1483,7 @@ export class PathsGraph extends GraphMixin(Shape) {
       const blob = (args as RestoreChangeArgs).blob;
       if (Object.prototype.hasOwnProperty.call(blob, "anchors")) {
         this._anchors = Node.deserialize(blob["anchors"] as string) as MapContainer;
-        this._anchors._setParent(this as unknown as ContainerNode);
+        this._anchors._setParent(this);
       }
       let edges: PathsGraphEdges | null = null;
       if (Object.prototype.hasOwnProperty.call(blob, "edges")) {
@@ -1512,11 +1507,7 @@ export class PathsGraph extends GraphMixin(Shape) {
           ) as PGAnchor | null;
           if (source && destination) {
             edges.removeChild(edge);
-            this.connectAnchors(
-              asGraphAnchor(source),
-              asGraphAnchor(destination),
-              asGraphEdge(edge),
-            );
+            this.connectAnchors(source, destination, edge);
           }
         }
       }
@@ -1559,7 +1550,7 @@ export class PathsGraph extends GraphMixin(Shape) {
         edge;
         edge = edge.getNext() as PGEdge | null
       ) {
-        if (!edge.getProperty("cSt")) edge.assignStyleFrom(this as unknown as StylableNode);
+        if (!edge.getProperty("cSt")) edge.assignStyleFrom(this);
       }
     }
   }
@@ -1771,8 +1762,8 @@ export class PathsGraph extends GraphMixin(Shape) {
         }
         canvas.drawCanvas(
           styleCanvas,
-          null as never,
-          null as never,
+          NULL_COORDINATE,
+          NULL_COORDINATE,
           layer.$_op,
           layer.getBlendingForContext(context as never),
         );
@@ -1790,7 +1781,7 @@ export class PathsGraph extends GraphMixin(Shape) {
       const anchorColors = new GraphColorMap<GraphAnchor>();
       const edgeColors = new GraphColorMap<GraphEdge>();
       const collect = (visited: GraphEdge): boolean => {
-        const other = visited as unknown as PGEdge;
+        const other = visited as PGEdge;
         const differs = !other.hasSameStyle(styleEdge);
         if (!differs) group.push(other);
         return differs;
@@ -1806,13 +1797,13 @@ export class PathsGraph extends GraphMixin(Shape) {
           styleEdge = edge;
           group = [];
           try {
-            const start = edge.getSource() as unknown as GraphAnchor;
+            const start = edge.getSource() as GraphAnchor;
             anchorColors.initWhite(anchors);
             edgeColors.initWhite(edges);
             this.depthFirstSearch(collect, null, start, anchorColors, edgeColors);
             const reached = anchorColors.getItemsOfColor(GraphColorMap.Colors.Black);
             for (let i = 0; i < reached.length; ++i) {
-              (reached[i] as unknown as PGAnchor)._paintBorder(
+              (reached[i] as PGAnchor)._paintBorder(
                 context,
                 this.$trf,
                 this._scene,
@@ -1890,8 +1881,8 @@ export class PathsGraph extends GraphMixin(Shape) {
                     }
                     into.drawCanvas(
                       borderCanvas,
-                      null as never,
-                      null as never,
+                      NULL_COORDINATE,
+                      NULL_COORDINATE,
                       borderLayer.$_op,
                       borderLayer.getBlendingForContext(context as never),
                     );

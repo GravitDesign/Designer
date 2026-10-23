@@ -1,17 +1,18 @@
 import fs from "node:fs";
 import path from "node:path";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { EXPECTED_ROOT } from "../../../../parity/support/env.ts";
 import { getTypeId } from "../../core/object.ts";
 import { Node, registerNodeClass } from "../../scene/node.ts";
 import { Effect, type EffectPadding, type EffectTypeValue } from "../effect.ts";
 import "../stylable.ts";
+import { GLColorAdjustEffect } from "../webgl/effects/gl-color-adjust-effect.ts";
 import { AdjustMultiEffect } from "./adjust-multi-effect.ts";
 import { ColorAdjustMultiEffect } from "./color-adjust-multi-effect.ts";
 import { CurvedShadowEffect } from "./curved-shadow-effect.ts";
 
-// Stand-ins for the engine-effects-webgl classes these effects look up by
-// node name: just the property tables and what the canvas effects call.
+// A stand-in for GGLBendBlurEffect, which the curved shadow looks up by
+// node name: just the property table and what the curved shadow calls.
 
 const rendered: string[] = [];
 
@@ -48,18 +49,6 @@ function glEffect(
   return FakeGLEffect;
 }
 
-glEffect("GGLBrightnessContrastEffect", { brightness: 0, contrast: 0 });
-glEffect("GGLHueSaturationEffect", { hue: 0, saturation: 0 });
-const ColorAdjust = glEffect("GGLColorAdjustEffect", {
-  brightness: 0,
-  contrast: 0,
-  hue: 0,
-  saturation: 0,
-});
-glEffect("GGLDotScreenEffect", { centerX: 0, centerY: 0, angle: 0, size: 3 });
-glEffect("GGLSepiaEffect", { amount: 0.5 });
-glEffect("GGLBlurEffect", { radius: 5, clip: false });
-
 const FakeBendBlurEffect = glEffect(
   "GGLBendBlurEffect",
   { radius: 50, softness: 1, bend: 50, cov: 0.8 },
@@ -69,6 +58,10 @@ const FakeBendBlurEffect = glEffect(
 const recorded = JSON.parse(
   fs.readFileSync(path.join(EXPECTED_ROOT, "engine-model/styles/effects-catalogue.json"), "utf8"),
 ) as Record<string, { defaultBlob: unknown; blob: unknown; type: number }>;
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe("ColorAdjustMultiEffect", () => {
   it("keeps the old type id and node name", () => {
@@ -94,7 +87,12 @@ describe("ColorAdjustMultiEffect", () => {
 
   it("renders all four values with one color adjust effect", () => {
     const fx = new ColorAdjustMultiEffect();
-    expect(fx._colorAdjust).toBeInstanceOf(ColorAdjust);
+    expect(fx._colorAdjust).toBeInstanceOf(GLColorAdjustEffect);
+    vi.spyOn(GLColorAdjustEffect.prototype, "render").mockImplementation(function (
+      this: GLColorAdjustEffect,
+    ) {
+      rendered.push(Node.getName(this) + " " + JSON.stringify(this.$shp));
+    });
     fx.setProperty("GGLHueSaturationEffect&shp", { hue: 0.5, saturation: 0.1 });
     fx.setProperty("GGLBrightnessContrastEffect&shp", { brightness: 0.2, contrast: -0.3 });
     rendered.length = 0;

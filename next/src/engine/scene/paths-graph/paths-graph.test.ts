@@ -1,10 +1,11 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { normalizeDocumentString } from "../../../../parity/support/normalize.ts";
 import { RGBColor } from "../../color/rgb-color.ts";
 import { Point } from "../../math/point.ts";
 import { FillPaintLayer } from "../../style/fill-paint-layer.ts";
 import { BorderPaintLayer } from "../../style/border-paint-layer.ts";
 import { CompoundPath } from "../compound-path.ts";
+import { AfterSpecialChangeEvent } from "../node-events.ts";
 import { Node } from "../node.ts";
 import { AnchorPoint, PathBase } from "../path-base.ts";
 import { Path } from "../path.ts";
@@ -317,6 +318,65 @@ describe("GPathsGraph", () => {
       [0, 0],
       [100, 50],
     ]);
+  });
+});
+
+describe("GPathsGraph undo of a facets change", () => {
+  function rebuildFacets() {
+    const graph = new PathsGraph();
+    graph.addGraphLine(line(square(0, 0, 100)), null, null, null, true);
+    const before = graph.getFacets();
+    const sent: AfterSpecialChangeEvent[] = [];
+    vi.spyOn(graph, "_sendEvent").mockImplementation((event) => {
+      if (event instanceof AfterSpecialChangeEvent) sent.push(event);
+    });
+    graph.addGraphLine(
+      line([
+        [50, -20],
+        [50, 120],
+      ]),
+    );
+    const after = graph.getFacets();
+    // The last change is the one that replaced `before`.
+    const change = sent.find(
+      (e) => (e.data as { oldFacets: unknown } | null)?.oldFacets === before,
+    ) as AfterSpecialChangeEvent;
+    return { graph, before, after, data: change.data as { oldFacets: typeof before } };
+  }
+
+  it("sends the replaced facets with the AfterSpecialChangeEvent", () => {
+    const { graph, before, after, data } = rebuildFacets();
+    expect(after).not.toBe(before);
+    expect(data.oldFacets).toBe(before);
+    expect(before.getParent()).toBeNull();
+    expect(after.getParent()).toBe(graph);
+    expect(graph.getTransactionActionSerialized(data)).toEqual({});
+    expect(graph.getTransactionActionSerialized(null)).toBeNull();
+  });
+
+  it("reverts to the old facets and redoes the new ones", () => {
+    const { graph, before, after, data } = rebuildFacets();
+    const redo = graph.getTransactionAction(data);
+    const revert = graph.getTransactionRevertAction(data);
+    revert();
+    expect(graph.getFacets()).toBe(before);
+    expect(before.getParent()).toBe(graph);
+    expect(after.getParent()).toBeNull();
+    expect(graph.getFacets().getChildren()).toHaveLength(1);
+    redo();
+    expect(graph.getFacets()).toBe(after);
+    expect(after.getParent()).toBe(graph);
+    expect(before.getParent()).toBeNull();
+    expect(graph.getFacets().getChildren()).toHaveLength(2);
+  });
+
+  it("does nothing without change data", () => {
+    const { graph, after } = rebuildFacets();
+    graph.getTransactionAction(null)();
+    graph.getTransactionRevertAction(undefined)();
+    graph.getTransactionActionDeserialized({})();
+    expect(graph.getFacets()).toBe(after);
+    expect(after.getParent()).toBe(graph);
   });
 });
 

@@ -33,6 +33,8 @@ import { AnchorPoint, PathBase } from "../path-base.ts";
 import type { SceneHooks } from "../scene-node.ts";
 import type { ShapePaintContext } from "../shape.ts";
 import { EdgeMixin } from "./edge.ts";
+import type { GraphEdge } from "./graph.ts";
+import type { PGAnchor } from "./pg-anchor.ts";
 
 const GeometryProperties = {
   uid: null,
@@ -53,12 +55,6 @@ export type EdgeBorder = BorderPaintLayer & {
   $_bhmi: unknown;
   $_btmi: unknown;
 };
-
-/** What the edge needs from its anchors (GPGAnchor). */
-interface EdgeAnchor {
-  getInEdges(): unknown[];
-  getOutEdges(): unknown[];
-}
 
 /** A place on an edge's curve: segment index from 0, parameter, and optionally the exact point. */
 export class SplitPoint {
@@ -90,7 +86,7 @@ function graphOf(node: Node): Node | null {
 
 const PGEdgeBase = Multireference(Stylable(EdgeMixin(Properties(Container(Store(Node))))));
 
-export class PGEdge extends PGEdgeBase {
+export class PGEdge extends PGEdgeBase implements GraphEdge {
   static {
     registerNodeClass(this, "GPGEdge", "GPGEdge");
   }
@@ -114,6 +110,20 @@ export class PGEdge extends PGEdgeBase {
 
   override getId(): Uid {
     return this.$uid;
+  }
+
+  // GEdge's accessors, typed for the paths graph: the ends are always
+  // paths graph anchors.
+  override getSource(): PGAnchor | null {
+    return super.getSource() as PGAnchor | null;
+  }
+
+  override getDestination(): PGAnchor | null {
+    return super.getDestination() as PGAnchor | null;
+  }
+
+  override getAnchors(): (PGAnchor | null)[] {
+    return super.getAnchors() as (PGAnchor | null)[];
   }
 
   override validateInsertion(parent: ContainerNode): boolean {
@@ -458,8 +468,8 @@ export class PGEdge extends PGEdgeBase {
     const vertices = path;
     const width = layer.$_bw;
     const miterLimit = layer.$_bml ? layer.$_bml : 10;
-    const source = this.getSource() as unknown as EdgeAnchor;
-    const destination = this.getDestination() as unknown as EdgeAnchor;
+    const source = this.getSource() as PGAnchor;
+    const destination = this.getDestination() as PGAnchor;
     const freeStart = source.getInEdges().length + source.getOutEdges().length == 1;
     const freeEnd = destination.getInEdges().length + destination.getOutEdges().length == 1;
     // Assigned further down; the old code read it before (a hoisted var),
