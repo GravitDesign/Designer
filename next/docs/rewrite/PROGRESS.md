@@ -54,8 +54,8 @@ Decisions taken:
 | 1 | Inventory | done (2311 items) |
 | 2 | Parity harness and corpus | done: 2855 old-app scenarios, review fixed, re-recorded |
 | 3 | Scaffold next/ | done |
-| 4 | Engine core | in progress: levels 0-4 committed; level 5 (shapes-primitives, paths-graph, text-node) running |
-| 5 | File format and import/export | not started |
+| 4 | Engine core | done: all engine clusters ported, review (phase4-review-A..D) fixed; 330+ parity ids pass in the new app; scenarios that need the editor are enabled in phase 6 |
+| 5 | File format and import/export | in progress: io-gvdesign, io-export-svg/pdf/bitmap, io-import-svg |
 | 6 | Editor | not started |
 | 7 | UI | not started |
 | 8 | Platform | not started |
