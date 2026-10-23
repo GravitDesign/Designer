@@ -1440,8 +1440,8 @@ designer.browser.dev.js	1381	75		drop:core-js 3.42.0 polyfill (modern targets)		
 designer.browser.dev.js	1382	254		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	1383	84		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	1384	78		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
-designer.browser.dev.js	1385	2055		port	next/src/app/storage/browser-storage-item.ts	app-shell-storage	
-designer.browser.dev.js	1386	1920		port	next/src/app/storage/browser-image-storage-item.ts	app-shell-storage	
+designer.browser.dev.js	1385	2055		drop:store-content item read through gApi (cloud openStorageFile branches)		app-shell-storage	
+designer.browser.dev.js	1386	1920		drop:external-asset item read through gApi (cloud openStorageFile branches)		app-shell-storage	
 designer.browser.dev.js	1387	188		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	1388	167		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	1389	56		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
@@ -1510,11 +1510,11 @@ designer.browser.dev.js	1526	2147	GEffectsPanel	port	next/src/app/inspector/effe
 designer.browser.dev.js	1527	2370	GEffectsButton	port	next/src/app/inspector/effects-button.ts	app-inspector-effects	UI-FIELD-118
 designer.browser.dev.js	1528	24961	GVersionHistoryProperties	drop:version history panel		drop-app-cloud	UI-INSPECT-026,UI-FIELD-054,UI-FIELD-055
 designer.browser.dev.js	1529	1260		drop:version history overlay (cloud)		app-shell-storage	UI-INSPECT-027
-designer.browser.dev.js	1530	3043		port	next/src/app/storage/recovery.ts	app-shell-storage	FMT-PREVIEW-005,FMT-AUTOSAVE-004
-designer.browser.dev.js	1531	3161		port	next/src/app/storage/preview-writer.ts	app-shell-storage	
-designer.browser.dev.js	1532	1218		port	next/src/app/storage/save-command.ts	app-shell-storage	
-designer.browser.dev.js	1533	1204		port	next/src/app/storage/save-command-external.ts	app-shell-storage	
-designer.browser.dev.js	1534	1261		port	next/src/app/storage/queue.ts	app-shell-storage	
+designer.browser.dev.js	1530	3043		drop:cloud auto-save model (GAutoSaveModel); its only user a1276 is dropped		app-shell-storage	FMT-PREVIEW-005,FMT-AUTOSAVE-004
+designer.browser.dev.js	1531	3161		drop:Gravit/Google Drive/SharePoint auto-save helper (cloud)		app-shell-storage	
+designer.browser.dev.js	1532	1218		drop:Gravit/Google Drive/SharePoint auto-save helper (cloud)		app-shell-storage	
+designer.browser.dev.js	1533	1204		drop:Gravit/Google Drive/SharePoint auto-save helper (cloud)		app-shell-storage	
+designer.browser.dev.js	1534	1261		drop:cloud auto-save queue		app-shell-storage	
 designer.browser.dev.js	1535	14120	GAnnotations	drop:annotations panel (review comments need the cloud)		drop-app-cloud	EDT-ANNOT-018,UI-SIDEBAR-004
 designer.browser.dev.js	1536	25477	GAnnotationProperties	drop:annotation properties (review comments need the cloud)		drop-app-cloud	EDT-TOOL-087
 designer.browser.dev.js	1537	16686		drop:review docker		drop-app-cloud	UI-SIDEBAR-005
