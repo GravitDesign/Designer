@@ -29,21 +29,30 @@ function sleep(ms: number): Promise<void> {
 
 /**
  * GDocument.deserializeData without the cloud: resolves with the restored
- * scene, or null when the JSON holds something other than a scene. Like
- * the old code it never settles for empty or invalid JSON, because
- * GNode.deserializeAsync then never calls back (the old document stays
- * in its Loading state).
+ * scene. Like the old code it never settles when there is no scene:
+ * - for empty or invalid JSON, because GNode.deserializeAsync then never
+ *   calls back;
+ * - when the restore gives null: the old code only went on (and resolved)
+ *   when the result was truthy, so its LoadFailed branch was unreachable;
+ * - when the restore gives something other than a scene (a JSON array, a
+ *   root of an unknown class, a lone shape): the old code called
+ *   `isCloudSynchronization()` on it, which only scenes have, and the
+ *   TypeError ended the async executor without settling its promise.
+ * The old document stayed in its Loading state in all three cases; see
+ * "A .gvdesign that holds no scene stays Loading" in QUESTIONS.md.
+ * A synchronous throw from deserializeAsync rejects, like the old
+ * `.catch(o)`.
  */
 export function deserializeScene(
   json: string | null,
   workspace: Workspace,
   progress?: ((percent: number) => void) | null,
-): Promise<Scene | null> {
+): Promise<Scene> {
   if (progress) progress(15);
   return new Promise((resolve, reject) => {
     try {
       Node.deserializeAsync(json, workspace, progress, null, (result) => {
-        resolve(result instanceof Scene ? result : null);
+        if (result instanceof Scene) resolve(result);
       });
     } catch (error) {
       reject(error instanceof Error ? error : new Error(String(error)));
@@ -56,7 +65,7 @@ export async function loadGvdesign(
   bytes: Uint8Array,
   workspace: Workspace,
   progress?: ((percent: number) => void) | null,
-): Promise<Scene | null> {
+): Promise<Scene> {
   if (progress) progress(5);
   await sleep(10);
   const json = unzipData(bytes);

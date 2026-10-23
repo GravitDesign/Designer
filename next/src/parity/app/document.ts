@@ -33,8 +33,10 @@
  *   GDocument.load): a document is added with a fresh scene, goes to
  *   Loading, gets the scene from io/gvdesign/load.ts, goes to Loaded,
  *   then Ready with the new scene (GDocument.setScene), and is activated
- *   again. A file that fails to restore stays Loading, as in the old app;
- *   a file that restores to something other than a scene is LoadFailed;
+ *   again. A file that holds no scene (invalid JSON, or JSON that
+ *   restores to null or to something other than a scene) stays Loading,
+ *   as in the old app, whose LoadFailed branch was unreachable (see "A
+ *   .gvdesign that holds no scene stays Loading" in QUESTIONS.md);
  * - three actions, run through app.execute like the old
  *   designer.executeAction:
  *   - "file.open" (GOpenAction with the local storage's file input,
@@ -249,8 +251,8 @@ function newInfiniteDocument(): InterimDocument {
 /**
  * GDesigner.openDocument for a .gvdesign storage item holding `bytes`
  * (GDesigner._processOpenDocument, GDocument.load). Resolves once the
- * load has finished or failed; a file that never restores leaves it
- * pending, like the old document that stays Loading.
+ * load has finished, rejects when the restore throws; a file that holds
+ * no scene leaves it pending, like the old document that stays Loading.
  */
 export function openDocumentFromBytes(bytes: Uint8Array, fileName: string): Promise<void> {
   const document = new InterimDocument(createScene(), fileName);
@@ -261,10 +263,6 @@ export function openDocumentFromBytes(bytes: Uint8Array, fileName: string): Prom
   addDocument(document);
   document.setStatus(DocumentStatus.Loading);
   return loadGvdesign(bytes, workspace).then((scene) => {
-    if (!scene) {
-      document.setStatus(DocumentStatus.LoadFailed);
-      return;
-    }
     document.setStatus(DocumentStatus.Loaded);
     // GDocument.setScene(scene, true): an active document is deactivated,
     // gets the scene and Ready, and is activated again.
@@ -302,7 +300,14 @@ async function downloadActiveDocument(): Promise<void> {
 
 let fileInput: HTMLInputElement | null = null;
 
-/** The local storage's openPrompt with its hidden file input. */
+/**
+ * The local storage's openPrompt with its hidden file input. Interim
+ * shortcut, not to be copied by app-shell-storage: the old openPrompt
+ * used window.showOpenFilePicker on Chromium (unless
+ * disableFileSystemAccessAPI was set) and kept the file handle on the
+ * item for later writes, and its file input accepted every type
+ * GOpenAction lists (no accept attribute on iOS).
+ */
 function openPrompt(): void {
   if (!fileInput) {
     const input = window.document.createElement("input");
