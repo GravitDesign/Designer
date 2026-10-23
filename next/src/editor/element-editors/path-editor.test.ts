@@ -143,7 +143,8 @@ describe("GPathEditor", () => {
         false,
       );
       const drag = editor.selectToolDragStartAction(part) as PartInfo;
-      // BUGS-FIXED candidate: the type should be a point type, it is undefined.
+      // Kept old bug: the type is undefined (see "Segment drag at slope 0 or
+      // 1 builds a part id without a type" in QUESTIONS.md).
       expect(drag.id).toEqual({ type: undefined, point });
       expect(drag.data).toEqual({ apSelected: false });
     }

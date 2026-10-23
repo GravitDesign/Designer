@@ -1,0 +1,211 @@
+[
+  {
+    "skew": true,
+    "rot": false,
+    "mirror": null,
+    "points": {
+      "skewH": [100, -46],
+      "skewV": [246, 50],
+      "rotate": [100, 146],
+      "bottomCenter": [100, 100]
+    },
+    "bbox": [0, -46, 246, 192],
+    "probes": [
+      [100, -46, "SKEW_HORIZONTAL", [100, -46]],
+      [246, 50, "SKEW_VERTICAL", [246, 50]],
+      [
+        100,
+        146,
+        "OUTSIDE",
+        {
+          "rotationSegment": 5,
+          "leftCenter": [0, 50],
+          "rightCenter": [200, 50]
+        }
+      ],
+      [
+        50,
+        0.5,
+        "OUTSIDE",
+        {
+          "rotationSegment": 0,
+          "leftCenter": [0, 50],
+          "rightCenter": [200, 50]
+        }
+      ],
+      [
+        200,
+        30,
+        "OUTSIDE",
+        {
+          "rotationSegment": 3,
+          "leftCenter": [0, 50],
+          "rightCenter": [200, 50]
+        }
+      ],
+      [100, 1, "TOP_CENTER", [100, 0]],
+      [
+        100,
+        112,
+        "OUTSIDE",
+        {
+          "rotationSegment": 5,
+          "leftCenter": [0, 50],
+          "rightCenter": [200, 50]
+        }
+      ],
+      [
+        300,
+        50,
+        "OUTSIDE",
+        {
+          "rotationSegment": 3,
+          "leftCenter": [0, 50],
+          "rightCenter": [200, 50]
+        }
+      ]
+    ]
+  },
+  {
+    "skew": false,
+    "rot": true,
+    "mirror": null,
+    "points": {
+      "skewH": [100, -46],
+      "skewV": [246, 50],
+      "rotate": [100, 146],
+      "bottomCenter": [100, 100]
+    },
+    "bbox": [0, -46, 246, 192],
+    "probes": [
+      [100, -46, "FAR_OUTSIDE", "<undefined>"],
+      [246, 50, "FAR_OUTSIDE", "<undefined>"],
+      [
+        100,
+        146,
+        "OUTSIDE",
+        {
+          "rotationSegment": 5,
+          "leftCenter": [0, 50],
+          "rightCenter": [200, 50]
+        }
+      ],
+      [50, 0.5, "OUTLINE", 1],
+      [200, 30, "OUTLINE", 0],
+      [100, 1, "TOP_CENTER", [100, 0]],
+      [100, 112, "FAR_OUTSIDE", "<undefined>"],
+      [300, 50, "FAR_OUTSIDE", "<undefined>"]
+    ]
+  },
+  {
+    "skew": true,
+    "rot": true,
+    "mirror": null,
+    "points": {
+      "skewH": [100, -46],
+      "skewV": [246, 50],
+      "rotate": [100, 146],
+      "bottomCenter": [100, 100]
+    },
+    "bbox": [0, -46, 246, 192],
+    "probes": [
+      [100, -46, "SKEW_HORIZONTAL", [100, -46]],
+      [246, 50, "SKEW_VERTICAL", [246, 50]],
+      [
+        100,
+        146,
+        "OUTSIDE",
+        {
+          "rotationSegment": 5,
+          "leftCenter": [0, 50],
+          "rightCenter": [200, 50]
+        }
+      ],
+      [50, 0.5, "FAR_OUTSIDE", "<undefined>"],
+      [200, 30, "FAR_OUTSIDE", "<undefined>"],
+      [100, 1, "TOP_CENTER", [100, 0]],
+      [100, 112, "FAR_OUTSIDE", "<undefined>"],
+      [300, 50, "FAR_OUTSIDE", "<undefined>"]
+    ]
+  },
+  {
+    "skew": false,
+    "rot": true,
+    "mirror": [1, 0, 0, -1, 0, 100],
+    "points": {
+      "skewH": [100, 54],
+      "skewV": [246, 50],
+      "rotate": [100, 46],
+      "bottomCenter": [100, 0]
+    },
+    "bbox": [0, 0, 246, 100],
+    "probes": [
+      [100, 54, "ROTATION_CENTER", [100, 50]],
+      [246, 50, "FAR_OUTSIDE", "<undefined>"],
+      [
+        100,
+        46,
+        "OUTSIDE",
+        {
+          "rotationSegment": 1,
+          "leftCenter": [0, 50],
+          "rightCenter": [200, 50]
+        }
+      ],
+      [50, 0.5, "OUTLINE", 1],
+      [200, 30, "OUTLINE", 0],
+      [100, 1, "BOTTOM_CENTER", [100, 0]],
+      [100, 112, "FAR_OUTSIDE", "<undefined>"],
+      [300, 50, "FAR_OUTSIDE", "<undefined>"]
+    ]
+  },
+  {
+    "skew": false,
+    "rot": false,
+    "mirror": [1, 0, 0, -1, 0, 100],
+    "points": {
+      "skewH": [100, 54],
+      "skewV": [246, 50],
+      "rotate": [100, 46],
+      "bottomCenter": [100, 0]
+    },
+    "bbox": [0, 0, 246, 100],
+    "probes": [
+      [100, 54, "ROTATION_CENTER", [100, 50]],
+      [
+        246,
+        50,
+        "OUTSIDE",
+        {
+          "rotationSegment": 3,
+          "leftCenter": [0, 50],
+          "rightCenter": [200, 50]
+        }
+      ],
+      [100, 46, "ROTATION_CENTER", [100, 50]],
+      [50, 0.5, "OUTLINE", 1],
+      [200, 30, "OUTLINE", 0],
+      [100, 1, "BOTTOM_CENTER", [100, 0]],
+      [
+        100,
+        112,
+        "OUTSIDE",
+        {
+          "rotationSegment": 5,
+          "leftCenter": [0, 50],
+          "rightCenter": [200, 50]
+        }
+      ],
+      [
+        300,
+        50,
+        "OUTSIDE",
+        {
+          "rotationSegment": 3,
+          "leftCenter": [0, 50],
+          "rightCenter": [200, 50]
+        }
+      ]
+    ]
+  }
+]

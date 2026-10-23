@@ -346,8 +346,8 @@ export class SceneEditor extends ElementEditor {
   /**
    * The cursor of a transform box part. OUTSIDE falls through to ROTATE
    * (no break in the old code), so the rotation zone shows the round
-   * rotate cursor instead of the segment's rotate cursor (see BUGS-FIXED
-   * candidate "Scene editor rotation zone cursor").
+   * rotate cursor instead of the segment's rotate cursor (see "Scene
+   * editor rotation zone shows the plain rotate cursor" in QUESTIONS.md).
    */
   override getCursor(partId: unknown, partData?: unknown): unknown {
     let cursor: unknown = Cursor.Select;

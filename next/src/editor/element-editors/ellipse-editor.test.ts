@@ -83,7 +83,7 @@ describe("GEllipseEditor", () => {
     ).toThrow(TypeError);
   });
 
-  it("gives a new ellipse butt caps unless its style source has no border", () => {
+  it("gives a new ellipse butt caps without a source, from a non-ellipse source with a border or without layers", () => {
     const withBorder = (): EditedEllipse => {
       const e = ellipse();
       e.getPaintLayers().appendChild(new BorderPaintLayer());
@@ -116,5 +116,18 @@ describe("GEllipseEditor", () => {
     bordered.getPaintLayers()?.appendChild(new BorderPaintLayer());
     new EllipseEditor(e).initialSetup(bordered);
     expect(caps(e)).toEqual([PaintCanvas.LineCap.Butt, PaintCanvas.LineCap.Butt]);
+
+    // An ellipse source, even with a border: the caps stay as they are.
+    e = withBorder();
+    const round = withBorder();
+    const roundCaps = caps(e);
+    new EllipseEditor(e).initialSetup(round);
+    expect(caps(e)).toEqual([...roundCaps, ...caps(round)]);
+    expect(caps(e)).not.toContain(PaintCanvas.LineCap.Butt);
+
+    // A source that has no paint layers: butt caps.
+    e = withBorder();
+    new EllipseEditor(e).initialSetup({ getPaintLayers: () => null });
+    expect(caps(e)).toEqual([PaintCanvas.LineCap.Butt]);
   });
 });

@@ -596,7 +596,9 @@ export class BoxEditor extends BaseEditor {
         }
       },
       transform,
-      (context.configuration as unknown as { multiPageView?: unknown } | null)?.multiPageView,
+      // Read as the old code did (it throws without a configuration),
+      // though _iterateResizeHandles never uses it.
+      (context.configuration as unknown as { multiPageView: unknown }).multiPageView,
     );
   }
 
@@ -962,7 +964,6 @@ export class BoxEditor extends BaseEditor {
   _paintOutline(
     transform: Transform,
     context: EditorPaintContext,
-
     noVertices: unknown,
     color: Color | null,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars -- overridden with the argument
@@ -974,7 +975,6 @@ export class BoxEditor extends BaseEditor {
   _paintResizeBoxOutline(
     transform: Transform,
     context: EditorPaintContext,
-
     noVertices: unknown,
     color: Color | null,
     width?: number,

@@ -1,0 +1,53 @@
+{
+  "before": {
+    "masterFrame": [100, 100, 100, 50],
+    "masterTrf": null,
+    "childTrf": [50, 0, 0, 25, 150, 125],
+    "masterBox": [100, 100, 100, 50],
+    "instanceFrame": [100, 100, 100, 50],
+    "instanceTrf": [1, 0, 0, 1, 300, 0],
+    "instanceChildTrf": [50, 0, 0, 25, 450, 125],
+    "instanceBox": [400, 100, 100, 50],
+    "instanceBlockEv": "kept",
+    "scaledFrame": [100, 100, 100, 50],
+    "scaledTrf": [2, 0, 0, 2, 0, 300],
+    "masterBlockEv": false
+  },
+  "customBoxIdle": {
+    "true": [179.5, 126.5, 242, 195],
+    "false": [179.5, 152, 242, 169.5]
+  },
+  "resize": [1.2, 0, 0, 1.2, -20, -20],
+  "preTransform": [1.2, 0, 0, 1.2, -20, -20],
+  "peBox": [100, 100, 120, 60],
+  "customBox": [100, 82, 100, 18],
+  "customBoxScaled": [200, 130, 200, 70],
+  "canApply": true,
+  "previewTrf": [1.2, 0, 0, 1.2, -20, -20],
+  "stored": {
+    "side": "br",
+    "dx": 20,
+    "dy": 10
+  },
+  "after": {
+    "masterFrame": [100, 100, 120, 60],
+    "masterTrf": null,
+    "childTrf": [60, 0, 0, 30, 160, 130],
+    "masterBox": [100, 100, 120, 60],
+    "instanceFrame": [100, 100, 120, 60],
+    "instanceTrf": [1, 0, 0, 1, 300, 0],
+    "instanceChildTrf": [60, 0, 0, 30, 460, 130],
+    "instanceBox": [400, 100, 120, 60],
+    "instanceBlockEv": "kept",
+    "scaledFrame": [100, 100, 100, 50],
+    "scaledTrf": [2, 0, 0, 2, 0, 300],
+    "masterBlockEv": false
+  },
+  "blockLog": [
+    ["instance", true],
+    ["instance", "kept"]
+  ],
+  "peBoxMoved": [110, 100, 120, 60],
+  "instanceEditorOpen": false,
+  "preview": true
+}

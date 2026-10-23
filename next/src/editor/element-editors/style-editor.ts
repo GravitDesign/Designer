@@ -72,8 +72,10 @@ export class StyleEditor extends BaseEditor {
   }
 
   /**
-   * The gradient editors take a third argument (`noEvent`: don't tell the
-   * manager about the new active stop); here it is ignored.
+   * Not in the old code: the override exists only for typing. It widens
+   * the signature with the gradient editors' third argument (`noEvent`:
+   * don't tell the manager about the new active stop), which is ignored
+   * here, and otherwise just runs BaseEditor.updatePartSelection.
    */
   override updatePartSelection(
     toggle: unknown,

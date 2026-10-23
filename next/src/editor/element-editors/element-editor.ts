@@ -263,7 +263,8 @@ export class ElementEditor<E extends EditedElement = EditedElement> extends BoxE
         box = VertexInfo.calculateBounds(source, true);
       } else {
         box = target.getGeometryBBox();
-        if (transform && box) box = transform.mapRect(box);
+        // As in the old code, a transform with no geometry box throws.
+        if (transform) box = transform.mapRect(box as Rect);
       }
     }
     return box;

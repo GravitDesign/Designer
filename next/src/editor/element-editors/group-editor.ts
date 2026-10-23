@@ -167,7 +167,7 @@ export class GroupEditor<E extends EditedItem = EditedItem> extends ItemEditor<E
 
   override resetTransform(): void {
     for (let i = this._editors ? this._editors.length : 0; i > 0; --i) {
-      (this._editors as BaseEditor[])[i - 1]?.resetTransform();
+      ((this._editors as BaseEditor[])[i - 1] as BaseEditor).resetTransform();
     }
     super.resetTransform();
   }

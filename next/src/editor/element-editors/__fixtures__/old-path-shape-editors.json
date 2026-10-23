@@ -1,0 +1,910 @@
+{
+  "compoundPartialTransform": {
+    "hasPartSelection": true,
+    "outerPreview": false,
+    "innerPreview": true,
+    "canApply": true,
+    "after": {
+      "paths": [0, 1],
+      "points": [
+        [
+          [0, 0],
+          [100, 0],
+          [100, 100],
+          [0, 100]
+        ],
+        [
+          [35, 30, "sel"],
+          [75, 25],
+          [75, 75],
+          [25, 75]
+        ]
+      ],
+      "log": []
+    },
+    "transformCleared": true,
+    "innerPreviewAfter": false
+  },
+  "compoundDeleteLeavesOne": {
+    "allowed": true,
+    "paths": [0],
+    "points": [
+      [
+        [0, 0],
+        [100, 0],
+        [100, 100],
+        [0, 100]
+      ],
+      [
+        [25, 25, "sel"],
+        [75, 25, "sel"],
+        [75, 75, "sel"],
+        [25, 75, "sel"]
+      ]
+    ],
+    "log": [["exchange", "?", 1, true]],
+    "innerSelected": false
+  },
+  "compoundDeleteLeavesTwo": {
+    "allowed": true,
+    "paths": [0, 1],
+    "points": [
+      [
+        [0, 0],
+        [100, 0],
+        [100, 100],
+        [0, 100]
+      ],
+      [
+        [25, 25],
+        [75, 25],
+        [75, 75],
+        [25, 75]
+      ],
+      [
+        [200, 0, "sel"],
+        [230, 0, "sel"],
+        [230, 30, "sel"],
+        [200, 30, "sel"]
+      ]
+    ],
+    "log": []
+  },
+  "compoundDeletePoints": {
+    "allowed": true,
+    "paths": [0, 1],
+    "points": [
+      [
+        [0, 0],
+        [100, 0],
+        [100, 100],
+        [0, 100]
+      ],
+      [
+        [25, 25],
+        [75, 25],
+        [25, 75]
+      ]
+    ],
+    "log": []
+  },
+  "compoundOwnedParts": {
+    "single": [
+      [
+        [0, 0],
+        [100, 0],
+        [100, 100],
+        [0, 100]
+      ],
+      [
+        [25, 25],
+        [75, 25],
+        [75, 75, "sel"],
+        [25, 75]
+      ]
+    ],
+    "toggled": [
+      [
+        [0, 0, "sel"],
+        [100, 0],
+        [100, 100],
+        [0, 100]
+      ],
+      [
+        [25, 25],
+        [75, 25, "sel"],
+        [75, 75, "sel"],
+        [25, 75]
+      ]
+    ],
+    "empty": [
+      [
+        [0, 0, "sel"],
+        [100, 0],
+        [100, 100],
+        [0, 100]
+      ],
+      [
+        [25, 25],
+        [75, 25, "sel"],
+        [75, 75, "sel"],
+        [25, 75]
+      ]
+    ]
+  },
+  "compoundCollision": {
+    "allowed": true,
+    "hitInner": true,
+    "afterInner": [
+      [
+        [0, 0],
+        [100, 0],
+        [100, 100],
+        [0, 100]
+      ],
+      [
+        [25, 25, "sel"],
+        [75, 25, "sel"],
+        [75, 75],
+        [25, 75]
+      ]
+    ],
+    "hitNone": false,
+    "afterNone": [
+      [
+        [0, 0],
+        [100, 0],
+        [100, 100],
+        [0, 100]
+      ],
+      [
+        [25, 25],
+        [75, 25],
+        [75, 75],
+        [25, 75]
+      ]
+    ],
+    "hitBoth": true,
+    "afterBoth": [
+      [
+        [0, 0],
+        [100, 0],
+        [100, 100, "sel"],
+        [0, 100, "sel"]
+      ],
+      [
+        [25, 25],
+        [75, 25],
+        [75, 75, "sel"],
+        [25, 75, "sel"]
+      ]
+    ]
+  },
+  "compoundGeometryChange": {
+    "created": [true, true],
+    "before": [true, true],
+    "otherPath": [true, true],
+    "after": [false, false],
+    "ownAfter": [false, false]
+  },
+  "compoundRemoveFlag": {
+    "resizeAll": true,
+    "selected": [
+      [true, true, true],
+      [true, true, true]
+    ],
+    "outlineRemovedWhileResizable": [
+      [true, true, true],
+      [true, true, true]
+    ],
+    "detailRemoved": [
+      [true, true, false],
+      [true, true, false]
+    ],
+    "resizeAllRemoved": [
+      [true, false, false],
+      [true, false, false]
+    ],
+    "outlineRemoved": [
+      [true, false, false],
+      [true, false, false]
+    ],
+    "deselected": [
+      [false, false, false],
+      [false, false, false]
+    ]
+  },
+  "compoundAlign": {
+    "allowedResizable": false,
+    "allowedNoParts": false,
+    "allowed": true,
+    "alignedX": [
+      [
+        [0, 0],
+        [100, 0],
+        [40, 100, "sel"],
+        [0, 100]
+      ],
+      [
+        [40, 25, "sel"],
+        [40, 25, "sel"],
+        [75, 75],
+        [25, 75]
+      ]
+    ],
+    "alignedY": [
+      [
+        [0, 0],
+        [100, 0],
+        [40, 60, "sel"],
+        [0, 100]
+      ],
+      [
+        [40, 60, "sel"],
+        [40, 60, "sel"],
+        [75, 75],
+        [25, 75]
+      ]
+    ]
+  },
+  "pathDelete": {
+    "noParts": false,
+    "allowed": true,
+    "after": [
+      [0, 0],
+      [100, 100]
+    ],
+    "partSelection": null,
+    "allSelectedAllowed": false,
+    "resizableAllowed": false,
+    "resizableAfter": []
+  },
+  "pathAlign": {
+    "noParts": false,
+    "allowed": true,
+    "alignedX": [
+      [0, 0],
+      [10, 0, 0, -10, "r", 20, 10, "sel"],
+      [10, 50, "sel"]
+    ],
+    "alignedY": [
+      [0, 0],
+      [10, 25, 0, 15, "r", 20, 35, "sel"],
+      [10, 25, "sel"]
+    ],
+    "segmentOnly": false
+  },
+  "pathMovePoint": [
+    [10, 10, 0, 0, "r", 20, 20],
+    [95, 30, 85, 20, "r", 105, 40],
+    [67.5, 65, 57.5, 65],
+    [125, 80]
+  ],
+  "pathSymbolInstance": {
+    "isPath": true,
+    "allSelectedAllowed": true,
+    "after": [
+      [0, 0, "sel"],
+      [50, 0, "sel"],
+      [100, 50, "sel"]
+    ],
+    "extraAllowed": true,
+    "afterExtra": [
+      [0, 0, "sel"],
+      [50, 0, "sel"],
+      [100, 50, "sel"]
+    ],
+    "masterAllowed": true
+  },
+  "pathSimpleLine": {
+    "defaultMode": true,
+    "true": {
+      "filtered": 2,
+      "resizeAll": false,
+      "rotateHandle": false,
+      "afterSet": [false, false]
+    },
+    "false": {
+      "filtered": 11266,
+      "resizeAll": true,
+      "rotateHandle": true,
+      "afterSet": [true, true]
+    }
+  },
+  "pathCenteredBorders": {
+    "defaultOption": false,
+    "true": {
+      "multiPointsLine": true,
+      "opened": ["I"],
+      "selected": ["C"],
+      "resizeAll": ["C"],
+      "inserted": ["C", "C"],
+      "selectedWithoutResizeAll": ["I"],
+      "deselectedWhileNodeSelected": ["I"],
+      "otherFlagRemoved": ["I"],
+      "deselected": ["C"],
+      "bentMultiPointsLine": false,
+      "bentInserted": ["I", "I"],
+      "closedInserted": ["C", "C"]
+    },
+    "false": {
+      "multiPointsLine": true,
+      "opened": ["I"],
+      "selected": ["I"],
+      "resizeAll": ["I"],
+      "inserted": ["I", "I"],
+      "selectedWithoutResizeAll": ["I"],
+      "deselectedWhileNodeSelected": ["I"],
+      "otherFlagRemoved": ["I"],
+      "deselected": ["I"],
+      "bentMultiPointsLine": false,
+      "bentInserted": ["I", "I"],
+      "closedInserted": ["I", "I"]
+    }
+  },
+  "pathGeometryChange": {
+    "created": true,
+    "before": true,
+    "other": true,
+    "after": [false, null],
+    "viaScene": false
+  },
+  "previewMiddleOfClosed": {
+    "partial": {
+      "points": [
+        [100, 0],
+        [150, 50, "sel"],
+        [100, 100]
+      ],
+      "closed": false,
+      "table": {
+        "1": 0,
+        "2": 1,
+        "3": 2
+      }
+    },
+    "again": true,
+    "full": {
+      "points": [
+        [0, 0],
+        [100, 0],
+        [150, 50, "sel"],
+        [100, 100],
+        [0, 100]
+      ],
+      "closed": true,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4
+      }
+    },
+    "lookup": [0, 1, 2, 3, 4]
+  },
+  "previewFirstOfClosed": {
+    "partial": {
+      "points": [
+        [0, 100],
+        [0, 0, "sel"],
+        [100, 0]
+      ],
+      "closed": false,
+      "table": {
+        "0": 1,
+        "1": 2,
+        "4": 0
+      }
+    },
+    "again": true,
+    "full": {
+      "points": [
+        [0, 100],
+        [0, 0, "sel"],
+        [100, 0],
+        [150, 50],
+        [100, 100]
+      ],
+      "closed": true,
+      "table": {
+        "0": 1,
+        "1": 2,
+        "2": 3,
+        "3": 4,
+        "4": 0
+      }
+    },
+    "lookup": [1, 2, 3, 4, 0]
+  },
+  "previewLastOfClosed": {
+    "partial": {
+      "points": [
+        [100, 100],
+        [0, 100, "sel"],
+        [0, 0]
+      ],
+      "closed": false,
+      "table": {
+        "0": 2,
+        "3": 0,
+        "4": 1
+      }
+    },
+    "again": true,
+    "full": {
+      "points": [
+        [100, 100],
+        [0, 100, "sel"],
+        [0, 0],
+        [100, 0],
+        [150, 50]
+      ],
+      "closed": true,
+      "table": {
+        "0": 2,
+        "1": 3,
+        "2": 4,
+        "3": 0,
+        "4": 1
+      }
+    },
+    "lookup": [2, 3, 4, 0, 1]
+  },
+  "previewTwoAdjacent": {
+    "partial": {
+      "points": [
+        [100, 0],
+        [150, 50, "sel"],
+        [100, 100, "sel"],
+        [0, 100]
+      ],
+      "closed": false,
+      "table": {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 3
+      }
+    },
+    "again": true,
+    "full": {
+      "points": [
+        [0, 0],
+        [100, 0],
+        [150, 50, "sel"],
+        [100, 100, "sel"],
+        [0, 100]
+      ],
+      "closed": true,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4
+      }
+    },
+    "lookup": [0, 1, 2, 3, 4]
+  },
+  "previewNonContiguous": {
+    "partial": {
+      "points": [
+        [0, 0],
+        [100, 0, "sel"],
+        [150, 50],
+        [100, 100, "sel"],
+        [0, 100]
+      ],
+      "closed": false,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4
+      }
+    },
+    "again": true,
+    "full": {
+      "points": [
+        [0, 0],
+        [100, 0, "sel"],
+        [150, 50],
+        [100, 100, "sel"],
+        [0, 100]
+      ],
+      "closed": true,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4
+      }
+    },
+    "lookup": [0, 1, 2, 3, 4]
+  },
+  "previewEndOfOpen": {
+    "partial": {
+      "points": [
+        [100, 100],
+        [0, 100, "sel"]
+      ],
+      "closed": false,
+      "table": {
+        "3": 0,
+        "4": 1
+      }
+    },
+    "again": true,
+    "full": {
+      "points": [
+        [0, 0],
+        [100, 0],
+        [150, 50],
+        [100, 100],
+        [0, 100, "sel"]
+      ],
+      "closed": false,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4
+      }
+    },
+    "lookup": [0, 1, 2, 3, 4]
+  },
+  "previewStartOfOpen": {
+    "partial": {
+      "points": [
+        [0, 0, "sel"],
+        [100, 0]
+      ],
+      "closed": false,
+      "table": {
+        "0": 0,
+        "1": 1
+      }
+    },
+    "again": true,
+    "full": {
+      "points": [
+        [0, 0, "sel"],
+        [100, 0],
+        [150, 50],
+        [100, 100],
+        [0, 100]
+      ],
+      "closed": false,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4
+      }
+    },
+    "lookup": [0, 1, 2, 3, 4]
+  },
+  "previewMiddleOfOpen": {
+    "partial": {
+      "points": [
+        [100, 0],
+        [150, 50, "sel"],
+        [100, 100]
+      ],
+      "closed": false,
+      "table": {
+        "1": 0,
+        "2": 1,
+        "3": 2
+      }
+    },
+    "again": true,
+    "full": {
+      "points": [
+        [0, 0],
+        [100, 0],
+        [150, 50, "sel"],
+        [100, 100],
+        [0, 100]
+      ],
+      "closed": false,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4
+      }
+    },
+    "lookup": [0, 1, 2, 3, 4]
+  },
+  "previewOnePoint": {
+    "partial": {
+      "points": [
+        [150, 50],
+        [100, 100, "sel"],
+        [0, 100]
+      ],
+      "closed": false,
+      "table": {
+        "2": 0,
+        "3": 1,
+        "4": 2
+      }
+    },
+    "again": true,
+    "full": {
+      "points": [
+        [0, 0],
+        [100, 0],
+        [150, 50],
+        [100, 100, "sel"],
+        [0, 100]
+      ],
+      "closed": false,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4
+      }
+    },
+    "lookup": [0, 1, 2, 3, 4]
+  },
+  "previewAutoHandles": {
+    "partial": {
+      "points": [
+        [0, 0],
+        [100, 0],
+        [150, 50, "sel"],
+        [100, 100],
+        [0, 100]
+      ],
+      "closed": true,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4
+      }
+    },
+    "again": true,
+    "full": {
+      "points": [
+        [0, 0],
+        [100, 0],
+        [150, 50, "sel"],
+        [100, 100],
+        [0, 100]
+      ],
+      "closed": true,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4
+      }
+    },
+    "lookup": [0, 1, 2, 3, 4]
+  },
+  "previewNothingSelected": {
+    "partial": {
+      "points": [
+        [0, 0],
+        [100, 0],
+        [150, 50],
+        [100, 100],
+        [0, 100]
+      ],
+      "closed": true,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4
+      }
+    },
+    "again": true,
+    "full": {
+      "points": [
+        [0, 0],
+        [100, 0],
+        [150, 50],
+        [100, 100],
+        [0, 100]
+      ],
+      "closed": true,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4
+      }
+    },
+    "lookup": [0, 1, 2, 3, 4]
+  },
+  "previewGapSelected": {
+    "partial": {
+      "points": [
+        [0, 0],
+        [100, 0],
+        [150, 50, "sel"],
+        [100, 100],
+        [0, 100],
+        [-50, 80, "sel"],
+        [-50, 20]
+      ],
+      "closed": true,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 6
+      }
+    },
+    "again": true,
+    "full": {
+      "points": [
+        [0, 0],
+        [100, 0],
+        [150, 50, "sel"],
+        [100, 100],
+        [0, 100],
+        [-50, 80, "sel"],
+        [-50, 20]
+      ],
+      "closed": true,
+      "table": {
+        "0": 0,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 6
+      }
+    },
+    "lookup": [0, 1, 2, 3, 4, 5, 6]
+  },
+  "shapeDefaultStyle": {
+    "rectangle": {
+      "style": "rectangle",
+      "layers": [["fill", [255, 0, 0]]],
+      "opacity": 0.5
+    },
+    "shape": {
+      "style": "shape",
+      "layers": [["fill", [0, 255, 0]]],
+      "opacity": 0.7
+    },
+    "none": {
+      "style": null,
+      "layers": [],
+      "opacity": 1
+    }
+  },
+  "shapeCenterCross": {
+    "1": {
+      "bigNoDetail": 0,
+      "big": [
+        ["strokeLine", 99, 99, 103, 103, 1, "SELECTION"],
+        ["strokeLine", 103, 99, 99, 103, 1, "SELECTION"]
+      ],
+      "zoomedNoDetail": 0,
+      "zoomed": [
+        ["strokeLine", 209, 219, 213, 223, 1, "SELECTION"],
+        ["strokeLine", 213, 219, 209, 223, 1, "SELECTION"]
+      ],
+      "thinNoDetail": 0,
+      "thin": [],
+      "noTransformNoDetail": 0,
+      "noTransform": [
+        ["strokeLine", -1, -1, 3, 3, 1, "SELECTION"],
+        ["strokeLine", 3, -1, -1, 3, 1, "SELECTION"]
+      ]
+    },
+    "2": {
+      "bigNoDetail": 0,
+      "big": [
+        ["strokeLine", 98.5, 98.5, 102.5, 102.5, 2, "SELECTION"],
+        ["strokeLine", 102.5, 98.5, 98.5, 102.5, 2, "SELECTION"]
+      ],
+      "zoomedNoDetail": 0,
+      "zoomed": [
+        ["strokeLine", 208.5, 218.5, 212.5, 222.5, 2, "SELECTION"],
+        ["strokeLine", 212.5, 218.5, 208.5, 222.5, 2, "SELECTION"]
+      ],
+      "thinNoDetail": 0,
+      "thin": [],
+      "noTransformNoDetail": 0,
+      "noTransform": [
+        ["strokeLine", -1.5, -1.5, 2.5, 2.5, 2, "SELECTION"],
+        ["strokeLine", 2.5, -1.5, -1.5, 2.5, 2, "SELECTION"]
+      ]
+    },
+    "size": 4,
+    "defaultWidth": 1
+  },
+  "compoundShapeOutline": {
+    "normal": [
+      [
+        "putVertices",
+        [
+          [1, 52.75, 15.4],
+          [2, 15.25, 15.4],
+          [2, 15.25, 45.4],
+          [2, 52.75, 45.4],
+          [2, 52.75, 67.9],
+          [2, 82.75, 67.9],
+          [2, 82.75, 7.9],
+          [2, 52.75, 7.9],
+          [2, 52.75, 15.4],
+          [5, 0, 0]
+        ],
+        false
+      ],
+      ["strokeVertices", "SELECTION", 1]
+    ],
+    "highlighted": ["putVertices", ["strokeVertices", "HIGHLIGHT", 1]],
+    "colored": ["putVertices", ["strokeVertices", [1, 2, 3], 1]]
+  },
+  "itemCatchHandle": {
+    "options": {
+      "type": "diamond",
+      "size": 8
+    },
+    "unselected": [],
+    "selected": [[null, [165, 187], "diamond", true, 8, "WHITE", "SELECTION"]],
+    "noTransform": [[null, [80, 90], "diamond", true, 8, "WHITE", "SELECTION"]],
+    "ownIdentity": [[null, [5, 7], "diamond", true, 8, "WHITE", "SELECTION"]],
+    "outsideShape": [],
+    "canvasCalls": 0
+  },
+  "imageBoxResize": {
+    "itrfStart": [0.5, 0, 0, 0.5, 3, 4],
+    "innerBox": [0, 0, 40, 20],
+    "bboxBefore": [-20.5, -38.5, 142, 110],
+    "preTransform": [2, 0, 0, 1.5, -10, -5],
+    "innerBBox": [-4, -0.5, 44, 19],
+    "bboxDuring": [-20.5, -38.5, 142, 110],
+    "itrfAfterResize": [1, 0, 0, 0.75, -2, 1.5],
+    "preTransformCleared": null,
+    "itrfAfterRotate": [0, 1, -0.75, 0, -1.5, -2],
+    "itrfAfterOtherPart": [0, 1, -0.75, 0, -1.5, -2],
+    "transformAfterOtherPart": [1, 0, 0, 1, 7, 0],
+    "canApply": true,
+    "framePreTransform": {
+      "trf": [100, 0, 0, 50, 50, 25],
+      "itrf": [1, 0, 0, 1, -44, -17],
+      "cleared": null
+    }
+  },
+  "simpleShape": {
+    "customPlain": null,
+    "customDetail": [136.5, 107.5, 184, 134],
+    "customDetailTransformed": [156.5, 107.5, 184, 134],
+    "customDetailTransformIgnored": [136.5, 107.5, 184, 134],
+    "paintUnselected": [
+      [[2, 0, 0, 2, 3, 4], [75, 60], "circle", false, 10, "WHITE", "ANNOTATION"],
+      [[2, 0, 0, 2, 3, 4], [150, 110], "circle", false, 10, "WHITE", "ANNOTATION"]
+    ],
+    "paintSelected": [
+      [[2, 0, 0, 2, 3, 4], [75, 60], "circle", true, 10, "WHITE", "ANNOTATION"],
+      [[2, 0, 0, 2, 3, 4], [150, 110], "circle", true, 10, "WHITE", "ANNOTATION"]
+    ],
+    "paintNoDetail": []
+  }
+}

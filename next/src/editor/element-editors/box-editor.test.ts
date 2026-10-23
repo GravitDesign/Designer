@@ -1,8 +1,12 @@
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { Point } from "../../engine/math/point.ts";
 import { Rect } from "../../engine/math/rect.ts";
 import { Transform } from "../../engine/math/transform.ts";
 import { Cursor } from "../cursor.ts";
+import { EditorOptions } from "../editor-options.ts";
 import { BaseEditor } from "./base-editor.ts";
 import type { EdTransformOptions } from "./box-editor.ts";
 import { BoxEditor, type ResizePartData } from "./box-editor.ts";
@@ -19,6 +23,20 @@ class FixedBoxEditor extends BoxEditor {
     return this.boxTransform;
   }
 }
+
+/** Recorded from the old app (GBoxEditor with getBox replaced, adaptive handles on). */
+interface AdaptiveCase {
+  w: number;
+  h: number;
+  m: [number, number, number, number, number, number];
+  handlesBox: number[];
+  handles: [string, number, number, number][];
+  parts: [string, string | null, number[] | null, number[] | null][];
+}
+const here = dirname(fileURLToPath(import.meta.url));
+const oldAdaptive = JSON.parse(
+  readFileSync(resolve(here, "__fixtures__", "old-box-editor-adaptive.json"), "utf8"),
+) as AdaptiveCase[];
 
 const identity = new Transform();
 const noGuides = { mapPoint: (p: Point) => p };
@@ -148,5 +166,71 @@ describe("GBoxEditor", () => {
     expect(box.getX()).toBeLessThan(0);
     editor.removeFlag(BaseEditor.Flag.Selected);
     expect(editor.getBBox(identity)).toBeNull();
+  });
+
+  it("grows the handle box of a small box with adaptive handles, as the old app did", () => {
+    EditorOptions.adaptiveResizeHandles = true;
+    try {
+      for (const recorded of oldAdaptive) {
+        const editor = new (class extends BoxEditor {
+          override getBox(): Rect | null {
+            return new Rect(0, 0, recorded.w, recorded.h);
+          }
+        })();
+        editor.setFlag(BaseEditor.Flag.Selected);
+        const view = new Transform(...recorded.m);
+        const handlesBox = editor._getResizeHandlesBBox(view) as Rect;
+        const handles: [string, number, number, number][] = [];
+        editor._iterateResizeHandles((point, side, segment) => {
+          handles.push([side, point.getX(), point.getY(), segment as number]);
+          return undefined;
+        }, view);
+        const parts: AdaptiveCase["parts"] = [];
+        for (const [side, x, y] of handles) {
+          const viewPoint = view.mapPoint(new Point(x, y));
+          const part = editor.getPartInfoAt(viewPoint, view);
+          if (!part || part.id !== BoxEditor.RESIZE_HANDLE_PART_ID) {
+            parts.push([side, null, null, null]);
+            continue;
+          }
+          const data = part.data as ResizePartData;
+          // Pressing and "dragging" to the same spot resizes nothing.
+          const resize = editor.movePart(
+            part.id,
+            data,
+            viewPoint,
+            view.inverted() as Transform,
+            noGuides,
+            false,
+            false,
+          ) as Transform | null;
+          parts.push([
+            side,
+            data.side,
+            data.offset ? [data.offset.getX(), data.offset.getY()] : null,
+            resize ? resize.getMatrix() : null,
+          ]);
+          editor.resetTransform();
+        }
+        expect({
+          size: [recorded.w, recorded.h, recorded.m],
+          handlesBox: [
+            handlesBox.getX(),
+            handlesBox.getY(),
+            handlesBox.getWidth(),
+            handlesBox.getHeight(),
+          ],
+          handles,
+          parts,
+        }).toEqual({
+          size: [recorded.w, recorded.h, recorded.m],
+          handlesBox: recorded.handlesBox,
+          handles: recorded.handles,
+          parts: recorded.parts,
+        });
+      }
+    } finally {
+      EditorOptions.adaptiveResizeHandles = false;
+    }
   });
 });

@@ -1,5 +1,5 @@
 import type { ToolCase } from "./case.ts";
-import type { Fixture } from "./fixture.ts";
+import { fixtureScript, type Fixture } from "./fixture.ts";
 import {
   click,
   dblclick,
@@ -442,6 +442,57 @@ export const textEditCases: ToolCase[] = [
       move(260, 160),
       up(),
       probe("resized"),
+    ],
+  },
+  // The case above presses inside the box, beside the handle, so it moves
+  // the text. These press on the handles of HELLO's 109 x 27.2 box (the
+  // bottom-right handle sits a few pixels below the box corner on screen).
+  {
+    id: "textedit/resize-bottom-right-handle",
+    covers: ["EDT-TEXTEDIT-005"],
+    fixture: HELLO,
+    steps: [
+      move(600, 500),
+      move(210, 130),
+      probe("hover"),
+      down(210, 130),
+      move(220, 140),
+      move(260, 160),
+      up(),
+      probe("resized", true),
+    ],
+  },
+  {
+    id: "textedit/resize-right-center-handle",
+    covers: ["EDT-TEXTEDIT-005"],
+    fixture: HELLO,
+    steps: [
+      move(600, 500),
+      move(209, 114),
+      probe("hover"),
+      down(209, 114),
+      move(230, 114),
+      move(280, 114),
+      up(),
+      probe("resized", true),
+    ],
+  },
+  {
+    id: "textedit/resize-bottom-right-handle-scales-contents",
+    covers: ["EDT-TEXTEDIT-005"],
+    fixture: {
+      ...HELLO,
+      script: fixtureScript(({ app }) => {
+        app.selection()[0].setProperty("sc", true);
+      }),
+    },
+    steps: [
+      move(600, 500),
+      down(210, 130),
+      move(220, 140),
+      move(260, 160),
+      up(),
+      probe("resized", true),
     ],
   },
   {

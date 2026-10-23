@@ -1,0 +1,1880 @@
+{
+  "note": "Recorded from the old app (chunk.vendor.js module 752 through GTextEditor.beginInlineEdit with a stand-in view, Open Sans Italic and Bold loaded first). Each step runs op on the inline editor and records the state after it; see inline-text-editor.test.ts. runs (text, listMarker, listDepth) are kept for the list case only, _tfs and _tfw for the Ctrl+I cases. Where a step leaves half a surrogate pair, plainUnits holds the UTF-16 code units instead of plain (a JSON import can't hold a lone surrogate).",
+  "cases": [
+    {
+      "name": "compose then move with Left, Home, End and Right",
+      "content": "Hello world",
+      "steps": [
+        {
+          "op": ["select", 5, 5],
+          "result": "<undefined>",
+          "plain": "Hello world",
+          "sel": [5, 5],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["compStart"],
+          "result": "<undefined>",
+          "plain": "Hello world",
+          "sel": [5, 5],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["input", "k"],
+          "result": false,
+          "plain": "Hellok world",
+          "sel": [6, 6],
+          "focus": 6,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["input", "ka"],
+          "result": false,
+          "plain": "Helloka world",
+          "sel": [7, 7],
+          "focus": 7,
+          "delta": 0,
+          "last": 2,
+          "comp": true,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["input", "ka'n"],
+          "result": false,
+          "plain": "Helloka'n world",
+          "sel": [9, 9],
+          "focus": 9,
+          "delta": 0,
+          "last": 4,
+          "comp": true,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["input", "ka'na"],
+          "result": false,
+          "plain": "Helloka'na world",
+          "sel": [10, 10],
+          "focus": 10,
+          "delta": 0,
+          "last": 5,
+          "comp": true,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["key", "LEFT"],
+          "result": true,
+          "plain": "Helloka'na world",
+          "sel": [9, 9],
+          "focus": 9,
+          "delta": 1,
+          "last": 5,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "LEFT"],
+          "result": true,
+          "plain": "Helloka'na world",
+          "sel": [7, 7],
+          "focus": 7,
+          "delta": 3,
+          "last": 5,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "LEFT"],
+          "result": true,
+          "plain": "Helloka'na world",
+          "sel": [6, 6],
+          "focus": 6,
+          "delta": 4,
+          "last": 5,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "HOME"],
+          "result": true,
+          "plain": "Helloka'na world",
+          "sel": [5, 5],
+          "focus": 5,
+          "delta": 5,
+          "last": 5,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "LEFT"],
+          "result": false,
+          "plain": "Helloka'na world",
+          "sel": [5, 5],
+          "focus": 5,
+          "delta": 5,
+          "last": 5,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "RIGHT"],
+          "result": true,
+          "plain": "Helloka'na world",
+          "sel": [6, 6],
+          "focus": 6,
+          "delta": 4,
+          "last": 5,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "RIGHT"],
+          "result": true,
+          "plain": "Helloka'na world",
+          "sel": [7, 7],
+          "focus": 7,
+          "delta": 3,
+          "last": 5,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "END"],
+          "result": true,
+          "plain": "Helloka'na world",
+          "sel": [10, 10],
+          "focus": 10,
+          "delta": 0,
+          "last": 5,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "RIGHT"],
+          "result": false,
+          "plain": "Helloka'na world",
+          "sel": [10, 10],
+          "focus": 10,
+          "delta": 0,
+          "last": 5,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "LEFT"],
+          "result": true,
+          "plain": "Helloka'na world",
+          "sel": [9, 9],
+          "focus": 9,
+          "delta": 1,
+          "last": 5,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "LEFT"],
+          "result": true,
+          "plain": "Helloka'na world",
+          "sel": [7, 7],
+          "focus": 7,
+          "delta": 3,
+          "last": 5,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["input", "ka'nax"],
+          "result": false,
+          "plain": "Helloka'nax world",
+          "sel": [8, 8],
+          "focus": 8,
+          "delta": 3,
+          "last": 6,
+          "comp": true,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["input", "かな"],
+          "result": false,
+          "plain": "Helloかな world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 3,
+          "last": 2,
+          "comp": true,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["compEnd"],
+          "result": "<undefined>",
+          "plain": "Helloかな world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 3,
+          "last": 2,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["key", "LEFT"],
+          "result": true,
+          "plain": "Helloかな world",
+          "sel": [3, 3],
+          "focus": 3,
+          "delta": 3,
+          "last": 2,
+          "comp": false,
+          "tx": []
+        }
+      ]
+    },
+    {
+      "name": "compose over a selected range",
+      "content": "Hello world",
+      "steps": [
+        {
+          "op": ["select", 0, 5],
+          "result": "<undefined>",
+          "plain": "Hello world",
+          "sel": [0, 5],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["compStart"],
+          "result": "<undefined>",
+          "plain": "Hello world",
+          "sel": [0, 5],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["input", "k"],
+          "result": false,
+          "plain": "k world",
+          "sel": [1, 1],
+          "focus": 1,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["input", "ka"],
+          "result": false,
+          "plain": "ka world",
+          "sel": [2, 2],
+          "focus": 2,
+          "delta": 0,
+          "last": 2,
+          "comp": true,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["input", "か"],
+          "result": false,
+          "plain": "か world",
+          "sel": [1, 1],
+          "focus": 1,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["compEnd"],
+          "result": "<undefined>",
+          "plain": "か world",
+          "sel": [1, 1],
+          "focus": 1,
+          "delta": 0,
+          "last": 1,
+          "comp": false,
+          "tx": []
+        }
+      ]
+    },
+    {
+      "name": "keys while composing",
+      "content": "Hello world",
+      "steps": [
+        {
+          "op": ["select", 3, 3],
+          "result": "<undefined>",
+          "plain": "Hello world",
+          "sel": [3, 3],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["compStart"],
+          "result": "<undefined>",
+          "plain": "Hello world",
+          "sel": [3, 3],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["input", "a"],
+          "result": false,
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["key", "BACKSPACE"],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "ENTER"],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "DELETE"],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "UP"],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "DOWN"],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "TAB"],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "Z", false, true],
+          "result": true,
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "Y", false, true],
+          "result": true,
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "A", false, true],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "B", false, true],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "LEFT", true, true],
+          "result": true,
+          "plain": "Helalo world",
+          "sel": [3, 3],
+          "focus": 3,
+          "delta": 1,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["compEnd"],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [3, 3],
+          "focus": 3,
+          "delta": 1,
+          "last": 1,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["key", "BACKSPACE"],
+          "result": true,
+          "plain": "Healo world",
+          "sel": [2, 2],
+          "focus": 2,
+          "delta": 1,
+          "last": 1,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        }
+      ]
+    },
+    {
+      "name": "composition state survives deactivation",
+      "content": "Hello world",
+      "steps": [
+        {
+          "op": ["select", 3, 3],
+          "result": "<undefined>",
+          "plain": "Hello world",
+          "sel": [3, 3],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["compStart"],
+          "result": "<undefined>",
+          "plain": "Hello world",
+          "sel": [3, 3],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["input", "a"],
+          "result": false,
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["deactivate"],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [0, 0],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["activate"],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["select", 3, 3],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [3, 3],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "BACKSPACE"],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [3, 3],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "ENTER"],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [3, 3],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["key", "LEFT"],
+          "result": true,
+          "plain": "Helalo world",
+          "sel": [2, 2],
+          "focus": 2,
+          "delta": 1,
+          "last": 1,
+          "comp": true,
+          "tx": []
+        }
+      ]
+    },
+    {
+      "name": "bulleted list: Enter, Tab, Shift+Tab, Enter on an empty item, Up to the start",
+      "content": "One\nTwo",
+      "steps": [
+        {
+          "op": ["list", 0, 7, "Bullet"],
+          "result": true,
+          "plain": "_One_Two_",
+          "sel": [0, 0],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Edit text"]],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["select", 8, 8],
+          "result": "<undefined>",
+          "plain": "_One_Two_",
+          "sel": [8, 8],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "ENTER"],
+          "result": true,
+          "plain": "_One_Two__",
+          "sel": [9, 9],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Edit text"]],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "TAB"],
+          "result": true,
+          "plain": "_One_Two__",
+          "sel": [9, 9],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Edit text"]],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              1
+            ],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              1
+            ]
+          ]
+        },
+        {
+          "op": ["key", "TAB", true],
+          "result": true,
+          "plain": "_One_Two__",
+          "sel": [9, 9],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Edit text"]],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "TAB", true],
+          "result": true,
+          "plain": "_One_Two__",
+          "sel": [9, 9],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "ENTER"],
+          "result": true,
+          "plain": "_One_Two_ _",
+          "sel": [10, 10],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Edit text"]],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["select", 5, 5],
+          "result": "<undefined>",
+          "plain": "_One_Two_ _",
+          "sel": [5, 5],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "TAB"],
+          "result": true,
+          "plain": "_One_Two_ _",
+          "sel": [5, 5],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "TAB", true],
+          "result": true,
+          "plain": "_One_Two_ _",
+          "sel": [5, 5],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["select", 9, 9],
+          "result": "<undefined>",
+          "plain": "_One_Two_ _",
+          "sel": [9, 9],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "UP"],
+          "result": true,
+          "plain": "_One_Two_ _",
+          "sel": [5, 5],
+          "focus": 5,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "UP"],
+          "result": true,
+          "plain": "_One_Two_ _",
+          "sel": [1, 1],
+          "focus": 1,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "UP"],
+          "result": true,
+          "plain": "_One_Two_ _",
+          "sel": [1, 1],
+          "focus": 1,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "HOME"],
+          "result": true,
+          "plain": "_One_Two_ _",
+          "sel": [1, 1],
+          "focus": 1,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "LEFT"],
+          "result": false,
+          "plain": "_One_Two_ _",
+          "sel": [1, 1],
+          "focus": 1,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "PAGE_UP"],
+          "result": true,
+          "plain": "_One_Two_ _",
+          "sel": [0, 0],
+          "focus": 0,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "LEFT"],
+          "result": false,
+          "plain": "_One_Two_ _",
+          "sel": [0, 0],
+          "focus": 0,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "RIGHT"],
+          "result": true,
+          "plain": "_One_Two_ _",
+          "sel": [1, 1],
+          "focus": 1,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "DOWN"],
+          "result": true,
+          "plain": "_One_Two_ _",
+          "sel": [5, 5],
+          "focus": 5,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "UP"],
+          "result": true,
+          "plain": "_One_Two_ _",
+          "sel": [1, 1],
+          "focus": 1,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "PAGE_UP"],
+          "result": true,
+          "plain": "_One_Two_ _",
+          "sel": [0, 0],
+          "focus": 0,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        },
+        {
+          "op": ["key", "DOWN"],
+          "result": true,
+          "plain": "_One_Two_ _",
+          "sel": [1, 1],
+          "focus": 1,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "runs": [
+            [
+              {
+                "$": "ListStart"
+              },
+              "Bullet",
+              0
+            ],
+            ["One", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            ["Two", "Bullet", 0],
+            [
+              {
+                "$": "ListNext"
+              },
+              "Bullet",
+              0
+            ],
+            [" ", "Bullet", 0],
+            [
+              {
+                "$": "ListEnd"
+              },
+              "Bullet",
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ctrl+I with an italic variant",
+      "content": "Hello world",
+      "variants": [
+        {
+          "style": "N",
+          "weight": 400
+        },
+        {
+          "style": "I",
+          "weight": 400
+        }
+      ],
+      "steps": [
+        {
+          "op": ["key", "I", false, true],
+          "result": true,
+          "plain": "Hello world",
+          "sel": [0, 11],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Modify text properties"]],
+          "tfs": "I",
+          "tfw": 400
+        },
+        {
+          "op": ["key", "I", false, true],
+          "result": true,
+          "plain": "Hello world",
+          "sel": [0, 11],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Modify text properties"]],
+          "tfs": "N",
+          "tfw": 400
+        }
+      ]
+    },
+    {
+      "name": "Ctrl+I without an italic variant",
+      "content": "Hello world",
+      "variants": [
+        {
+          "style": "N",
+          "weight": 400
+        },
+        {
+          "style": "N",
+          "weight": 700
+        }
+      ],
+      "steps": [
+        {
+          "op": ["key", "I", false, true],
+          "result": true,
+          "plain": "Hello world",
+          "sel": [0, 11],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [],
+          "tfs": "N",
+          "tfw": 400
+        }
+      ]
+    },
+    {
+      "name": "selection hit",
+      "content": "Hello world",
+      "steps": [
+        {
+          "op": ["select", 0, 0],
+          "result": "<undefined>",
+          "plain": "Hello world",
+          "sel": [0, 0],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["hit", 105, 110],
+          "result": false,
+          "plain": "Hello world",
+          "sel": [0, 0],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["select", 0, 5],
+          "result": "<undefined>",
+          "plain": "Hello world",
+          "sel": [0, 5],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["hit", 105, 110],
+          "result": true,
+          "plain": "Hello world",
+          "sel": [0, 5],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["hit", 140, 110],
+          "result": true,
+          "plain": "Hello world",
+          "sel": [0, 5],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["hit", 200, 110],
+          "result": false,
+          "plain": "Hello world",
+          "sel": [0, 5],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["select", 6, 11],
+          "result": "<undefined>",
+          "plain": "Hello world",
+          "sel": [6, 11],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["hit", 105, 110],
+          "result": false,
+          "plain": "Hello world",
+          "sel": [6, 11],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["hit", 180, 110],
+          "result": true,
+          "plain": "Hello world",
+          "sel": [6, 11],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        }
+      ]
+    },
+    {
+      "name": "astral characters step one code unit",
+      "content": "a😀b𝄞c",
+      "steps": [
+        {
+          "op": ["select", 7, 7],
+          "result": "<undefined>",
+          "plainUnits": [97, 55357, 56832, 98, 55348, 56606, 99],
+          "sel": [7, 7],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["key", "LEFT"],
+          "result": true,
+          "plainUnits": [97, 55357, 56832, 98, 55348, 56606, 99],
+          "sel": [6, 6],
+          "focus": 6,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["key", "LEFT"],
+          "result": true,
+          "plainUnits": [97, 55357, 56832, 98, 55348, 56606, 99],
+          "sel": [5, 5],
+          "focus": 5,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["key", "BACKSPACE"],
+          "result": true,
+          "plainUnits": [97, 55357, 56832, 98, 56606, 99],
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["key", "RIGHT"],
+          "result": true,
+          "plainUnits": [97, 55357, 56832, 98, 56606, 99],
+          "sel": [5, 5],
+          "focus": 5,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["key", "DELETE"],
+          "result": true,
+          "plainUnits": [97, 55357, 56832, 98, 56606],
+          "sel": [5, 5],
+          "focus": 5,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["key", "LEFT", true],
+          "result": true,
+          "plainUnits": [97, 55357, 56832, 98, 56606],
+          "sel": [4, 5],
+          "focus": 4,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["press", "😀"],
+          "result": false,
+          "plainUnits": [97, 55357, 56832, 98, 55357, 56832],
+          "sel": [6, 6],
+          "focus": 4,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["key", "BACKSPACE"],
+          "result": true,
+          "plainUnits": [97, 55357, 56832, 98, 55357],
+          "sel": [5, 5],
+          "focus": 5,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        }
+      ]
+    }
+  ]
+}

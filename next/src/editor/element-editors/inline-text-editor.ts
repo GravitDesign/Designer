@@ -12,16 +12,11 @@ import { Rect } from "../../engine/math/rect.ts";
 import { Transform } from "../../engine/math/transform.ts";
 import { Font } from "../../engine/text/fonts/font.ts";
 
-/**
- * GFont.Weight has no Normal, so the old check against it compared with
- * undefined and never held; see "Bold toggle checks a weight that doesn't
- * exist" in QUESTIONS.md.
- */
-const WEIGHT_NORMAL = (Font.Weight as Record<string, number | undefined>).Normal;
 import type { Selection } from "../../engine/text/gtl/document.ts";
 import type { TLNode } from "../../engine/text/gtl/node.ts";
 import type { TLBox } from "../../engine/text/gtl/tl-core.ts";
 import type { TLCore } from "../../engine/text/gtl/tl-core.ts";
+import type { TLRange } from "../../engine/text/gtl/range.ts";
 import { RunDraw } from "../../engine/text/gtl/run-draw.ts";
 import { TLDirectionTextTransformer } from "../../engine/text/tl-direction-text-transformer.ts";
 import { TLPathTextTransformer } from "../../engine/text/tl-path-text-transformer.ts";
@@ -30,6 +25,20 @@ import { Editor } from "../editor.ts";
 import { EditorOptions } from "../editor-options.ts";
 import type { EditorWidget } from "../view/editor-widget.ts";
 import type { TextEditor } from "./text-editor.ts";
+
+/**
+ * GFont.Weight has no Normal, so the old check against it compared with
+ * undefined and never held; see "Bold toggle checks a weight that doesn't
+ * exist" in QUESTIONS.md.
+ */
+const WEIGHT_NORMAL = (Font.Weight as Record<string, number | undefined>).Normal;
+
+/**
+ * What _canHandleInput returns: truthy when the key types a character. As
+ * in the old code it is the character count (or an empty string, null or
+ * false) rather than a boolean.
+ */
+type InputCheck = boolean | number | string | null | undefined;
 
 /** The editor widget the inline editor works in. */
 export type InlineEditView = EditorWidget;
@@ -293,9 +302,9 @@ export class InlineTextEditor extends GObject {
   }
 
   /** The ordinal on the next (`step` 1) or previous line nearest the kept x. */
-  _changeLine(ordinal: number, step: number): number {
+  _changeLine(ordinal: number, step: number): number | undefined {
     const core = this._core();
-    if (!core) return undefined as unknown as number;
+    if (!core) return undefined;
     let coords: { l: number; t: number; b: number } | undefined;
     let start = core.getCaretCoords(ordinal) as { l: number; t: number; b: number };
     this._nextKeyboardX = null !== this._keyboardX ? this._keyboardX : start.l;
@@ -324,9 +333,9 @@ export class InlineTextEditor extends GObject {
   }
 
   /** The first (`step` -1) or last ordinal of the caret's line. */
-  _endOfline(ordinal: number, step: number): number {
+  _endOfline(ordinal: number, step: number): number | undefined {
     const core = this._core();
-    if (!core) return undefined as unknown as number;
+    if (!core) return undefined;
     const start = core.getCaretCoords(ordinal) as { t: number; b: number };
     while (!this._exhausted(ordinal, step)) {
       ordinal += step;
@@ -426,6 +435,8 @@ export class InlineTextEditor extends GObject {
     let caret = 1 === this._keyboardSelect ? end : start;
     let moved = false;
     this._editor.contentSetEnabled(0);
+    // _changeLine and _endOfline return undefined only without a core,
+    // which was checked above.
     switch (key) {
       case Key.Constant.LEFT:
         if (this._compositionOn) {
@@ -435,10 +446,7 @@ export class InlineTextEditor extends GObject {
             if (
               this._lastCompositedTextLength > this._compositionSelectionDelta &&
               caret > 0 &&
-              "'" ===
-                (
-                  core.getRange(caret - 1, caret) as NonNullable<ReturnType<TLCore["getRange"]>>
-                ).plainText()
+              "'" === (core.getRange(caret - 1, caret) as TLRange).plainText()
             ) {
               caret--;
               this._compositionSelectionDelta++;
@@ -465,12 +473,7 @@ export class InlineTextEditor extends GObject {
       case Key.Constant.RIGHT:
         if (this._compositionOn) {
           if (compositionCaret < this._lastCompositedTextLength) {
-            if (
-              "'" ===
-              (
-                core.getRange(caret, caret + 1) as NonNullable<ReturnType<TLCore["getRange"]>>
-              ).plainText()
-            ) {
+            if ("'" === (core.getRange(caret, caret + 1) as TLRange).plainText()) {
               caret++;
               this._compositionSelectionDelta--;
             }
@@ -493,11 +496,11 @@ export class InlineTextEditor extends GObject {
         }
         break;
       case Key.Constant.DOWN:
-        caret = this._changeLine(caret, 1);
+        caret = this._changeLine(caret, 1) as number;
         moved = true;
         break;
       case Key.Constant.UP:
-        caret = this._changeLine(caret, -1);
+        caret = this._changeLine(caret, -1) as number;
         moved = true;
         break;
       case Key.Constant.HOME:
@@ -508,7 +511,7 @@ export class InlineTextEditor extends GObject {
             moved = true;
           }
         } else {
-          caret = this._endOfline(caret, -1);
+          caret = this._endOfline(caret, -1) as number;
           moved = true;
         }
         break;
@@ -520,7 +523,7 @@ export class InlineTextEditor extends GObject {
             moved = true;
           }
         } else {
-          caret = this._endOfline(caret, 1);
+          caret = this._endOfline(caret, 1) as number;
           moved = true;
         }
         break;
@@ -534,11 +537,11 @@ export class InlineTextEditor extends GObject {
         break;
       case Key.Constant.BACKSPACE:
         if (start > 0 && start === end) {
-          (core.getRange(start - 1, start) as NonNullable<ReturnType<TLCore["getRange"]>>).clear();
+          (core.getRange(start - 1, start) as TLRange).clear();
           this._focusChar = start - 1;
           core.select(this._focusChar, this._focusChar);
         } else if (start !== end) {
-          (core.getRange(start, end) as NonNullable<ReturnType<TLCore["getRange"]>>).clear();
+          (core.getRange(start, end) as TLRange).clear();
           this._focusChar = start;
           core.select(this._focusChar, this._focusChar);
         }
@@ -547,11 +550,9 @@ export class InlineTextEditor extends GObject {
       case Key.Constant.DELETE:
         if (start < last) {
           if (start === end) {
-            (
-              core.getRange(start, start + 1) as NonNullable<ReturnType<TLCore["getRange"]>>
-            ).clear();
+            (core.getRange(start, start + 1) as TLRange).clear();
           } else {
-            (core.getRange(start, end) as NonNullable<ReturnType<TLCore["getRange"]>>).clear();
+            (core.getRange(start, end) as TLRange).clear();
             this._focusChar = start;
             core.select(this._focusChar, this._focusChar);
           }
@@ -616,7 +617,7 @@ export class InlineTextEditor extends GObject {
         break;
       case "C":
         if (InlineTextEditor.HANDLECOPYPASTE && ctrl) {
-          const range = core.selectedRange() as NonNullable<ReturnType<TLCore["selectedRange"]>>;
+          const range = core.selectedRange() as TLRange;
           this._richClipboard = range.save();
           this._plainClipboard = range.plainText();
           handled = true;
@@ -624,10 +625,10 @@ export class InlineTextEditor extends GObject {
         break;
       case "X":
         if (InlineTextEditor.HANDLECOPYPASTE && ctrl) {
-          const range = core.selectedRange() as NonNullable<ReturnType<TLCore["selectedRange"]>>;
+          const range = core.selectedRange() as TLRange;
           this._richClipboard = range.save();
           this._plainClipboard = range.plainText();
-          (core.getRange(start, end) as NonNullable<ReturnType<TLCore["getRange"]>>).clear();
+          (core.getRange(start, end) as TLRange).clear();
           this._focusChar = start;
           core.select(this._focusChar, this._focusChar);
           handled = true;
@@ -643,7 +644,7 @@ export class InlineTextEditor extends GObject {
     this._editor.contentSetEnabled(1);
     const toggle = this._toggles[key as string];
     if (!this._shiftKeyDown && ctrl && toggle) {
-      const range = core.selectedRange() as NonNullable<ReturnType<TLCore["selectedRange"]>>;
+      const range = core.selectedRange() as TLRange;
       const current = (range.getFormatting() as unknown as Record<string, unknown>)[toggle];
       const fontManager = this._editor.getElement()._fontManager();
       const family = this._editor.getProperty("_tff");
@@ -722,7 +723,7 @@ export class InlineTextEditor extends GObject {
       const end = (core.getSelection() as Selection).end;
       this._editor.requestInvalidation();
       this._editor.contentSetEnabled(0);
-      (core.getRange(start, end) as NonNullable<ReturnType<TLCore["getRange"]>>).clear();
+      (core.getRange(start, end) as TLRange).clear();
       this._editor.contentSetEnabled(1);
       this._focusChar = start;
       core.select(this._focusChar, this._focusChar);
@@ -739,12 +740,12 @@ export class InlineTextEditor extends GObject {
     shift: boolean,
     ctrl: boolean,
     keyIdentifier?: string | null,
-  ): unknown {
+  ): InputCheck {
     if (this._editor.getElement().getTLCore()) {
       let character: string | null = null;
       let keyCode = 0;
       let index: number;
-      let result: unknown = false;
+      let result: InputCheck = false;
       let identifier = keyIdentifier;
       // A "U+XXXX" key identifier names the character (old WebKit
       // events). No caller passes one any more.
@@ -828,7 +829,7 @@ export class InlineTextEditor extends GObject {
               const composed = core.getRange(
                 start - this._lastCompositedTextLength,
                 start,
-              ) as NonNullable<ReturnType<TLCore["getRange"]>>;
+              ) as TLRange;
               if (composed.plainText() != text) composed.setText(text);
               this._focusChar =
                 start -
@@ -837,9 +838,7 @@ export class InlineTextEditor extends GObject {
                 this._lastCompositedTextLength;
               core.select(this._focusChar, null as unknown as number);
             } else if (start !== end) {
-              (core.getRange(start, end) as NonNullable<ReturnType<TLCore["getRange"]>>).setText(
-                text,
-              );
+              (core.getRange(start, end) as TLRange).setText(text);
               this._focusChar = start + text.length;
               core.select(this._focusChar, this._focusChar);
             }
@@ -980,8 +979,7 @@ export class InlineTextEditor extends GObject {
         core = this._core();
         (this._view as InlineEditView).setCursor(Cursor.Text);
         if (core) {
-          const anchor = (core.selectedRange() as NonNullable<ReturnType<TLCore["selectedRange"]>>)
-            .start;
+          const anchor = (core.selectedRange() as TLRange).start;
           const point = this._convertToObjectSpace(event.client);
           const node = core.byCoordinate(
             point.getX(),
@@ -998,7 +996,7 @@ export class InlineTextEditor extends GObject {
       }
       if (3 === event.clickCount) {
         if (!(core = this._core())) return;
-        let range = core.selectedRange() as NonNullable<ReturnType<TLCore["selectedRange"]>>;
+        let range = core.selectedRange() as TLRange;
         range = range.doc.paragraphRange(range.start, range.end);
         core.select(range.start, range.end);
         this._selectDragStart = range.start;

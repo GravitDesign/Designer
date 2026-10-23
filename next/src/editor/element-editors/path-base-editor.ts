@@ -56,9 +56,7 @@ export class PathBaseEditor<E extends EditedPathBase = EditedPathBase> extends S
   /** Previews `transform` on the element preview (with the styled corners) instead of `_transform`. */
   override edTransform(
     transform: Transform,
-
     partId?: unknown,
-
     partData?: unknown,
     options?: unknown,
   ): void {

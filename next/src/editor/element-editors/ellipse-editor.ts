@@ -156,27 +156,26 @@ export class EllipseEditor<E extends EditedEllipse = EditedEllipse> extends Path
   }
 
   /**
-   * A new ellipse gets butt caps on its borders when its style source
-   * brings no border of its own (no source, or one without paint layers).
+   * Sets butt caps on the new ellipse's borders after the style is copied.
+   * The old rule, case by case:
+   * - no source: butt caps;
+   * - an ellipse source: the caps stay as they are;
+   * - another source without paint layers: butt caps;
+   * - another source with paint layers: butt caps only when one of its
+   *   layers is a border.
    */
   override initialSetup(source?: unknown): void {
     super.initialSetup(source);
     let butt = false;
-    const stylable = source as { getPaintLayers?(): PaintLayers | null } | null | undefined;
-    if (!stylable || stylable instanceof Ellipse || !(stylable.getPaintLayers as () => unknown)()) {
-      if (!(
-        stylable &&
-        (stylable instanceof Ellipse || (stylable.getPaintLayers as () => unknown)())
-      )) {
-        butt = true;
-      }
-    } else {
-      for (
-        let layer = (stylable.getPaintLayers as () => PaintLayers)().getFirstChild();
-        null !== layer && !butt;
-        layer = layer.getNext()
-      ) {
-        if (layer instanceof BorderPaintLayer) butt = true;
+    const stylable = source as { getPaintLayers(): PaintLayers | null } | null | undefined;
+    if (!stylable) butt = true;
+    else if (!(stylable instanceof Ellipse)) {
+      const layers = stylable.getPaintLayers();
+      if (!layers) butt = true;
+      else {
+        for (let layer = layers.getFirstChild(); null !== layer && !butt; layer = layer.getNext()) {
+          if (layer instanceof BorderPaintLayer) butt = true;
+        }
       }
     }
     if (butt && this.getElement().getPaintLayers()) {

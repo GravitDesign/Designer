@@ -5,6 +5,7 @@ import { ElementFlag } from "../../engine/scene/element-change.ts";
 import { Group } from "../../engine/scene/group.ts";
 import { Rectangle } from "../../engine/scene/rectangle.ts";
 import { Scene } from "../../engine/scene/scene.ts";
+import { Element } from "../../engine/scene/element.ts";
 import { Workspace } from "../../engine/scene/workspace.ts";
 import { BaseEditor } from "./base-editor.ts";
 import { ElementEditor, type EditedElement } from "./element-editor.ts";
@@ -123,5 +124,132 @@ describe("GElementEditor", () => {
     editor.resetTransform();
     expect(preview._baseElement).toBeNull();
     expect(editor.getPaintElement()).toBe(a);
+  });
+
+  describe("relayout of anchored contents", () => {
+    /** The group of setup() with its editor; _layoutAnchorContents records its arguments. */
+    function layoutSetup() {
+      const parts = setup();
+      const editor = ElementEditor.openEditor(parts.group) as ElementEditor;
+      const calls: unknown[][] = [];
+      const group = parts.group as unknown as EditedElement;
+      group._layoutAnchorContents = (newBox: Rect | null, oldBox: Rect | null, t: unknown) =>
+        void calls.push([box(newBox), box(oldBox), t ? (t as Transform).getMatrix() : null]);
+      return { ...parts, editor, group, calls };
+    }
+    const prepare = (editor: ElementEditor, data: unknown) =>
+      ElementEditor.prototype._prepareApplyPartMove.call(editor, "part", data);
+    const finish = (editor: ElementEditor, data: unknown) =>
+      ElementEditor.prototype._finishApplyPartMove.call(editor, "part", data);
+    const widen = (c: Rectangle, by: number) =>
+      c.setProperty("trf", new Transform(5 + by / 2, 0, 0, 5, 45 + by / 2, 5));
+
+    it("passes the new and old box after a part move that resizes", () => {
+      const { editor, group, c, calls } = layoutSetup();
+      prepare(editor, {});
+      expect(group._relayout).toBe(true);
+      expect(box(editor._oldBBox as Rect)).toEqual([0, 0, 50, 10]);
+      widen(c, 10);
+      finish(editor, {});
+      expect(calls).toEqual([[[0, 0, 60, 10], [0, 0, 50, 10], null]]);
+      expect(group._relayout).toBe(false);
+    });
+
+    it("doesn't relayout when the size stays within 1e-10", () => {
+      const { editor, c, calls } = layoutSetup();
+      prepare(editor, {});
+      widen(c, 1e-11);
+      finish(editor, {});
+      expect(calls).toEqual([]);
+      prepare(editor, {});
+      widen(c, 1e-9);
+      finish(editor, {});
+      expect(calls.length).toBe(1);
+    });
+
+    it("relayouts by the layout transform when one was set during the move", () => {
+      const { editor, group, calls } = layoutSetup();
+      prepare(editor, {});
+      expect(group._layoutTransform).toBeNull();
+      group._layoutTransform = new Transform(2, 0, 0, 2, 0, 0);
+      finish(editor, {});
+      expect(calls).toEqual([[null, null, [2, 0, 0, 2, 0, 0]]]);
+      expect(group._layoutTransform).toBeNull();
+    });
+
+    it("adds a rotation to the anchored children's anchor transforms without relayout", () => {
+      const { editor, group, a, b, c, calls } = layoutSetup();
+      expect(a.hasMixin(Element.Anchor)).toBe(true);
+      a.setProperty("hacr", 1);
+      a.setProperty("hatrf", new Transform(1, 0, 0, 1, 5, 0));
+      b.setProperty("vacr", 1);
+      c.setProperties(["hacr", "vacr"], [null, null]);
+      const matrix = (node: Rectangle, name: string) =>
+        (node.getProperty(name) as Transform | null)?.getMatrix() ?? null;
+      const anchorTransforms = () =>
+        [a, b, c].map((node) => [matrix(node, "hatrf"), matrix(node, "vatrf")]);
+      /** What the anchored children (a and b) get: their transforms times `add`. */
+      const expected = (before: (number[] | null)[][], add: Transform) =>
+        before.map((pair, i) =>
+          i === 2
+            ? pair
+            : pair.map((m) =>
+                m
+                  ? new Transform(...(m as [number, number, number, number, number, number]))
+                      .multiplied(add)
+                      .getMatrix()
+                  : add.getMatrix(),
+              ),
+        );
+      const data = { noRelayout: true };
+      prepare(editor, data);
+      expect(editor._oldBBox).toBeUndefined();
+      const rotation = new Transform(0, 1, -1, 0, 3, 0);
+      group._layoutTransform = rotation;
+      const before = anchorTransforms();
+      finish(editor, data);
+      const after = anchorTransforms();
+      expect(after).toEqual(expected(before, rotation));
+      expect(after[0]).not.toEqual(before[0]);
+      expect(after[2]).toEqual([null, null]);
+      expect(calls).toEqual([]);
+      expect([group._layoutTransform, group._relayout]).toEqual([null, false]);
+      // Without a layout transform the identity is added.
+      prepare(editor, data);
+      finish(editor, data);
+      expect(anchorTransforms()).toEqual(expected(after, new Transform()));
+    });
+
+    it("relayouts an applied transform by the preview or the pre-transform", () => {
+      const { editor, group, calls } = layoutSetup();
+      // Nothing previewed: no relayout.
+      editor._prepareApplyTransform(group);
+      expect([group._layoutTransform, group._relayout]).toEqual([null, false]);
+      const scale = new Transform(2, 0, 0, 1, 0, 0);
+      editor._transform = scale;
+      editor._prepareApplyTransform(group);
+      expect([group._layoutTransform, group._relayout]).toEqual([scale, true]);
+      editor._finishApplyTransform(group);
+      editor._transform = null;
+      editor._preTransform = new Transform(1, 0, 0, 3, 0, 0);
+      editor._prepareApplyTransform(group);
+      editor._finishApplyTransform(group);
+      expect(calls).toEqual([
+        [null, null, [2, 0, 0, 1, 0, 0]],
+        [null, null, [1, 0, 0, 3, 0, 0]],
+      ]);
+      expect([group._layoutTransform, group._relayout]).toEqual([null, false]);
+    });
+
+    it("relayouts an applied part selection by the boxes and forgets the old box", () => {
+      const { editor, group, c, calls } = layoutSetup();
+      editor._partSelection = ["part"];
+      editor._prepareApplyTransform(group);
+      expect(box(editor._oldBBox as Rect)).toEqual([0, 0, 50, 10]);
+      widen(c, 10);
+      editor._finishApplyTransform(group);
+      expect(calls).toEqual([[[0, 0, 60, 10], [0, 0, 50, 10], null]]);
+      expect(editor._oldBBox).toBeNull();
+    });
   });
 });

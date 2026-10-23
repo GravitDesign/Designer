@@ -1,11 +1,15 @@
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { Vertex } from "../../engine/geometry/vertex.ts";
 import { GMath } from "../../engine/math/math.ts";
 import { Point } from "../../engine/math/point.ts";
 import { Rect } from "../../engine/math/rect.ts";
 import { Transform } from "../../engine/math/transform.ts";
+import { EditorOptions } from "../editor-options.ts";
 import { BaseEditor, PartInfo } from "./base-editor.ts";
-import { TransformBox } from "./transform-box.ts";
+import { TransformBox, type RotationZoneData } from "./transform-box.ts";
 
 const H = TransformBox.Handles;
 const owner = new BaseEditor();
@@ -23,6 +27,44 @@ function matrix(transform: Transform | undefined): number[] | null {
 }
 
 const noSnap = { mapPoint: (p: Point) => p };
+
+/** Recorded from the old app: hits on a 200 x 100 box with skew and/or rotate annotations on. */
+interface AnnotationCase {
+  skew: boolean;
+  rot: boolean;
+  /** A box transform; the mirrored box puts the rotate handle over the pivot. */
+  mirror: [number, number, number, number, number, number] | null;
+  points: Record<string, [number, number]>;
+  bbox: number[];
+  probes: [number, number, string | null, unknown][];
+}
+const here = dirname(fileURLToPath(import.meta.url));
+const oldAnnotations = JSON.parse(
+  readFileSync(resolve(here, "__fixtures__", "old-transform-box-annotations.json"), "utf8"),
+) as AnnotationCase[];
+
+/** The name of a part id, as the recording script wrote it. */
+function partName(id: unknown): string {
+  for (const [name, value] of Object.entries(H)) if (value === id) return name;
+  for (const name of ["INSIDE", "OUTLINE", "OUTSIDE", "FAR_OUTSIDE"] as const) {
+    if (TransformBox[name] === id) return name;
+  }
+  return String(id);
+}
+
+function partData(data: unknown): unknown {
+  if (data === undefined) return "<undefined>";
+  if (data instanceof Point) return [data.getX(), data.getY()];
+  if (data && typeof data === "object" && "rotationSegment" in data) {
+    const zone = data as RotationZoneData;
+    return {
+      rotationSegment: zone.rotationSegment,
+      leftCenter: [zone.leftCenter.getX(), zone.leftCenter.getY()],
+      rightCenter: [zone.rightCenter.getX(), zone.rightCenter.getY()],
+    };
+  }
+  return data;
+}
 
 describe("GTransformBox", () => {
   it("rotates around the centre unless one is given; 0 counts as none", () => {
@@ -204,5 +246,45 @@ describe("GTransformBox", () => {
     // Nothing previewed: nothing recorded.
     target.applyCenterTransform();
     expect(calls.length).toBe(1);
+  });
+
+  it("hits the skew and rotate annotation handles when they are on, as the old app did", () => {
+    const options = EditorOptions.annotationHandles.tranformBox;
+    try {
+      for (const recorded of oldAnnotations) {
+        options.skew.enabled = recorded.skew;
+        options.rotate.enabled = recorded.rot;
+        const target = box();
+        if (recorded.mirror) target.setTransform(new Transform(...recorded.mirror));
+        const point = (handle: number) => {
+          const p = target._getPoint(handle) as Point;
+          return [p.getX(), p.getY()];
+        };
+        const area = target._calculateGeometryBBox();
+        const probes = recorded.probes.map(([x, y]) => {
+          const part = hit(target, x, y);
+          return [x, y, part ? partName(part.id) : null, part ? partData(part.data) : null];
+        });
+        expect({
+          options: [recorded.skew, recorded.rot, recorded.mirror],
+          points: {
+            skewH: point(H.SKEW_HORIZONTAL),
+            skewV: point(H.SKEW_VERTICAL),
+            rotate: point(H.ROTATE),
+            bottomCenter: point(H.BOTTOM_CENTER),
+          },
+          bbox: [area.getX(), area.getY(), area.getWidth(), area.getHeight()],
+          probes,
+        }).toEqual({
+          options: [recorded.skew, recorded.rot, recorded.mirror],
+          points: recorded.points,
+          bbox: recorded.bbox,
+          probes: recorded.probes,
+        });
+      }
+    } finally {
+      options.skew.enabled = false;
+      options.rotate.enabled = false;
+    }
   });
 });

@@ -32,6 +32,7 @@ import { Node } from "../../engine/scene/node.ts";
 import { AnchorPoint, PathBase, type AnchorPoints } from "../../engine/scene/path-base.ts";
 import { Path } from "../../engine/scene/path.ts";
 import { SceneOptions } from "../../engine/scene/scene-options.ts";
+import type { Scene } from "../../engine/scene/scene.ts";
 import { Shape } from "../../engine/scene/shape.ts";
 import { BorderPaintLayer } from "../../engine/style/border-paint-layer.ts";
 import { BorderAlignment } from "../../engine/style/stylable-sets.ts";
@@ -71,8 +72,9 @@ const PointsSelectionType = {
 
 /**
  * A part id of the path editor. `type` is one of PartType, except for the
- * ids the segment drag builds at slope ~0/1 (see "Segment drag at slope
- * 0 or 1" in BUGS-FIXED candidates), whose type is undefined.
+ * ids the segment drag builds at slope ~0/1 (see "Segment drag at slope 0
+ * or 1 builds a part id without a type" in QUESTIONS.md), whose type is
+ * undefined.
  */
 export interface PathPartId {
   type: number | undefined;
@@ -102,11 +104,6 @@ export interface PathPointInfo {
   rightHandlePosition: Point | null;
   leftShoulderPosition: Point | null;
   rightShoulderPosition: Point | null;
-}
-
-/** GEditor's static convertToConstrain (editor-core). */
-interface ConstrainEditor {
-  convertToConstrain(x: number, y: number, px: number, py: number, angle: number): Point;
 }
 
 /** The hidden symbol master search of isDeletePartsAllowed / deletePartsSelected. */
@@ -595,7 +592,8 @@ export class PathEditor<E extends EditedPath = EditedPath> extends PathBaseEdito
             if (GMath.isEqualEps(hit.slope as number, 0, 0.001)) {
               // The old code used a hoisted `var` here that is never set on
               // this path, so the part type is undefined (see "Segment drag
-              // at slope 0 or 1" in BUGS-FIXED candidates).
+              // at slope 0 or 1 builds a part id without a type" in
+              // QUESTIONS.md).
               result = new PartInfo(
                 this,
                 { type: undefined, point: left },
@@ -852,13 +850,9 @@ export class PathEditor<E extends EditedPath = EditedPath> extends PathBaseEdito
   }
 
   override _attach(): void {
-    const scene = this._element.getScene() as unknown as EventHost | null;
+    const scene = this._element.getScene() as Scene | null;
     if (null != scene) scene.addEventListener(GeometryChangeEvent, this._geometryChange, this);
-    (this._element as unknown as EventHost).addEventListener(
-      Node.AfterInsertEvent,
-      this._afterInsert,
-      this,
-    );
+    this._element.addEventListener(Node.AfterInsertEvent, this._afterInsert, this);
   }
 
   override _detach(): void {
@@ -872,13 +866,9 @@ export class PathEditor<E extends EditedPath = EditedPath> extends PathBaseEdito
       point.removeFlag(NodeFlag.Highlighted);
     }
     this.requestInvalidation();
-    const scene = this._element.getScene() as unknown as EventHost | null;
+    const scene = this._element.getScene() as Scene | null;
     if (null != scene) scene.removeEventListener(GeometryChangeEvent, this._geometryChange, this);
-    (this._element as unknown as EventHost).removeEventListener(
-      Node.AfterInsertEvent,
-      this._afterInsert,
-      this,
-    );
+    this._element.removeEventListener(Node.AfterInsertEvent, this._afterInsert, this);
     super._detach();
   }
 
@@ -1606,7 +1596,7 @@ export class PathEditor<E extends EditedPath = EditedPath> extends PathBaseEdito
     let matrix = this._element.getTransform();
     matrix = matrix ? matrix.multiplied(worldToView) : worldToView;
     origin = matrix.mapPoint(origin);
-    const constrained = (Editor as unknown as ConstrainEditor).convertToConstrain(
+    const constrained = Editor.convertToConstrain(
       origin.getX(),
       origin.getY(),
       position.getX(),
@@ -1893,7 +1883,9 @@ export class PathEditor<E extends EditedPath = EditedPath> extends PathBaseEdito
     const length = GMath.ptDist(projection.getX(), projection.getY(), origin.getX(), origin.getY());
     const preview = this.getPathPointPreview(point) as AnchorPoint;
     // Declared at function level like the old `var`s: the Shift branch
-    // outside detail mode reads them unset (NaN translation).
+    // outside detail mode reads them unset (NaN translation; see "Shift
+    // on a corner shoulder drag reads cl for cr, or nothing outside detail
+    // mode" in QUESTIONS.md).
     let left: number | undefined;
     let right: number | undefined;
     if (shift) {
@@ -1901,8 +1893,9 @@ export class PathEditor<E extends EditedPath = EditedPath> extends PathBaseEdito
         const cl = point.getProperty("cl") as number | null;
         left = null != cl ? cl : 0;
         const cr = point.getProperty("cr") as number | null;
-        // The old code read `cl` here when `cr` is set (see
-        // "_movePreviewPointShoulders reads cl for cr" in BUGS-FIXED candidates).
+        // The old code read `cl` here when `cr` is set (see "Shift on a
+        // corner shoulder drag reads cl for cr, or nothing outside detail
+        // mode" in QUESTIONS.md).
         right = null != cr ? left : 0;
         if (part.type == PartType.LeftShoulder) {
           const grow = length - left;
@@ -2009,13 +2002,3 @@ Object.assign(PathEditor.prototype, {
   _constrainPainted: false,
   _activeExtedingMode: false,
 });
-
-/** A node with the old event target API. */
-interface EventHost {
-  addEventListener(
-    eventClass: unknown,
-    listener: (event: never) => void,
-    target?: object | null,
-  ): void;
-  removeEventListener(eventClass: unknown, listener: unknown, target?: object | null): boolean;
-}

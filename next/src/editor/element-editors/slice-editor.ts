@@ -47,7 +47,8 @@ export class SliceEditor<E extends EditedItem = EditedItem> extends ItemEditor<E
    * slice; a rotated transform is dropped. Without a preview the new
    * height is `h` times the transform's vertical shear (matrix[1]), not
    * its vertical scale, so a resize through `_transform` alone sets the
-   * height to 0 (see BUGS-FIXED candidates; pinned in slice-editor.test.ts).
+   * height to 0 (see "A slice scaled without a preview gets height 0" in
+   * QUESTIONS.md; pinned in slice-editor.test.ts).
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- the old signature
   override _applyTransform(target: unknown, ...rest: unknown[]): void {

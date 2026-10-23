@@ -3,6 +3,7 @@ import { Key } from "../../engine/core/key.ts";
 import { KeyEvent } from "../../engine/core/key-event.ts";
 import { MouseEvent } from "../../engine/core/mouse-event.ts";
 import { Platform } from "../../engine/core/platform.ts";
+import { Point } from "../../engine/math/point.ts";
 import { installFakeCanvas } from "../../engine/paint/testing/fake-canvas.ts";
 import type { TLCore } from "../../engine/text/gtl/tl-core.ts";
 import { RunDraw } from "../../engine/text/gtl/run-draw.ts";
@@ -10,6 +11,7 @@ import { Cursor } from "../cursor.ts";
 import type { InlineTextEditor } from "./inline-text-editor.ts";
 import { type DomKeyEvent } from "./inline-text-editor.ts";
 import { FakeView, textSetup, type TextSetup } from "./text-editor.testing.ts";
+import recorded from "./inline-text-editor.fixture.json";
 
 let uninstall: () => void;
 beforeAll(() => {
@@ -283,5 +285,107 @@ describe("GInlineTextEditor", () => {
     expect(selection(core)).toEqual([0, 0]);
     inline.activate(view.asWidget());
     expect(selection(core)).toEqual([1, 1]);
+  });
+
+  describe("replays key sequences recorded from the old app", () => {
+    type Op = (string | number | boolean)[];
+    interface Step {
+      op: Op;
+      [field: string]: unknown;
+    }
+    const pressEvent = () => ({ preventDefault: () => {}, stopPropagation: () => {} });
+    const keyOf = (name: string): unknown =>
+      (Key.Constant as Record<string, unknown>)[name] ?? name;
+
+    /** Runs one recorded op; the same switch as the recording script. */
+    function run(setup: InlineSetup, op: Op): unknown {
+      const { inline, core, editor, view } = setup;
+      const [name, a, b, c] = op;
+      switch (name) {
+        case "select":
+          return core.select(a as number, b as number);
+        case "compStart":
+          return inline._compStart();
+        case "compEnd":
+          return inline._compEnd();
+        case "input":
+          return inline._keyPress({ ...pressEvent(), target: { value: a as string } }, true);
+        case "press":
+          return inline._keyPress({ ...pressEvent(), keyUTF: a as string });
+        case "key":
+          return inline._handleKey(keyOf(a as string) as never, !!b, !!c);
+        case "list":
+          return (
+            core.getRange(a as number, b as number) as NonNullable<ReturnType<TLCore["getRange"]>>
+          ).toggleList(c as string);
+        case "hit":
+          return inline.isSelectionHit(new Point(a as number, b as number));
+        case "deactivate":
+          return inline.deactivate();
+        case "activate":
+          return editor.beginInlineEdit(view.asWidget());
+      }
+      throw new Error(`unknown op ${String(name)}`);
+    }
+
+    /** The fields the recording took after each op. */
+    function state(setup: InlineSetup, expected: Step): Record<string, unknown> {
+      const { inline, core, editor, host } = setup;
+      const s = core.getSelection() as { start: number; end: number };
+      const plain = core.getDocumentRange().plainText();
+      const out: Record<string, unknown> = {
+        ...("plainUnits" in expected
+          ? { plainUnits: Array.from({ length: plain.length }, (_, i) => plain.charCodeAt(i)) }
+          : { plain }),
+        sel: [s.start, s.end],
+        focus: inline._focusChar,
+        delta: inline._compositionSelectionDelta,
+        last: inline._lastCompositedTextLength,
+        comp: inline._compositionOn,
+        tx: host.calls
+          .splice(0)
+          .filter((call) => call[0] === "begin" || call[0] === "commit")
+          .map((call) => (call[0] === "commit" ? ["commit", String(call[1])] : ["begin"])),
+      };
+      if ("runs" in expected) {
+        out.runs = (
+          core.getRichContent() as unknown as {
+            text: unknown;
+            listMarker: unknown;
+            listDepth: unknown;
+          }[]
+        ).map((run) => [run.text, run.listMarker, run.listDepth]);
+      }
+      if ("tfs" in expected) {
+        out.tfs = editor.getProperty("_tfs");
+        out.tfw = editor.getProperty("_tfw");
+      }
+      return out;
+    }
+
+    for (const recordedCase of recorded.cases as {
+      name: string;
+      content: string;
+      variants?: { style: string; weight: number }[];
+      steps: Step[];
+    }[]) {
+      it(recordedCase.name, () => {
+        const setup = inlineSetup(recordedCase.content, recordedCase.variants);
+        setup.host.calls.splice(0);
+        for (const step of recordedCase.steps) {
+          const result = run(setup, step.op);
+          const { op, result: expectedResult, ...expected } = step;
+          expect({
+            op,
+            result: result === undefined ? "<undefined>" : result,
+            ...state(setup, step),
+          }).toEqual({
+            op,
+            result: expectedResult,
+            ...expected,
+          });
+        }
+      });
+    }
   });
 });

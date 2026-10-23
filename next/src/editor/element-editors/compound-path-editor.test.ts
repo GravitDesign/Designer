@@ -4,6 +4,7 @@ import type { Rect } from "../../engine/math/rect.ts";
 import { Transform } from "../../engine/math/transform.ts";
 import { CompoundPath } from "../../engine/scene/compound-path.ts";
 import { AnchorPoint } from "../../engine/scene/path-base.ts";
+import { NodeFlag } from "../../engine/scene/node-change.ts";
 import type { Node } from "../../engine/scene/node.ts";
 import { Path } from "../../engine/scene/path.ts";
 import { Scene } from "../../engine/scene/scene.ts";
@@ -135,7 +136,7 @@ describe("GCompoundPathEditor", () => {
     editor.setFlag(BaseEditor.Flag.Selected);
     expect(editor.isDeletePartsAllowed()).toBe(false);
     for (let p: Node | null = outer.getAnchorPoints().getFirstChild(); p; p = p.getNext()) {
-      p.setFlag(2);
+      p.setFlag(NodeFlag.Selected);
     }
     const child = ElementEditor.getEditor(outer) as PathEditor;
     expect(child.hasAllPointsSelected()).toBe(true);
@@ -143,7 +144,7 @@ describe("GCompoundPathEditor", () => {
     expect(editor.isDeletePartsAllowed()).toBe(true);
     // Both sub-paths fully selected: nothing to delete part-wise.
     for (let p: Node | null = inner.getAnchorPoints().getFirstChild(); p; p = p.getNext())
-      p.setFlag(2);
+      p.setFlag(NodeFlag.Selected);
     expect(editor.isDeletePartsAllowed()).toBe(false);
   });
 });

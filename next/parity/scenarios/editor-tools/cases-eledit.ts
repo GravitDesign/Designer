@@ -214,7 +214,47 @@ const manySubPaths = (count: number): Fixture => ({
   tool: "GSubSelectTool",
 });
 
+/**
+ * Presses at (x, y), starts the drag with a 1 px move and returns to the
+ * press point once the drag runs. The select tool only starts moving parts
+ * 33 ms after the drag starts (_clickToDragTimeout), so moves before that
+ * are dropped and the radial editor, which accumulates per move, would
+ * depend on timing. The return move puts the handle back where it was.
+ */
+const grab = (x: number, y: number): Step[] => [
+  down(x, y),
+  move(x + 1, y, 1),
+  wait(100),
+  move(x, y, 1),
+];
+
 const GRADIENT = ["EDT-ELEDIT-047", "EDT-ELEDIT-048", "EDT-HANDLE-021"];
+
+/**
+ * gradientRect with the gradient editor opened through the editor API, as
+ * the inspector's fill chooser does when it opens (chooseropen): hide the
+ * selection, then GStyleEdManager.updateEditor(fill, "_pt", false). The
+ * pointer tool has activated the manager already. Needs no inspector, so
+ * the same steps run in the new app before its panels exist.
+ */
+const gradientViaEditor = (
+  kind: "GLinearGradient" | "GRadialGradient" | "GAngularGradient",
+): Fixture => ({
+  ...gradientRect(kind),
+  script: fixtureScript(({ G, app }) => {
+    const node = app.selection()[0];
+    const layers = node.getPaintLayers();
+    let fill = null;
+    for (let l = layers.getFirstChild(); l; l = l.getNext()) {
+      if (l instanceof G.GStylable.FillPaintLayer) {
+        l.setProperty("_pt", new G[kind]());
+        fill = fill || l;
+      }
+    }
+    app.editor().hideSelection();
+    app.scene().getWorkspace().getStyleEdManager().updateEditor(fill, "_pt", false);
+  }).replace("G[kind]", `G.${kind}`),
+});
 
 export const eleditCases: ToolCase[] = [
   {
@@ -410,6 +450,213 @@ export const eleditCases: ToolCase[] = [
     covers: [...GRADIENT, "EDT-ELEDIT-053"],
     fixture: gradientRect("GAngularGradient"),
     steps: [...openFillChooser, move(250, 250), shot(80, 40, 240, 240)],
+  },
+  // The same editors opened through the editor API (gradientViaEditor)
+  // instead of the inspector. One pointer event per position, as above;
+  // grab() lets the drag start before the first position that counts.
+  {
+    id: "eledit/gradient-api-linear-overlay",
+    covers: [...GRADIENT, "EDT-ELEDIT-051"],
+    fixture: gradientViaEditor("GLinearGradient"),
+    steps: [move(600, 500), ...click(160, 160), wait(100), move(250, 160), shot(80, 80, 240, 160)],
+  },
+  {
+    id: "eledit/gradient-api-linear-stops",
+    covers: [...GRADIENT, "EDT-ELEDIT-049", "EDT-ELEDIT-050", "EDT-ELEDIT-051"],
+    fixture: gradientViaEditor("GLinearGradient"),
+    steps: [
+      move(600, 500),
+      move(200, 160),
+      probe("hover-line"),
+      ...click(200, 160),
+      wait(100),
+      probe("stop-added", true),
+      ...grab(200, 160),
+      move(240, 170, 1),
+      probe("stop-slid", true),
+      move(360, 175, 1),
+      up(),
+      wait(100),
+      probe("stop-clamped", true),
+      ...grab(100, 160),
+      keyDown("Shift"),
+      move(110, 180, 1),
+      move(127, 213, 1),
+      up(),
+      keyUp("Shift"),
+      wait(100),
+      probe("start-shift", true),
+    ],
+  },
+  {
+    id: "eledit/gradient-api-radial-overlay",
+    covers: [...GRADIENT, "EDT-ELEDIT-052"],
+    fixture: gradientViaEditor("GRadialGradient"),
+    steps: [move(600, 500), ...click(250, 160), wait(100), move(250, 220), shot(80, 70, 240, 170)],
+  },
+  {
+    id: "eledit/gradient-api-radial-toggled-overlay",
+    covers: [...GRADIENT, "EDT-ELEDIT-052"],
+    fixture: gradientViaEditor("GRadialGradient"),
+    steps: [move(600, 500), ...click(200, 100), wait(100), move(250, 220), shot(80, 70, 240, 170)],
+  },
+  ...(
+    [
+      // Stop 0 at position 0 is the focal point: moves _fx/_fy.
+      ["focal", [200, 160], [230, 175]],
+      // Dragged past the radius: the focal point is pulled back inside.
+      ["focal-clamped", [200, 160], [340, 160]],
+      ["end", [300, 160], [330, 175]],
+      ["move", [200, 130], [230, 150]],
+    ] as const
+  ).map(([name, from, to]): ToolCase => ({
+    id: `eledit/gradient-api-radial-drag-${name}`,
+    covers: [...GRADIENT, "EDT-ELEDIT-052"],
+    fixture: gradientViaEditor("GRadialGradient"),
+    steps: [
+      move(600, 500),
+      ...grab(from[0], from[1]),
+      move(to[0], to[1], 1),
+      up(),
+      wait(100),
+      probe("dragged", true),
+    ],
+  })),
+  ...(
+    [
+      // After the extra handle click the end handle sits on the y axis.
+      ["skewed", [230, 70]],
+      // Level with the centre: dy is 0, scale 0, the transform isn't applied.
+      ["flat", [240, 160]],
+    ] as const
+  ).map(([name, to]): ToolCase => ({
+    id: `eledit/gradient-api-radial-y-leading-end-${name}`,
+    covers: [...GRADIENT, "EDT-ELEDIT-052"],
+    fixture: gradientViaEditor("GRadialGradient"),
+    steps: [
+      move(600, 500),
+      ...click(200, 100),
+      wait(100),
+      probe("toggled", true),
+      ...grab(200, 100),
+      move(to[0], to[1], 1),
+      up(),
+      wait(100),
+      probe("dragged", true),
+    ],
+  })),
+  {
+    id: "eledit/gradient-api-radial-middle-stop",
+    covers: [...GRADIENT, "EDT-ELEDIT-049", "EDT-ELEDIT-052"],
+    fixture: gradientViaEditor("GRadialGradient"),
+    steps: [
+      move(600, 500),
+      ...click(250, 160),
+      wait(100),
+      probe("stop-added", true),
+      ...grab(250, 160),
+      move(275, 172, 1),
+      probe("slid", true),
+      move(340, 160, 1),
+      probe("past-end", true),
+      move(201, 160, 1),
+      probe("near-start", true),
+      up(),
+      wait(100),
+      probe("after", true),
+    ],
+  },
+  {
+    id: "eledit/gradient-api-radial-focal-shift",
+    covers: [...GRADIENT, "EDT-ELEDIT-052"],
+    fixture: gradientViaEditor("GRadialGradient"),
+    steps: [
+      move(600, 500),
+      ...grab(200, 160),
+      move(202, 161, 1),
+      keyDown("Shift"),
+      move(230, 185, 1),
+      move(243, 176, 1),
+      up(),
+      keyUp("Shift"),
+      wait(100),
+      probe("dragged", true),
+    ],
+  },
+  {
+    id: "eledit/gradient-api-angular-overlay",
+    covers: [...GRADIENT, "EDT-ELEDIT-053"],
+    fixture: gradientViaEditor("GAngularGradient"),
+    steps: [move(600, 500), move(250, 250), shot(80, 40, 240, 240)],
+  },
+  {
+    id: "eledit/gradient-api-angular-stop-overlay",
+    covers: [...GRADIENT, "EDT-ELEDIT-053"],
+    fixture: gradientViaEditor("GAngularGradient"),
+    steps: [move(600, 500), ...click(200, 100), wait(100), move(250, 250), shot(80, 40, 240, 240)],
+  },
+  {
+    id: "eledit/gradient-api-angular-handles",
+    covers: [...GRADIENT, "EDT-ELEDIT-053"],
+    fixture: gradientViaEditor("GAngularGradient"),
+    steps: [
+      move(600, 500),
+      ...grab(200, 160),
+      move(230, 170, 1),
+      move(297, 103, 1),
+      up(),
+      wait(100),
+      probe("center-snapped", true),
+      ...grab(397, 103),
+      keyDown("Shift"),
+      move(390, 130, 1),
+      move(380, 170, 1),
+      up(),
+      keyUp("Shift"),
+      wait(100),
+      probe("end-shift", true),
+    ],
+  },
+  {
+    id: "eledit/gradient-api-angular-middle-stop",
+    covers: [...GRADIENT, "EDT-ELEDIT-049", "EDT-ELEDIT-053"],
+    fixture: gradientViaEditor("GAngularGradient"),
+    steps: [
+      move(600, 500),
+      ...click(200, 100),
+      wait(100),
+      probe("stop-added", true),
+      ...grab(200, 100),
+      move(260, 110, 1),
+      probe("slid", true),
+      move(300, 150, 1),
+      probe("near-start-angle", true),
+      move(300, 172, 1),
+      probe("past-start-angle", true),
+      move(120, 200, 1),
+      up(),
+      wait(100),
+      probe("after", true),
+    ],
+  },
+  {
+    id: "eledit/gradient-api-angular-stop-shift",
+    covers: [...GRADIENT, "EDT-ELEDIT-053"],
+    fixture: gradientViaEditor("GAngularGradient"),
+    steps: [
+      move(600, 500),
+      ...click(200, 100),
+      wait(100),
+      ...grab(200, 100),
+      move(201, 101, 1),
+      keyDown("Shift"),
+      move(150, 120, 1),
+      move(133, 107, 1),
+      up(),
+      keyUp("Shift"),
+      wait(100),
+      probe("dragged", true),
+    ],
   },
   {
     id: "eledit/page-label-select-and-drag",

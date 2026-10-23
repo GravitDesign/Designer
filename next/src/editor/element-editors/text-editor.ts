@@ -67,6 +67,29 @@ interface MatrixTransformer {
 }
 
 /**
+ * GElement.Transform's own preTransform, run on a text: it maps the
+ * transform into the element's space and passes it on to the children
+ * only. The old resize code called the mixin method directly
+ * (`GElement.Transform.prototype.preTransform.call(text, ...)`) instead of
+ * text.preTransform, which goes through Shape.preTransform and would
+ * multiply the resize into `trf` a second time after transformSourceBBox
+ * already applied it. The mixin has no prototype of its own here, so its
+ * body is repeated; isTransformChildren and _transformChildren dispatch
+ * through the element as they did in the old code.
+ */
+function preTransformChildrenOnly(element: EditedText, transform: Transform, extra: unknown): void {
+  const exceptions = extra as Parameters<EditedText["preTransform"]>[2];
+  if (element.isTransformChildren(transform, false)) {
+    const own = element.getProperty("trf") as Transform | null;
+    const mapped =
+      own && own.invertible()
+        ? (own.inverted() as Transform).multiplied(transform).multiplied(own)
+        : transform;
+    element._transformChildren(mapped, false, exceptions);
+  }
+}
+
+/**
  * The editor of a text: text box resizing (auto width and height, scale
  * content), the text-on-path start handle, inline editing through an
  * InlineTextEditor, and the bold and italic hotkeys.
@@ -528,7 +551,7 @@ export class TextEditor extends ShapeEditor<EditedText> {
           if (void 0 !== fontSize) this._element.setProperties(["_tfi"], [fontSize]);
           else if (void 0 !== content) this._element.setProperties(["content"], [content]);
           if (this._preTransform && !this._preTransform.isIdentity()) {
-            this._element.preTransform(this._preTransform, false, extra as never);
+            preTransformChildrenOnly(this._element, this._preTransform, extra);
           }
           this._element.endUpdate();
           this.resetTransform();
@@ -970,9 +993,11 @@ export class TextEditor extends ShapeEditor<EditedText> {
     if (caret) {
       const element = this.getElement();
       const core = element.getTLCore() as TLCore;
-      const effect = (
-        element.getEffects() as { getFirstChild(): unknown } | null
-      )?.getFirstChild() as { getProperty(name: string): unknown } | null | undefined;
+      // A text always has its effects node, so no null check (the old code
+      // had none either).
+      const effect = (element.getEffects() as { getFirstChild(): unknown }).getFirstChild() as {
+        getProperty(name: string): unknown;
+      } | null;
       const brightnessContrast =
         (effect &&
           (effect.getProperty("GGLBrightnessContrastEffect&shp") as {
