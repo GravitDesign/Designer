@@ -1,0 +1,158 @@
+import fs from "node:fs";
+import path from "node:path";
+import { describe, expect, it } from "vitest";
+import { EXPECTED_ROOT } from "../../../../parity/support/env.ts";
+import { getTypeId } from "../../core/object.ts";
+import { Node, registerNodeClass } from "../../scene/node.ts";
+import { Effect, type EffectPadding, type EffectTypeValue } from "../effect.ts";
+import "../stylable.ts";
+import { AdjustMultiEffect } from "./adjust-multi-effect.ts";
+import { ColorAdjustMultiEffect } from "./color-adjust-multi-effect.ts";
+import { CurvedShadowEffect } from "./curved-shadow-effect.ts";
+
+// Stand-ins for the engine-effects-webgl classes these effects look up by
+// node name: just the property tables and what the canvas effects call.
+
+const rendered: string[] = [];
+
+function glEffect(
+  nodeName: string,
+  shp: Record<string, unknown>,
+  padding: (shp: Record<string, number>) => EffectPadding = () => 0,
+) {
+  class FakeGLEffect extends Effect {
+    static {
+      registerNodeClass(this, nodeName, nodeName);
+    }
+    static override GeometryProperties: Record<string, unknown> = { shp, sh: nodeName };
+    static equals(a: unknown, b: unknown): boolean {
+      return (
+        a instanceof FakeGLEffect && b instanceof FakeGLEffect && a.arePropertiesEqual(b, ["shp"])
+      );
+    }
+    declare $shp: Record<string, number>;
+    constructor() {
+      super();
+      this._setDefaultProperties(FakeGLEffect.GeometryProperties);
+    }
+    override getEffectType(): EffectTypeValue {
+      return Effect.Type.Filter;
+    }
+    override getEffectPadding(): EffectPadding {
+      return padding(this.$shp);
+    }
+    override render(): void {
+      rendered.push(nodeName + " " + JSON.stringify(this.$shp));
+    }
+  }
+  return FakeGLEffect;
+}
+
+glEffect("GGLBrightnessContrastEffect", { brightness: 0, contrast: 0 });
+glEffect("GGLHueSaturationEffect", { hue: 0, saturation: 0 });
+const ColorAdjust = glEffect("GGLColorAdjustEffect", {
+  brightness: 0,
+  contrast: 0,
+  hue: 0,
+  saturation: 0,
+});
+glEffect("GGLDotScreenEffect", { centerX: 0, centerY: 0, angle: 0, size: 3 });
+glEffect("GGLSepiaEffect", { amount: 0.5 });
+glEffect("GGLBlurEffect", { radius: 5, clip: false });
+
+const FakeBendBlurEffect = glEffect(
+  "GGLBendBlurEffect",
+  { radius: 50, softness: 1, bend: 50, cov: 0.8 },
+  (shp) => [shp.radius as number, shp.softness as number, shp.bend as number, 0],
+);
+
+const recorded = JSON.parse(
+  fs.readFileSync(path.join(EXPECTED_ROOT, "engine-model/styles/effects-catalogue.json"), "utf8"),
+) as Record<string, { defaultBlob: unknown; blob: unknown; type: number }>;
+
+describe("ColorAdjustMultiEffect", () => {
+  it("keeps the old type id and node name", () => {
+    expect(getTypeId(ColorAdjustMultiEffect)).toBe(257);
+    expect(Node.getName(new ColorAdjustMultiEffect())).toBe("colorAdjustMultiEffect");
+  });
+
+  it("stores its effects' parameters, as the old app did", () => {
+    const fx = new ColorAdjustMultiEffect();
+    const expected = recorded.GColorAdjustMultiEffect as { defaultBlob: unknown; blob: unknown };
+    expect(JSON.parse(Node.serialize(fx) as string)).toEqual(expected.defaultBlob);
+    fx.setProperties(
+      ["GGLBrightnessContrastEffect&shp", "GGLHueSaturationEffect&shp"],
+      [
+        { brightness: 0.2, contrast: -0.3 },
+        { hue: 0.5, saturation: 0.1 },
+      ],
+    );
+    const json = Node.serialize(fx) as string;
+    expect(JSON.parse(json)).toEqual(expected.blob);
+    expect(Node.serialize(Node.deserialize(json) as Node)).toBe(json);
+  });
+
+  it("renders all four values with one color adjust effect", () => {
+    const fx = new ColorAdjustMultiEffect();
+    expect(fx._colorAdjust).toBeInstanceOf(ColorAdjust);
+    fx.setProperty("GGLHueSaturationEffect&shp", { hue: 0.5, saturation: 0.1 });
+    fx.setProperty("GGLBrightnessContrastEffect&shp", { brightness: 0.2, contrast: -0.3 });
+    rendered.length = 0;
+    fx.render(null as never, null, null, 1);
+    expect(rendered).toEqual([
+      'GGLColorAdjustEffect {"brightness":0.2,"contrast":-0.3,"hue":0.5,"saturation":0.1}',
+    ]);
+    // The two edited effects got their values too.
+    expect((fx.getFXArray()[1] as unknown as { $shp: unknown }).$shp).toEqual({
+      hue: 0.5,
+      saturation: 0.1,
+    });
+    // Clearing one resets its two values to 0.
+    fx.setProperty("GGLHueSaturationEffect&shp", null);
+    rendered.length = 0;
+    fx.render(null as never, null, null, 1);
+    expect(rendered).toEqual([
+      'GGLColorAdjustEffect {"brightness":0.2,"contrast":-0.3,"hue":0,"saturation":0}',
+    ]);
+  });
+});
+
+describe("AdjustMultiEffect", () => {
+  it("has dot screen, sepia and blur, and stores only fxP and fxN", () => {
+    expect(getTypeId(AdjustMultiEffect)).toBe(258);
+    const fx = new AdjustMultiEffect();
+    expect(fx.getFXArray().map((effect) => Node.getName(effect))).toEqual([
+      "GGLDotScreenEffect",
+      "GGLSepiaEffect",
+      "GGLBlurEffect",
+    ]);
+    const expected = recorded.GAdjustMultiEffect as { defaultBlob: unknown; blob: unknown };
+    expect(JSON.parse(Node.serialize(fx) as string)).toEqual(expected.defaultBlob);
+    fx.setProperties(
+      ["GGLSepiaEffect&shp", "GGLBlurEffect&shp"],
+      [{ amount: 0.9 }, { radius: 12, clip: true }],
+    );
+    expect(JSON.parse(Node.serialize(fx) as string)).toEqual(expected.blob);
+    expect((fx.getFXArray()[1] as unknown as { $shp: unknown }).$shp).toEqual({ amount: 0.9 });
+  });
+});
+
+describe("CurvedShadowEffect", () => {
+  it("passes its properties to the bend blur for the padding", () => {
+    expect(getTypeId(CurvedShadowEffect)).toBe(263);
+    const fx = new CurvedShadowEffect();
+    expect(fx._bend).toBeInstanceOf(FakeBendBlurEffect);
+    fx.setProperties(["s", "b", "l"], [2, 20, 15]);
+    // radius = l, softness = s, bend = b.
+    expect(fx.getEffectPadding()).toEqual([15, 2, 20, 0]);
+    expect((fx._bend as unknown as { $shp: unknown }).$shp).toEqual({
+      radius: 15,
+      softness: 2,
+      bend: 20,
+      cov: 0.8,
+    });
+    const expected = recorded.GCurvedShadowEffect as { defaultBlob: unknown; blob: unknown };
+    const fresh = new CurvedShadowEffect();
+    expect(JSON.parse(Node.serialize(fresh) as string)).toEqual(expected.defaultBlob);
+  });
+});
