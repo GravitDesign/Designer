@@ -37,18 +37,15 @@ import {
   tagToName,
 } from "./harfbuzz.ts";
 import { OpenTypeUtil } from "./open-type-util.ts";
+import { TLDirectionTextTransformer } from "../tl-direction-text-transformer.ts";
 
-/**
- * Text directions as GTLDirectionTextTransformer numbers them
- * (chunk.vendor.js module 266, engine-text-gtl). Only the values are
- * needed here.
- */
+/** Text directions as GTLDirectionTextTransformer numbers them (chunk.vendor.js module 266). */
 export const TextDirection = {
-  LTR: 0,
-  RTL: 1,
-  TTB: 2,
-  BTT: 3,
-} as const;
+  LTR: TLDirectionTextTransformer.LTR,
+  RTL: TLDirectionTextTransformer.RTL,
+  TTB: TLDirectionTextTransformer.TTB,
+  BTT: TLDirectionTextTransformer.BTT,
+};
 
 /**
  * Unicode blocks of scripts that have no OpenType script tag in the fonts
