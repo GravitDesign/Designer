@@ -52,9 +52,9 @@ Decisions taken:
 | # | Phase | State |
 | - | ----- | ----- |
 | 1 | Inventory | done (2311 items) |
-| 2 | Parity harness and corpus | all 8 areas recorded; fixing the phase 2 review (phase2-review.md) |
-| 3 | Scaffold next/ | written (src/, server/, electron/, vite configs, CI), commit waits for phase 2 |
-| 4 | Engine core | level 0 ported (engine-core, engine-math, engine-locale, engine-opentype-fork), uncommitted until phase 3 is committed |
+| 2 | Parity harness and corpus | done: 2855 old-app scenarios, review fixed, re-recorded |
+| 3 | Scaffold next/ | done |
+| 4 | Engine core | in progress: levels 0-1 committed (core, locale, math, opentype fork, vertex, color); level 2 (boolean, paint) running |
 | 5 | File format and import/export | not started |
 | 6 | Editor | not started |
 | 7 | UI | not started |
@@ -63,6 +63,8 @@ Decisions taken:
 | 10 | Final check | not started |
 
 ## Log
+
+- 31 parity scenarios pass against the new app (parity/ported/*.json).
 
 - Phase 2 review: 84 findings (28 high). Harness-wide fixes done by the
   coordinator, uncommitted until the areas re-record: shared-page reset
@@ -203,9 +205,8 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
 
 ## Pending harness work
 
-- After all phase 2 fix agents finish: re-record every area once with the
-  final harness (normalize.ts changed after some areas recorded), then two
-  clean runs, prove-failing and all mutations.
+- Run `npm run parity:prove` and `npm run parity:mutations` over the whole
+  final recording once (each area ran its own; not yet run in one go).
 
 - normalize.ts gaps also seen by editor-actions (which works around them
   in lib.ts `stabilize`): anchor ids (third element of `pts` tuples), `sbl`
