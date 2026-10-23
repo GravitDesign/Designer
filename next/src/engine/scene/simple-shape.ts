@@ -205,10 +205,11 @@ export class SimpleShape extends Shape {
       blob["pvp"] = ParameterizedVertexProcessor.serialize(
         this._parameterizedVertexProcessor as ParameterizedVertexProcessor,
       );
-      // A shape without annotations has no list and throws here; the old
-      // store did the same (it will get its own fix).
+      // A ready shape without handles has no list and stores an empty one.
+      // The old store threw here, so such a shape could not be saved
+      // (BUG-005). The old restore reads "[]" back as an empty list.
       const values: number[] = [];
-      const positions = this._annotationsParamVals as Point[];
+      const positions = this._annotationsParamVals ?? [];
       for (let i = 0; i < positions.length; ++i) {
         values.push((positions[i] as Point).getX(), (positions[i] as Point).getY());
       }

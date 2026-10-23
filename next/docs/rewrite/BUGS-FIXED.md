@@ -71,3 +71,41 @@ New: restore uses Annotation.MetaProperties and the annotation restore action, l
 Test: special-annotations.test.ts, "BUG-003: keeps its meta properties through save and load", "BUG-003: loads a hidden one without throwing" and "BUG-003: loads one with a uid and no read list". annotations-probe.test.ts replaces the old fixture's "empty" section (restored, saved, savedKeys) with the restored values. With the old restore, the first test and the three probe checks fail. Without the restore guard, the hidden-annotation test fails with a TypeError.
 
 Parity exceptions: none (parity/exceptions/BUG-003.json lists no scenarios). No recorded scenario restores an "ann" that has meta properties set: engine-model/nodes/defaults-restored restores a bare `{"@": "ann"}`, which gives the defaults either way, and editor-tools/annotations/untooled-types builds its "ann" in the page instead of loading it.
+
+## BUG-005 A ready shape without handles can't be saved
+
+Old code: chunk.vendor.js module 530 (GSimpleShape), _handleChange store
+branch, lines 75182-75190 (the throw is at 75187).
+
+- Reproduce: activate the ready-shape tool with a shape that has no
+  handles (Rectangle, Oval, Right Triangle, Diamond, Regular Pentagon,
+  Heptagon, Decagon, Dodecagon or Minus from the catalogue, module 1542)
+  and drag it onto the canvas, then use File > Download File. The toolbar's
+  ready-shapes menu that does this (GToolbar.createSimpleShapesMenu) is
+  only reached through a "simpleshape" tool category that no tool entry
+  has, so in the shipped app it takes the menu's own code:
+  `activateTool(GSimpleShapeTool, icon, true)` and `getActiveTool().init(def)`.
+- Old: store loops over `_annotationsParamVals.length`, which is null for
+  a shape without handles, and throws "Cannot read properties of null
+  (reading 'length')". Node.serialize fails, so no file is downloaded and
+  the document can't be saved at all (data loss). Copy, paste and
+  duplicate go through the same store and fail too. Shapes with handles
+  (Triangle, Rounded Rectangle and the others) save fine.
+- New: a shape without handles stores `"apv":"[]"`, the same key with an
+  empty list. The other keys (`ssn`, `icn`, `pvp`) are unchanged. Both
+  restores read `"[]"` as an empty list (the old one checks only that
+  `apv` is set), which draws the same shape as null because a shape
+  without handles has no parameters. Checked both ways: a file the new
+  app saved with Rectangle, Oval and Minus reopens with the same shapes and
+  the same blobs in the new app and in the old app, and the old app can
+  then save that file again (its store now finds a list).
+- Test: src/engine/scene/simple-shape.test.ts, "saves a ready shape
+  without handles with an empty list and restores it (BUG-005)" (fails
+  with the old store: TypeError: Cannot read properties of null (reading
+  'length')).
+- Parity exceptions: none. No recorded scenario contains a ready shape
+  without handles, because the old app can't save one: the
+  corpus/shapes-ready file leaves them out (parity/corpus/documents.ts),
+  and engine-model/nodes/defaults-restored still records `"<throws>"` for
+  the blob of a bare restored Ready Shape, which fails earlier, on the
+  missing processor.

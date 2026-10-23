@@ -85,15 +85,24 @@ describe("GSimpleShape", () => {
     expect(shape.rewindVertices(0)).toBe(false);
   });
 
-  it("fails to save without annotations (old bug, kept)", () => {
+  it("saves a ready shape without handles with an empty list and restores it (BUG-005)", () => {
+    // Like the catalogue's Rectangle: no annotations, no parameters.
     const processor = new ParameterizedVertexProcessor(
       null,
       null,
       null,
-      [1, 1, 0, 1, 0, 2, 1, 1, 1, 1, 5],
+      [1, 1, -1, 1, -1, 2, 1, 1, 1, -1, 2, 1, 1, 1, 1, 2, 1, -1, 1, 1, 5],
     );
-    const shape = new SimpleShape(processor, null, 0, 0, "Fixed");
-    expect(read(shape).length).toBeGreaterThan(0);
-    expect(() => Node.serialize(shape)).toThrow(TypeError);
+    const shape = new SimpleShape(processor, null, 100, 80, "Rectangle");
+    shape.setProperty("trf", new Transform(50, 0, 0, 40, 60, 50));
+    const saved = Node.serialize(shape) as string;
+    const blob = JSON.parse(saved) as Record<string, unknown>;
+    expect([blob["ssn"], blob["apv"]]).toEqual(["Rectangle", "[]"]);
+    const back = Node.deserialize(saved) as SimpleShape;
+    expect(back.toString()).toBe("Rectangle");
+    expect(back.getAnnotationsCount()).toBe(0);
+    expect(read(back)).toEqual(read(shape));
+    expect(read(back).length).toBeGreaterThan(0);
+    expect(Node.serialize(back)).toBe(saved);
   });
 });
