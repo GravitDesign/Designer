@@ -1,0 +1,219 @@
+{
+ "linearDefault": {
+  "serialized": "L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,0,0]\",\"o\":1}]}",
+  "stops": [
+   [
+    0,
+    "pattern:C#[255,255,255]",
+    1
+   ],
+   [
+    1,
+    "pattern:C#[0,0,0]",
+    1
+   ]
+  ],
+  "scale": 1,
+  "transform": null,
+  "css": "linear-gradient(90deg, #FFFFFF 0%, #000000 100%)",
+  "cssHalf": "linear-gradient(90deg, rgba(255,255,255,0.5) 0%, rgba(0,0,0,0.5) 100%)",
+  "screenCSS": "#FFFFFF 0%, #000000 100%",
+  "angle": 0,
+  "average": [
+   127.5,
+   127.5,
+   127.5,
+   1
+  ],
+  "cloneSerialized": "L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,0,0]\",\"o\":1}]}",
+  "roundTrip": "L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,0,0]\",\"o\":1}]}"
+ },
+ "linear": {
+  "serialized": "L#{\"s\":2,\"t\":[1,0,0,1,5,5],\"fx\":0.3,\"fy\":0.6,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":0.5},{\"p\":0.3,\"c\":\"Y#[0,1,0,0]\",\"o\":0.25},{\"p\":0.8,\"c\":\"C#[0,0,255]\",\"o\":1}],\"r\":0.7}",
+  "stops": [
+   [
+    0,
+    "pattern:C#[255,0,0]",
+    0.5
+   ],
+   [
+    0.3,
+    "pattern:Y#[0,1,0,0]",
+    0.25
+   ],
+   [
+    0.8,
+    "pattern:C#[0,0,255]",
+    1
+   ]
+  ],
+  "scale": 2,
+  "transform": {
+   "trf": [
+    1,
+    0,
+    0,
+    1,
+    5,
+    5
+   ]
+  },
+  "css": "linear-gradient(130deg, rgba(255,0,0,0.5) 0%, rgba(235,40,143,0.25) 30%, #0000FF 80%)",
+  "cssHalf": "linear-gradient(130deg, rgba(255,0,0,0.25) 0%, rgba(235,40,143,0.125) 30%, rgba(0,0,255,0.5) 80%)",
+  "screenCSS": "rgba(255,0,0,0.5) 0%, rgba(235,40,143,0.25) 30%, #0000FF 80%",
+  "angle": 0.7,
+  "average": [
+   163.33333333333334,
+   13.333333333333334,
+   132.66666666666666,
+   0.5833333333333334
+  ],
+  "cloneSerialized": "L#{\"s\":2,\"t\":[1,0,0,1,5,5],\"fx\":0.3,\"fy\":0.6,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":0.5},{\"p\":0.3,\"c\":\"Y#[0,1,0,0]\",\"o\":0.25},{\"p\":0.8,\"c\":\"C#[0,0,255]\",\"o\":1}],\"r\":0.7}",
+  "roundTrip": "L#{\"s\":2,\"t\":[1,0,0,1,5,5],\"fx\":0.3,\"fy\":0.6,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":0.5},{\"p\":0.3,\"c\":\"Y#[0,1,0,0]\",\"o\":0.25},{\"p\":0.8,\"c\":\"C#[0,0,255]\",\"o\":1}],\"r\":0.7}"
+ },
+ "radialDefault": {
+  "serialized": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,0,0]\",\"o\":1}]}",
+  "stops": [
+   [
+    0,
+    "pattern:C#[255,255,255]",
+    1
+   ],
+   [
+    1,
+    "pattern:C#[0,0,0]",
+    1
+   ]
+  ],
+  "scale": 0.5,
+  "transform": null,
+  "css": "radial-gradient(ellipse at 50% 50%, #FFFFFF 0%, #000000 100%)",
+  "cssHalf": "radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.5) 0%, rgba(0,0,0,0.5) 100%)",
+  "screenCSS": "#FFFFFF 0%, #000000 100%",
+  "angle": "<throws>",
+  "average": [
+   127.5,
+   127.5,
+   127.5,
+   1
+  ],
+  "cloneSerialized": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,0,0]\",\"o\":1}]}",
+  "roundTrip": "R#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,0,0]\",\"o\":1}]}"
+ },
+ "radial": {
+  "serialized": "R#{\"s\":0.8,\"fx\":0.4,\"fy\":0.6,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":0.5},{\"p\":0.3,\"c\":\"Y#[0,1,0,0]\",\"o\":0.25},{\"p\":0.8,\"c\":\"C#[0,0,255]\",\"o\":1}],\"_cx\":0.2,\"_cy\":0.9}",
+  "stops": [
+   [
+    0,
+    "pattern:C#[255,0,0]",
+    0.5
+   ],
+   [
+    0.3,
+    "pattern:Y#[0,1,0,0]",
+    0.25
+   ],
+   [
+    0.8,
+    "pattern:C#[0,0,255]",
+    1
+   ]
+  ],
+  "scale": 0.8,
+  "transform": null,
+  "css": "radial-gradient(ellipse at 20% 90%, rgba(255,0,0,0.5) 0%, rgba(235,40,143,0.25) 30%, #0000FF 80%)",
+  "cssHalf": "radial-gradient(ellipse at 20% 90%, rgba(255,0,0,0.25) 0%, rgba(235,40,143,0.125) 30%, rgba(0,0,255,0.5) 80%)",
+  "screenCSS": "rgba(255,0,0,0.5) 0%, rgba(235,40,143,0.25) 30%, #0000FF 80%",
+  "angle": "<throws>",
+  "average": [
+   163.33333333333334,
+   13.333333333333334,
+   132.66666666666666,
+   0.5833333333333334
+  ],
+  "cloneSerialized": "R#{\"s\":0.8,\"fx\":0.4,\"fy\":0.6,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":0.5},{\"p\":0.3,\"c\":\"Y#[0,1,0,0]\",\"o\":0.25},{\"p\":0.8,\"c\":\"C#[0,0,255]\",\"o\":1}],\"_cx\":0.2,\"_cy\":0.9}",
+  "roundTrip": "R#{\"s\":0.8,\"fx\":0.4,\"fy\":0.6,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":0.5},{\"p\":0.3,\"c\":\"Y#[0,1,0,0]\",\"o\":0.25},{\"p\":0.8,\"c\":\"C#[0,0,255]\",\"o\":1}],\"_cx\":0.2,\"_cy\":0.9}"
+ },
+ "radialCenterRoundTrip": {
+  "before": "radial-gradient(ellipse at 20% 90%, rgba(255,0,0,0.5) 0%, rgba(235,40,143,0.25) 30%, #0000FF 80%)",
+  "serialized": "R#{\"s\":0.8,\"fx\":0.4,\"fy\":0.6,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":0.5},{\"p\":0.3,\"c\":\"Y#[0,1,0,0]\",\"o\":0.25},{\"p\":0.8,\"c\":\"C#[0,0,255]\",\"o\":1}],\"_cx\":0.2,\"_cy\":0.9}",
+  "after": "radial-gradient(ellipse at 20% 90%, rgba(255,0,0,0.5) 0%, rgba(235,40,143,0.25) 30%, #0000FF 80%)",
+  "readsCx": "radial-gradient(ellipse at 10% 30%, #000000 0%, #FFFFFF 100%)"
+ },
+ "angularDefault": {
+  "serialized": "A#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,0,0]\",\"o\":1}],\"a0\":-3.141592653589793}",
+  "stops": [
+   [
+    0,
+    "pattern:C#[255,255,255]",
+    1
+   ],
+   [
+    1,
+    "pattern:C#[0,0,0]",
+    1
+   ]
+  ],
+  "scale": 0.5,
+  "transform": null,
+  "css": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADbklEQVR4AUyUTWucNxSFj+6V9M6MjTH2Lt2YBoPBkIIXXniRhAa8MTTQ0JCSYtJf2vyYtqt4QmrPzPuhj56rmSQe5nD1CvTo3CtdyZ8fPtTb29v6/o/39fd37+rbt7/VX9+8qa9/eV1vbm7q9fV1ffXzq/r8xfN6dXVVLy8v68XFRX327Kd6fn5ez87O6unpaX3649N6cnJSxYlAKBWFU+WYcg5OKLdVdRWo1f4oFkthzCgWTbkgF/uuEFUCTCJQERj8q5wzoMBVRxiFgloqMqHlG8RAZQvPCaIqUFV4yqKK8lsgjCIWATjwVxusNCeEEGjQlDJyScjZYoGoenhbrArPsXoDck4FyjnnBM65Bix0V5hiJiTRTW7KaFAD8luUEE+I9x4Gs2hS+1aF0CWJdAemxcVctAVmTFMizMT5lJpLMZgtDj4ghMeK8JzzBAsd2mFkukiETGnENFIcJ4JSmmCO05RBINPjIh/8DhjRdVSkGCOjubTaGWQYRvTU2IAjxpGwBk0NSqDuQAExbCFdN8N8PsdisWjR5ie6WK3X2GxW6DdrQgfCBkwToVQaCSRYvFqaHiEGxC5iNuuoGRZ7CxwcHOD4+BhHx0dYfrrD3XKJL1/usVoRuNmg7wkzp3Q5ckNLXXwI8HQWfURkejHOsJgvsL+/j8PDQzx58gNevniJvz5+xL///I3Pn5d4eHjAmm77foNh6Ol0hJVjIlg8TziwhiE+cjifYW+xt3N4RJdHuLujw09L3N//R4crpt0TNlCEMWUryWQpBzoMPE2LMZjLDt1shhmh2xouWI6IaZqwYv3W6w3ruEFPZ8MwtPnRTttkQOVd88F/P5gY0Bm4I7izDUK7i9YVllLfDy3FkbUzTXSXmGq7PryjTNlDmbbdNx8CmtsYEHdjm3eOfVxLu7hWeINMBFqK28s9wVLOdg9bp6iHJzRQPtiY4pyoNnfOOXsWUHixM3t4staj8u5kU5tnt2wdCpSLm4RuCbHOUcKVY+ecdR5QAeuWwoegsFYGSQblBokga0frJDaBwqtBhW2jMIgKx48EOIBPVqVKrrAHooEJM0hOZeueL5GIKkQVKiZpUUTQ9NWdAWFMwljL5pTgTEDZKfEVKtxAVHaLVSGqcOIglHMCOMc/xXyZMU3WptKguTnNhDTHVsdS8D8AAAD//8PtnqMAAAAGSURBVAMA+I9PIr1YG7UAAAAASUVORK5CYII=)",
+  "cssHalf": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACjklEQVR4AWyT0ariMBCGhxCKeCGLiIiIiIiIiMh5Ip/Bi+UgRfLQi0gJZb9/0lbPstrJzCSZL/80Gr6+LulyuaTz+ZzOp1M6YcfjMR0Oh7Tf79Nut0vb7TZtNpu0Xq/TarVKy+UyLRaLNJ/P02w2S9PZNE2n0/QLC2aBL2NQiNnH559UK60PrfnXEybwbeuDBT6idVCFHADc55klo6J/ShGjQWQSrIMI9RC7Bi8GAl7T7gQqiz7lA/uLF41EqtzI5TOrsFTaKZOiHgyNRbaw5qPrMhVSb1mDG2I7OIuIARBCVOAWow7oc2CAW/ZQw35aBCKo8pzJW9AkPL6OCCqiCgFRaMAdGjUpMOYKUSJYD8k/Qa00Q3UgqEFdDGSYvIwNjkOLtYJhRRkzAPIALjn7g0VUEQCNFlHWW1VVQy5Y0zTW5MYyXiCZ2s9qm4MUw0ER761vU15AwUajkY3HYxuNR/Z6Pu31emGCZssCA3EoXjBZAdKiLqa0WFkVMdQJOplMbLPe2PV6tdvtZt/fv+1+v2O11fXdHo/aHvUDX2wAqm0pi1JbBYcWhUXlH9Q9Ueltdy1Lkd6nWi7W8tpc3fumBQ0ojJXep95hpU38JNRmNgHV5tta1jDa5ta0l3cINIaoxK20zmWhlhZ8jl+MfULycMPl5wNVj/YWoBfqhoErjsTyMtMHQHGo8VstILUt0wHy7H8DEWSGUldINYs6kUg/auwHVOAPo4UOCCPwDjHQAKgnViAgmUI5SgpUhf7P5gCP8fxRaJlLAUcBKJgEPIqLOYXBt+ELUQEGxKEeorRbRATFTGokMXlSnUOM4yAen0IfZRQL9mFaLErZrwRZPF0ZbgCrdcf6rv8OBYTW7oC/AAAA//8xx6iTAAAABklEQVQDAD+qreR2C7/qAAAAAElFTkSuQmCC)",
+  "screenCSS": "#FFFFFF 0%, #000000 100%",
+  "angle": "<throws>",
+  "average": [
+   127.5,
+   127.5,
+   127.5,
+   1
+  ],
+  "cloneSerialized": "A#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,0,0]\",\"o\":1}],\"a0\":-3.141592653589793}",
+  "roundTrip": "A#{\"s\":0.5,\"x\":[{\"p\":0,\"c\":\"C#[255,255,255]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,0,0]\",\"o\":1}],\"a0\":-3.141592653589793}"
+ },
+ "angular": {
+  "serialized": "A#{\"s\":0.7,\"fx\":0.4,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":0.5},{\"p\":0.3,\"c\":\"Y#[0,1,0,0]\",\"o\":0.25},{\"p\":0.8,\"c\":\"C#[0,0,255]\",\"o\":1}],\"a0\":0.5}",
+  "stops": [
+   [
+    0,
+    "pattern:C#[255,0,0]",
+    0.5
+   ],
+   [
+    0.3,
+    "pattern:Y#[0,1,0,0]",
+    0.25
+   ],
+   [
+    0.8,
+    "pattern:C#[0,0,255]",
+    1
+   ]
+  ],
+  "scale": 0.7,
+  "transform": null,
+  "css": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAELklEQVR4AUSUzYseRRDGq6o/ZuZ9983GxCREJQaNhIQcBCEi6CGSZBE/Ih4iHsQElUBEkRxERQVBySkHIwh686/wqhfvXrwoeJGou2Z33X33nY/uqrJ61piGh56emf7N81Q1Q9w8eG1ojr07LJ18e1h69Gq3fPpKu++pN9oDK5fnB59/dX7o4ivb9792ceOBKy9tHH3nwtZD155bf/jDZ24f+3Tl9iOfn/v7+PWn147fOLN2/Iszf564eZYAkikjKJMQEwHbGhCA4e5AHa8RNUNQBVJ7QxS9KERlIBwE3aDobL8QFogkIhlIlBHZPsC2BRTBwe5Ae2QwQCeAlSjWJi8FxhSckPMiwYDSE3FyrjjV4s5kTgEMOqIK0Su4YK6cQQrM22ww50nQ+cTkByGfRLxF7B2IiXvnxODmEniw2GyxAYyi2VxZGoMEVoysFJkNViAt+5AQQo/kOwyeQLKbQ2hIRqhH7jwYFDkTaB6hzuIC1pauGWGDRetyiH0RutCLD1lcYBM9qd+//oF+dv6W7L2HpPXERQaFwVliBINlXxuoymrOEobQga96cJW5ioN4UwiDuFH0Izxx5Ct+8/Fz+t2lr/ny6bnQkuN5JJ4Hx51BgwA1OdGMW5jErRybVkPTcqi6UT52gLFHZ6JgtYLSTvgZThz4RD86+55eX/lWX35sMQyzbWkm2U84xX15RyfNBlezuVTTLQ2THfBNC6Hui1uJsZMQkhjQDtUuEQBW4cD0G7l0+v308bNX9eaFX/rJ0Q067P9auIO3eHZwjad7N8WgXE3mHJs5+3ohFt3UCcVWDWgc6yTAeHTRuqoAawb+lY8ceotvvPjl9vkXfhhOnvotLd+3ys2+9Vzv2dY4nZvLVnzdi686CTGJi4PGQGiQkQgwRocy7N5PeurwMi7a1TS99/e859Afw9L+9dTs/Ufr2TZX0x2JjaleqK9apNhraQrF/2uoBing8gE7Nzxz/c4m7Q/bEK12zZ51qZc3Oc62pJ5aYyY7OdRtgUmoOvXWEB8TukBqEe9YK5cOlCeU2yml1qPyYIVesGt21E+2tJ5Y3ZoFGgx93VncHn3VZxc7c1hcjg4LqNTQoUqNeTD1ETmR2FAi62ToyxFRVy001J01o7N1q6HqrRG9OqufRTboWMM7sAp5qAxYEScPzEigooBZyHXgfC8Wyza3JaJStJMeDByTgZKBByY/OiQECSipuAokudTQYfkFqVWEkAldFu8HJd+DC0kxdOrDACalMKDzaXftqZgIyHlXkgNIdihMIGJ9MiBYrxAZwGWwjYJ+kODNnR+UQhrvkU8MPtsPgsxZ9lhAXGZ2qGyNEXOtBQUkaGhiRWJBx+ocA5pjgwDZuszOG9hZkTw5EP4vojhQKc4MZvNorpxKEEAUA2ZAykCURrfkkqKB0GaDKnl75v4FAAD//y4AW9IAAAAGSURBVAMAXTV3iVm/T98AAAAASUVORK5CYII=)",
+  "cssHalf": "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAADuElEQVR4AWSU34ocRRTGv3NO1fzZ2axEwu4iiHE10Y3GaFQ0ICIKIkRQ38BH8MJIsjLgjY/htQiCV76E96KXyROEsOzOTFfVOfmqZ3OVnj5T3dVdv/qdU92ty3Tpzi/5xY+X+eCjZT788Oedlz842Xnl9sni2rvLxfVby8XNm8vdW2/9tHv7+MGlO28+uPLJ9Xt7n16798Lnr93f/+Lox4MvX71/+NXV3v6wf/dIDZAWEKDCedxbcLMI9vGA+8Doe4NGHTRsqoEp79xYJGFfuNTIkuGiDRBDYYQoW0WMx+D2DKQgRIQgCXajEWKQSPMtjFdUouomTLVDOhRRaBviBeII2hVMOLoRxAYNHEI7SPIOg2avNJOwEdRbCfKkVtVapAFMvVxYbs9xsTXCeprboCVhazdtLtatOmgguETTMeWWUgKKcrwiQrulIThJ0BQwEdZuFiyOV7HoMCGgQ9zFCo8jeFs3/BUnn/1V795Y1ekUtUOLZgyE9yCMdg0dlkZYB6lHKozqOXWQOwhVpi6mUJV/cbz/G75//38cHQQityhcp6IWg1RoqLBrlrynOBByxqieRtgmJjbQbuBa1m7INEEdPNbL87/x9Rvd9lG8dIUFnxRYgqhjZr5qKZ+32WTVZFJc8zoitUip0TSCdYhswVB3IjuRzTl28n96vP9n++bt3+u3750O2Duf7sVp3Zmv63yxbpP5ytO0hOYRSsuBkB6VC1ICTJkgZ9ADXbVPsCb4Ia5e/sO/e+efs9dvPNrsHT5peffUZbbyTMM8GcLSEJ7GH9uasjXWT7XbdWKHMvruXAhFIzvJaUwXT2K++9hnC9ZvNphONyEsas6RLNWSrKZkpQRT5nJ3wMjkn7sERljEXOuQzUvlk3wWaTowziJPV5HzwCis71A0FetQGCKZd0N3jKnyf9z7gzjRVjNQDfAK0xKJ6VmuSJlGeQ1Na9O0IaTSjP1WE6xaMnpxVEfRrsMSasvg62N9Kg8gqB1WAD4ekrpxC0mNoIawxnSHEB2KUEOUG2kXMOXLlDUaZ3FjDXmFu0i39FAjjLbG4hvTYxtmQyWIYCG4WRgfGwlFMJondJjzLYUrJFiYaI1MxBYKNSprpVHDFurBlucd3E2VKY0wJdrgBMHhwXE9trAGEd4nDSoO6U/YCH12HMjqAXXaauJo1YgMEBa0Es4ZLjTsuDEa+PlS4RRaAQ2k56Em7FdhDd151cG0OXhslZJU56nQlFesLww/OVABg992XuYE43GI05rF4s2iTwEAAP//69FqkQAAAAZJREFUAwDoPz/z9vQpjgAAAABJRU5ErkJggg==)",
+  "screenCSS": "rgba(255,0,0,0.5) 0%, rgba(235,40,143,0.25) 30%, #0000FF 80%",
+  "angle": "<throws>",
+  "average": [
+   163.33333333333334,
+   13.333333333333334,
+   132.66666666666666,
+   0.5833333333333334
+  ],
+  "cloneSerialized": "A#{\"s\":0.7,\"fx\":0.4,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":0.5},{\"p\":0.3,\"c\":\"Y#[0,1,0,0]\",\"o\":0.25},{\"p\":0.8,\"c\":\"C#[0,0,255]\",\"o\":1}],\"a0\":0.5}",
+  "roundTrip": "A#{\"s\":0.7,\"fx\":0.4,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":0.5},{\"p\":0.3,\"c\":\"Y#[0,1,0,0]\",\"o\":0.25},{\"p\":0.8,\"c\":\"C#[0,0,255]\",\"o\":1}],\"a0\":0.5}"
+ },
+ "angularStartAngle": "A#{\"x\":[{\"p\":0,\"c\":\"C#[0,0,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[255,255,255]\",\"o\":1}],\"a0\":1}",
+ "legacyOpacityStops": "L#{\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":0.2},{\"p\":1,\"c\":\"C#[0,0,255]\",\"o\":0.7}]}",
+ "legacyAngularEnd": "A#{\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":1},{\"p\":0.5,\"c\":\"C#[0,0,255]\",\"o\":1},{\"p\":0.500001,\"c\":\"C#[0,0,255]\",\"o\":0},{\"p\":1,\"c\":\"C#[0,0,255]\",\"o\":0}]}",
+ "equals": {
+  "linear": [
+   true,
+   false
+  ],
+  "radial": [
+   true,
+   false
+  ]
+ }
+}

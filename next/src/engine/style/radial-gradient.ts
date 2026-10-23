@@ -9,9 +9,9 @@ import { Pattern } from "./pattern.ts";
  * A radial gradient around the center (`_cx`, `_cy`, 0-1 of the box). Its
  * scale defaults to 0.5.
  *
- * Known bug, kept for parity: the center is saved as "_cx"/"_cy" but read
- * back from "cx"/"cy", so a moved center returns to 0.5/0.5 after a save
- * and load (see QUESTIONS.md "Radial gradient center is lost on reload").
+ * The center is saved as "_cx"/"_cy". The old app read it back from
+ * "cx"/"cy" and so lost a moved center on every save and load; this one
+ * reads "_cx"/"_cy" and still accepts "cx"/"cy" (BUG-002 in BUGS-FIXED.md).
  */
 export class RadialGradient extends Gradient {
   static {
@@ -82,11 +82,18 @@ export class RadialGradient extends Gradient {
 
   override _deserializeFromBlob(blob: GradientBlob): void {
     super._deserializeFromBlob(blob);
-    this._cx = Object.hasOwn(blob, "cx") ? (blob.cx as number) : 0.5;
-    this._cy = Object.hasOwn(blob, "cy") ? (blob.cy as number) : 0.5;
+    this._cx = readCenter(blob, "_cx", "cx");
+    this._cy = readCenter(blob, "_cy", "cy");
   }
 
   override toString(): string {
     return "[Object GRadialGradient]";
   }
+}
+
+/** Reads a center coordinate: the written key first, then the old reader's. */
+function readCenter(blob: GradientBlob, key: "_cx" | "_cy", oldKey: "cx" | "cy"): number {
+  if (Object.hasOwn(blob, key)) return blob[key] as number;
+  if (Object.hasOwn(blob, oldKey)) return blob[oldKey] as number;
+  return 0.5;
 }

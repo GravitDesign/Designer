@@ -127,25 +127,7 @@ Kept. Pinned by next/src/engine/math/length.test.ts ("5undefined",
 
 ## Q-013 Radial gradient center is lost on reload
 
-Old code: chunk.vendor.js module 158 (GRadialGradient), lines 33135-33148.
-
-_serializeToBlob writes a center other than 0.5/0.5 as `_cx`/`_cy`, but
-_deserializeFromBlob reads `cx`/`cy`. A radial gradient whose center was
-moved comes back centered after a save and load (or a copy and paste, which
-goes through the same blob).
-
-Saved files can contain `_cx`: the gradient editor only changes focus and
-scale, but the importers create off-center gradients through the
-constructor: the Sketch importer (module 1130, line 240084), the SVG import
-through canvg (module 1391, line 247443), the PDF import (module 1404, line
-250977) and the canvas-context shim of module 1216 (line 243610). So an
-imported off-center radial gradient loses its center on the next load. This
-looks like a plain bug (data loss); the open question is only whether files
-that already rely on the reset exist.
-
-Kept. Pinned by next/src/engine/style/gradient.test.ts ("writes the center
-as _cx/_cy but reads cx/cy (kept old bug)"). A fix would read `cx` first and
-then `_cx`, and belongs in BUGS-FIXED.md.
+Fixed: see BUGS-FIXED.md BUG-002.
 
 ## Q-014 HarfBuzz clusters used as string indexes
 

@@ -114,20 +114,36 @@ describe("RadialGradient", () => {
     );
   });
 
-  it("writes the center as _cx/_cy but reads cx/cy (kept old bug)", () => {
+  it("BUG-002: keeps a moved center through save and load", () => {
     const moved = new RadialGradient(null, 0.8, 0.4, 0.6, 0.2, 0.9);
     const saved = Pattern.serialize(moved) as string;
-    expect(saved).toContain('"_cx":0.2,"_cy":0.9');
-    expect(moved.asCSSBackground()).toContain("ellipse at 20% 90%");
+    // Written exactly as the old app writes it, so old files stay compatible.
+    expect(saved).toBe(
+      'R#{"s":0.8,"fx":0.4,"fy":0.6,"x":[{"p":0,"c":"C#[255,255,255]","o":1},' +
+        '{"p":1,"c":"C#[0,0,0]","o":1}],"_cx":0.2,"_cy":0.9}',
+    );
     const back = Pattern.deserialize(saved) as RadialGradient;
-    expect(back.asCSSBackground()).toContain("ellipse at 50% 50%");
+    expect(back._cx).toBe(0.2);
+    expect(back._cy).toBe(0.9);
+    expect(back.asCSSBackground()).toContain("ellipse at 20% 90%");
+    expect(Pattern.serialize(back)).toBe(saved);
+    expect(RadialGradient.equals(back, moved)).toBe(true);
+    expect(back.getScale()).toBe(0.8);
+    // A file written by the old app (as the SVG, PDF and Sketch importers do).
+    const imported = Pattern.deserialize(
+      'R#{"x":[{"p":0,"c":"C#[0,0,0]"}],"_cx":0.25,"_cy":0.75}',
+    ) as RadialGradient;
+    expect(imported.asCSSBackground()).toContain("ellipse at 25% 75%");
+    // The keys the old reader looked for still work.
     const fromCx = Pattern.deserialize(
       'R#{"x":[{"p":0,"c":"C#[0,0,0]"}],"cx":0.1,"cy":0.3}',
     ) as RadialGradient;
     expect(fromCx.asCSSBackground()).toContain("ellipse at 10% 30%");
-    expect(back.getScale()).toBe(0.8);
+    // Without a center it stays at 0.5/0.5.
+    const centered = Pattern.deserialize('R#{"x":[]}') as RadialGradient;
+    expect(centered.asCSSBackground()).toContain("ellipse at 50% 50%");
     // Without "s" a loaded radial gradient has scale 1, not 0.5.
-    expect((Pattern.deserialize('R#{"x":[]}') as RadialGradient).getScale()).toBe(1);
+    expect(centered.getScale()).toBe(1);
   });
 
   it("compares the center unless the transform is ignored", () => {

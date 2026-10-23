@@ -14,7 +14,22 @@ export interface ParityException {
 }
 
 /** Every allowed difference. Keep in sync with BUGS-FIXED.md. */
-export const EXCEPTIONS: readonly ParityException[] = [];
+export const EXCEPTIONS: readonly ParityException[] = [
+  // BUG-002: a radial gradient's moved center survives save and load. The
+  // .fixed files equal the old output except that the center is restored.
+  // Not ported yet; they will need an exception and a .fixed file from the
+  // new app's output once enabled (fills-gradients.gvdesign has a radial
+  // gradient at 0.3/0.7 that the old app draws at 0.5/0.5):
+  // - corpus/fills-gradients/render-light, render-dark, preview, bitmap
+  // - platform/gvthumb/corpus/fills-gradients
+  // - import-export/corpus/fills-gradients (export hashes)
+  // compat/fills-gradients/roundtrip's cross-app test needs nothing: the old
+  // app opens the new app's file and loses the center as it always did.
+  { scenario: "engine-model/colors/gradients", bug: "BUG-002" },
+  { scenario: "corpus/fills-gradients/document", bug: "BUG-002" },
+  { scenario: "corpus/fills-gradients/resave", bug: "BUG-002" },
+  { scenario: "compat/fills-gradients/roundtrip", bug: "BUG-002" },
+];
 
 export function exceptionFor(scenarioId: string): ParityException | undefined {
   return EXCEPTIONS.find((e) => e.scenario === scenarioId);

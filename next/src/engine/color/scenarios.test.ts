@@ -6,6 +6,12 @@ import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import type { Scenario } from "../../../parity/support/scenario.ts";
 import { EXPECTED_ROOT } from "../../../parity/support/env.ts";
+import { exceptionFor } from "../../../parity/support/exceptions.ts";
+
+/** The expected file; a BUG-NNN exception points at the corrected `.fixed` file. */
+function expectedFile(id: string): string {
+  return path.join(EXPECTED_ROOT, exceptionFor(id) ? `${id}.fixed.json` : `${id}.json`);
+}
 import { storeOutput } from "../../../parity/support/runner.ts";
 import { ASSETS_ROOT } from "../../../server/paths.ts";
 import { engineColor } from "../../parity/g/engine-color.ts";
@@ -120,7 +126,7 @@ describe("engine-model color scenarios in Node", () => {
     expect(mixed.length).toBe(2);
   });
   it.each(ours.map((s) => [s.id, s] as const))("%s matches the old app", async (id, scenario) => {
-    const expected = fs.readFileSync(path.join(EXPECTED_ROOT, `${id}.json`), "utf8");
+    const expected = fs.readFileSync(expectedFile(id), "utf8");
     const actual = await run(scenario);
     if (actual !== expected) expect(JSON.parse(actual)).toEqual(JSON.parse(expected));
     expect(actual).toBe(expected);
@@ -133,7 +139,7 @@ describe("engine-model color scenarios in Node", () => {
         Object.fromEntries(
           Object.entries(JSON.parse(json) as Record<string, unknown>).filter(([k]) => keep(k)),
         );
-      const expected = pick(fs.readFileSync(path.join(EXPECTED_ROOT, `${id}.json`), "utf8"));
+      const expected = pick(fs.readFileSync(expectedFile(id), "utf8"));
       expect(Object.keys(expected).length).toBeGreaterThan(5);
       const actual = pick(await run(scenario));
       // Serialized again, so -0 vs 0 and key order count as well.
