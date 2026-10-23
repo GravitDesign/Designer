@@ -9,6 +9,7 @@ import { Canvas2DPaintCanvas } from "../paint/paint-canvas.ts";
 import { RenderScheduler } from "../paint/render-scheduler.ts";
 import { RendererConfig } from "../paint/renderer-config.ts";
 import { WebGLRenderer, type ShaderClass } from "../paint/webgl/webgl-renderer.ts";
+import { registerAngularGradient } from "../scene/shape.ts";
 import { Gradient, type GradientBlob, type GradientStop } from "./gradient.ts";
 import { Pattern } from "./pattern.ts";
 import {
@@ -30,6 +31,8 @@ export class AngularGradient extends WebGLRenderer(Gradient) {
   static {
     registerClass(this, "GAngularGradient");
     Pattern.register("A", this);
+    // GShape maps an angular gradient fill to a square around the shape.
+    registerAngularGradient(this);
   }
 
   static override equals(a: unknown, b: unknown, ignoreTransform?: boolean): boolean {

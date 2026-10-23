@@ -1,5 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { RGBColor } from "../color/rgb-color.ts";
+import type { Rect } from "../math/rect.ts";
+import type { Transform } from "../math/transform.ts";
+import { Rectangle } from "../scene/rectangle.ts";
+import type { ShapePaintContext } from "../scene/shape.ts";
 import { AngularGradient } from "./angular-gradient.ts";
 import { Pattern } from "./pattern.ts";
 import { GLAngularGradientShader } from "./webgl/shaders/gl-angular-gradient-shader.ts";
@@ -54,5 +58,29 @@ describe("AngularGradient", () => {
     expect(gradient.toString()).toBe("[Object GAngularGradient]");
     // No WebGL in Node: nothing to paint.
     expect(gradient.getGradient(1, null)).toBe(null);
+  });
+
+  it("fills a shape on a square as wide as its longer side", () => {
+    const shape = new Rectangle(0, 0, 10, 5);
+    const createPatternPaint = vi.fn(() => undefined);
+    const context = {
+      isIncludingInvisible: () => false,
+      configuration: { noWebGL: false },
+      canvas: { createPatternPaint },
+    } as unknown as ShapePaintContext;
+    const gradient = new AngularGradient(stops());
+    shape.createShapePaint(context, gradient, null);
+    expect(createPatternPaint).toHaveBeenCalledTimes(1);
+    const [pattern, square, transform] = createPatternPaint.mock.calls[0] as unknown as [
+      AngularGradient,
+      Rect,
+      Transform,
+    ];
+    expect(pattern).toBe(gradient);
+    expect([square.getX(), square.getY(), square.getWidth(), square.getHeight()]).toEqual([
+      0, 0, 10, 10,
+    ]);
+    // The square is squeezed onto the 10 x 5 box.
+    expect(transform.getMatrix()).toEqual([1, 0, 0, 0.5, 0, 0]);
   });
 });
