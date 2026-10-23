@@ -256,6 +256,10 @@ export function defineMixin<F extends (base: never) => AnyConstructor>(
     id = classId;
   }
   Object.defineProperty(apply, MIXIN_ID, { value: id, enumerable: false });
+  // Old mixins were constructor functions that never appeared in a
+  // prototype chain, so `x instanceof GNode.Container` was simply false.
+  // An arrow function has no prototype and would make instanceof throw.
+  Object.defineProperty(apply, Symbol.hasInstance, { value: () => false, enumerable: false });
   return apply as unknown as Mixin<F>;
 }
 

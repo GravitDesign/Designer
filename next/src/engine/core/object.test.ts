@@ -236,3 +236,17 @@ describe("mixins", () => {
     expect(hasMixin(new Tagged(), class extends GObject {})).toBe(false);
   });
 });
+
+describe("instanceof on a mixin", () => {
+  it("is false, as with the old constructor-function mixins, instead of throwing", () => {
+    const Marker = defineMixin(
+      "TestInstanceofMarker",
+      (Base: new () => object) => class extends Base {},
+    );
+    class Plain {}
+    const Mixed = Marker(Plain as never);
+    const value: unknown = new Mixed();
+    expect(value instanceof (Marker as unknown as new () => object)).toBe(false);
+    expect(hasMixin(value, Marker)).toBe(true);
+  });
+});
