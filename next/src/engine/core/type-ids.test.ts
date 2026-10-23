@@ -4,7 +4,7 @@ import { OLD_TYPE_IDS, OLD_TYPE_ID_ALIASES, lookupOldTypeId } from "./type-ids.t
 
 const recorded = JSON.parse(
   fs.readFileSync(
-    new URL("../../../parity/expected/engine-model/type-ids/classes.json", import.meta.url),
+    new URL("../../../scripts/data/old-type-ids.json", import.meta.url),
     "utf8",
   ),
 ) as Record<string, number>;

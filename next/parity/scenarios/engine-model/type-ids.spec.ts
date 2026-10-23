@@ -26,13 +26,28 @@ const INSERTED = [
 
 const scenarios = defineScenarios<unknown>([
   {
-    // The type id of every class reachable from G (GObject.getTypeId). The
-    // new engine's table (src/engine/core/type-ids.ts) is generated from
-    // this file; the new app answers from its class registry.
-    id: "engine-model/type-ids/classes",
+    // The type id of every node class reachable from G. Only node classes
+    // matter: documents save their ids (`_sdf`). The full table of the old
+    // engine, which the new engine's src/engine/core/type-ids.ts is
+    // generated from, is data in scripts/data/old-type-ids.json; it also
+    // lists classes the rewrite drops on purpose (the canvas command
+    // recorder GRendererCtx), so it is not compared as a whole.
+    id: "engine-model/type-ids/node-classes",
     covers: ["ENG-NODE-001", "ENG-STYLE-002"],
     kind: "json",
-    inPage: ({ app }) => app.typeIds(),
+    inPage: ({ G, app }) => {
+      const all = app.typeIds() as Record<string, number>;
+      const out: Record<string, number> = {};
+      for (const [path, id] of Object.entries(all)) {
+        let cls: unknown = G;
+        for (const part of path.split(".")) {
+          cls = (cls as Record<string, unknown> | undefined)?.[part];
+        }
+        const proto = (cls as { prototype?: unknown } | undefined)?.prototype;
+        if (proto instanceof (G.GNode as new () => object)) out[path] = id;
+      }
+      return out;
+    },
   },
   {
     id: "engine-model/type-ids/default-style-targets",
