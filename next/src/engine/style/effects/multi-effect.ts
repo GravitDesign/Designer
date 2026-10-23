@@ -193,11 +193,33 @@ export class MultiEffect extends Effect {
     }
   }
 
+  /**
+   * The class's "<effect>&<property>" geometry properties, without fxP and
+   * fxN.
+   */
+  _getSubEffectProperties(): Record<string, unknown> {
+    const cls = Node.getClassFromId(getTypeId(this) as number) as unknown as MultiEffectClassTables;
+    const out: Record<string, unknown> = {};
+    for (const name in cls.GeometryProperties) {
+      if (!(name in MultiEffect.GeometryProperties)) out[name] = cls.GeometryProperties[name];
+    }
+    return out;
+  }
+
   override _handleChange(change: number, args?: unknown): void {
     if (change === NodeChange.Store) {
-      this.storeProperties((args as StoreChangeArgs).blob, MultiEffect.GeometryProperties);
+      // fxP and fxN against MultiEffect's own null defaults, so they are
+      // written as {} like the old app writes them. BUG-004: the old code
+      // stored nothing else, so the effects' settings were lost on save; they
+      // are stored now when they differ from the defaults.
+      const blob = (args as StoreChangeArgs).blob;
+      this.storeProperties(blob, MultiEffect.GeometryProperties);
+      this.storeProperties(blob, this._getSubEffectProperties());
     } else if (change === NodeChange.Restore) {
-      this.restoreProperties((args as RestoreChangeArgs).blob, MultiEffect.GeometryProperties);
+      const blob = (args as RestoreChangeArgs).blob;
+      this.restoreProperties(blob, MultiEffect.GeometryProperties);
+      // Missing keys (all files from the old app) get the defaults.
+      this.restoreProperties(blob, this._getSubEffectProperties());
     } else if (change == NodeChange.BeforePropertiesChange) {
       // Hands "<effect>&<property>" changes on to the effect, grouped per effect.
       const changed = args as PropertiesChangeArgs;

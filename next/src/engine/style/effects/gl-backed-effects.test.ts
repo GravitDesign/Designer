@@ -116,7 +116,7 @@ describe("ColorAdjustMultiEffect", () => {
 });
 
 describe("AdjustMultiEffect", () => {
-  it("has dot screen, sepia and blur, and stores only fxP and fxN", () => {
+  it("has dot screen, sepia and blur, and stores fxP and fxN as the old app did", () => {
     expect(getTypeId(AdjustMultiEffect)).toBe(258);
     const fx = new AdjustMultiEffect();
     expect(fx.getFXArray().map((effect) => Node.getName(effect))).toEqual([
@@ -124,14 +124,43 @@ describe("AdjustMultiEffect", () => {
       "GGLSepiaEffect",
       "GGLBlurEffect",
     ]);
-    const expected = recorded.GAdjustMultiEffect as { defaultBlob: unknown; blob: unknown };
+    const expected = recorded.GAdjustMultiEffect as { defaultBlob: unknown };
     expect(JSON.parse(Node.serialize(fx) as string)).toEqual(expected.defaultBlob);
+  });
+
+  // BUG-004: the old app stored only fxP and fxN, so changed settings came
+  // back as the defaults after save and load.
+  it("stores the changed effect settings and restores them into the effects", () => {
+    const fx = new AdjustMultiEffect();
     fx.setProperties(
       ["GGLSepiaEffect&shp", "GGLBlurEffect&shp"],
       [{ amount: 0.9 }, { radius: 12, clip: true }],
     );
-    expect(JSON.parse(Node.serialize(fx) as string)).toEqual(expected.blob);
-    expect((fx.getFXArray()[1] as unknown as { $shp: unknown }).$shp).toEqual({ amount: 0.9 });
+    const json = Node.serialize(fx) as string;
+    expect(JSON.parse(json)).toEqual({
+      "@": "adjustMultiEffect",
+      fxP: {},
+      fxN: {},
+      "GGLSepiaEffect&shp": { amount: 0.9 },
+      "GGLBlurEffect&shp": { radius: 12, clip: true },
+    });
+    const restored = Node.deserialize(json) as AdjustMultiEffect;
+    expect(restored.getProperty("GGLSepiaEffect&shp")).toEqual({ amount: 0.9 });
+    const [dots, sepia, blur] = restored.getFXArray() as unknown as { $shp: unknown }[];
+    expect(dots?.$shp).toEqual({ centerX: 50, centerY: 50, angle: 0, size: 10 });
+    expect(sepia?.$shp).toEqual({ amount: 0.9 });
+    expect(blur?.$shp).toEqual({ radius: 12, clip: true });
+    expect(restored.getEffectPadding()).toEqual([0, 0, 0, 0]);
+    expect(Node.serialize(restored)).toBe(json);
+  });
+
+  it("opens the old app's blob with the default settings", () => {
+    const restored = Node.deserialize(
+      JSON.stringify({ "@": "adjustMultiEffect", fxP: {}, fxN: {} }),
+    ) as AdjustMultiEffect;
+    const sepia = restored.getFXArray()[1] as unknown as { $shp: unknown };
+    expect(sepia.$shp).toEqual({ amount: 0.5 });
+    expect(restored.getEffectPadding()).toEqual([5, 5, 5, 5]);
   });
 });
 

@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-004",
+  "why": "GAdjustMultiEffect saves its changed dot screen, sepia and blur settings. The .fixed file equals the old output except that the effect's blob has the two changed GGLSepiaEffect&shp and GGLBlurEffect&shp keys. The corpus effects-color scenarios need nothing: the corpus file was saved by the old app, so it holds no settings and opens with the defaults in both apps.",
+  "scenarios": ["engine-model/styles/effects-catalogue"],
+  "pending": []
+}
