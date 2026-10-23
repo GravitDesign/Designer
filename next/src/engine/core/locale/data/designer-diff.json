@@ -1,0 +1,48 @@
+[
+  {
+    "language": "English",
+    "keyValue": 0,
+    "abbreviation": "en-US",
+    "isDefault": true,
+    "isAvailable": true,
+    "realName": "English",
+    "translations": {
+      "GSubAction": { "shortcut-hint-template": "%mainShortcutHint then %shortcutSubKeyHint" },
+      "GMergeMainAction": { "title": "Create Compound" },
+      "GMergeSubAction": {
+        "title.union": "Union",
+        "title.difference": "Difference",
+        "title.intersect": "Intersect",
+        "title.subtract": "Subtract",
+        "tooltip.union.title": "Union",
+        "tooltip.union.description": "Merge the area of two elements.",
+        "tooltip.difference.title": "Difference",
+        "tooltip.difference.description": "Create a shape with the parts of the selected elements that don't overlap.",
+        "tooltip.intersect.title": "Intersect",
+        "tooltip.intersect.description": "Create a shape with the overlapping are of the selected elements.",
+        "tooltip.substract.title": "Subtract",
+        "tooltip.substract.description": "Subtract the are of the lower object.",
+        "transaction.merge": "Merge",
+        "transaction.combine": "Combine"
+      },
+      "GChangeOpacityAction": { "full-title": "Set opacity to %value" },
+      "GChangeAnchorPointsJointTypeMainAction": { "title": "Change anchor point joint type" },
+      "GChangeAnchorPointsJointTypeSubAction": {
+        "title.straight": "Change anchor point joint type to Straight",
+        "title.mirrored": "Change anchor point joint type to Mirrored",
+        "title.disconnected": "Change anchor point joint type to Disconnected",
+        "title.connector": "Change anchor point joint type to Connector",
+        "title.asymmetric": "Change anchor point joint type to Asymmetric"
+      },
+      "GSwapPaintLayersAction": { "title": "Swap fill and border" },
+      "GCommonNames": {
+        "text.something-wrong.try-again": "Something went wrong, please try again."
+      },
+      "GUnshareWithMeAction": { "title": "Unshare with me" }
+    },
+    "translationsExtended": {
+      "GMergeMainAction": { "title": "Shaping" },
+      "GMergeSubAction": { "title.union": "Weld", "title.subtract": "Back Minus Front" }
+    }
+  }
+]
