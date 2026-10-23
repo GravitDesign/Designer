@@ -49,8 +49,15 @@ function merge(modules: Record<string, Record<string, unknown>>, what: string): 
 }
 
 export function installParityBridge(): void {
-  const G = merge(import.meta.glob("./g/*.ts", { eager: true }), "G");
-  const hooks = merge(import.meta.glob("./app/*.ts", { eager: true }), "app hook");
+  // Tests and test helpers next to the hooks must stay out of the page.
+  const G = merge(
+    import.meta.glob(["./g/*.ts", "!./g/*.test.ts", "!./g/*.testing.ts"], { eager: true }),
+    "G",
+  );
+  const hooks = merge(
+    import.meta.glob(["./app/*.ts", "!./app/*.test.ts", "!./app/*.testing.ts"], { eager: true }),
+    "app hook",
+  );
   window.__parity = {
     G,
     app: {
