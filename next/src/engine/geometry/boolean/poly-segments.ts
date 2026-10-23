@@ -576,8 +576,8 @@ export class PolyIntersector {
             const ys = new Float64Array(4);
             const cp1 = node.cp1;
             const cp2 = node.cp2;
-            for (let f = 0; f < group.length; f++) {
-              const hit = group[f] as IntersectionPoint<PolyLine>;
+            for (let hitIndex = 0; hitIndex < group.length; hitIndex++) {
+              const hit = group[hitIndex] as IntersectionPoint<PolyLine>;
               const slope = hit[slopeKey];
               point = hit.pt;
               pieceStart = node;
@@ -661,8 +661,8 @@ export class PolyIntersector {
             const xs = new Float64Array(3);
             const ys = new Float64Array(3);
             const cp1 = node.cp1 as Point;
-            for (let f = 0; f < group.length; f++) {
-              const hit = group[f] as IntersectionPoint<PolyLine>;
+            for (let hitIndex = 0; hitIndex < group.length; hitIndex++) {
+              const hit = group[hitIndex] as IntersectionPoint<PolyLine>;
               const slope = hit[slopeKey];
               point = hit.pt;
               pieceStart = node;
@@ -1024,8 +1024,8 @@ export class PolyIntersector {
               const hits = intersectSegments(poly, other);
               seen[pair] = 1;
               if (!hits || !hits.length) continue;
-              for (let B = 0; B < hits.length; B++)
-                this._addIsect(found, hits[B] as IntersectionPoint<PolyLine>);
+              for (let hitIndex = 0; hitIndex < hits.length; hitIndex++)
+                this._addIsect(found, hits[hitIndex] as IntersectionPoint<PolyLine>);
               if (this._firstIntersect && found.length) return found;
             }
           } else if (this._retainBezier) {
@@ -1041,11 +1041,13 @@ export class PolyIntersector {
               continue;
             if (other.collinear(poly) || poly.collinear(other)) {
               seen[pair] = 666;
-              for (let P = found.length - 1; P >= 0; P--) {
-                const earlier = found[P] as IntersectionPoint<PolyLine>;
-                // splice(P) drops everything from P on, as the old code did.
+              for (let foundIndex = found.length - 1; foundIndex >= 0; foundIndex--) {
+                const earlier = found[foundIndex] as IntersectionPoint<PolyLine>;
+                // splice(foundIndex) drops every later hit too, also those
+                // of other pairs, as the old code did (QUESTIONS.md: "A
+                // collinear segment pair drops every later intersection too").
                 if ((lastSeg + 1) * earlier.polySeg0.seg + earlier.polySeg1.seg === pair)
-                  found.splice(P);
+                  found.splice(foundIndex);
               }
               continue;
             }
@@ -1054,6 +1056,9 @@ export class PolyIntersector {
                 if (other.currCurve) {
                   const curve = poly.currCurve;
                   const otherCurve = other.currCurve;
+                  // A quadratic first gives the truthy constants 6 or 4
+                  // (QUESTIONS.md: "Block intersector adds every
+                  // quadratic-vs-curve hit").
                   add = curve.cp2
                     ? otherCurve.cp2
                       ? count < 9
@@ -1210,6 +1215,8 @@ export class PolyIntersector {
     else this.bezierToleranceSq = 0.25;
     this.bezierToleranceSq *= this.bezierToleranceSq;
     const curveStart = cursor;
+    // The simplifier flattens without segment numbers, so its nodes get
+    // seg undefined, as in the old code, although the field is a number.
     const segNumber = seg as number;
     cursor = cursor.insertPoint(x0, y0, 0, segNumber, curveStart);
     if (x3 !== undefined && y3 !== undefined)

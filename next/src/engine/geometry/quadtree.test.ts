@@ -83,4 +83,39 @@ describe("QuadTree", () => {
     split.split();
     expect(() => split.clear()).toThrow(TypeError);
   });
+
+  // Expected values checked against the old module 140 in Node.
+  it("keeps every box in a node at max_levels instead of splitting it", () => {
+    const t = new QuadTree<QuadTreeElement>({ x: 0, y: 0, width: 100, height: 100 }, 1, 1);
+    const a = box(1, 1, 5, 5, "a");
+    const b = box(10, 10, 5, 5, "b");
+    const c = box(20, 20, 5, 5, "c");
+    t.insert(a);
+    t.insert(b);
+    t.insert(c);
+    expect(t.objects).toEqual([]);
+    const topLeft = t.nodes?.[3] as QuadTree<QuadTreeElement>;
+    expect(topLeft.level).toBe(1);
+    expect(topLeft.objects).toEqual([a, b, c]);
+    expect(topLeft.nodes).toBeNull();
+  });
+
+  it("reuses the quadrants when a split node overflows again", () => {
+    const t = new QuadTree<QuadTreeElement>({ x: 0, y: 0, width: 100, height: 100 }, 1, 4);
+    t.insert(box(1, 1, 5, 5, "a"));
+    t.insert(box(10, 10, 5, 5, "b"));
+    const nodes = t.nodes as QuadTree<QuadTreeElement>[];
+    const quadrants = [...nodes];
+    const crossing1 = box(45, 45, 10, 10, "x1");
+    const crossing2 = box(40, 40, 20, 20, "x2");
+    t.insert(crossing1);
+    t.insert(crossing2);
+    expect(t.nodes).toBe(nodes);
+    expect(t.nodes).toEqual(quadrants);
+    quadrants.forEach((q, i) => expect(t.nodes?.[i]).toBe(q));
+    expect(t.objects).toEqual([crossing1, crossing2]);
+    const topLeft = quadrants[3] as QuadTree<QuadTreeElement>;
+    expect(topLeft.objects).toEqual([]);
+    expect(topLeft.nodes?.map((n) => n.objects.map((o) => o.data))).toEqual([[], [], [], ["b"]]);
+  });
 });

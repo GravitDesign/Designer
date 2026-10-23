@@ -14,6 +14,8 @@ afterEach(() => {
   RenderScheduler.init(true, false);
   RenderScheduler._renderParameters = {};
   RenderScheduler._scheduledRenderings = null;
+  RenderScheduler._renderJobs = [];
+  vi.restoreAllMocks();
 });
 
 describe("RenderScheduler", () => {
@@ -75,5 +77,48 @@ describe("RenderScheduler", () => {
     const restore = vi.spyOn(context.real, "restore");
     RenderScheduler.forceCleanup(context);
     expect(restore).toHaveBeenCalledTimes(2);
+  });
+
+  it("ends the render phase on a canvas error in tryRunRendering, as the old replay did", () => {
+    const canvas = new PaintCanvas(true);
+    const context = canvas.getRendererContext() as RecorderStateContext;
+    const indexSize = new DOMException("negative radius", "IndexSizeError");
+    vi.spyOn(context.real, "arc").mockImplementation(() => {
+      throw indexSize;
+    });
+    RenderScheduler.setRenderParameters({ noWebGL: true });
+    const done = vi.fn();
+    expect(() =>
+      RenderScheduler.tryRunRendering(
+        canvas,
+        () => canvas._canvasContext.arc(0, 0, -1, 0, 1),
+        done,
+      ),
+    ).toThrow(indexSize);
+    expect(done).not.toHaveBeenCalled();
+    expect(RenderScheduler.isRenderPhase()).toBe(false);
+    expect(RenderScheduler.getRenderer()).not.toBeInstanceOf(RecorderStateContext);
+    // The failed replay never restored the parameters it had cleared and
+    // left its job behind, so the next rendering waits in the queue.
+    expect(RenderScheduler.getRenderParameters()).toEqual({});
+    RenderScheduler.tryRunRendering(canvas, () => {}, done);
+    expect(done).not.toHaveBeenCalled();
+    expect(RenderScheduler._scheduledRenderings).toHaveLength(1);
+  });
+
+  it("keeps the render phase on when the painting code itself throws", () => {
+    const canvas = new PaintCanvas(true);
+    const bug = new TypeError("painting bug");
+    expect(() =>
+      RenderScheduler.tryRunRendering(
+        canvas,
+        () => {
+          throw bug;
+        },
+        () => {},
+      ),
+    ).toThrow(bug);
+    expect(RenderScheduler.isRenderPhase()).toBe(true);
+    expect(RenderScheduler._renderJobs.some(() => true)).toBe(false);
   });
 });

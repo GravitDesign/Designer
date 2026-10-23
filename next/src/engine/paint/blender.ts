@@ -20,6 +20,9 @@ import { WebGLRenderer, type ShaderClass } from "./webgl/webgl-renderer.ts";
 
 export class Blender extends WebGLRenderer(GObject) implements Destroyable {
   static {
+    // The old class was an anonymous module export whose toString said
+    // "GBlender"; it had no entry in core/type-ids.ts, so the type id comes
+    // from the fresh counter. Nothing serializes it.
     registerClass(this, "GBlender");
   }
 

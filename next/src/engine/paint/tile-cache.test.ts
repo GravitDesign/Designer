@@ -1,10 +1,12 @@
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { Point } from "../math/point.ts";
 import { Rect } from "../math/rect.ts";
 import { Transform } from "../math/transform.ts";
 import { DirtyMatcher } from "./dirty-list.ts";
 import { PaintCanvas, type Canvas2DPaintCanvas } from "./paint-canvas.ts";
 import { PaintContext } from "./paint-context.ts";
+import type { RecorderStateContext } from "./recorder-state-context.ts";
+import { RenderScheduler } from "./render-scheduler.ts";
 import { RendererConfig } from "./renderer-config.ts";
 import { TileCache } from "./tile-cache.ts";
 import { TileGrid } from "./tile-grid.ts";
@@ -16,6 +18,10 @@ beforeAll(() => {
   uninstall = installFakeCanvas();
 });
 afterAll(() => uninstall());
+afterEach(() => {
+  vi.restoreAllMocks();
+  RenderScheduler.finish();
+});
 
 const box = (r: Rect) => [r.getX(), r.getY(), r.getWidth(), r.getHeight()];
 
@@ -158,5 +164,86 @@ describe("TileRenderer", () => {
       (c, finished, skipped) => results.push([c, finished, skipped]),
     );
     expect(results).toEqual([[null, true, false]]);
+  });
+
+  function paintOnce(
+    renderer: TileRenderer,
+    paint: (paintContext: PaintContext) => void,
+    dirty: Rect[],
+    scale = 1,
+  ): unknown[] {
+    const context = new PaintContext();
+    context.dirtyMatcher = DirtyMatcher.from(dirty);
+    const results: unknown[] = [];
+    renderer.paintAndRender(
+      { paint },
+      context,
+      new Transform(),
+      new Point(0, 0),
+      scale,
+      null,
+      true,
+      (c, finished, skipped) => results.push([c, finished, skipped]),
+    );
+    return results;
+  }
+
+  it("caches a tile whose painting took longer than CACHE_WHEN_DRAWING_LONGER_THAN", () => {
+    let now = 1000;
+    vi.spyOn(Date, "now").mockImplementation(() => now);
+    const renderer = new TileRenderer(1, 1);
+    renderer.resize(100, 80);
+    // Slow painting: the old replay measured the drawing.
+    paintOnce(
+      renderer,
+      (paintContext) => {
+        paintContext.canvas?.fillRect(0, 0, 5, 5, "#ff0000");
+        now += RendererConfig.CACHE_WHEN_DRAWING_LONGER_THAN + 1;
+      },
+      [new Rect(0, 0, 40, 30)],
+      1,
+    );
+    const slow = renderer._paintCanvasCache._getItemFromZoom(1);
+    expect(slow?.cacheMatcher.getRects().map(box)).toEqual([[0, 0, 40, 30]]);
+    // Fast painting isn't cached.
+    paintOnce(renderer, () => {}, [new Rect(0, 0, 40, 30)], 2);
+    expect(renderer._paintCanvasCache._getItemFromZoom(2)).toBeUndefined();
+  });
+
+  it("reports a canvas error like the old failed replay and keeps painting afterwards", () => {
+    const renderer = new TileRenderer(1, 1);
+    renderer.resize(50, 50);
+    const tile = renderer._paintCanvases[0] as Canvas2DPaintCanvas;
+    const context = tile.getRendererContext() as RecorderStateContext;
+    const arc = vi.spyOn(context.real, "arc").mockImplementation(() => {
+      throw new DOMException("The radius provided (-1) is negative.", "IndexSizeError");
+    });
+    const errors = vi.spyOn(console, "error").mockImplementation(() => {});
+    const failing = (paintContext: PaintContext) => {
+      (paintContext.canvas as Canvas2DPaintCanvas)._canvasContext.arc(0, 0, -1, 0, 1);
+    };
+    expect(paintOnce(renderer, failing, [new Rect(0, 0, 10, 10)])).toEqual([[null, true, false]]);
+    expect(errors).toHaveBeenCalledWith(
+      "Render error at canvas 0:IndexSizeError: The radius provided (-1) is negative.",
+    );
+    expect(RenderScheduler.isRenderPhase()).toBe(false);
+    arc.mockRestore();
+    const painted: string[] = [];
+    expect(paintOnce(renderer, () => painted.push("painted"), [new Rect(0, 0, 10, 10)])).toEqual([
+      [tile._canvasContext.canvas, true, false],
+    ]);
+    expect(painted).toEqual(["painted"]);
+  });
+
+  it("lets other errors of the painting code escape with the render phase on", () => {
+    const renderer = new TileRenderer(1, 1);
+    renderer.resize(50, 50);
+    const bug = new TypeError("painting bug");
+    expect(() =>
+      paintOnce(renderer, () => {
+        throw bug;
+      }, [new Rect(0, 0, 10, 10)]),
+    ).toThrow(bug);
+    expect(RenderScheduler.isRenderPhase()).toBe(true);
   });
 });

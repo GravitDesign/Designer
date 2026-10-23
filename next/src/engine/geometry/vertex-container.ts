@@ -9,7 +9,8 @@ import { VertexTransformer } from "./vertex-transformer.ts";
  * The old code had a global DEBUG flag in mind for its diagnostics
  * (`DEBUG && console.log(...)`), but the app never defines it, so reaching
  * one of those lines throws a ReferenceError instead of returning null.
- * The port keeps that.
+ * The port keeps that; see QUESTIONS.md "Kept crashes in the vertex
+ * helpers (getPathLength, GVertexContainer.clone, QuadTree.clear)".
  */
 function debugFlagMissing(): never {
   throw new ReferenceError("DEBUG is not defined");

@@ -90,8 +90,10 @@ export class VertexPolyBoolean {
 
   /**
    * The first argument is ignored: the old constructor always set the
-   * odd-even policy, so winding compound shapes clip odd-even too
-   * (QUESTIONS.md). `useIntersector` computes curve intersections on the
+   * odd-even policy, so winding compound shapes clip odd-even too, and
+   * policy 0 (OUTSIDE) becomes AUTO (QUESTIONS.md: "GVertexPolyBoolean
+   * ignores its pip_check_policy argument" and "common_segments_policy 0
+   * (OUTSIDE) becomes AUTO"). `useIntersector` computes curve intersections on the
    * curves (finer flattening); `blockIntersector` never does.
    */
   constructor(
@@ -119,6 +121,7 @@ export class VertexPolyBoolean {
    * sub-path start at each Close between sources. Kept from the old
    * code, which never returned the container and read an undefined
    * variable on the second Move (so that throws a ReferenceError).
+   * Unused in the old app; pinned by old-fixtures.json.
    */
   static joinVertices(sources: VertexReader[]): void {
     const vertex = new Vertex();
@@ -187,19 +190,19 @@ export class VertexPolyBoolean {
     const nextIndex = firstPoly.markIndices();
     secondPoly.markIndices(nextIndex);
     intersections.sort((a, b) => a.pt.getX() - b.pt.getX() || a.pt.getY() - b.pt.getY());
-    for (let a = intersections.length - 1; a > 0; a--) {
-      const point = (intersections[a] as IntersectionPoint<PolyLine>).pt;
-      const previous = (intersections[a - 1] as IntersectionPoint<PolyLine>).pt;
+    for (let i = intersections.length - 1; i > 0; i--) {
+      const point = (intersections[i] as IntersectionPoint<PolyLine>).pt;
+      const previous = (intersections[i - 1] as IntersectionPoint<PolyLine>).pt;
       if (
         point === previous ||
         (GMath.isEqualEps(point.getX(), previous.getX(), 1e-10) &&
           GMath.isEqualEps(point.getY(), previous.getY(), 1e-10))
       ) {
-        const index0 = (intersections[a] as IntersectionPoint<PolyLine>).polySeg0.index;
-        const index1 = (intersections[a] as IntersectionPoint<PolyLine>).polySeg1.index;
-        const previousIndex0 = (intersections[a - 1] as IntersectionPoint<PolyLine>).polySeg0.index;
-        const previousIndex1 = (intersections[a - 1] as IntersectionPoint<PolyLine>).polySeg1.index;
-        if (index0 === previousIndex0 && index1 === previousIndex1) intersections.splice(a, 1);
+        const index0 = (intersections[i] as IntersectionPoint<PolyLine>).polySeg0.index;
+        const index1 = (intersections[i] as IntersectionPoint<PolyLine>).polySeg1.index;
+        const previousIndex0 = (intersections[i - 1] as IntersectionPoint<PolyLine>).polySeg0.index;
+        const previousIndex1 = (intersections[i - 1] as IntersectionPoint<PolyLine>).polySeg1.index;
+        if (index0 === previousIndex0 && index1 === previousIndex1) intersections.splice(i, 1);
       }
     }
     this._intersector.addIntersectionsToPolygon(intersections);
@@ -229,8 +232,8 @@ export class VertexPolyBoolean {
       )
     ) {
       this._numIntersections = 0;
-      for (let a = 0; a < extended.length; a++)
-        if ((extended[a] as ExtendedIntersection).polySeg0.isIsect) this._numIntersections++;
+      for (let i = 0; i < extended.length; i++)
+        if ((extended[i] as ExtendedIntersection).polySeg0.isIsect) this._numIntersections++;
     }
     if (!this.clipHead || !this.sourceHead) return false;
     this._intersectsArray = this.getIntersectionArray(this.sourceHead, this.clipHead);
@@ -238,6 +241,7 @@ export class VertexPolyBoolean {
     return true;
   }
 
+  /** Unused in the old app; pinned by old-fixtures.json. */
   numIntersections(): number | boolean {
     return this._numIntersections;
   }
@@ -254,8 +258,8 @@ export class VertexPolyBoolean {
   ): boolean {
     let sane = true;
     if (intersections) {
-      for (let r = 0; r < intersections.length; r++) {
-        const isect = intersections[r] as ExtendedIntersection & { isLast?: boolean };
+      for (let i = 0; i < intersections.length; i++) {
+        const isect = intersections[i] as ExtendedIntersection & { isLast?: boolean };
         const seg0: unknown = isect.polySeg0;
         const seg1: unknown = isect.polySeg1;
         if (!(seg0 && seg0 instanceof PolyLineExtended)) {
@@ -477,6 +481,7 @@ export class VertexPolyBoolean {
    * first point that is neither an intersection nor on `other`
    * (`useIntersections` falls back to the first intersection's
    * prevInside). -1 when undecided; found[0] gets the point used.
+   * Unused in the old app; pinned by old-fixtures.json.
    */
   determineInside(
     start: PolyLineExtended,
@@ -533,8 +538,8 @@ export class VertexPolyBoolean {
           return false;
         });
     });
-    for (let p = sourceLines.length + clipLines.length, u = 0; u < p; u++)
-      if (kept.indexOf(u) < 0) dropped.push(u);
+    for (let count = sourceLines.length + clipLines.length, index = 0; index < count; index++)
+      if (kept.indexOf(index) < 0) dropped.push(index);
     this._lastUnprocessed = null;
     this._firstIntersect = null;
     this.didNotClip = false;
@@ -663,22 +668,24 @@ export class VertexPolyBoolean {
     const all = sourceLines.concat(clipLines);
     // Containment within one polygon is known already; across them it's tested.
     const known: (boolean | undefined)[][] = new Array(all.length);
-    for (let A = 0; A < all.length; A++) {
-      const row: (boolean | undefined)[] = (known[A] = new Array(all.length));
-      for (let c = 0; c < all.length; c++) {
-        if (A < sourceLines.length && c < sourceLines.length)
-          row[c] =
+    for (let row = 0; row < all.length; row++) {
+      const cells: (boolean | undefined)[] = (known[row] = new Array(all.length));
+      for (let column = 0; column < all.length; column++) {
+        if (row < sourceLines.length && column < sourceLines.length)
+          cells[column] =
             (
-              sourceContainment[(sourceLines[c] as PolyLineExtended).tmpIdx] as PolyLineExtended[]
-            ).indexOf(sourceLines[A] as PolyLineExtended) >= 0;
-        else if (A >= sourceLines.length && c >= sourceLines.length)
-          row[c] =
+              sourceContainment[
+                (sourceLines[column] as PolyLineExtended).tmpIdx
+              ] as PolyLineExtended[]
+            ).indexOf(sourceLines[row] as PolyLineExtended) >= 0;
+        else if (row >= sourceLines.length && column >= sourceLines.length)
+          cells[column] =
             (
               clipContainment[
-                (clipLines[c - sourceLines.length] as PolyLineExtended).tmpIdx
+                (clipLines[column - sourceLines.length] as PolyLineExtended).tmpIdx
               ] as PolyLineExtended[]
-            ).indexOf(clipLines[A - sourceLines.length] as PolyLineExtended) >= 0;
-        else row[c] = void 0;
+            ).indexOf(clipLines[row - sourceLines.length] as PolyLineExtended) >= 0;
+        else cells[column] = void 0;
       }
     }
     const containment = this._getContainment(all, known);
@@ -920,36 +927,36 @@ export class VertexPolyBoolean {
     }
     const list = (i: number): PolyLineExtended[] => inside[i] as PolyLineExtended[];
     if (known) {
-      for (let r = 0; r < lines.length; r++) {
-        const line = lines[r] as PolyLineExtended;
-        for (let a = 0; a < r; a++) {
-          const other = lines[a] as PolyLineExtended;
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i] as PolyLineExtended;
+        for (let j = 0; j < i; j++) {
+          const other = lines[j] as PolyLineExtended;
           const crossing = this._intersectsArray[line.index];
           if (crossing && crossing.indexOf(other.index) >= 0) continue;
           let value: boolean | undefined;
           if (
-            (void 0 === (value = (known[a] as (boolean | undefined)[])[r]) &&
+            (void 0 === (value = (known[j] as (boolean | undefined)[])[i]) &&
               contains(line, other)) ||
             (void 0 !== value && value)
           )
-            list(r).push(other);
+            list(i).push(other);
           if (
-            (void 0 === (value = (known[r] as (boolean | undefined)[])[a]) &&
+            (void 0 === (value = (known[i] as (boolean | undefined)[])[j]) &&
               contains(other, line)) ||
             (void 0 !== value && value)
           )
-            list(a).push(line);
+            list(j).push(line);
         }
       }
     } else {
-      for (let r = 0; r < lines.length; r++) {
-        const line = lines[r] as PolyLineExtended;
-        for (let a = 0; a < r; a++) {
-          const other = lines[a] as PolyLineExtended;
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i] as PolyLineExtended;
+        for (let j = 0; j < i; j++) {
+          const other = lines[j] as PolyLineExtended;
           const crossing = this._intersectsArray[line.index];
           if (!(crossing && crossing.indexOf(other.index) >= 0)) {
-            if (contains(line, other)) list(r).push(other);
-            else if (contains(other, line)) list(a).push(line);
+            if (contains(line, other)) list(i).push(other);
+            else if (contains(other, line)) list(j).push(line);
           }
         }
       }

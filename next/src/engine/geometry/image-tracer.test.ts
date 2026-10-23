@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { getTypeId } from "../core/object.ts";
 import { ImageTracer, type PaletteColor, type TracerImageData } from "./image-tracer.ts";
 
@@ -105,6 +105,27 @@ describe("ImageTracer", () => {
       { type: "Q", x1: 0, y1: 0, x2: 1.5, y2: 2.25, x3: 3, y3: 0 },
     ]);
     expect(tracer.fitseq(path, 10, 10, 0, 3)).toEqual([{ type: "L", x1: 0, y1: 0, x2: 3, y2: 0 }]);
+  });
+
+  it("refines a given palette in place and returns that same array", () => {
+    const pal: PaletteColor[] = [
+      { r: 20, g: 10, b: 5, a: 250 },
+      { r: 230, g: 30, b: 10, a: 240 },
+    ];
+    const trace = new ImageTracer().imagedataToTracedata(redRectangle(), { pal });
+    expect(trace.palette).toBe(pal);
+    // The quantization cycles move each color to the mean of its pixels.
+    expect(pal).toEqual(blackAndRed());
+  });
+
+  it("reads the whole canvas in getImgdata", () => {
+    const pixels = { width: 3, height: 2 };
+    const getImageData = vi.fn(() => pixels);
+    const canvas = { width: 3, height: 2, getContext: vi.fn(() => ({ getImageData })) };
+    const result = new ImageTracer().getImgdata(canvas as unknown as HTMLCanvasElement);
+    expect(result).toBe(pixels);
+    expect(canvas.getContext).toHaveBeenCalledWith("2d");
+    expect(getImageData).toHaveBeenCalledWith(0, 0, 3, 2);
   });
 
   it("keeps the old type id", () => {

@@ -584,11 +584,18 @@ export class Shader {
     return target;
   }
 
-  /** The old code used an undefined `rescale` here, so this always throws. */
+  /**
+   * The old code used an undefined `rescale` inside the map callback, so
+   * this throws for any area; an empty list gives an empty list (and a
+   * missing offset throws first).
+   */
   static _genAreas(areas: Rect[] | null, offset: Rect): Rect[] | null {
     if (!areas) return null;
-    void offset;
-    throw new ReferenceError("rescale is not defined");
+    offset.getX();
+    offset.getY();
+    return areas.map(() => {
+      throw new ReferenceError("rescale is not defined");
+    });
   }
 
   static _updateAreas(

@@ -576,7 +576,7 @@ export class PolyLineExtended {
     }
   }
 
-  /** Joins open sub-paths whose ends meet into closed loops. */
+  /** Joins open sub-paths whose ends meet into closed loops. Unused in the old app; pinned by old-fixtures.json. */
   _stitch(): PolyLineExtended {
     if (this.next === this) return this;
     let last: PolyLineExtended;
@@ -629,7 +629,11 @@ export class PolyLineExtended {
     return this._firstInLoop();
   }
 
-  /** Reverses the sub-path this node is on, swapping the control points. */
+  /**
+   * Reverses the sub-path this node is on, swapping the control points.
+   * Only _stitch calls it, and nothing calls _stitch in the old app;
+   * pinned by old-fixtures.json.
+   */
   _reverseLoop(): void {
     if (this.next != this) {
       let next: PolyLineExtended | null;
@@ -718,7 +722,7 @@ export class PolyLineExtended {
         : (this.next as PolyLineExtended);
   }
 
-  /** Whether the sub-path ends before the next intersection. */
+  /** Whether the sub-path ends before the next intersection. Unused in the old app; pinned by old-fixtures.json. */
   cleanForwards(): boolean {
     let node: PolyLineExtended = this;
     do {
@@ -727,7 +731,7 @@ export class PolyLineExtended {
     return false;
   }
 
-  /** Whether the sub-path starts after the previous intersection. */
+  /** Whether the sub-path starts after the previous intersection. Unused in the old app; pinned by old-fixtures.json. */
   cleanBackwards(): boolean {
     let node: PolyLineExtended = this;
     do {
@@ -836,6 +840,7 @@ export class PolyLineExtended {
     return node.isIsect && previous._equalsEps(node, false, eps) ? null : node;
   }
 
+  /** Unused in the old app; pinned by old-fixtures.json. */
   static _getClosestTime(x0: number, y0: number, x1: number, y1: number): number {
     const dx = Math.abs(x0 - x1);
     const dy = Math.abs(y0 - y1);
@@ -859,20 +864,20 @@ export class PolyLineExtended {
     toSide: number,
   ): boolean {
     void pipPolicy;
-    let o: number;
+    let index: number;
     const sides: PolyLineExtended[][] = [[], []];
     if (!intersections.length) return false;
-    for (o = 0; o < intersections.length; o++) {
-      const isect = intersections[o] as ExtendedIntersection;
+    for (index = 0; index < intersections.length; index++) {
+      const isect = intersections[index] as ExtendedIntersection;
       (sides[0] as PolyLineExtended[]).push(isect.polySeg0);
       (sides[1] as PolyLineExtended[]).push(isect.polySeg1);
     }
     let node: PolyLineExtended;
-    for (let h = fromSide; h <= toSide; h++) {
-      const nodes = sides[h] as PolyLineExtended[];
-      for (o = 0; o < nodes.length; o++) {
-        node = nodes[o] as PolyLineExtended;
-        const t = 0.5;
+    for (let side = fromSide; side <= toSide; side++) {
+      const nodes = sides[side] as PolyLineExtended[];
+      for (index = 0; index < nodes.length; index++) {
+        node = nodes[index] as PolyLineExtended;
+        const half = 0.5;
         const before: XY = { x: node.x, y: node.y };
         const after: XY = { x: node.x, y: node.y };
         let beforeXs: Float64Array | null = null;
@@ -894,7 +899,7 @@ export class PolyLineExtended {
                 node.x,
                 prev.cx1 as number,
                 0,
-                t,
+                half,
                 beforeXs,
               );
               before.x = roundCoordinate(beforeXs[2] as number);
@@ -903,7 +908,7 @@ export class PolyLineExtended {
                 node.y,
                 prev.cy1 as number,
                 0,
-                t,
+                half,
                 beforeYs,
               );
               before.y = roundCoordinate(beforeYs[2] as number);
@@ -916,7 +921,7 @@ export class PolyLineExtended {
                 prev.cx1 as number,
                 prev.cx2 as number,
                 0,
-                t,
+                half,
                 beforeXs,
               );
               before.x = roundCoordinate(beforeXs[3] as number);
@@ -926,14 +931,14 @@ export class PolyLineExtended {
                 prev.cy1 as number,
                 prev.cy2 as number,
                 0,
-                t,
+                half,
                 beforeYs,
               );
               before.y = roundCoordinate(beforeYs[3] as number);
             }
           } else {
-            before.x = roundCoordinate(node.x + t * (prev.x - node.x));
-            before.y = roundCoordinate(node.y + t * (prev.y - node.y));
+            before.x = roundCoordinate(node.x + half * (prev.x - node.x));
+            before.y = roundCoordinate(node.y + half * (prev.y - node.y));
           }
         }
         if (next) {
@@ -942,14 +947,14 @@ export class PolyLineExtended {
             if (void 0 === curve.cx2) {
               afterXs = new Float64Array(3);
               afterYs = new Float64Array(3);
-              GMath.getCtrlPtsQuadratic(curve.x, next.x, curve.cx1 as number, 0, t, afterXs);
+              GMath.getCtrlPtsQuadratic(curve.x, next.x, curve.cx1 as number, 0, half, afterXs);
               after.x = roundCoordinate(afterXs[2] as number);
-              GMath.getCtrlPtsQuadratic(curve.y, next.y, curve.cy1 as number, 0, t, afterYs);
+              GMath.getCtrlPtsQuadratic(curve.y, next.y, curve.cy1 as number, 0, half, afterYs);
               after.y = roundCoordinate(afterYs[2] as number);
             } else {
               afterXs = new Float64Array(4);
               afterYs = new Float64Array(4);
-              GMath.getCtrlPts(curve.x, next.x, curve.cx1 as number, curve.cx2, 0, t, afterXs);
+              GMath.getCtrlPts(curve.x, next.x, curve.cx1 as number, curve.cx2, 0, half, afterXs);
               after.x = roundCoordinate(afterXs[3] as number);
               GMath.getCtrlPts(
                 curve.y,
@@ -957,23 +962,23 @@ export class PolyLineExtended {
                 curve.cy1 as number,
                 curve.cy2 as number,
                 0,
-                t,
+                half,
                 afterYs,
               );
               after.y = roundCoordinate(afterYs[3] as number);
             }
           } else {
-            after.x = roundCoordinate(lastSame.x + t * (next.x - lastSame.x));
-            after.y = roundCoordinate(lastSame.y + t * (next.y - lastSame.y));
+            after.x = roundCoordinate(lastSame.x + half * (next.x - lastSame.x));
+            after.y = roundCoordinate(lastSame.y + half * (next.y - lastSame.y));
           }
         }
         let savedPolicy: number | undefined;
-        const otherNodes = sides[(h + 1) % 2] as PolyLineExtended[];
+        const otherNodes = sides[(side + 1) % 2] as PolyLineExtended[];
         const matches: PolyLineExtended[] = [];
-        for (let P = 0; P < otherNodes.length; P++) {
-          const candidate = otherNodes[P] as PolyLineExtended;
+        for (let otherIndex = 0; otherIndex < otherNodes.length; otherIndex++) {
+          const candidate = otherNodes[otherIndex] as PolyLineExtended;
           if (
-            o === P ||
+            index === otherIndex ||
             (GMath.isEqualEps(candidate.x, node.x, 1e-10) &&
               GMath.isEqualEps(candidate.y, node.y, 1e-10))
           )
@@ -984,8 +989,8 @@ export class PolyLineExtended {
           savedPolicy = policy;
           policy = -10;
         }
-        for (let P = 0; P < matches.length; P++) {
-          const match = matches[P] as PolyLineExtended;
+        for (let matchIndex = 0; matchIndex < matches.length; matchIndex++) {
+          const match = matches[matchIndex] as PolyLineExtended;
           const matchPrev = PolyLineExtended._getPrevDifferentPoint(match);
           const matchNext = PolyLineExtended._getNextDifferentPoint(match, lastEqual);
           const matchLastSame = lastEqual[0] as PolyLineExtended;
@@ -1015,9 +1020,9 @@ export class PolyLineExtended {
     }
     // The intersections of each sub-path, in ring order.
     const runs: PolyLineExtended[][][] = [[], []];
-    for (let h = fromSide; h <= toSide; h++) {
-      const sideRuns = runs[h] as PolyLineExtended[][];
-      const start = ((sides[h] as PolyLineExtended[])[0] as PolyLineExtended)._firstInLoop();
+    for (let side = fromSide; side <= toSide; side++) {
+      const sideRuns = runs[side] as PolyLineExtended[][];
+      const start = ((sides[side] as PolyLineExtended[])[0] as PolyLineExtended)._firstInLoop();
       let run: PolyLineExtended[] = [];
       node = start;
       do {
@@ -1030,137 +1035,150 @@ export class PolyLineExtended {
       } while (node !== start);
       if (run.length && sideRuns[sideRuns.length - 1] !== run) sideRuns.push(run);
     }
-    let H: PolyLineExtended;
-    for (let h = fromSide; h <= toSide; h++) {
-      const sideRuns = runs[h] as PolyLineExtended[][];
-      let V: number;
+    let current: PolyLineExtended;
+    for (let side = fromSide; side <= toSide; side++) {
+      const sideRuns = runs[side] as PolyLineExtended[][];
       if (policy < 0) {
-        for (let N = 0; N < sideRuns.length; N++) {
-          const U = sideRuns[N] as PolyLineExtended[];
-          V = U.length;
-          const at = (i: number): PolyLineExtended => U[i] as PolyLineExtended;
-          H = at(0);
-          for (o = 0; o < V && !((H = at(o)).nextInside >= 0); o++);
-          if (H.nextInside < 0) {
-            o = 0;
-            (H = at(0)).nextInside = policy === AUTO ? OUTSIDE : INSIDE;
-            at(1 % V).prevInside = H.nextInside;
+        for (let runIndex = 0; runIndex < sideRuns.length; runIndex++) {
+          const runNodes = sideRuns[runIndex] as PolyLineExtended[];
+          const runLength = runNodes.length;
+          const at = (i: number): PolyLineExtended => runNodes[i] as PolyLineExtended;
+          current = at(0);
+          let startIndex: number;
+          for (
+            startIndex = 0;
+            startIndex < runLength && !((current = at(startIndex)).nextInside >= 0);
+            startIndex++
+          );
+          if (current.nextInside < 0) {
+            startIndex = 0;
+            (current = at(0)).nextInside = policy === AUTO ? OUTSIDE : INSIDE;
+            at(1 % runLength).prevInside = current.nextInside;
           }
-          if (H.nextInside >= 0) {
-            let O = H.nextInside;
+          if (current.nextInside >= 0) {
+            let inside = current.nextInside;
             if (policy === AUTO) {
-              for (let P = 1; P < V; P++) {
-                H = at((P + o) % V);
-                if (H.prevInside < 0) H.prevInside = O;
-                else O = H.prevInside;
-                if (H.nextInside < 0) H.nextInside = O;
-                else O = H.nextInside;
+              for (let step = 1; step < runLength; step++) {
+                current = at((step + startIndex) % runLength);
+                if (current.prevInside < 0) current.prevInside = inside;
+                else inside = current.prevInside;
+                if (current.nextInside < 0) current.nextInside = inside;
+                else inside = current.nextInside;
               }
             } else {
               let undecidedRun = 0;
-              for (let P = 1; P < V; P++) {
-                H = at((P + o) % V);
-                if (H.prevInside >= 0 || H.nextInside >= 0) undecidedRun = 0;
-                const corresponding = H.corresponding as PolyLineExtended;
-                if (H.prevInside >= 0 && H.nextInside >= 0) {
-                  if (h > 0) {
+              for (let step = 1; step < runLength; step++) {
+                current = at((step + startIndex) % runLength);
+                if (current.prevInside >= 0 || current.nextInside >= 0) undecidedRun = 0;
+                const corresponding = current.corresponding as PolyLineExtended;
+                if (current.prevInside >= 0 && current.nextInside >= 0) {
+                  if (side > 0) {
                     const crossesOther =
                       corresponding.prevInside >= 0 &&
                       corresponding.prevInside === corresponding.nextInside;
-                    if (crossesOther !== (H.prevInside === H.nextInside)) {
+                    if (crossesOther !== (current.prevInside === current.nextInside)) {
                       if (crossesOther) {
-                        H.prevInside = O;
-                        H.nextInside = O;
+                        current.prevInside = inside;
+                        current.nextInside = inside;
                       } else {
-                        H.prevInside = O;
-                        O ^= 1;
-                        H.nextInside = O;
+                        current.prevInside = inside;
+                        inside ^= 1;
+                        current.nextInside = inside;
                       }
-                    } else O = H.nextInside;
-                  } else O = H.nextInside;
-                } else if (H.prevInside >= 0 && H.nextInside < 0) {
-                  if (h > 0 && corresponding.prevInside === corresponding.nextInside) {
-                    H.prevInside = O;
-                    H.nextInside = O;
+                    } else inside = current.nextInside;
+                  } else inside = current.nextInside;
+                } else if (current.prevInside >= 0 && current.nextInside < 0) {
+                  if (side > 0 && corresponding.prevInside === corresponding.nextInside) {
+                    current.prevInside = inside;
+                    current.nextInside = inside;
                   } else {
-                    H.prevInside = O;
-                    O ^= 1;
-                    H.nextInside = O;
+                    current.prevInside = inside;
+                    inside ^= 1;
+                    current.nextInside = inside;
                   }
-                } else if (H.prevInside < 0 && H.nextInside >= 0) {
-                  if (h > 0 && corresponding.prevInside === corresponding.nextInside) {
-                    H.prevInside = O;
-                    H.nextInside = O;
+                } else if (current.prevInside < 0 && current.nextInside >= 0) {
+                  if (side > 0 && corresponding.prevInside === corresponding.nextInside) {
+                    current.prevInside = inside;
+                    current.nextInside = inside;
                   } else {
-                    H.prevInside = 1 ^ H.nextInside;
-                    if (O !== H.prevInside) H.prevInside = O;
-                    O = H.nextInside;
+                    current.prevInside = 1 ^ current.nextInside;
+                    if (inside !== current.prevInside) current.prevInside = inside;
+                    inside = current.nextInside;
                   }
-                } else if (H.prevInside < 0 && H.nextInside < 0) {
-                  if (h > 0) {
+                } else if (current.prevInside < 0 && current.nextInside < 0) {
+                  if (side > 0) {
                     if (corresponding.prevInside === corresponding.nextInside)
-                      H.prevInside = H.nextInside = O;
+                      current.prevInside = current.nextInside = inside;
                     else {
-                      H.prevInside = O;
-                      O ^= 1;
-                      H.nextInside = O;
+                      current.prevInside = inside;
+                      inside ^= 1;
+                      current.nextInside = inside;
                     }
                   } else {
-                    const X = at((P + o + 1) % V);
-                    if (X !== H && X.prevInside < 0 && X.nextInside < 0 && 0 === undecidedRun) {
-                      H.prevInside = O;
-                      O ^= 1;
-                      H.nextInside = O;
+                    const following = at((step + startIndex + 1) % runLength);
+                    if (
+                      following !== current &&
+                      following.prevInside < 0 &&
+                      following.nextInside < 0 &&
+                      0 === undecidedRun
+                    ) {
+                      current.prevInside = inside;
+                      inside ^= 1;
+                      current.nextInside = inside;
                     } else if (
-                      X !== H &&
-                      (X.prevInside >= 0 || X.nextInside >= 0) &&
+                      following !== current &&
+                      (following.prevInside >= 0 || following.nextInside >= 0) &&
                       undecidedRun > 0
                     ) {
-                      H.prevInside = O;
-                      if (X.prevInside >= 0) {
-                        H.nextInside = X.prevInside;
-                        O = H.nextInside;
+                      current.prevInside = inside;
+                      if (following.prevInside >= 0) {
+                        current.nextInside = following.prevInside;
+                        inside = current.nextInside;
                       } else {
-                        O ^= 1;
-                        H.nextInside = O;
+                        inside ^= 1;
+                        current.nextInside = inside;
                       }
-                    } else if (X !== H && X.nextInside >= 0 && X.prevInside < 0) {
-                      H.prevInside = O;
-                      if (O === X.nextInside) O ^= 1;
-                      H.nextInside = O;
-                    } else H.prevInside = H.nextInside = O;
+                    } else if (
+                      following !== current &&
+                      following.nextInside >= 0 &&
+                      following.prevInside < 0
+                    ) {
+                      current.prevInside = inside;
+                      if (inside === following.nextInside) inside ^= 1;
+                      current.nextInside = inside;
+                    } else current.prevInside = current.nextInside = inside;
                     undecidedRun += 1;
                   }
                 }
               }
             }
-            if ((H = at(o)).prevInside < 0) H.prevInside = O;
-            O = H.prevInside;
+            if ((current = at(startIndex)).prevInside < 0) current.prevInside = inside;
+            inside = current.prevInside;
             if (policy !== AUTO_MAX_PASSTHROUGH) {
-              for (let P = 1; P < V; P++) {
-                H = at((o - P + V) % V);
-                if (H.nextInside != O) H.nextInside = O;
-                O = H.prevInside;
+              for (let step = 1; step < runLength; step++) {
+                current = at((startIndex - step + runLength) % runLength);
+                if (current.nextInside != inside) current.nextInside = inside;
+                inside = current.prevInside;
               }
             }
           }
         }
       }
       let disabled = 0;
-      V = 0;
-      for (o = 0; o < sideRuns.length; o++) {
-        const run = sideRuns[o] as PolyLineExtended[];
-        for (let P = 0; P < run.length; P++) {
-          V++;
-          H = run[P] as PolyLineExtended;
-          if (H.prevInside === H.nextInside) {
-            H.isIsect = false;
-            (H.corresponding as PolyLineExtended).isIsect = false;
+      let total = 0;
+      for (let runIndex = 0; runIndex < sideRuns.length; runIndex++) {
+        const run = sideRuns[runIndex] as PolyLineExtended[];
+        for (let nodeIndex = 0; nodeIndex < run.length; nodeIndex++) {
+          total++;
+          current = run[nodeIndex] as PolyLineExtended;
+          if (current.prevInside === current.nextInside) {
+            current.isIsect = false;
+            (current.corresponding as PolyLineExtended).isIsect = false;
             disabled++;
           }
         }
       }
-      if (disabled === V) return false;
+      if (disabled === total) return false;
     }
     return true;
   }
@@ -1215,6 +1233,7 @@ export class PolyLineExtended {
    * Drops nodes at the position of their successor, moving curve and
    * intersection data onto the node that stays. Null when an
    * intersection's back link doesn't match (side 0: polySeg0, else polySeg1).
+   * Unused in the old app; pinned by old-fixtures.json.
    */
   static removeDuplicates(head: PolyLineExtended, side: number): PolyLineExtended | null {
     const start = head;
@@ -1293,7 +1312,8 @@ export class PolyLineExtended {
   /**
    * The ring as vertices, starting here. `curves` follows nextCurve
    * (for rings whose curves are still flattened); otherwise every node
-   * with control points is one curve to its next node.
+   * with control points is one curve to its next node. The old app never
+   * passed `curves` = true; that branch is pinned by old-fixtures.json.
    */
   getPoints(curves?: boolean): VertexContainer {
     const out = new VertexContainer();

@@ -1407,7 +1407,13 @@ export class Canvas2DPaintCanvas extends GObject implements PaintCanvas {
     const copy = new Canvas2DPaintCanvas(void 0, void 0, !!(options && options.persistent));
     const source = this._canvasContext;
     if (RenderScheduler.isRenderPhase() && !renderPhaseDraw) {
-      this._cloneRecorded(copy);
+      // The old code cloned the recording here, but its __clone passed the
+      // constructor arguments shifted by one, so the clone got no canvas and
+      // the next line (copying canvas.rendered) threw. A plain context had
+      // no __clone at all. Every caller passes renderPhaseDraw.
+      if (!(source instanceof RecorderStateContext))
+        throw new TypeError("a.__clone is not a function");
+      throw new TypeError("Cannot set properties of null (setting 'rendered')");
     } else {
       const target = copy._canvasContext;
       target.globalAlpha = source.globalAlpha;
@@ -1465,77 +1471,6 @@ export class Canvas2DPaintCanvas extends GObject implements PaintCanvas {
         : null;
     }
     return copy;
-  }
-
-  /**
-   * The old render-phase clone copied the recording, so replaying it gave
-   * the same pixels and the same context state (clips included). The port
-   * copies the pixels, the property values and the clip of the areas.
-   */
-  private _cloneRecorded(copy: Canvas2DPaintCanvas): void {
-    const source = this._canvasContext;
-    const target = copy._canvasContext;
-    target.canvas.width = source.canvas.width;
-    target.canvas.height = source.canvas.height;
-    const real =
-      target instanceof RecorderStateContext ? target.real : (target as CanvasRenderingContext2D);
-    real.drawImage(source.canvas, 0, 0);
-    let areas: Rect[] | null = null;
-    if (this._areas) {
-      areas = [];
-      for (let i = 0; i < this._areas.length; i++) {
-        const area = this._areas[i] as Rect;
-        areas.push(new Rect(area.getX(), area.getY(), area.getWidth(), area.getHeight()));
-      }
-      target.save();
-      target.beginPath();
-      for (const area of areas) {
-        const left = Math.max(0, area.getX());
-        const right = Math.min(copy.getWidth(), area.getX() + area.getWidth());
-        const top = Math.max(0, area.getY());
-        const bottom = Math.min(copy.getHeight(), area.getY() + area.getHeight());
-        target.moveTo(left, top);
-        target.lineTo(right, top);
-        target.lineTo(right, bottom);
-        target.lineTo(left, bottom);
-        target.lineTo(left, top);
-      }
-      target.clip();
-    }
-    copy._areas = areas;
-    const values = target as unknown as Record<string, unknown>;
-    const from = source as unknown as Record<string, unknown>;
-    for (const name of [
-      "imageSmoothingQuality",
-      "imageSmoothingEnabled",
-      "textAlign",
-      "textBaseline",
-      "font",
-      "strokeStyle",
-      "miterLimit",
-      "fillStyle",
-      "filter",
-      "lineJoin",
-      "lineCap",
-      "lineWidth",
-      "lineDashOffset",
-      "globalAlpha",
-      "globalCompositeOperation",
-      "shadowColor",
-      "shadowBlur",
-      "shadowOffsetX",
-      "shadowOffsetY",
-    ]) {
-      values[name] = from[name];
-    }
-    copy._blender.globalCompositeOperation = this._blender.globalCompositeOperation;
-    copy._offset = this._offset ? new Point(this._offset.getX(), this._offset.getY()) : null;
-    copy._origin = this._origin ? new Point(this._origin.getX(), this._origin.getY()) : null;
-    copy._transform = this._transform
-      ? Transform.deserialize(Transform.serialize(this._transform))
-      : null;
-    copy._scale = this._scale;
-    if (copy._transform && copy._origin && null !== copy._scale) copy._updateTransform();
   }
 
   /** The iterative halving downscale; false when it doesn't apply (no downscale, too big). */
@@ -1695,7 +1630,11 @@ export class Canvas2DPaintCanvas extends GObject implements PaintCanvas {
     return this._canvasContext instanceof RecorderStateContext ? this._canvasContext : null;
   }
 
-  /** Painting is synchronous now, so a canvas is always rendered. */
+  /**
+   * Painting is synchronous now, so a canvas is always rendered. The old
+   * recorder answered false until its recording was replayed (see
+   * QUESTIONS.md "Fx cache bitmaps count as rendered at once").
+   */
   isRendered(): boolean {
     return true;
   }

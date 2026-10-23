@@ -1,0 +1,95 @@
+{
+  "createCanvasClipPadding": {
+    "value": {
+      "size": [160, 120],
+      "areas": [
+        [-29, 3, 58, 48],
+        [81, 13, 68, 78]
+      ],
+      "origin": [40, 20],
+      "offset": [40, 20],
+      "scale": 2
+    }
+  },
+  "createCanvasClipPaddingArray": {
+    "value": {
+      "areas": [
+        [9, 18, 54, 46],
+        [119, 28, 64, 76]
+      ],
+      "unclipped": null,
+      "unclippedSize": [100, 100],
+      "noPadding": [
+        [10, 20, 50, 40],
+        [120, 30, 60, 70]
+      ]
+    }
+  },
+  "createTexture": {
+    "value": {
+      "none": "null",
+      "incompleteImage": "null",
+      "completeImage": "pattern",
+      "imageWithoutWidth": "null",
+      "zeroWidthCanvas": "null",
+      "canvas": "pattern",
+      "throwingCanvas": "null",
+      "throwingImage": "throws InvalidStateError: broken",
+      "warnings": [["pattern couldn't have been created"]],
+      "log": [
+        "<resize 20x150>",
+        "<resize 20x20>",
+        "save()",
+        "setTransform(1,0,0,1,0,0)",
+        "clearRect(0,0,20,20)",
+        "createPattern([object Object],\"repeat\")",
+        "createPattern(canvas@1,\"repeat-x\")"
+      ]
+    }
+  },
+  "setRenderAlgorithm": {
+    "value": ["pixelated", "crisp-edges", "auto", "", 1]
+  },
+  "measureText": {
+    "value": [
+      "<resize 4x150>",
+      "<resize 4x4>",
+      "font=\"12px Verdana\"",
+      "measureText(\"a\")",
+      "font=\"13px Verdana\"",
+      "measureText(\"b\")",
+      "font=\"bold 9px Arial\"",
+      "measureText(\"c\")",
+      "font=\"10px Verdana\"",
+      "measureText(\"d\")",
+      "font=\"10px Verdana\"",
+      "measureText(\"e\")"
+    ]
+  },
+  "drawSmoothImageRotated": {
+    "value": {
+      "drawn": true,
+      "log": [
+        "setTransform(0.8775825618903728,0.479425538604203,-0.479425538604203,0.8775825618903728,-1,0)",
+        "drawImage(canvas@1,5,6,100,75,0,0,80,60)",
+        "setTransform(0.8775825618903728,0.479425538604203,-0.479425538604203,0.8775825618903728,10,20)"
+      ]
+    }
+  },
+  "drawSmoothImageSkewed": {
+    "value": {
+      "drawn": true,
+      "log": [
+        "setTransform(0.9805806756909201,0.19611613513818402,0.4433930011819812,1.1084825029549532,2.1,2.6999999999999997)",
+        "drawImage(canvas@1,0,0,50,60,0,0,30.59411708155671,32.476831978883276)",
+        "setTransform(1,0.2,0.4,1,7,9)"
+      ],
+      "notDrawn": false,
+      "oneStepDrawn": true,
+      "oneStepLog": ["drawImage(canvas@1,1,2)"]
+    }
+  },
+  "convertImage": {
+    "value": "Error: Not Supported."
+  }
+}

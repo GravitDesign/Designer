@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { getTypeId } from "../core/object.ts";
+import { Point } from "../math/point.ts";
 import { Vertex } from "./vertex.ts";
 import { VertexContainer } from "./vertex-container.ts";
 import { VertexOffsetter } from "./vertex-offsetter.ts";
@@ -102,6 +103,98 @@ describe("VertexOffsetter", () => {
     expect(offsetter.rewindVertices(0)).toBe(true);
     expect(offsetter.hasVertexForRead()).toBe(true);
     expect(offsetter.toString()).toBe("[Object GVertexOffsetter]");
+  });
+
+  it("throws for offset 0 on an open path with both sides (old crash)", () => {
+    // QUESTIONS.md "Offsetter: offset 0 on an open path with both sides throws".
+    const zigzag = [1, 0, 0, 2, 50, 40, 2, 100, 0, 2, 150, 60];
+    for (const cap of [undefined, "butt", "round", "square"])
+      expect(() => offset(zigzag, 0, true, true, 0, cap)).toThrow(
+        new TypeError("Cannot read properties of null (reading 'point')"),
+      );
+    // One side, or a tiny offset, works.
+    expect(offset(zigzag, 0, true, false, 0, "butt").length).toBeGreaterThan(0);
+    expect(offset(zigzag, 1e-5, true, true, 0, "butt").length).toBeGreaterThan(0);
+  });
+
+  it("throws the old ReferenceError for an unknown vertex command", () => {
+    expect(() => offset([1, 0, 0, 2, 100, 0, 99, 50, 50], 10, true, true)).toThrow(
+      new ReferenceError("vertex is not defined"),
+    );
+  });
+
+  it("treats an open path that ends on its start as closed", () => {
+    const read = (data: number[]): VertexOffsetter => {
+      const offsetter = new VertexOffsetter(VertexContainer.deserialize(data), 10, true, true);
+      offsetter.rewindVertices(0);
+      offsetter.readVertex(new Vertex());
+      return offsetter;
+    };
+    expect(read([1, 0, 0, 2, 100, 0, 2, 50, 80, 2, 0, 0])._polyline.closed).toBe(true);
+    expect(read([1, 0, 0, 2, 100, 0, 2, 50, 80, 2, 0, 1])._polyline.closed).toBeFalsy();
+  });
+
+  it("offsets each open sub-path of a compound path on its own", () => {
+    const out = offset([1, 0, 0, 2, 100, 0, 1, 0, 50, 2, 100, 50], 10, true, true, 0, "butt");
+    expect(out).toEqual([
+      1, 0, 10, 2, 0, -10, 2, 100, -10, 2, 100, 10, 2, 0, 10, 1, 0, 60, 2, 0, 40, 2, 100, 40, 2,
+      100, 60, 2, 0, 60,
+    ]);
+  });
+
+  it("drops inset-only parts of an open path that touch the source (old quirk)", () => {
+    // Found by random search. The trimmed inset crosses itself and splits
+    // into parts; every part that comes near the source again is dropped
+    // instead of clipped (QUESTIONS.md "Offsetter: inset-only parts of an
+    // open path that touch the source are dropped").
+    const source = [1, 42, 94, 2, 25, 13, 4, 1, 29, 4, 28, 42, 4, 22, 80];
+    const offsetter = new VertexOffsetter(VertexContainer.deserialize(source), 30, true, false);
+    const split = offsetter._splitForClipping.bind(offsetter);
+    const partCounts: number[] = [];
+    offsetter._splitForClipping = (polyline, hits) => {
+      const parts = split(polyline, hits);
+      partCounts.push(parts.length);
+      return parts;
+    };
+    expect(VertexContainer.serialize(offsetter)).toEqual([]);
+    expect(partCounts).toEqual([3]);
+    // The outset of the same path, which clips instead, keeps two parts.
+    const outset = offset(source, 30, false, true);
+    expect(outset.filter((value, i) => i % 3 == 0 && value == Vertex.Command.Move)).toHaveLength(2);
+  });
+
+  it("cuts an arc with no earlier line cut without putting NaN into the output (old quirk)", () => {
+    // Found by random search: _excludeCircleInside starts the rest of a cut
+    // arc at (cutX, cutY) while both are still undefined (QUESTIONS.md
+    // "Offsetter: the rest of a cut arc starts at an unset cut point").
+    // The segment is dropped later; the exact output is pinned against the
+    // old code in vertex-offsetter.old-outputs.test.ts.
+    const source = [1, 1, 10, 3, 35, 43, 3, 70, 65, 4, 80, 92, 4, 16, 94, 4, 85, 64];
+    const out = offset(source, 43, true, true, 0);
+    expect(out).toHaveLength(165);
+    expect(out.every(Number.isFinite)).toBe(true);
+  });
+
+  it("uses dx for y in the tangent point of the segment-to-arc distance (old quirk)", () => {
+    // QUESTIONS.md "Offsetter: the tangent point of a line uses dx for y".
+    const offsetter = Object.create(VertexOffsetter.prototype) as VertexOffsetter;
+    const quarter = Math.tan(Math.PI / 8);
+    const distance = (p1: Point, p2: Point): number =>
+      offsetter._getSegmToArcSqrDist(
+        new Point(10, 0),
+        quarter,
+        new Point(0, 0),
+        10,
+        new Point(0, 10),
+        p1,
+        p2,
+        400,
+      );
+    // The horizontal line touches the arc at its end (0, 10), but the
+    // touch point is computed as (0, 30), so the end-point distance wins.
+    expect(distance(new Point(-20, 10), new Point(20, 10))).toBe(200);
+    // A vertical tangent has dx = 0 and lands on p1, inside the segment.
+    expect(distance(new Point(10, -20), new Point(10, 20))).toBe(0);
   });
 
   it("keeps the old type ids", () => {

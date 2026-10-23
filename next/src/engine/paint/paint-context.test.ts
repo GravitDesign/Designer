@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { RGBColor } from "../color/rgb-color.ts";
 import { getTypeId } from "../core/object.ts";
+import { Rect } from "../math/rect.ts";
 import { PaintContext } from "./paint-context.ts";
 import type { PaintCanvas } from "./paint-canvas.ts";
 import { RenderJob } from "./render-job.ts";
@@ -131,6 +132,10 @@ describe("Shader statics", () => {
 
   it("keeps the broken _genAreas", () => {
     expect(Shader._genAreas(null, null as never)).toBeNull();
-    expect(() => Shader._genAreas([], null as never)).toThrow(ReferenceError);
+    expect(() => Shader._genAreas([], null as never)).toThrow(TypeError);
+    expect(Shader._genAreas([], new Rect(0, 0, 1, 1))).toEqual([]);
+    expect(() => Shader._genAreas([new Rect(0, 0, 1, 1)], new Rect(0, 0, 1, 1))).toThrow(
+      "rescale is not defined",
+    );
   });
 });

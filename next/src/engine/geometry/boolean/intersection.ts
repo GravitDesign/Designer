@@ -1029,9 +1029,13 @@ function _roundPoint(point: Point): Point {
 }
 
 /**
- * Lerp of two [x, y] big.js pairs. Unused by the engine. Anything but
- * arrays makes big.js throw (the old code converts undefined variables),
- * and a second pair whose y isn't a Big takes the first pair's y.
+ * Lerp of two [x, y] big.js pairs. Unused by the engine. A second pair
+ * whose y isn't a Big takes the first pair's y. For anything but arrays
+ * the old code calls big.js Big(undefined), which doesn't throw but
+ * returns a new Big constructor; the failure comes from the arithmetic
+ * that follows: "[big.js] Invalid number" for a bad first argument (from
+ * subtracting the constructor), "o.minus is not a function" for a bad
+ * second one.
  */
 function _lerpPrecise(a: unknown, b: unknown, t: number): BigPair {
   let ax: Big;
@@ -1048,7 +1052,10 @@ function _lerpPrecise(a: unknown, b: unknown, t: number): BigPair {
     bx = b[0] as Big;
     by = b[1];
   } else {
-    throw new Error("[big.js] Invalid number");
+    // The y falls back to a copy of the first pair's y (which throws
+    // for a non-number), then the x arithmetic fails on the constructor.
+    void new Big(ay);
+    throw new TypeError("o.minus is not a function");
   }
   const byBig = by instanceof Big ? by : new Big(ay);
   return [ax.plus(bx.minus(ax).times(t)), ay.plus(byBig.minus(ay).times(t))];
@@ -1526,7 +1533,10 @@ export class Polynomial {
    * Divides the coefficients by the leading one. The old code then
    * divides by powers of the largest root bound through a variable that
    * doesn't exist, which throws a ReferenceError; the precise variant
-   * swallows it. Nothing in the engine calls this.
+   * wraps everything in a try that swallows any error, including big.js
+   * errors from the division itself (a zero leading Big throws on the
+   * first division, so the coefficients stay as they were). Nothing in
+   * the engine calls this.
    */
   scale(precise?: boolean): void {
     const degree = this.getDegree();
@@ -1535,7 +1545,11 @@ export class Polynomial {
     if (this._scaled) return;
     this._scaled = true;
     if (precise) {
-      while (--i >= 0) this.coefs[i] = (this.coefs[i] as Big).div(leading as Big);
+      try {
+        while (--i >= 0) this.coefs[i] = (this.coefs[i] as Big).div(leading as Big);
+      } catch {
+        // The old code swallowed every error here.
+      }
     } else {
       while (--i >= 0) this.coefs[i] = (this.coefs[i] as number) / (leading as number);
       if (degree >= 1) throw new ReferenceError("n is not defined");
@@ -1770,7 +1784,9 @@ export class Polynomial {
       const coefficients = [this.coefs[3], this.coefs[2], this.coefs[1], this.coefs[0]].map(Number);
       if (precise) {
         const found = this.getCubicRootsAnalPrecise();
-        if (found === undefined) throw new TypeError("Cannot read properties of undefined");
+        if (found === undefined) {
+          throw new TypeError("Cannot read properties of undefined (reading 'length')");
+        }
         roots = Array.isArray(found) ? found : [found];
         let inRange = 0;
         if (Array.isArray(found)) {
@@ -1791,6 +1807,7 @@ export class Polynomial {
               j++;
             }
             if (j === roots.length) {
+              console.log("putting some unfound!");
               roots.push(more[i] as number);
               if (3 === roots.length) break;
             }

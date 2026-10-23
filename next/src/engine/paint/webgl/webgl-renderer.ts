@@ -170,9 +170,10 @@ function webGLRendererBody<TBase extends AnyConstructor>(Base: TBase) {
           } else {
             console.warn("third webgl type created");
             for (const key in this.backupShaderData) {
-              const saved = this.backupShaderData[key] as { destroy?: unknown } | null;
-              if (saved && "function" == typeof saved.destroy)
-                (saved.destroy as () => void).call(saved);
+              // No null check, as in the old code: an empty slot (extraTexture
+              // or flippedShader after the first swap) throws a TypeError.
+              const saved = this.backupShaderData[key] as { destroy?: unknown };
+              if ("function" == typeof saved.destroy) (saved.destroy as () => void).call(saved);
               this.backupShaderData[key] = self[key];
             }
             this.shaderInstance = null;
@@ -233,7 +234,9 @@ function webGLRendererBody<TBase extends AnyConstructor>(Base: TBase) {
         canvas.setOffset(new Point(0, 0));
       }
       if (this.isAffectedByGLBug()) {
-        if (void 0 === hasGLBug) probeGLBug(sceneHolder, downScale);
+        // The old probe returned null from drawShader itself when it couldn't
+        // prepare its blur shader, so that first effect wasn't drawn.
+        if (void 0 === hasGLBug && "abort" === probeGLBug(sceneHolder, downScale)) return null;
         if (hasGLBug) this.renderMethod = RENDERMETHOD.BYTES;
       }
       return this.renderMethod === RENDERMETHOD.BYTES
@@ -281,7 +284,7 @@ function webGLRendererBody<TBase extends AnyConstructor>(Base: TBase) {
 }
 
 /** Tests once whether WebGL output comes back wrong (Firefox on Linux, broken transparency). */
-function probeGLBug(sceneHolder: unknown, downScale: unknown): void {
+function probeGLBug(sceneHolder: unknown, downScale: unknown): "abort" | undefined {
   if (
     "undefined" != typeof navigator &&
     navigator &&
@@ -311,7 +314,7 @@ function probeGLBug(sceneHolder: unknown, downScale: unknown): void {
     const blur = new GLBlurEffect();
     if (!blur.prepareShader()) {
       hasGLBug = false;
-      return;
+      return "abort";
     }
     const run: ShaderRun = {
       properties: { radius: 1 },
@@ -368,6 +371,7 @@ function probeGLBug(sceneHolder: unknown, downScale: unknown): void {
       } else hasGLBug = false;
     }
   }
+  return undefined;
 }
 
 /**

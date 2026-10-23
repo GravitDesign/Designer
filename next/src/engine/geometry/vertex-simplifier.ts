@@ -1,5 +1,4 @@
 // Old: chunk.vendor.js module 1002 (GVertexSimplifier).
-import { hasMixin } from "../core/object.ts";
 import { GMath } from "../math/math.ts";
 import { Point } from "../math/point.ts";
 import { PolyLineExtended } from "./boolean/poly-line-extended.ts";
@@ -140,9 +139,9 @@ export class VertexSimplifier {
               next.x,
               next.y,
             );
-            for (let E = 1; E < inflections.length; E++) {
-              const t = inflections[E] as number;
-              const previousT = inflections[E - 1] as number;
+            for (let k = 1; k < inflections.length; k++) {
+              const t = inflections[k] as number;
+              const previousT = inflections[k - 1] as number;
               x = GMath.getCubicCurveAtT(
                 node.x,
                 next.x,
@@ -193,9 +192,9 @@ export class VertexSimplifier {
               next.x,
               next.y,
             );
-            for (let E = 1; E < inflections.length; E++) {
-              const t = inflections[E] as number;
-              const previousT = inflections[E - 1] as number;
+            for (let k = 1; k < inflections.length; k++) {
+              const t = inflections[k] as number;
+              const previousT = inflections[k - 1] as number;
               x = GMath.getCurveAtT(node.x, next.x, node.cx1, 0.5 * (t + previousT));
               y = GMath.getCurveAtT(node.y, next.y, node.cy1 as number, 0.5 * (t + previousT));
               this._pushUnique(samples, x, y);
@@ -237,8 +236,8 @@ export class VertexSimplifier {
           const curves = fitted as Point[][];
           let current: PolyLineExtended | null = null;
           let curve: Point[] | null = null;
-          for (let E = 0; E < curves.length; E++) {
-            curve = curves[E] as Point[];
+          for (let curveIndex = 0; curveIndex < curves.length; curveIndex++) {
+            curve = curves[curveIndex] as Point[];
             const p = (i: number): Point => (curve as Point[])[i] as Point;
             (current = before ? new PolyLineExtended() : head).x = p(0).getX();
             current.y = p(0).getY();
@@ -285,8 +284,11 @@ export class VertexSimplifier {
   }
 }
 
-/** The old test `e.hasMixin && e.hasMixin(GVertexSource)`. */
+/**
+ * The old test `e.hasMixin && e.hasMixin(GVertexSource)`: it asks the
+ * object's own hasMixin, so a duck-typed source answering true counts.
+ */
 function hasMixinMethod(source: unknown): boolean {
-  const candidate = source as { hasMixin?: unknown };
-  return !!candidate.hasMixin && hasMixin(source, VertexSource);
+  const candidate = source as { hasMixin?: (mixin: unknown) => boolean };
+  return !!candidate.hasMixin && !!candidate.hasMixin(VertexSource);
 }

@@ -612,50 +612,68 @@ export class VertexInfoImpl {
     const hy = new Float64Array(4);
 
     // Implicit equation of the cubic piece in hx/hy, in the piece's own
-    // parameter space (from Loop & Blinn style implicitization).
-    const conic: ConicFunction = (e, t) => {
+    // parameter space (from Loop & Blinn style implicitization). The x and
+    // y polynomials are written in a centered basis (cubic, quadratic,
+    // linear and constant terms); detAB is the cross term
+    // xA * yB - xB * yA of two of those coefficients. The operation order
+    // is the old code's, so the floats match it exactly.
+    const conic: ConicFunction = (px, py) => {
       const [X0, X1, X2, X3] = [at(hx, 0), at(hx, 1), at(hx, 2), at(hx, 3)];
       const [Y0, Y1, Y2, Y3] = [at(hy, 0), at(hy, 1), at(hy, 2), at(hy, 3)];
-      const i = X0 - 3 * X1 + 3 * X2 - X3;
-      const n = (X0 - X1 - X2 + X3) / 2;
-      const r = (X0 + X1 - X2 - X3) / 4;
-      const o = (X0 + 3 * X1 + 3 * X2 + X3) / 8;
-      const a = Y0 - 3 * Y1 + 3 * Y2 - Y3;
-      const s = (Y0 - Y1 - Y2 + Y3) / 2;
-      const l = (Y0 + Y1 - Y2 - Y3) / 4;
-      const h = (Y0 + 3 * Y1 + 3 * Y2 + Y3) / 8;
-      const A = i * l - r * a;
-      const c = i * s - n * a;
-      const p = n * l - r * s;
-      const u = i * h - o * a;
-      const d = n * h - o * s;
-      const g = r * h - o * l;
-      const f = i * i;
-      const m = a * a;
-      const y = A * A;
-      const uu = u * u;
-      const v = c * d;
-      const b = c * A;
-      const C = 3 * v - A * u;
-      const w = 3 * y - c * (4 * u + 9 * p);
+      const xCubic = X0 - 3 * X1 + 3 * X2 - X3;
+      const xQuad = (X0 - X1 - X2 + X3) / 2;
+      const xLinear = (X0 + X1 - X2 - X3) / 4;
+      const xConst = (X0 + 3 * X1 + 3 * X2 + X3) / 8;
+      const yCubic = Y0 - 3 * Y1 + 3 * Y2 - Y3;
+      const yQuad = (Y0 - Y1 - Y2 + Y3) / 2;
+      const yLinear = (Y0 + Y1 - Y2 - Y3) / 4;
+      const yConst = (Y0 + 3 * Y1 + 3 * Y2 + Y3) / 8;
+      const det31 = xCubic * yLinear - xLinear * yCubic;
+      const det32 = xCubic * yQuad - xQuad * yCubic;
+      const det21 = xQuad * yLinear - xLinear * yQuad;
+      const det30 = xCubic * yConst - xConst * yCubic;
+      const det20 = xQuad * yConst - xConst * yQuad;
+      const det10 = xLinear * yConst - xConst * yLinear;
+      const xCubicSq = xCubic * xCubic;
+      const yCubicSq = yCubic * yCubic;
+      const det31Sq = det31 * det31;
+      const det30Sq = det30 * det30;
+      const det32x20 = det32 * det20;
+      const det32x31 = det32 * det31;
+      const mixedA = 3 * det32x20 - det31 * det30;
+      const mixedB = 3 * det31Sq - det32 * (4 * det30 + 9 * det21);
       return (
-        (m * a * e -
-          3 * (i * m) * t +
-          3 * (u * m - 3 * a * (2 * c * l + A * s) + 9 * c * (s * s))) *
-          (e * e) +
-        (3 * (f * a) * e -
-          f * i * t +
-          3 * (u * f - 3 * (2 * c * r + A * n) * i + 9 * c * (n * n))) *
-          (t * t) +
+        (yCubicSq * yCubic * px -
+          3 * (xCubic * yCubicSq) * py +
+          3 *
+            (det30 * yCubicSq -
+              3 * yCubic * (2 * det32 * yLinear + det31 * yQuad) +
+              9 * det32 * (yQuad * yQuad))) *
+          (px * px) +
+        (3 * (xCubicSq * yCubic) * px -
+          xCubicSq * xCubic * py +
+          3 *
+            (det30 * xCubicSq -
+              3 * (2 * det32 * xLinear + det31 * xQuad) * xCubic +
+              9 * det32 * (xQuad * xQuad))) *
+          (py * py) +
         3 *
-          ((uu * a +
-            6 * C * s +
-            3 * w * l +
-            9 * b * h -
-            ((2 * u + 3 * p) * i * a + 9 * (2 * c * n * s + n * r * m - f * s * l)) * t) *
-            e -
-            (uu * i + 6 * C * n + 3 * w * r + 9 * b * o) * t) +
-        (u * (uu - 9 * (A * d + 2 * c * g)) + 27 * (v * d + y * g) - 81 * (c * p) * g)
+          ((det30Sq * yCubic +
+            6 * mixedA * yQuad +
+            3 * mixedB * yLinear +
+            9 * det32x31 * yConst -
+            ((2 * det30 + 3 * det21) * xCubic * yCubic +
+              9 *
+                (2 * det32 * xQuad * yQuad +
+                  xQuad * xLinear * yCubicSq -
+                  xCubicSq * yQuad * yLinear)) *
+              py) *
+            px -
+            (det30Sq * xCubic + 6 * mixedA * xQuad + 3 * mixedB * xLinear + 9 * det32x31 * xConst) *
+              py) +
+        (det30 * (det30Sq - 9 * (det31 * det20 + 2 * det32 * det10)) +
+          27 * (det32x20 * det20 + det31Sq * det10) -
+          81 * (det32 * det21) * det10)
       );
     };
     // Inside the piece's control polygon (0 on its closing edge).
@@ -1131,7 +1149,9 @@ export class VertexInfoImpl {
           break;
         case Vertex.Command.Curve2:
           // The old code read both control points and then failed on the
-          // undefined `cx2` before measuring anything.
+          // undefined `cx2` before measuring anything. See QUESTIONS.md "Kept
+          // crashes in the vertex helpers (getPathLength, GVertexContainer.clone,
+          // QuadTree.clear)".
           if (source.readVertex(vertex) && source.readVertex(vertex)) {
             throw new ReferenceError("cx2 is not defined");
           }

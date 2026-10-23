@@ -369,6 +369,24 @@ describe("clone", () => {
     // shadowOffsetX is never copied (the old code misspelt it).
     expect(log.some((entry) => entry.startsWith("shadowOffsetX="))).toBe(false);
   });
+
+  it("throws during a render phase without renderPhaseDraw, as the old recorder clone did", () => {
+    const recorded = new PaintCanvas(true);
+    recorded.resize(8, 8);
+    recorded.prepare();
+    const plainCanvas = plain(8, 8);
+    RenderScheduler.begin();
+    try {
+      expect(() => recorded.clone()).toThrow(
+        new TypeError("Cannot set properties of null (setting 'rendered')"),
+      );
+      expect(() => plainCanvas.clone()).toThrow(new TypeError("a.__clone is not a function"));
+      const copy = recorded.clone(false, { renderPhaseDraw: true });
+      expect([copy.getWidth(), copy.getHeight()]).toEqual([8, 8]);
+    } finally {
+      RenderScheduler.finish();
+    }
+  });
 });
 
 describe("recorded canvases", () => {

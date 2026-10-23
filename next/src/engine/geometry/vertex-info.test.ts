@@ -3,6 +3,7 @@ import { Point } from "../math/point.ts";
 import { Rect } from "../math/rect.ts";
 import { VertexContainer } from "./vertex-container.ts";
 import { VertexInfo, type VertexHitResult } from "./vertex-info.ts";
+import oldHitUnderCurve2 from "./test-data/old-hit-under-curve2.json";
 
 function vc(flat: number[]): VertexContainer {
   const c = new VertexContainer();
@@ -180,5 +181,18 @@ describe("VertexInfo.collinear", () => {
 
   it("has the old toString", () => {
     expect(VertexInfo.toString()).toBe("[Object GVertexInfo]");
+  });
+});
+
+describe("VertexInfo._hitUnderCurve2 against old outputs", () => {
+  // Seeded random cubics and points, with the winding the old GVertexInfo
+  // (module 59, loaded in Node) returned for each. Pins the implicit conic
+  // equation of the curve pieces.
+  it("returns the old winding for each recorded cubic and point", () => {
+    const cases = oldHitUnderCurve2 as { args: number[]; expected: number }[];
+    const got = cases.map((c) =>
+      VertexInfo._hitUnderCurve2(...(c.args as Parameters<typeof VertexInfo._hitUnderCurve2>)),
+    );
+    expect(got).toEqual(cases.map((c) => c.expected));
   });
 });

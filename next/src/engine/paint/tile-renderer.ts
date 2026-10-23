@@ -14,6 +14,7 @@ import type { PaintContext } from "./paint-context.ts";
 import type { RenderParameters } from "./render-job.ts";
 import { RenderRequest, type PaintableScene, type RenderResultCallback } from "./render-request.ts";
 import { RenderScheduler } from "./render-scheduler.ts";
+import { isCanvasError } from "./recorder-state-context.ts";
 import { RendererConfig } from "./renderer-config.ts";
 import { TileCache } from "./tile-cache.ts";
 
@@ -42,6 +43,9 @@ type GridVisitor = (canvas: Canvas2DPaintCanvas, x: number, y: number) => boolea
 
 export class TileRenderer extends GObject implements Destroyable {
   static {
+    // The old class was an anonymous module export: this name is new and the
+    // type id comes from the fresh counter, not from core/type-ids.ts.
+    // Nothing serializes it.
     registerClass(this, "GTileRenderer");
   }
 
@@ -299,6 +303,11 @@ export class TileRenderer extends GObject implements Destroyable {
           gimmick = this._paintCanvasCache.getGimmick(areas, origin, scale);
           if (gimmick) toPaint = null;
         }
+        // The old code took the time after recording, so it covered the
+        // replay, where the drawing happened. Painting draws now, so the
+        // clock starts before it.
+        const paintStart = Date.now();
+        let canvasFailure: { error: unknown } | null = null;
         if (toPaint) {
           dirty = toPaint;
           if (!dirty.getDirtyRectangles()) console.warn("EMPTY DIRTY RECTS");
@@ -315,14 +324,24 @@ export class TileRenderer extends GObject implements Destroyable {
           const toScene = new Transform().multiplied(viewTransform);
           dirty.transform(toScene);
           paintContext.dirtyMatcher = dirty;
-          scene.paint(paintContext, screen);
+          try {
+            scene.paint(paintContext, screen);
+          } catch (error) {
+            // Errors of the painting code left the old paint call at once,
+            // without finishing (QUESTIONS.md "A painting error in a tile
+            // leaves the render phase on"); canvas errors only came up in the
+            // replay below.
+            if (!isCanvasError(error)) throw error;
+            canvasFailure = { error };
+          }
           canvas.finish();
           RenderScheduler.finish();
         }
         try {
           if (RendererConfig.DEBUG_GRID_PAINT_DELAY > 0) {
             paintStarts[index] =
-              !!toPaint && Date.now() + index * RendererConfig.DEBUG_GRID_PAINT_DELAY;
+              !!toPaint && paintStart + index * RendererConfig.DEBUG_GRID_PAINT_DELAY;
+            if (canvasFailure) throw canvasFailure.error;
             const tileIndex = index;
             RenderScheduler.render(
               canvas.getRendererContext(),
@@ -337,7 +356,8 @@ export class TileRenderer extends GObject implements Destroyable {
               },
             );
           } else {
-            paintStarts[index] = !!toPaint && Date.now();
+            paintStarts[index] = !!toPaint && paintStart;
+            if (canvasFailure) throw canvasFailure.error;
             if (gimmick) onRendered(gimmick._canvasContext.canvas, true, false);
             else RenderScheduler.render(canvas.getRendererContext(), 0, onRendered);
           }
@@ -417,7 +437,10 @@ export class TileRenderer extends GObject implements Destroyable {
       const tileRect = new Rect(x, y, canvas.getWidth(), canvas.getHeight());
       const part = target.intersected(tileRect);
       const context = canvas.getRendererContext();
-      const real = context ? context.real : null;
+      // Before its first render the old recorder had no real context: the
+      // clear went into the recording (run at the next replay) and nothing
+      // was copied.
+      const real = context && context.hasRealContext ? context.real : null;
       if (real) real.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
       else canvas.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
       if (!part.isEmpty() && real) {

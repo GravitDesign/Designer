@@ -20,6 +20,25 @@
 // - When the replay ran with the noWebGL (or quickRender) render parameter
 //   it left out draws of the shared WebGL canvas (or of sub-canvases), and
 //   it never drew a sub-canvas of zero size.
+// - The canvas only saw the calls at replay, so an error the canvas throws
+//   (IndexSizeError from arc with a negative radius, InvalidStateError from
+//   createPattern of an empty canvas, a bad addColorStop color) surfaced
+//   there and not in the paint code. Such errors are marked here (see
+//   isCanvasError) so the tile renderer and tryRunRendering can handle them
+//   where the old replay did.
+//
+// Known differences that no caller reaches:
+// - measureText: the recorder measured on the real context, which had not
+//   seen the recorded font yet (it measured with the font the last replay
+//   left, "10px sans-serif" on a fresh canvas). The wrapper measures with
+//   the font just set. Every old measureText caller (guides, rulers, labels,
+//   text measuring) paints into a plain canvas outside a render phase, so
+//   none of them measured on a recorder.
+// - Synchronous pixel reads: the recorder's getImageData returned a lazy
+//   placeholder whose `.data` had no length, so GPaintCanvas.hitTest found
+//   nothing and Bitmap.trim and getPixelValue read nothing on a recorded
+//   canvas. The wrapper returns the real pixels. No caller runs these on a
+//   recorded canvas.
 import type { Context2D } from "./context-2d.ts";
 
 /** The properties the recorder kept copies of, in its order. */
@@ -117,6 +136,38 @@ export interface ReplayPolicy {
 
 let nextContextId = 1;
 
+/** Errors a wrapped context's canvas threw, see isCanvasError. */
+const canvasErrors = new WeakSet<object>();
+
+/**
+ * Whether `error` came from the canvas of a wrapped context. The recorder
+ * only met these when it replayed, after painting and RenderScheduler.finish()
+ * were done, inside the try of the tile renderer; errors of the painting code
+ * itself left the paint call right away. Callers that emulate the replay
+ * catch only these.
+ */
+export function isCanvasError(error: unknown): boolean {
+  return !!error && typeof error == "object" && canvasErrors.has(error);
+}
+
+function canvasError(error: unknown): unknown {
+  if (error && typeof error == "object") canvasErrors.add(error);
+  return error;
+}
+
+/** The recorder's gradients recorded addColorStop too, so a bad color only threw at replay. */
+function guardGradient(gradient: CanvasGradient): CanvasGradient {
+  const addColorStop = gradient.addColorStop;
+  gradient.addColorStop = (offset: number, color: string) => {
+    try {
+      addColorStop.call(gradient, offset, color);
+    } catch (error) {
+      throw canvasError(error);
+    }
+  };
+  return gradient;
+}
+
 export class RecorderStateContext implements Context2D {
   readonly canvas: HTMLCanvasElement;
   readonly real: CanvasRenderingContext2D;
@@ -129,6 +180,12 @@ export class RecorderStateContext implements Context2D {
   skipped = false;
   restoreCount = 0;
   maxRestoreCount = 0;
+  /**
+   * Whether the old recorder would have had its real context by now: made
+   * at its first replay (RenderScheduler.render) or when measureText asked
+   * for it. The tile renderer's moveContent only copied pixels then.
+   */
+  hasRealContext = false;
 
   private readonly _values: Record<SyncedProperty, unknown> = { ...DEFAULTS };
   private _savedValues: unknown[] | null = null;
@@ -283,7 +340,11 @@ export class RecorderStateContext implements Context2D {
   // -- State.
 
   save(): void {
-    this.real.save();
+    try {
+      this.real.save();
+    } catch (error) {
+      throw canvasError(error);
+    }
     // One level only, like the old recorder.
     this._savedValues = SYNCED_PROPERTIES.map((name) => this._values[name]);
     this.restoreCount++;
@@ -291,7 +352,11 @@ export class RecorderStateContext implements Context2D {
   }
 
   restore(): void {
-    this.real.restore();
+    try {
+      this.real.restore();
+    } catch (error) {
+      throw canvasError(error);
+    }
     const saved = this._savedValues;
     if (saved) {
       SYNCED_PROPERTIES.forEach((name, i) => {
@@ -311,7 +376,11 @@ export class RecorderStateContext implements Context2D {
   }
 
   setLineDash(segments: number[]): void {
-    this.real.setLineDash(segments);
+    try {
+      this.real.setLineDash(segments);
+    } catch (error) {
+      throw canvasError(error);
+    }
     this._lineDash = segments;
   }
 
@@ -319,7 +388,11 @@ export class RecorderStateContext implements Context2D {
 
   beginPath(): void {
     this._pathStart = null;
-    this.real.beginPath();
+    try {
+      this.real.beginPath();
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   moveTo(x: number, y: number): void {
@@ -328,11 +401,19 @@ export class RecorderStateContext implements Context2D {
       this._pathStart[0] = x;
       this._pathStart[1] = y;
     }
-    this.real.moveTo(x, y);
+    try {
+      this.real.moveTo(x, y);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   lineTo(x: number, y: number): void {
-    this.real.lineTo(x, y);
+    try {
+      this.real.lineTo(x, y);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   closePath(asLine?: boolean): void {
@@ -340,13 +421,21 @@ export class RecorderStateContext implements Context2D {
       if (this._pathStart) this.lineTo(this._pathStart[0] as number, this._pathStart[1] as number);
       else this.lineTo(0, 0);
     } else {
-      this.real.closePath();
+      try {
+        this.real.closePath();
+      } catch (error) {
+        throw canvasError(error);
+      }
     }
     this._pathStart = null;
   }
 
   quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): void {
-    this.real.quadraticCurveTo(cpx, cpy, x, y);
+    try {
+      this.real.quadraticCurveTo(cpx, cpy, x, y);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   bezierCurveTo(
@@ -357,7 +446,11 @@ export class RecorderStateContext implements Context2D {
     x: number,
     y: number,
   ): void {
-    this.real.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+    try {
+      this.real.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   arc(
@@ -369,47 +462,84 @@ export class RecorderStateContext implements Context2D {
     counterclockwise?: boolean,
   ): void {
     // The recorder stored the direction as a byte, so it always passed a boolean.
-    this.real.arc(x, y, radius, startAngle, endAngle, !!counterclockwise);
+    try {
+      this.real.arc(x, y, radius, startAngle, endAngle, !!counterclockwise);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   clip(fillRule?: CanvasFillRule): void {
-    if (void 0 !== fillRule) this.real.clip(fillRule);
-    else this.real.clip();
+    try {
+      if (void 0 !== fillRule) this.real.clip(fillRule);
+      else this.real.clip();
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   fill(fillRule?: CanvasFillRule): void {
     this._pathStart = null;
-    this.real.fill(fillRule);
+    try {
+      this.real.fill(fillRule);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   stroke(): void {
     this._pathStart = null;
-    this.real.stroke();
+    try {
+      this.real.stroke();
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   // -- Drawing.
 
   fillRect(x: number, y: number, w: number, h: number): void {
-    this.real.fillRect(x, y, w, h);
+    try {
+      this.real.fillRect(x, y, w, h);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   strokeRect(x: number, y: number, w: number, h: number): void {
-    this.real.strokeRect(x, y, w, h);
+    try {
+      this.real.strokeRect(x, y, w, h);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   clearRect(x: number, y: number, w: number, h: number): void {
-    this.real.clearRect(x, y, w, h);
+    try {
+      this.real.clearRect(x, y, w, h);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   fillText(text: string, x: number, y: number): void {
-    this.real.fillText(text, x, y);
+    try {
+      this.real.fillText(text, x, y);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   strokeText(text: string, x: number, y: number): void {
-    this.real.strokeText(text, x, y);
+    try {
+      this.real.strokeText(text, x, y);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   measureText(text: string): TextMetrics {
+    this.hasRealContext = true;
     return this.real.measureText(text);
   }
 
@@ -421,11 +551,15 @@ export class RecorderStateContext implements Context2D {
     if (void 0 !== args[4]) {
       values.push(args[4], args[5] as number, args[6] as number, args[7] as number);
     }
-    (this.real.drawImage as (image: CanvasImageSource, ...rest: number[]) => void).call(
-      this.real,
-      image,
-      ...values,
-    );
+    try {
+      (this.real.drawImage as (image: CanvasImageSource, ...rest: number[]) => void).call(
+        this.real,
+        image,
+        ...values,
+      );
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   private _skipsDraw(image: CanvasImageSource): boolean {
@@ -450,15 +584,27 @@ export class RecorderStateContext implements Context2D {
   }
 
   putImageData(data: ImageData, dx: number, dy: number): void {
-    this.real.putImageData(data, dx, dy);
+    try {
+      this.real.putImageData(data, dx, dy);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   createPattern(image: CanvasImageSource, repetition: string | null): CanvasPattern | null {
-    return this.real.createPattern(image, repetition);
+    try {
+      return this.real.createPattern(image, repetition);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   createLinearGradient(x0: number, y0: number, x1: number, y1: number): CanvasGradient {
-    return this.real.createLinearGradient(x0, y0, x1, y1);
+    try {
+      return guardGradient(this.real.createLinearGradient(x0, y0, x1, y1));
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   createRadialGradient(
@@ -469,28 +615,52 @@ export class RecorderStateContext implements Context2D {
     y1: number,
     r1: number,
   ): CanvasGradient {
-    return this.real.createRadialGradient(x0, y0, r0, x1, y1, r1);
+    try {
+      return guardGradient(this.real.createRadialGradient(x0, y0, r0, x1, y1, r1));
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   // -- Transforms.
 
   setTransform(a: number, b: number, c: number, d: number, e: number, f: number): void {
-    this.real.setTransform(a, b, c, d, e, f);
+    try {
+      this.real.setTransform(a, b, c, d, e, f);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   transform(a: number, b: number, c: number, d: number, e: number, f: number): void {
-    this.real.transform(a, b, c, d, e, f);
+    try {
+      this.real.transform(a, b, c, d, e, f);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   translate(x: number, y: number): void {
-    this.real.translate(x, y);
+    try {
+      this.real.translate(x, y);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   scale(x: number, y: number): void {
-    this.real.scale(x, y);
+    try {
+      this.real.scale(x, y);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 
   rotate(angle: number): void {
-    this.real.rotate(angle);
+    try {
+      this.real.rotate(angle);
+    } catch (error) {
+      throw canvasError(error);
+    }
   }
 }

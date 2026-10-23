@@ -345,9 +345,12 @@ export class VertexFitter {
       alphaRight = det0 / det;
     }
     if (alphaLeft < 1e-6 || alphaRight < 1e-6) {
-      // Degenerate fit: put the control points at a third of the chord.
-      // GMath.ptDist is called with two points here, as in the old code,
-      // which gives NaN, so the control points come out NaN.
+      // Degenerate fit: the old code meant to put the control points at a
+      // third of the chord, but it calls GMath.ptDist with two points
+      // instead of four numbers. ptSqrDist returns 0 when an argument is
+      // missing, so `third` is 0 and the control points sit on the end
+      // points. Kept; see QUESTIONS.md "GVertexFitter degenerate fit puts
+      // the control points on the end points".
       const third = (GMath.ptDist as unknown as (a: Point, b: Point) => number)(end, start) / 3;
       bezier[0] = start;
       bezier[3] = end;

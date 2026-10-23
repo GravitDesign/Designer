@@ -52,7 +52,7 @@ chunk.vendor.js	103	36508		port	next/src/engine/paint/render-scheduler.ts	engine
 chunk.vendor.js	104	2947	GItem	port	next/src/engine/scene/item.ts	engine-scene-node	ENG-NODE-019,ENG-BORDER-006
 chunk.vendor.js	105	237		port	next/src/engine/text/opentype/check.ts	engine-opentype-fork	
 chunk.vendor.js	108	5411	GFont	port	next/src/engine/text/fonts/font.ts	engine-fonts	ENG-TEXT-007,ENG-TEXT-017,ENG-FONT-001
-chunk.vendor.js	111	23268	GRendererCtx	drop:GRendererCtx command recorder; the port issues the same Canvas 2D calls directly (confirm with corpus render scenarios)		engine-paint	EDT-RENDER-056,EDT-RENDER-057,EDT-RENDER-058
+chunk.vendor.js	111	23268	GRendererCtx	drop:GRendererCtx command recorder; the port issues the same Canvas 2D calls directly (confirm with corpus render scenarios); what the recorder changed on the way (property copies, one-level save, closePath as lineTo, skipped draws, canvas errors surfacing at replay) is emulated in next/src/engine/paint/recorder-state-context.ts		engine-paint	EDT-RENDER-056,EDT-RENDER-057,EDT-RENDER-058
 chunk.vendor.js	112	208		port	next/src/engine/paint/element-data.ts	engine-paint	EDT-PAINT-052
 chunk.vendor.js	113	19285	GCompoundPath	port	next/src/engine/scene/compound-path.ts	engine-shapes-path	ENG-NODE-026
 chunk.vendor.js	115	7543		port	next/src/engine/text/opentype/table.ts	engine-opentype-fork	
@@ -452,7 +452,7 @@ chunk.vendor.js	893	8857	GRulerWidget	port	next/src/editor/view/ruler-widget.ts	
 chunk.vendor.js	894	1897		port	next/src/engine/serialize/deserialize-async.ts	engine-scene-node	FMT-GVD-006
 chunk.vendor.js	895	3312		port	next/src/engine/paint/png-chunks.ts	engine-paint	FMT-LIB-010
 chunk.vendor.js	896	630		port	next/src/engine/paint/png-dpi.ts	engine-paint	
-chunk.vendor.js	897	31790		drop:Canvas 2D half of the command recorder (see engine module 111)		engine-paint	EDT-RENDER-059
+chunk.vendor.js	897	31790		drop:Canvas 2D half of the command recorder (see engine module 111; emulated in next/src/engine/paint/recorder-state-context.ts)		engine-paint	EDT-RENDER-059
 chunk.vendor.js	898	3638		port	next/src/engine/paint/render-job.ts	engine-paint	EDT-RENDER-055
 chunk.vendor.js	899	50132		drop:WebGL half of the command recorder (see engine module 111)		engine-paint	EDT-RENDER-060
 chunk.vendor.js	900	6690		port	next/src/engine/style/paint-layer.ts	engine-style	ENG-STYLE-004,ENG-FILL-002,ENG-BLEND-005

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Point } from "../math/point.ts";
 import { VertexFitter, type CubicBezier } from "./vertex-fitter.ts";
+import oldFits from "./test-data/old-vertex-fitter.json";
 
 const P = (x: number, y: number) => new Point(x, y);
 const xy = (curves: CubicBezier[] | null) =>
@@ -118,4 +119,51 @@ describe("VertexFitter", () => {
     expect(f._computeMaxError(off, 0, 2, loop, [0, 0.5, 1], split)).toBe(15 / f.tolerance);
     expect(split).toEqual([1]);
   });
+
+  it("collapses the control points onto the end points in a degenerate fit, as the old code did", () => {
+    // Recorded from old module 380 (GVertexFitter._generateBezier).
+    const f = new VertexFitter();
+    const bezier = f._generateBezier(
+      [P(0, 0), P(5, 5), P(10, 0)],
+      0,
+      2,
+      [0, 0.5, 1],
+      P(0, -1),
+      P(0, -1),
+    );
+    expect(bezier.map((p) => [p.getX(), p.getY()])).toEqual([
+      [0, 0],
+      [0, 0],
+      [10, 0],
+      [10, 0],
+    ]);
+  });
+});
+
+// Fits recorded from the old GVertexFitter (module 380, loaded in Node).
+// The first two point sets reach the hook split and the refit with a zeroed
+// end tangent; the seeded sets were picked because they hit a hook (negative
+// error from _computeMaxError) at least once.
+describe("VertexFitter against old outputs", () => {
+  interface FitCase {
+    name: string;
+    points: [number, number][];
+    error: number;
+    maxSegments: number;
+    left?: [number, number];
+    right?: [number, number];
+    expected: number[][][] | null;
+  }
+  for (const c of oldFits as FitCase[]) {
+    it(c.name, () => {
+      const f = new VertexFitter(c.error);
+      const result = f.fitCurve(
+        c.points.map(([x, y]) => P(x, y)),
+        c.maxSegments,
+        c.left && P(c.left[0], c.left[1]),
+        c.right && P(c.right[0], c.right[1]),
+      );
+      expect(xy(result)).toEqual(c.expected);
+    });
+  }
 });

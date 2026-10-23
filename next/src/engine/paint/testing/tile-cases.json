@@ -1,0 +1,136 @@
+{
+  "gimmick": {
+    "value": {
+      "atTwo": {
+        "size": [100, 80],
+        "log": [
+          "<resize 100x150>",
+          "<resize 100x80>",
+          "save()",
+          "setTransform(1,0,0,1,0,0)",
+          "clearRect(0,0,100,80)",
+          "globalAlpha=1",
+          "imageSmoothingEnabled=true",
+          "drawImage(canvas@1,0,0,100,80)",
+          "imageSmoothingEnabled=true"
+        ]
+      },
+      "shifted": {
+        "size": [60, 50],
+        "log": [
+          "<resize 60x150>",
+          "<resize 60x50>",
+          "save()",
+          "setTransform(1,0,0,1,0,0)",
+          "clearRect(0,0,60,50)",
+          "globalAlpha=1",
+          "imageSmoothingEnabled=true",
+          "drawImage(canvas@2,-0.5,-0.5,16,13,-2,-2,64,52)",
+          "imageSmoothingEnabled=true"
+        ]
+      },
+      "belowAll": null,
+      "twoAreas": null,
+      "notAtZero": null,
+      "outside": null,
+      "none": null
+    }
+  },
+  "evictsOldestPerZoom": {
+    "value": {
+      "afterFirst": {
+        "items": [
+          [10, 10],
+          [20, 0],
+          [20, 10]
+        ],
+        "rects": [
+          [20, 0, 5, 10],
+          [10, 10, 15, 5]
+        ]
+      },
+      "items": [
+        [30, 0],
+        [0, 30],
+        [10, 30]
+      ],
+      "rects": [
+        [30, 0, 5, 5],
+        [0, 30, 12, 5]
+      ]
+    }
+  },
+  "cachedRenderShifted": {
+    "value": {
+      "rest": [[0, 0, 50, 5]],
+      "log": [
+        "clearRect(0,5,50,45)",
+        "globalAlpha=1",
+        "imageSmoothingEnabled=true",
+        "drawImage(canvas@1,35,20,50,45,0,5,50,45)",
+        "imageSmoothingEnabled=true"
+      ]
+    }
+  },
+  "moveContent": {
+    "value": {
+      "fresh": [],
+      "tile": ["clearRect(0,0,60,40)", "drawImage(canvas@1,10,0,35,30,0,8,35,30)"],
+      "helper": [
+        "clearRect(0,0,60,40)",
+        "globalAlpha=1",
+        "imageSmoothingEnabled=true",
+        "drawImage(canvas@2,5,0,40,30,5,0,40,30)",
+        "imageSmoothingEnabled=true"
+      ]
+    }
+  },
+  "drawTo": {
+    "value": {
+      "all": [
+        "globalAlpha=1",
+        "imageSmoothingEnabled=true",
+        "drawImage(canvas@1,0,0)",
+        "imageSmoothingEnabled=true"
+      ],
+      "dirty": [
+        "globalAlpha=1",
+        "imageSmoothingEnabled=true",
+        "drawImage(canvas@1,5,2,11,10,5,2,11,10)",
+        "imageSmoothingEnabled=true",
+        "globalAlpha=1",
+        "imageSmoothingEnabled=true",
+        "drawImage(canvas@1,50,30,10,10,50,30,10,10)",
+        "imageSmoothingEnabled=true"
+      ],
+      "dirtyOwnTile": [
+        "globalAlpha=1",
+        "imageSmoothingEnabled=true",
+        "drawImage(canvas@1,5,2,11,10,5,2,11,10)",
+        "imageSmoothingEnabled=true",
+        "globalAlpha=1",
+        "imageSmoothingEnabled=true",
+        "drawImage(canvas@1,50,30,10,10,50,30,10,10)",
+        "imageSmoothingEnabled=true"
+      ],
+      "dirtyGimmick": [
+        "globalAlpha=1",
+        "imageSmoothingEnabled=true",
+        "drawImage(canvas@2,5,2,11,10,5,2,11,10)",
+        "imageSmoothingEnabled=true"
+      ],
+      "ownTile": [
+        "globalAlpha=1",
+        "imageSmoothingEnabled=true",
+        "drawImage(canvas@1,0,0)",
+        "imageSmoothingEnabled=true"
+      ],
+      "gimmick": [
+        "globalAlpha=1",
+        "imageSmoothingEnabled=true",
+        "drawImage(canvas@2,0,0)",
+        "imageSmoothingEnabled=true"
+      ]
+    }
+  }
+}

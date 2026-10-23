@@ -130,6 +130,12 @@ const DEFAULT_OPTIONS: [keyof TracerOptions, number | boolean][] = [
  * Traces a bitmap into vector paths (Image > Vectorize): quantizes the
  * colors, splits the image into one layer per color, scans the edges of
  * each layer into paths and fits lines and quadratic splines to them.
+ *
+ * As in the old code, `colorquantcycles: 0` (the index array stays at -1)
+ * and `numberofcolors: 0` (empty palette) throw TypeErrors; Vectorize
+ * passes fixed options, so a caller with user-set options has to
+ * validate them (see QUESTIONS.md "Image tracer throws on zero colors or
+ * zero quantization cycles").
  */
 export class ImageTracer extends GObject {
   static {

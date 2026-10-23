@@ -1,5 +1,9 @@
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { RecorderStateContext, type ReplayPolicy } from "./recorder-state-context.ts";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import {
+  RecorderStateContext,
+  isCanvasError,
+  type ReplayPolicy,
+} from "./recorder-state-context.ts";
 import { FakeCanvas, installFakeCanvas, type FakeContext2D } from "./testing/fake-canvas.ts";
 
 let uninstall: () => void;
@@ -139,5 +143,38 @@ describe("RecorderStateContext", () => {
     const { context } = make();
     expect(context.getImageData(0, 0, 0, 5)).toBeNull();
     expect(context.getImageData(0, 0, 1, 1).data).toHaveLength(4);
+  });
+
+  it("marks errors the canvas throws, which the recorder only met at replay", () => {
+    const { context, real } = make();
+    const indexSize = new DOMException("The radius provided (-1) is negative.", "IndexSizeError");
+    vi.spyOn(real, "arc").mockImplementation(() => {
+      throw indexSize;
+    });
+    expect(() => context.arc(0, 0, -1, 0, 1)).toThrow(indexSize);
+    expect(isCanvasError(indexSize)).toBe(true);
+
+    // The recorder recorded addColorStop as well.
+    const badColor = new DOMException("bad color", "SyntaxError");
+    vi.spyOn(real, "createLinearGradient").mockImplementation(() => ({
+      stops: [],
+      addColorStop: () => {
+        throw badColor;
+      },
+    }));
+    const gradient = context.createLinearGradient(0, 0, 1, 1);
+    expect(() => gradient.addColorStop(0, "nonsense")).toThrow(badColor);
+    expect(isCanvasError(badColor)).toBe(true);
+
+    // getImageData ran on the real canvas at once in the old code too, and
+    // errors of the calling code are not marked.
+    const readError = new DOMException("tainted", "SecurityError");
+    vi.spyOn(real, "getImageData").mockImplementation(() => {
+      throw readError;
+    });
+    expect(() => context.getImageData(0, 0, 1, 1)).toThrow(readError);
+    expect(isCanvasError(readError)).toBe(false);
+    expect(isCanvasError(new TypeError("x"))).toBe(false);
+    expect(isCanvasError(null)).toBe(false);
   });
 });

@@ -203,7 +203,9 @@ export class QuadTree<T extends QuadTreeBounds = QuadTreeElement> {
    * Meant to empty the tree, but the old code read `nodes.length` before
    * checking `nodes`, so it throws on every leaf and therefore on every
    * tree (after emptying the objects up to the first leaf). Nothing in
-   * the old app calls it; the port keeps the behaviour.
+   * the old app calls it; the port keeps the behaviour (QUESTIONS.md "Kept
+   * crashes in the vertex helpers (getPathLength, GVertexContainer.clone,
+   * QuadTree.clear)").
    */
   clear(): void {
     this.objects = [];

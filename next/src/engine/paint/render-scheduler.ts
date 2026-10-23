@@ -10,7 +10,11 @@
 //
 // Not ported: worker rendering (WORKER_RENDERING_ENABLED is false) and the
 // debug recorder with its code dump (GRendererCtxDbg, ENABLE_DEBUG false).
-import { RecorderStateContext, type ReplayPolicy } from "./recorder-state-context.ts";
+import {
+  RecorderStateContext,
+  isCanvasError,
+  type ReplayPolicy,
+} from "./recorder-state-context.ts";
 import { RenderJob, type RenderParameters } from "./render-job.ts";
 import { RendererConfig } from "./renderer-config.ts";
 import type { Context2D } from "./context-2d.ts";
@@ -109,9 +113,22 @@ export class RenderScheduler {
     paintingForTryRun = true;
     try {
       renderFunc();
-    } finally {
+    } catch (error) {
       paintingForTryRun = outer;
+      // Errors of the painting code left the old call here, with the render
+      // phase still on. A canvas error only came up in the replay, after
+      // finish(), with the parameters cleared and the replay's job left
+      // registered, so later tryRunRendering calls keep waiting (QUESTIONS.md
+      // "A canvas error in a queued tryRunRendering blocks the later ones").
+      if (isCanvasError(error)) {
+        this.finish();
+        this._renderParameters = {};
+        const context = paintCanvas.getRendererContext();
+        if (context) this._renderJobs[context.contextId] = new RenderJob(context, 0, {});
+      }
+      throw error;
     }
+    paintingForTryRun = outer;
     this.finish();
     const saved = this._renderParameters;
     this._renderParameters = {};
@@ -234,6 +251,7 @@ export class RenderScheduler {
       return canvas;
     }
     depth = depth || 0;
+    context.hasRealContext = true;
     const job = new RenderJob(context, RendererConfig.MAX_TIME_PER_JOB, this._renderParameters);
     job.skipped = context.skipped;
     context.skipped = false;

@@ -590,14 +590,15 @@ export class GLContext {
           args[8] as number | undefined,
         );
       }
-      return GLTexture.fromCanvas(
-        first,
-        args[1] as number | undefined,
-        args[2] as number | undefined,
-      );
     }
+    // The old code read the width and height only when three or more
+    // arguments came, so createTexture(canvas, w) uploads the whole canvas.
+    const sized = args.length >= 3;
+    const width = (sized ? args[1] : undefined) as number | undefined;
+    const height = (sized ? args[2] : undefined) as number | undefined;
+    if (first instanceof HTMLCanvasElement) return GLTexture.fromCanvas(first, width, height);
     if ("number" != typeof first && "string" != typeof first) {
-      return GLTexture.fromBytes(args[1] as number, args[2] as number, first as ArrayLike<number>);
+      return GLTexture.fromBytes(width as number, height as number, first as ArrayLike<number>);
     }
     return new GLTexture(first as number, args[1] as number, args[2] as number, textureFormat);
   }

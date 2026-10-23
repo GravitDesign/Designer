@@ -1104,7 +1104,8 @@ export class VertexOffsetter extends VertexSource {
           // The old code looked for an end segment among the source hits
           // here too, but looped up to `sourceHits.count`, which an array
           // doesn't have; so an inset part that touches the source is
-          // always dropped.
+          // always dropped. See QUESTIONS.md "Offsetter: inset-only parts of
+          // an open path that touch the source are dropped".
         }
       } else insetParts[0] = trimmedInset;
     }
@@ -2161,6 +2162,8 @@ export class VertexOffsetter extends VertexSource {
     // Function-scoped in the old code and read across iterations: an arc
     // cut can use the line cut point (cutX, cutY) or the arc bulge
     // (firstBulge) of an earlier hit, undefined before there was one.
+    // See QUESTIONS.md "Offsetter: the rest of a cut arc starts at an unset
+    // cut point".
     let cutX: number | undefined;
     let cutY: number | undefined;
     let firstBulge: number | undefined;
@@ -2254,6 +2257,10 @@ export class VertexOffsetter extends VertexSource {
         }
       } else {
         const params: (number | null)[] = [null, null];
+        // current.next is null for the last segment of an open path offset
+        // by 0 on both sides, which throws here as it did in the old code.
+        // See QUESTIONS.md "Offsetter: offset 0 on an open path with both
+        // sides throws".
         const dx = current.next.point.getX() - segment.point.getX();
         const dy = current.next.point.getY() - segment.point.getY();
         GMath.circleLineIntersection(
@@ -2427,7 +2434,8 @@ export class VertexOffsetter extends VertexSource {
       params as number[],
     );
     if (null != params[0] && null == params[1]) {
-      // The line touches the circle. (The old code used dx for y too.)
+      // The line touches the circle. (The old code used dx for y too, see
+      // QUESTIONS.md "Offsetter: the tangent point of a line uses dx for y".)
       const touchX = params[0] * dx + p1.getX();
       const touchY = params[0] * dx + p1.getY();
       const touchBulge = this._calculateBulge(

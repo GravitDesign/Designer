@@ -30,6 +30,9 @@ export class TileCacheEntry {
 
 export class TileCache extends GObject implements Destroyable {
   static {
+    // The old class was an anonymous module export: this name is new and the
+    // type id comes from the fresh counter, not from core/type-ids.ts.
+    // Nothing serializes it.
     registerClass(this, "GTileCache");
   }
 
