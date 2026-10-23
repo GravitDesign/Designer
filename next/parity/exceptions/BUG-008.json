@@ -1,6 +1,6 @@
 {
   "bug": "BUG-008",
-  "why": "EPS/PS files with JPEG (DCTDecode) images import with their images: the server makes the page cross-origin isolated and the worker/page JPEG handshake works. No recorded scenario changes. io-import-pdf-eps/eps/filter-dct-file-ps embeds bytes no browser decodes, so the new app reports error 02 with an empty group exactly like the recording; io-import-pdf-eps/eps/image-dct-eps and import-export/import/open/eps-image-dct.eps.state stop at ASCIIHexDecode, which the worker lacks, before the JPEG is reached. PDFs with JPEGs go through pdf.js and are not affected.",
-  "scenarios": [],
+  "why": "EPS/PS files with JPEG (DCTDecode) images import with their images: the server makes the page cross-origin isolated and the worker/page JPEG handshake works. io-import-pdf-eps/eps/image-dct-rgb-eps shows it: the old app reports the 'Parts of the EPS file aren't supported' message and leaves an 80 x 60 black image where the photo goes; the .fixed output has the decoded photo and no message, and the rest of the group (the image's transform and the red square) is the same. io-import-pdf-eps/eps/filter-dct-file-ps embeds bytes no browser decodes, so the new app reports error 02 with an empty group exactly like the recording; io-import-pdf-eps/eps/image-dct-eps and import-export/import/open/eps-image-dct.eps.state stop at ASCIIHexDecode, which the worker lacks, before the JPEG is reached. PDFs with JPEGs go through pdf.js and are not affected.",
+  "scenarios": ["io-import-pdf-eps/eps/image-dct-rgb-eps"],
   "pending": []
 }

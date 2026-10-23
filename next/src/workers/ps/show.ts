@@ -7,7 +7,7 @@
 // otherwise the text goes to the page as a "show" call that names the
 // font, so the page sets it as text.
 //
-// Kept (QUESTIONS.md):
+// Kept (QUESTIONS.md "PS worker: show operator quirks"):
 // - kshow and cshow ignore their procedure and behave like show, as do
 //   xshow/yshow/xyshow when the widths are a number string.
 // - ashow/awidthshow pop the string before checking the numbers, so a

@@ -1,6 +1,6 @@
 // Old: public/pscore.js, systemdict entries systemdict … product.
 //
-// Kept quirks (QUESTIONS.md):
+// Kept quirks (QUESTIONS.md "PS worker: dictionary operator quirks"):
 // - systemdict, statusdict and where wrap plain JS objects (and where even
 //   PSDict objects) in new global dict objects on every call.
 // - internaldict's error path names an undeclared `myname` and throws.

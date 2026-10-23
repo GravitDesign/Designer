@@ -75,8 +75,8 @@ export class SketchText extends SketchElement {
   /**
    * Family, weight and style from a PostScript-ish font name
    * ("OpenSans-Bold" -> "Open Sans", 700, normal). Any name that contains
-   * "regular" (or "oblique") counts as italic (QUESTIONS.md "Sketch text
-   * fonts").
+   * "regular" (or "oblique") counts as italic (QUESTIONS.md "Sketch font
+   * names with Regular import as italic").
    */
   static composeQuery(name: string): SketchFontQuery & { fontName: string } {
     const styleExpression = /normal|italic|oblique|regular/i;

@@ -6,7 +6,7 @@
 // and tensor patch meshes (6, 7) are rasterized into a small image in
 // device space ("imageData"). Everything else is error "01" and blue.
 //
-// Kept (QUESTIONS.md): the mesh parameters (BitsPerComponent,
+// Kept (QUESTIONS.md "PS worker: shading mesh parameters"): the mesh parameters (BitsPerComponent,
 // BitsPerCoordinate, BitsPerFlag, Decode, VerticesPerRow, Function) are
 // read from the dict passed in, which is the pattern dict, not its
 // shading, for PatternType 2; mesh data only reads from files (see

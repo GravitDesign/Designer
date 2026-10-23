@@ -1,0 +1,702 @@
+[
+  {
+    "name": "horizontal: a near text continues the line, its last character carries the gap",
+    "merges": [false, true],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "Hell",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          },
+          {
+            "text": "o",
+            "charSpacing": 3,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          },
+          {
+            "text": " World",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "horizontal: a one-character last word takes the gap itself",
+    "merges": [false, true],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "a",
+            "charSpacing": 2,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          },
+          {
+            "text": "b",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "horizontal: no gap, no spacing",
+    "merges": [false, true],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "ab",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          },
+          {
+            "text": "cd",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "horizontal: a gap above 10 points starts a new text",
+    "merges": [false, false],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "ab",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      },
+      {
+        "matrix": [1, 0, 0, 1, 31, 20],
+        "words": [
+          {
+            "text": "cd",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "horizontal: exactly 10 points still merges",
+    "merges": [false, true],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "a",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          },
+          {
+            "text": "b",
+            "charSpacing": 10,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          },
+          {
+            "text": "cd",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "horizontal: a trailing space uses the word spacing",
+    "merges": [false, true],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "ab",
+            "charSpacing": 1,
+            "wordSpacing": 2,
+            "lineSpacing": null,
+            "align": null
+          },
+          {
+            "text": " ",
+            "charSpacing": 3,
+            "wordSpacing": 2,
+            "lineSpacing": null,
+            "align": null
+          },
+          {
+            "text": "cd",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "colors: a gradient fill never merges",
+    "merges": [false, false],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "ab",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      },
+      {
+        "matrix": [1, 0, 0, 1, 22, 20],
+        "words": [
+          {
+            "text": "cd",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "colors: plain colors that differ still merge",
+    "merges": [false, true],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "a",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          },
+          {
+            "text": "b",
+            "charSpacing": 2,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          },
+          {
+            "text": "cd",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vertical: the next line of a paragraph gets a break line and line spacing",
+    "merges": [false, true],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "first line",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "\n",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "second line",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vertical: three lines",
+    "merges": [false, true, true],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "one",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "\n",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "two",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "\n",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "three",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vertical: a line further away than the ascent starts a new text",
+    "merges": [false, false],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "first",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      },
+      {
+        "matrix": [1, 0, 0, 1, 10, 50],
+        "words": [
+          {
+            "text": "far",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vertical: a line that is wider and starts more than 2 points off is not merged",
+    "merges": [false, false],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "short",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      },
+      {
+        "matrix": [1, 0, 0, 1, 15, 34],
+        "words": [
+          {
+            "text": "a longer line",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vertical: a wider line starting 2.5 points off is not merged",
+    "merges": [false, false],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "short",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      },
+      {
+        "matrix": [1, 0, 0, 1, 12.5, 34],
+        "words": [
+          {
+            "text": "a longer line",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vertical: a wider line starting within 2 points moves the origin left",
+    "merges": [false, true],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 9, 20],
+        "words": [
+          {
+            "text": " ",
+            "charSpacing": 0,
+            "wordSpacing": 1,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "short",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "\n",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "a longer line",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vertical: a line that doesn't overlap horizontally stays apart",
+    "merges": [false, false],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "left",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      },
+      {
+        "matrix": [1, 0, 0, 1, 100, 34],
+        "words": [
+          {
+            "text": "right",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "alignment: a centered line within 2 points is marked center",
+    "merges": [false, true],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "a wide first line",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "\n",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "mid",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": "center"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "alignment: a line starting right of the block gets an indent word",
+    "merges": [false, true],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "a wide first line",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "\n",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": " ",
+            "charSpacing": 0,
+            "wordSpacing": 15,
+            "lineSpacing": null,
+            "align": null
+          },
+          {
+            "text": "indented",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "alignment: a text that is not merged is aligned on its own",
+    "merges": [false, false],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "alone",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      },
+      {
+        "matrix": [1, 0, 0, 1, 300, 290],
+        "words": [
+          {
+            "text": "far",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vertical: a skewed last word stops the merge",
+    "merges": [false, false],
+    "texts": [
+      {
+        "matrix": [1, 0, 0.3, 1, 16, 20],
+        "words": [
+          {
+            "text": "skewed",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      },
+      {
+        "matrix": [1, 0, 0.3, 1, 20.2, 34],
+        "words": [
+          {
+            "text": "next",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "transforms: different scales never merge",
+    "merges": [false, false],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "ab",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      },
+      {
+        "matrix": [2, 0, 0, 2, 44, 40],
+        "words": [
+          {
+            "text": "cd",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "vertical: a page transform flipping y (as pdf.js's viewport does)",
+    "merges": [false, true],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, -1, 10, 60],
+        "words": [
+          {
+            "text": "top",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "\n",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "below",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "create: one text object with two lines makes two texts that merge vertically",
+    "merges": [false, true],
+    "texts": [
+      {
+        "matrix": [1, 0, 0, 1, 10, 20],
+        "words": [
+          {
+            "text": "row one",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "\n",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": "14",
+            "align": null
+          },
+          {
+            "text": "row two",
+            "charSpacing": 0,
+            "wordSpacing": 0,
+            "lineSpacing": null,
+            "align": null
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
+import cases from "./__fixtures__/text-merge-cases.json" with { type: "json" };
+import recorded from "./__fixtures__/text-merge-recorded.json" with { type: "json" };
 import { Point } from "../../../engine/math/point.ts";
 import { Transform } from "../../../engine/math/transform.ts";
-import { Line, TextMerger, type TextBlock, type Word } from "./text-merge.ts";
+import { Line, TextMerger, type MergedText, type TextBlock, type Word } from "./text-merge.ts";
 
 /** A word as the canvas bridge records it, for a character at (x, y) on an identity transform. */
 function word(text: string, x: number, y: number, width: number, extra: Partial<Word> = {}): Word {
@@ -77,4 +79,107 @@ describe("Line", () => {
     expect(line.isEmpty()).toBe(false);
     expect(new Line(word("  ", 0, 0, 1)).isEmpty()).toBe(true);
   });
+});
+
+interface WordSpec {
+  text: string;
+  x: number;
+  y: number;
+  width: number;
+  ascent?: number;
+  descent?: number;
+  fontSize?: number;
+  wordSpacing?: number;
+  charSpacing?: number;
+  transform?: number[];
+  color?: string;
+}
+
+const COLORS: Record<string, unknown> = {
+  black: { name: "black" },
+  red: { name: "red" },
+  gradient: { __pdfimportgradtype__: 1, createGPattern: () => null },
+};
+
+/**
+ * Runs one case the way the canvas bridge's endText does: each text object
+ * becomes blocks, each block a text, which merges into the previous text
+ * or is added. __fixtures__/text-merge-recorded.json holds the same steps
+ * and summary run on old module 1396 in the old app's page (a scratch
+ * Playwright script; it built the words with the old GTransform and GPoint
+ * exactly as below).
+ */
+function runCase(c: { name: string; texts: WordSpec[][] }): unknown {
+  const num = (v: number) => (Object.is(v, -0) ? 0 : v);
+  try {
+    const children: MergedText[] = [];
+    const merges: boolean[] = [];
+    for (const specs of c.texts) {
+      const words = specs.map((s): Word => {
+        const m = s.transform || [1, 0, 0, 1, 0, 0];
+        const transform = new Transform(...(m as [number, number, number, number, number, number]));
+        return {
+          text: s.text,
+          ascent: s.ascent ?? 10,
+          descent: s.descent ?? 2,
+          width: s.width,
+          fontSize: s.fontSize ?? 12,
+          fontSizeScale: 1,
+          wordSpacing: s.wordSpacing ?? 0,
+          charSpacing: s.charSpacing ?? 0,
+          x: s.x,
+          y: s.y,
+          transform,
+          startPoint: transform
+            .preMultiplied(new Transform().translated(s.x, s.y))
+            .getTranslation(),
+          endPoint: transform
+            .preMultiplied(new Transform().translated(s.x + s.width, s.y))
+            .getTranslation(),
+          fontColor: COLORS[s.color ?? "black"],
+        };
+      });
+      const merger = new TextMerger();
+      for (const block of merger.createTexts(words)) {
+        const text = block.toGText();
+        if (!text) continue;
+        const last = children[children.length - 1];
+        if (last && merger.mergeTexts(last, text)) {
+          merges.push(true);
+          continue;
+        }
+        merges.push(false);
+        children.push(text);
+      }
+    }
+    return {
+      name: c.name,
+      merges,
+      texts: children.map((t) => {
+        const transform = t.getTransform() as Transform | null;
+        return {
+          matrix: transform ? transform.getMatrix().map(num) : null,
+          words: t._$itext.getContent().map((w) => ({
+            text: w.text,
+            charSpacing: w.charSpacing,
+            wordSpacing: w.wordSpacing,
+            lineSpacing: w.lineSpacing ?? null,
+            align: w.align ?? null,
+          })),
+        };
+      }),
+    };
+  } catch (e) {
+    return { name: c.name, threw: String(e) };
+  }
+}
+
+describe("TextMerger.mergeTexts against the old app", () => {
+  const byName = new Map((recorded as { name: string }[]).map((r) => [r.name, r]));
+  for (const c of cases as { name: string; texts: WordSpec[][] }[]) {
+    it(c.name, () => {
+      expect(byName.has(c.name), "recorded").toBe(true);
+      expect(runCase(c)).toEqual(byName.get(c.name));
+    });
+  }
 });

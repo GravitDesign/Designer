@@ -1,7 +1,13 @@
 // Old: chunk.vendor.js module 1121 (GSketchImport).
 import { Locale } from "../../../engine/core/locale/locale.ts";
 import { LocaleKey } from "../../../engine/core/locale/locale-key.ts";
+import { renderPdfImage } from "../pdf/pdf-import.ts";
 import { SketchFile, type SketchImportResult, type SketchLoadOptions } from "./sketch-file.ts";
+import { SketchTexturePattern } from "./sketch-texture-pattern.ts";
+
+// The old image fill called pdf.js itself (module 1132), so every Sketch
+// import can render PDF image fills, whichever entry point loaded it.
+SketchTexturePattern.pdfRenderer = renderPdfImage;
 
 /**
  * What the callback receives: the result on success; on failure the zip

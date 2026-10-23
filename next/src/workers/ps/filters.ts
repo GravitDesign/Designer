@@ -9,7 +9,7 @@
 // There is no ASCIIHexDecode (or any encoding filter): `filter` raises
 // nodecoder for those.
 //
-// Kept (QUESTIONS.md):
+// Kept (QUESTIONS.md "PS worker: filter quirks"):
 // - SubFileDecode reads one more source byte on every call, even while
 //   bytes from an earlier partial EOD match are still queued.
 // - ASCII85Decode passes the `>` of `~>` through the tuple check too, and

@@ -64,7 +64,8 @@ export const SketchPathUtil = {
             anchors = path.getAnchorPoints();
             path.setSketchPath(true);
             // Only a path that starts with a straight point is blocked here;
-            // all are released below (QUESTIONS.md "Sketch path event blocks").
+            // all are released below (QUESTIONS.md "Sketch path event
+            // blocks are unbalanced").
             blockEvents(path);
             blockEvents(anchors);
           }

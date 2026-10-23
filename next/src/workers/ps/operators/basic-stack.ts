@@ -1,6 +1,6 @@
 // Old: public/pscore.js, systemdict entries dup … type.
 //
-// Kept quirks (QUESTIONS.md):
+// Kept quirks (QUESTIONS.md "PS worker: stack and misc operator quirks"):
 // - mark pushes a "[" mark.
 // - cleartomark without a mark empties the stack.
 // - dictstack makes the given array share the interpreter's dictionary

@@ -1,11 +1,14 @@
 # Regenerates the PDF fixtures of the io-import-pdf-eps scenarios.
-# Usage: python mkpdf.py   (writes next to this file; needs fontTools)
+# Usage: python mkpdf.py [name.pdf ...]   (writes next to this file; needs
+# fontTools). With names, only those files are written: fontTools stamps
+# the subset fonts with the current time, so regenerating changes them.
 #
 # Each file exercises a part of the PDF importer's canvas bridge: colors,
 # text and text merging, embedded fonts, patterns and shadings, images,
 # form XObjects, graphics state, annotations and page geometry.
 import io
 import os
+import sys
 import zlib
 
 from fontTools import subset
@@ -39,7 +42,12 @@ def stream(data, extra=b"", compress=True):
     return b"<< /Length %d %s>>\nstream\n" % (len(data), extra) + data + b"\nendstream"
 
 
+ONLY = set(sys.argv[1:])
+
+
 def write(name, objs):
+    if ONLY and name not in ONLY:
+        return
     with open(os.path.join(HERE, name), "wb") as f:
         f.write(pdf(objs))
 
@@ -394,3 +402,75 @@ write("cff-type0-fonts.pdf", page_doc(
     stream(type0, b"/Length1 %d " % len(type0)),
     stream(to_unicode),
 ])
+
+
+# 10) embedded fonts whose family is not in the Google font list but whose
+# full name is a listed family plus a weight name. The importer strips the
+# weight names in module 1204's order (ExtraLight, ExtraBold, SemiBold,
+# Thin, Light, Regular, Medium, Bold, Heavy), so "Open Sans ExtraBold"
+# becomes "open sans" and maps to Open Sans 800; stripping "bold" first
+# would leave "open sans extra". The same fonts are written for the
+# canvas bridge's unit test (src/io/import/pdf/__fixtures__).
+BRIDGE_FIXTURES = os.path.join(NEXT, "src", "io", "import", "pdf", "__fixtures__")
+
+
+def renamed_font(family, full_name, ps_name, text):
+    data, font = subset_font(os.path.join(ASSET_FONTS, "OpenSans-Regular.ttf"), text=text)
+    name = font["name"]
+    for record in list(name.names):
+        if record.nameID in (1, 2, 3, 4, 6, 16, 17):
+            name.removeNames(nameID=record.nameID)
+    for name_id, value in ((1, family), (2, "Regular"), (3, ps_name), (4, full_name), (6, ps_name)):
+        name.setName(value, name_id, 3, 1, 0x409)
+        name.setName(value, name_id, 1, 0, 0)
+    font.recalcTimestamp = False
+    buf = io.BytesIO()
+    font.save(buf)
+    data = buf.getvalue()
+    return data, TTFont(io.BytesIO(data))
+
+
+weight_fonts = [
+    (b"ParityXYZ-ExtraBold", "Parity XYZ", "Open Sans ExtraBold", "Extra bold"),
+    (b"ParityXYZ-Bold", "Parity XYZ Two", "Open Sans Bold", "Plain bold"),
+    (b"ParityXYZ-Thin", "Parity XYZ Three", "Open Sans Thin", "Thin text"),
+]
+c = []
+resources = []
+objs = []
+for i, (base, family, full_name, text) in enumerate(weight_fonts):
+    data, font = renamed_font(family, full_name, base.decode(), text)
+    if ONLY and "font-weight-names.pdf" not in ONLY:
+        continue
+    os.makedirs(BRIDGE_FIXTURES, exist_ok=True)
+    with open(os.path.join(BRIDGE_FIXTURES, base.decode() + ".ttf"), "wb") as f:
+        f.write(data)
+    c.append(b"BT /F%d 18 Tf 20 %d Td (%s) Tj ET" % (i + 1, 120 - 40 * i, text.encode()))
+    resources.append(b"/F%d %d 0 R" % (i + 1, 5 + 3 * i))
+    objs += truetype(5 + 3 * i, base, data, font, 32, 126)
+write("font-weight-names.pdf", page_doc(
+    [(b"0 0 300 160", b"\n".join(c), b"<< /Font << %s >> >>" % b" ".join(resources), b"")],
+)[:4] + objs)
+
+
+# 11) encrypted PDFs (needs pypdf): one that needs a user password, which
+# pdf.js rejects with a PasswordException (the import never calls back),
+# and one with only an owner password, which pdf.js decrypts on its own.
+def encrypted(name, user_password, owner_password, algorithm):
+    if ONLY and name not in ONLY:
+        return
+    from pypdf import PdfReader, PdfWriter
+    plain = pdf(page_doc([(
+        b"0 0 200 100",
+        b"0.2 0.4 0.6 rg 10 10 80 40 re f BT /F1 14 Tf 10 70 Td (Secret text) Tj ET",
+        b"<< /Font << /F1 5 0 R >> >>",
+        b"",
+    )], [b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>"]))
+    writer = PdfWriter(clone_from=PdfReader(io.BytesIO(plain)))
+    writer.encrypt(user_password, owner_password, algorithm=algorithm)
+    with open(os.path.join(HERE, name), "wb") as f:
+        writer.write(f)
+
+
+encrypted("encrypted-user-password.pdf", "secret", "owner", "RC4-40")
+encrypted("encrypted-owner-password.pdf", "", "owner", "RC4-128")

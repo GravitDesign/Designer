@@ -1,6 +1,6 @@
 // Old: public/pscore.js, systemdict entries file … writestring.
 //
-// Kept quirks (QUESTIONS.md):
+// Kept quirks (QUESTIONS.md "PS worker: file operator quirks"):
 // - file, currentfile and status are stubs: file pops its two operands and
 //   pushes a file on the program input, status always answers false.
 // - fileposition of an unpositioned file pushes undefined (the file object

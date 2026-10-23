@@ -1,0 +1,7 @@
+%!PS
+% A number as the typecheck handler: the old worker throws when it looks
+% for the handler's execute, so nothing after the error runs.
+0 0 10 10 rectfill
+errordict /typecheck 5 put
+(a) 1 add
+0 0 moveto 10 10 lineto stroke

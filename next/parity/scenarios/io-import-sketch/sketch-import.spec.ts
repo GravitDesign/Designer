@@ -25,6 +25,8 @@ interface ImportArgs {
   timeoutMs?: number;
 }
 
+// Made by parity/fixtures/import/generators/mksketch.py, except
+// symbols-edge-v49 and pdf-image-v49 (mkfixtures.py next to this file).
 const DIR = path.join(NEXT_ROOT, "parity", "fixtures", "import", "sketch");
 
 /**

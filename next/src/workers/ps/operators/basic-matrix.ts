@@ -1,6 +1,6 @@
 // Old: public/pscore.js, systemdict entries matrix … setcachelimit.
 //
-// Kept quirks (QUESTIONS.md):
+// Kept quirks (QUESTIONS.md "PS worker: matrix and device operator quirks"):
 // - currentmatrix, defaultmatrix and identmatrix leave the matrix on the
 //   stack, as PostScript says, but setmatrix copies into the CTM array in
 //   place.

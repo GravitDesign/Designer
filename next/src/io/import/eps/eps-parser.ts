@@ -6,9 +6,10 @@
 // meshes, and texts. "done" hands the group and the page background to
 // the draw callback and reports the queued errors.
 //
-// Kept (old behaviour, see QUESTIONS.md / BUGS-FIXED.md):
+// Kept (old behaviour):
 // - show() without a font name calls getDefaultFont on the wrong object
-//   and throws.
+//   and throws (QUESTIONS.md "EPS page side: show without a font name
+//   throws").
 // - ImageData.data assignments of the old code did nothing; they are left
 //   out.
 //

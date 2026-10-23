@@ -1,0 +1,159 @@
+[
+  {
+    "name": "horizontal: a near text continues the line, its last character carries the gap",
+    "texts": [
+      [{ "text": "Hello", "x": 10, "y": 30, "width": 25 }],
+      [{ "text": " World", "x": 38, "y": 30, "width": 30 }]
+    ]
+  },
+  {
+    "name": "horizontal: a one-character last word takes the gap itself",
+    "texts": [
+      [{ "text": "a", "x": 10, "y": 30, "width": 5 }],
+      [{ "text": "b", "x": 17, "y": 30, "width": 5 }]
+    ]
+  },
+  {
+    "name": "horizontal: no gap, no spacing",
+    "texts": [
+      [{ "text": "ab", "x": 10, "y": 30, "width": 10 }],
+      [{ "text": "cd", "x": 20, "y": 30, "width": 10 }]
+    ]
+  },
+  {
+    "name": "horizontal: a gap above 10 points starts a new text",
+    "texts": [
+      [{ "text": "ab", "x": 10, "y": 30, "width": 10 }],
+      [{ "text": "cd", "x": 31, "y": 30, "width": 10 }]
+    ]
+  },
+  {
+    "name": "horizontal: exactly 10 points still merges",
+    "texts": [
+      [{ "text": "ab", "x": 10, "y": 30, "width": 10 }],
+      [{ "text": "cd", "x": 30, "y": 30, "width": 10 }]
+    ]
+  },
+  {
+    "name": "horizontal: a trailing space uses the word spacing",
+    "texts": [
+      [{ "text": "ab ", "x": 10, "y": 30, "width": 15, "wordSpacing": 2, "charSpacing": 1 }],
+      [{ "text": "cd", "x": 30, "y": 30, "width": 10 }]
+    ]
+  },
+  {
+    "name": "colors: a gradient fill never merges",
+    "texts": [
+      [{ "text": "ab", "x": 10, "y": 30, "width": 10 }],
+      [{ "text": "cd", "x": 22, "y": 30, "width": 10, "color": "gradient" }]
+    ]
+  },
+  {
+    "name": "colors: plain colors that differ still merge",
+    "texts": [
+      [{ "text": "ab", "x": 10, "y": 30, "width": 10 }],
+      [{ "text": "cd", "x": 22, "y": 30, "width": 10, "color": "red" }]
+    ]
+  },
+  {
+    "name": "vertical: the next line of a paragraph gets a break line and line spacing",
+    "texts": [
+      [{ "text": "first line", "x": 10, "y": 30, "width": 50 }],
+      [{ "text": "second line", "x": 10, "y": 44, "width": 55 }]
+    ]
+  },
+  {
+    "name": "vertical: three lines",
+    "texts": [
+      [{ "text": "one", "x": 10, "y": 30, "width": 60 }],
+      [{ "text": "two", "x": 10, "y": 44, "width": 60 }],
+      [{ "text": "three", "x": 10, "y": 58, "width": 60 }]
+    ]
+  },
+  {
+    "name": "vertical: a line further away than the ascent starts a new text",
+    "texts": [
+      [{ "text": "first", "x": 10, "y": 30, "width": 50 }],
+      [{ "text": "far", "x": 10, "y": 60, "width": 50 }]
+    ]
+  },
+  {
+    "name": "vertical: a line that is wider and starts more than 2 points off is not merged",
+    "texts": [
+      [{ "text": "short", "x": 10, "y": 30, "width": 20 }],
+      [{ "text": "a longer line", "x": 15, "y": 44, "width": 60 }]
+    ]
+  },
+  {
+    "name": "vertical: a wider line starting 2.5 points off is not merged",
+    "texts": [
+      [{ "text": "short", "x": 10, "y": 30, "width": 20 }],
+      [{ "text": "a longer line", "x": 12.5, "y": 44, "width": 60 }]
+    ]
+  },
+  {
+    "name": "vertical: a wider line starting within 2 points moves the origin left",
+    "texts": [
+      [{ "text": "short", "x": 10, "y": 30, "width": 20 }],
+      [{ "text": "a longer line", "x": 9, "y": 44, "width": 60 }]
+    ]
+  },
+  {
+    "name": "vertical: a line that doesn't overlap horizontally stays apart",
+    "texts": [
+      [{ "text": "left", "x": 10, "y": 30, "width": 20 }],
+      [{ "text": "right", "x": 100, "y": 44, "width": 20 }]
+    ]
+  },
+  {
+    "name": "alignment: a centered line within 2 points is marked center",
+    "texts": [
+      [{ "text": "a wide first line", "x": 10, "y": 30, "width": 100 }],
+      [{ "text": "mid", "x": 51, "y": 44, "width": 20 }]
+    ]
+  },
+  {
+    "name": "alignment: a line starting right of the block gets an indent word",
+    "texts": [
+      [{ "text": "a wide first line", "x": 10, "y": 30, "width": 100 }],
+      [{ "text": "indented", "x": 25, "y": 44, "width": 40 }]
+    ]
+  },
+  {
+    "name": "alignment: a text that is not merged is aligned on its own",
+    "texts": [
+      [{ "text": "alone", "x": 10, "y": 30, "width": 20 }],
+      [{ "text": "far", "x": 300, "y": 300, "width": 20 }]
+    ]
+  },
+  {
+    "name": "vertical: a skewed last word stops the merge",
+    "texts": [
+      [{ "text": "skewed", "x": 10, "y": 30, "width": 50, "transform": [1, 0, 0.3, 1, 0, 0] }],
+      [{ "text": "next", "x": 10, "y": 44, "width": 50, "transform": [1, 0, 0.3, 1, 0, 0] }]
+    ]
+  },
+  {
+    "name": "transforms: different scales never merge",
+    "texts": [
+      [{ "text": "ab", "x": 10, "y": 30, "width": 10 }],
+      [{ "text": "cd", "x": 22, "y": 30, "width": 10, "transform": [2, 0, 0, 2, 0, 0] }]
+    ]
+  },
+  {
+    "name": "vertical: a page transform flipping y (as pdf.js's viewport does)",
+    "texts": [
+      [{ "text": "top", "x": 10, "y": 150, "width": 40, "transform": [1, 0, 0, -1, 0, 200] }],
+      [{ "text": "below", "x": 10, "y": 136, "width": 40, "transform": [1, 0, 0, -1, 0, 200] }]
+    ]
+  },
+  {
+    "name": "create: one text object with two lines makes two texts that merge vertically",
+    "texts": [
+      [
+        { "text": "row one", "x": 10, "y": 30, "width": 40 },
+        { "text": "row two", "x": 10, "y": 44, "width": 40 }
+      ]
+    ]
+  }
+]

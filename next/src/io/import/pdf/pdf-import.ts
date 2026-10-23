@@ -8,7 +8,8 @@
 // lets the caller decide (FMT-IMPORT-011).
 //
 // Kept: a document pdf.js can't open never calls back (the loading
-// promise has no rejection handler), and a font that resolves is added
+// promise has no rejection handler; QUESTIONS.md "PDF import never calls
+// back for a document pdf.js can't open"), and a font that resolves is added
 // to the resolved list as a one-element slice that is never matched, so
 // readiness only depends on the counts.
 import { extend } from "../../../engine/core/util.ts";
@@ -135,7 +136,14 @@ export const PDFImport = {
     updateList(families);
   },
 
-  /** Whether the PDF's XMP metadata says it was saved by Illustrator. */
+  /**
+   * Whether the PDF's XMP metadata says it was saved by Illustrator.
+   *
+   * Differs from the old code, which never destroyed the document: the
+   * worker is ended once the metadata is read. A load or getMetadata
+   * rejection still leaves the worker running, as before (and so does a
+   * failed render in import()). Nothing users see changes.
+   */
   isAIFormat(data: unknown): Promise<boolean> {
     const { task, terminate } = getDocument({ data });
     return task.promise.then((document): Promise<boolean> =>

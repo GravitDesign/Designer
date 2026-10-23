@@ -98,7 +98,8 @@ export class SketchShapeGroup extends SketchBase {
       let operation = operations[index];
       if (undefined === operation || -1 === operation) operation = 3;
       // A first operation of 0 (union) is falsy, so the next one replaces
-      // it instead of being compared (QUESTIONS.md "Sketch boolean groups").
+      // it instead of being compared (QUESTIONS.md "Sketch boolean
+      // groups take a first union as no operation").
       if (first) {
         if (first !== operation) mixed = true;
       } else first = operation;

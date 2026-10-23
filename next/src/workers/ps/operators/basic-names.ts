@@ -1,6 +1,7 @@
 // Old: public/pscore.js, systemdict entries def … filter.
 //
-// Kept quirks (QUESTIONS.md):
+// Kept quirks (QUESTIONS.md "PS worker: stop, save/restore, wcheck and
+// eexec quirks"):
 // - stop outside `stopped` runs quit, which reports error "04" to the page
 //   (the page then ends the import), and still sets the stop flag.
 // - save/restore only version composite objects and the graphics state

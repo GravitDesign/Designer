@@ -270,6 +270,13 @@ const scenarios = defineScenarios<ImportArgs>([
       timeoutMs: 10_000,
     }),
   ),
+  // A PDF that needs a user password: pdf.js rejects the load, which the
+  // AI check reports and the import itself never does.
+  scenario("encrypted-user-password-pdf", {
+    importer: "ai-check",
+    source: source(path.join(OWN_DIR, "encrypted-user-password.pdf")),
+    timeoutMs: 10_000,
+  }),
   ...epsFiles.map(([file, name]) =>
     scenario(slug(name), {
       importer: "eps",

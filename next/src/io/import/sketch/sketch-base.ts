@@ -80,9 +80,9 @@ export class SketchBase extends SketchParser<SketchLayerData> {
   /**
    * Meant to put `replacement` (or nothing) in the place of `child`. The
    * old test is inverted (QUESTIONS.md "Sketch symbol override
-   * replaceChild"): when `child` is not among the direct children, the
-   * first child is replaced; when it is, the search goes on in the
-   * children and usually replaces nothing.
+   * replaceChild test is inverted"): when `child` is not among the
+   * direct children, the first child is replaced; when it is, the search
+   * goes on in the children and usually replaces nothing.
    */
   replaceChild(child: SketchBase, replacement: SketchBase | null): boolean | undefined {
     const found = this.getChildren().some((candidate) => candidate.getId() === child.getId());

@@ -76,6 +76,35 @@ describe("SketchBase", () => {
     expect(root.getChildren()).toContain(b);
   });
 
+  it("throws while creating the children when a layer's class is the paint base class", () => {
+    // SketchPattern has no parse of its own, so SketchParser's throws, and
+    // that happens outside the per-child try/catch.
+    const root = new SketchBase(
+      layer("root", { layers: [layer("a"), { _class: "pattern", do_objectID: "p" }] }),
+      fakeFile(),
+      null,
+    );
+    vi.spyOn(console, "log").mockImplementation(() => undefined);
+    expect(() => root.parse()).toThrow("Not implemented");
+  });
+
+  it("looks classes up in a plain object, so Object.prototype names resolve", () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    const json = { _class: "constructor", do_objectID: "c" } as SketchLayerData;
+    const root = new SketchBase(layer("root", { layers: [json] }), fakeFile(), null);
+    // `new Object(json, ...)` is json itself: its missing parse is logged,
+    // then the clipping-mask pass calls json.hasClippingMask().
+    expect(() => root.parse()).toThrow(/hasClippingMask is not a function/);
+    expect(root.getChildren()[0]).toBe(json);
+    expect(log).toHaveBeenCalledWith(expect.any(TypeError));
+    const broken = new SketchBase(
+      layer("root", { layers: [{ _class: "toString", do_objectID: "t" }] }),
+      fakeFile(),
+      null,
+    );
+    expect(() => broken.parse()).toThrow(TypeError);
+  });
+
   it("treats a missing winding rule as even-odd", () => {
     expect(new SketchBase(layer("x"), fakeFile(), null).isEvenOdd()).toBe(true);
     expect(new SketchBase(layer("x", { windingRule: 0 }), fakeFile(), null).isEvenOdd()).toBe(

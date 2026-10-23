@@ -4,7 +4,9 @@ import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { Workspace } from "../../../engine/scene/workspace.ts";
 import { Node } from "../../../engine/scene/node.ts";
 import { normalizeDocumentString } from "../../../../parity/support/normalize.ts";
+import { renderPdfImage } from "../pdf/pdf-import.ts";
 import { SketchImport } from "./sketch-import.ts";
+import { SketchTexturePattern } from "./sketch-texture-pattern.ts";
 import type { SketchImportResult } from "./sketch-file.ts";
 
 /** Node has Blob but no FileReader; zip.js reads Blobs through one. */
@@ -95,5 +97,10 @@ describe("SketchImport", () => {
 
   it("resolves a zip without pages with no pages", async () => {
     expect(await importFile("no-pages-v49.sketch")).toEqual({ pages: [], replacedFonts: null });
+  });
+
+  it("renders PDF image fills with pdf.js as soon as the importer is loaded", () => {
+    // The old image fill called pdf.js itself; nothing else has to install it.
+    expect(SketchTexturePattern.pdfRenderer).toBe(renderPdfImage);
   });
 });

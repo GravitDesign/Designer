@@ -187,7 +187,7 @@ chunk.vendor.js	431	3278		drop:analytics event names		drop-engine-cloud
 chunk.vendor.js	432	4408	GInnerShadowEffect	port	next/src/engine/style/effects/inner-shadow-effect.ts	engine-effects-canvas	ENG-EFFECT-005,UI-FIELD-077
 chunk.vendor.js	437	120		port	next/src/engine/core/base-object.ts	engine-core	
 chunk.vendor.js	438	3757		port	next/src/io/export/svg/svg-util.ts	io-export-svg	FMT-EXPORT-008
-chunk.vendor.js	439	4209		port	next/src/io/import/sketch/shape-group.ts	io-import-sketch	
+chunk.vendor.js	439	4209		port	next/src/io/import/sketch/sketch-element.ts	io-import-sketch	
 chunk.vendor.js	440	171		port	next/src/io/export/pdf/op-cm.ts	io-export-pdf	
 chunk.vendor.js	455	175		drop:analytics project names		drop-engine-cloud	
 chunk.vendor.js	456	2490		drop:empty German table for cloud UI		engine-locale	
@@ -267,9 +267,9 @@ chunk.vendor.js	552	7923	GEllipseEditor	port	next/src/editor/element-editors/ell
 chunk.vendor.js	553	12666	GToolManager	port	next/src/editor/tools/tool-manager.ts	editor-tools-base	EDT-TOOLMGR-001,EDT-TOOLMGR-002,EDT-TOOLMGR-003
 chunk.vendor.js	559	2101		port	next/src/io/export/pdf/cmyk-color-array.ts	io-export-pdf	
 chunk.vendor.js	560	849		port	next/src/io/export/pdf/pdf-name.ts	io-export-pdf	
-chunk.vendor.js	561	1857		port	next/src/io/import/sketch/registry.ts	io-import-sketch	
-chunk.vendor.js	562	617		port	next/src/io/import/sketch/element.ts	io-import-sketch	
-chunk.vendor.js	563	910		port	next/src/io/import/sketch/shape-path.ts	io-import-sketch	
+chunk.vendor.js	561	1857		port	next/src/io/import/sketch/class-registry.ts	io-import-sketch	
+chunk.vendor.js	562	617		port	next/src/io/import/sketch/sketch-parser.ts	io-import-sketch	
+chunk.vendor.js	563	910		port	next/src/io/import/sketch/sketch-shape-path.ts	io-import-sketch	
 chunk.vendor.js	564	201		port	next/src/io/export/pdf/operators.ts	io-export-pdf	
 chunk.vendor.js	568	692		port	next/src/engine/text/fonts/font-entry.ts	engine-fonts	ENG-FONT-005
 chunk.vendor.js	569	1115	GAnchor	port	next/src/engine/scene/anchor.ts	engine-scene-node	
@@ -287,11 +287,11 @@ chunk.vendor.js	585	793		drop:cloud annotation action codes		drop-engine-cloud
 chunk.vendor.js	586	199		drop:review status codes		drop-engine-cloud	
 chunk.vendor.js	587	20845	GOpenTypeFont	port	next/src/engine/text/fonts/open-type-font.ts	engine-fonts	ENG-TEXT-008,ENG-TEXT-017,ENG-TEXT-019
 chunk.vendor.js	588	3242	GGLColorAdjustEffect	port	next/src/engine/style/webgl/effects/gl-color-adjust-effect.ts	engine-effects-webgl	ENG-EFFECT-017,UI-FIELD-085
-chunk.vendor.js	597	750		port	next/src/io/import/sketch/effect.ts	io-import-sketch	
-chunk.vendor.js	598	311		port	next/src/io/import/sketch/point-parse.ts	io-import-sketch	
-chunk.vendor.js	599	738		port	next/src/io/import/sketch/color-fill.ts	io-import-sketch	
-chunk.vendor.js	600	312		port	next/src/io/import/sketch/fill.ts	io-import-sketch	
-chunk.vendor.js	601	634		port	next/src/io/import/sketch/rect-parse.ts	io-import-sketch	
+chunk.vendor.js	597	750		port	next/src/io/import/sketch/effects/sketch-effect.ts	io-import-sketch	
+chunk.vendor.js	598	311		port	next/src/io/import/sketch/sketch-point.ts	io-import-sketch	
+chunk.vendor.js	599	738		port	next/src/io/import/sketch/sketch-color.ts	io-import-sketch	
+chunk.vendor.js	600	312		port	next/src/io/import/sketch/sketch-pattern.ts	io-import-sketch	
+chunk.vendor.js	601	634		port	next/src/io/import/sketch/sketch-rect.ts	io-import-sketch	
 chunk.vendor.js	602	1097		port	next/src/io/export/pdf/object-collection.ts	io-export-pdf	
 chunk.vendor.js	632	1153		port	next/src/engine/core/locale/extend.ts	engine-locale	
 chunk.vendor.js	633	3557		drop:duplicate of GSystem OS detection (engine module 176)		engine-locale	
@@ -406,10 +406,10 @@ chunk.vendor.js	780	23459	GRadialGradientEditor	port	next/src/editor/element-edi
 chunk.vendor.js	781	14093	GAngularGradientEditor	port	next/src/editor/element-editors/angular-gradient-editor.ts	editor-text-style-editors	EDT-ELEDIT-053
 chunk.vendor.js	782	12178	GLinearGradientEditor	port	next/src/editor/element-editors/linear-gradient-editor.ts	editor-text-style-editors	EDT-ELEDIT-051
 chunk.vendor.js	783	1422	GTextAnnotationEditor	port	next/src/editor/annotations/text-annotation-editor.ts	editor-paths-graph-annotations	EDT-ANNOT-013
-chunk.vendor.js	793	885		port	next/src/io/import/sketch/gradient-fill.ts	io-import-sketch	
-chunk.vendor.js	794	3487		port	next/src/io/import/sketch/group.ts	io-import-sketch	
-chunk.vendor.js	795	2318		port	next/src/io/import/sketch/element-base.ts	io-import-sketch	
-chunk.vendor.js	796	6868		port	next/src/io/import/sketch/style.ts	io-import-sketch	
+chunk.vendor.js	793	885		port	next/src/io/import/sketch/sketch-gradient.ts	io-import-sketch	
+chunk.vendor.js	794	3487		port	next/src/io/import/sketch/sketch-shape.ts	io-import-sketch	
+chunk.vendor.js	795	2318		port	next/src/io/import/sketch/sketch-node.ts	io-import-sketch	
+chunk.vendor.js	796	6868		port	next/src/io/import/sketch/sketch-base.ts	io-import-sketch	
 chunk.vendor.js	797	150		port	next/src/io/export/index.ts	io-export-bitmap	FMT-EXPORT-001
 chunk.vendor.js	798	3781	GBitmapExport	port	next/src/io/export/bitmap-export.ts	io-export-bitmap	FMT-EXPORT-002,FMT-EXPORT-003
 chunk.vendor.js	799	1543		port	next/src/io/export/pdf/resource.ts	io-export-pdf	
@@ -616,27 +616,27 @@ chunk.vendor.js	1113	3970		port	next/src/workers/raster.ts	io-export-bitmap	FMT-
 chunk.vendor.js	1119	712		port	next/src/io/export/pdf/rounding.ts	io-export-pdf	
 chunk.vendor.js	1120	904		port	next/src/io/export/canvas-holder.ts	io-export-bitmap	
 chunk.vendor.js	1121	1186	GSketchImport	port	next/src/io/import/sketch/sketch-import.ts	io-import-sketch	FMT-IMPORT-015
-chunk.vendor.js	1122	10262		port	next/src/io/import/sketch/sketch-document.ts	io-import-sketch	FMT-WORKER-015,FMT-LIB-003
-chunk.vendor.js	1123	1653		port	next/src/io/import/sketch/effects/blur.ts	io-import-sketch	
-chunk.vendor.js	1124	817		port	next/src/io/import/sketch/effects/color-adjust.ts	io-import-sketch	
-chunk.vendor.js	1125	707		port	next/src/io/import/sketch/effects/shadow.ts	io-import-sketch	
-chunk.vendor.js	1126	707		port	next/src/io/import/sketch/effects/inner-shadow.ts	io-import-sketch	
-chunk.vendor.js	1127	966		port	next/src/io/import/sketch/curve-point.ts	io-import-sketch	
-chunk.vendor.js	1128	623		port	next/src/io/import/sketch/rectangle.ts	io-import-sketch	
-chunk.vendor.js	1129	993		port	next/src/io/import/sketch/linear-gradient.ts	io-import-sketch	
-chunk.vendor.js	1130	2110		port	next/src/io/import/sketch/radial-gradient.ts	io-import-sketch	
-chunk.vendor.js	1131	691		port	next/src/io/import/sketch/angular-gradient.ts	io-import-sketch	
-chunk.vendor.js	1132	3474		port	next/src/io/import/sketch/image-fill.ts	io-import-sketch	
-chunk.vendor.js	1133	621		port	next/src/io/import/sketch/noise-fill.ts	io-import-sketch	
-chunk.vendor.js	1134	4188		port	next/src/io/import/sketch/path.ts	io-import-sketch	
-chunk.vendor.js	1135	475		port	next/src/io/import/sketch/page.ts	io-import-sketch	
-chunk.vendor.js	1136	11426		port	next/src/io/import/sketch/text.ts	io-import-sketch	
-chunk.vendor.js	1137	1611		port	next/src/io/import/sketch/archive.ts	io-import-sketch	
-chunk.vendor.js	1138	6078		port	next/src/io/import/sketch/bplist.ts	io-import-sketch	
-chunk.vendor.js	1139	8384		port	next/src/io/import/sketch/symbols.ts	io-import-sketch	
-chunk.vendor.js	1140	181		port	next/src/io/import/sketch/artboard.ts	io-import-sketch	
-chunk.vendor.js	1141	346		port	next/src/io/import/sketch/meta.ts	io-import-sketch	
-chunk.vendor.js	1142	4891		port	next/src/io/import/fonts/import-font-resolver.ts	io-import-pdf-eps	
+chunk.vendor.js	1122	10262		port	next/src/io/import/sketch/sketch-file.ts	io-import-sketch	FMT-WORKER-015,FMT-LIB-003
+chunk.vendor.js	1123	1653		port	next/src/io/import/sketch/effects/sketch-blur-effect.ts	io-import-sketch	
+chunk.vendor.js	1124	817		port	next/src/io/import/sketch/effects/sketch-color-adjust-effect.ts	io-import-sketch	
+chunk.vendor.js	1125	707		port	next/src/io/import/sketch/effects/sketch-drop-shadow-effect.ts	io-import-sketch	
+chunk.vendor.js	1126	707		port	next/src/io/import/sketch/effects/sketch-inner-shadow-effect.ts	io-import-sketch	
+chunk.vendor.js	1127	966		port	next/src/io/import/sketch/sketch-curve-point.ts	io-import-sketch	
+chunk.vendor.js	1128	623		port	next/src/io/import/sketch/sketch-artboard.ts	io-import-sketch	
+chunk.vendor.js	1129	993		port	next/src/io/import/sketch/sketch-linear-gradient.ts	io-import-sketch	
+chunk.vendor.js	1130	2110		port	next/src/io/import/sketch/sketch-radial-gradient.ts	io-import-sketch	
+chunk.vendor.js	1131	691		port	next/src/io/import/sketch/sketch-angular-gradient.ts	io-import-sketch	
+chunk.vendor.js	1132	3474		port	next/src/io/import/sketch/sketch-texture-pattern.ts	io-import-sketch	
+chunk.vendor.js	1133	621		port	next/src/io/import/sketch/sketch-noise-pattern.ts	io-import-sketch	
+chunk.vendor.js	1134	4188		port	next/src/io/import/sketch/sketch-path-util.ts	io-import-sketch	
+chunk.vendor.js	1135	475		port	next/src/io/import/sketch/sketch-page.ts	io-import-sketch	
+chunk.vendor.js	1136	11426		port	next/src/io/import/sketch/sketch-text.ts	io-import-sketch	
+chunk.vendor.js	1137	1611		port	next/src/io/import/sketch/ns-archiver.ts	io-import-sketch	
+chunk.vendor.js	1138	6078		port	next/src/io/import/sketch/bplist-parser.ts	io-import-sketch	
+chunk.vendor.js	1139	8384		port	next/src/io/import/sketch/sketch-symbol-instance.ts	io-import-sketch	
+chunk.vendor.js	1140	181		port	next/src/io/import/sketch/sketch-symbol-master.ts	io-import-sketch	
+chunk.vendor.js	1141	346		port	next/src/io/import/sketch/sketch-document.ts	io-import-sketch	
+chunk.vendor.js	1142	4891		port	next/src/io/import/sketch/sketch-font-search.ts	io-import-sketch	
 chunk.vendor.js	1143	1169		port	next/src/io/export/pdf/byte-stream.ts	io-export-pdf	
 chunk.vendor.js	1144	2304	GPDFString	port	next/src/io/export/pdf/pdf-string.ts	io-export-pdf	
 chunk.vendor.js	1145	488	GPDFFilter	port	next/src/io/export/pdf/pdf-filter.ts	io-export-pdf	
@@ -648,15 +648,15 @@ chunk.vendor.js	1201	320		port	next/src/io/import/index.ts	io-import-pdf-eps	FMT
 chunk.vendor.js	1202	4399		port	next/src/io/export/svg/svg-images.ts	io-export-svg	
 chunk.vendor.js	1203	16329		port	next/src/io/import/fonts/google-font-names.ts	io-import-pdf-eps	
 chunk.vendor.js	1204	2131		port	next/src/io/import/fonts/font-style-names.ts	io-import-pdf-eps	
-chunk.vendor.js	1205	2687		port	next/src/io/import/image-element.ts	io-import-pdf-eps	
-chunk.vendor.js	1206	180		port	next/src/io/import/sketch/oval.ts	io-import-sketch	
-chunk.vendor.js	1207	180		port	next/src/io/import/sketch/polygon.ts	io-import-sketch	
-chunk.vendor.js	1208	180		port	next/src/io/import/sketch/star.ts	io-import-sketch	
-chunk.vendor.js	1209	180		port	next/src/io/import/sketch/triangle.ts	io-import-sketch	
-chunk.vendor.js	1211	180		port	next/src/io/import/sketch/shape-variant.ts	io-import-sketch	
-chunk.vendor.js	1212	487		port	next/src/io/import/sketch/symbol-instance.ts	io-import-sketch	
-chunk.vendor.js	1213	7490		port	next/src/io/import/shape-merge.ts	io-import-pdf-eps	
-chunk.vendor.js	1214	346		port	next/src/io/import/sketch/user.ts	io-import-sketch	
+chunk.vendor.js	1205	2687		port	next/src/io/import/sketch/sketch-bitmap.ts	io-import-sketch	
+chunk.vendor.js	1206	180		port	next/src/io/import/sketch/sketch-oval.ts	io-import-sketch	
+chunk.vendor.js	1207	180		port	next/src/io/import/sketch/sketch-polygon.ts	io-import-sketch	
+chunk.vendor.js	1208	180		port	next/src/io/import/sketch/sketch-rectangle.ts	io-import-sketch	
+chunk.vendor.js	1209	180		port	next/src/io/import/sketch/sketch-star.ts	io-import-sketch	
+chunk.vendor.js	1211	180		port	next/src/io/import/sketch/sketch-triangle.ts	io-import-sketch	
+chunk.vendor.js	1212	487		port	next/src/io/import/sketch/sketch-group.ts	io-import-sketch	
+chunk.vendor.js	1213	7490		port	next/src/io/import/sketch/sketch-shape-group.ts	io-import-sketch	
+chunk.vendor.js	1214	346		port	next/src/io/import/sketch/sketch-meta.ts	io-import-sketch	
 chunk.vendor.js	1215	1237		port	next/src/io/export/pdf/output.ts	io-export-pdf	
 chunk.vendor.js	1216	26917		port	next/src/io/export/pdf/pdf-canvas.ts	io-export-pdf	FMT-EXPORT-018
 chunk.vendor.js	1217	1041		port	next/src/io/export/pdf/operator.ts	io-export-pdf	
@@ -1445,7 +1445,7 @@ designer.browser.dev.js	1386	1920		port	next/src/app/storage/browser-image-stora
 designer.browser.dev.js	1387	188		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	1388	167		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	1389	56		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
-designer.browser.dev.js	1400	4080		port	next/src/io/import/sketch/effects-index.ts	io-import-sketch	
+designer.browser.dev.js	1400	4080		port	next/src/io/import/sketch/sketch-classes.ts	io-import-sketch	
 designer.browser.dev.js	1401	57028		drop:zip.js inflate; use pako inflate (decompression is deterministic)		drop-app-runtime	
 designer.browser.dev.js	1402	31268		drop:second copy of zip.js core (same as app module 1514)		drop-app-runtime	FMT-LIB-003
 designer.browser.dev.js	1468	694		drop:service worker registration for cloud envs		drop-app-cloud	

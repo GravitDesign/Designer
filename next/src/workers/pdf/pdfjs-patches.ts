@@ -2,7 +2,8 @@
 // public/pdf.worker.js: the old app bundled a pdf.js 2.1.286 that Gravit
 // had patched. The rewrite uses pdfjs-dist 2.1.266 (the closest release
 // on npm) and applies the same changes to its two build files as text
-// patches when they are loaded (see pdfjs-loader.ts). Each patch must
+// patches when they are loaded (io/import/pdf/pdfjs.ts for the main
+// build, pdf.worker.ts for the worker). Each patch must
 // match exactly once, so a different pdfjs-dist version fails loudly
 // instead of half-patching.
 //
@@ -28,8 +29,12 @@
 //   flag.
 // - XRef tables may also start with the keyword xref_table.
 //
-// The differences were found by comparing the old builds with pdfjs-dist
-// 2.1.266 module by module; the old worker is otherwise 2.1.266.
+// The old builds report version 2.1.286, a git build between the 2.1.266
+// release and the next one; npm has no 2.1.286. The differences were
+// found by comparing the old builds with pdfjs-dist 2.1.266 module by
+// module, and a token comparison of the old worker against 2.1.266 with
+// these patches applied shows nothing else that differs (only webpack
+// polyfills and an unused worker-side Util.makeCssCMYK).
 
 export interface TextPatch {
   /** What the patch does, for error messages. */

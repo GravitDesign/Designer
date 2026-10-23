@@ -241,10 +241,13 @@ waitForResponse and the DCTDecode filter.
   fixture-image-dct.eps get `.fixed.json` versions that differ from the
   old worker's only in the jpeg calls (checked by
   interpreter.recorded.test.ts).
-- Parity exceptions: none (parity/exceptions/BUG-008.json lists none). No
-  recorded scenario reaches a JPEG the browser can decode:
-  io-import-pdf-eps/eps/filter-dct-file-ps embeds bytes that aren't a JPEG
-  and still ends with error "02" and an empty group;
-  io-import-pdf-eps/eps/image-dct-eps and
+- Parity exceptions: io-import-pdf-eps/eps/image-dct-rgb-eps (fixture
+  image-dct-rgb.eps, an RGB JPEG photo next to a red square). The old app
+  reports the "Parts of the EPS file aren't supported..." message (error
+  "0") and leaves an all-black 80 x 60 image where the photo goes; the
+  `.fixed` output has the decoded photo and no message, and the rest of
+  the group is the same. io-import-pdf-eps/eps/filter-dct-file-ps embeds
+  bytes no browser decodes and still ends with error "02" and an empty
+  group in both apps; io-import-pdf-eps/eps/image-dct-eps and
   import-export/import/open/eps-image-dct.eps.state stop at ASCIIHexDecode,
   which the worker lacks, before the JPEG.

@@ -19,8 +19,9 @@ const PDF_MAGIC = [37, 80, 68, 70];
 /**
  * Renders page 1 of a PDF (as a data URL) at scale 1 and answers a PNG
  * data URL. The old code used pdf.js (getDocument, getPage, render into a
- * canvas); pdf.js belongs to the PDF importer, which sets this. While it
- * is null, a PDF image fill keeps the placeholder texture.
+ * canvas); pdf.js belongs to the PDF importer, and sketch-import.ts
+ * installs its renderer here. While it is null, a PDF image fill keeps
+ * the placeholder texture.
  */
 export type PdfPageRenderer = (dataUrl: string) => Promise<string>;
 

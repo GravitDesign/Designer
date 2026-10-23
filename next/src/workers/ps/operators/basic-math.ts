@@ -1,6 +1,6 @@
 // Old: public/pscore.js, systemdict entries null … log.
 //
-// Kept quirks (QUESTIONS.md):
+// Kept quirks (QUESTIONS.md "PS worker: math operator quirks"):
 // - div rounds its result to 9 decimals (5 above 1e5) through a string
 //   round trip.
 // - idiv computes parseInt(1 / (top / second)), i.e. second / top through

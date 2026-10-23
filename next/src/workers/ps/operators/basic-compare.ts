@@ -1,6 +1,7 @@
 // Old: public/pscore.js, systemdict entries eq … exit.
 //
-// Kept quirks (QUESTIONS.md):
+// Kept quirks (QUESTIONS.md "PS worker: comparison and control operator
+// quirks"):
 // - eq and ne compare with JS loose equality; ne of two composite objects
 //   (or an object and a number) is always false.
 // - not on integers is a bitwise not (correct), but `and`/`or` check the

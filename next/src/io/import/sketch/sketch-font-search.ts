@@ -1,5 +1,4 @@
-// Old: chunk.vendor.js module 1142 (sketchfontsearch). port-map.tsv lists
-// it under io-import-pdf-eps (import-font-resolver.ts), but only the Sketch
+// Old: chunk.vendor.js module 1142 (sketchfontsearch). Only the Sketch
 // importer (module 1122) requires it.
 import { find } from "../../../engine/core/util.ts";
 import { Font, type FontStyle } from "../../../engine/text/fonts/font.ts";

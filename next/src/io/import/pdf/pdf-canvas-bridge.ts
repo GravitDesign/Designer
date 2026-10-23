@@ -867,7 +867,9 @@ export class PdfCanvasBridge {
             let known = googleFontName(family);
             if (!known) {
               let fullName = (names.fullName as { en: string }).en.toLowerCase();
-              for (const weightName of Object.keys(Font.Weight)) {
+              // Module 1204's order (ExtraLight, ExtraBold, SemiBold, Thin, ...),
+              // so "extrabold" goes before "bold" can leave "extra" behind.
+              for (const weightName of FontNameHelpers.Weight) {
                 const lower = weightName.toLowerCase();
                 if (fullName.indexOf(lower) !== -1) fullName = fullName.replace(lower, "");
               }

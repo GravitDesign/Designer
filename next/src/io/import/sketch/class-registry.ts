@@ -12,17 +12,23 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- the table holds classes with different constructor signatures
 type AnyClass = abstract new (...args: any[]) => unknown;
 
-const nameToClass = new Map<string, AnyClass>();
+/**
+ * A plain object, as before: a `_class` such as "constructor" or
+ * "toString" finds the Object.prototype member. "constructor" gives
+ * Object, so `new cls(data, ...)` returns the layer's JSON itself, and the
+ * others throw "is not a constructor". Sketch never writes these names.
+ */
+const nameToClass: Record<string, AnyClass> = {};
 
 /** Adds a class under the name its old file gave it ("model/item/sketchOval" -> "oval"). */
 export function registerSketchClass(path: string, cls: AnyClass): void {
   const name = path.split("sketch")[1] as string;
-  nameToClass.set(name.charAt(0).toLowerCase() + name.slice(1), cls);
+  nameToClass[name.charAt(0).toLowerCase() + name.slice(1)] = cls;
 }
 
 /** The class for a layer's `_class`, or null (with a warning) for an unknown one. */
 export function getClassFromName<T extends AnyClass = AnyClass>(name: unknown): T | null {
-  const cls = (typeof name === "string" && nameToClass.get(name)) || null;
+  const cls = nameToClass[name as string] || null;
   if (!cls) console.warn("Unable to find class: " + String(name));
   return cls as T | null;
 }

@@ -343,7 +343,10 @@ export class PSCore {
     if (error in handlers) {
       const handler = handlers[error];
       if (typeof handler == "function") handler.call(this);
-      else if (handler && typeof handler == "object" && "execute" in handler)
+      // Sic: a handler that isn't an object (`errordict /typecheck 5 put`)
+      // makes `in` throw a TypeError, which ends the run like the old one
+      // (QUESTIONS.md "PS worker: errordict handler that isn't an object").
+      else if ("execute" in (handler as object))
         (handler as { execute(core: PSCore): unknown }).execute(this);
     } else if (this.classes.isPSObject(handlers.handleerror, "array")) {
       handlers.handleerror.executable = true;
@@ -370,7 +373,16 @@ export class PSCore {
     if (clone === undefined) clone = true;
     const args = data || [];
     if (clone) this.host.postMessage({ func, data: JSON.parse(JSON.stringify(args)) as unknown[] });
-    else this.host.postMessage({ func, data: args, result: result || null });
+    else {
+      // The old PS objects carried their methods as own properties, so the
+      // browser's structured clone refused any of them in an uncloned
+      // message and the run ended there (no "done"). The new objects keep
+      // their methods on the prototype and would clone, so the refusal is
+      // made explicit (QUESTIONS.md "PS worker: image/imagemask with PS
+      // objects as operands").
+      if (holdsPSObject(args)) throw new DOMException("could not be cloned", "DataCloneError");
+      this.host.postMessage({ func, data: args, result: result || null });
+    }
   }
 
   /** Turns a resourceforall template (`*`, `?`) into a regular expression. */
@@ -520,6 +532,24 @@ export class PSCore {
 
 function pointerOf(value: PSValue): number | null | undefined {
   return (value as { pointer?: number | null }).pointer;
+}
+
+/**
+ * Whether structured clone would have refused `value` in the old worker:
+ * it holds, at any depth, a PS object with methods of its own (every
+ * class but bool and saveState).
+ */
+function holdsPSObject(value: unknown, seen = new Set<object>()): boolean {
+  if (value === null || typeof value != "object") return false;
+  if (ArrayBuffer.isView(value) || value instanceof ArrayBuffer) return false;
+  if (typeof SharedArrayBuffer != "undefined" && value instanceof SharedArrayBuffer) return false;
+  if (seen.has(value)) return false;
+  seen.add(value);
+  if ("className" in value) {
+    const className = (value as { className: unknown }).className;
+    if (className != "bool" && className != "saveState") return true;
+  }
+  return Object.values(value).some((entry) => holdsPSObject(entry, seen));
 }
 
 /** Reads bit fields MSB first from a data source (a file or composite with getUint8). */
