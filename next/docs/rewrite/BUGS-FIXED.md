@@ -186,3 +186,65 @@ enabled: corpus/fills-textures/bitmap (the star tile is an empty cream
 square in the old output) and import-export/corpus/fills-textures (PNG,
 JPEG, SVG and PDF exports without the star). The preview, the canvas renders
 and the gvthumb thumbnail show the star in the old output and need nothing.
+
+## BUG-008 EPS/PS files with JPEG images can't be imported
+
+Old code: server.js (no cross-origin isolation headers); the page side of
+the JPEG handshake in chunk.vendor.js module 1404, GEPSParser jpeg (lines
+251237-251270); the worker side in public/pscore.js, PSCore
+waitForResponse and the DCTDecode filter.
+
+- Reproduce: import (open or place) an EPS/PS file whose image data goes
+  through DCTDecode, for example an image dict with `/DataSource currentfile
+  /ASCII85Decode filter /DCTDecode filter`.
+- Old: the PostScript worker can't decode JPEGs, so it asks the page and
+  blocks in Atomics.wait on a SharedArrayBuffer until the page answers. The
+  old server sent no COOP/COEP headers, so the page had no
+  SharedArrayBuffer and every JPEG failed at once with error "02" ("Parts
+  of the EPS file aren't supported..."); the image was left out. With
+  SharedArrayBuffer the handshake was broken too: the page signalled with
+  Atomics.wake, which browsers have removed, so it threw and the worker
+  slept until its 300-second timeout; the page told a size request by a
+  byte view of length 2, which the 8-byte size area never has, so it wrote
+  pixels where the size belonged; and the worker asked for as many bytes
+  as its reader guessed (width x height for a gray image), so gray and
+  CMYK images got the first part of the RGBA bytes instead of their
+  samples.
+- New: the server (and with it the Electron app's embedded server) sends
+  `Cross-Origin-Opener-Policy: same-origin` and
+  `Cross-Origin-Embedder-Policy: credentialless`, so the page and its
+  workers are cross-origin isolated. credentialless rather than
+  require-corp, so cross-origin images and fonts without CORS headers still
+  load. Chromium supports it since 96 (Electron 45 runs Chromium 156 and is
+  isolated), Firefox since 119; Safari ignores credentialless, so there the
+  page is not isolated and JPEGs in EPS files still report error "02" as
+  before. The handshake (src/workers/ps/jpeg.ts) names its request kind:
+  the worker asks for the size, then for width x height RGBA pixels; the
+  page answers with Atomics.notify, also when the browser can't decode the
+  image (size 0 x 0, which the worker reports as error "02"). DCTDecode
+  then delivers the JPEG's own components (gray, RGB or CMYK, read from
+  the frame header) like PostScript does. The imported image equals the
+  browser's decode of the JPEG pixel for pixel, and equals the old app's
+  result for the same JPEG placed as a bitmap. A CMYK JPEG arrives as the
+  browser's RGB turned back into CMYK without black, which the app's CMYK
+  profile then converts; its colors can differ from the browser's view of
+  the JPEG.
+- Test: src/io/import/eps/eps-jpeg-import.test.ts runs EPSImport with the
+  interpreter in a worker thread against Chromium-decoded pixels of RGB,
+  gray and CMYK JPEG fixtures and the parity fixture filter-dct-file.ps
+  (all four hang with the old code; with only Atomics.wake fixed, gray,
+  CMYK and the undecodable JPEG still fail). The handshake on each side:
+  src/workers/ps/jpeg.test.ts and the "EPSParser.jpeg" tests in
+  src/io/import/eps/eps-parser.test.ts (fail with the old code).
+  server/cross-origin-isolation.test.ts checks the headers on every kind
+  of response. The interpreter recordings of filter-dct-file.ps and
+  fixture-image-dct.eps get `.fixed.json` versions that differ from the
+  old worker's only in the jpeg calls (checked by
+  interpreter.recorded.test.ts).
+- Parity exceptions: none (parity/exceptions/BUG-008.json lists none). No
+  recorded scenario reaches a JPEG the browser can decode:
+  io-import-pdf-eps/eps/filter-dct-file-ps embeds bytes that aren't a JPEG
+  and still ends with error "02" and an empty group;
+  io-import-pdf-eps/eps/image-dct-eps and
+  import-export/import/open/eps-image-dct.eps.state stop at ASCIIHexDecode,
+  which the worker lacks, before the JPEG.

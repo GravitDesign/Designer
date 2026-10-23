@@ -39,4 +39,12 @@ export default defineConfig({
     target: "es2023",
   },
   worker: { format: "es" },
+  // Same cross-origin isolation as the server (BUG-008), so `vite dev` pages
+  // get SharedArrayBuffer too.
+  server: {
+    headers: {
+      "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Embedder-Policy": "credentialless",
+    },
+  },
 });

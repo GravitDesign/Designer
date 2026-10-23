@@ -23,6 +23,19 @@ export function createApp(options: ServerOptions = {}): Express {
   app.disable("x-powered-by");
   app.use(express.json());
 
+  // Cross-origin isolation, so the page and its workers get
+  // SharedArrayBuffer: the EPS importer's PostScript worker blocks on one
+  // (Atomics.wait) while the page decodes an embedded JPEG. The old server
+  // sent neither header, so EPS files with JPEG images failed (BUG-008).
+  // "credentialless" instead of "require-corp" keeps cross-origin images
+  // and fonts loading without CORS headers (they are fetched without
+  // cookies).
+  app.use((_req, res, next) => {
+    res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+    res.setHeader("Cross-Origin-Embedder-Policy", "credentialless");
+    next();
+  });
+
   app.use("/assets", express.static(assetsRoot));
   app.use(
     express.static(clientRoot, {

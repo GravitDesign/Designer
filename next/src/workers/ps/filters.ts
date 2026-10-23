@@ -18,9 +18,12 @@
 //   parameter dict, so a dict operand is never taken.
 // - LZWDecode reads an undeclared global (`currentValue`) on its first
 //   byte, which throws a ReferenceError; the decoder below never runs.
-// - DCTDecode decodes through the page (waitForResponse "jpeg") and, with
-//   alpha requested, skips every fourth byte.
+//
+// DCTDecode decodes through the page (waitForResponse "jpeg", see
+// ./jpeg.ts). The old filter asked for as many bytes as its reader guessed
+// and skipped every fourth byte when alpha was requested (BUG-008).
 import type { PSCore } from "./core.ts";
+import { jpegComponentCount, rgbaToComponents } from "./jpeg.ts";
 import { BitsReader } from "./core.ts";
 import type { PSFile, PSPlainRecord, PSString } from "./objects.ts";
 
@@ -265,24 +268,25 @@ export function createFilters(core: PSCore): PSPlainRecord {
     DCTDecode(this: PSCore) {
       const source = this.stack.pop() as DataSource;
       const file = this.classes.newObject("file", source as unknown as PSFile);
-      let pixels: Uint8Array | null | undefined;
+      let samples: Uint8Array | null | undefined;
       let jpeg = "";
       let requested = false;
       let index = 0;
-      let skipAlpha = false;
       file.isEOF = function (this: PSFile) {
         return this.EOF;
       };
       file.filter = function (this: PSFile) {
-        if (!pixels) this.EOF = true;
+        if (!samples) this.EOF = true;
         if (this.isEOF()) return null;
-        const data = pixels as Uint8Array;
+        const data = samples as Uint8Array;
         index++;
-        if (skipAlpha && index % 4 == 0) index++;
         this.EOF = data.length <= index;
         return data[index - 1] as number;
       };
-      file._init = function (size?: unknown, alpha?: unknown) {
+      // The first read decodes the whole JPEG through the page; the reader's
+      // size and alpha hints don't matter, the output is the JPEG's own
+      // components (gray, RGB or CMYK), one byte each, row by row.
+      file._init = function (size?: unknown) {
         if (requested || !size) return;
         while (!source.isEOF()) jpeg += source.getChar();
         requested = true;
@@ -292,20 +296,16 @@ export function createFilters(core: PSCore): PSPlainRecord {
         } catch {
           base64 = "";
         }
-        pixels = core.waitForResponse(
-          "jpeg",
-          ["data:image/jpeg;base64," + escape(base64)],
-          size as number,
-        );
+        const image = core.waitForResponse("jpeg", ["data:image/jpeg;base64," + escape(base64)]);
+        samples = image ? rgbaToComponents(image.rgba, jpegComponentCount(jpeg)) : null;
         index = 0;
-        skipAlpha = !!alpha;
       };
       file.resetSelf = function () {
-        pixels = null;
+        samples = null;
         index = 0;
       };
       file.flushSelf = function (this: PSFile) {
-        if (pixels) index = pixels.length;
+        if (samples) index = samples.length;
         this.EOF = true;
       };
       this.stack.push(file);

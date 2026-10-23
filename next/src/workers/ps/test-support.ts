@@ -4,6 +4,7 @@
 import { createHash } from "node:crypto";
 import type { PSHost, PSHostMessage } from "./host.ts";
 import { PSInterpreter } from "./interpreter.ts";
+import { JPEG_FLAG_BYTES, JpegRequest } from "./jpeg.ts";
 
 /** A recorded message: what the worker posted, compacted when it is large. */
 export type RecordedMessage =
@@ -45,17 +46,17 @@ export function fakeJpeg(
   return { width, height, data };
 }
 
-/** Answers a "jpeg" request synchronously through its SharedArrayBuffer. */
+/** Answers a "jpeg" request synchronously through its SharedArrayBuffer (see ./jpeg.ts). */
 function answerJpeg(message: PSHostMessage): void {
   const buffer = message.result as SharedArrayBuffer;
   const flag = new Int32Array(buffer, 0, 1);
   const image = fakeJpeg(message.data[0]);
-  if (buffer.byteLength === 12) {
-    const size = new Int32Array(buffer, 4, 2);
+  if (message.data[1] === JpegRequest.Size) {
+    const size = new Int32Array(buffer, JPEG_FLAG_BYTES, 2);
     size[0] = image ? image.width : 0;
     size[1] = image ? image.height : 0;
   } else {
-    const pixels = new Uint8Array(buffer, 4, buffer.byteLength - 4);
+    const pixels = new Uint8Array(buffer, JPEG_FLAG_BYTES, buffer.byteLength - JPEG_FLAG_BYTES);
     for (let i = 0; i < pixels.length; i++) pixels[i] = image ? (image.data[i] ?? 0) : 0;
   }
   flag[0] = 1;

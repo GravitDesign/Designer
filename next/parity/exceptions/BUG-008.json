@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-008",
+  "why": "EPS/PS files with JPEG (DCTDecode) images import with their images: the server makes the page cross-origin isolated and the worker/page JPEG handshake works. No recorded scenario changes. io-import-pdf-eps/eps/filter-dct-file-ps embeds bytes no browser decodes, so the new app reports error 02 with an empty group exactly like the recording; io-import-pdf-eps/eps/image-dct-eps and import-export/import/open/eps-image-dct.eps.state stop at ASCIIHexDecode, which the worker lacks, before the JPEG is reached. PDFs with JPEGs go through pdf.js and are not affected.",
+  "scenarios": [],
+  "pending": []
+}

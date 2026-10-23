@@ -28,6 +28,14 @@ import { graphicsOperators } from "./operators/graphics.ts";
 import type { PSParser } from "./parser.ts";
 import { show, type ShowMode } from "./show.ts";
 import { ISO_LATIN1_ENCODING, STANDARD_ENCODING } from "./encodings.ts";
+import { JPEG_FLAG_BYTES, JPEG_SIZE_REQUEST_BYTES, JpegRequest } from "./jpeg.ts";
+
+/** An image the page decoded for the worker. */
+export interface JpegPixels {
+  width: number;
+  height: number;
+  rgba: Uint8Array;
+}
 import type { PSHost } from "./host.ts";
 
 /** The font data _getFont builds for outlining Type 1 text. */
@@ -404,33 +412,41 @@ export class PSCore {
   }
 
   /**
-   * Asks the page for data and blocks until it answers through a
-   * SharedArrayBuffer (used to decode JPEGs). Without a known size it
-   * first asks for the size (two Int32s), then for the bytes. Without
-   * SharedArrayBuffer and Atomics it reports error "02".
+   * Asks the page to decode an image and blocks until it answers through
+   * a SharedArrayBuffer (see ./jpeg.ts): first the size, then the RGBA
+   * pixels. Returns null and reports error "02" without
+   * SharedArrayBuffer (a page that isn't cross-origin isolated), when the
+   * page can't decode the image, or when it doesn't answer in time.
    */
-  waitForResponse(func: string, data: unknown[], size?: number): Uint8Array | null {
-    let byteCount = size;
-    if (typeof Atomics != "undefined" && typeof SharedArrayBuffer != "undefined" && !byteCount) {
-      const buffer = new SharedArrayBuffer(12);
-      const dimensions = new Int32Array(buffer, 4, 2);
-      const flag = new Int32Array(buffer, 0, 1);
-      Atomics.store(flag, 0, 0);
-      this.toGravit(func, data, false, buffer);
-      Atomics.wait(flag, 0, 0, this.parser.MAXWAITTIME);
-      if (flag[0]) byteCount = (dimensions[0] as number) * (dimensions[1] as number);
-    }
-    if (byteCount && typeof Atomics != "undefined" && typeof SharedArrayBuffer != "undefined") {
-      const buffer = new SharedArrayBuffer(byteCount + 4);
-      const bytes = new Uint8Array(buffer, 4, byteCount);
-      const flag = new Int32Array(buffer, 0, 1);
-      Atomics.store(flag, 0, 0);
-      this.toGravit(func, data, false, buffer);
-      Atomics.wait(flag, 0, 0, this.parser.MAXWAITTIME);
-      return flag[0] ? bytes : null;
+  waitForResponse(func: string, data: unknown[]): JpegPixels | null {
+    if (typeof Atomics != "undefined" && typeof SharedArrayBuffer != "undefined") {
+      const sizeBuffer = new SharedArrayBuffer(JPEG_SIZE_REQUEST_BYTES);
+      if (this.#request(func, [...data, JpegRequest.Size], sizeBuffer)) {
+        const size = new Int32Array(sizeBuffer, JPEG_FLAG_BYTES, 2);
+        const width = size[0] as number;
+        const height = size[1] as number;
+        if (width > 0 && height > 0) {
+          const pixelBuffer = new SharedArrayBuffer(JPEG_FLAG_BYTES + width * height * 4);
+          if (this.#request(func, [...data, JpegRequest.Pixels], pixelBuffer))
+            return {
+              width,
+              height,
+              rgba: new Uint8Array(pixelBuffer, JPEG_FLAG_BYTES, width * height * 4),
+            };
+        }
+      }
     }
     this.toGravit("error", ["02"]);
     return null;
+  }
+
+  /** Posts one handshake request and waits for the page's flag; false at the timeout. */
+  #request(func: string, data: unknown[], buffer: SharedArrayBuffer): boolean {
+    const flag = new Int32Array(buffer, 0, 1);
+    Atomics.store(flag, 0, 0);
+    this.toGravit(func, data, false, buffer);
+    Atomics.wait(flag, 0, 0, this.parser.MAXWAITTIME);
+    return Atomics.load(flag, 0) === 1;
   }
 
   /** Converts the glyphs of a Type 1 font dict into Type 2 charstrings by encoding index. */

@@ -7,15 +7,17 @@
 // the draw callback and reports the queued errors.
 //
 // Kept (old behaviour, see QUESTIONS.md / BUGS-FIXED.md):
-// - The JPEG handler signals the waiting worker with Atomics.wake, which
-//   browsers have removed (now Atomics.notify), so with SharedArrayBuffer
-//   available it throws and the worker waits until its timeout.
-// - The JPEG handler tells size requests from pixel requests by a length
-//   of 2, which a byte view of the 8-byte size area never has.
 // - show() without a font name calls getDefaultFont on the wrong object
 //   and throws.
 // - ImageData.data assignments of the old code did nothing; they are left
 //   out.
+//
+// Fixed (BUG-008): the JPEG handler signalled the waiting worker with
+// Atomics.wake, which browsers have removed (it threw, and the worker
+// waited until its timeout); it told size requests by a byte view of
+// length 2, which the 8-byte size area never has, so it wrote pixels
+// where the size belonged. The request kind is now explicit and the
+// handler calls Atomics.notify.
 import { Color } from "../../../engine/color/color.ts";
 import { CMYKColor } from "../../../engine/color/cmyk-color.ts";
 import { RGBColor } from "../../../engine/color/rgb-color.ts";
@@ -50,6 +52,7 @@ import { Font } from "../../../engine/text/fonts/font.ts";
 import type { FontManager } from "../../../engine/text/fonts/font-manager.ts";
 import { OpenTypeFont } from "../../../engine/text/fonts/open-type-font.ts";
 import { Text } from "../../../engine/text/text.ts";
+import { JpegRequest, type JpegRequestKind } from "../../../workers/ps/jpeg.ts";
 
 /** A color as the worker's _getGColor describes it. */
 interface WorkerColor {
@@ -94,20 +97,6 @@ export type EPSDrawCallback = (
 ) => void;
 
 export type EPSErrorCallback = (message: string) => void;
-
-/** Calls the removed Atomics.wake the old handler used (it throws where it is gone). */
-function wake(flags: Int32Array, index: number, count: number): void {
-  (Atomics as unknown as { wake(a: Int32Array, i: number, c: number): number }).wake(
-    flags,
-    index,
-    count,
-  );
-}
-
-/** Atomics.store on whatever typed view the old handler got. */
-function store(view: ArrayLike<number>, index: number, value: number): void {
-  Atomics.store(view as unknown as Int32Array, index, value);
-}
 
 export class EPSParser {
   static ErrorCodes = {
@@ -509,61 +498,49 @@ export class EPSParser {
   }
 
   /**
-   * Decodes a JPEG data URL for the blocked worker: writes the size or the
-   * pixels into the shared buffer and wakes it (see the file comment).
+   * Decodes a JPEG data URL for the blocked worker and answers its
+   * request through the shared buffer (see workers/ps/jpeg.ts): the size,
+   * or the RGBA pixels. Every outcome, a decode error included, stores
+   * the flag and notifies the worker, so it never waits for its timeout.
    */
-  jpeg(dataUrl: string, flags: Int32Array, view: ArrayLike<number>): boolean | undefined {
+  jpeg(
+    dataUrl: string,
+    kind: JpegRequestKind,
+    flags: Int32Array,
+    view: Uint8Array,
+  ): boolean | undefined {
     if (!(view && view.length && flags && flags.length)) return false;
-    const image = new Image();
-    let answered = false;
-    image.onload = () => {
-      if (image.width && image.height) {
-        const canvas = document.createElement("canvas");
-        canvas.width = image.width;
-        canvas.height = image.height;
-        const context = canvas.getContext("2d") as CanvasRenderingContext2D;
-        context.drawImage(image, 0, 0);
-        const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
-        if (pixels.data.length && typeof Atomics != "undefined") {
-          if (view.length == 2) {
-            store(view, 0, image.width);
-            store(view, 1, image.height);
-            Atomics.store(flags, 0, 1);
-            wake(flags, 0, 1);
-          } else {
-            for (let i = 0; i < pixels.data.length && i < view.length; ++i)
-              store(view, i, pixels.data[i] as number);
-            Atomics.store(flags, 0, 1);
-            wake(flags, 0, 1);
-          }
-          answered = true;
-        }
-      }
-      if (!answered) {
-        if (view.length == 2) {
-          store(view, 0, 0);
-          store(view, 1, 0);
-          Atomics.store(flags, 0, 1);
-          wake(flags, 0, 1);
-        } else {
-          for (let i = 0; i < view.length; ++i) store(view, i, 0);
-          Atomics.store(flags, 0, 1);
-          wake(flags, 0, 1);
-        }
-      }
-    };
-    image.onerror = () => {
-      if (view.length == 2) {
-        store(view, 0, 0);
-        store(view, 1, 0);
-        Atomics.store(flags, 0, 1);
-        wake(flags, 0, 1);
+    const answer = (width: number, height: number, rgba: Uint8ClampedArray | null) => {
+      if (kind == JpegRequest.Size) {
+        const size = new Int32Array(view.buffer, view.byteOffset, 2);
+        Atomics.store(size, 0, width);
+        Atomics.store(size, 1, height);
       } else {
-        for (let i = 0; i < view.length; ++i) store(view, i, 0);
-        Atomics.store(flags, 0, 1);
-        wake(flags, 0, 1);
+        view.fill(0);
+        if (rgba) view.set(rgba.length > view.length ? rgba.subarray(0, view.length) : rgba);
       }
+      Atomics.store(flags, 0, 1);
+      Atomics.notify(flags, 0);
     };
+    const image = new Image();
+    image.onload = () => {
+      let rgba: Uint8ClampedArray | null = null;
+      try {
+        if (image.width && image.height) {
+          const canvas = document.createElement("canvas");
+          canvas.width = image.width;
+          canvas.height = image.height;
+          const context = canvas.getContext("2d") as CanvasRenderingContext2D;
+          context.drawImage(image, 0, 0);
+          rgba = context.getImageData(0, 0, canvas.width, canvas.height).data;
+        }
+      } catch {
+        rgba = null;
+      }
+      if (rgba && rgba.length) answer(image.width, image.height, rgba);
+      else answer(0, 0, null);
+    };
+    image.onerror = () => answer(0, 0, null);
     image.src = dataUrl;
     return undefined;
   }

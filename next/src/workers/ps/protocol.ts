@@ -8,7 +8,7 @@
 // Worker → page: `{func, data}` for paint calls and status ("progress",
 // "fill", "stroke", "rectfill", "shfill", "drawImage", "show", "jpeg",
 // "error", "done"); "jpeg" also carries `result`, a SharedArrayBuffer the
-// page fills before it notifies the waiting worker.
+// page fills before it notifies the waiting worker (see ./jpeg.ts).
 import type { PSInitOptions } from "./interpreter.ts";
 
 export interface PSWorkerCall {
