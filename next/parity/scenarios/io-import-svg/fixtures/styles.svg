@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" color="#a50">
+  <style type="text/css"><![CDATA[
+    /* comment */
+    rect { fill: #ccc; stroke: #555 }
+    .thick, .thicker { stroke-width: 4px; }
+    circle.dot { fill: currentColor; }
+    #named { fill: #08f; stroke-dasharray: 5, 2, 1; }
+    @font-face { font-family: "Parity Serif"; src: url(fonts/x.woff) format("woff"); }
+    .empty {}
+  ]]></style>
+  <rect x="10" y="10" width="50" height="50"/>
+  <rect class="thick" x="70" y="10" width="50" height="50" style="fill:#f00;stroke-linecap:square;stroke-linejoin:round"/>
+  <rect id="named" class="thicker unknown" x="130" y="10" width="50" height="50" stroke-dasharray="4 2 1 2 9"/>
+  <circle class="dot" cx="220" cy="35" r="25"/>
+  <g style="fill-rule:evenodd;stroke:#000;stroke-opacity:.5;stroke-miterlimit:8">
+    <path d="M250 10 h50 v50 h-50z M260 20 h30 v30 h-30z"/>
+    <path d="M310 10 h50 v50 h-50z M320 20 h30 v30 h-30z" fill-rule="inherit" stroke-linecap="butt" stroke-linejoin="bevel"/>
+  </g>
+  <g display="none"><rect x="10" y="100" width="40" height="40"/></g>
+  <g visibility="hidden" opacity=".25"><rect x="60" y="100" width="40" height="40"/><title>ignored</title><desc>kept</desc></g>
+  <g type="layer" class="group-class"><circle cx="150" cy="120" r="10" fill="none" stroke="red" stroke-width="2" stroke-dasharray="none"/></g>
+  <unknownElement><rect x="200" y="100" width="20" height="20" fill="#0f0"/></unknownElement>
+  <rect x="250" y="100" width="40" height="40" fill="none" stroke="none"/>
+  <rect x="300" y="100" width="40" height="40" fill="transparent" stroke="#ff000080" stroke-width="2" rx="50"/>
+  <rect x="350" y="100" width="40" height="40" fill="#0f0" opacity="2" fill-opacity="3" ry="5"/>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="300">
+  <defs>
+    <linearGradient id="tg"><stop offset="0" stop-color="#f00"/><stop offset="1" stop-color="#00f"/></linearGradient>
+    <path id="arc" d="M20 250 A150 80 0 0 1 380 250"/>
+  </defs>
+  <text x="200" y="30" font-family="Open Sans" font-size="20" text-anchor="middle">Middle anchored</text>
+  <text x="390" y="60" font-family="'Parity Serif', serif" font-size="14pt" text-anchor="end" font-weight="bold">End bold</text>
+  <text x="10" y="90" font-family="OpenSans-Bold" font-style="italic" font-weight="600">Italic semibold</text>
+  <text x="10" y="120" font-family="Open Sans" font-size="18" fill="url(#tg)" stroke="#000" stroke-width="0.5">Gradient fill</text>
+  <g transform="translate(20 140) scale(1.5)">
+    <text id="scaled" class="caption" x="0" y="10" font-family="Open Sans" font-size="12">In a scaled group</text>
+  </g>
+  <text x="10" y="200" font-family="Open Sans" font-size="16" transform="rotate(5 10 200)">Rotated<tspan x="120" y="210" font-size="10" fill="#080">small tspan</tspan> tail</text>
+  <text font-family="Open Sans" font-size="16"><textPath xlink:href="#arc" startOffset="20">Along the arc</textPath></text>
+  <text x="10" y="290" font-family="Open Sans" font-size="0.5in">Big</text>
+  <text x="200" y="290"></text>
+</svg>

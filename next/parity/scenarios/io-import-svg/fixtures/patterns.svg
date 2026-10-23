@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="200">
+  <defs>
+    <pattern id="pc" width="25%" height="25%">
+      <circle cx="5" cy="5" r="4" fill="#c00"/>
+    </pattern>
+    <pattern id="pb" width="0.5" height="0.5" patternTransform="rotate(45)">
+      <rect width="4" height="4" fill="#00c"/>
+      <rect x="4" y="4" width="4" height="4" fill="#0c0"/>
+    </pattern>
+    <pattern id="pi" width="16" height="12" patternUnits="userSpaceOnUse" viewBox="0 0 16 12">
+      <image width="16" height="12" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVR4nGP4z8DwnwEImBgYGBgYAAAeBAH/n2E1aQAAAABJRU5ErkJggg=="/>
+    </pattern>
+  </defs>
+  <rect x="10" y="10" width="80" height="80" fill="url(#pc)"/>
+  <ellipse cx="150" cy="50" rx="40" ry="30" fill="url(#pb)" stroke="url(#pc)"/>
+  <rect x="210" y="10" width="80" height="80" fill="url(#pi)"/>
+</svg>

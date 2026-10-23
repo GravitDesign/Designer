@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="300">
+  <defs>
+    <linearGradient id="rev" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f00"/>
+      <stop offset="0.3" stop-color="#0f0" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#00f"/>
+    </linearGradient>
+    <linearGradient id="out" x1="0.2" y1="0" x2="0.6" y2="0" gradientTransform="translate(0.1 0) scale(1.5 1)">
+      <stop offset="-0.5" stop-color="#f00"/>
+      <stop offset="0.5" stop-color="#ff0"/>
+      <stop offset="1.5" stop-color="#00f"/>
+    </linearGradient>
+    <linearGradient id="zero" x1="0.5" y1="0.5" x2="0.5" y2="0.5">
+      <stop offset="0" stop-color="#f00"/>
+      <stop offset="1" stop-color="#00f"/>
+    </linearGradient>
+    <linearGradient id="user" gradientUnits="userSpaceOnUse" x1="0" y1="150" x2="200" y2="250">
+      <stop offset="0" stop-color="#000"/>
+      <stop offset="1" stop-color="bogus"/>
+    </linearGradient>
+    <linearGradient id="vertical" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" style="stop-color: rgba(255, 0, 0, 0.5)"/>
+      <stop offset="50%" stop-color="currentColor"/>
+      <stop stop-color="#0000ff"/>
+    </linearGradient>
+    <linearGradient id="chain" xlink:href="#vertical" x1="0" y1="1" x2="1" y2="0"/>
+    <radialGradient id="ru" gradientUnits="userSpaceOnUse" cx="300" cy="200" r="40" fx="290" fy="190" gradientTransform="translate(10 5)">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#606"/>
+    </radialGradient>
+    <radialGradient id="rdefault">
+      <stop offset="0.2" stop-color="#ff0"/>
+      <stop offset="0.9" stop-color="nonsense"/>
+    </radialGradient>
+  </defs>
+  <rect x="10" y="10" width="80" height="60" fill="url(#rev)"/>
+  <rect x="110" y="10" width="80" height="60" fill="url(#out)" stroke="url(#rev)" stroke-width="4" stroke-opacity="0.5"/>
+  <rect x="210" y="10" width="80" height="60" fill="url(#zero)" stroke="#000"/>
+  <rect x="10" y="150" width="180" height="80" fill="url(#user)" transform="translate(5 5)"/>
+  <rect x="310" y="10" width="60" height="100" fill="url(#vertical)" fill-opacity="0.5" color="#0a0"/>
+  <ellipse cx="60" cy="110" rx="50" ry="25" fill="url(#chain)"/>
+  <circle cx="300" cy="200" r="40" fill="url(#ru)"/>
+  <circle cx="230" cy="260" r="30" fill="url(#rdefault)" stroke="url(#missing)"/>
+  <polyline points="120,100 160,140 200,100" fill="url(#rev)" stroke="url(#out)" stroke-width="5"/>
+</svg>

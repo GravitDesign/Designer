@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200">
+  <defs>
+    <filter id="blur"><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="bigblur"><feGaussianBlur stdDeviation="30"/></filter>
+    <filter id="shadow"><feOffset dx="3" dy="4"/><feGaussianBlur stdDeviation="2"/><feBlend in="SourceGraphic"/></filter>
+    <filter id="region" x="0" y="0" width="50" height="40"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="flood"><feFlood flood-color="currentColor" flood-opacity="0.3"/><feMorphology radius="1"/></filter>
+    <filter id="ds"><feDropShadow dx="2" dy="2" stdDeviation="1" flood-color="rgba(0,0,255,0.5)"/></filter>
+    <filter id="unknown"><feTurbulence baseFrequency="0.05"/><feMerge><feMergeNode/></feMerge></filter>
+  </defs>
+  <rect x="10" y="10" width="60" height="60" fill="#c33" filter="url(#blur)"/>
+  <rect x="90" y="10" width="20" height="20" fill="#3c3" filter="url(#bigblur)"/>
+  <g filter="url(#shadow)"><circle cx="160" cy="40" r="25" fill="#33c"/></g>
+  <circle cx="240" cy="40" r="25" fill="#cc3" filter="url(#shadow)"/>
+  <rect x="290" y="10" width="60" height="60" fill="#3cc" filter="url(#region)"/>
+  <g filter="url(#region)"></g>
+  <rect x="10" y="110" width="60" height="60" fill="#c3c" filter="url(#flood)"/>
+  <ellipse cx="140" cy="140" rx="40" ry="25" fill="#888" filter="url(#ds)" transform="scale(1.2)"/>
+  <rect x="210" y="110" width="60" height="60" fill="#444" filter="url(#unknown)"/>
+  <rect x="290" y="110" width="60" height="60" fill="#444" style="filter: url(#blur)"/>
+</svg>

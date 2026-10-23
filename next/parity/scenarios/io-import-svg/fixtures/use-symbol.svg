@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="200">
+  <style>.blue { fill: #00c; } rect.wide { stroke: #f00; stroke-width: 3; }</style>
+  <defs>
+    <g id="pair" fill="#c60"><circle cx="10" cy="10" r="8"/><rect class="wide" x="20" y="2" width="20" height="16"/></g>
+    <symbol id="sym" viewBox="0 0 20 20"><rect width="20" height="20" fill="#393"/><circle cx="10" cy="10" r="5"/></symbol>
+    <use id="nested" xlink:href="#pair" x="5" y="5"/>
+  </defs>
+  <g fill="#0a0">
+    <use xlink:href="#pair" x="10" y="10"/>
+    <use xlink:href="#pair" x="10" y="40" transform="scale(1.5)" style="fill: #909; opacity: 0.5"/>
+    <use xlink:href="#pair" x="100" y="10" class="blue" stroke="#000"/>
+  </g>
+  <use xlink:href="#nested" x="200" y="10"/>
+  <use xlink:href="#sym" x="200" y="100" width="50" height="50" transform="rotate(10)"/>
+  <use xlink:href="#nothing" x="10" y="10"/>
+  <use x="10" y="10"/>
+</svg>

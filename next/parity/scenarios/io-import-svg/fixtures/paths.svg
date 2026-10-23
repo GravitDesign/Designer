@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200">
+  <!-- implicit line-tos after M, packed numbers, signs and dots -->
+  <path d="M10,10 20,20 30,10L40-5.5.5.5l5-5h-3.25v4.5z" fill="#c33"/>
+  <!-- H and V right after Z start a new sub-path at the close vertex -->
+  <path d="M50 50 L80 50 L80 80 Z H120 V100 Z" fill="#3c3" stroke="#000"/>
+  <!-- smooth curves after plain segments reflect nothing -->
+  <path d="M10 120 S40 90 60 120 T100 120 Q120 90 140 120 T180 120 t20 0 C200 90 230 90 240 120 s20 30 40 0" fill="none" stroke="#33c" stroke-width="2"/>
+  <!-- arcs: rotated, large/sweep flags, degenerate radius, flags packed -->
+  <path d="M20 170 a20 10 45 0 1 40 0 A20 10 -30 1 0 100 170 a0 10 0 0 1 20 0 a15 15 0 1120 0 z" fill="#fc0" fill-rule="nonzero"/>
+  <path d="m200 150 h40 v40 h-40 z m10 10 v20 h20 v-20 z" fill="#09c" fill-rule="evenodd"/>
+  <path d="" fill="red"/>
+  <path d="M250 20" fill="red"/>
+</svg>

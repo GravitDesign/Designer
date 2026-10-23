@@ -223,8 +223,40 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
 - Symbol labels: the instance is never painted after duplicate in the
   headless old app (editor-actions symbols/labels-on).
 
+## History to repair before the end
+
+The commit check (scratchpad verify-index.sh) silently passed failing
+prettier and test steps until 2026-10-23. A re-check of every commit since
+f1682f36 found:
+- 2c2d8f2d .. 72158b6a (21 commits) fail `prettier --check` on JSON data
+  only: parity/ported/engine-geometry-offset-trace.json,
+  parity/ported/engine-symbols-images.json, scripts/data/old-type-ids.json.
+- abee30ad also fails one unit test (src/engine/color/scenarios.test.ts
+  still compared against the pre-BUG-002 output; fixed in 68c9959f).
+Everything else (tsc, eslint, other tests) passes on all of them. Plan:
+when no agent is writing to the worktree, run `git filter-branch
+--tree-filter` over that range to format those three files in every
+commit and apply the scenarios.test.ts fix in abee30ad, then re-run the
+history check (scratchpad check-history.sh).
+
 ## Pending porting work
 
+- Open engine differences found by the SVG export check (corpus SVG of all
+  pages, 59/63 identical): fills-colors CMYK `toScreen` gives different RGB
+  than the old app (ICC profile loaded? when?); fills-textures one node-tile
+  texture rasterizes differently (old PNG 803 bytes, new 3147);
+  import-export/export/svg/effects' recorded output looks like it captured
+  WebGL state of the recording session (the old app run again gives the
+  new app's output): re-check determinism, maybe freshBrowser.
+- Scenes need `scene.setShadowExpandArea(9, 9, 9, 11)` as the old app's
+  documents set it (exports measure 338x220 instead of 320x200 without it);
+  belongs to the document/editor setup.
+- io-export-svg, io-import-svg and io-export-pdf must be committed together
+  (shared pdf/number-format.ts; the importer uses svg-util/svg-images).
+  Register `SVGExport: SvgExport` and the PDF exporter in
+  src/io/export/index.ts. SVG import has one deliberate change (element
+  names that are Object.prototype members no longer crash): split it into
+  a faithful port plus a BUG fix commit.
 
 - Every port agent reported "old quirks kept" (in its final report and in
   comments/READMEs next to the code). At the end of phase 4, collect them

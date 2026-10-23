@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200">
+  <defs>
+    <clipPath id="multi"><rect x="10" y="110" width="40" height="40"/><circle cx="70" cy="150" r="20"/><g><rect x="0" y="0" width="5" height="5"/></g></clipPath>
+    <clipPath id="tclip"><rect x="0" y="0" width="30" height="30" transform="translate(110 110)"/></clipPath>
+  </defs>
+  <rect x="10" y="110" width="80" height="80" fill="#a3a" clip-path="url(#multi)"/>
+  <g clip-path="url(#tclip)" transform="translate(5 5)"><rect x="100" y="100" width="80" height="80" fill="#3aa"/></g>
+</svg>

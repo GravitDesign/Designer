@@ -1,11 +1,10 @@
 // Old: chunk.vendor.js module 797 (the exporter registry).
 //
-// The three exporters, static classes without a shared interface. The
-// SVG and PDF exporters are ported by other clusters (io-export-svg,
-// io-export-pdf); until their entry classes exist the registry holds
-// null for them and the exporter reports the format as not ported.
+// The three exporters, static classes without a shared interface.
 
 import { BitmapExport } from "./bitmap-export.ts";
+import { PDFExport } from "./pdf/pdf-export.ts";
+import { SvgExport } from "./svg/svg-export.ts";
 
 /** What the export glue calls on the SVG exporter (GSVGExport). */
 export interface SvgExporter {
@@ -41,6 +40,6 @@ export const exporters: {
   PDFExport: PdfExporter | null;
 } = {
   BitmapExport,
-  SVGExport: null,
-  PDFExport: null,
+  SVGExport: SvgExport,
+  PDFExport,
 };

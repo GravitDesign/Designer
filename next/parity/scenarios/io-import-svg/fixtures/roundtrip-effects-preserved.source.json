@@ -1,0 +1,125 @@
+{
+  "@": "page",
+  "@id": "JhHAU2",
+  "$": [
+    { "@": "annlst", "@id": "3ki6Dv", "pgid": "JhHAU2", "aid": "3ki6Dv" },
+    {
+      "@": "rectangle",
+      "@id": "P6aUlj",
+      "uf": true,
+      "ct": "R",
+      "sl": 0,
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [40, 0, 0, 30, 60, 50],
+      "name": "Shadow",
+      "_layers": {
+        "@": "paintLayers",
+        "@id": "hC6a76",
+        "$": [{ "@": "fillPaintLayer", "@id": "7y0wN2", "_pt": "C#[60,120,220]" }],
+        "&": "4ImH1ciYviko5qINTbNiE7QTl3bBN3tv"
+      },
+      "_eff": {
+        "@": "effects",
+        "$": [{ "@": "dropShadowEffect", "x": 6, "y": 6, "pat": "C#[0,0,0]" }],
+        "&": "90EQod7dFflT4s8oBUXjA4vNxVNoLZ1Z"
+      }
+    },
+    {
+      "@": "ellipse",
+      "@id": "iTyUwL",
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [35, 0, 0, 35, 165, 55],
+      "name": "Blurred",
+      "_layers": {
+        "@": "paintLayers",
+        "@id": "tO2805",
+        "$": [{ "@": "fillPaintLayer", "@id": "75oqqG", "_pt": "C#[230,120,0]" }],
+        "&": "Gv86suEvHummqmqisCKuiKIla20xQT3w"
+      },
+      "_eff": {
+        "@": "effects",
+        "$": [{ "@": "blurEffect", "r": 4 }],
+        "&": "XCtk87MuSuiu4SG48koWcxkMW4MIPwh5"
+      }
+    },
+    {
+      "@": "rectangle",
+      "@id": "XqKxTc",
+      "uf": true,
+      "ct": "R",
+      "sl": 0,
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [40, 0, 0, 30, 260, 50],
+      "name": "Inner",
+      "_layers": {
+        "@": "paintLayers",
+        "@id": "SquXMT",
+        "$": [{ "@": "fillPaintLayer", "@id": "F7INU5", "_pt": "C#[240,240,120]" }],
+        "&": "Qu0htoAwGrArw7e3OUHBDFfRpZvQSd4n"
+      },
+      "_eff": {
+        "@": "effects",
+        "$": [{ "@": "innerShadowEffect", "r": 4, "x": 4, "y": 4, "pat": "C#[0,0,0]" }],
+        "&": "hoQTVbN3fQRP0CPrP3XDArINqIYdIKZi"
+      }
+    },
+    {
+      "@": "rectangle",
+      "@id": "QA4N3D",
+      "uf": true,
+      "ct": "R",
+      "sl": 0,
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [60, 0, 0, 35, 80, 145],
+      "name": "Sepia",
+      "_layers": {
+        "@": "paintLayers",
+        "@id": "M3vlEw",
+        "$": [
+          {
+            "@": "fillPaintLayer",
+            "@id": "AMGeCc",
+            "_pt": "L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,0,255]\",\"o\":1}]}"
+          }
+        ],
+        "&": "6Bfduh9Xx8PtTR7bFKu0v8erck9cyqDt"
+      },
+      "_eff": {
+        "@": "effects",
+        "$": [{ "@": "GGLSepiaEffect", "shp": { "amount": 0.5 }, "sh": "GGLSepiaShader" }],
+        "&": "TYn20PporikS9IQJmOZQOC1Iyot1jOSH"
+      }
+    },
+    {
+      "@": "ellipse",
+      "@id": "jdpYzh",
+      "reftxt": null,
+      "refanchors": [],
+      "trf": [60, 0, 0, 35, 230, 145],
+      "name": "Angular",
+      "_layers": {
+        "@": "paintLayers",
+        "@id": "qQAqBW",
+        "$": [
+          {
+            "@": "fillPaintLayer",
+            "@id": "RnQ1Mg",
+            "_pt": "A#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[255,0,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[0,200,0]\",\"o\":1}]}"
+          }
+        ],
+        "&": "B72pnluXDHjytXYAYfkVKJBXot6NFCMn"
+      },
+      "_effId": "z2LiRvEfBNrRGKCgDtwS2kchyD1voscP"
+    }
+  ],
+  "#": "Y2MRH94SxsYzGnQcw1hs5zejeFNw7JlQ",
+  "w": 320,
+  "h": 200,
+  "off": [],
+  "bck": "C#[250,250,250]",
+  "name": "Effects"
+}

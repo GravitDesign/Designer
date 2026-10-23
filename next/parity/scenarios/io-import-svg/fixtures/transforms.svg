@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect x="10" y="10" width="30" height="20" fill="#c00" transform="translate(20)"/>
+  <rect x="10" y="40" width="30" height="20" fill="#0c0" transform="rotate(30, 25, 50)"/>
+  <rect x="10" y="70" width="30" height="20" fill="#00c" transform="scale(1.5)"/>
+  <rect x="10" y="100" width="30" height="20" fill="#cc0" transform="skewY(20)"/>
+  <rect x="10" y="130" width="30" height="20" fill="#0cc" transform="translate(50,0) matrix(1 0 0 1 10 10)"/>
+  <rect x="10" y="160" width="30" height="20" fill="#c0c" transform="matrix(1 0 0 1 10 10)translate(50,0)"/>
+  <rect x="10" y="190" width="30" height="20" fill="#888" transform="translate(10, 5),scale(2 1),rotate(10)"/>
+  <g transform="translate(200 20)">
+    <g transform="scale(2)">
+      <circle cx="10" cy="10" r="8" fill="#f80" stroke="#000" stroke-width="2"/>
+      <line x1="0" y1="30" x2="40" y2="30" stroke="#000" stroke-width="3" vector-effect="non-scaling-stroke"/>
+    </g>
+    <ellipse cx="100" cy="20" rx="20" ry="10" fill="#08f" transform="rotate(-20 100 20)"/>
+  </g>
+  <polygon points="300,200 350,220 330,260" fill="#4a4" transform="skewX(-10) translate(5 5)"/>
+  <rect x="10" y="220" width="30" height="20" fill="#a52" transform="scale(2) matrix(1 0 0 1 10 0)"/>
+  <rect x="10" y="250" width="30" height="20" fill="#25a" transform="rotate(30) matrix(0.5 0 0 0.5 10 5) translate(3 4)"/>
+</svg>

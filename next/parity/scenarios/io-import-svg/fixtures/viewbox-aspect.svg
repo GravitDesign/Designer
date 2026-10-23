@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100" viewBox="10 10 100 100" preserveAspectRatio="xMinYMin slice">
+  <rect x="10" y="10" width="100" height="100" fill="#ddd"/>
+  <svg x="20" y="20" width="60" height="30" viewBox="0 0 10 10" preserveAspectRatio="none">
+    <circle cx="5" cy="5" r="5" fill="#c33"/>
+  </svg>
+  <svg x="20" y="60" width="60" height="30" viewBox="0 0 10 10" preserveAspectRatio="xMaxYMax meet">
+    <circle cx="5" cy="5" r="5" fill="#3c3"/>
+  </svg>
+  <svg x="80" y="60" width="20" height="40" viewBox="0 0 10 10">
+    <rect width="10" height="10" fill="#33c"/>
+  </svg>
+</svg>
