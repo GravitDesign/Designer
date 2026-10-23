@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { RGBColor } from "../color/rgb-color.ts";
 import { VertexContainer } from "../geometry/vertex-container.ts";
 import { Vertex } from "../geometry/vertex.ts";
@@ -7,6 +7,7 @@ import { Rect } from "../math/rect.ts";
 import { Transform } from "../math/transform.ts";
 import { LinearGradient } from "../style/linear-gradient.ts";
 import { RadialGradient } from "../style/radial-gradient.ts";
+import { Bitmap } from "./bitmap.ts";
 import type { Canvas2DPaintCanvas } from "./paint-canvas.ts";
 import { PaintCanvas } from "./paint-canvas.ts";
 import { RecorderStateContext } from "./recorder-state-context.ts";
@@ -410,5 +411,41 @@ describe("recorded canvases", () => {
     canvas.setRenderAlgorithm(PaintCanvas.RenderAlgorithm.Pixelated);
     expect(log.slice(before)).toEqual([]);
     expect(canvas._canvasContext.imageSmoothingQuality).toBe("high");
+  });
+});
+
+describe("bitmaps of recorded canvases", () => {
+  function bitmapFromRenderPhase(): Bitmap {
+    RenderScheduler.begin();
+    try {
+      const canvas = new PaintCanvas();
+      canvas.resize(19, 18);
+      return new Bitmap(canvas);
+    } finally {
+      RenderScheduler.finish();
+    }
+  }
+
+  it("give no texture on a plain canvas, as the old recorder's canvas did", () => {
+    const bitmap = bitmapFromRenderPhase();
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    try {
+      expect(plain(8, 8).createTexture(bitmap)).toBeNull();
+      expect(warn).toHaveBeenCalledWith("pattern couldn't have been created");
+    } finally {
+      warn.mockRestore();
+    }
+  });
+
+  it("still give a texture on a recorded canvas", () => {
+    const bitmap = bitmapFromRenderPhase();
+    const recorded = new PaintCanvas(true);
+    recorded.resize(8, 8);
+    expect(recorded.createTexture(bitmap)).not.toBeNull();
+  });
+
+  it("are left alone when made outside a render phase", () => {
+    const canvas = plain(19, 18);
+    expect(plain(8, 8).createTexture(new Bitmap(canvas))).not.toBeNull();
   });
 });
