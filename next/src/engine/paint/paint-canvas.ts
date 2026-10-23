@@ -30,7 +30,7 @@ import {
   type TexturePatternLike,
 } from "./late-bound.ts";
 import { registerPaintCanvasClass } from "./paint-canvas-class.ts";
-import { RecorderCanvas, RecorderStateContext } from "./recorder-state-context.ts";
+import { RecorderStateContext } from "./recorder-state-context.ts";
 import { RenderScheduler } from "./render-scheduler.ts";
 
 const LineCap = {
@@ -834,9 +834,6 @@ export class Canvas2DPaintCanvas extends GObject implements PaintCanvas {
       if (sized.width && 0 !== Math.floor(sized.width) && 0 !== Math.floor(sized.height)) {
         let pattern: CanvasPattern | null = null;
         try {
-          // The browser rejects the stand-in too; the check makes that
-          // explicit (and holds for test canvases).
-          if (source instanceof RecorderCanvas) throw new TypeError("not an image source");
           pattern = this._canvasContext.createPattern(source, repeat);
         } catch {
           console.warn("pattern couldn't have been created");
@@ -1624,19 +1621,10 @@ export class Canvas2DPaintCanvas extends GObject implements PaintCanvas {
       return image;
     }
     if (image instanceof Canvas2DPaintCanvas) return image._canvasContext.canvas;
-    if (image instanceof Bitmap) {
-      // Unlike a paint canvas, the old code never swapped a recorded
-      // bitmap's canvas for the real one, and a plain context can't use
-      // the recorder's (see recorder-state-context.ts).
-      const canvas = image._canvasContext.canvas;
-      if (
-        !(this._canvasContext instanceof RecorderStateContext) &&
-        RenderScheduler.isRecordedCanvas(canvas)
-      ) {
-        return new RecorderCanvas(canvas) as unknown as CanvasImageSource;
-      }
-      return canvas;
-    }
+    // The old code handed out the recorder's canvas object for a bitmap of
+    // a recorded canvas, which only a recorder could draw (BUG-007). The
+    // bitmap's canvas is the real one, as for a paint canvas.
+    if (image instanceof Bitmap) return image._canvasContext.canvas;
     throw new Error("Not Supported.");
   }
 

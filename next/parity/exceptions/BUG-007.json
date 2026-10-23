@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-007",
+  "why": "A vector texture (texture pattern built from nodes) stays in toBitmap and the PNG, JPEG, SVG and PDF exports after the view painted it. The old app cached the texture's bitmap on a recorded canvas during the view's render pass and left the texture out of every later paint outside one. The new app has no view yet, so nothing paints in a render pass and no enabled scenario differs. The pending scenarios open fills-textures.gvdesign through the view in the old app; their .fixed output equals the old one except that the star tile is filled. The preview, the canvas renders and the gvthumb thumbnail show the star in the old output and need nothing.",
+  "scenarios": [],
+  "pending": ["corpus/fills-textures/bitmap", "import-export/corpus/fills-textures"]
+}

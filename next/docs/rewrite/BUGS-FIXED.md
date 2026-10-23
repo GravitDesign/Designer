@@ -143,3 +143,46 @@ Old code: the canvg fork in chunk.vendor.js module 1391, CreateElement.
 - Test: src/io/import/svg/svg-parser.test.ts, "BUG-006: element names that
   are built-in object members" (both cases fail with the old lookup).
 - Parity exceptions: none. No recorded scenario contains such an element.
+
+## BUG-007 Vector textures drop out of exports after the view painted them
+
+Old location: chunk.vendor.js module 14, GPaintCanvas._convertImage (lines
+5054-5075), reached from GPaintCanvas.createTexture (the "pattern couldn't
+have been created" warning, line 4476) and drawImage.
+
+Reproduce: open a document with a vector texture fill (a texture pattern
+built from nodes, such as the star tile in the corpus file
+fills-textures.gvdesign) so that the view paints it, then export the page as
+PNG, JPEG, SVG or PDF, or render it with GElement.toBitmap.
+
+Old: the texture pattern caches the bitmap of its nodes the first time it is
+painted. When the view paints it, that happens inside a render pass, so the
+bitmap's canvas belongs to the command recorder and the bitmap hands out the
+recorder's canvas object instead of the real canvas. _convertImage swapped
+that object for the real canvas when it was given a recorded paint canvas,
+but not when it was given a bitmap. A recorder resolved it later at replay,
+so the view itself looked right, but every plain canvas rejected it:
+createPattern threw, createTexture returned no pattern, and the fill was
+left out. From then on the texture was missing from toBitmap, the bitmap,
+SVG and PDF exports, for as long as the cached bitmap lived. Whether an
+export showed the texture depended on whether the view had painted it first.
+
+New: _convertImage returns the bitmap's real canvas, the same as for a
+paint canvas, so a texture shows up in exports regardless of what the view
+painted before. The rest of the recorder emulation stays (the RecorderCanvas
+stand-in and RenderScheduler.isRecordedCanvas, which only served this case,
+are gone). Saved files are not affected.
+
+Test: next/src/engine/paint/paint-canvas.test.ts, "bitmaps of recorded
+canvases": a bitmap made during a render pass gives a pattern of its real
+canvas on a plain canvas without the warning, and draws there. Both tests
+fail with the old behaviour (the stand-in gives no pattern and logs the
+warning; drawImage throws).
+
+Parity exceptions: next/parity/exceptions/BUG-007.json. No scenario enabled
+for the new app shows the difference yet, because the new app has no view
+(nothing paints in a render pass). Pending, to get .fixed files once they are
+enabled: corpus/fills-textures/bitmap (the star tile is an empty cream
+square in the old output) and import-export/corpus/fills-textures (PNG,
+JPEG, SVG and PDF exports without the star). The preview, the canvas renders
+and the gvthumb thumbnail show the star in the old output and need nothing.

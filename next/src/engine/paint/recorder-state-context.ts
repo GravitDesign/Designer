@@ -26,14 +26,6 @@
 //   there and not in the paint code. Such errors are marked here (see
 //   isCanvasError) so the tile renderer and tryRunRendering can handle them
 //   where the old replay did.
-// - A bitmap of a recorded canvas handed the recorder's canvas object
-//   (RendererCanvas), not the real canvas, to whatever drew it. A recorder
-//   resolved that at replay, but a plain context rejects it: createTexture
-//   gave no pattern and drawImage threw. GPaintCanvas._convertImage hands
-//   out a RecorderCanvas stand-in in that case. The visible effect: a
-//   vector texture fill whose bitmap was cached during a render pass (the
-//   view painting it) disappears when the element is later painted outside
-//   one, as by toBitmap and the bitmap, SVG and PDF exports.
 //
 // Known differences that no caller reaches:
 // - measureText: the recorder measured on the real context, which had not
@@ -140,21 +132,6 @@ export interface ReplayPolicy {
   glCanvas(): HTMLCanvasElement | null;
   /** Whether `canvas` belongs to a recorded (wrapped) context. */
   isRecordedCanvas(canvas: unknown): boolean;
-}
-
-/**
- * Stands in for the old recorder's canvas object (RendererCanvas) where a
- * plain context gets it: it has the size of the canvas but is no image
- * source, so the context's createPattern and drawImage reject it.
- */
-export class RecorderCanvas {
-  readonly width: number;
-  readonly height: number;
-
-  constructor(canvas: { width: number; height: number }) {
-    this.width = canvas.width;
-    this.height = canvas.height;
-  }
 }
 
 let nextContextId = 1;

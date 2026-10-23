@@ -426,15 +426,29 @@ describe("bitmaps of recorded canvases", () => {
     }
   }
 
-  it("give no texture on a plain canvas, as the old recorder's canvas did", () => {
+  // BUG-007: the old code handed a plain canvas the recorder's canvas
+  // object, which gave no pattern, so a vector texture cached by the view
+  // was missing from every later export.
+  it("give a texture of the real canvas on a plain canvas", () => {
     const bitmap = bitmapFromRenderPhase();
     const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     try {
-      expect(plain(8, 8).createTexture(bitmap)).toBeNull();
-      expect(warn).toHaveBeenCalledWith("pattern couldn't have been created");
+      const pattern = plain(8, 8).createTexture(bitmap) as unknown as { pattern: unknown };
+      expect(pattern).not.toBeNull();
+      expect(pattern.pattern).toBe(bitmap._canvasContext.canvas);
+      expect(warn).not.toHaveBeenCalled();
     } finally {
       warn.mockRestore();
     }
+  });
+
+  it("draw on a plain canvas", () => {
+    const bitmap = bitmapFromRenderPhase();
+    const target = plain(32, 32);
+    const log = since(target);
+    target.drawImage(bitmap, 3, 4);
+    const id = (bitmap._canvasContext.canvas as unknown as FakeCanvas).id;
+    expect(log()).toContain("drawImage(canvas#" + id + ",3,4)");
   });
 
   it("still give a texture on a recorded canvas", () => {

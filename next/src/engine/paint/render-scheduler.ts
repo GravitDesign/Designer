@@ -165,11 +165,6 @@ export class RenderScheduler {
     return this._enabled && this._renderPhase;
   }
 
-  /** Whether `canvas` belongs to a context the old code would have recorded. */
-  static isRecordedCanvas(canvas: unknown): boolean {
-    return replayPolicy.isRecordedCanvas(canvas);
-  }
-
   static isDebug(): boolean {
     return RendererConfig.DEBUG_LEVEL < 2 || this._debugEnabled;
   }

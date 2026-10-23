@@ -220,12 +220,7 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
   initSizeAndPosition throws on a second call (GTransform.invert missing).
 - Restored ready shapes skip all base constructors (no $refs, _effId,
   _layId, _paintSharp): no pixel snapping, linking may crash.
-- BUG-007 candidate (wrong output): once the old view has painted a vector
-  texture (TexturePattern from nodes), its cached bitmap sits on a recorded
-  canvas, _convertImage can't resolve it, and every later paint outside a
-  render pass (toBitmap, PNG/SVG/PDF exports) leaves the texture out.
-  Ported faithfully in 48e8e77f (RecorderCanvas stand-in); fix = drop the
-  emulation, with exceptions for the export scenarios that show it.
+- BUG-007 (textures missing from exports after the view painted them) is fixed; see BUGS-FIXED.md.
 - Symbol labels: the instance is never painted after duplicate in the
   headless old app (editor-actions symbols/labels-on).
 
