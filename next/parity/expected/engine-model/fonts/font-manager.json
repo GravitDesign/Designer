@@ -1,0 +1,168 @@
+{
+ "withoutResolver": null,
+ "first": [
+  "entry",
+  "Open Sans",
+  "N",
+  400,
+  false,
+  false
+ ],
+ "missing": [
+  "entry",
+  "No Such Font",
+  "I",
+  700,
+  false,
+  false
+ ],
+ "beforeResolve": [
+  true,
+  true
+ ],
+ "afterResolve": [
+  true,
+  false
+ ],
+ "again": [
+  "opentype",
+  "Open Sans",
+  "N",
+  400,
+  true,
+  false
+ ],
+ "missingAgain": [
+  "entry",
+  "No Such Font",
+  "I",
+  700,
+  false,
+  false
+ ],
+ "pendingAgain": [
+  true,
+  true
+ ],
+ "afterRemove": [
+  [
+   "entry",
+   "Open Sans",
+   "N",
+   400,
+   false,
+   false
+  ],
+  [
+   true,
+   true
+  ]
+ ],
+ "fonts": [
+  [
+   "opentype",
+   "Open Sans",
+   "N",
+   400,
+   true,
+   false
+  ],
+  [
+   "entry",
+   "No Such Font",
+   "I",
+   700,
+   false,
+   true
+  ]
+ ],
+ "queryWithoutListener": "<undefined>",
+ "query": [
+  "Open Sans",
+  "listed"
+ ],
+ "fontFace": [
+  289861,
+  "url(data:font/ttf;base64,AAEAAAATAQAABAAwRFNJR54SRB0AAzucAAAVdEdERUYAJgOvAAM3fAA",
+  "rL2sqTi9sNUMo9ljrbCVtGhYw+LXKf+RpMcAAA==) format(\"truetype\")"
+ ],
+ "css": {
+  "font-family": "Open Sans",
+  "font-style": "normal",
+  "font-weight": "400"
+ },
+ "log": [
+  [
+   "resolve",
+   "Open Sans",
+   "N",
+   400,
+   true
+  ],
+  [
+   "resolve",
+   "No Such Font",
+   "I",
+   700,
+   false
+  ],
+  [
+   "available",
+   [
+    "opentype",
+    "Open Sans",
+    "N",
+    400,
+    true,
+    false
+   ]
+  ],
+  [
+   "unavailable",
+   [
+    "entry",
+    "No Such Font",
+    "I",
+    700,
+    false,
+    true
+   ]
+  ],
+  [
+   "resolve",
+   "No Such Font",
+   "I",
+   700,
+   true
+  ],
+  [
+   "unavailable",
+   [
+    "entry",
+    "No Such Font",
+    "I",
+    700,
+    false,
+    true
+   ]
+  ],
+  [
+   "resolve",
+   "Open Sans",
+   "N",
+   400,
+   true
+  ],
+  [
+   "available",
+   [
+    "opentype",
+    "Open Sans",
+    "N",
+    400,
+    true,
+    false
+   ]
+  ]
+ ]
+}

@@ -1,9 +1,20 @@
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { Point } from "../math/point.ts";
 import { Rect } from "../math/rect.ts";
 import { Util, setStringCompression } from "./util.ts";
 
 // Expected values come from the old app (parity/expected/engine-geometry/util).
+
+/** Recorded from the old bundle's GUtil.compressString (vendor module 11 with its pako). */
+const oldCompressed = JSON.parse(
+  readFileSync(
+    resolve(dirname(fileURLToPath(import.meta.url)), "__fixtures__/old-compress-string.json"),
+    "utf8",
+  ),
+) as { text: string; compressed: string }[];
 
 describe("numbers", () => {
   it("formats with rounding, digits and a separator", () => {
@@ -255,14 +266,28 @@ describe("helpers", () => {
     expect(() => Util.base64EncodeUnicode(5 as unknown as string)).toThrow();
   });
 
-  it("compresses through the configured codec", () => {
-    expect(() => Util.compressString("abc")).toThrow(/pako/);
+  it.each(oldCompressed)(
+    "compresses $text with pako like the old bundle",
+    ({ text, compressed }) => {
+      // The deflated binary string goes through base64EncodeUnicode, so every
+      // byte above 0x7f is UTF-8 encoded before base64 (old quirk).
+      expect(Util.compressString(text)).toBe(compressed);
+      expect(Util.decompressString(compressed)).toBe(text);
+    },
+  );
+
+  it("compresses through a replaced codec", () => {
     setStringCompression({
       deflate: (text) => text.split("").reverse().join(""),
       inflate: (text) => text.split("").reverse().join(""),
     });
-    const packed = Util.compressString("abc ä");
-    expect(packed).toBe(Util.base64EncodeUnicode("ä cba"));
-    expect(Util.decompressString(packed)).toBe("abc ä");
+    try {
+      const packed = Util.compressString("abc ä");
+      expect(packed).toBe(Util.base64EncodeUnicode("ä cba"));
+      expect(Util.decompressString(packed)).toBe("abc ä");
+    } finally {
+      setStringCompression();
+    }
+    expect(Util.compressString("abc ä")).toBe("eMKcS0xKVjjCvAQACEwCwq4=");
   });
 });

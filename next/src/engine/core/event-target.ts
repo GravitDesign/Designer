@@ -13,6 +13,11 @@
  * class only receives events whose class has exactly that id (subclasses
  * that are registered get their own id and their own listeners).
  *
+ * The groups are kept in a Map, so they are visited in insertion order. The
+ * old code used a plain object (integer keys ascending, then "null"). Only
+ * removeAllEventListeners walks all groups and no listener runs there, so
+ * the order isn't observable; don't start relying on it.
+ *
  * The name shadows the DOM `EventTarget` in files that import it.
  */
 import type { Event, EventClass } from "./event.ts";

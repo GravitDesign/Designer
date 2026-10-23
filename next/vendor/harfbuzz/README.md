@@ -5,6 +5,14 @@ as Emscripten asm.js (chunk.vendor.js module 998, 6.4 MB). The text engine
 loads it in `src/engine/text/harfbuzz/harfbuzz-module.ts`; the wrapper the old
 code called it through is `src/engine/text/fonts/harfbuzz.ts`.
 
+The .wasm is mandatory: there is no asm.js fallback. Vite emits it next to
+the bundle (`dist/bundle/harfbuzz-2.2.0-<hash>.wasm`) and the Electron shell
+serves the same `dist` folder, so every build ships it; a future service
+worker must precache it. If it can't be loaded, `loadHarfBuzz` logs and
+throws "The text engine cannot start: harfbuzz-2.2.0.wasm failed to load
+from <url> (<reason>)" and the engine doesn't start. The old app couldn't hit
+this case, since its asm.js build was part of chunk.vendor.js.
+
 Rebuild it with `vendor/harfbuzz/build.sh [work dir]` (bash; Git Bash works on
 Windows). The script downloads emsdk and the HarfBuzz tarball into the work
 dir, checks the tarball's SHA-256, compiles and writes the .wasm here.

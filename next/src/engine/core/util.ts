@@ -8,6 +8,7 @@
  * is the old GUtil (the app adds a few members to it, such as
  * sanitizeFilename; those live with the app code that defines them).
  */
+import { deflate as pakoDeflate, inflate as pakoInflate } from "pako";
 import { GMath } from "../math/math.ts";
 
 export const SortOperators = {
@@ -405,22 +406,27 @@ export function base64DecodeUnicode(encoded: string): string {
 
 /**
  * The string codec behind compressString: pako 1.0.11 `deflate`/`inflate`
- * with `{ to: "string" }`. pako isn't a dependency of the new app yet; the
- * cluster that adds it calls `setStringCompression` with it.
+ * with `{ to: "string" }`, as in the old code. Tests can swap it with
+ * `setStringCompression`.
  */
 export interface StringCompression {
   deflate(text: string): string;
   inflate(binary: string): string;
 }
 
-let stringCompression: StringCompression | null = null;
+const pakoStringCompression: StringCompression = {
+  deflate: (text) => pakoDeflate(text, { to: "string" }),
+  inflate: (binary) => pakoInflate(binary, { to: "string" }),
+};
 
-export function setStringCompression(codec: StringCompression): void {
+let stringCompression: StringCompression = pakoStringCompression;
+
+/** Test hook: replaces the codec; without an argument restores pako. */
+export function setStringCompression(codec: StringCompression = pakoStringCompression): void {
   stringCompression = codec;
 }
 
 function compression(): StringCompression {
-  if (!stringCompression) throw new Error("String compression (pako) is not set up");
   return stringCompression;
 }
 

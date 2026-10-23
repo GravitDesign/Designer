@@ -11,7 +11,7 @@ import { Pattern } from "./pattern.ts";
  *
  * Known bug, kept for parity: the center is saved as "_cx"/"_cy" but read
  * back from "cx"/"cy", so a moved center returns to 0.5/0.5 after a save
- * and load.
+ * and load (see QUESTIONS.md "Radial gradient center is lost on reload").
  */
 export class RadialGradient extends Gradient {
   static {

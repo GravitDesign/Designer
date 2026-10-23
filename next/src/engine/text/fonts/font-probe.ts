@@ -1,7 +1,9 @@
 // Test support: runs the font API over the bundled fonts and returns plain
 // data. The same function runs against the old bundle (in Node, outside
-// the repo) to record __fixtures__/old-fonts.json and against the port in
-// fonts.test.ts, so it may only use what it is given and no imports.
+// the repo) to record __fixtures__/old-fonts.json, against the port in
+// open-type-font.test.ts, and in both apps' pages for the engine-model
+// fonts parity scenario (sent as source text). So it may only use what it
+// is given: no imports and no module-level names inside probeFonts.
 /* eslint-disable @typescript-eslint/no-explicit-any -- drives the old and the new engine through the same untyped surface */
 
 export interface ProbeApi {
@@ -49,7 +51,7 @@ export const NAME_ONLY_FONTS = [
   "noto/undetected/NotoSansTaiLe-Regular.ttf",
 ];
 
-const TEXTS: [string, string[]][] = [
+export const TEXTS: [string, string[]][] = [
   ["OpenSans-Regular.ttf", ["Hello world", "office flow", "1/2 3/4", "AVATAR To", "éà", " ", "x"]],
   ["OpenSans-Bold.ttf", ["Hello", "fi fl"]],
   ["noto/NotoSansArabic-Regular.ttf", ["مرحبا بالعالم", "مرحبا", "لا", "العربية ١٢٣ abc"]],
@@ -61,7 +63,7 @@ const TEXTS: [string, string[]][] = [
   ["noto/NotoSansCJKjp-Regular.otf", ["日本語のテキスト", "ｶﾀｶﾅ"]],
 ];
 
-const OPTION_SETS: Record<string, any> = {
+export const OPTION_SETS: Record<string, any> = {
   plain: {},
   sized: { size: 20 },
   letterSpacing: { size: 24, letterSpacing: 3 },
@@ -82,7 +84,25 @@ const OPTION_SETS: Record<string, any> = {
   kerning: { size: 24, kerning: true },
 };
 
-export function probeFonts(api: ProbeApi): Record<string, unknown> {
+/** What the probe goes through; the defaults are the full lists above. */
+export interface ProbeLists {
+  probeFonts: readonly string[];
+  nameOnlyFonts: readonly string[];
+  texts: readonly [string, readonly string[]][];
+  optionSets: Record<string, any>;
+}
+
+export const FULL_PROBE: ProbeLists = {
+  probeFonts: PROBE_FONTS,
+  nameOnlyFonts: NAME_ONLY_FONTS,
+  texts: TEXTS,
+  optionSets: OPTION_SETS,
+};
+
+/** Fonts the collection and resource-fork parts read besides the listed ones. */
+export const PROBE_EXTRA_FONTS = ["OpenSans-Light.ttf", "OpenSans-Bold.ttf", "OpenSans-Italic.ttf"];
+
+export function probeFonts(api: ProbeApi, lists: ProbeLists): Record<string, unknown> {
   const F = api.GOpenTypeFont;
   const U = api.GOpenTypeUtil;
   const attempt = (fn: () => any): any => {
@@ -115,7 +135,7 @@ export function probeFonts(api: ProbeApi): Record<string, unknown> {
 
   // Names.
   const info: Record<string, unknown> = {};
-  for (const name of [...PROBE_FONTS, ...NAME_ONLY_FONTS]) {
+  for (const name of [...lists.probeFonts, ...lists.nameOnlyFonts]) {
     const bytes = api.readFont(name);
     info[name] = {
       info: attempt(() => U.getOpenTypeInfo(bytes)),
@@ -182,6 +202,147 @@ export function probeFonts(api: ProbeApi): Record<string, unknown> {
       return [f.getFamily(), f.getAdvance(20, "W"), glyphs(f.stringToGlyphs("Hi", 0, 0, 20, {}))];
     }),
   };
+  // The table directory of a font buffer (ArrayBuffer or DataView).
+  const tables = (font: any) => {
+    if (!font) return null;
+    const view =
+      font instanceof DataView
+        ? font
+        : new DataView(font instanceof ArrayBuffer ? font : font.buffer);
+    const count = view.getUint16(4);
+    const out: any[] = [view.byteLength];
+    for (let t = 0; t < count; t++) {
+      const at = 12 + 16 * t;
+      out.push([
+        String.fromCharCode(
+          view.getUint8(at),
+          view.getUint8(at + 1),
+          view.getUint8(at + 2),
+          view.getUint8(at + 3),
+        ),
+        view.getUint32(at + 8),
+        view.getUint32(at + 12),
+      ]);
+    }
+    return out;
+  };
+  out.collectionTables = attempt(() =>
+    U.getFont("", null, null, ttc, true).map((e: any) => [e.family, e.weight, tables(e.buffer)]),
+  );
+  // The same collection with its offset list in reverse order: the fonts
+  // are still visited in file order.
+  const reversed = ttc.slice(0);
+  {
+    const view = new DataView(reversed);
+    const first = view.getUint32(12);
+    view.setUint32(12, view.getUint32(16));
+    view.setUint32(16, first);
+  }
+  out.collectionReversed = {
+    listed: attempt(() =>
+      U.getFont("", null, null, reversed, true, true).map((e: any) => [e.family, e.weight]),
+    ),
+    light: attempt(() =>
+      U.getFont("Open Sans Light", "N", 400, reversed).map((e: any) => [
+        e.family,
+        tables(e.buffer),
+      ]),
+    ),
+  };
+
+  // A Mac resource fork (.dfont) with a FOND resource and two sfnt
+  // resources: the first in the reference list is stored second and has a
+  // name, the second has none.
+  const resourceFork = () => {
+    const fond = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]);
+    const bold = new Uint8Array(api.readFont("OpenSans-Bold.ttf"));
+    const italic = new Uint8Array(api.readFont("OpenSans-Italic.ttf"));
+    const dataStart = 256;
+    const fondAt = 0;
+    const boldAt = fondAt + 4 + fond.length;
+    const italicAt = boldAt + 4 + bold.length;
+    const dataLength = italicAt + 4 + italic.length;
+    const name = "Open Sans Italic";
+    const typeList = 2 + 8 * 2;
+    const refs = 12 * 3;
+    const mapLength = 28 + typeList + refs + 1 + name.length;
+    const mapStart = dataStart + dataLength;
+    const bytes = new Uint8Array(mapStart + mapLength);
+    const view = new DataView(bytes.buffer);
+    const header = [dataStart, mapStart, dataLength, mapLength];
+    header.forEach((value, i) => {
+      view.setUint32(4 * i, value);
+      view.setUint32(mapStart + 4 * i, value);
+    });
+    const putData = (at: number, data: Uint8Array) => {
+      view.setUint32(dataStart + at, data.length);
+      bytes.set(data, dataStart + at + 4);
+    };
+    putData(fondAt, fond);
+    putData(boldAt, bold);
+    putData(italicAt, italic);
+    view.setUint16(mapStart + 24, 28);
+    view.setUint16(mapStart + 26, 28 + typeList + refs);
+    const types = mapStart + 28;
+    view.setUint16(types, 1);
+    const putType = (at: number, tag: string, count: number, refOffset: number) => {
+      for (let c = 0; c < 4; c++) view.setUint8(at + c, tag.charCodeAt(c));
+      view.setUint16(at + 4, count - 1);
+      view.setUint16(at + 6, refOffset);
+    };
+    putType(types + 2, "FOND", 1, typeList);
+    putType(types + 10, "sfnt", 2, typeList + 12);
+    const putRef = (at: number, id: number, nameOffset: number, dataOffset: number) => {
+      view.setUint16(at, id);
+      view.setInt16(at + 2, nameOffset);
+      view.setUint8(at + 4, 0);
+      view.setUint8(at + 5, (dataOffset >> 16) & 0xff);
+      view.setUint16(at + 6, dataOffset & 0xffff);
+      view.setUint32(at + 8, 0);
+    };
+    putRef(types + typeList, 128, -1, fondAt);
+    putRef(types + typeList + 12, 129, 0, italicAt);
+    putRef(types + typeList + 24, 130, -1, boldAt);
+    const names = types + typeList + refs;
+    view.setUint8(names, name.length);
+    for (let c = 0; c < name.length; c++) view.setUint8(names + 1 + c, name.charCodeAt(c));
+    return bytes.buffer;
+  };
+  const dfont = resourceFork();
+  out.resourceFork = {
+    type: attempt(() => new U.Parser(dfont)._type),
+    info: attempt(() => U.getOpenTypeInfo(dfont)),
+    listed: attempt(() =>
+      U.getFont("", null, null, dfont, true, true).map((e: any) => [
+        e.family,
+        e.weight,
+        e.style,
+        e.buffer === null,
+      ]),
+    ),
+    all: attempt(() =>
+      U.getFont("", null, null, dfont, true).map((e: any) => [e.family, e.style, tables(e.buffer)]),
+    ),
+    italic: attempt(() =>
+      U.getFont("Open Sans", "I", 400, dfont).map((e: any) => [e.family, e.buffer.byteLength]),
+    ),
+    missing: attempt(() => U.getFont("Open Sans", "N", 400, dfont).length),
+    names: attempt(() => {
+      const parser = new U.Parser(dfont);
+      parser.getFont("", null, null, true, true);
+      return parser._parsedStruct.map.typeList.types.map((t: any) => [
+        t.name,
+        t.refList.map((r: any) => [r.id, r.nameOffset, r.dataOffset, r.name ?? null]),
+      ]);
+    }),
+    font: attempt(() => {
+      const f = F.create("Open Sans", "N", 700, dfont);
+      return f
+        ? [f.getFamily(), f.getAdvance(20, "W"), glyphs(f.stringToGlyphs("Hi", 0, 0, 20, {}))]
+        : null;
+    }),
+  };
+
   const tiny = new Uint8Array([0, 1, 0, 0, 0, 3]).buffer;
   out.odd = {
     tiny: attempt(() => [
@@ -228,7 +389,7 @@ export function probeFonts(api: ProbeApi): Record<string, unknown> {
 
   // Glyph API and shaping.
   const fonts: Record<string, unknown> = {};
-  for (const name of PROBE_FONTS) {
+  for (const name of lists.probeFonts) {
     const f = F.create("Probe", "N", 400, api.readFont(name));
     if (!f) {
       fonts[name] = null;
@@ -257,10 +418,10 @@ export function probeFonts(api: ProbeApi): Record<string, unknown> {
       resolved: f.isResolved(),
     };
     const shaping: Record<string, unknown> = {};
-    for (const [fontName, texts] of TEXTS) {
+    for (const [fontName, texts] of lists.texts) {
       if (fontName !== name) continue;
       for (const text of texts) {
-        for (const [label, options] of Object.entries(OPTION_SETS)) {
+        for (const [label, options] of Object.entries(lists.optionSets)) {
           const opts = JSON.parse(JSON.stringify(options));
           const size = opts.size;
           delete opts.size;

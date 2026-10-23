@@ -3,10 +3,7 @@ import { describe, expect, it } from "vitest";
 import { OLD_TYPE_IDS, OLD_TYPE_ID_ALIASES, lookupOldTypeId } from "./type-ids.ts";
 
 const recorded = JSON.parse(
-  fs.readFileSync(
-    new URL("../../../scripts/data/old-type-ids.json", import.meta.url),
-    "utf8",
-  ),
+  fs.readFileSync(new URL("../../../scripts/data/old-type-ids.json", import.meta.url), "utf8"),
 ) as Record<string, number>;
 
 describe("type-ids.ts", () => {

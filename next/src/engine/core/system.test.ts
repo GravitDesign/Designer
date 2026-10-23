@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import {
   Hardware,
@@ -7,6 +10,17 @@ import {
   detectLanguage,
   detectOperatingSystem,
 } from "./system.ts";
+
+/**
+ * Recorded from the old bundle: GSystem (vendor module 176) with its own
+ * ua-parser-js 0.7.33 (app module 610), loaded in Node with a fake navigator.
+ */
+const oldHardware = JSON.parse(
+  readFileSync(
+    resolve(dirname(fileURLToPath(import.meta.url)), "__fixtures__/old-hardware.json"),
+    "utf8",
+  ),
+) as { userAgent: string; maxTouchPoints: number; hardware: Hardware }[];
 
 const WIN_CHROME =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36";
@@ -50,6 +64,13 @@ describe("System", () => {
     expect(detectHardware({ userAgent: "Linux; Android 11; SM-P610 Build" })).toBe(Hardware.Tablet);
     expect(detectHardware(undefined)).toBe(Hardware.Desktop);
   });
+
+  it.each(oldHardware)(
+    "classifies $userAgent ($maxTouchPoints touch points) like the old app",
+    ({ userAgent, maxTouchPoints, hardware }) => {
+      expect(detectHardware({ userAgent, maxTouchPoints })).toBe(hardware);
+    },
+  );
 
   it("takes the language before the region", () => {
     expect(detectLanguage({ language: "de-DE" })).toBe("de");

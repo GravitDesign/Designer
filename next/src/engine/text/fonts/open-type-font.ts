@@ -335,7 +335,8 @@ export class OpenTypeFont extends Font {
       const openTypeFont = this._openTypeFont;
       if (direction !== DIRECTIONS.RTL || (opts && opts.noreverse)) {
         glyphs = shaped.map((glyph, i) => {
-          // Clusters are UTF-8 byte offsets, used here as string indexes.
+          // Clusters are UTF-8 byte offsets, used here as string indexes
+          // (kept, see QUESTIONS.md "HarfBuzz clusters used as string indexes").
           const end =
             i + 1 < shaped.length ? (shaped[i + 1] as { cluster: number }).cluster : text.length;
           const positioned: PositionedGlyph<Glyph> = {

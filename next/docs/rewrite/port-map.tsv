@@ -1,5 +1,5 @@
 bundle	module	bytes	classes	decision	target	cluster	inventory
-chunk.vendor.js	0	3951	GObject	port	next/src/engine/core/type-system.ts	engine-core	ENG-NODE-001
+chunk.vendor.js	0	3951	GObject	port	next/src/engine/core/object.ts	engine-core	ENG-NODE-001
 chunk.vendor.js	1	5012		port	next/src/engine/index.ts	editor-tools-base	EDT-GL-014
 chunk.vendor.js	2	45860	GNode	port	next/src/engine/scene/node.ts	engine-scene-node	ENG-NODE-002,ENG-NODE-003,ENG-NODE-004
 chunk.vendor.js	5	3200	GPoint	port	next/src/engine/math/point.ts	engine-math	ENG-GEOM-001
@@ -55,7 +55,7 @@ chunk.vendor.js	108	5411	GFont	port	next/src/engine/text/fonts/font.ts	engine-fo
 chunk.vendor.js	111	23268	GRendererCtx	drop:GRendererCtx command recorder; the port issues the same Canvas 2D calls directly (confirm with corpus render scenarios)		engine-paint	EDT-RENDER-056,EDT-RENDER-057,EDT-RENDER-058
 chunk.vendor.js	112	208		port	next/src/engine/paint/element-data.ts	engine-paint	EDT-PAINT-052
 chunk.vendor.js	113	19285	GCompoundPath	port	next/src/engine/scene/compound-path.ts	engine-shapes-path	ENG-NODE-026
-chunk.vendor.js	115	7543		port	next/src/engine/text/opentype/table-utils.ts	engine-opentype-fork	
+chunk.vendor.js	115	7543		port	next/src/engine/text/opentype/table.ts	engine-opentype-fork	
 chunk.vendor.js	118	175		port	next/src/engine/paint/destroyable.ts	engine-paint	EDT-PAINT-053
 chunk.vendor.js	122	9957	GGroup	port	next/src/engine/scene/group.ts	engine-shapes-primitives	ENG-NODE-036
 chunk.vendor.js	127	70689	GPathEditor	port	next/src/editor/element-editors/path-editor.ts	editor-path-editors	EDT-HANDLE-015,EDT-HANDLE-016,EDT-HANDLE-017
@@ -104,7 +104,7 @@ chunk.vendor.js	224	3255	GTranslation	port	next/src/engine/core/locale/translati
 chunk.vendor.js	226	16332		port	next/src/engine/paint/webgl/gl-context.ts	engine-paint	EDT-GL-001,EDT-GL-002,EDT-GL-003
 chunk.vendor.js	227	4476	GDictionary	port	next/src/engine/style/dictionary.ts	engine-style	ENG-PATTERN-005,FMT-GVD-010
 chunk.vendor.js	228	2629	GPaintContext	port	next/src/engine/paint/paint-context.ts	engine-paint	EDT-PCTX-001,EDT-PCTX-002,EDT-PCTX-003
-chunk.vendor.js	229	254	GHitResult	port	next/src/engine/scene/hit-result.ts	engine-scene-node	ENG-GEOM-015
+chunk.vendor.js	229	254	GHitResult	port	next/src/engine/geometry/hit-result.ts	engine-scene-node	ENG-GEOM-015
 chunk.vendor.js	230	2313		port	next/src/engine/text/gtl/rect.ts	engine-text-gtl	
 chunk.vendor.js	233	15239	GCompoundShape	port	next/src/engine/scene/compound-shape.ts	engine-shapes-path	ENG-NODE-027,ENG-BOOL-004,ENG-SER-017
 chunk.vendor.js	235	14190	GCompoundPathEditor	port	next/src/editor/element-editors/compound-path-editor.ts	editor-path-editors	EDT-PATHEDIT-023
@@ -243,7 +243,7 @@ chunk.vendor.js	524	199		drop:analytics project names (copy)		drop-engine-cloud
 chunk.vendor.js	525	2490		drop:cloud dialog locale table		drop-engine-cloud	
 chunk.vendor.js	526	7412		drop:offer dialog server translations (paywall)		drop-engine-cloud	
 chunk.vendor.js	528	9995	GParameterizedVertexProcessor	port	next/src/engine/scene/parameterized-vertex-processor.ts	engine-shapes-primitives	ENG-NODE-032
-chunk.vendor.js	529	2121		port	next/src/engine/text/opentype/glyph.ts	engine-opentype-fork	
+chunk.vendor.js	529	2121		port	next/src/engine/text/opentype/glyphset.ts	engine-opentype-fork	
 chunk.vendor.js	530	7681	GSimpleShape	port	next/src/engine/scene/simple-shape.ts	engine-shapes-primitives	ENG-NODE-031,ENG-SER-018
 chunk.vendor.js	531	3662	GCollabText	port	next/src/engine/scene/annotations/collab-text.ts	engine-annotations-model	ENG-NODE-047
 chunk.vendor.js	532	590	GAnnotable	port	next/src/engine/scene/annotations/annotable.ts	engine-annotations-model	ENG-NODE-060
@@ -336,10 +336,10 @@ chunk.vendor.js	705	150		drop:cloud translation lib copy		drop-engine-cloud
 chunk.vendor.js	706	3212	GReminderDialog	drop:reminder dialog (paywall)		drop-engine-cloud	
 chunk.vendor.js	707	6512	GPaywallDialog	drop:paywall dialog		drop-engine-cloud	
 chunk.vendor.js	708	10079		port	next/src/engine/text/opentype/opentype.ts	engine-opentype-fork	FMT-LIB-004
-chunk.vendor.js	709	3023		port	next/src/engine/text/opentype/draw.ts	engine-opentype-fork	
+chunk.vendor.js	709	3023		port	next/src/engine/text/opentype/bbox.ts	engine-opentype-fork	
 chunk.vendor.js	710	9394		port	next/src/engine/text/opentype/tables/cmap.ts	engine-opentype-fork	
 chunk.vendor.js	711	38690		port	next/src/engine/text/opentype/tables/cff.ts	engine-opentype-fork	
-chunk.vendor.js	712	7234		port	next/src/engine/text/opentype/glyphset.ts	engine-opentype-fork	
+chunk.vendor.js	712	7234		port	next/src/engine/text/opentype/glyph.ts	engine-opentype-fork	
 chunk.vendor.js	713	3968		port	next/src/engine/text/opentype/tables/head.ts	engine-opentype-fork	
 chunk.vendor.js	714	3306		port	next/src/engine/text/opentype/tables/hhea.ts	engine-opentype-fork	
 chunk.vendor.js	715	965		port	next/src/engine/text/opentype/tables/hmtx.ts	engine-opentype-fork	
@@ -352,7 +352,7 @@ chunk.vendor.js	721	12017		port	next/src/engine/text/opentype/tables/gsub.ts	eng
 chunk.vendor.js	722	2079		port	next/src/engine/text/opentype/tables/meta.ts	engine-opentype-fork	
 chunk.vendor.js	723	6432		port	next/src/engine/text/opentype/layout.ts	engine-opentype-fork	
 chunk.vendor.js	724	964		port	next/src/engine/text/opentype/util.ts	engine-opentype-fork	
-chunk.vendor.js	725	7571		port	next/src/engine/text/opentype/font.ts	engine-opentype-fork	
+chunk.vendor.js	725	7571		port	next/src/engine/text/opentype/tables/glyf.ts	engine-opentype-fork	
 chunk.vendor.js	726	26905	GOpenTypeUtil	port	next/src/engine/text/fonts/open-type-util.ts	engine-fonts	ENG-FONT-004,FMT-LIB-004
 chunk.vendor.js	727	345	GActionItem	port	next/src/engine/scene/annotations/action-item.ts	engine-annotations-model	ENG-NODE-047
 chunk.vendor.js	728	1126	GGLSepiaEffect	port	next/src/engine/style/webgl/effects/gl-sepia-effect.ts	engine-effects-webgl	ENG-EFFECT-019,UI-FIELD-102
@@ -440,10 +440,10 @@ chunk.vendor.js	854	395		port	next/src/io/export/pdf/path-holder.ts	io-export-pd
 chunk.vendor.js	855	208		port	next/src/io/export/pdf/fill-pattern.ts	io-export-pdf	
 chunk.vendor.js	856	753	GPDFFlateDecode	port	next/src/io/export/pdf/flate-decode.ts	io-export-pdf	
 chunk.vendor.js	884	809		port	next/src/engine/core/locale/projects.ts	engine-locale	
-chunk.vendor.js	885	129816		drop:Corel in-app messaging strings (WelcomeScreen, TrialReminder, MiniCourse)		engine-locale	UI-I18N-002
-chunk.vendor.js	886	27828		drop:German cloud-dialog strings		engine-locale	
-chunk.vendor.js	887	409		drop:server error strings for cloud signup		engine-locale	
-chunk.vendor.js	888	1877		data:English strings for sub-action shortcut hints (en-US only)	next/src/engine/core/locale/sub-actions.en-US.json	engine-locale	
+chunk.vendor.js	885	129816		data:web-trial strings (in-app messaging); shipped unchanged	next/src/engine/core/locale/data/web-trial.json	engine-locale	UI-I18N-002
+chunk.vendor.js	886	27828		data:temporary Designer translations (German and other engine strings); shipped unchanged	next/src/engine/core/locale/data/designer-temporary.json	engine-locale	
+chunk.vendor.js	887	409		data:cloud strings diff; shipped unchanged	next/src/engine/core/locale/data/cloud-diff.json	engine-locale	
+chunk.vendor.js	888	1877		data:Designer string overrides (sub-action shortcut hints and others)	next/src/engine/core/locale/data/designer-diff.json	engine-locale	
 chunk.vendor.js	889	11336	GLocale	port	next/src/engine/core/locale/locale.ts	engine-locale	UI-I18N-003,UI-I18N-004
 chunk.vendor.js	890	463		port	next/src/engine/core/locale/date-format.ts	engine-locale	
 chunk.vendor.js	891	254		port	next/src/engine/core/locale/translation-event.ts	engine-locale	
@@ -537,25 +537,25 @@ chunk.vendor.js	978	333		drop:reCAPTCHA		drop-engine-cloud
 chunk.vendor.js	979	1105		drop:cloud env flags		drop-engine-cloud	
 chunk.vendor.js	980	3060	GOfflineDialog	drop:offline dialog (cloud)		drop-engine-cloud	
 chunk.vendor.js	981	21		drop:empty module		engine-core	
-chunk.vendor.js	982	15356		port	next/src/engine/text/opentype/hintingtt-glyph.ts	engine-opentype-fork	
+chunk.vendor.js	982	15356		port	next/src/engine/text/opentype/font.ts	engine-opentype-fork	
 chunk.vendor.js	983	10084		port	next/src/engine/text/opentype/tables/sfnt.ts	engine-opentype-fork	
-chunk.vendor.js	984	171		port	next/src/engine/text/opentype/tables/table.ts	engine-opentype-fork	
-chunk.vendor.js	985	1572		port	next/src/engine/text/opentype/tables/kern-gpos.ts	engine-opentype-fork	
+chunk.vendor.js	984	171		port	next/src/engine/text/opentype/draw.ts	engine-opentype-fork	
+chunk.vendor.js	985	1572		port	next/src/engine/text/opentype/position.ts	engine-opentype-fork	
 chunk.vendor.js	986	7284		port	next/src/engine/text/opentype/substitution.ts	engine-opentype-fork	
 chunk.vendor.js	987	51602		port	next/src/engine/text/opentype/hintingtt.ts	engine-opentype-fork	
-chunk.vendor.js	988	3643		port	next/src/engine/text/opentype/features/arab/arabic.ts	engine-opentype-fork	
-chunk.vendor.js	989	380		port	next/src/engine/text/opentype/features/feature-query-util.ts	engine-opentype-fork	
-chunk.vendor.js	990	904		port	next/src/engine/text/opentype/features/latn.ts	engine-opentype-fork	
-chunk.vendor.js	991	2207		port	next/src/engine/text/opentype/features/arab/contextCheck.ts	engine-opentype-fork	
-chunk.vendor.js	992	1087		port	next/src/engine/text/opentype/features/arab/rlig.ts	engine-opentype-fork	
+chunk.vendor.js	988	3643		port	next/src/engine/text/opentype/bidi.ts	engine-opentype-fork	
+chunk.vendor.js	989	380		port	next/src/engine/text/opentype/features/arab/context-check/arabic-word.ts	engine-opentype-fork	
+chunk.vendor.js	990	904		port	next/src/engine/text/opentype/features/arab/context-check/arabic-sentence.ts	engine-opentype-fork	
+chunk.vendor.js	991	2207		port	next/src/engine/text/opentype/features/arab/arabic-presentation-forms.ts	engine-opentype-fork	
+chunk.vendor.js	992	1087		port	next/src/engine/text/opentype/features/arab/arabic-required-ligatures.ts	engine-opentype-fork	
 chunk.vendor.js	993	8364		port	next/src/engine/text/opentype/features/feature-query.ts	engine-opentype-fork	
 chunk.vendor.js	994	4639		port	next/src/engine/text/opentype/tables/fvar.ts	engine-opentype-fork	
 chunk.vendor.js	995	5059		port	next/src/engine/text/opentype/tables/gpos.ts	engine-opentype-fork	
-chunk.vendor.js	996	1570		port	next/src/engine/text/opentype/tables/glyf-parse.ts	engine-opentype-fork	
-chunk.vendor.js	997	419		port	next/src/engine/text/opentype/bidi.ts	engine-opentype-fork	
-chunk.vendor.js	998	6438133		data:HarfBuzz 2.2.0 Emscripten build (rebuild harfbuzz-2.2.0 as wasm with the same hb_* exports; vendor the old asm.js module only as a fallback)	next/src/engine/text/harfbuzz/harfbuzz-2.2.0	engine-fonts	ENG-TEXT-018,FMT-LIB-005
+chunk.vendor.js	996	1570		port	next/src/engine/text/opentype/tables/kern.ts	engine-opentype-fork	
+chunk.vendor.js	997	419		port	next/src/engine/text/opentype/tables/loca.ts	engine-opentype-fork	
+chunk.vendor.js	998	6438133		data:HarfBuzz 2.2.0 rebuilt as wasm with the same hb_* exports (vendor/harfbuzz); no asm.js fallback, a failed load throws a clear error (loadHarfBuzz)	next/vendor/harfbuzz/harfbuzz-2.2.0.wasm	engine-fonts	ENG-TEXT-018,FMT-LIB-005
 chunk.vendor.js	999	235		port	next/src/engine/scene/annotations/collab-text-annotation-base.ts	engine-annotations-model	
-chunk.vendor.js	1000	6384		port	src/engine/scene/annotations/collab-text-action.ts	engine-annotations-model	
+chunk.vendor.js	1000	6384		port	next/src/engine/scene/annotations/collab-text-action.ts	engine-annotations-model	
 chunk.vendor.js	1001	1117	GSceneUtil	port	next/src/engine/scene/scene-util.ts	engine-scene-document	ENG-GEOM-014
 chunk.vendor.js	1002	9382	GVertexSimplifier	port	next/src/engine/geometry/vertex-simplifier.ts	engine-geometry-boolean	ENG-PATHOP-002
 chunk.vendor.js	1003	25364	GImageTracer	port	next/src/engine/geometry/image-tracer.ts	engine-geometry-offset-trace	ENG-PATHOP-004
@@ -1151,7 +1151,7 @@ designer.browser.dev.js	810	2473	GConvertToPathAction	port	next/src/app/actions/
 designer.browser.dev.js	811	3573	GGroupAction	port	next/src/app/actions/modify/group-action.ts	app-actions-modify	ACT-MODIFY-001
 designer.browser.dev.js	812	2249	GMergeMainAction	port	next/src/app/actions/modify/merge-main-action.ts	app-actions-modify	ACT-MODIFY-007
 designer.browser.dev.js	813	1892	GOpenAction	port	next/src/app/actions/file/open-action.ts	app-actions-file-edit	ACT-FILE-004,FMT-STORAGE-005
-designer.browser.dev.js	814	169650		data:English UI strings (360 classes); only en-US is populated	next/src/app/locale/en-US.json	engine-locale	UI-I18N-001,UI-I18N-009
+designer.browser.dev.js	814	169650		data:English UI strings (360 classes); only en-US is populated	next/src/app/locale/data/en.json	engine-locale	UI-I18N-001,UI-I18N-009
 designer.browser.dev.js	815	47813		drop:cloud/login strings (GLoggedIn, GLoginDialog); keep any key still referenced by ported UI		engine-locale	
 designer.browser.dev.js	816	54		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
 designer.browser.dev.js	817	3005		port	next/src/engine/style/webgl/shaders/index.ts	engine-effects-webgl	ENG-EFFECT-015,EDT-GL-010

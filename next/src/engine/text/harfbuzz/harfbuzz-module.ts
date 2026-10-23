@@ -216,5 +216,34 @@ async function readWasm(url: URL): Promise<BufferSource> {
   return response.arrayBuffer();
 }
 
+/**
+ * Loads and instantiates the .wasm. Any failure (network error, 404, an HTML
+ * page served in its place, a broken file) becomes one error that names the
+ * file and the URL, logged to the console and thrown.
+ *
+ * The old app could not fail here: its HarfBuzz was an asm.js build inside
+ * chunk.vendor.js (module 998), created synchronously when the bundle loaded.
+ * The new engine needs the .wasm (Vite emits it next to the bundle, and the
+ * Electron shell serves the same dist folder), so a failed load stops the
+ * engine from starting, but with this error instead of no message at all.
+ */
+export async function loadHarfBuzz(url: URL): Promise<HarfBuzzModule> {
+  try {
+    return await instantiateHarfBuzz(await readWasm(url));
+  } catch (cause) {
+    const reason = cause instanceof Error ? cause.message : String(cause);
+    const error = new Error(
+      "The text engine cannot start: harfbuzz-2.2.0.wasm failed to load from " +
+        url.href +
+        " (" +
+        reason +
+        ")",
+      { cause },
+    );
+    console.error(error);
+    throw error;
+  }
+}
+
 /** The HarfBuzz instance the engine uses. */
-export const harfBuzzModule: HarfBuzzModule = await instantiateHarfBuzz(await readWasm(WASM_URL));
+export const harfBuzzModule: HarfBuzzModule = await loadHarfBuzz(WASM_URL);

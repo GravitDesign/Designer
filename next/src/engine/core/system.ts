@@ -1,4 +1,6 @@
 // Old: chunk.vendor.js module 176 (GSystem).
+import UAParser from "ua-parser-js";
+
 /**
  * Operating system, hardware class, language and byte order, detected once
  * when the module loads. Key (Meta vs Ctrl, key symbols) and Platform
@@ -36,15 +38,21 @@ function currentNavigator(): NavigatorLike | undefined {
 
 /**
  * The device type ua-parser-js 0.7.33 reports ("tablet", "mobile", ...),
- * with the old extra rule that Samsung SM-P605/P610/P615 are tablets.
- *
- * ua-parser-js is not a dependency yet, so only the extra rule is checked
- * here; every other user agent falls through to the old regex fallback in
- * `detectHardware`, which gives the same answer for desktop browsers.
+ * with the old extra rule in front of ua-parser's own device rules: Samsung
+ * SM-P605/P610/P615 are tablets. Undefined when ua-parser finds no type, so
+ * `detectHardware` falls through to the old regex fallback.
  */
 export function deviceTypeFromUserAgent(userAgent: string): string | undefined {
-  if (/android.+((SM-P605|SM-P610|SM-P615))/i.test(userAgent)) return "tablet";
-  return undefined;
+  const samsungTablets = [
+    [/android.+((SM-P605|SM-P610|SM-P615))/i],
+    [
+      [UAParser.DEVICE.VENDOR, "Samsung"],
+      UAParser.DEVICE.MODEL,
+      [UAParser.DEVICE.TYPE, UAParser.DEVICE.TABLET],
+    ],
+  ];
+  const result = new UAParser(userAgent, { device: samsungTablets }).getResult();
+  return result?.device?.type;
 }
 
 /** Old hardware detection; exported for tests with a fake navigator. */

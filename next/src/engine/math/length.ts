@@ -123,7 +123,7 @@ export class Length extends GObject {
    * The value formatted with formatNumber plus the unit. The old code
    * looks the unit up by its lowercase value in the uppercase-keyed Unit
    * table, so the suffix is always "undefined" ("5undefined"); kept, see
-   * QUESTIONS.md.
+   * QUESTIONS.md "GLength.toString appends undefined".
    */
   override toString(digits?: number): string {
     let text = formatNumber(this._value, digits);

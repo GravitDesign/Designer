@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { probeFonts } from "./font-probe.ts";
+import { FULL_PROBE, probeFonts } from "./font-probe.ts";
 import { OpenTypeFont, TextDirection } from "./open-type-font.ts";
 import { OpenTypeUtil } from "./open-type-util.ts";
 
@@ -24,7 +24,7 @@ const expected = JSON.parse(
 // One run for all tests: the probe goes through every bundled test font.
 const actual = JSON.parse(
   JSON.stringify(
-    probeFonts({ GOpenTypeFont: OpenTypeFont, GOpenTypeUtil: OpenTypeUtil, readFont }),
+    probeFonts({ GOpenTypeFont: OpenTypeFont, GOpenTypeUtil: OpenTypeUtil, readFont }, FULL_PROBE),
   ),
 ) as Record<string, Record<string, unknown>>;
 
@@ -35,6 +35,19 @@ describe("OpenTypeUtil", () => {
 
   it("finds the fonts of a collection and patches their offsets", () => {
     expect(actual.collection).toEqual(expected.collection);
+  });
+
+  it("cuts collection fonts out with table offsets relative to the font", () => {
+    expect(actual.collectionTables).toEqual(expected.collectionTables);
+    expect(actual.collectionReversed).toEqual(expected.collectionReversed);
+  });
+
+  it("reads the sfnt resources and their names from a Mac resource fork", () => {
+    expect(actual.resourceFork).toEqual(expected.resourceFork);
+  });
+
+  it("checks every part the probe recorded", () => {
+    expect(Object.keys(actual).sort()).toEqual(Object.keys(expected).sort());
   });
 
   it("handles truncated and missing data like the old reader", () => {

@@ -203,6 +203,16 @@ describe("mixins", () => {
     expect(new Sub().hasMixin(Source)).toBe(false);
   });
 
+  it("sees mixins marked after hasMixin was first asked", () => {
+    class Early extends GObject {}
+    class EarlySub extends Early {}
+    expect(new EarlySub().hasMixin(Unused)).toBe(false);
+    expect(new Early().hasMixin(Unused)).toBe(false);
+    markMixins(Early, [Unused]);
+    expect(new EarlySub().hasMixin(Unused)).toBe(true);
+    expect(new Early().hasMixin(Unused)).toBe(true);
+  });
+
   it("marks whole classes as mixins", () => {
     class Annotation extends GObject {
       static {

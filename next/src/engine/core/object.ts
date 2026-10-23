@@ -64,8 +64,12 @@ interface Registration {
 
 const registrations = new Map<object, Registration>();
 const classesByOldName = new Map<string, object>();
-/** Mixin sets merged along the prototype chain, filled on first use. */
-const mergedMixins = new WeakMap<object, ReadonlySet<number>>();
+/**
+ * Mixin sets merged along the prototype chain, filled on first use and
+ * dropped whenever a mixin id is added anywhere (the old code had no cache,
+ * so a late markMixins must still show up in hasMixin).
+ */
+let mergedMixins = new WeakMap<object, ReadonlySet<number>>();
 
 interface TypeIdCarrier {
   [TYPE_ID]?: number;
@@ -177,7 +181,9 @@ export function getName(value: unknown): string {
   return String(target);
 }
 
+/** The mixin ids a prototype records itself; callers add to it, so the cache goes. */
 function ownMixins(proto: object): Set<number> {
+  mergedMixins = new WeakMap();
   const carrier = proto as TypeIdCarrier;
   if (!Object.hasOwn(carrier, MIXINS)) {
     Object.defineProperty(carrier, MIXINS, { value: new Set<number>(), enumerable: false });
