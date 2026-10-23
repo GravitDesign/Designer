@@ -29,11 +29,11 @@ export class PencilAnnotationTool extends AnnotationToolMixin(FreehandTool) {
    * its editor; null when it could not be inserted. Unlike the freehand
    * tool it keeps the fills and the selection.
    */
-  override _createAndAppendPath(): Path {
+  override _createAndAppendPath(): Path | null {
     const ItemClass = this._getRelatedItemClass();
     const annotation = new ItemClass();
     this._editor.insertElements([annotation], false, true, true);
-    if (!annotation.getScene()) return null as unknown as Path;
+    if (!annotation.getScene()) return null;
     this._pathEditor = ElementEditor.openEditor(annotation) as unknown as PathEditor;
     return annotation;
   }

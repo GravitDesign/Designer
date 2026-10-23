@@ -7,11 +7,16 @@ import { installFakeDom } from "../view/testing/fake-dom.ts";
 import { BezigonTool } from "./bezigon-tool.ts";
 import {
   clearModifiers,
+  dragThrough,
+  oldApp,
+  oldPaths,
   pause,
   pathAt,
   paths,
   points,
   polyline,
+  savedPaths,
+  scenarioView,
   setModifiers,
   setupPathTool,
 } from "./path-testing.ts";
@@ -139,5 +144,77 @@ describe("BezigonTool", () => {
       [100, 300],
     ]);
     expect(editor.getUndoStateName()).toBe("Join Paths");
+  });
+});
+
+// Replays of parity/scenarios/editor-tools/cases-pen-branches.ts; the
+// expected points come from the old app's recordings
+// (pen-branches.recorded.json).
+describe("BezigonTool closing on release", () => {
+  /** Three auto-handle points; the scenarios' view. */
+  function threePoints() {
+    const s = scenarioView(setup());
+    clicks(s.input, [100, 100], [250, 100], [250, 250]);
+    pause();
+    return s;
+  }
+
+  it("a new point dragged onto the first point closes the path and goes", () => {
+    const id = "bezigon/close-on-release";
+    const s = threePoints();
+    s.input.move(140, 130);
+    dragThrough(
+      s.input,
+      [140, 130],
+      [
+        [120, 115],
+        [100, 100],
+      ],
+    );
+    expect(s.editor.getUndoStateName()).toBe(oldApp(id).undo);
+    s.input.keyDown(Key.Constant.ESC);
+    expect(savedPaths(paths(s.page))).toEqual(oldPaths(id));
+  });
+
+  it("with Alt at the release the first point becomes an asymmetric corner", () => {
+    const id = "bezigon/close-on-release-alt";
+    const s = threePoints();
+    s.input.move(140, 130);
+    s.input.down(140, 130);
+    s.input.drag(120, 115);
+    setModifiers({ optionKey: true });
+    s.input.drag(100, 100);
+    s.input.up(100, 100);
+    setModifiers({ optionKey: false });
+    expect(s.editor.getUndoStateName()).toBe(oldApp(id).undo);
+    s.input.keyDown(Key.Constant.ESC);
+    expect(savedPaths(paths(s.page))).toEqual(oldPaths(id));
+    expect(points(pathAt(s.page), ["ah", "tp", "hlx", "hly"])[0]).toEqual([
+      false,
+      AnchorPoint.Type.Asymmetric,
+      null,
+      null,
+    ]);
+  });
+
+  it("the end point dragged onto the first point closes the path and is removed", () => {
+    const id = "bezigon/drag-end-onto-first";
+    const s = threePoints();
+    s.input.move(250, 250);
+    dragThrough(
+      s.input,
+      [250, 250],
+      [
+        [180, 180],
+        [100, 100],
+      ],
+    );
+    expect(s.editor.getUndoStateName()).toBe(oldApp(id).undo);
+    s.input.keyDown(Key.Constant.ESC);
+    expect(savedPaths(paths(s.page))).toEqual(oldPaths(id));
+    expect(points(pathAt(s.page))).toEqual([
+      [100, 100],
+      [250, 100],
+    ]);
   });
 });

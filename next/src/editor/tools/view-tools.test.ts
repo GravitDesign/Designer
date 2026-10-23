@@ -216,6 +216,18 @@ describe("MagicTool with open sub-paths", () => {
       [51, 51],
     ] as const)
       input.drag(x, y);
+    // See "Magic tool crashes on a selection with open sub-paths" in
+    // QUESTIONS.md. Recorded in the old app: the compound path is removed
+    // before the throw, the raw stroke stays and the transaction is still
+    // committed, so one undo brings the compound path back.
     expect(() => input.up(51, 51)).toThrow(TypeError);
+    const names = () =>
+      (page as unknown as { getChildren(): Node[] })
+        .getChildren()
+        .map((child) => child.getNodeName());
+    expect(names()).toEqual(["path"]);
+    expect(editor.getUndoStateName()).toBe("Create freehand path");
+    editor.undoState();
+    expect(names()).toEqual(["compoundpath"]);
   });
 });

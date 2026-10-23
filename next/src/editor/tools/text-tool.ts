@@ -28,7 +28,6 @@ import { NodeFlag } from "../../engine/scene/node-change.ts";
 import { Path } from "../../engine/scene/path.ts";
 import { PathBase } from "../../engine/scene/path-base.ts";
 import { PathsGraph } from "../../engine/scene/paths-graph/paths-graph.ts";
-import type { SceneNode } from "../../engine/scene/scene-node.ts";
 import { Shape } from "../../engine/scene/shape.ts";
 import { Font } from "../../engine/text/fonts/font.ts";
 import { openTypeMeasure } from "../../engine/text/gtl/measure.ts";
@@ -107,6 +106,8 @@ export class TextTool extends ShapeTool {
         PointerTool.prototype._mouseDown.call(manager.getActiveTool() as PointerTool, event);
         PointerTool.prototype._mouseRelease.call(manager.getActiveTool() as PointerTool, event);
       }
+      // The editor's EdNode stand-in types getParent more narrowly than
+      // the scene's Text (a ContainerNode); a Text is a valid EdNode.
       editor.openInlineEditor(this._textUnderMouse as never, view, event.client);
     } else {
       super._mouseRelease(event);
@@ -118,6 +119,7 @@ export class TextTool extends ShapeTool {
         const text = this._justCreatedText;
         this._justCreatedText = null;
         setTimeout(() => {
+          // Text vs. the editor's EdNode stand-in, as above.
           editor.openInlineEditor(text as never, view);
         }, 10);
       }
@@ -152,6 +154,10 @@ export class TextTool extends ShapeTool {
       false,
       multiPageView,
     );
+    // The old code keeps the exact hit only when it is both a Text and a
+    // Path. A Text is never a Path, so this condition is never true and the
+    // second hit test, with the pick distance, always runs. Kept on
+    // purpose: "fixing" it would change what the tool hovers.
     if (!(
       hits &&
       hits.length &&
@@ -295,7 +301,7 @@ export class TextTool extends ShapeTool {
         if (this._pathUnderMouse instanceof PathBase) path = this._pathUnderMouse;
         else if (
           (path = PathUtil.createPathFromVertexSource(
-            this._pathUnderMouse as never,
+            this._pathUnderMouse,
           ) as Shape | null) instanceof Path
         ) {
           const source = this._pathUnderMouse;
@@ -314,12 +320,14 @@ export class TextTool extends ShapeTool {
         } else path = null;
         if (path) {
           const copy = path.clone();
-          this._scene.link(text as unknown as Node, path as unknown as SceneNode);
+          this._scene.link(text, path);
+          // path is a PathBase or a Path here, both TextBasePaths; its Shape
+          // type doesn't say so.
           const transformer = new TLPathTextTransformer(null, copy as never);
           transformer.getMatrix(0, 0, new Rect());
           const hit = (
             this._view
-              .getWorldTransform(this._view.getScene().getActivePage() as never)
+              .getWorldTransform(this._view.getScene().getActivePage())
               .inverted() as Transform
           ).mapPoint(this._pathHit as Point);
           const origin = Transform.getNativeRectTransformation(

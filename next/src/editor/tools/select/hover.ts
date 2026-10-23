@@ -27,7 +27,11 @@ import type { GuideLineHit } from "./select-types.ts";
 
 const modifiers = Platform.modifiers;
 
-/** An editor that can highlight the part under the pointer (none of the ported ones can). */
+/**
+ * An editor that can highlight the part under the pointer. Only the paths
+ * graph editor has highlightPart (edges, anchors and facets), so the call
+ * is duck-typed.
+ */
 interface HighlightingEditor {
   highlightPart?: (id: unknown, data: unknown) => void;
 }
@@ -262,6 +266,7 @@ export function updateDistanceHelper(tool: SelectTool, byClick?: boolean): void 
       first.hasMixin(TransformMixin) && editor
         ? editor.getPEGeometryBBox()
         : first.getGeometryBBox();
+    // getAngle comes with the Transform mixin, which the Element type doesn't carry.
     let angle = (first as unknown as { getAngle(): number | null }).getAngle();
     angle = angle ? Math.abs(angle) : angle;
     if (!(

@@ -17,8 +17,10 @@ export function isPathsGraphPart(
 ): boolean {
   if (!info || !(info.editor instanceof PathsGraphEditor)) return false;
   if (!types.length) return true;
-  const id = info.id as { type?: unknown } | null;
-  if (!id) return false;
+  // The old checks read `id.type` without a null check, so a paths graph
+  // part with a null id throws here as it did there (callers that guarded
+  // the id, like the points-drag check, still do).
+  const id = info.id as { type?: unknown };
   const partTypes = PathsGraphEditor.PartType as Record<string, unknown>;
   for (const type of types) if (id.type == partTypes[type]) return true;
   return false;

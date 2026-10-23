@@ -1,0 +1,277 @@
+{
+  "_source": "Recorded from the old app: parity/expected/editor-tools/<id>.json (doc paths with reference ids stripped, undo names, tools). Regenerate when those are re-recorded.",
+  "pen/continue-from-first-point": {
+    "paths": [
+      {
+        "closed": false,
+        "pts": [
+          ["TC", "AAAAAAAAyEI=", "h", "AAA0wgAAEUM=", "H", "6xqcQUX5oEI="],
+          ["TS", "AABIQgAASEI=", "h", "AACgQgAA8EE=", "H", "AACgQQAAjEI="],
+          ["AADIQgAAyEI="],
+          ["AACWQwAAekM="],
+          ["AADIQgAAekM="]
+        ]
+      }
+    ],
+    "undo": "Append Point",
+    "tool": "GPointerTool",
+    "probes": {
+      "first-point-picked": {
+        "undo": "Modify Point Properties",
+        "tool": "GPenTool",
+        "preview": [[100, 100, 200, 150]]
+      },
+      "prepended-curve": {
+        "undo": "Append Point",
+        "tool": "GPenTool",
+        "preview": [[41.81818181818182, 50, 258.1818181818182, 200]]
+      },
+      "prepended-connector": {
+        "undo": "Append Point",
+        "tool": "GPenTool",
+        "preview": [[0, 45.397784193834376, 300, 204.60221580616562]]
+      }
+    }
+  },
+  "pen/alt-press-on-end-point": {
+    "paths": [
+      {
+        "closed": false,
+        "pts": [["AADIQgAASEM="], ["TS", "AAB6QwAA8EI=", "h", "AAA0QwAA8EI="]]
+      }
+    ],
+    "undo": "Modify Point Properties",
+    "tool": "GPointerTool",
+    "probes": {
+      "after-alt-drag": {
+        "undo": "Modify Point Properties",
+        "tool": "GPenTool",
+        "preview": [[100, 120, 150, 80]]
+      }
+    }
+  },
+  "pen/alt-drag-existing-point": {
+    "paths": [
+      {
+        "closed": false,
+        "pts": [
+          ["TS", "AADIQgAASEM=", "h", "AABwQgAAcEM=", "H", "AAAMQwAAIEM="],
+          ["TA", "AAB6QwAA8EI=", "h", "AABIQwAA8EI=", "H", "AACgQwAAFkM="],
+          ["TS", "AADIQwAASEM=", "h", "AAC0QwAAIEM=", "H", "AADcQwAAcEM="]
+        ]
+      }
+    ],
+    "undo": "Modify Point Properties",
+    "tool": "GPenTool",
+    "probes": {
+      "dragged": {
+        "undo": "Modify Point Properties",
+        "tool": "GPenTool",
+        "preview": [[100, 120, 300, 80]]
+      }
+    }
+  },
+  "pen/click-dragged-point": {
+    "paths": [
+      {
+        "closed": false,
+        "pts": [["AADIQgAASEM="], ["TS", "AAB6QwAA8EI=", "h", "AAA0QwAA8EI="]]
+      }
+    ],
+    "undo": "Modify Point Properties",
+    "tool": "GPointerTool",
+    "probes": {
+      "after-click": {
+        "undo": "Modify Point Properties",
+        "tool": "GPenTool",
+        "preview": [[100, 120, 150, 80]]
+      }
+    }
+  },
+  "pen/connector-handle-drag": {
+    "paths": [
+      {
+        "closed": false,
+        "pts": [
+          ["AADIQgAAyEI="],
+          ["TC", "AAB6QwAAyEI=", "H", "AACWQwAAyEI="],
+          ["TC", "AAB6QwAAekM=", "h", "AAB6Q+h1P0M="]
+        ]
+      }
+    ],
+    "undo": "Append Point",
+    "tool": "GPointerTool",
+    "probes": {}
+  },
+  "pen/rounded-shoulder-drag": {
+    "paths": [
+      {
+        "closed": false,
+        "pts": [["AADIQgAAyEI="], ["AAB6QwAAyEI=", "C", "uh/yQbof8kE="], ["AAB6QwAAekM="]]
+      }
+    ],
+    "undo": "Append Point",
+    "tool": "GPointerTool",
+    "probes": {}
+  },
+  "pen/close-drag-straight-end": {
+    "paths": [
+      {
+        "closed": true,
+        "pts": [["TA", "AADIQgAAyEI=", "h", "AAAMQwAAcEI="], ["AAB6QwAAyEI="], ["AAB6QwAAekM="]]
+      }
+    ],
+    "undo": "Modify Path Properties",
+    "tool": "GPointerTool",
+    "probes": {
+      "closed": {
+        "undo": "Modify Path Properties",
+        "tool": "GPenTool",
+        "preview": [[100, 93.04347826086956, 150, 156.95652173913044]]
+      }
+    }
+  },
+  "pen/edit-drag-middle-point": {
+    "paths": [
+      {
+        "closed": false,
+        "pts": [
+          ["AADIQgAAyEI="],
+          ["TS", "AACWQwAAekM=", "h", "AACCQwAAcEM=", "H", "AACqQwAAgkM="],
+          ["AADIQgAAekM="]
+        ]
+      }
+    ],
+    "undo": "Modify Point Properties",
+    "tool": "GPenTool",
+    "probes": {
+      "dragged": {
+        "undo": "Modify Point Properties",
+        "tool": "GPenTool",
+        "preview": [[100, 100, 205.71428571428572, 155]]
+      }
+    }
+  },
+  "pen/compound-path-segment": {
+    "paths": [
+      {
+        "closed": false,
+        "pts": [["AADIQgAAyEI="], ["AACWQwAAyEI="]]
+      },
+      {
+        "closed": false,
+        "pts": [["AADIQgAAekM="], ["AABIQwAAekM="], ["AACWQwAAekM="]]
+      }
+    ],
+    "undo": "Insert Point",
+    "tool": "GPenTool",
+    "probes": {
+      "inserted": {
+        "undo": "Insert Point",
+        "tool": "GPenTool",
+        "preview": [[100, 100, 200, 150]]
+      }
+    }
+  },
+  "pen/double-press-edit-option": {
+    "paths": [
+      {
+        "closed": false,
+        "pts": [["AADIQgAAyEI="], ["AAB6QwAAyEI="]]
+      }
+    ],
+    "undo": "Append Point",
+    "tool": "GPointerTool",
+    "probes": {
+      "after-double-press": {
+        "undo": "Append Point",
+        "tool": "GPointerTool",
+        "preview": [[100, 100, 150, 0]]
+      }
+    }
+  },
+  "pen/shift-replays-move": {
+    "paths": [
+      {
+        "closed": false,
+        "pts": [["AADIQgAAyEI="], ["AAB6QwAAyEI="]]
+      }
+    ],
+    "undo": "Append Point",
+    "tool": "GPointerTool",
+    "probes": {
+      "before-shift": {
+        "undo": "Insert Element(s)",
+        "tool": "GPenTool",
+        "preview": [[100, 100, 150, 30]]
+      },
+      "shift-replayed": {
+        "undo": "Insert Element(s)",
+        "tool": "GPenTool",
+        "preview": [[100, 100, 150, 0]]
+      }
+    }
+  },
+  "bezigon/close-on-release": {
+    "paths": [
+      {
+        "closed": true,
+        "pts": [
+          [true, "AADIQgAAyEI="],
+          [true, "AAB6QwAAyEI="],
+          [true, "AAB6QwAAekM="]
+        ]
+      }
+    ],
+    "undo": "Modify Path Properties",
+    "tool": "GPointerTool",
+    "probes": {
+      "closed": {
+        "undo": "Modify Path Properties",
+        "tool": "GBezigonTool",
+        "preview": [[100, 100, 150, 150]]
+      }
+    }
+  },
+  "bezigon/close-on-release-alt": {
+    "paths": [
+      {
+        "closed": true,
+        "pts": [
+          ["TA", "AADIQgAAyEI="],
+          [true, "AAB6QwAAyEI="],
+          [true, "AAB6QwAAekM="]
+        ]
+      }
+    ],
+    "undo": "Modify Path Properties",
+    "tool": "GPointerTool",
+    "probes": {
+      "closed": {
+        "undo": "Modify Path Properties",
+        "tool": "GBezigonTool",
+        "preview": [[100, 100, 150, 150]]
+      }
+    }
+  },
+  "bezigon/drag-end-onto-first": {
+    "paths": [
+      {
+        "closed": true,
+        "pts": [
+          [true, "AADIQgAAyEI="],
+          [true, "AAB6QwAAyEI="]
+        ]
+      }
+    ],
+    "undo": "Modify Path Properties",
+    "tool": "GPointerTool",
+    "probes": {
+      "closed": {
+        "undo": "Modify Path Properties",
+        "tool": "GBezigonTool",
+        "preview": [[100, 100, 150, 0]]
+      }
+    }
+  }
+}

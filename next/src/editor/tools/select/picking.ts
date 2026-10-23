@@ -63,6 +63,8 @@ export function getSelectableForPosition(
       annotations,
     );
   let hits: ElementHit[] | null;
+  // Nothing in the old app sets Mixed mode (setInteractionMode is never
+  // called); kept for API parity.
   if (tool._interactionMode === (tool.constructor as typeof SelectTool).InteractionMode.Mixed) {
     hits = hitTest(false);
     if (!(hits && hits.length)) hits = hitTest(true);
@@ -71,7 +73,10 @@ export function getSelectableForPosition(
   }
   let result: Element | null = null;
   let candidates: Element[] | null = null;
-  if (hits && !((hits[0] as ElementHit).element instanceof Page)) {
+  // With overlapping pages (the default) the multi-page hit test returns
+  // the bare page under the point when no element is hit; that is what
+  // this checks, not a hit whose element is a page.
+  if (hits && !((hits[0] as unknown) instanceof Page)) {
     const elements: Element[] = [];
     for (let i = 0; i < hits.length; ++i) elements.push((hits[i] as ElementHit).element);
     candidates = tool._getSelectableElements(elements, true);
@@ -95,6 +100,7 @@ export function getSelectableForPosition(
 }
 
 /** No selected item among the container's children. */
+// The caller checked the Container mixin, which doesn't narrow the type.
 const hasNoSelectedItemChild = (container: Node): boolean =>
   (
     container as unknown as {
@@ -239,7 +245,10 @@ export function getAllHitTestedElems(tool: SelectTool, position: Point): (Elemen
   return result;
 }
 
-/** The selectable element of the topmost hit under the event's position. */
+/**
+ * The selectable element of the topmost hit under the event's position.
+ * Unused in the old app, kept for API parity.
+ */
 export function getTopMostHit(
   tool: SelectTool,
   event: MouseEvent,

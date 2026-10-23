@@ -19,8 +19,8 @@
  *
  * Several methods call GPathBaseEditor's prototype although the editor
  * extends GShapeEditor; that is kept, so a whole-graph move goes through
- * GPathBaseEditor.edTransform (see "Moving a whole paths graph" in the
- * BUGS-FIXED candidates of editor-paths-graph-annotations).
+ * GPathBaseEditor.edTransform (see "Moving a whole paths graph throws" in
+ * QUESTIONS.md).
  */
 import { RGBColor } from "../../engine/color/rgb-color.ts";
 import { registerClass } from "../../engine/core/object.ts";
@@ -469,9 +469,19 @@ export class PathsGraphEditor extends ShapeEditor<EditedPathsGraph> {
         case PartType.Segment: {
           const data = partData as GraphSegmentData;
           if (data.type == SegmentData.Handles) {
-            // The old code also made the point previews here (and read them, to no effect).
-            this.getPathPointPreview(part.apLeft as AnchorPoint);
-            this.getPathPointPreview(part.apRight as AnchorPoint);
+            // The old code read both point previews here without using the
+            // values. The reads are kept: they throw a TypeError when the
+            // path base editor or a preview is gone, as the old code did.
+            const leftPreview = this.getPathPointPreview(
+              part.apLeft as AnchorPoint,
+            ) as PropertySource | null;
+            const rightPreview = this.getPathPointPreview(
+              part.apRight as AnchorPoint,
+            ) as PropertySource | null;
+            (leftPreview as PropertySource).getProperty("x");
+            (leftPreview as PropertySource).getProperty("y");
+            (rightPreview as PropertySource).getProperty("x");
+            (rightPreview as PropertySource).getProperty("y");
             const target = viewToWorld.mapPoint(position);
             let hit = new Point(data.hitRes.x, data.hitRes.y);
             const own = this._element.getTransform();
@@ -1985,7 +1995,10 @@ export class PathsGraphEditor extends ShapeEditor<EditedPathsGraph> {
       }
       this.updatePartSelection(toggle, hit);
     }
-    return !!(this._partSelection && this._partSelection.length);
+    // The old value: the selection length (or the falsy selection), not a
+    // boolean. The cast keeps the base signature; the callers in editor.ts
+    // only test the result for truthiness.
+    return (this._partSelection && this._partSelection.length) as unknown as boolean;
   }
 
   /** An edge can always be deleted; anchors while at least one would remain. */
@@ -2019,7 +2032,7 @@ export class PathsGraphEditor extends ShapeEditor<EditedPathsGraph> {
   /**
    * Removes the selected anchors, or in edge mode the edge of the first
    * edge part only (the old loop breaks after it; see "Paths graph edge
-   * delete" in the BUGS-FIXED candidates).
+   * delete removes only the first edge" in QUESTIONS.md).
    */
   override deletePartsSelected(): void {
     if (

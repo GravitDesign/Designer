@@ -30,6 +30,8 @@ export function isArrowKey(key: unknown): boolean {
 function resizePart(tool: SelectTool, side: string): void {
   if (!tool._editorMovePartInfo) {
     tool._editorMovePartInfo = new PartInfo(
+      // The old code made a part info with the editor (not an element
+      // editor) as its owner; PartInfo is typed with BaseEditor.
       tool._editor as unknown as BaseEditor,
       BoxEditor.RESIZE_HANDLE_PART_ID,
       { side },

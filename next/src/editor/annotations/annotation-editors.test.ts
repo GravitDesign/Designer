@@ -11,12 +11,16 @@ import { HighlighterAnnotation } from "../../engine/scene/annotations/highlighte
 import { PencilAnnotation } from "../../engine/scene/annotations/pencil-annotation.ts";
 import { RectangleAnnotation } from "../../engine/scene/annotations/rectangle-annotation.ts";
 import { TextAnnotation } from "../../engine/scene/annotations/text-annotation.ts";
+import { Vertex } from "../../engine/geometry/vertex.ts";
+import type { VertexReader } from "../../engine/geometry/vertex-source.ts";
 import { Block } from "../../engine/scene/block.ts";
+import { ElementFlag } from "../../engine/scene/element-change.ts";
 import { NodeFlag } from "../../engine/scene/node-change.ts";
 import type { Node } from "../../engine/scene/node.ts";
 import type { Page } from "../../engine/scene/page.ts";
 import { Scene } from "../../engine/scene/scene.ts";
 import { Workspace } from "../../engine/scene/workspace.ts";
+import { BaseEditor } from "../element-editors/base-editor.ts";
 import { BoxEditor } from "../element-editors/box-editor.ts";
 import { ElementEditor } from "../element-editors/element-editor.ts";
 import { EllipseEditor } from "../element-editors/ellipse-editor.ts";
@@ -30,6 +34,7 @@ import { HighlighterAnnotationEditor } from "./highlighter-annotation-editor.ts"
 import { PencilAnnotationEditor } from "./pencil-annotation-editor.ts";
 import { RectangleAnnotationEditor } from "./rectangle-annotation-editor.ts";
 import { TextAnnotationEditor } from "./text-annotation-editor.ts";
+import oldPaint from "./comment-annotation-paint.fixture.json";
 
 type AnyEditor = ElementEditor & {
   _uid: unknown;
@@ -208,5 +213,75 @@ describe("GCommentAnnotationEditor", () => {
     expect([box.getX(), box.getY(), box.getWidth(), box.getHeight()]).toEqual([
       99.5, 199.5, 17, 17,
     ]);
+  });
+});
+
+describe("GCommentAnnotationEditor painting", () => {
+  /**
+   * Paints the bubble of a comment at (100, 200) through a view transform
+   * of scale 2 and offset (10, 20) into a recording canvas. The expected
+   * calls were recorded in the old app (comment-annotation-paint.fixture.json).
+   */
+  function paint(options: {
+    highlight?: boolean;
+    hidden?: boolean;
+    noVertices?: boolean;
+    color?: string;
+  }): unknown[][] {
+    const { list } = setup();
+    const comment = new CommentAnnotation();
+    comment.setProperty("trf", new Transform(1, 0, 0, 1, 100, 200));
+    list.appendChild(comment);
+    const editor = ElementEditor.createEditor(comment) as CommentAnnotationEditor;
+    if (options.highlight) editor.setFlag(BaseEditor.Flag.Highlighted);
+    if (options.hidden) comment.setFlag(ElementFlag.Hidden);
+    const calls: unknown[][] = [];
+    const read = (source: VertexReader): number[][] => {
+      const vertex = new Vertex();
+      const out: number[][] = [];
+      const round = (value: number) => Math.round(value * 1e6) / 1e6;
+      if (source.rewindVertices(0))
+        while (source.readVertex(vertex))
+          out.push([vertex.command, round(vertex.x), round(vertex.y)]);
+      return out;
+    };
+    const canvas = {
+      putVertices: (source: VertexReader, align: unknown) =>
+        calls.push(["putVertices", align, read(source)]),
+      fillVertices: (...args: unknown[]) => calls.push(["fillVertices", ...args]),
+    };
+    const context = { canvas, highlightOutlineColor: "HL", selectionOutlineColor: "SEL" };
+    editor._paintOutline(
+      new Transform(2, 0, 0, 2, 10, 20),
+      context as never,
+      options.noVertices,
+      (options.color ?? null) as never,
+    );
+    return calls;
+  }
+
+  /**
+   * The old code passed 0 as the composite operator and the port passes
+   * null; the paint canvas treats both as the default (SourceOver).
+   */
+  const expected = (calls: unknown[][]): unknown[][] =>
+    calls.map((call) =>
+      call[0] === "fillVertices" ? call.map((arg, i) => (i === 3 && arg === 0 ? null : arg)) : call,
+    );
+
+  it("fills the white inside, then the rim in the selection colour", () => {
+    expect(paint({})).toEqual(expected(oldPaint.plain));
+  });
+
+  it("uses the highlight colour on a highlighted editor and a given colour first", () => {
+    expect(paint({ highlight: true })).toEqual(expected(oldPaint.highlighted));
+    expect(paint({ highlight: true, color: "C" })).toEqual(expected(oldPaint.color));
+  });
+
+  it("paints nothing with noVertices or for a hidden comment", () => {
+    expect(oldPaint.noVertices).toEqual([]);
+    expect(oldPaint.hidden).toEqual([]);
+    expect(paint({ noVertices: true })).toEqual([]);
+    expect(paint({ hidden: true })).toEqual([]);
   });
 });

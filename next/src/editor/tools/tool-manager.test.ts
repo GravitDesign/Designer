@@ -1,11 +1,15 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { Key } from "../../engine/core/key.ts";
+import { MouseEvent } from "../../engine/core/mouse-event.ts";
 import { Point } from "../../engine/math/point.ts";
+import { EditorOptions } from "../editor-options.ts";
 import { installFakeDom } from "../view/testing/fake-dom.ts";
 import { EllipseTool } from "./ellipse-tool.ts";
 import { FillTool } from "./fill-tool.ts";
 import { HandTool } from "./hand-tool.ts";
 import { PenTool } from "./pen-tool.ts";
 import { PointerTool } from "./pointer-tool.ts";
+import { SelectTool } from "./select-tool.ts";
 import { RectangleTool } from "./rectangle-tool.ts";
 import { SubSelectTool } from "./sub-select-tool.ts";
 import { ToolChangedEvent, ToolManager } from "./tool-manager.ts";
@@ -224,5 +228,83 @@ describe("ToolManager inline hints", () => {
       ["10, 20", [120, 90]],
       [null, null],
     ]);
+  });
+});
+
+describe("ToolManager tool exit key", () => {
+  const exitKey = EditorOptions.toolExitKey;
+  beforeEach(() => {
+    // What the annotations sidebar sets.
+    // The old app sets the key code (a number); the option is typed as a string.
+    EditorOptions.toolExitKey = Key.Constant.ESC as unknown as string;
+  });
+  afterEach(() => {
+    EditorOptions.toolExitKey = exitKey;
+  });
+
+  it("ends the tool's job: the default tool comes back on the next tick", () => {
+    const { manager, input } = setupTools();
+    manager.activateTool(RectangleTool);
+    input.keyDown(Key.Constant.ESC);
+    expect(name(manager.getActiveTool())).toBe("GRectangleTool");
+    vi.advanceTimersByTime(0);
+    expect(name(manager.getActiveTool())).toBe("GPointerTool");
+  });
+
+  it("puts the pointer tool back into select mode", () => {
+    const { manager, input } = setupTools();
+    manager.activateTool(PointerTool);
+    const pointer = manager.getActiveTool() as PointerTool;
+    pointer.setEditMode(SelectTool.EditMode.Edit);
+    input.keyDown(Key.Constant.ESC);
+    expect(pointer.getEditMode()).toBe(SelectTool.EditMode.Select);
+  });
+
+  it("is ignored without the option", () => {
+    EditorOptions.toolExitKey = exitKey;
+    const { manager, input } = setupTools();
+    manager.activateTool(RectangleTool);
+    input.keyDown(Key.Constant.ESC);
+    vi.advanceTimersByTime(0);
+    expect(name(manager.getActiveTool())).toBe("GRectangleTool");
+  });
+
+  it("is listened for only after a full activation", () => {
+    const { manager, input, view } = setupTools();
+    manager.activateTool(RectangleTool);
+    const tool = manager.getActiveTool() as RectangleTool;
+    const jobDone = vi.spyOn(manager, "notifyJobDone");
+    // Any deactivation, light or not, removes the listener; a light
+    // activation doesn't add it back.
+    tool.deactivate(view, true);
+    tool.activate(view, true);
+    input.keyDown(Key.Constant.ESC);
+    expect(jobDone).not.toHaveBeenCalled();
+    tool.deactivate(view, true);
+    tool.activate(view);
+    input.keyDown(Key.Constant.ESC);
+    expect(jobDone).toHaveBeenCalledWith(tool);
+  });
+});
+
+describe("ToolManager Space released mid-pan", () => {
+  it("ends the hand tool's drag on the view, then returns to the previous tool", () => {
+    const { manager, input, view } = setupTools();
+    manager.activateTool(RectangleTool);
+    setModifiers({ spaceKey: true });
+    const hand = manager.getActiveTool() as HandTool;
+    const dragEnds: unknown[] = [];
+    view.addEventListener(MouseEvent.DragEnd, (event: unknown) => dragEnds.push(event));
+    const finishPan = vi.spyOn(view, "finishPan");
+    input.down(100, 100);
+    input.drag(120, 110);
+    expect(hand._panning).toBe(true);
+    expect(hand.isDeactivatable()).toBe(false);
+    setModifiers({ spaceKey: false });
+    expect(dragEnds.length).toBe(1);
+    expect(hand._panning).toBe(false);
+    expect(finishPan).toHaveBeenCalledTimes(1);
+    expect(name(manager.getActiveTool())).toBe("GRectangleTool");
+    expect(manager.getTemporaryActiveTool()).toBeNull();
   });
 });

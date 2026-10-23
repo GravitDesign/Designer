@@ -7,6 +7,8 @@ import { Path } from "../../engine/scene/path.ts";
 import { FillPaintLayer } from "../../engine/style/fill-paint-layer.ts";
 import { Cursor } from "../cursor.ts";
 import { installFakeDom } from "../view/testing/fake-dom.ts";
+import { MouseEvent } from "../../engine/core/mouse-event.ts";
+import { EditorOptions } from "../editor-options.ts";
 import { FreehandTool } from "./freehand-tool.ts";
 import {
   at,
@@ -243,5 +245,85 @@ describe("FreehandTool smoothing", () => {
 
   it("keeps plain samples below that distance", () => {
     expect(sampled(5)).toEqual([[null], [null], [null], [null], [null], [null]]);
+  });
+});
+
+describe("FreehandTool closing highlight", () => {
+  it("highlights the stroke while its end is within 15 px of its start", () => {
+    const { page, input } = setup();
+    input.down(100, 100);
+    input.drag(200, 100);
+    input.drag(200, 200);
+    const path = pathAt(page);
+    expect(path.hasFlag(NodeFlag.Highlighted)).toBe(false);
+    input.drag(110, 105);
+    expect(path.hasFlag(NodeFlag.Highlighted)).toBe(true);
+    input.drag(130, 105);
+    expect(path.hasFlag(NodeFlag.Highlighted)).toBe(false);
+    input.up(130, 105);
+  });
+
+  it("measures the 15 px in view pixels: at zoom 2 the end must be within 7.5 scene px", () => {
+    const { page, input, view } = setup();
+    view.transform(0, 0, 2);
+    // View (200, 200) is scene (100, 100).
+    input.down(200, 200);
+    input.drag(400, 200);
+    input.drag(400, 400);
+    const path = pathAt(page);
+    // Scene (110, 100): 10 scene px, 20 view px away.
+    input.drag(220, 200);
+    expect(path.hasFlag(NodeFlag.Highlighted)).toBe(false);
+    // Scene (105, 100): 5 scene px, 10 view px away.
+    input.drag(210, 200);
+    expect(path.hasFlag(NodeFlag.Highlighted)).toBe(true);
+    input.up(210, 200);
+  });
+});
+
+describe("FreehandTool right button and double click", () => {
+  it("a pointer move that reports the right button during a stroke extends it", () => {
+    const { page, tool, view } = setup();
+    const rightMove = (x: number, y: number) => {
+      const event = new MouseEvent.Move();
+      event.client = new Point(x, y);
+      event.button = MouseEvent.BUTTON_RIGHT;
+      view.trigger(event);
+    };
+    // The press goes to the tool only, so the view tracks no drag and sends
+    // no Drag events: only the move handler's right-button branch draws.
+    const down = new MouseEvent.Down();
+    down.client = new Point(100, 100);
+    down.button = MouseEvent.BUTTON_LEFT;
+    tool._mouseDown(down);
+    const path = pathAt(page);
+    rightMove(150, 120);
+    rightMove(200, 160);
+    expect(points(path)).toEqual([
+      [100, 100],
+      [150, 120],
+      [200, 160],
+    ]);
+  });
+
+  it('a double click hands back to the default tool only with selectDoubleClickBehavior "edit"', () => {
+    const saved = EditorOptions.selectDoubleClickBehavior;
+    try {
+      const { view, manager } = setup();
+      const dblClick = () => {
+        const event = new MouseEvent.DblClick();
+        event.client = new Point(100, 100);
+        event.button = MouseEvent.BUTTON_LEFT;
+        view.trigger(event);
+      };
+      EditorOptions.selectDoubleClickBehavior = null;
+      dblClick();
+      expect(manager.calls).toEqual([]);
+      EditorOptions.selectDoubleClickBehavior = "edit";
+      dblClick();
+      expect(manager.calls).toEqual(["notifyJobDone"]);
+    } finally {
+      EditorOptions.selectDoubleClickBehavior = saved;
+    }
   });
 });

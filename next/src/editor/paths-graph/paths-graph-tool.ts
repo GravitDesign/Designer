@@ -813,7 +813,7 @@ export class PathsGraphTool extends ItemTool {
       else if (line) {
         // The mouse move passes the graph itself, which has no anchor
         // points: Shift there throws (see "Shift while hovering with the
-        // paths graph tool" in the BUGS-FIXED candidates).
+        // paths graph tool throws" in QUESTIONS.md).
         const points = (line as PathBase).getAnchorPoints();
         point = this._mode == Mode.Append ? points.getLastChild() : points.getFirstChild();
       }

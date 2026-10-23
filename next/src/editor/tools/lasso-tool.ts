@@ -21,7 +21,7 @@ import { AreaSelector } from "./select/area-selector.ts";
 import { SubSelectTool } from "./sub-select-tool.ts";
 
 /** GLassoTool._AreaSelector. */
-class LassoAreaSelector extends AreaSelector {
+export class LassoAreaSelector extends AreaSelector {
   _current: Point | null = null;
   /** The points since the last fit. */
   _currentPoints: Point[] | null = null;

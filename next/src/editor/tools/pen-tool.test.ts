@@ -6,7 +6,7 @@ import { AnchorPoint, PathBase } from "../../engine/scene/path-base.ts";
 import { Cursor } from "../cursor.ts";
 import { EditorOptions } from "../editor-options.ts";
 import { PathBaseEditor } from "../element-editors/path-base-editor.ts";
-import { installFakeDom } from "../view/testing/fake-dom.ts";
+import { installFakeDom, runAllFrames } from "../view/testing/fake-dom.ts";
 import {
   at,
   clearModifiers,
@@ -15,10 +15,18 @@ import {
   paths,
   points,
   polyline,
+  dragThrough,
+  oldApp,
+  oldPaths,
+  savedPaths,
+  scenarioView,
   setModifiers,
   setupPathTool,
 } from "./path-testing.ts";
 import { PenTool } from "./pen-tool.ts";
+import { CompoundPath } from "../../engine/scene/compound-path.ts";
+import { Path } from "../../engine/scene/path.ts";
+import type { Page } from "../../engine/scene/page.ts";
 
 let uninstall: () => void;
 beforeEach(() => {
@@ -185,8 +193,8 @@ describe("PenTool Space", () => {
 
   it("in a scrolled view throws the anchor off by the scroll (old bug, kept)", () => {
     // The point's scene position plus the delta is read as a view
-    // position; see "Pen Space in a scrolled view" in the BUGS-FIXED
-    // candidates.
+    // position. Listed under "Bug candidates" in PROGRESS.md ("Pen: Space
+    // during a handle drag in a scrolled or zoomed view").
     expect(spaceDrag(400, 200)).toEqual([270 - 400, 150 - 200]);
   });
 });
@@ -311,5 +319,363 @@ describe("PenTool light switch", () => {
   it("a full deactivation stops extending and restores path resizing", () => {
     const { state } = afterDeactivation(false);
     expect(state).toEqual({ extending: PathBaseEditor.ExtendingMode.Off, pathResize: true });
+  });
+});
+
+// The cases below replay the parity scenarios in
+// parity/scenarios/editor-tools/cases-pen-branches.ts; the expected
+// points, undo names and tools come from the old app's recordings of
+// them (pen-branches.recorded.json).
+type Setup = ReturnType<typeof setup>;
+const scenarioSetup = () => scenarioView(setup());
+const newPaths = savedPaths;
+
+/** The CURVE fixture: smooth points with handles, selected. */
+function curve(s: Setup): Path {
+  const path = polyline(s.page, [
+    [100, 200],
+    [250, 120],
+    [400, 200],
+  ]);
+  const handles = [
+    [60, 240, 140, 160],
+    [200, 120, 300, 120],
+    [360, 160, 440, 240],
+  ];
+  handles.forEach((h, i) => {
+    const point = path.getAnchorPoints().getChildByIndex(i) as AnchorPoint;
+    point.setProperties(["hlx", "hly", "hrx", "hry"], h);
+    point.setProperty("tp", AnchorPoint.Type.Symmetric);
+  });
+  s.editor.updateSelection(false, [path]);
+  return path;
+}
+
+/** The POLY_SELECTED fixture. */
+function polySelected(s: Setup): Path {
+  const path = polyline(s.page, [
+    [100, 100],
+    [300, 250],
+    [100, 250],
+  ]);
+  s.editor.updateSelection(false, [path]);
+  return path;
+}
+
+/** Corner point at (100, 200), then a curve point at (250, 120) dragged to (320, 120). */
+function curveStart(input: Setup["input"]): void {
+  clicks(input, [100, 200]);
+  dragThrough(
+    input,
+    [250, 120],
+    [
+      [280, 120],
+      [320, 120],
+    ],
+  );
+}
+
+describe("PenTool from the first point (Prepend)", () => {
+  it("inserts before the first point, mirrors the handles and projects a connector handle", () => {
+    const id = "pen/continue-from-first-point";
+    const s = scenarioSetup();
+    polySelected(s);
+    const { input, editor, page } = s;
+    input.move(500, 400);
+    clicks(input, [100, 100]);
+    expect(editor.getUndoStateName()).toBe(oldApp(id).probes["first-point-picked"]?.undo);
+    pause();
+    input.move(500, 400);
+    dragThrough(
+      input,
+      [50, 50],
+      [
+        [60, 40],
+        [80, 30],
+      ],
+    );
+    setModifiers({ optionKey: true });
+    dragThrough(
+      input,
+      [0, 100],
+      [
+        [-20, 120],
+        [-40, 150],
+      ],
+      MouseEvent.BUTTON_RIGHT,
+    );
+    setModifiers({ optionKey: false });
+    expect(editor.getUndoStateName()).toBe(oldApp(id).probes["prepended-connector"]?.undo);
+    pause();
+    input.move(400, 400);
+    input.keyDown(Key.Constant.ESC);
+    expect(newPaths(paths(page))).toEqual(oldPaths(id));
+  });
+});
+
+describe("PenTool Alt held before the press", () => {
+  it("on the end point just dragged: the press drops its outgoing handle, the drag adds nothing", () => {
+    const id = "pen/alt-press-on-end-point";
+    const { input, page, editor } = scenarioSetup();
+    curveStart(input);
+    pause();
+    input.move(400, 300);
+    setModifiers({ optionKey: true });
+    dragThrough(
+      input,
+      [250, 120],
+      [
+        [270, 140],
+        [290, 170],
+      ],
+    );
+    setModifiers({ optionKey: false });
+    pause();
+    input.move(400, 300);
+    input.keyDown(Key.Constant.ESC);
+    expect(newPaths(paths(page))).toEqual(oldPaths(id));
+    expect(editor.getUndoStateName()).toBe(oldApp(id).undo);
+  });
+
+  it("on a middle point in Edit mode: the outgoing handle moves by the drag", () => {
+    const id = "pen/alt-drag-existing-point";
+    const s = scenarioSetup();
+    curve(s);
+    const { input, page, editor, tool } = s;
+    input.move(500, 400);
+    setModifiers({ optionKey: true });
+    dragThrough(
+      input,
+      [250, 120],
+      [
+        [260, 135],
+        [270, 150],
+      ],
+    );
+    setModifiers({ optionKey: false });
+    expect(newPaths(paths(page))).toEqual(oldPaths(id));
+    // 300 + 20, 120 + 30: the handle the point had plus the drag.
+    expect(points(pathAt(page), ["tp", "hrx", "hry"])[1]).toEqual([
+      AnchorPoint.Type.Asymmetric,
+      320,
+      150,
+    ]);
+    expect(editor.getUndoStateName()).toBe(oldApp(id).undo);
+    expect(String(tool)).toBe("[Object GPenTool]");
+  });
+});
+
+describe("PenTool handles around closing", () => {
+  it("a click on the point just dragged drops its outgoing handle and adds no point", () => {
+    const id = "pen/click-dragged-point";
+    const { input, page, editor } = scenarioSetup();
+    curveStart(input);
+    pause();
+    input.move(400, 300);
+    clicks(input, [250, 120]);
+    expect(editor.getUndoStateName()).toBe(oldApp(id).probes["after-click"]?.undo);
+    pause();
+    input.move(400, 300);
+    input.keyDown(Key.Constant.ESC);
+    expect(newPaths(paths(page))).toEqual(oldPaths(id));
+  });
+
+  it("closing with a drag next to an end without a handle keeps that side straight", () => {
+    const id = "pen/close-drag-straight-end";
+    const { input, page, editor } = scenarioSetup();
+    clicks(input, [100, 100], [250, 100], [250, 250]);
+    pause();
+    input.move(110, 110);
+    dragThrough(
+      input,
+      [100, 100],
+      [
+        [80, 120],
+        [60, 140],
+      ],
+    );
+    expect(editor.getUndoStateName()).toBe(oldApp(id).undo);
+    input.keyDown(Key.Constant.ESC);
+    expect(newPaths(paths(page))).toEqual(oldPaths(id));
+    expect(points(pathAt(page), ["tp", "hrx", "hry"])[0]).toEqual([
+      AnchorPoint.Type.Asymmetric,
+      null,
+      null,
+    ]);
+  });
+});
+
+describe("PenTool right-button drags", () => {
+  it("Alt+right drag: a connector handle on the line from the previous point, none when dragged back", () => {
+    const id = "pen/connector-handle-drag";
+    const { input, page } = scenarioSetup();
+    clicks(input, [100, 100]);
+    setModifiers({ optionKey: true });
+    dragThrough(
+      input,
+      [250, 100],
+      [
+        [280, 110],
+        [300, 120],
+      ],
+      MouseEvent.BUTTON_RIGHT,
+    );
+    setModifiers({ optionKey: false });
+    pause();
+    input.move(400, 400);
+    setModifiers({ optionKey: true });
+    dragThrough(
+      input,
+      [250, 250],
+      [
+        [250, 230],
+        [252, 220],
+      ],
+      MouseEvent.BUTTON_RIGHT,
+    );
+    setModifiers({ optionKey: false });
+    pause();
+    input.move(400, 400);
+    input.keyDown(Key.Constant.ESC);
+    expect(newPaths(paths(page))).toEqual(oldPaths(id));
+  });
+
+  it("right drag sets the rounded corner's shoulder to the drag distance, none when dragged back", () => {
+    const id = "pen/rounded-shoulder-drag";
+    const { input, page } = scenarioSetup();
+    clicks(input, [100, 100]);
+    dragThrough(
+      input,
+      [250, 100],
+      [
+        [270, 100],
+        [280, 104],
+      ],
+      MouseEvent.BUTTON_RIGHT,
+    );
+    pause();
+    input.move(400, 400);
+    dragThrough(
+      input,
+      [250, 250],
+      [
+        [270, 250],
+        [250, 250],
+      ],
+      MouseEvent.BUTTON_RIGHT,
+    );
+    pause();
+    input.move(400, 400);
+    input.keyDown(Key.Constant.ESC);
+    expect(newPaths(paths(page))).toEqual(oldPaths(id));
+    expect(points(pathAt(page), ["cr"])[1]?.[0]).toBeCloseTo(Math.hypot(30, 4), 4);
+  });
+});
+
+describe("PenTool Edit mode", () => {
+  it("a drag from a middle point pulls symmetric handles", () => {
+    const id = "pen/edit-drag-middle-point";
+    const s = scenarioSetup();
+    polySelected(s);
+    s.input.move(500, 400);
+    dragThrough(
+      s.input,
+      [300, 250],
+      [
+        [320, 250],
+        [340, 260],
+      ],
+    );
+    expect(newPaths(paths(s.page))).toEqual(oldPaths(id));
+    expect(s.editor.getUndoStateName()).toBe(oldApp(id).undo);
+  });
+
+  it("a click on a segment of a compound path's sub-path inserts a point there", () => {
+    const id = "pen/compound-path-segment";
+    const s = scenarioSetup();
+    const compound = new CompoundPath();
+    for (const y of [100, 250]) {
+      const path = new Path();
+      for (const x of [100, 300]) {
+        const point = new AnchorPoint();
+        point.setProperties(["x", "y"], [x, y]);
+        path.getAnchorPoints().appendChild(point);
+      }
+      compound.getPaths().appendChild(path);
+    }
+    s.page.appendChild(compound);
+    s.editor.updateSelection(false, [compound]);
+    s.input.move(500, 400);
+    s.input.move(200, 250);
+    clicks(s.input, [200, 250]);
+    const subPaths = compound.getPaths().getChildren() as Path[];
+    expect(newPaths(subPaths)).toEqual(oldPaths(id));
+    expect(s.editor.getUndoStateName()).toBe(oldApp(id).undo);
+  });
+
+  it('with selectDoubleClickBehavior "edit" a double press ends the job', () => {
+    const id = "pen/double-press-edit-option";
+    const previous = EditorOptions.selectDoubleClickBehavior;
+    EditorOptions.selectDoubleClickBehavior = "edit";
+    try {
+      const { input, page, manager } = scenarioSetup();
+      clicks(input, [100, 100], [250, 100]);
+      input.click(250, 100); // within the double-click time
+      expect(manager.calls).toContain("notifyJobDone");
+      expect(oldApp(id).probes["after-double-press"]?.tool).toBe("GPointerTool");
+      expect(newPaths(paths(page))).toEqual(oldPaths(id));
+    } finally {
+      EditorOptions.selectDoubleClickBehavior = previous;
+    }
+  });
+});
+
+describe("PenTool Shift replay", () => {
+  it("pressing Shift replays the last move, constrained to 45°", () => {
+    const id = "pen/shift-replays-move";
+    const { input, page, tool } = scenarioSetup();
+    clicks(input, [100, 100]);
+    pause();
+    input.move(250, 130);
+    const preview = () => {
+      const point = tool._editPt as AnchorPoint;
+      return [point.getProperty("x"), point.getProperty("y")];
+    };
+    // The old app's preview box: 30 high before Shift, flat after it.
+    expect(preview()).toEqual([250, 130]);
+    expect(oldApp(id).probes["before-shift"]?.preview[0]?.[3]).toBe(30);
+    setModifiers({ shiftKey: true });
+    expect(preview()).toEqual([250, 100]);
+    expect(oldApp(id).probes["shift-replayed"]?.preview[0]?.[3]).toBe(0);
+    clicks(input, [250, 130]);
+    setModifiers({ shiftKey: false });
+    pause();
+    input.move(400, 400);
+    input.keyDown(Key.Constant.ESC);
+    expect(newPaths(paths(page))).toEqual(oldPaths(id));
+  });
+});
+
+describe("PenTool on another page", () => {
+  it("a path started over the second page goes there, in that page's coordinates", () => {
+    const s = setup();
+    const first = s.scene.getActivePage() as Page;
+    first.setProperties(["w", "h"], [300, 200]);
+    const second = s.scene.insertPage() as Page;
+    second.setProperties(["w", "h"], [300, 200]);
+    s.view.getViewConfiguration().multiPageView = true;
+    s.view.transform(0, 0, 1);
+    runAllFrames();
+    s.scene.setActivePage(first);
+    // Page 2 sits to the right of page 1 in the multi-page layout.
+    const offset = s.view.getWorldTransform(second).getTranslation().getX();
+    expect(offset).toBeGreaterThan(300);
+    clicks(s.input, [offset + 128, 100], [offset + 178, 150]);
+    expect(s.scene.getActivePage()).toBe(second);
+    expect(paths(first as never)).toEqual([]);
+    expect(points(pathAt(second as never))).toEqual([
+      [128, 100],
+      [178, 150],
+    ]);
   });
 });

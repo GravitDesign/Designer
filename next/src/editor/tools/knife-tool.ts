@@ -23,7 +23,7 @@ import { Platform } from "../../engine/core/platform.ts";
 import { RGBColor } from "../../engine/color/rgb-color.ts";
 import { PolyIntersector } from "../../engine/geometry/boolean/poly-segments.ts";
 import { HitResult } from "../../engine/geometry/hit-result.ts";
-import { KnifeCut, type KnifeCutPath } from "../../engine/geometry/knife-cut.ts";
+import { KnifeCut } from "../../engine/geometry/knife-cut.ts";
 import { PathUtil } from "../../engine/geometry/path-util.ts";
 import { Vertex } from "../../engine/geometry/vertex.ts";
 import { VertexContainer } from "../../engine/geometry/vertex-container.ts";
@@ -173,6 +173,7 @@ export class KnifeTool extends PathTool {
         .getViewTransform(this._view.getScene().getActivePage())
         .mapPoint(event.client);
       const guides = this._editor.getGuides();
+      // The editor's EdNode stand-in vs. the scene Nodes beginMap takes.
       guides.beginMap(this._editor.getMappingScopes() as never);
       position = guides.mapPoint(position, DetailMapMode.DetailOnFilterOn);
       guides.finishMap();
@@ -228,6 +229,7 @@ export class KnifeTool extends PathTool {
         .getViewTransform(this._view.getScene().getActivePage())
         .mapPoint(position);
       const guides = this._editor.getGuides();
+      // The editor's EdNode stand-in vs. the scene Nodes beginMap takes.
       guides.beginMap(this._editor.getMappingScopes() as never);
       scene = guides.mapPoint(scene, DetailMapMode.DetailOnFilterOn);
       guides.finishMap();
@@ -382,6 +384,8 @@ export class KnifeTool extends PathTool {
   /** The tool is its own path editor once the cut line exists. */
   override _checkPathEditor(): void {
     if (this._knifePath) {
+      // The knife implements the members of ToolPathEditor that the path
+      // tool calls, but isn't declared as one.
       this._pathEditor = this as unknown as ToolPathEditor;
       this._compoundPathEditor = null;
     }
@@ -606,6 +610,8 @@ export class KnifeTool extends PathTool {
     const transformed = new VertexTransformer(this._elementPreview as Path, transform);
     const aligned = new VertexPixelAligner(transformed);
     if (aligned) {
+      // putVertices is typed for its first caller's source type; any
+      // vertex reader works.
       (context.canvas as PaintCanvas).putVertices(aligned as never, false);
       (context.canvas as PaintCanvas).strokeVertices(
         context.knifeOutlineColor,
@@ -627,6 +633,7 @@ export class KnifeTool extends PathTool {
         context,
         transform,
         info.position,
+        // _iteratePoints hands over the annotation name as a plain string.
         info.annotation as never,
         info.anchorPoint.hasFlag(NodeFlag.Selected),
         node.size,
@@ -893,7 +900,7 @@ export class KnifeTool extends PathTool {
     let next: Node | null | undefined;
     const created: Node[] = [];
     const shapes: Element[] = [];
-    const knifeCut = new KnifeCut(cutter as unknown as KnifeCutPath);
+    const knifeCut = new KnifeCut(cutter);
     const owners: Item[] = [];
     for (let v = 0; v < elements.length; v++) {
       const element = elements[v] as Item;
@@ -912,12 +919,13 @@ export class KnifeTool extends PathTool {
       const shape = shapes[v] as Element;
       const owner = owners[v] as Item;
       if (owner.getParent()) {
-        parent = owner.getParent() as unknown as ContainerNode;
+        parent = owner.getParent() as ContainerNode;
         next = owner.getNext();
       }
       if (shape === cutter || shape === this._pathRef) continue;
       let pieces: (Node | null)[][] | null = [[], [], []];
       let groups = this.convertToPath(shape);
+      // Element's type lacks the properties mixin every scene element has.
       const evenOdd = (shape as unknown as Propertied).getProperty("evenodd");
       const nonZero = "boolean" == typeof evenOdd && !evenOdd;
       const split: (CutPiece | null)[][] = [];
@@ -946,6 +954,8 @@ export class KnifeTool extends PathTool {
         const group = groups[g] as (CutPiece | null)[];
         for (let o = 0; o < group.length; o++) {
           const path = group[o] as Path;
+          // intersect types its points for polylines; on two paths they carry
+          // the path segment data addIntersectionPoints reads.
           const intersections = intersector.intersect(
             cutterCopy,
             path,
@@ -968,11 +978,11 @@ export class KnifeTool extends PathTool {
             !!shape.hasStyleFill());
         if (extraCutterAnchors.length) cutterAnchors = cutterAnchors.concat(extraCutterAnchors);
         const result = knifeCut.performCut(
-          group as unknown as (KnifeCutPath | null)[],
+          group as (Path | null)[],
           cutAnchors,
           cutterAnchors,
           anyClosed,
-          cutterCopy as unknown as KnifeCutPath,
+          cutterCopy,
           fit,
           nonZero,
         );
@@ -1007,6 +1017,7 @@ export class KnifeTool extends PathTool {
               }
               if (compound && piece) compound.getPaths().appendChild(piece as Path);
               else if (piece) {
+                // Every piece is a scene element with the properties mixin.
                 if (nonZero) (piece as unknown as Propertied).setProperty("evenodd", false);
                 (pieces[side] as Node[]).push(piece as Node);
               }
@@ -1033,17 +1044,18 @@ export class KnifeTool extends PathTool {
             const piece = (pieces[side] as (Node | null)[])[o] as
               (Node & { assignStyleFrom(other: Node): void }) | null;
             if (piece) {
-              const styled = shape as unknown as { $trf: Transform | null };
-              const transform = styled.$trf;
-              styled.$trf = null;
+              const transform = shape.$trf;
+              shape.$trf = null;
               piece.assignStyleFrom(shape);
-              styled.$trf = transform;
+              shape.$trf = transform;
               if (1 == count) {
                 target.insertChild(piece, next as Node | null);
                 created.push(piece);
               } else group.appendChild(piece);
               if (!(shape instanceof CompoundShape)) {
                 for (
+                  // A shape is a container at runtime (its children are the
+                  // elements it masks); Element's type doesn't say so.
                   let child = (shape as unknown as ContainerNode).getFirstChild();
                   null != child;
                   child = child.getNext()
@@ -1085,9 +1097,7 @@ export class KnifeTool extends PathTool {
 
   getTransformedVertices(path: Path): VertexContainer {
     const vertices = new VertexContainer();
-    path
-      .getAnchorPoints()
-      ._generateVertices(vertices, (path as unknown as { $trf: Transform | null }).$trf, false);
+    path.getAnchorPoints()._generateVertices(vertices, path.$trf as Transform | null, false);
     return vertices;
   }
 
@@ -1129,21 +1139,24 @@ export class KnifeTool extends PathTool {
       }
       plain = !styledCorner;
     }
+    // Node has no clone() in its type; paths and compound paths do. A
+    // text's shapes are its glyph outlines, typed as their vertex sources.
     if (plain) list.push(element.getParent() ? (element as unknown as Cloneable).clone() : element);
     else if (element instanceof Text) list = (element.getTextShapes() as unknown as Node[]) || [];
     else if (element.hasMixin(VertexSource)) {
+      // hasMixin(VertexSource) doesn't narrow the type.
       const path = PathUtil.createPathFromVertexSource(
         element as unknown as VertexReader,
       ) as Node | null;
       if (path) {
-        const styled = element as unknown as { $trf: Transform | null };
+        const styled = element as Element;
         const transform = styled.$trf;
         styled.$trf = null;
         path.assignFrom(element);
         if (element instanceof PathBase) {
-          const target = path as unknown as { $evenodd: unknown; $closed: unknown };
-          target.$evenodd = element.getProperty("evenodd");
-          target.$closed = element.getProperty("closed");
+          const target = path as Path;
+          target.$evenodd = element.getProperty("evenodd") as boolean;
+          target.$closed = element.getProperty("closed") as boolean;
         }
         styled.$trf = transform;
         list.push(path);
@@ -1162,7 +1175,7 @@ export class KnifeTool extends PathTool {
         ) {
           group.push(child);
         }
-        (paths as unknown as ContainerNode).clearChildren();
+        paths.clearChildren();
       } else group.push(path as Path);
       groups.push(group);
     }
@@ -1179,6 +1192,7 @@ export class KnifeTool extends PathTool {
           (element.getProperty("plkt") as number) & Block.ProgramLck.NoEdit ||
           (element.getProperty("plkt") as number) & Block.ProgramLck.NoDelete ||
           (element.getParent() &&
+            // The parent of an element is a scene node with properties.
             ((element.getParent() as unknown as Propertied).getProperty("plkt") as number) &
               Block.ProgramLck.NoEdit))
       )

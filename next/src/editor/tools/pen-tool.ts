@@ -763,8 +763,9 @@ export class PenTool extends Panning(PathTool) {
       if (this._lastMouseEvent && this._lastMouseEvent.clientDelta && this._editPt) {
         // The point's own coordinates plus the pointer delta go to
         // _updatePoint as a view position, so in a scrolled or zoomed
-        // view the point jumps; see "Pen Space in a scrolled view" in
-        // the BUGS-FIXED candidates.
+        // view the point jumps. An old bug, kept; it is listed under "Bug
+        // candidates" in PROGRESS.md ("Pen: Space during a handle drag in
+        // a scrolled or zoomed view").
         const x = this._editPt.getProperty("x") as number;
         const y = this._editPt.getProperty("y") as number;
         let moved = new Point(

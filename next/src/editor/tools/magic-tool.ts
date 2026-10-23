@@ -11,13 +11,13 @@
  * added when it runs clockwise.
  */
 import { registerClass } from "../../engine/core/object.ts";
-import { PolyIntersector } from "../../engine/geometry/boolean/poly-segments.ts";
+import { PolyIntersector, type PolyLine } from "../../engine/geometry/boolean/poly-segments.ts";
 import { VertexPolyBoolean } from "../../engine/geometry/boolean/vertex-poly-boolean.ts";
 import { PathUtil } from "../../engine/geometry/path-util.ts";
 import { Vertex } from "../../engine/geometry/vertex.ts";
 import { VertexContainer } from "../../engine/geometry/vertex-container.ts";
 import { VertexInfo } from "../../engine/geometry/vertex-info.ts";
-import { VertexSourceMixin } from "../../engine/geometry/vertex-source.ts";
+import { VertexSourceMixin, type VertexReader } from "../../engine/geometry/vertex-source.ts";
 import type { MouseEvent } from "../../engine/core/mouse-event.ts";
 import type { Point } from "../../engine/math/point.ts";
 import type { Rect } from "../../engine/math/rect.ts";
@@ -31,10 +31,7 @@ import { Guide } from "../guides/guide.ts";
 import { FreehandTool } from "./freehand-tool.ts";
 
 /** A vertex source as the clipping reads it. */
-type Source = Parameters<typeof VertexContainer.mergeVertexSources>[0] & {
-  rewindVertices(index: number): boolean;
-  readVertex(vertex: Vertex): boolean;
-};
+type Source = VertexReader;
 
 /** A selected element that is a vertex source. */
 type SourceNode = Node & Source & { getGeometryBBox(): Rect | null; $trf: unknown };
@@ -54,6 +51,8 @@ export class MagicTool extends FreehandTool {
       .getViewTransform(this._view.getScene().getActivePage() as Page)
       .mapPoint(event.client);
     const guides = this._editor.getGuides();
+    // getMappingScopes returns the editor's minimal node interface; the
+    // scopes are the selection's scene nodes, which beginMap takes as Node.
     guides.beginMap(this._editor.getMappingScopes() as unknown as Node[]);
     point = guides.mapPoint(point, Guide.DetailMap.Mode.DetailOnFilterOn);
     guides.finishMap();
@@ -67,7 +66,7 @@ export class MagicTool extends FreehandTool {
           if (
             box &&
             box.containsPoint(point as Point) &&
-            VertexInfo.hitTest(point.getX(), point.getY(), source as never, 0, true)
+            VertexInfo.hitTest(point.getX(), point.getY(), source, 0, true)
           ) {
             this._willMerge = true;
             break;
@@ -102,18 +101,19 @@ export class MagicTool extends FreehandTool {
       const open: Source[] = [];
       const intersector = new PolyIntersector();
       let crosses = false;
-      for (let f = 0; f < selection.length; f++)
-        if ((selection[f] as Node).hasMixin(VertexSourceMixin)) {
-          const redistributed = PolyIntersector.redistributeVertexSource(selection[f] as never);
+      for (let itemIndex = 0; itemIndex < selection.length; itemIndex++)
+        if ((selection[itemIndex] as Node).hasMixin(VertexSourceMixin)) {
+          const item = selection[itemIndex] as SourceNode;
+          const redistributed = PolyIntersector.redistributeVertexSource(item);
           const groups = redistributed.containers.length;
           const closed: Source[] = [];
-          for (let v = 0; v < groups; v++)
+          for (let groupIndex = 0; groupIndex < groups; groupIndex++)
             for (
-              let group = redistributed.containers[v] as Source[], c = 0;
-              c < group.length;
-              c++
+              let group = redistributed.containers[groupIndex] as Source[], partIndex = 0;
+              partIndex < group.length;
+              partIndex++
             ) {
-              const part = group[c] as Source;
+              const part = group[partIndex] as Source;
               const first = new Vertex();
               const last = new Vertex();
               let isClosed = false;
@@ -127,12 +127,12 @@ export class MagicTool extends FreehandTool {
                   isClosed = true;
                   if (
                     intersector.intersect(
-                      stroke as never,
-                      part as never,
+                      stroke,
+                      part,
                       false,
                       true,
                       null,
-                      (redistributed.polys[v] as never[])[c],
+                      (redistributed.polys[groupIndex] as PolyLine[])[partIndex],
                     )
                   )
                     crosses = true;
@@ -140,21 +140,20 @@ export class MagicTool extends FreehandTool {
               }
               if (!isClosed) open.push(part);
             }
-          if (closed.length)
-            touched.push({ item: selection[f] as SourceNode, sub: false, splitted: closed });
+          if (closed.length) touched.push({ item, sub: false, splitted: closed });
         }
       if (touched.length) {
         let parts: Source[] = [];
-        for (let f = 0; f < touched.length; f++)
-          parts = parts.concat((touched[f] as (typeof touched)[number]).splitted);
+        for (const entry of touched) parts = parts.concat(entry.splitted);
         if (!crosses && this._willMerge) {
           if (!stroke.isClockWise()) this._willMerge = false;
         } else if (!crosses && stroke.isClockWise()) this._willMerge = true;
         const clipped = (
           this._willMerge ? this._doTheMerge(parts, [stroke]) : this._doTheSub(parts, [stroke])
         ).concat(open);
-        const merged = VertexContainer.mergeVertexSources(clipped as never);
-        const result = PathUtil.createPathFromVertexSource(merged as never) as Path | null;
+        const merged = VertexContainer.mergeVertexSources(clipped);
+        // A merged vertex source becomes one path or compound path.
+        const result = PathUtil.createPathFromVertexSource(merged) as Path | null;
         if (result) {
           const source = (touched[0] as (typeof touched)[number]).item;
           const transform = source.$trf;
@@ -162,17 +161,18 @@ export class MagicTool extends FreehandTool {
           result.assignFrom(source);
           source.$trf = transform;
         }
-        for (let f = 0; f < touched.length; f++) {
-          const item = (touched[f] as (typeof touched)[number]).item;
-          const parent = item.getParent() as ContainerNode | null;
-          if (parent) parent.removeChild(item);
+        for (const entry of touched) {
+          const parent = entry.item.getParent() as ContainerNode | null;
+          if (parent) parent.removeChild(entry.item);
         }
         // The open sub-paths are vertex sources, not entries with an item:
-        // with any of them this throws a TypeError, as in the old code. A
-        // crash, kept for now (BUGS-FIXED candidate, pinned by
-        // view-tools.test.ts "MagicTool with open sub-paths").
-        for (let f = 0; f < open.length; f++) {
-          const item = (open[f] as unknown as { item: Node }).item;
+        // with any of them this throws a TypeError, as in the old code. See
+        // "Magic tool crashes on a selection with open sub-paths" in
+        // QUESTIONS.md, pinned by view-tools.test.ts "MagicTool with open
+        // sub-paths". The cast reads the missing item the way the old code
+        // did.
+        for (let openIndex = 0; openIndex < open.length; openIndex++) {
+          const item = (open[openIndex] as unknown as { item: Node }).item;
           const parent = item.getParent() as ContainerNode | null;
           if (parent) parent.removeChild(item);
         }
@@ -192,10 +192,12 @@ export class MagicTool extends FreehandTool {
       VertexPolyBoolean.PIP_CHECK_ODDEVEN,
       VertexPolyBoolean.AUTO,
     );
-    const source = VertexContainer.mergeVertexSources(parts as never);
-    const clip = VertexContainer.mergeVertexSources(stroke as never);
-    return clipper.initializeSources(source as never, clip as never)
-      ? (clipper.clipOp(VertexPolyBoolean.OR) as unknown as Source[])
+    const source = VertexContainer.mergeVertexSources(parts);
+    const clip = VertexContainer.mergeVertexSources(stroke);
+    // OR and SUB return union() or diff(): VertexContainers, or null, which
+    // the caller's concat throws on, as the old code did.
+    return clipper.initializeSources(source, clip)
+      ? (clipper.clipOp(VertexPolyBoolean.OR) as Source[])
       : parts.concat(stroke);
   }
 
@@ -204,10 +206,12 @@ export class MagicTool extends FreehandTool {
       VertexPolyBoolean.PIP_CHECK_ODDEVEN,
       VertexPolyBoolean.AUTO,
     );
-    const source = VertexContainer.mergeVertexSources(parts as never);
-    const clip = VertexContainer.mergeVertexSources(stroke as never);
-    return clipper.initializeSources(source as never, clip as never)
-      ? (clipper.clipOp(VertexPolyBoolean.SUB) as unknown as Source[])
+    const source = VertexContainer.mergeVertexSources(parts);
+    const clip = VertexContainer.mergeVertexSources(stroke);
+    // OR and SUB return union() or diff(): VertexContainers, or null, which
+    // the caller's concat throws on, as the old code did.
+    return clipper.initializeSources(source, clip)
+      ? (clipper.clipOp(VertexPolyBoolean.SUB) as Source[])
       : parts;
   }
 

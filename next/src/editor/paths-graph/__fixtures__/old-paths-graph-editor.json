@@ -1,0 +1,1631 @@
+{
+  "bendStraight": {
+    "hit": {
+      "id": {
+        "type": 1,
+        "edge": 0,
+        "apLeft": "point0",
+        "apRight": "point1"
+      },
+      "data": {
+        "hitRes": [1, 30, 0, 0.3],
+        "rightButton": {
+          "isolated": false,
+          "selectable": true
+        },
+        "type": 1
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "start": {
+      "id": {
+        "type": 1,
+        "edge": 0,
+        "apLeft": "point0",
+        "apRight": "point1"
+      },
+      "data": {
+        "apLhr": [20, 0],
+        "apRhl": [53.333333333333336, 0],
+        "cL": 1.3940596341199745,
+        "cR": 1.3940596341199745,
+        "hitRes": [1, 30.000000000000004, 0, 0.39564392373896],
+        "type": 2
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "subType": 2,
+    "startPreviews": [
+      [0, 0, null, null, 20, 0, "R", false, 0, 0],
+      [100, 0, 53.333333333333336, 0, null, null, "R", false, 0, 0]
+    ],
+    "movedPreviews": [
+      [0, 0, null, null, 20, 41.82178902359924, "R", false, 0, 0],
+      [100, 0, 53.343333333333334, 41.831789023599235, null, null, "R", false, 0, 0]
+    ],
+    "applied": {
+      "anchors": [
+        [0, 0],
+        [100, 0],
+        [100, 100],
+        [0, 100]
+      ],
+      "edges": [
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, 20, 41.8217887878418, "R", false, 0, 0],
+            [100, 0, 53.34333419799805, 41.831790924072266, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [100, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 2,
+          "destination": 3,
+          "cSt": false,
+          "points": [
+            [100, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 3,
+          "destination": 0,
+          "cSt": false,
+          "points": [
+            [0, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 1
+    }
+  },
+  "bendLeftMissing": {
+    "hit": {
+      "id": {
+        "type": 1,
+        "edge": 0,
+        "apLeft": "point0",
+        "apRight": "point1"
+      },
+      "data": {
+        "hitRes": [1, 50.50151054219736, -19.32836364040943, 0.40837328721992644],
+        "rightButton": {
+          "isolated": false,
+          "selectable": true
+        },
+        "type": 1
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "start": {
+      "id": {
+        "type": 1,
+        "edge": 0,
+        "apLeft": "point0",
+        "apRight": "point1"
+      },
+      "data": {
+        "apLhr": [46.666666666666664, -26.666666666666664],
+        "apRhl": [80, -26.666666666666664],
+        "cL": 1.3796649919662725,
+        "cR": 1.3796649919662725,
+        "hitRes": [1, 50.50151054219733, -19.328363640409428, 0.40837328721992616],
+        "type": 2
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "subType": 2,
+    "startPreviews": [
+      [0, 0, null, null, 46.666666666666664, -26.666666666666664, "R", false, 0, 0],
+      [100, 0, 80, -26.666666666666664, null, null, "R", false, 0, 0]
+    ],
+    "movedPreviews": [
+      [0, 0, null, null, 45.97475012849498, 41.38994975898817, "R", false, 0, 0],
+      [100, 0, 79.31808346182832, 41.39994975898818, null, null, "R", false, 0, 0]
+    ],
+    "applied": {
+      "anchors": [
+        [0, 0],
+        [100, 0],
+        [100, 100],
+        [0, 100]
+      ],
+      "edges": [
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, 45.97475051879883, 41.389949798583984, "R", false, 0, 0],
+            [100, 0, 79.31808471679688, 41.39994812011719, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [100, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 2,
+          "destination": 3,
+          "cSt": false,
+          "points": [
+            [100, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 3,
+          "destination": 0,
+          "cSt": false,
+          "points": [
+            [0, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 1
+    }
+  },
+  "bendRightMissing": {
+    "hit": {
+      "id": {
+        "type": 1,
+        "edge": 0,
+        "apLeft": "point0",
+        "apRight": "point1"
+      },
+      "data": {
+        "hitRes": [1, 49.498489457802634, -19.328363640409435, 0.5916267127800735],
+        "rightButton": {
+          "isolated": false,
+          "selectable": true
+        },
+        "type": 1
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "start": {
+      "id": {
+        "type": 1,
+        "edge": 0,
+        "apLeft": "point0",
+        "apRight": "point1"
+      },
+      "data": {
+        "apLhr": [20, -26.666666666666664],
+        "apRhl": [53.333333333333336, -26.666666666666664],
+        "cL": 1.379664991966272,
+        "cR": 1.379664991966272,
+        "hitRes": [1, 49.498489457802634, -19.328363640409435, 0.5916267127800735],
+        "type": 2
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "subType": 2,
+    "startPreviews": [
+      [0, 0, null, null, 20, -26.666666666666664, "R", false, 0, 0],
+      [100, 0, 53.333333333333336, -26.666666666666664, null, null, "R", false, 0, 0]
+    ],
+    "movedPreviews": [
+      [0, 0, null, null, 20.69191653817173, 41.38994975898816, "R", false, 0, 0],
+      [100, 0, 54.035249871505066, 41.399949758988164, null, null, "R", false, 0, 0]
+    ],
+    "applied": {
+      "anchors": [
+        [0, 0],
+        [100, 0],
+        [100, 100],
+        [0, 100]
+      ],
+      "edges": [
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, 20.691917419433594, 41.389949798583984, "R", false, 0, 0],
+            [100, 0, 54.03525161743164, 41.39994812011719, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [100, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 2,
+          "destination": 3,
+          "cSt": false,
+          "points": [
+            [100, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 3,
+          "destination": 0,
+          "cSt": false,
+          "points": [
+            [0, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 1
+    }
+  },
+  "bendBoth": {
+    "hit": {
+      "id": {
+        "type": 1,
+        "edge": 0,
+        "apLeft": "point0",
+        "apRight": "point1"
+      },
+      "data": {
+        "hitRes": [1, 59.56495049530592, -21.92328131448029, 0.5800498931583514],
+        "rightButton": {
+          "isolated": false,
+          "selectable": true
+        },
+        "type": 1
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "start": {
+      "id": {
+        "type": 1,
+        "edge": 0,
+        "apLeft": "point0",
+        "apRight": "point1"
+      },
+      "data": {
+        "apLhr": [20, -30],
+        "apRhl": [80, -30],
+        "cL": 1.368408294801429,
+        "cR": 1.368408294801429,
+        "hitRes": [1, 59.56495049530592, -21.92328131448029, 0.5800498931583514],
+        "type": 2
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "subType": 2,
+    "startPreviews": [
+      [0, 0, null, null, 20, -30, "R", false, 0, 0],
+      [100, 0, 80, -30, null, null, "R", false, 0, 0]
+    ],
+    "movedPreviews": [
+      [0, 0, null, null, 20.595325350872628, 41.052248844042865, "R", false, 0, 0],
+      [100, 0, 80.60532535087263, 41.06224884404287, null, null, "R", false, 0, 0]
+    ],
+    "applied": {
+      "anchors": [
+        [0, 0],
+        [100, 0],
+        [100, 100],
+        [0, 100]
+      ],
+      "edges": [
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, 20.595325469970703, 41.052249908447266, "R", false, 0, 0],
+            [100, 0, 80.6053237915039, 41.06224822998047, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [100, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 2,
+          "destination": 3,
+          "cSt": false,
+          "points": [
+            [100, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 3,
+          "destination": 0,
+          "cSt": false,
+          "points": [
+            [0, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 1
+    }
+  },
+  "bendAtSlope0": {
+    "id": {
+      "type": 3,
+      "edge": 0,
+      "point": "point0"
+    },
+    "data": {
+      "apSelected": false
+    },
+    "isolated": false,
+    "selectable": true
+  },
+  "bendAtSlope1": {
+    "id": {
+      "type": 3,
+      "edge": 0,
+      "point": "point1"
+    },
+    "data": {
+      "apSelected": false
+    },
+    "isolated": false,
+    "selectable": true
+  },
+  "bendWithoutPreview": "throws: TypeError",
+  "edgeMoveMiddle": {
+    "before": {
+      "mode": 2,
+      "inEdit": true
+    },
+    "sameEdge": -1,
+    "inEdit": null,
+    "pbEditor": false,
+    "selection": null,
+    "state": {
+      "anchors": [
+        [0, 0],
+        [50, 0],
+        [100, 0],
+        [50, 20]
+      ],
+      "edges": [
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [50, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 0,
+          "destination": 3,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, null, null, "R", false, 0, 0],
+            [50, 20, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 0
+    }
+  },
+  "edgeMoveAcross": {
+    "before": {
+      "mode": 2,
+      "inEdit": true
+    },
+    "sameEdge": -1,
+    "inEdit": null,
+    "pbEditor": false,
+    "selection": null,
+    "state": {
+      "anchors": [
+        [0, 0],
+        [50, 0],
+        [100, 0],
+        [40, 20],
+        [60, 20],
+        [60, 60],
+        [50, 80]
+      ],
+      "edges": [
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [50, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 3,
+          "destination": 4,
+          "cSt": false,
+          "points": [
+            [40, 20, null, null, null, null, "R", false, 0, 0],
+            [60, 20, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 4,
+          "destination": 5,
+          "cSt": false,
+          "points": [
+            [60, 20, null, null, null, null, "R", false, 0, 0],
+            [60, 60, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 0,
+          "destination": 6,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, null, null, "R", false, 0, 0],
+            [50, 80, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 0
+    }
+  },
+  "edgeMoveFirst": {
+    "before": {
+      "mode": 2,
+      "inEdit": true
+    },
+    "sameEdge": -1,
+    "inEdit": null,
+    "pbEditor": false,
+    "selection": null,
+    "state": {
+      "anchors": [
+        [0, 0],
+        [50, 0],
+        [100, 0],
+        [-20, 10]
+      ],
+      "edges": [
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [50, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 3,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [-20, 10, null, null, null, null, "R", false, 0, 0],
+            [50, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 0
+    }
+  },
+  "edgeMoveLast": {
+    "before": {
+      "mode": 2,
+      "inEdit": true
+    },
+    "sameEdge": -1,
+    "inEdit": null,
+    "pbEditor": false,
+    "selection": null,
+    "state": {
+      "anchors": [
+        [0, 0],
+        [100, 0],
+        [100, 100],
+        [0, 100],
+        [100, 9.09090909090909],
+        [110, 10]
+      ],
+      "edges": [
+        {
+          "source": 1,
+          "destination": 4,
+          "cSt": false,
+          "points": [
+            [100, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 9.09090909090909, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 4,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [100, 9.09090909090909, null, null, null, null, "R", false, 0, 0],
+            [100, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 2,
+          "destination": 3,
+          "cSt": false,
+          "points": [
+            [100, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 3,
+          "destination": 0,
+          "cSt": false,
+          "points": [
+            [0, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 0,
+          "destination": 4,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 9.09090909090909, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 4,
+          "destination": 5,
+          "cSt": false,
+          "points": [
+            [100, 9.09090909090909, null, null, null, null, "R", false, 0, 0],
+            [110, 10, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 1
+    }
+  },
+  "handleMoveFree": {
+    "sameEdge": 0,
+    "inEdit": true,
+    "selection": [
+      {
+        "type": 3,
+        "edge": 0,
+        "point": "point0"
+      }
+    ],
+    "state": {
+      "anchors": [
+        [0, 0],
+        [100, 0],
+        [50, 10],
+        [50, 60]
+      ],
+      "edges": [
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, 50, -60, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 2,
+          "destination": 3,
+          "cSt": false,
+          "points": [
+            [50, 10, null, null, null, null, "R", false, 0, 0],
+            [50, 60, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 0
+    }
+  },
+  "handleMoveCrossing": {
+    "sameEdge": -1,
+    "inEdit": false,
+    "selection": null,
+    "state": {
+      "anchors": [
+        [0, 0],
+        [100, 0],
+        [50, 10],
+        [50, 60],
+        [50, 39.9609375]
+      ],
+      "edges": [
+        {
+          "source": 2,
+          "destination": 4,
+          "cSt": false,
+          "points": [
+            [50, 10, null, null, null, null, "R", false, 0, 0],
+            [50, 39.9609375, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 4,
+          "destination": 3,
+          "cSt": false,
+          "points": [
+            [50, 39.9609375, null, null, null, null, "R", false, 0, 0],
+            [50, 60, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 0,
+          "destination": 4,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, 25, 40, "R", false, 0, 0],
+            [50, 39.9609375, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 4,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [50, 39.9609375, null, null, 75, 40, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 0
+    }
+  },
+  "anchorMovePlain": {
+    "events": [
+      [0, "path base"],
+      [1, "path base"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [0, "path base"],
+      [1, "path base"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [1, "graph"],
+      [0, "graph"],
+      [2, "other"],
+      [2, "other"],
+      [1, "graph"]
+    ],
+    "moved": 2,
+    "state": {
+      "anchors": [
+        [0, 0],
+        [100, 0],
+        [120, 110],
+        [0, 100]
+      ],
+      "edges": [
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [100, 0, null, null, null, null, "R", false, 0, 0],
+            [120, 110, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 2,
+          "destination": 3,
+          "cSt": false,
+          "points": [
+            [120, 110, null, null, null, null, "R", false, 0, 0],
+            [0, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 3,
+          "destination": 0,
+          "cSt": false,
+          "points": [
+            [0, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 1
+    }
+  },
+  "anchorMoveCrossing": {
+    "events": [
+      [0, "path base"],
+      [1, "path base"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [0, "graph"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [1, "graph"],
+      [0, "graph"],
+      [2, "other"],
+      [2, "other"],
+      [1, "graph"],
+      [0, "graph"],
+      [2, "other"],
+      [2, "other"],
+      [1, "graph"],
+      [0, "graph"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [1, "graph"],
+      [0, "graph"],
+      [2, "other"],
+      [2, "other"],
+      [1, "graph"],
+      [0, "graph"],
+      [2, "other"],
+      [2, "other"],
+      [1, "graph"],
+      [0, "graph"],
+      [2, "other"],
+      [2, "other"],
+      [1, "graph"]
+    ],
+    "moved": 2,
+    "state": {
+      "anchors": [
+        [0, 0],
+        [100, 0],
+        [200, 100],
+        [0, 100],
+        [130, 60],
+        [250, 60],
+        [160, 60]
+      ],
+      "edges": [
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 2,
+          "destination": 3,
+          "cSt": false,
+          "points": [
+            [200, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 3,
+          "destination": 0,
+          "cSt": false,
+          "points": [
+            [0, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 4,
+          "destination": 6,
+          "cSt": false,
+          "points": [
+            [130, 60, null, null, null, null, "R", false, 0, 0],
+            [160, 60, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 6,
+          "destination": 5,
+          "cSt": false,
+          "points": [
+            [160, 60, null, null, null, null, "R", false, 0, 0],
+            [250, 60, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 1,
+          "destination": 6,
+          "cSt": false,
+          "points": [
+            [100, 0, null, null, null, null, "R", false, 0, 0],
+            [160, 60, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 6,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [160, 60, null, null, null, null, "R", false, 0, 0],
+            [200, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 1
+    }
+  },
+  "anchorMoveTwoCrossing": {
+    "events": [
+      [0, "path base"],
+      [1, "path base"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [2, "other"],
+      [0, "graph"],
+      [2, "other"],
+      [2, "other"],
+      [1, "graph"],
+      [0, "graph"],
+      [2, "other"],
+      [2, "other"],
+      [1, "graph"]
+    ],
+    "moved": 2,
+    "state": {
+      "anchors": [
+        [0, 0],
+        [100, 0],
+        [200, 200],
+        [0, 100],
+        [130, 60],
+        [250, 60],
+        [-60, 130],
+        [-60, 250]
+      ],
+      "edges": [
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 2,
+          "destination": 3,
+          "cSt": false,
+          "points": [
+            [200, 200, null, null, null, null, "R", false, 0, 0],
+            [0, 100, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 3,
+          "destination": 0,
+          "cSt": false,
+          "points": [
+            [0, 100, null, null, null, null, "R", false, 0, 0],
+            [0, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 4,
+          "destination": 5,
+          "cSt": false,
+          "points": [
+            [130, 60, null, null, null, null, "R", false, 0, 0],
+            [250, 60, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 6,
+          "destination": 7,
+          "cSt": false,
+          "points": [
+            [-60, 130, null, null, null, null, "R", false, 0, 0],
+            [-60, 250, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [100, 0, null, null, null, null, "R", false, 0, 0],
+            [200, 200, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 1
+    }
+  },
+  "rightSegment": {
+    "hit": {
+      "id": {
+        "type": 1,
+        "edge": 1,
+        "apLeft": "point0",
+        "apRight": "point1"
+      },
+      "data": {
+        "hitRes": [1, 100, 7.000000000000001, 0.07],
+        "rightButton": {
+          "isolated": false,
+          "selectable": true
+        },
+        "type": 1
+      },
+      "isolated": false,
+      "selectable": true
+    },
+    "start": {
+      "id": {
+        "type": 1,
+        "edge": 1,
+        "apLeft": "point0",
+        "apRight": "point1"
+      },
+      "data": {
+        "hitRes": [1, 100, 7.000000000000001, 0.07],
+        "rightButton": {
+          "isolated": false,
+          "selectable": true
+        },
+        "type": 1
+      },
+      "isolated": false,
+      "selectable": true
+    },
+    "same": true,
+    "selection": [
+      {
+        "type": 2,
+        "point": "anchor1"
+      },
+      {
+        "type": 2,
+        "point": "anchor2"
+      }
+    ],
+    "mode": 1
+  },
+  "rightCorner": {
+    "selectedFlag": true,
+    "start": {
+      "id": {
+        "type": 3,
+        "edge": 0,
+        "point": "point1"
+      },
+      "data": {
+        "apSelected": true
+      },
+      "isolated": false,
+      "selectable": true
+    },
+    "preview": [50, 0, null, null, null, null, "R", false, 0, 0],
+    "selection": [
+      {
+        "type": 3,
+        "edge": 0,
+        "point": "point1"
+      }
+    ]
+  },
+  "rightSmoothUnselected": {
+    "selectedFlag": false,
+    "start": null,
+    "preview": null,
+    "selection": [
+      {
+        "type": 3,
+        "point": "point1"
+      }
+    ]
+  },
+  "rightSmooth": {
+    "selectedFlag": true,
+    "start": {
+      "id": {
+        "type": 5,
+        "edge": 0,
+        "point": "point1"
+      },
+      "data": {
+        "apSelected": true
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "preview": [50, 0, 50, 0, 50, 0, "TM", false, 0, 0],
+    "selection": [
+      {
+        "type": 3,
+        "edge": 0,
+        "point": "point1"
+      }
+    ]
+  },
+  "rightSmoothFirst": {
+    "selectedFlag": true,
+    "start": {
+      "id": {
+        "type": 5,
+        "edge": 0,
+        "point": "point0"
+      },
+      "data": {
+        "apSelected": true
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "preview": [0, 0, 0, 0, 0, 0, "TM", false, 0, 0],
+    "selection": [
+      {
+        "type": 3,
+        "edge": 0,
+        "point": "point0"
+      }
+    ]
+  },
+  "rightSmoothAltNoRight": {
+    "selectedFlag": true,
+    "start": {
+      "id": {
+        "type": 5,
+        "edge": 0,
+        "point": "point1"
+      },
+      "data": {
+        "apSelected": true
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "preview": [50, 0, null, null, 50, 0, "TS", false, 0, 0],
+    "selection": [
+      {
+        "type": 3,
+        "edge": 0,
+        "point": "point1"
+      }
+    ]
+  },
+  "rightSmoothAltRight": {
+    "selectedFlag": true,
+    "start": {
+      "id": {
+        "type": 4,
+        "edge": 0,
+        "point": "point1"
+      },
+      "data": {
+        "apSelected": true
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "preview": [50, 0, 50, 0, 70, -10, "TS", false, 0, 0],
+    "selection": [
+      {
+        "type": 3,
+        "edge": 0,
+        "point": "point1"
+      }
+    ]
+  },
+  "rightConnectorAfterCorner": {
+    "selectedFlag": true,
+    "start": {
+      "id": {
+        "type": 5,
+        "edge": 0,
+        "point": "point1"
+      },
+      "data": {
+        "apSelected": true
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "preview": [50, 0, null, null, 50, 0, "TC", false, 0, 0],
+    "selection": [
+      {
+        "type": 3,
+        "edge": 0,
+        "point": "point1"
+      }
+    ]
+  },
+  "rightConnectorAfterSmooth": {
+    "selectedFlag": true,
+    "start": {
+      "id": {
+        "type": 4,
+        "edge": 0,
+        "point": "point1"
+      },
+      "data": {
+        "apSelected": true
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "preview": [50, 0, 50, 0, null, null, "TC", false, 0, 0],
+    "selection": [
+      {
+        "type": 3,
+        "edge": 0,
+        "point": "point1"
+      }
+    ]
+  },
+  "rightConnectorFirst": {
+    "selectedFlag": true,
+    "start": {
+      "id": {
+        "type": 5,
+        "edge": 0,
+        "point": "point0"
+      },
+      "data": {
+        "apSelected": true
+      },
+      "isolated": true,
+      "selectable": false
+    },
+    "preview": [0, 0, null, null, 0, 0, "TC", false, 0, 0],
+    "selection": [
+      {
+        "type": 3,
+        "edge": 0,
+        "point": "point0"
+      }
+    ]
+  },
+  "toggleAsymmetric": {
+    "handled": true,
+    "state": {
+      "anchors": [
+        [0, 0],
+        [50, 0],
+        [100, 0]
+      ],
+      "edges": [
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [50, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, null, null, "R", false, 0, 0],
+            [50, 0, 30.48685646057129, 0, 69.51314544677734, 0, "TS", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 0
+    }
+  },
+  "toggleSymmetric": {
+    "handled": true,
+    "state": {
+      "anchors": [
+        [0, 0],
+        [50, 0],
+        [100, 0]
+      ],
+      "edges": [
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [50, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, null, null, "R", false, 0, 0],
+            [50, 0, 30, -10, 70, 10, "TA", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 0
+    }
+  },
+  "toggleMirror": {
+    "handled": true,
+    "state": {
+      "anchors": [
+        [0, 0],
+        [50, 0],
+        [100, 0]
+      ],
+      "edges": [
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [50, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, null, null, "R", false, 0, 0],
+            [50, 0, 30, -10, 70, 10, "TA", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 0
+    }
+  },
+  "toggleCorner": {
+    "handled": true,
+    "state": {
+      "anchors": [
+        [0, 0],
+        [50, 0],
+        [100, 0]
+      ],
+      "edges": [
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [50, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        },
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, null, null, "R", false, 0, 0],
+            [50, 0, 30, -10, 60, 20, "TA", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 0
+    }
+  },
+  "toggleNoDetail": {
+    "handled": false,
+    "state": {
+      "anchors": [
+        [0, 0],
+        [50, 0],
+        [100, 0]
+      ],
+      "edges": [
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, null, null, "R", false, 0, 0],
+            [50, 0, 30, -10, 60, 20, "TA", false, 0, 0]
+          ]
+        },
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [50, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 0
+    }
+  },
+  "shiftHandle": {
+    "preview": [50, 0, 15, 0, 60, 20, "TA", false, 0, 0],
+    "pair": [
+      [110, 20],
+      [40, 20]
+    ],
+    "box": [-28.5, -18.5, 260.5, 78],
+    "paint": ["strokeLine:7", "drawImage:4", "drawImage:4"],
+    "pairAfterPaint": null,
+    "applied": {
+      "anchors": [
+        [0, 0],
+        [50, 0],
+        [100, 0]
+      ],
+      "edges": [
+        {
+          "source": 0,
+          "destination": 1,
+          "cSt": false,
+          "points": [
+            [0, 0, null, null, null, null, "R", false, 0, 0],
+            [50, 0, 15, 0, 60, 20, "TA", false, 0, 0]
+          ]
+        },
+        {
+          "source": 1,
+          "destination": 2,
+          "cSt": false,
+          "points": [
+            [50, 0, null, null, null, null, "R", false, 0, 0],
+            [100, 0, null, null, null, null, "R", false, 0, 0]
+          ]
+        }
+      ],
+      "facets": 0
+    }
+  },
+  "noShiftHandle": {
+    "preview": [50, 0, 30, -10, 40, 47, "TA", false, 0, 0],
+    "pair": null
+  },
+  "customStyle": [
+    ["has layers", [true, true, true, true], false, false, false, false],
+    ["select edge 1", "ok", false, false, false, false],
+    ["added", "ok", false, true, false, false],
+    ["changed", true, false, true, false, false],
+    ["removed", "ok", false, true, false, false],
+    ["unselected edge", "ok", false, true, false, false],
+    ["select facet", "ok", false, true, false, false],
+    ["facet edge", "ok", false, true, false, true],
+    ["detach", "ok", false, true, false, true],
+    ["detached", "ok", false, true, false, true]
+  ],
+  "geometryChange": {
+    "before": [true, "probe"],
+    "after": [false, null, false]
+  },
+  "collision": [
+    {
+      "label": "plain",
+      "result": 2,
+      "selection": [
+        {
+          "type": 2,
+          "point": "anchor0"
+        },
+        {
+          "type": 2,
+          "point": "anchor1"
+        }
+      ],
+      "anchors": [
+        [true, false],
+        [true, false],
+        [false, false],
+        [false, false]
+      ],
+      "graph": [true, false]
+    },
+    {
+      "label": "plain, graph highlighted",
+      "result": 2,
+      "selection": [
+        {
+          "type": 2,
+          "point": "anchor0"
+        },
+        {
+          "type": 2,
+          "point": "anchor1"
+        }
+      ],
+      "anchors": [
+        [true, false],
+        [true, false],
+        [false, false],
+        [false, false]
+      ],
+      "graph": [true, false]
+    },
+    {
+      "label": "toggle adds",
+      "result": 3,
+      "selection": [
+        {
+          "type": 2,
+          "point": "anchor3"
+        },
+        {
+          "type": 2,
+          "point": "anchor0"
+        },
+        {
+          "type": 2,
+          "point": "anchor1"
+        }
+      ],
+      "anchors": [
+        [true, false],
+        [true, false],
+        [false, false],
+        [true, false]
+      ],
+      "graph": [true, false]
+    },
+    {
+      "label": "toggle with one inside selected",
+      "result": 2,
+      "selection": [
+        {
+          "type": 2,
+          "point": "anchor0"
+        },
+        {
+          "type": 2,
+          "point": "anchor1"
+        }
+      ],
+      "anchors": [
+        [true, false],
+        [true, false],
+        [false, false],
+        [false, false]
+      ],
+      "graph": [true, false]
+    },
+    {
+      "label": "nothing inside",
+      "result": null,
+      "selection": null,
+      "anchors": [
+        [false, false],
+        [false, false],
+        [false, false],
+        [false, false]
+      ],
+      "graph": [false, false]
+    },
+    {
+      "label": "highlight",
+      "result": null,
+      "selection": null,
+      "anchors": [
+        [false, true],
+        [false, true],
+        [false, false],
+        [false, false]
+      ],
+      "graph": [false, true]
+    },
+    {
+      "label": "highlight then smaller",
+      "anchors": [
+        [false, false],
+        [false, false],
+        [false, false],
+        [false, true]
+      ],
+      "graph": [false, true]
+    },
+    {
+      "label": "highlight toggle",
+      "result": 1,
+      "selection": [
+        {
+          "type": 2,
+          "point": "anchor3"
+        }
+      ],
+      "anchors": [
+        [false, true],
+        [false, true],
+        [false, false],
+        [true, true]
+      ],
+      "graph": [false, true]
+    },
+    {
+      "label": "highlight toggle then smaller",
+      "anchors": [
+        [false, false],
+        [false, false],
+        [false, false],
+        [true, true]
+      ],
+      "graph": [false, true]
+    },
+    {
+      "label": "highlight toggle, inside selected",
+      "result": 1,
+      "selection": [
+        {
+          "type": 2,
+          "point": "anchor0"
+        }
+      ],
+      "anchors": [
+        [true, true],
+        [false, true],
+        [false, false],
+        [false, false]
+      ],
+      "graph": [true, false]
+    },
+    {
+      "label": "highlight toggle, inside selected then smaller",
+      "anchors": [
+        [true, true],
+        [false, false],
+        [false, false],
+        [false, true]
+      ],
+      "graph": [true, false]
+    }
+  ]
+}

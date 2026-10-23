@@ -18,9 +18,11 @@ import { Modifiers } from "../../engine/core/modifiers.ts";
 import { Platform } from "../../engine/core/platform.ts";
 import { MouseEvent } from "../../engine/core/mouse-event.ts";
 import { Point } from "../../engine/math/point.ts";
+import { unpackPoint } from "../../engine/core/util.ts";
 import { FakeToolManager } from "./select/testing.ts";
 import type { Tool } from "./tool.ts";
 import type { ToolManager } from "./tool-manager.ts";
+import recorded from "./pen-branches.recorded.json";
 
 export { clearModifiers, rect, ellipse } from "./select/testing.ts";
 
@@ -55,16 +57,24 @@ function mouse<E extends MouseEvent>(cls: new () => E, x: number, y: number, but
 export class Input {
   private button = MouseEvent.BUTTON_LEFT;
 
-  constructor(private readonly view: EditorWidget) {}
+  /** `origin`: the view pixel added to every position (see scenarioView). */
+  constructor(
+    private readonly view: EditorWidget,
+    private readonly origin: readonly [number, number] = [0, 0],
+  ) {}
+
+  private event<E extends MouseEvent>(cls: new () => E, x: number, y: number, button: number): E {
+    return mouse(cls, x + this.origin[0], y + this.origin[1], button);
+  }
 
   /** A pointer move; while a button is down the view also sends Drag. */
   move(x: number, y: number): void {
-    this.view.trigger(mouse(MouseEvent.Move, x, y, this.button));
+    this.view.trigger(this.event(MouseEvent.Move, x, y, this.button));
   }
 
   down(x: number, y: number, button = MouseEvent.BUTTON_LEFT): void {
     this.button = button;
-    this.view.trigger(mouse(MouseEvent.Down, x, y, button));
+    this.view.trigger(this.event(MouseEvent.Down, x, y, button));
   }
 
   /** A move with the button down. */
@@ -73,7 +83,7 @@ export class Input {
   }
 
   up(x: number, y: number, button = this.button): void {
-    this.view.trigger(mouse(MouseEvent.Release, x, y, button));
+    this.view.trigger(this.event(MouseEvent.Release, x, y, button));
     this.button = MouseEvent.BUTTON_LEFT;
   }
 
@@ -170,4 +180,102 @@ export function polyline(
   if (closed) path.setProperty("closed", true);
   page.appendChild(path);
   return path;
+}
+
+/**
+ * Anchor points in their saved form (AnchorPoint.serialize) with the
+ * reference ids dropped and packed coordinates unpacked, so they compare
+ * with points recorded from the old app's saved documents.
+ */
+export function savedPoints(path: Path): unknown[][] {
+  const out: unknown[][] = [];
+  for (
+    let p = path.getAnchorPoints().getFirstChild() as AnchorPoint | null;
+    p;
+    p = p.getNext() as AnchorPoint | null
+  ) {
+    out.push(p.serialize());
+  }
+  return readableSavedPoints(out);
+}
+
+/** Saved anchor points without reference ids, packed points as [x, y]. */
+export function readableSavedPoints(saved: readonly (readonly unknown[])[]): unknown[][] {
+  return saved.map((data) => {
+    const out: unknown[] = [];
+    for (let i = 0; i < data.length; i++) {
+      const value = data[i];
+      if (value === "#" || value === "&") i++;
+      else if (typeof value === "string" && value.length > 3)
+        out.push(Array.from(unpackPoint(value)));
+      else out.push(value);
+    }
+    return out;
+  });
+}
+
+/**
+ * `s` with the view the editor-tools scenarios use: scene (0, 0) at view
+ * (400, 200), zoom 1, on a canvas about their size, and input in scene
+ * coordinates. Within 40 px of the view's edge the pen auto-pans, so the
+ * origin and the size matter for replaying a scenario.
+ */
+export function scenarioView<T extends Tool>(s: PathToolSetup<T>): PathToolSetup<T> {
+  s.view.resize(1100, 800);
+  s.view.transform(-400, -200, 1);
+  runAllFrames();
+  return { ...s, input: new Input(s.view, [400, 200]) };
+}
+
+/**
+ * A press at `from`, moves through `through` and the release at the last
+ * one, after the double-click window. A right-button drag reaches the pen
+ * only through its move handler, which ignores moves for DBLCLICKTM after
+ * a press, so those moves wait that long (the scenarios' steps are that
+ * far apart). Left-button drags go through DragStart and Drag, which have
+ * no such guard.
+ */
+export function dragThrough(
+  input: Input,
+  from: [number, number],
+  through: [number, number][],
+  button = MouseEvent.BUTTON_LEFT,
+): void {
+  pause();
+  input.down(from[0], from[1], button);
+  for (const [x, y] of through) {
+    if (button === MouseEvent.BUTTON_RIGHT) pause();
+    input.drag(x, y);
+  }
+  const last = at(through, -1);
+  input.up(last[0], last[1], button);
+}
+
+/** A case of pen-branches.recorded.json. */
+export interface RecordedCase {
+  paths: { closed: boolean; pts: unknown[][] }[];
+  undo: string;
+  tool: string;
+  probes: Record<string, { undo: string; tool: string; preview: number[][] }>;
+}
+
+/**
+ * The old app's recording of an editor-tools scenario (paths of the saved
+ * document, undo name and tool at the end, probes), as extracted into
+ * pen-branches.recorded.json from parity/expected/editor-tools/<id>.json.
+ */
+export function oldApp(id: string): RecordedCase {
+  const entry = (recorded as unknown as Record<string, RecordedCase | undefined>)[id];
+  if (!entry) throw new Error(`no recording for ${id}`);
+  return entry;
+}
+
+/** The recorded paths of `id`, in the form savedPaths returns. */
+export function oldPaths(id: string): { closed: boolean; pts: unknown[][] }[] {
+  return oldApp(id).paths.map((p) => ({ closed: p.closed, pts: readableSavedPoints(p.pts) }));
+}
+
+/** `list` as saved: closed flag and saved anchor points. */
+export function savedPaths(list: readonly Path[]): { closed: boolean; pts: unknown[][] }[] {
+  return list.map((p) => ({ closed: !!p.getProperty("closed"), pts: savedPoints(p) }));
 }

@@ -81,7 +81,12 @@ import {
   getTopMostHit,
 } from "./select/picking.ts";
 import { updateResizeHint } from "./select/hints.ts";
-import { updateSelectionTransform } from "./select/move-transform.ts";
+import {
+  cleanupTargetHighlights,
+  gatherItemsForAdd,
+  updateSelectionTransform,
+  type ElementWalker,
+} from "./select/move-transform.ts";
 import { partData, type AddCandidate, type GuideLineHit } from "./select/select-types.ts";
 import { Tool } from "./tool.ts";
 import type { ToolManager } from "./tool-manager.ts";
@@ -198,6 +203,7 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
   declare _editMode: number;
   declare _itemsToAddToImageMask: AddCandidate[] | null;
   declare _itemsToAddToPage: AddCandidate[] | null;
+  /** Unused in the old app, kept for API parity. */
   declare _pageCandidates: unknown;
   declare _allowDistanceHelper: boolean;
   declare _elementMeasurementsToggle: boolean;
@@ -227,6 +233,7 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
     this._clickedElement = null;
   }
 
+  /** Unused in the old app (nothing switches to Mixed mode), kept for API parity. */
   setInteractionMode(mode: number): void {
     this._interactionMode = mode;
   }
@@ -362,6 +369,7 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
       const inline = this._editor.getCurrentInlineEditorNode();
       return (!this._mode && !inline) || this._mode === Mode.Transforming;
     }
+    // The old code returned nothing without an editor; callers test truthiness.
     return undefined as unknown as boolean;
   }
 
@@ -735,6 +743,8 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
       return;
     }
     const pathEditor = info.editor;
+    // A path editor's element is typed as a plain element; the hit point
+    // insertion is the Path method.
     const path = pathEditor.getElement() as unknown as {
       insertHitPoint(hit: unknown): unknown;
     };
@@ -746,6 +756,7 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
       this._editor.commitTransaction(loc("action.insert-path-point"));
     }
     if (point) {
+      // _parentEditor is not part of the typed PathEditor surface.
       const parent = (pathEditor as unknown as { _parentEditor: unknown })._parentEditor;
       if (!modifiers.shiftKey && parent && parent instanceof CompoundPathEditor) {
         parent.updatePartSelection(false, null);
@@ -760,11 +771,14 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
     let nodes: Node[];
     if (!element.hasFlag(NodeFlag.Selected)) this.setEditMode(EditMode.Select);
     if (toggle) {
+      // hasMixin doesn't narrow the type: the cast stands for the Container mixin.
       const internal = element.hasMixin(Container)
         ? (
             element as unknown as { getInternalSelectedNodes(): Node[] | null }
           ).getInternalSelectedNodes()
         : null;
+      // The editor takes its own structural node type (EdNode), which an
+      // Element doesn't match by declaration.
       if (internal) this._editor.clearInternalSelection(element as never);
       nodes = [];
       if (!(element.hasFlag(NodeFlag.Selected) && keepSelected)) nodes.push(element);
@@ -993,6 +1007,8 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
     const flags = this._getCollisionFlags();
     let partsOnly = false;
     if (flags) {
+      // The area's vertex source may be null before a drag; getCollisions
+      // takes a vertex reader and the old code passed it as is.
       elements = this._scene.getCollisions(
         area as never,
         flags,
@@ -1003,6 +1019,7 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
         this._view.getViewConfiguration().isElementAnnotationsVisible(),
       );
     } else {
+      // The editor's selection is typed as its structural node type (EdNode).
       elements = (this._editor.getSelection() || []) as unknown as Element[];
       partsOnly = true;
     }
@@ -1019,7 +1036,7 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
     if (highlight) {
       this._editor.highlightSelectablesUnderCollision(
         modifiers.shiftKey,
-        selectable as never,
+        selectable,
         area,
         this._view.getViewConfiguration().multiPageView,
         partsOnly,
@@ -1027,7 +1044,7 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
     } else {
       this._editor.updateSelectionUnderCollision(
         modifiers.shiftKey,
-        selectable as never,
+        selectable,
         area,
         this._view.getViewConfiguration().multiPageView,
         partsOnly,
@@ -1064,6 +1081,7 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
     if (this._editor.getCurrentInlineEditorNode()) return true;
     let handled = false;
     if (this._clickedElement) {
+      // openInlineEditor takes the editor's structural node type (EdNode).
       handled = this._editor.openInlineEditor(
         this._clickedElement as never,
         this._view,
@@ -1168,6 +1186,7 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
           if (editor && editor.canInlineEdit()) {
             (event.preventDefault as () => void)();
             (event.stopPropagation as () => void)();
+            // openInlineEditor takes the editor's structural node type (EdNode).
             opened = this._editor.openInlineEditor(selection[i] as never, this._view);
           }
         }
@@ -1268,10 +1287,25 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
     this._elementMeasurementsToggle = false;
   }
 
+  _cleanupTargetHighlights(candidates: AddCandidate[] | null, walk?: ElementWalker): void {
+    cleanupTargetHighlights(this, candidates, walk);
+  }
+
+  _gatherItemsForAdd(
+    sourceFilter: (element: Element) => boolean,
+    targetFilter: (element: Element) => boolean,
+    walk: ElementWalker | null,
+    point: Point | null,
+    sameClass?: abstract new (...args: never[]) => unknown,
+  ): AddCandidate[] {
+    return gatherItemsForAdd(this, sourceFilter, targetFilter, walk, point, sameClass);
+  }
+
   _getAllHitTestedElems(position: Point): (Element | null)[] {
     return getAllHitTestedElems(this, position);
   }
 
+  /** Unused in the old app, kept for API parity. */
   _getTopMostHit(event: MouseEvent, keepGroups?: boolean, stacked?: boolean): Element | null {
     return getTopMostHit(this, event, keepGroups, stacked);
   }
@@ -1347,6 +1381,7 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
     return (
       !(element instanceof Slice && !config.slices) &&
       !(
+        // The view configuration takes a narrower property-source type.
         element.hasMixin(AnnotationMixin) && !config.isElementAnnotationsVisible(element as never)
       ) &&
       !element.hasFlag(Element.Flag.FullLocked as number) &&
@@ -1395,6 +1430,7 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
       : elements.filter((element) => !(element instanceof Page));
   }
 
+  /** Unused in the old app, kept for API parity. */
   _switchToMoveFilter(elements: readonly Element[]): Element[] {
     return elements.filter((element) => !(element instanceof Page));
   }

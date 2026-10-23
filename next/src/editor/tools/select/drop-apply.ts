@@ -11,6 +11,7 @@ import { Locale } from "../../../engine/core/locale/locale.ts";
 import { LocaleKey } from "../../../engine/core/locale/locale-key.ts";
 import type { MouseEvent } from "../../../engine/core/mouse-event.ts";
 import { uniqueObj } from "../../../engine/core/util.ts";
+import type { Rect } from "../../../engine/math/rect.ts";
 import { Transform } from "../../../engine/math/transform.ts";
 import { Transform as TransformMixin } from "../../../engine/scene/element-transform.ts";
 import type { Element } from "../../../engine/scene/element.ts";
@@ -31,6 +32,7 @@ const modifiers = Platform.modifiers;
 
 /** Removes `node` from its parent container. */
 function removeFromParent(node: Node): void {
+  // The parent is typed as a plain Node; removeChild comes with the Container mixin.
   (node.getParent() as unknown as { removeChild(child: Node): void }).removeChild(node);
 }
 
@@ -70,6 +72,7 @@ export function applyMoveDrop(tool: SelectTool, event: MouseEvent): void {
         const selection = tool._editor.getSelection();
         if (selection && selection.length) {
           for (let i = 0; i < selection.length; ++i) {
+            // The editor's methods take and return its structural node type (EdNode).
             linked = linked.concat(
               tool._editor.getLinkedElementsInSelection(
                 selection[i] as never,
@@ -95,18 +98,21 @@ export function applyMoveDrop(tool: SelectTool, event: MouseEvent): void {
       >;
       const { targets, groups } = groupByTarget(
         candidates,
-        (candidate: { source: Element; sourceBox: unknown }) => ({
+        (candidate: { source: Element; sourceBox: Rect }) => ({
           src: candidate.source,
           box: candidate.sourceBox,
         }),
       );
       for (let i = 0; i < groups.length; i++) {
-        const sources = groups[i] as { src: Element; box: unknown }[];
+        const sources = groups[i] as { src: Element; box: Rect }[];
         const target = targets[i] as Element;
         sources.forEach((entry) => {
           const source = entry.src;
           removeFromParent(source);
-          if (target instanceof ImageGrid) target.addImage(source as never, entry.box as never);
+          // Only images are gathered for a mask (the source filter), but the
+          // candidate list is typed with plain elements.
+          if (target instanceof ImageGrid) target.addImage(source as never, entry.box);
+          // Mask targets are containers (the target filter); Element lacks appendChild.
           else (target as unknown as { appendChild(node: Node): void }).appendChild(source);
         });
       }
@@ -125,6 +131,7 @@ export function applyMoveDrop(tool: SelectTool, event: MouseEvent): void {
   // There is no pagesCollisionTransform option (pageCollisionTransform
   // is), so this never runs; see "Misspelled pagesCollisionTransform
   // option" in QUESTIONS.md.
+  // Read by name: the option doesn't exist, so it is not on the typed options.
   if ((EditorOptions as unknown as Record<string, unknown>)["pagesCollisionTransform"]) {
     tool._editor.updateByMousePosition(
       event.client,
@@ -166,6 +173,7 @@ function movePagesOrElements(tool: SelectTool, name: string): string {
       if (pages) {
         removeFromParent(source);
         if (PageEditor.SWITCH_ORDER) {
+          // _requestInvalidation is internal to the element and not typed on Element.
           (target as unknown as { _requestInvalidation(): void })._requestInvalidation();
           if (sourceIndex < targetIndex) {
             if (target.getNext()) scene.insertChild(source, target.getNext());
@@ -179,6 +187,7 @@ function movePagesOrElements(tool: SelectTool, name: string): string {
           return;
         }
         removeFromParent(source);
+        // Page targets are containers; Element lacks appendChild.
         (target as unknown as { appendChild(node: Node): void }).appendChild(source);
         const fromPage = Editor.getElementPage(parent);
         const toPage = Editor.getElementPage(target);
@@ -186,6 +195,7 @@ function movePagesOrElements(tool: SelectTool, name: string): string {
           const from = fromPage.getPosition(true);
           const to = toPage.getPosition(true);
           const offset = from.subtract(to);
+          // hasMixin(Transform) doesn't narrow the type.
           (source as unknown as { transform(t: Transform, noEvent?: boolean): void }).transform(
             new Transform(1, 0, 0, 1, offset.getX(), offset.getY()),
             true,

@@ -49,6 +49,7 @@ export function updateResizeHint(tool: SelectTool, transform: unknown): void {
     const sceneEditor = tool._sceneEditor();
     if (sceneEditor && sceneEditor.isTransformBoxActive() && tool._moveStart) {
       if (sceneEditor.getTBoxMode() === SceneEditor.TBoxMode.RESIZE) {
+        // _calculateGeometryBBox is internal to the transform box and not typed.
         box = (
           sceneEditor.getTransformBox() as unknown as { _calculateGeometryBBox(): Rect | null }
         )._calculateGeometryBBox();
@@ -121,6 +122,8 @@ export function updateMoveHint(tool: SelectTool, point: Point | null, delta: Poi
   if (EditorOptions.coordinatesTooltip && info && isSegmentPart(info)) {
     const editor = info.editor as PathEditor;
     const id = info.id as PathPartId;
+    // The part may also be a paths graph segment, whose ends are graph
+    // points, not AnchorPoints; both editors have getPointCoord.
     const left = editor.getPointCoord(id.apLeft as never) as Point;
     const right = editor.getPointCoord(id.apRight as never) as Point;
     point =
@@ -132,7 +135,7 @@ export function updateMoveHint(tool: SelectTool, point: Point | null, delta: Poi
       const individual = tool._editor.getIndividualSelection();
       if (individual) {
         const multiPage = tool._view.getViewConfiguration().multiPageView;
-        const bbox = Editor.getGroupGeometryBBox(individual as never, multiPage);
+        const bbox = Editor.getGroupGeometryBBox(individual, multiPage);
         if (bbox) {
           let topLeft = bbox.getSide(Rect.Side.TOP_LEFT).add(delta as Point);
           if (multiPage) {

@@ -290,7 +290,7 @@ export class FreehandTool extends Panning(ItemTool) {
   }
 
   /** Inserts an empty path (fills hidden, not selected) and opens its editor. */
-  _createAndAppendPath(): Path {
+  _createAndAppendPath(): Path | null {
     const ItemClass = this._getRelatedItemClass();
     const path = new ItemClass();
     this._editor.insertElements([path], false, true, true);

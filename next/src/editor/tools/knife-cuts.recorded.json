@@ -1,0 +1,1232 @@
+[
+  {
+    "id": "compound-two-rects",
+    "shapes": [
+      {
+        "t": "compound",
+        "fill": true,
+        "paths": [
+          {
+            "t": "path",
+            "closed": true,
+            "pts": [
+              [100, 100],
+              [200, 100],
+              [200, 200],
+              [100, 200]
+            ]
+          },
+          {
+            "t": "path",
+            "closed": true,
+            "pts": [
+              [300, 100],
+              [400, 100],
+              [400, 200],
+              [300, 200]
+            ]
+          }
+        ]
+      }
+    ],
+    "cut": [
+      [80, 150],
+      [250, 150],
+      [420, 150]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "compoundpath",
+          "trf": null,
+          "eo": true,
+          "paths": [
+            {
+              "n": "path",
+              "trf": null,
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [100, 100, "R", null, null, null, null, 0, 0, false],
+                [200, 100, "R", null, null, null, null, 0, 0, false],
+                [200, 200, "R", null, null, null, null, 0, 0, false],
+                [100, 200, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            },
+            {
+              "n": "path",
+              "trf": null,
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [300, 100, "R", null, null, null, null, 0, 0, false],
+                [400, 100, "R", null, null, null, null, 0, 0, false],
+                [400, 200, "R", null, null, null, null, 0, 0, false],
+                [300, 200, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            }
+          ],
+          "fill": true
+        }
+      ],
+      "selection": [],
+      "undo": null,
+      "same": [0],
+      "err": null
+    }
+  },
+  {
+    "id": "compound-two-rects-selected",
+    "select": [0],
+    "shapes": [
+      {
+        "t": "compound",
+        "fill": true,
+        "paths": [
+          {
+            "t": "path",
+            "closed": true,
+            "pts": [
+              [100, 100],
+              [200, 100],
+              [200, 200],
+              [100, 200]
+            ]
+          },
+          {
+            "t": "path",
+            "closed": true,
+            "pts": [
+              [300, 100],
+              [400, 100],
+              [400, 200],
+              [300, 200]
+            ]
+          }
+        ]
+      }
+    ],
+    "cut": [
+      [80, 150],
+      [250, 150],
+      [420, 150]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "compoundpath",
+          "trf": null,
+          "eo": true,
+          "paths": [
+            {
+              "n": "path",
+              "trf": null,
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [200, 150, "R", null, null, null, null, 0, 0, false],
+                [200, 200, "R", null, null, null, null, 0, 0, false],
+                [100, 200, "R", null, null, null, null, 0, 0, false],
+                [100, 150, "R", null, null, null, null, 0, 0, false],
+                [200, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            },
+            {
+              "n": "path",
+              "trf": null,
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [400, 150, "R", null, null, null, null, 0, 0, false],
+                [400, 200, "R", null, null, null, null, 0, 0, false],
+                [300, 200, "R", null, null, null, null, 0, 0, false],
+                [300, 150, "R", null, null, null, null, 0, 0, false],
+                [400, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            }
+          ],
+          "fill": true
+        },
+        {
+          "n": "compoundpath",
+          "trf": null,
+          "eo": true,
+          "paths": [
+            {
+              "n": "path",
+              "trf": null,
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [200, 150, "R", null, null, null, null, 0, 0, false],
+                [200, 100, "R", null, null, null, null, 0, 0, false],
+                [100, 100, "R", null, null, null, null, 0, 0, false],
+                [100, 150, "R", null, null, null, null, 0, 0, false],
+                [200, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            },
+            {
+              "n": "path",
+              "trf": null,
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [400, 150, "R", null, null, null, null, 0, 0, false],
+                [400, 100, "R", null, null, null, null, 0, 0, false],
+                [300, 100, "R", null, null, null, null, 0, 0, false],
+                [300, 150, "R", null, null, null, null, 0, 0, false],
+                [400, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            }
+          ],
+          "fill": true
+        }
+      ],
+      "selection": [0, 1],
+      "undo": "Cut shape(s)",
+      "same": [-1, -1],
+      "err": null
+    }
+  },
+  {
+    "id": "compound-closed-and-open",
+    "shapes": [
+      {
+        "t": "compound",
+        "fill": true,
+        "paths": [
+          {
+            "t": "path",
+            "closed": true,
+            "pts": [
+              [100, 100],
+              [200, 100],
+              [200, 200],
+              [100, 200]
+            ]
+          },
+          {
+            "t": "path",
+            "closed": false,
+            "pts": [
+              [300, 100],
+              [300, 200]
+            ]
+          }
+        ]
+      }
+    ],
+    "cut": [
+      [80, 150],
+      [250, 150],
+      [420, 150]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "compoundpath",
+          "trf": null,
+          "eo": true,
+          "paths": [
+            {
+              "n": "path",
+              "trf": null,
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [100, 100, "R", null, null, null, null, 0, 0, false],
+                [200, 100, "R", null, null, null, null, 0, 0, false],
+                [200, 200, "R", null, null, null, null, 0, 0, false],
+                [100, 200, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            },
+            {
+              "n": "path",
+              "trf": null,
+              "closed": false,
+              "eo": false,
+              "pts": [
+                [300, 100, "R", null, null, null, null, 0, 0, false],
+                [300, 200, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            }
+          ],
+          "fill": true
+        }
+      ],
+      "selection": [],
+      "undo": null,
+      "same": [0],
+      "err": null
+    }
+  },
+  {
+    "id": "compound-closed-and-open-selected",
+    "select": [0],
+    "shapes": [
+      {
+        "t": "compound",
+        "fill": true,
+        "paths": [
+          {
+            "t": "path",
+            "closed": true,
+            "pts": [
+              [100, 100],
+              [200, 100],
+              [200, 200],
+              [100, 200]
+            ]
+          },
+          {
+            "t": "path",
+            "closed": false,
+            "pts": [
+              [300, 100],
+              [300, 200]
+            ]
+          }
+        ]
+      }
+    ],
+    "cut": [
+      [80, 150],
+      [250, 150],
+      [420, 150]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "group",
+          "trf": null,
+          "fill": false,
+          "kids": [
+            {
+              "n": "path",
+              "trf": null,
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [200, 150, "R", null, null, null, null, 0, 0, false],
+                [200, 200, "R", null, null, null, null, 0, 0, false],
+                [100, 200, "R", null, null, null, null, 0, 0, false],
+                [100, 150, "R", null, null, null, null, 0, 0, false],
+                [200, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": true
+            },
+            {
+              "n": "path",
+              "trf": null,
+              "closed": false,
+              "eo": false,
+              "pts": [
+                [300, 150, "R", null, null, null, null, 0, 0, false],
+                [300, 200, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": true
+            }
+          ]
+        },
+        {
+          "n": "group",
+          "trf": null,
+          "fill": false,
+          "kids": [
+            {
+              "n": "path",
+              "trf": null,
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [200, 150, "R", null, null, null, null, 0, 0, false],
+                [200, 100, "R", null, null, null, null, 0, 0, false],
+                [100, 100, "R", null, null, null, null, 0, 0, false],
+                [100, 150, "R", null, null, null, null, 0, 0, false],
+                [200, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": true
+            },
+            {
+              "n": "path",
+              "trf": null,
+              "closed": false,
+              "eo": false,
+              "pts": [
+                [300, 100, "R", null, null, null, null, 0, 0, false],
+                [300, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": true
+            }
+          ]
+        }
+      ],
+      "selection": [0, 1],
+      "undo": "Cut shape(s)",
+      "same": [-1, -1],
+      "err": null
+    }
+  },
+  {
+    "id": "compound-evenodd-false-selected",
+    "select": [0],
+    "shapes": [
+      {
+        "t": "compound",
+        "fill": true,
+        "evenodd": false,
+        "paths": [
+          {
+            "t": "path",
+            "closed": true,
+            "pts": [
+              [100, 100],
+              [200, 100],
+              [200, 200],
+              [100, 200]
+            ]
+          },
+          {
+            "t": "path",
+            "closed": true,
+            "pts": [
+              [300, 100],
+              [400, 100],
+              [400, 200],
+              [300, 200]
+            ]
+          }
+        ]
+      }
+    ],
+    "cut": [
+      [80, 150],
+      [250, 150],
+      [420, 150]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [300, 150, "R", null, null, null, null, 0, 0, false],
+            [200, 150, "R", null, null, null, null, 0, 0, false],
+            [200, 200, "R", null, null, null, null, 0, 0, false],
+            [100, 200, "R", null, null, null, null, 0, 0, false],
+            [100, 150, "R", null, null, null, null, 0, 0, false],
+            [200, 150, "R", null, null, null, null, 0, 0, false],
+            [300, 150, "R", null, null, null, null, 0, 0, false],
+            [400, 150, "R", null, null, null, null, 0, 0, false],
+            [400, 200, "R", null, null, null, null, 0, 0, false],
+            [300, 200, "R", null, null, null, null, 0, 0, false],
+            [300, 150, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        },
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [300, 150, "R", null, null, null, null, 0, 0, false],
+            [200, 150, "R", null, null, null, null, 0, 0, false],
+            [200, 100, "R", null, null, null, null, 0, 0, false],
+            [100, 100, "R", null, null, null, null, 0, 0, false],
+            [100, 150, "R", null, null, null, null, 0, 0, false],
+            [200, 150, "R", null, null, null, null, 0, 0, false],
+            [300, 150, "R", null, null, null, null, 0, 0, false],
+            [400, 150, "R", null, null, null, null, 0, 0, false],
+            [400, 100, "R", null, null, null, null, 0, 0, false],
+            [300, 100, "R", null, null, null, null, 0, 0, false],
+            [300, 150, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        }
+      ],
+      "selection": [0, 1],
+      "undo": "Cut shape(s)",
+      "same": [-1, -1],
+      "err": null
+    }
+  },
+  {
+    "id": "compound-evenodd-false-unfilled-selected",
+    "select": [0],
+    "shapes": [
+      {
+        "t": "compound",
+        "evenodd": false,
+        "paths": [
+          {
+            "t": "path",
+            "closed": true,
+            "pts": [
+              [100, 100],
+              [200, 100],
+              [200, 200],
+              [100, 200]
+            ]
+          },
+          {
+            "t": "path",
+            "closed": true,
+            "pts": [
+              [300, 100],
+              [400, 100],
+              [400, 200],
+              [300, 200]
+            ]
+          }
+        ]
+      }
+    ],
+    "cut": [
+      [80, 150],
+      [250, 150],
+      [420, 150]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "compoundpath",
+          "trf": null,
+          "eo": false,
+          "paths": [
+            {
+              "n": "path",
+              "trf": null,
+              "closed": false,
+              "eo": false,
+              "pts": [
+                [200, 150, "R", null, null, null, null, 0, 0, false],
+                [200, 200, "R", null, null, null, null, 0, 0, false],
+                [100, 200, "R", null, null, null, null, 0, 0, false],
+                [100, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            },
+            {
+              "n": "path",
+              "trf": null,
+              "closed": false,
+              "eo": false,
+              "pts": [
+                [400, 150, "R", null, null, null, null, 0, 0, false],
+                [400, 200, "R", null, null, null, null, 0, 0, false],
+                [300, 200, "R", null, null, null, null, 0, 0, false],
+                [300, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            }
+          ],
+          "fill": false
+        },
+        {
+          "n": "compoundpath",
+          "trf": null,
+          "eo": false,
+          "paths": [
+            {
+              "n": "path",
+              "trf": null,
+              "closed": false,
+              "eo": false,
+              "pts": [
+                [100, 150, "R", null, null, null, null, 0, 0, false],
+                [100, 100, "R", null, null, null, null, 0, 0, false],
+                [200, 100, "R", null, null, null, null, 0, 0, false],
+                [200, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            },
+            {
+              "n": "path",
+              "trf": null,
+              "closed": false,
+              "eo": false,
+              "pts": [
+                [300, 150, "R", null, null, null, null, 0, 0, false],
+                [300, 100, "R", null, null, null, null, 0, 0, false],
+                [400, 100, "R", null, null, null, null, 0, 0, false],
+                [400, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            }
+          ],
+          "fill": false
+        }
+      ],
+      "selection": [0, 1],
+      "undo": "Cut shape(s)",
+      "same": [-1, -1],
+      "err": null
+    }
+  },
+  {
+    "id": "compound-unfilled-selected",
+    "select": [0],
+    "shapes": [
+      {
+        "t": "compound",
+        "paths": [
+          {
+            "t": "path",
+            "closed": true,
+            "pts": [
+              [100, 100],
+              [200, 100],
+              [200, 200],
+              [100, 200]
+            ]
+          },
+          {
+            "t": "path",
+            "closed": true,
+            "pts": [
+              [300, 100],
+              [400, 100],
+              [400, 200],
+              [300, 200]
+            ]
+          }
+        ]
+      }
+    ],
+    "cut": [
+      [80, 150],
+      [250, 150],
+      [420, 150]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "compoundpath",
+          "trf": null,
+          "eo": true,
+          "paths": [
+            {
+              "n": "path",
+              "trf": null,
+              "closed": false,
+              "eo": false,
+              "pts": [
+                [200, 150, "R", null, null, null, null, 0, 0, false],
+                [200, 200, "R", null, null, null, null, 0, 0, false],
+                [100, 200, "R", null, null, null, null, 0, 0, false],
+                [100, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            },
+            {
+              "n": "path",
+              "trf": null,
+              "closed": false,
+              "eo": false,
+              "pts": [
+                [400, 150, "R", null, null, null, null, 0, 0, false],
+                [400, 200, "R", null, null, null, null, 0, 0, false],
+                [300, 200, "R", null, null, null, null, 0, 0, false],
+                [300, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            }
+          ],
+          "fill": false
+        },
+        {
+          "n": "compoundpath",
+          "trf": null,
+          "eo": true,
+          "paths": [
+            {
+              "n": "path",
+              "trf": null,
+              "closed": false,
+              "eo": false,
+              "pts": [
+                [100, 150, "R", null, null, null, null, 0, 0, false],
+                [100, 100, "R", null, null, null, null, 0, 0, false],
+                [200, 100, "R", null, null, null, null, 0, 0, false],
+                [200, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            },
+            {
+              "n": "path",
+              "trf": null,
+              "closed": false,
+              "eo": false,
+              "pts": [
+                [300, 150, "R", null, null, null, null, 0, 0, false],
+                [300, 100, "R", null, null, null, null, 0, 0, false],
+                [400, 100, "R", null, null, null, null, 0, 0, false],
+                [400, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": false
+            }
+          ],
+          "fill": false
+        }
+      ],
+      "selection": [0, 1],
+      "undo": "Cut shape(s)",
+      "same": [-1, -1],
+      "err": null
+    }
+  },
+  {
+    "id": "styled-corners",
+    "shapes": [
+      {
+        "t": "path",
+        "closed": true,
+        "fill": true,
+        "corner": { "cl": 20, "cr": 20 },
+        "pts": [
+          [100, 100],
+          [300, 100],
+          [300, 240],
+          [100, 240]
+        ]
+      }
+    ],
+    "cut": [
+      [80, 170],
+      [200, 170],
+      [330, 170]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [300, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 220, "R", null, null, 300, 231.0383, 0, 0, false],
+            [280, 240, "R", 291.0383, 240, null, null, 0, 0, false],
+            [120, 240, "R", null, null, 108.9617, 240, 0, 0, false],
+            [100, 220, "R", 100, 231.0383, null, null, 0, 0, false],
+            [100, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 170, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        },
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [300, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 120, "R", null, null, 300, 108.9617, 0, 0, false],
+            [280, 100, "R", 291.0383, 100, null, null, 0, 0, false],
+            [120, 100, "R", null, null, 108.9617, 100, 0, 0, false],
+            [100, 120, "R", 100, 108.9617, null, null, 0, 0, false],
+            [100, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 170, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        }
+      ],
+      "selection": [0, 1],
+      "undo": "Cut shape(s)",
+      "same": [-1, -1],
+      "err": null
+    }
+  },
+  {
+    "id": "evenodd-true",
+    "shapes": [
+      {
+        "t": "path",
+        "closed": true,
+        "fill": true,
+        "evenodd": true,
+        "pts": [
+          [100, 100],
+          [300, 100],
+          [300, 240],
+          [100, 240]
+        ]
+      }
+    ],
+    "cut": [
+      [80, 170],
+      [200, 170],
+      [330, 170]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [300, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 240, "R", null, null, null, null, 0, 0, false],
+            [100, 240, "R", null, null, null, null, 0, 0, false],
+            [100, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 170, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        },
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [300, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 100, "R", null, null, null, null, 0, 0, false],
+            [100, 100, "R", null, null, null, null, 0, 0, false],
+            [100, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 170, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        }
+      ],
+      "selection": [0, 1],
+      "undo": "Cut shape(s)",
+      "same": [-1, -1],
+      "err": null
+    }
+  },
+  {
+    "id": "u-shape-both-legs",
+    "shapes": [
+      {
+        "t": "path",
+        "closed": true,
+        "fill": true,
+        "pts": [
+          [100, 100],
+          [140, 100],
+          [140, 250],
+          [260, 250],
+          [260, 100],
+          [300, 100],
+          [300, 300],
+          [100, 300]
+        ]
+      }
+    ],
+    "cut": [
+      [80, 150],
+      [200, 150],
+      [320, 150]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "group",
+          "trf": null,
+          "fill": false,
+          "kids": [
+            {
+              "n": "path",
+              "trf": null,
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [300, 150, "R", null, null, null, null, 0, 0, false],
+                [300, 300, "R", null, null, null, null, 0, 0, false],
+                [100, 300, "R", null, null, null, null, 0, 0, false],
+                [100, 150, "R", null, null, null, null, 0, 0, false],
+                [140, 150, "R", null, null, null, null, 0, 0, false],
+                [260, 150, "R", null, null, null, null, 0, 0, false],
+                [300, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": true
+            },
+            {
+              "n": "path",
+              "trf": null,
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [260, 150, "R", null, null, null, null, 0, 0, false],
+                [260, 250, "R", null, null, null, null, 0, 0, false],
+                [140, 250, "R", null, null, null, null, 0, 0, false],
+                [140, 150, "R", null, null, null, null, 0, 0, false],
+                [260, 150, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": true
+            }
+          ]
+        },
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [260, 150, "R", null, null, null, null, 0, 0, false],
+            [140, 150, "R", null, null, null, null, 0, 0, false],
+            [140, 100, "R", null, null, null, null, 0, 0, false],
+            [100, 100, "R", null, null, null, null, 0, 0, false],
+            [100, 150, "R", null, null, null, null, 0, 0, false],
+            [140, 150, "R", null, null, null, null, 0, 0, false],
+            [260, 150, "R", null, null, null, null, 0, 0, false],
+            [300, 150, "R", null, null, null, null, 0, 0, false],
+            [300, 100, "R", null, null, null, null, 0, 0, false],
+            [260, 100, "R", null, null, null, null, 0, 0, false],
+            [260, 150, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        }
+      ],
+      "selection": [0, 1],
+      "undo": "Cut shape(s)",
+      "same": [-1, -1],
+      "err": null
+    }
+  },
+  {
+    "id": "masked-children",
+    "shapes": [
+      {
+        "t": "rect",
+        "fill": true,
+        "box": [100, 100, 200, 140],
+        "kids": [{ "t": "rect", "fill": true, "box": [150, 120, 100, 100] }]
+      }
+    ],
+    "cut": [
+      [80, 170],
+      [200, 170],
+      [330, 170]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [300, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 240, "R", null, null, null, null, 0, 0, false],
+            [100, 240, "R", null, null, null, null, 0, 0, false],
+            [100, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 170, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true,
+          "kids": [
+            {
+              "n": "rectangle",
+              "trf": [50, 0, 0, 50, 200, 170],
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [-1, -1, "R", null, null, null, null, 0, 0, false],
+                [1, -1, "R", null, null, null, null, 0, 0, false],
+                [1, 1, "R", null, null, null, null, 0, 0, false],
+                [-1, 1, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": true
+            }
+          ]
+        },
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [300, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 100, "R", null, null, null, null, 0, 0, false],
+            [100, 100, "R", null, null, null, null, 0, 0, false],
+            [100, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 170, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true,
+          "kids": [
+            {
+              "n": "rectangle",
+              "trf": [50, 0, 0, 50, 200, 170],
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [-1, -1, "R", null, null, null, null, 0, 0, false],
+                [1, -1, "R", null, null, null, null, 0, 0, false],
+                [1, 1, "R", null, null, null, null, 0, 0, false],
+                [-1, 1, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": true
+            }
+          ]
+        }
+      ],
+      "selection": [0, 1],
+      "undo": "Cut shape(s)",
+      "same": [-1, -1],
+      "err": null
+    }
+  },
+  {
+    "id": "filter-locked",
+    "shapes": [
+      { "t": "rect", "fill": true, "locked": true, "box": [100, 100, 100, 140] },
+      { "t": "rect", "fill": true, "box": [250, 100, 100, 140] }
+    ],
+    "cut": [
+      [80, 170],
+      [200, 170],
+      [380, 170]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "rectangle",
+          "trf": [50, 0, 0, 70, 150, 170],
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [-1, -1, "R", null, null, null, null, 0, 0, false],
+            [1, -1, "R", null, null, null, null, 0, 0, false],
+            [1, 1, "R", null, null, null, null, 0, 0, false],
+            [-1, 1, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        },
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [350, 170, "R", null, null, null, null, 0, 0, false],
+            [350, 240, "R", null, null, null, null, 0, 0, false],
+            [250, 240, "R", null, null, null, null, 0, 0, false],
+            [250, 170, "R", null, null, null, null, 0, 0, false],
+            [350, 170, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        },
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [350, 170, "R", null, null, null, null, 0, 0, false],
+            [350, 100, "R", null, null, null, null, 0, 0, false],
+            [250, 100, "R", null, null, null, null, 0, 0, false],
+            [250, 170, "R", null, null, null, null, 0, 0, false],
+            [350, 170, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        }
+      ],
+      "selection": [1, 2],
+      "undo": "Cut shape(s)",
+      "same": [0, -1, -1],
+      "err": null
+    }
+  },
+  {
+    "id": "filter-program-locks",
+    "shapes": [
+      { "t": "rect", "fill": true, "plkt": 4, "box": [100, 100, 60, 140] },
+      { "t": "rect", "fill": true, "plkt": 512, "box": [180, 100, 60, 140] },
+      { "t": "rect", "fill": true, "plkt": 64, "box": [260, 100, 60, 140] },
+      {
+        "t": "group",
+        "plkt": 4,
+        "kids": [{ "t": "rect", "fill": true, "box": [340, 100, 60, 140] }]
+      },
+      { "t": "rect", "fill": true, "box": [420, 100, 60, 140] }
+    ],
+    "cut": [
+      [80, 170],
+      [300, 170],
+      [500, 170]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "rectangle",
+          "trf": [30, 0, 0, 70, 130, 170],
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [-1, -1, "R", null, null, null, null, 0, 0, false],
+            [1, -1, "R", null, null, null, null, 0, 0, false],
+            [1, 1, "R", null, null, null, null, 0, 0, false],
+            [-1, 1, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        },
+        {
+          "n": "rectangle",
+          "trf": [30, 0, 0, 70, 210, 170],
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [-1, -1, "R", null, null, null, null, 0, 0, false],
+            [1, -1, "R", null, null, null, null, 0, 0, false],
+            [1, 1, "R", null, null, null, null, 0, 0, false],
+            [-1, 1, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        },
+        {
+          "n": "rectangle",
+          "trf": [30, 0, 0, 70, 290, 170],
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [-1, -1, "R", null, null, null, null, 0, 0, false],
+            [1, -1, "R", null, null, null, null, 0, 0, false],
+            [1, 1, "R", null, null, null, null, 0, 0, false],
+            [-1, 1, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        },
+        {
+          "n": "group",
+          "trf": null,
+          "fill": false,
+          "kids": [
+            {
+              "n": "rectangle",
+              "trf": [30, 0, 0, 70, 370, 170],
+              "closed": true,
+              "eo": false,
+              "pts": [
+                [-1, -1, "R", null, null, null, null, 0, 0, false],
+                [1, -1, "R", null, null, null, null, 0, 0, false],
+                [1, 1, "R", null, null, null, null, 0, 0, false],
+                [-1, 1, "R", null, null, null, null, 0, 0, false]
+              ],
+              "fill": true
+            }
+          ]
+        },
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [480, 170, "R", null, null, null, null, 0, 0, false],
+            [480, 240, "R", null, null, null, null, 0, 0, false],
+            [420, 240, "R", null, null, null, null, 0, 0, false],
+            [420, 170, "R", null, null, null, null, 0, 0, false],
+            [480, 170, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        },
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [480, 170, "R", null, null, null, null, 0, 0, false],
+            [480, 100, "R", null, null, null, null, 0, 0, false],
+            [420, 100, "R", null, null, null, null, 0, 0, false],
+            [420, 170, "R", null, null, null, null, 0, 0, false],
+            [480, 170, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        }
+      ],
+      "selection": [4, 5],
+      "undo": "Cut shape(s)",
+      "same": [0, 1, 2, 3, -1, -1],
+      "err": null
+    }
+  },
+  {
+    "id": "filter-image",
+    "shapes": [{ "t": "image", "box": [100, 100, 200, 140] }],
+    "cut": [
+      [80, 170],
+      [200, 170],
+      [330, 170]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "image",
+          "trf": [200, 0, 0, 140, 100, 100],
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [-1, -1, "R", null, null, null, null, 0, 0, false],
+            [1, -1, "R", null, null, null, null, 0, 0, false],
+            [1, 1, "R", null, null, null, null, 0, 0, false],
+            [-1, 1, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": false
+        }
+      ],
+      "selection": [],
+      "undo": null,
+      "same": [0],
+      "err": null
+    }
+  },
+  {
+    "id": "selected-no-edit-is-cut",
+    "shapes": [{ "t": "rect", "fill": true, "plkt": 4, "box": [100, 100, 200, 140] }],
+    "select": [0],
+    "cut": [
+      [80, 170],
+      [200, 170],
+      [330, 170]
+    ],
+    "result": {
+      "page": [
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [300, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 240, "R", null, null, null, null, 0, 0, false],
+            [100, 240, "R", null, null, null, null, 0, 0, false],
+            [100, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 170, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        },
+        {
+          "n": "path",
+          "trf": null,
+          "closed": true,
+          "eo": false,
+          "pts": [
+            [300, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 100, "R", null, null, null, null, 0, 0, false],
+            [100, 100, "R", null, null, null, null, 0, 0, false],
+            [100, 170, "R", null, null, null, null, 0, 0, false],
+            [300, 170, "R", null, null, null, null, 0, 0, false]
+          ],
+          "fill": true
+        }
+      ],
+      "selection": [0, 1],
+      "undo": "Cut shape(s)",
+      "same": [-1, -1],
+      "err": null
+    }
+  }
+]

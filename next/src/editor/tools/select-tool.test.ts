@@ -10,6 +10,7 @@ import { EditorOptions } from "../editor-options.ts";
 import { ElementEditor } from "../element-editors/element-editor.ts";
 import type { SceneEditor } from "../element-editors/scene-editor.ts";
 import { installFakeDom } from "../view/testing/fake-dom.ts";
+import { PointerTool } from "./pointer-tool.ts";
 import { SelectTool } from "./select-tool.ts";
 import { clearModifiers, group, Input, rect, setModifiers, setupTool } from "./select/testing.ts";
 
@@ -397,5 +398,52 @@ describe("SelectTool selectable elements", () => {
       ),
     ).toBe(true);
     expect(tool._mDownTime1).toBeNull();
+  });
+});
+
+describe("SelectTool distance helper on click (touch layout)", () => {
+  it("toggles between the page and the clicked element with Alt held, keeping the selection", async () => {
+    const before = EditorOptions.distanceHelperBehaviour;
+    EditorOptions.distanceHelperBehaviour = SelectTool._DistanceHelperBehaviour.Click;
+    try {
+      // The pointer tool allows the distance helper (showDistance).
+      const s = setupTool(new PointerTool());
+      const input = new Input(s.view);
+      const a = rect(s.page, 100, 100, 100, 100);
+      rect(s.page, 400, 100, 100, 100);
+      s.editor.updateSelection(false, [a]);
+      const refresh = vi.spyOn(s.editor.getDistanceHelper(), "refreshVisuals");
+      input.move(450, 150);
+      setModifiers({ optionKey: true });
+      expect(s.tool._isDistanceHelperActivatedByClick()).toBe(true);
+      expect(s.tool.catchesContextMenu()).toBe(true);
+      // Hovering doesn't measure in this mode, only releases do.
+      input.move(451, 150);
+      expect(refresh).not.toHaveBeenCalled();
+      const targets: number[][] = [];
+      for (let i = 0; i < 3; i++) {
+        await input.click(451, 150);
+        const call = refresh.mock.calls[i] as unknown as [
+          unknown,
+          { getX(): number; getWidth(): number },
+        ];
+        targets.push([call[1].getX(), call[1].getWidth()]);
+        expect(selection(s.editor)).toEqual([a]);
+      }
+      // The page first, then the element under the pointer, then the page again.
+      const page = (
+        s.scene.getActivePage() as NonNullable<ReturnType<typeof s.scene.getActivePage>>
+      ).getGeometryBBox() as unknown as {
+        getX(): number;
+        getWidth(): number;
+      };
+      expect(targets).toEqual([
+        [page.getX(), page.getWidth()],
+        [400, 100],
+        [page.getX(), page.getWidth()],
+      ]);
+    } finally {
+      EditorOptions.distanceHelperBehaviour = before;
+    }
   });
 });

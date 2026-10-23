@@ -1,10 +1,19 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { RGBColor } from "../../engine/color/rgb-color.ts";
 import { MouseEvent } from "../../engine/core/mouse-event.ts";
+import { Transform } from "../../engine/math/transform.ts";
+import { CompoundPath } from "../../engine/scene/compound-path.ts";
+import { ElementFlag } from "../../engine/scene/element-change.ts";
+import { Group } from "../../engine/scene/group.ts";
+import { Image } from "../../engine/scene/image.ts";
 import type { Node } from "../../engine/scene/node.ts";
-import type { Path } from "../../engine/scene/path.ts";
+import { Path } from "../../engine/scene/path.ts";
+import { AnchorPoint, PathBase } from "../../engine/scene/path-base.ts";
 import { Rectangle } from "../../engine/scene/rectangle.ts";
+import { FillPaintLayer } from "../../engine/style/fill-paint-layer.ts";
 import { Cursor } from "../cursor.ts";
 import { installFakeDom } from "../view/testing/fake-dom.ts";
+import recordedCuts from "./knife-cuts.recorded.json";
 import { KnifeTool } from "./knife-tool.ts";
 import {
   clearModifiers,
@@ -12,6 +21,7 @@ import {
   pause,
   points,
   rect,
+  scenarioView,
   setModifiers,
   setupPathTool,
 } from "./path-testing.ts";
@@ -153,5 +163,174 @@ describe("KnifeTool", () => {
     input.up(80, 130, MouseEvent.BUTTON_RIGHT);
     expect(names(page.getChildren())).toEqual(["rectangle"]);
     expect((page.getChildren()[0] as Rectangle).getParent()).not.toBeNull();
+  });
+});
+
+/**
+ * A shape of a recorded knife case (knife-cuts.recorded.json). The old
+ * app built the same shapes with the same values, cut them with the knife
+ * through real pointer input (a hover, a press at the first point, moves
+ * to the others, the release) in a view with scene (0, 0) at view
+ * (400, 200), and described the page afterwards the way describeNode()
+ * below does.
+ */
+interface ShapeSpec {
+  t: "path" | "compound" | "rect" | "image" | "group";
+  pts?: number[][];
+  closed?: boolean;
+  evenodd?: boolean;
+  corner?: { cl: number; cr: number };
+  paths?: ShapeSpec[];
+  box?: number[];
+  fill?: boolean;
+  plkt?: number;
+  locked?: boolean;
+  kids?: ShapeSpec[];
+}
+
+interface RecordedCut {
+  id: string;
+  shapes: ShapeSpec[];
+  select?: number[];
+  cut: [number, number][];
+  result: { page: unknown[]; selection: number[]; undo: string | null; same: number[] };
+}
+
+/** The members the builders and describeNode use, on any built node. */
+type Built = Node & {
+  setProperty(name: string, value: unknown): void;
+  getProperty(name: string): unknown;
+  setFlag(flag: number): void;
+  appendChild(child: Node): void;
+  hasStyleFill?: () => boolean;
+  getChildren?: () => Node[];
+};
+
+function buildPath(spec: ShapeSpec): Path {
+  const path = new Path();
+  for (const [x, y] of spec.pts ?? []) {
+    const point = new AnchorPoint();
+    point.setProperties(["x", "y"], [x, y]);
+    if (spec.corner) point.setProperties(["cl", "cr"], [spec.corner.cl, spec.corner.cr]);
+    path.getAnchorPoints().appendChild(point);
+  }
+  if (spec.closed) path.setProperty("closed", true);
+  if (spec.evenodd !== undefined) path.setProperty("evenodd", spec.evenodd);
+  return path;
+}
+
+function build(spec: ShapeSpec): Built {
+  let node: Built;
+  if (spec.t === "path") node = buildPath(spec) as unknown as Built;
+  else if (spec.t === "compound") {
+    const compound = new CompoundPath();
+    for (const path of spec.paths ?? []) compound.getPaths().appendChild(buildPath(path));
+    if (spec.evenodd !== undefined) compound.setProperty("evenodd", spec.evenodd);
+    node = compound as unknown as Built;
+  } else if (spec.t === "rect" || spec.t === "image") {
+    const [x, y, w, h] = spec.box as [number, number, number, number];
+    node = (spec.t === "rect" ? new Rectangle() : new Image()) as unknown as Built;
+    node.setProperty(
+      "trf",
+      spec.t === "rect"
+        ? new Transform(w / 2, 0, 0, h / 2, x + w / 2, y + h / 2)
+        : new Transform(w, 0, 0, h, x, y),
+    );
+  } else node = new Group() as unknown as Built;
+  if (spec.fill) {
+    (node as unknown as Rectangle)
+      .getPaintLayers()
+      ?.appendChild(new FillPaintLayer(RGBColor.BLACK));
+  }
+  if (spec.plkt) node.setProperty("plkt", spec.plkt);
+  for (const kid of spec.kids ?? []) node.appendChild(build(kid));
+  return node;
+}
+
+const round6 = (value: unknown): unknown =>
+  typeof value === "number" ? Math.round(value * 1e6) / 1e6 : value;
+
+const POINT_PROPERTIES = ["x", "y", "tp", "hlx", "hly", "hrx", "hry", "cl", "cr", "ah"];
+
+/** The node as the recording script described it. */
+function describeNode(node: Node): Record<string, unknown> {
+  const element = node as Built;
+  const out: Record<string, unknown> = { n: node.getNodeName() };
+  const trf = element.getProperty("trf") as Transform | null;
+  out.trf = trf ? trf.getMatrix().map(round6) : null;
+  // Rectangles and images are path bases too, with their own anchor points.
+  if (node instanceof PathBase) {
+    out.closed = node.getProperty("closed");
+    out.eo = node.getProperty("evenodd");
+    out.pts = points(node as Path, POINT_PROPERTIES).map((p) => p.map(round6));
+  }
+  if (node instanceof CompoundPath) {
+    out.eo = node.getProperty("evenodd");
+    const paths: unknown[] = [];
+    for (let child: Node | null = node.getPaths().getFirstChild(); child; child = child.getNext())
+      paths.push(describeNode(child));
+    out.paths = paths;
+  }
+  if (element.hasStyleFill) out.fill = !!element.hasStyleFill();
+  const kids = element.getChildren ? element.getChildren() : [];
+  if (kids.length) out.kids = kids.map(describeNode);
+  return out;
+}
+
+describe("KnifeTool cuts recorded in the old app", () => {
+  // Compound paths split into closed and open groups, styled corners,
+  // evenodd, a side of several pieces (a new group), masked children
+  // cloned onto every piece, and which elements the knife leaves alone.
+  for (const recorded of recordedCuts as unknown as RecordedCut[]) {
+    it(recorded.id, () => {
+      const { page, input, editor } = scenarioView(setup());
+      const nodes = recorded.shapes.map(build);
+      for (const node of nodes) page.appendChild(node);
+      // Appending re-applies the block lock, so the flag goes on afterwards.
+      recorded.shapes.forEach((spec, i) => {
+        if (spec.locked) (nodes[i] as Built).setFlag(ElementFlag.FullLocked);
+      });
+      editor.updateSelection(
+        false,
+        (recorded.select ?? []).map((i) => nodes[i] as Node),
+      );
+      const [start, ...through] = recorded.cut;
+      const [x, y] = start as [number, number];
+      pause();
+      input.move(x - 30, y - 30);
+      input.move(x, y);
+      input.down(x, y);
+      for (const p of through) input.drag(...p);
+      const last = through[through.length - 1] as [number, number];
+      input.up(...last);
+      const children = page.getChildren();
+      const selection = editor.getSelection() ?? [];
+      expect({
+        page: children.map(describeNode),
+        selection: selection.map((n) => children.indexOf(n)),
+        undo: editor.getUndoStateName(),
+        same: children.map((n) => nodes.indexOf(n as Built)),
+      }).toEqual({
+        page: recorded.result.page,
+        selection: recorded.result.selection,
+        undo: recorded.result.undo,
+        same: recorded.result.same,
+      });
+    });
+  }
+});
+
+describe("KnifeTool._selectFilter", () => {
+  it("rejects an element whose parent block has the NoEdit program lock", () => {
+    // Unreachable through the cut: the collision search applies the same
+    // filter to the parent first and doesn't look below a rejected one
+    // (pinned by "filter-program-locks" above). Pinned here directly.
+    const { tool } = setup();
+    const group = new Group();
+    const child = new Rectangle();
+    group.appendChild(child);
+    expect(tool._selectFilter(child)).toBe(true);
+    group.setProperty("plkt", 4);
+    expect(tool._selectFilter(child)).toBe(false);
   });
 });

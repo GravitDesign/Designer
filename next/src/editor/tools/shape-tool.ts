@@ -134,6 +134,8 @@ export class ShapeTool extends Panning(ItemTool) {
 
   _paintOutline(context: PaintContext): void {
     const canvas = context.canvas as PaintCanvas;
+    // Only called while a shape is drawn; every drawn shape is a vertex
+    // source, which the DrawnShape type (Element) doesn't carry.
     canvas.putVertices(new VertexPixelAligner(this._shape as never));
     canvas.strokeVertices(context.selectionOutlineColor, EditorOptions.outlineWidth);
   }

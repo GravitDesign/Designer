@@ -109,7 +109,8 @@ export function updateSelectionTransform(tool: SelectTool): void {
         const start = tool._moveStart as Point;
         current =
           info && isPointPart(info)
-            ? (info.editor as unknown as PointPartEditor).constrainPosition(
+            ? // A path or paths graph editor (isPointPart); PartInfo types its editor as BaseEditor.
+              (info.editor as unknown as PointPartEditor).constrainPosition(
                 current,
                 tool._view.getWorldTransform(tool._view.getScene().getActivePage()),
                 (info.id as PathPartId).point,
@@ -130,6 +131,7 @@ export function updateSelectionTransform(tool: SelectTool): void {
       let delta: Point | null = null;
       let hintPoint: Point | null = null;
       if (info && isPointsDrag(info)) {
+        // A path or paths graph editor (isPointsDrag); PartInfo types its editor as BaseEditor.
         const partEditor = info.editor as unknown as PointPartEditor;
         const id = info.id as PathPartId;
         if (
@@ -144,6 +146,7 @@ export function updateSelectionTransform(tool: SelectTool): void {
             others = selectionWithout(tool, element);
           }
           const guides = tool._editor.getGuides();
+          // The editor works on its structural node type (EdNode), the guides on Node.
           guides.useExclusions(tool._editor.getAlignExclusions(false, others as never) as never);
           guides.beginMap(tool._editor.getMappingScopes() as never);
           if (isSegmentPart(info)) {
@@ -259,6 +262,7 @@ function moveIsolatedPart(tool: SelectTool, info: PartInfo, current: Point): voi
     keepRatio = !!info.data && -1 !== RATIO_CORNERS.indexOf((data as { side: never }).side);
   }
   const guides = tool._editor.getGuides();
+  // The editor works on its structural node type (EdNode), the guides on Node.
   guides.useExclusions(tool._editor.getAlignExclusions(false, others as never) as never);
   guides.beginMap(tool._editor.getMappingScopes() as never);
   const applied = (info.editor as BoxEditor).movePart(
@@ -294,8 +298,7 @@ function collectDropTargets(tool: SelectTool, sceneCurrent: Point | null): void 
     if (pages.indexOf(tool._scene.getActivePage() as Page) < 0) {
       pages.sort((a, b) => b.getElementIndex() - a.getElementIndex());
       if (pages.length) pages = [pages[0] as Page];
-      tool._itemsToAddToPage = gatherItemsForAdd(
-        tool,
+      tool._itemsToAddToPage = tool._gatherItemsForAdd(
         () => true,
         (element) => element instanceof Page,
         (visit) => {
@@ -310,8 +313,7 @@ function collectDropTargets(tool: SelectTool, sceneCurrent: Point | null): void 
   }
   tool._itemsToAddToImageMask = [];
   if (!(tool._itemsToAddToPage && tool._itemsToAddToPage.length)) {
-    tool._itemsToAddToImageMask = gatherItemsForAdd(
-      tool,
+    tool._itemsToAddToImageMask = tool._gatherItemsForAdd(
       (element) => element instanceof Image,
       (element) => {
         if (!(element instanceof Image)) {
@@ -329,15 +331,11 @@ function collectDropTargets(tool: SelectTool, sceneCurrent: Point | null): void 
       sceneCurrent,
     );
   }
-  cleanupTargetHighlights(
-    tool,
-    tool._itemsToAddToPage,
-    tool._scene.iteratePages.bind(tool._scene) as never,
-  );
-  cleanupTargetHighlights(tool, tool._itemsToAddToImageMask);
+  tool._cleanupTargetHighlights(tool._itemsToAddToPage, tool._scene.iteratePages.bind(tool._scene));
+  tool._cleanupTargetHighlights(tool._itemsToAddToImageMask);
 }
 
-type ElementWalker = (visit: (element: Element) => unknown) => void;
+export type ElementWalker = (visit: (element: Element) => unknown) => void;
 
 /** Removes Highlighted from every element that is no longer a target. */
 export function cleanupTargetHighlights(
@@ -347,6 +345,7 @@ export function cleanupTargetHighlights(
 ): void {
   if (!candidates) return;
   const targets = candidates.map((candidate) => candidate.target);
+  // acceptChildren visits every node; only elements carry the Highlighted flag checked here.
   const visitAll: ElementWalker =
     walk || (tool._scene.acceptChildren.bind(tool._scene) as unknown as ElementWalker);
   visitAll((element) => {
@@ -384,7 +383,7 @@ export function gatherItemsForAdd(
     const found: Element[] = [];
     const isSymbol = source instanceof SymbolNode;
     if (source instanceof SceneNode) {
-      tool._scene.visitReferences(source as never, (reference) => {
+      tool._scene.visitReferences(source, (reference) => {
         if (
           reference instanceof Element &&
           reference.getScene() &&
@@ -409,6 +408,7 @@ export function gatherItemsForAdd(
     }
     return rect;
   };
+  // acceptChildren visits every node; the target filters only pass elements.
   const visitAll: ElementWalker =
     walk || (tool._scene.acceptChildren.bind(tool._scene) as unknown as ElementWalker);
   for (; index < selection.length; index++) {
@@ -418,7 +418,7 @@ export function gatherItemsForAdd(
       (EditorOptions.pageCollisionTransform || !(source instanceof Page)) &&
       ((source instanceof SymbolNode && source.isMaster()) ||
         !source.hasMixin(Reference) ||
-        !tool._scene.hasLinks(source as never))
+        !tool._scene.hasLinks(source))
     )) {
       continue;
     }
@@ -467,6 +467,8 @@ export function gatherItemsForAdd(
             ) {
               if (
                 !target.hasMixin(VertexSourceMixin) ||
+                // The target has the vertex source mixin (checked above), which
+                // doesn't narrow the type; the cached polyline starts out null.
                 intersector.intersect(outline, target as never, false, true, outlinePoly as never)
               ) {
                 return add();
