@@ -56,8 +56,8 @@ Decisions taken:
 | 3 | Scaffold next/ | done |
 | 4 | Engine core | done: all engine clusters ported, review (phase4-review-A..D) fixed; 330+ parity ids pass in the new app; scenarios that need the editor are enabled in phase 6 |
 | 5 | File format and import/export | done: .gvdesign, SVG/PDF/PNG/JPG export, SVG/PDF/AI/EPS/Sketch import, workers; review (phase5-review.md) fixed; export output compared in the browser (io-export-svg/pdf/bitmap); export scenarios that need the editor wait for phase 6 |
-| 6 | Editor | in progress: levels 8 and 9 ported (editor core, view, guides, all element editors, all tools, interim fonts); editor-touch next, then the phase review |
-| 7 | UI | not started |
+| 6 | Editor | ported (editor core, view, guides, all element editors, all tools, touch input, interim fonts); phase review (phase6-review-A..C) running |
+| 7 | UI | in progress: app foundation and shell, GDocument, storage (done), file/edit actions. Started before the phase 6 review was fixed, at the user's request (2026-10-23); review fixes land alongside. |
 | 8 | Platform | not started |
 | 9 | Cutover | not started |
 | 10 | Final check | not started |
@@ -346,6 +346,11 @@ passed every check.
 
 ## Pending harness work
 
+- Touch screenshots flaked twice in about 110 runs under load
+  (annotations/touch-transform-box-icon-handles: the preserve-aspect-ratio
+  icon missing, 27 px; touch/handles-overlay): probably the handle icon
+  image not decoded yet at the shot. Wait for the icons in the harness or
+  check the icon loading.
 - The in-page font fetches of the io-export-* libraries (fontBytes in
   newWorkspace) have no retry: under load one fetch failed with "Failed
   to fetch" (io-export-svg/corpus/slices, level 8 run; passes alone).
