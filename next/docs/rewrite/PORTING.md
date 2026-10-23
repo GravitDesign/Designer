@@ -75,4 +75,16 @@ area needs (its `contract.ts`) go in `src/parity/app/<area>.ts`.
   (the new app is built and served on port 3192 automatically; when it is
   already running, rebuild with `npx vite build`, the server serves dist/).
   Never weaken a comparison.
+- When other runs work in the same checkout, don't build into dist/ (the
+  shared server on 3192 serves it live). Build and serve your own copy on
+  your own port and point Playwright at it:
+
+  ```sh
+  npx vite build --outDir dist-run-<name>
+  GD_CLIENT_ROOT=dist-run-<name> PORT=<port> node server/main.ts &
+  GD_NEW_PORT=<port> GD_RUN=<name> npx playwright test parity/scenarios/<area> --project parity --workers 2
+  ```
+
+  Rebuild with the first command after every change; stop your server
+  when you're done.
 - `npm run lint`, `npm run typecheck` and `npm test` must pass.

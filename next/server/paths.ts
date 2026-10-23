@@ -9,8 +9,13 @@ export const APP_ROOT = process.env.GD_APP_ROOT
   ? path.resolve(process.env.GD_APP_ROOT)
   : path.resolve(here, "..");
 
-/** Built client (vite build output). */
-export const CLIENT_ROOT = path.join(APP_ROOT, "dist");
+/**
+ * Built client (vite build output). GD_CLIENT_ROOT points a server at
+ * another build, so parallel test runs don't share one dist/.
+ */
+export const CLIENT_ROOT = process.env.GD_CLIENT_ROOT
+  ? path.resolve(process.env.GD_CLIENT_ROOT)
+  : path.join(APP_ROOT, "dist");
 
 function firstExisting(candidates: readonly string[]): string {
   return candidates.find((c) => fs.existsSync(c)) ?? (candidates[0] as string);

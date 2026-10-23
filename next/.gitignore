@@ -1,6 +1,8 @@
 node_modules/
 dist/
 dist-electron/
+# Private builds of parallel test runs (see PORTING.md).
+dist-run-*/
 release/
 test-results/
 *.tsbuildinfo
