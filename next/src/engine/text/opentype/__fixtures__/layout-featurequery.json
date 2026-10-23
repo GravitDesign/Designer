@@ -1,0 +1,1019 @@
+{
+  "noto/NotoSansArabic-Regular.ttf": {
+    "arab/init": {
+      "tag": "init",
+      "script": "arab",
+      "lookups": [{ "index": 4, "subtables": [[1, 2, true, -1, -1, -1, false]] }]
+    },
+    "arab/medi": {
+      "tag": "medi",
+      "script": "arab",
+      "lookups": [{ "index": 5, "subtables": [[1, 2, true, -1, -1, -1, false]] }]
+    },
+    "arab/fina": {
+      "tag": "fina",
+      "script": "arab",
+      "lookups": [{ "index": 6, "subtables": [[1, 2, true, -1, -1, -1, false]] }]
+    },
+    "arab/rlig": {
+      "tag": "rlig",
+      "script": "arab",
+      "lookups": [{ "index": 7, "subtables": [[4, 1, true, -1, -1, -1, true]] }]
+    },
+    "arab/liga": null,
+    "arab/isol": null,
+    "arab/calt": null,
+    "arab/locl": null,
+    "syrc/init": null,
+    "syrc/medi": null,
+    "syrc/fina": null,
+    "syrc/rlig": null,
+    "syrc/liga": null,
+    "syrc/isol": null,
+    "syrc/calt": null,
+    "syrc/locl": null,
+    "latn/init": null,
+    "latn/medi": null,
+    "latn/fina": null,
+    "latn/rlig": null,
+    "latn/liga": null,
+    "latn/isol": null,
+    "latn/calt": null,
+    "latn/locl": null,
+    "DFLT/init": {
+      "tag": "init",
+      "script": "DFLT",
+      "lookups": [{ "index": 4, "subtables": [[1, 2, true, -1, -1, -1, false]] }]
+    },
+    "DFLT/medi": {
+      "tag": "medi",
+      "script": "DFLT",
+      "lookups": [{ "index": 5, "subtables": [[1, 2, true, -1, -1, -1, false]] }]
+    },
+    "DFLT/fina": {
+      "tag": "fina",
+      "script": "DFLT",
+      "lookups": [{ "index": 6, "subtables": [[1, 2, true, -1, -1, -1, false]] }]
+    },
+    "DFLT/rlig": {
+      "tag": "rlig",
+      "script": "DFLT",
+      "lookups": [{ "index": 7, "subtables": [[4, 1, true, -1, -1, -1, true]] }]
+    },
+    "DFLT/liga": null,
+    "DFLT/isol": null,
+    "DFLT/calt": null,
+    "DFLT/locl": null,
+    "URD /init": null,
+    "URD /medi": null,
+    "URD /fina": null,
+    "URD /rlig": null,
+    "URD /liga": null,
+    "URD /isol": null,
+    "URD /calt": null,
+    "URD /locl": null,
+    "zzzz/init": null,
+    "zzzz/medi": null,
+    "zzzz/fina": null,
+    "zzzz/rlig": null,
+    "zzzz/liga": null,
+    "zzzz/isol": null,
+    "zzzz/calt": null,
+    "zzzz/locl": null,
+    "indexes": {
+      "arab": [0, 1, 2, 3, 4, 6, 7],
+      "syrc": [],
+      "latn": [],
+      "DFLT": [0, 2, 3, 4, 6, 7],
+      "URD ": [],
+      "MOL ": [],
+      "": []
+    }
+  },
+  "noto/NotoSansSyriacEastern-Regular.ttf": {
+    "arab/init": null,
+    "arab/medi": null,
+    "arab/fina": null,
+    "arab/rlig": null,
+    "arab/liga": null,
+    "arab/isol": null,
+    "arab/calt": null,
+    "arab/locl": null,
+    "syrc/init": {
+      "tag": "init",
+      "script": "syrc",
+      "lookups": [{ "index": 4, "subtables": [[1, 1, true, -1, -1, -1, false]] }]
+    },
+    "syrc/medi": {
+      "tag": "medi",
+      "script": "syrc",
+      "lookups": [{ "index": 5, "subtables": [[1, 1, true, -1, -1, -1, false]] }]
+    },
+    "syrc/fina": {
+      "tag": "fina",
+      "script": "syrc",
+      "lookups": [{ "index": 7, "subtables": [[1, 2, true, -1, -1, -1, false]] }]
+    },
+    "syrc/rlig": {
+      "tag": "rlig",
+      "script": "syrc",
+      "lookups": [{ "index": 10, "subtables": [[4, 1, true, -1, -1, -1, true]] }]
+    },
+    "syrc/liga": null,
+    "syrc/isol": null,
+    "syrc/calt": {
+      "tag": "calt",
+      "script": "syrc",
+      "lookups": [
+        {
+          "index": 13,
+          "subtables": [
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 1, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 1, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 1, 0, false]
+          ]
+        },
+        {
+          "index": 14,
+          "subtables": [
+            [6, 3, false, 1, 3, 0, false],
+            [6, 3, false, 1, 3, 0, false],
+            [6, 3, false, 1, 3, 0, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 1, 2, false],
+            [6, 3, false, 1, 1, 2, false],
+            [6, 3, false, 1, 1, 2, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 1, 1, false]
+          ]
+        },
+        {
+          "index": 15,
+          "subtables": [
+            [6, 3, false, 1, 1, 0, false],
+            [6, 3, false, 1, 1, 0, false]
+          ]
+        },
+        { "index": 16, "subtables": [[6, 3, false, 1, 1, 0, false]] },
+        { "index": 17, "subtables": [[6, 3, false, 1, 0, 1, false]] },
+        {
+          "index": 18,
+          "subtables": [
+            [6, 3, false, 1, 1, 0, false],
+            [6, 3, false, 1, 1, 0, false]
+          ]
+        },
+        {
+          "index": 19,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 20,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 21,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 22,
+          "subtables": [
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false]
+          ]
+        },
+        {
+          "index": 23,
+          "subtables": [
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false]
+          ]
+        },
+        {
+          "index": 24,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 25,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 26,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 27,
+          "subtables": [
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 28,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 29,
+          "subtables": [
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false]
+          ]
+        },
+        {
+          "index": 30,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 31,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 32,
+          "subtables": [
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false]
+          ]
+        },
+        {
+          "index": 33,
+          "subtables": [
+            [6, 3, false, 1, 3, 3, false],
+            [6, 3, false, 1, 3, 2, false],
+            [6, 3, false, 1, 3, 1, false],
+            [6, 3, false, 1, 2, 3, false],
+            [6, 3, false, 1, 2, 2, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 3, 3, false],
+            [6, 3, false, 1, 3, 2, false],
+            [6, 3, false, 1, 3, 1, false],
+            [6, 3, false, 1, 2, 3, false],
+            [6, 3, false, 1, 2, 2, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 3, 3, false],
+            [6, 3, false, 1, 3, 2, false],
+            [6, 3, false, 1, 3, 1, false],
+            [6, 3, false, 1, 2, 3, false],
+            [6, 3, false, 1, 2, 2, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 3, 3, false],
+            [6, 3, false, 1, 3, 2, false],
+            [6, 3, false, 1, 3, 1, false],
+            [6, 3, false, 1, 2, 3, false],
+            [6, 3, false, 1, 2, 2, false],
+            [6, 3, false, 1, 2, 1, false]
+          ]
+        },
+        {
+          "index": 34,
+          "subtables": [
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false]
+          ]
+        },
+        {
+          "index": 35,
+          "subtables": [
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false]
+          ]
+        },
+        { "index": 36, "subtables": [[6, 3, false, 1, 2, 0, false]] },
+        {
+          "index": 37,
+          "subtables": [
+            [6, 3, false, 1, 3, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 3, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 1, 1, false]
+          ]
+        },
+        {
+          "index": 38,
+          "subtables": [
+            [6, 3, false, 1, 1, 0, false],
+            [6, 3, false, 1, 1, 0, false]
+          ]
+        },
+        {
+          "index": 39,
+          "subtables": [
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false]
+          ]
+        },
+        {
+          "index": 40,
+          "subtables": [
+            [6, 3, false, 1, 3, 0, false],
+            [6, 3, false, 1, 3, 0, false],
+            [6, 3, false, 1, 3, 0, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 1, 2, false],
+            [6, 3, false, 1, 1, 2, false],
+            [6, 3, false, 1, 1, 2, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 0, false],
+            [6, 3, false, 1, 1, 0, false]
+          ]
+        },
+        { "index": 41, "subtables": [[6, 3, false, 1, 1, 0, false]] },
+        { "index": 42, "subtables": [[6, 3, false, 1, 1, 0, false]] },
+        { "index": 43, "subtables": [[6, 3, false, 1, 0, 1, false]] },
+        {
+          "index": 44,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        }
+      ]
+    },
+    "syrc/locl": null,
+    "latn/init": null,
+    "latn/medi": null,
+    "latn/fina": null,
+    "latn/rlig": null,
+    "latn/liga": null,
+    "latn/isol": null,
+    "latn/calt": null,
+    "latn/locl": null,
+    "DFLT/init": {
+      "tag": "init",
+      "script": "DFLT",
+      "lookups": [{ "index": 4, "subtables": [[1, 1, true, -1, -1, -1, false]] }]
+    },
+    "DFLT/medi": {
+      "tag": "medi",
+      "script": "DFLT",
+      "lookups": [{ "index": 5, "subtables": [[1, 1, true, -1, -1, -1, false]] }]
+    },
+    "DFLT/fina": {
+      "tag": "fina",
+      "script": "DFLT",
+      "lookups": [{ "index": 7, "subtables": [[1, 2, true, -1, -1, -1, false]] }]
+    },
+    "DFLT/rlig": {
+      "tag": "rlig",
+      "script": "DFLT",
+      "lookups": [{ "index": 10, "subtables": [[4, 1, true, -1, -1, -1, true]] }]
+    },
+    "DFLT/liga": null,
+    "DFLT/isol": null,
+    "DFLT/calt": {
+      "tag": "calt",
+      "script": "DFLT",
+      "lookups": [
+        {
+          "index": 13,
+          "subtables": [
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 1, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 1, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 1, 0, false]
+          ]
+        },
+        {
+          "index": 14,
+          "subtables": [
+            [6, 3, false, 1, 3, 0, false],
+            [6, 3, false, 1, 3, 0, false],
+            [6, 3, false, 1, 3, 0, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 1, 2, false],
+            [6, 3, false, 1, 1, 2, false],
+            [6, 3, false, 1, 1, 2, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 1, 1, false]
+          ]
+        },
+        {
+          "index": 15,
+          "subtables": [
+            [6, 3, false, 1, 1, 0, false],
+            [6, 3, false, 1, 1, 0, false]
+          ]
+        },
+        { "index": 16, "subtables": [[6, 3, false, 1, 1, 0, false]] },
+        { "index": 17, "subtables": [[6, 3, false, 1, 0, 1, false]] },
+        {
+          "index": 18,
+          "subtables": [
+            [6, 3, false, 1, 1, 0, false],
+            [6, 3, false, 1, 1, 0, false]
+          ]
+        },
+        {
+          "index": 19,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 20,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 21,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 22,
+          "subtables": [
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false]
+          ]
+        },
+        {
+          "index": 23,
+          "subtables": [
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false]
+          ]
+        },
+        {
+          "index": 24,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 25,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 26,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 27,
+          "subtables": [
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 3, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 28,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 29,
+          "subtables": [
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false],
+            [6, 3, false, 1, 0, 2, false]
+          ]
+        },
+        {
+          "index": 30,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 31,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        },
+        {
+          "index": 32,
+          "subtables": [
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false]
+          ]
+        },
+        {
+          "index": 33,
+          "subtables": [
+            [6, 3, false, 1, 3, 3, false],
+            [6, 3, false, 1, 3, 2, false],
+            [6, 3, false, 1, 3, 1, false],
+            [6, 3, false, 1, 2, 3, false],
+            [6, 3, false, 1, 2, 2, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 3, 3, false],
+            [6, 3, false, 1, 3, 2, false],
+            [6, 3, false, 1, 3, 1, false],
+            [6, 3, false, 1, 2, 3, false],
+            [6, 3, false, 1, 2, 2, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 3, 3, false],
+            [6, 3, false, 1, 3, 2, false],
+            [6, 3, false, 1, 3, 1, false],
+            [6, 3, false, 1, 2, 3, false],
+            [6, 3, false, 1, 2, 2, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 3, 3, false],
+            [6, 3, false, 1, 3, 2, false],
+            [6, 3, false, 1, 3, 1, false],
+            [6, 3, false, 1, 2, 3, false],
+            [6, 3, false, 1, 2, 2, false],
+            [6, 3, false, 1, 2, 1, false]
+          ]
+        },
+        {
+          "index": 34,
+          "subtables": [
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false]
+          ]
+        },
+        {
+          "index": 35,
+          "subtables": [
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false]
+          ]
+        },
+        { "index": 36, "subtables": [[6, 3, false, 1, 2, 0, false]] },
+        {
+          "index": 37,
+          "subtables": [
+            [6, 3, false, 1, 3, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 3, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 1, 1, false]
+          ]
+        },
+        {
+          "index": 38,
+          "subtables": [
+            [6, 3, false, 1, 1, 0, false],
+            [6, 3, false, 1, 1, 0, false]
+          ]
+        },
+        {
+          "index": 39,
+          "subtables": [
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false]
+          ]
+        },
+        {
+          "index": 40,
+          "subtables": [
+            [6, 3, false, 1, 3, 0, false],
+            [6, 3, false, 1, 3, 0, false],
+            [6, 3, false, 1, 3, 0, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 2, 1, false],
+            [6, 3, false, 1, 1, 2, false],
+            [6, 3, false, 1, 1, 2, false],
+            [6, 3, false, 1, 1, 2, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 2, 0, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 1, false],
+            [6, 3, false, 1, 1, 0, false],
+            [6, 3, false, 1, 1, 0, false]
+          ]
+        },
+        { "index": 41, "subtables": [[6, 3, false, 1, 1, 0, false]] },
+        { "index": 42, "subtables": [[6, 3, false, 1, 1, 0, false]] },
+        { "index": 43, "subtables": [[6, 3, false, 1, 0, 1, false]] },
+        {
+          "index": 44,
+          "subtables": [
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false],
+            [6, 3, false, 1, 0, 1, false]
+          ]
+        }
+      ]
+    },
+    "DFLT/locl": null,
+    "URD /init": null,
+    "URD /medi": null,
+    "URD /fina": null,
+    "URD /rlig": null,
+    "URD /liga": null,
+    "URD /isol": null,
+    "URD /calt": null,
+    "URD /locl": null,
+    "zzzz/init": null,
+    "zzzz/medi": null,
+    "zzzz/fina": null,
+    "zzzz/rlig": null,
+    "zzzz/liga": null,
+    "zzzz/isol": null,
+    "zzzz/calt": null,
+    "zzzz/locl": null,
+    "indexes": {
+      "arab": [],
+      "syrc": [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27],
+      "latn": [],
+      "DFLT": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26],
+      "URD ": [],
+      "MOL ": [],
+      "": []
+    }
+  },
+  "OpenSans-Regular.ttf": {
+    "arab/init": null,
+    "arab/medi": null,
+    "arab/fina": null,
+    "arab/rlig": null,
+    "arab/liga": null,
+    "arab/isol": null,
+    "arab/calt": null,
+    "arab/locl": null,
+    "syrc/init": null,
+    "syrc/medi": null,
+    "syrc/fina": null,
+    "syrc/rlig": null,
+    "syrc/liga": null,
+    "syrc/isol": null,
+    "syrc/calt": null,
+    "syrc/locl": null,
+    "latn/init": null,
+    "latn/medi": null,
+    "latn/fina": null,
+    "latn/rlig": null,
+    "latn/liga": {
+      "tag": "liga",
+      "script": "latn",
+      "lookups": [{ "index": 9, "subtables": [[4, 1, true, -1, -1, -1, true]] }]
+    },
+    "latn/isol": null,
+    "latn/calt": null,
+    "latn/locl": null,
+    "DFLT/init": null,
+    "DFLT/medi": null,
+    "DFLT/fina": null,
+    "DFLT/rlig": null,
+    "DFLT/liga": null,
+    "DFLT/isol": null,
+    "DFLT/calt": null,
+    "DFLT/locl": null,
+    "URD /init": null,
+    "URD /medi": null,
+    "URD /fina": null,
+    "URD /rlig": null,
+    "URD /liga": null,
+    "URD /isol": null,
+    "URD /calt": null,
+    "URD /locl": null,
+    "zzzz/init": null,
+    "zzzz/medi": null,
+    "zzzz/fina": null,
+    "zzzz/rlig": null,
+    "zzzz/liga": null,
+    "zzzz/isol": null,
+    "zzzz/calt": null,
+    "zzzz/locl": null,
+    "indexes": {
+      "arab": [],
+      "syrc": [],
+      "latn": [3, 8, 11, 0, 14, 17, 20, 23, 26],
+      "DFLT": [],
+      "URD ": [],
+      "MOL ": [],
+      "": []
+    }
+  }
+}

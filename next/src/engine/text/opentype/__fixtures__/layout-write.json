@@ -1,0 +1,234 @@
+{
+  "added": {
+    "gsub": {
+      "version": 1,
+      "scripts": [
+        {
+          "tag": "DFLT",
+          "script": {
+            "defaultLangSys": {
+              "reserved": 0,
+              "reqFeatureIndex": 65535,
+              "featureIndexes": [0, 1, 3]
+            },
+            "langSysRecords": []
+          }
+        },
+        {
+          "tag": "cyrl",
+          "script": {
+            "defaultLangSys": { "reserved": 0, "reqFeatureIndex": 65535, "featureIndexes": [4] },
+            "langSysRecords": []
+          }
+        },
+        {
+          "tag": "latn",
+          "script": {
+            "defaultLangSys": { "reserved": 0, "reqFeatureIndex": 65535, "featureIndexes": [] },
+            "langSysRecords": [
+              {
+                "tag": "ROM ",
+                "langSys": { "reserved": 0, "reqFeatureIndex": 65535, "featureIndexes": [2] }
+              }
+            ]
+          }
+        }
+      ],
+      "features": [
+        { "tag": "aalt", "feature": { "params": 0, "lookupListIndexes": [0, 1] } },
+        { "tag": "liga", "feature": { "params": 0, "lookupListIndexes": [2] } },
+        { "tag": "salt", "feature": { "params": 0, "lookupListIndexes": [3] } },
+        { "tag": "ss01", "feature": { "params": 0, "lookupListIndexes": [4] } },
+        { "tag": "ss02", "feature": { "params": 0, "lookupListIndexes": [5] } }
+      ],
+      "lookups": [
+        {
+          "lookupType": 1,
+          "lookupFlag": 0,
+          "subtables": [
+            { "substFormat": 2, "coverage": { "format": 1, "glyphs": [5] }, "substitute": [9] }
+          ]
+        },
+        {
+          "lookupType": 3,
+          "lookupFlag": 0,
+          "subtables": [
+            {
+              "substFormat": 1,
+              "coverage": { "format": 1, "glyphs": [2, 3] },
+              "alternateSets": [[10], [7, 8]]
+            }
+          ]
+        },
+        {
+          "lookupType": 4,
+          "lookupFlag": 0,
+          "subtables": [
+            {
+              "substFormat": 1,
+              "coverage": { "format": 1, "glyphs": [70, 73] },
+              "ligatureSets": [
+                [{ "ligGlyph": 303, "components": [70] }],
+                [
+                  { "ligGlyph": 300, "components": [76] },
+                  { "ligGlyph": 301, "components": [73, 76] }
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "lookupType": 1,
+          "lookupFlag": 0,
+          "subtables": [
+            { "substFormat": 2, "coverage": { "format": 1, "glyphs": [9] }, "substitute": [10] }
+          ]
+        },
+        {
+          "lookupType": 1,
+          "lookupFlag": 0,
+          "subtables": [
+            { "substFormat": 2, "coverage": { "format": 1, "glyphs": [4] }, "substitute": [44] }
+          ]
+        },
+        {
+          "lookupType": 1,
+          "lookupFlag": 0,
+          "subtables": [
+            { "substFormat": 2, "coverage": { "format": 1, "glyphs": [4] }, "substitute": [45] }
+          ]
+        }
+      ]
+    },
+    "err": null,
+    "back": {
+      "aalt": [
+        { "sub": 5, "by": 9 },
+        { "sub": 2, "by": [10] },
+        { "sub": 3, "by": [7, 8] }
+      ],
+      "liga": [
+        { "sub": [70, 70], "by": 303 },
+        { "sub": [73, 76], "by": 300 },
+        { "sub": [73, 73, 76], "by": 301 }
+      ],
+      "ss01": [{ "sub": 4, "by": 44 }],
+      "salt": [{ "sub": 9, "by": 10 }]
+    },
+    "bytes": "AAEAAAAKAFIAkgADREZMVAAUY3lybAAkbGF0bgAwAAQAAAAA//8AAwAAAAEAAwAEAAAAAP//AAEABAAKAAFST00gABAAAP//AAAAAP//AAEAAgAFYWFsdAAgbGlnYQAoc2FsdAAuc3MwMQA0c3MwMgA6AAAAAgAAAAEAAAABAAIAAAABAAMAAAABAAQAAAABAAUABgAOACQASACAAJYArAABAAAAAQAIAAIACAABAAkAAQABAAUAAwAAAAEACAABAAoAAgASABYAAQACAAIAAwABAAoAAgAHAAgABAAAAAEACAABAAoAAgASABwAAQACAEYASQABAAQBLwACAEYAAgAGAAwBLAACAEwBLQADAEkATAABAAAAAQAIAAIACAABAAoAAQABAAkAAQAAAAEACAACAAgAAQAsAAEAAQAEAAEAAAABAAgAAgAIAAEALQABAAEABA==",
+    "reparsed": {
+      "version": 1,
+      "scripts": [
+        {
+          "tag": "DFLT",
+          "script": {
+            "defaultLangSys": {
+              "reserved": 0,
+              "reqFeatureIndex": 65535,
+              "featureIndexes": [0, 1, 3]
+            },
+            "langSysRecords": []
+          }
+        },
+        {
+          "tag": "cyrl",
+          "script": {
+            "defaultLangSys": { "reserved": 0, "reqFeatureIndex": 65535, "featureIndexes": [4] },
+            "langSysRecords": []
+          }
+        },
+        {
+          "tag": "latn",
+          "script": {
+            "defaultLangSys": { "reserved": 0, "reqFeatureIndex": 65535, "featureIndexes": [] },
+            "langSysRecords": [
+              {
+                "tag": "ROM ",
+                "langSys": { "reserved": 0, "reqFeatureIndex": 65535, "featureIndexes": [2] }
+              }
+            ]
+          }
+        }
+      ],
+      "features": [
+        { "tag": "aalt", "feature": { "featureParams": 0, "lookupListIndexes": [0, 1] } },
+        { "tag": "liga", "feature": { "featureParams": 0, "lookupListIndexes": [2] } },
+        { "tag": "salt", "feature": { "featureParams": 0, "lookupListIndexes": [3] } },
+        { "tag": "ss01", "feature": { "featureParams": 0, "lookupListIndexes": [4] } },
+        { "tag": "ss02", "feature": { "featureParams": 0, "lookupListIndexes": [5] } }
+      ],
+      "lookups": [
+        {
+          "lookupType": 1,
+          "lookupFlag": 0,
+          "subtables": [
+            { "substFormat": 2, "coverage": { "format": 1, "glyphs": [5] }, "substitute": [9] }
+          ]
+        },
+        {
+          "lookupType": 3,
+          "lookupFlag": 0,
+          "subtables": [
+            {
+              "substFormat": 1,
+              "coverage": { "format": 1, "glyphs": [2, 3] },
+              "alternateSets": [[10], [7, 8]]
+            }
+          ]
+        },
+        {
+          "lookupType": 4,
+          "lookupFlag": 0,
+          "subtables": [
+            {
+              "substFormat": 1,
+              "coverage": { "format": 1, "glyphs": [70, 73] },
+              "ligatureSets": [
+                [{ "ligGlyph": 303, "components": [70] }],
+                [
+                  { "ligGlyph": 300, "components": [76] },
+                  { "ligGlyph": 301, "components": [73, 76] }
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "lookupType": 1,
+          "lookupFlag": 0,
+          "subtables": [
+            { "substFormat": 2, "coverage": { "format": 1, "glyphs": [9] }, "substitute": [10] }
+          ]
+        },
+        {
+          "lookupType": 1,
+          "lookupFlag": 0,
+          "subtables": [
+            { "substFormat": 2, "coverage": { "format": 1, "glyphs": [4] }, "substitute": [44] }
+          ]
+        },
+        {
+          "lookupType": 1,
+          "lookupFlag": 0,
+          "subtables": [
+            { "substFormat": 2, "coverage": { "format": 1, "glyphs": [4] }, "substitute": [45] }
+          ]
+        }
+      ]
+    }
+  },
+  "OpenSans-Regular.ttf": {
+    "gsubError": "Can't create coverage table format 2 yet.",
+    "gposLength": 56,
+    "gposHash": "149aa69acf1640c10af8c587727df956b4f2adebe71649e1a0fccacc3255e415",
+    "gposEmptyHash": "149aa69acf1640c10af8c587727df956b4f2adebe71649e1a0fccacc3255e415",
+    "gposEmptyLength": 56
+  },
+  "noto/NotoSansArabic-Regular.ttf": {
+    "gsubLength": 11318,
+    "gsubHash": "b121b587e78f87768c249811f03badf176fce3b83afa622a89272a296e7a3d6f",
+    "gposError": "Unable to write GSUB lookup type 8 tables.",
+    "gposEmptyHash": "089a65a85e6c17524733039175cd85f4dd8591a88ea9be1d6a7560a3b15cfe44",
+    "gposEmptyLength": 104
+  }
+}

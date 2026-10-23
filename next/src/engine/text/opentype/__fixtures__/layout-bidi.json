@@ -1,0 +1,1334 @@
+{
+  "noto/NotoSansArabic-Regular.ttf": {
+    "undefined|مرحبا": {
+      "glyphs": [535, 239, 158, 37, 9],
+      "chars": ["م", "ر", "ح", "ب", "ا"],
+      "text": "مرحبا",
+      "states": [
+        ["init", false],
+        ["fina", false],
+        ["init", false],
+        ["medi", false],
+        ["fina", false]
+      ],
+      "ranges": { "word": [[0, 5, "arabicWord.0"]], "sentence": [[0, 5]] }
+    },
+    "undefined|السلام عليكم": {
+      "glyphs": [7, 510, 289, 859, 531, 3, 357, 509, 646, 423, 533],
+      "chars": ["ا", "ل", "س", "ل", "م", " ", "ع", "ل", "ي", "ك", "م"],
+      "text": "السلام عليكم",
+      "states": [
+        ["glyphIndex", false],
+        ["init", false],
+        ["medi", false],
+        ["rlig", false],
+        ["fina", true],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["init", false],
+        ["medi", false],
+        ["medi", false],
+        ["medi", false],
+        ["fina", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 6, "arabicWord.0"],
+          [7, 5, "arabicWord.1"]
+        ],
+        "sentence": [[0, 12]]
+      }
+    },
+    "undefined|لا إله": {
+      "glyphs": [857, 3, 13, 510, 565],
+      "chars": ["ل", " ", "إ", "ل", "ه"],
+      "text": "لا إله",
+      "states": [
+        ["rlig", false],
+        ["fina", true],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["init", false],
+        ["fina", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 2, "arabicWord.0"],
+          [3, 3, "arabicWord.1"]
+        ],
+        "sentence": [[0, 6]]
+      }
+    },
+    "undefined|abc مرحبا 123": {
+      "glyphs": [0, 0, 0, 3, 535, 239, 158, 37, 9, 3, 1421, 1422, 1423],
+      "chars": ["a", "b", "c", " ", "م", "ر", "ح", "ب", "ا", " ", "1", "2", "3"],
+      "text": "abc مرحبا 123",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["init", false],
+        ["fina", false],
+        ["init", false],
+        ["medi", false],
+        ["fina", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[4, 5, "arabicWord.0"]], "sentence": [[4, 5]] }
+    },
+    "undefined|بِسْمِ اللَّهِ": {
+      "glyphs": [38, 1553, 289, 1562, 533, 1553, 3, 7, 510, 509, 1554, 1551, 565, 1553],
+      "chars": ["ب", "ِ", "س", "ْ", "م", "ِ", " ", "ا", "ل", "ل", "ّ", "َ", "ه", "ِ"],
+      "text": "بِسْمِ اللَّهِ",
+      "states": [
+        ["init", false],
+        ["glyphIndex", false],
+        ["medi", false],
+        ["glyphIndex", false],
+        ["fina", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["init", false],
+        ["medi", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["fina", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 6, "arabicWord.0"],
+          [7, 7, "arabicWord.1"]
+        ],
+        "sentence": [[0, 14]]
+      }
+    },
+    "undefined|ب": {
+      "glyphs": [34],
+      "chars": ["ب"],
+      "text": "ب",
+      "states": [["glyphIndex", false]],
+      "ranges": { "word": [[0, 1, "arabicWord.0"]], "sentence": [[0, 1]] }
+    },
+    "undefined|لله": {
+      "glyphs": [510, 509, 565],
+      "chars": ["ل", "ل", "ه"],
+      "text": "لله",
+      "states": [
+        ["init", false],
+        ["medi", false],
+        ["fina", false]
+      ],
+      "ranges": { "word": [[0, 3, "arabicWord.0"]], "sentence": [[0, 3]] }
+    },
+    "undefined|Hello, world": {
+      "glyphs": [0, 0, 0, 0, 0, 1458, 3, 0, 0, 0, 0, 0],
+      "chars": ["H", "e", "l", "l", "o", ",", " ", "w", "o", "r", "l", "d"],
+      "text": "Hello, world",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "undefined|ܫܠܡܐ": {
+      "glyphs": [0, 0, 0, 0],
+      "chars": ["ܫ", "ܠ", "ܡ", "ܐ"],
+      "text": "ܫܠܡܐ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "undefined|مرحبا\nعالم": {
+      "glyphs": [535, 239, 158, 37, 9, 0, 357, 9, 510, 533],
+      "chars": ["م", "ر", "ح", "ب", "ا", "\n", "ع", "ا", "ل", "م"],
+      "text": "مرحبا\nعالم",
+      "states": [
+        ["init", false],
+        ["fina", false],
+        ["init", false],
+        ["medi", false],
+        ["fina", false],
+        ["glyphIndex", false],
+        ["init", false],
+        ["fina", false],
+        ["init", false],
+        ["fina", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 5, "arabicWord.0"],
+          [6, 4, "arabicWord.1"]
+        ],
+        "sentence": [[0, 10]]
+      }
+    },
+    "undefined|a": {
+      "glyphs": [0],
+      "chars": ["a"],
+      "text": "a",
+      "states": [["glyphIndex", false]],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "undefined|": {
+      "glyphs": [],
+      "chars": [],
+      "text": "",
+      "states": [],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "undefined|ـبـ": {
+      "glyphs": [805, 37, 805],
+      "chars": ["ـ", "ب", "ـ"],
+      "text": "ـبـ",
+      "states": [
+        ["glyphIndex", false],
+        ["medi", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 3, "arabicWord.0"]], "sentence": [[0, 3]] }
+    },
+    "undefined|😀مرحبا": {
+      "glyphs": [0, 535, 239, 158, 37, 9],
+      "chars": ["😀", "م", "ر", "ح", "ب", "ا"],
+      "text": "😀مرحبا",
+      "states": [
+        ["glyphIndex", false],
+        ["init", false],
+        ["fina", false],
+        ["init", false],
+        ["medi", false],
+        ["fina", false]
+      ],
+      "ranges": { "word": [[1, 5, "arabicWord.0"]], "sentence": [[1, 5]] }
+    },
+    "rtl|مرحبا": {
+      "glyphs": [535, 239, 158, 37, 9],
+      "chars": ["م", "ر", "ح", "ب", "ا"],
+      "text": "مرحبا",
+      "states": [
+        ["init", false],
+        ["fina", false],
+        ["init", false],
+        ["medi", false],
+        ["fina", false]
+      ],
+      "ranges": { "word": [[0, 5, "arabicWord.0"]], "sentence": [[0, 5]] }
+    },
+    "rtl|السلام عليكم": {
+      "glyphs": [7, 510, 289, 509, 9, 531, 3, 357, 509, 646, 423, 533],
+      "chars": ["ا", "ل", "س", "ل", "ا", "م", " ", "ع", "ل", "ي", "ك", "م"],
+      "text": "السلام عليكم",
+      "states": [
+        ["glyphIndex", false],
+        ["init", false],
+        ["medi", false],
+        ["medi", false],
+        ["fina", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["init", false],
+        ["medi", false],
+        ["medi", false],
+        ["medi", false],
+        ["fina", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 6, "arabicWord.0"],
+          [7, 5, "arabicWord.1"]
+        ],
+        "sentence": [[0, 12]]
+      }
+    },
+    "rtl|لا إله": {
+      "glyphs": [857, 3, 13, 510, 565],
+      "chars": ["ل", " ", "إ", "ل", "ه"],
+      "text": "لا إله",
+      "states": [
+        ["rlig", false],
+        ["fina", true],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["init", false],
+        ["fina", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 2, "arabicWord.0"],
+          [3, 3, "arabicWord.1"]
+        ],
+        "sentence": [[0, 6]]
+      }
+    },
+    "rtl|abc مرحبا 123": {
+      "glyphs": [0, 0, 0, 3, 535, 239, 158, 37, 9, 3, 1421, 1422, 1423],
+      "chars": ["a", "b", "c", " ", "م", "ر", "ح", "ب", "ا", " ", "1", "2", "3"],
+      "text": "abc مرحبا 123",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["init", false],
+        ["fina", false],
+        ["init", false],
+        ["medi", false],
+        ["fina", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[4, 5, "arabicWord.0"]], "sentence": [[4, 5]] }
+    },
+    "rtl|بِسْمِ اللَّهِ": {
+      "glyphs": [38, 1553, 289, 1562, 533, 1553, 3, 7, 510, 509, 1554, 1551, 565, 1553],
+      "chars": ["ب", "ِ", "س", "ْ", "م", "ِ", " ", "ا", "ل", "ل", "ّ", "َ", "ه", "ِ"],
+      "text": "بِسْمِ اللَّهِ",
+      "states": [
+        ["init", false],
+        ["glyphIndex", false],
+        ["medi", false],
+        ["glyphIndex", false],
+        ["fina", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["init", false],
+        ["medi", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["fina", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 6, "arabicWord.0"],
+          [7, 7, "arabicWord.1"]
+        ],
+        "sentence": [[0, 14]]
+      }
+    },
+    "rtl|ب": {
+      "glyphs": [34],
+      "chars": ["ب"],
+      "text": "ب",
+      "states": [["glyphIndex", false]],
+      "ranges": { "word": [[0, 1, "arabicWord.0"]], "sentence": [[0, 1]] }
+    },
+    "rtl|لله": {
+      "glyphs": [510, 509, 565],
+      "chars": ["ل", "ل", "ه"],
+      "text": "لله",
+      "states": [
+        ["init", false],
+        ["medi", false],
+        ["fina", false]
+      ],
+      "ranges": { "word": [[0, 3, "arabicWord.0"]], "sentence": [[0, 3]] }
+    },
+    "rtl|Hello, world": {
+      "glyphs": [0, 0, 0, 0, 0, 1458, 3, 0, 0, 0, 0, 0],
+      "chars": ["H", "e", "l", "l", "o", ",", " ", "w", "o", "r", "l", "d"],
+      "text": "Hello, world",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "rtl|ܫܠܡܐ": {
+      "glyphs": [0, 0, 0, 0],
+      "chars": ["ܫ", "ܠ", "ܡ", "ܐ"],
+      "text": "ܫܠܡܐ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "rtl|مرحبا\nعالم": {
+      "glyphs": [535, 239, 158, 37, 9, 0, 357, 9, 510, 533],
+      "chars": ["م", "ر", "ح", "ب", "ا", "\n", "ع", "ا", "ل", "م"],
+      "text": "مرحبا\nعالم",
+      "states": [
+        ["init", false],
+        ["fina", false],
+        ["init", false],
+        ["medi", false],
+        ["fina", false],
+        ["glyphIndex", false],
+        ["init", false],
+        ["fina", false],
+        ["init", false],
+        ["fina", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 5, "arabicWord.0"],
+          [6, 4, "arabicWord.1"]
+        ],
+        "sentence": [[0, 10]]
+      }
+    },
+    "rtl|a": {
+      "glyphs": [0],
+      "chars": ["a"],
+      "text": "a",
+      "states": [["glyphIndex", false]],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "rtl|": {
+      "glyphs": [],
+      "chars": [],
+      "text": "",
+      "states": [],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "rtl|ـبـ": {
+      "glyphs": [805, 37, 805],
+      "chars": ["ـ", "ب", "ـ"],
+      "text": "ـبـ",
+      "states": [
+        ["glyphIndex", false],
+        ["medi", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 3, "arabicWord.0"]], "sentence": [[0, 3]] }
+    },
+    "rtl|😀مرحبا": {
+      "glyphs": [0, 535, 239, 158, 37, 9],
+      "chars": ["😀", "م", "ر", "ح", "ب", "ا"],
+      "text": "😀مرحبا",
+      "states": [
+        ["glyphIndex", false],
+        ["init", false],
+        ["fina", false],
+        ["init", false],
+        ["medi", false],
+        ["fina", false]
+      ],
+      "ranges": { "word": [[1, 5, "arabicWord.0"]], "sentence": [[1, 5]] }
+    }
+  },
+  "noto/NotoSansSyriacEastern-Regular.ttf": {
+    "undefined|مرحبا": {
+      "glyphs": [0, 0, 0, 0, 0],
+      "chars": ["م", "ر", "ح", "ب", "ا"],
+      "text": "مرحبا",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 5, "arabicWord.0"]], "sentence": [[0, 5]] }
+    },
+    "undefined|السلام عليكم": {
+      "glyphs": [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0],
+      "chars": ["ا", "ل", "س", "ل", "ا", "م", " ", "ع", "ل", "ي", "ك", "م"],
+      "text": "السلام عليكم",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 6, "arabicWord.0"],
+          [7, 5, "arabicWord.1"]
+        ],
+        "sentence": [[0, 12]]
+      }
+    },
+    "undefined|لا إله": {
+      "glyphs": [0, 0, 3, 0, 0, 0],
+      "chars": ["ل", "ا", " ", "إ", "ل", "ه"],
+      "text": "لا إله",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 2, "arabicWord.0"],
+          [3, 3, "arabicWord.1"]
+        ],
+        "sentence": [[0, 6]]
+      }
+    },
+    "undefined|abc مرحبا 123": {
+      "glyphs": [0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0],
+      "chars": ["a", "b", "c", " ", "م", "ر", "ح", "ب", "ا", " ", "1", "2", "3"],
+      "text": "abc مرحبا 123",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[4, 5, "arabicWord.0"]], "sentence": [[4, 5]] }
+    },
+    "undefined|بِسْمِ اللَّهِ": {
+      "glyphs": [0, 184, 0, 186, 0, 184, 3, 0, 0, 0, 185, 182, 0, 184],
+      "chars": ["ب", "ِ", "س", "ْ", "م", "ِ", " ", "ا", "ل", "ل", "ّ", "َ", "ه", "ِ"],
+      "text": "بِسْمِ اللَّهِ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 6, "arabicWord.0"],
+          [7, 7, "arabicWord.1"]
+        ],
+        "sentence": [[0, 14]]
+      }
+    },
+    "undefined|ب": {
+      "glyphs": [0],
+      "chars": ["ب"],
+      "text": "ب",
+      "states": [["glyphIndex", false]],
+      "ranges": { "word": [[0, 1, "arabicWord.0"]], "sentence": [[0, 1]] }
+    },
+    "undefined|لله": {
+      "glyphs": [0, 0, 0],
+      "chars": ["ل", "ل", "ه"],
+      "text": "لله",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 3, "arabicWord.0"]], "sentence": [[0, 3]] }
+    },
+    "undefined|Hello, world": {
+      "glyphs": [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0],
+      "chars": ["H", "e", "l", "l", "o", ",", " ", "w", "o", "r", "l", "d"],
+      "text": "Hello, world",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "undefined|ܫܠܡܐ": {
+      "glyphs": [97, 57, 61, 8],
+      "chars": ["ܫ", "ܠ", "ܡ", "ܐ"],
+      "text": "ܫܠܡܐ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "undefined|مرحبا\nعالم": {
+      "glyphs": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "chars": ["م", "ر", "ح", "ب", "ا", "\n", "ع", "ا", "ل", "م"],
+      "text": "مرحبا\nعالم",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 5, "arabicWord.0"],
+          [6, 4, "arabicWord.1"]
+        ],
+        "sentence": [[0, 10]]
+      }
+    },
+    "undefined|a": {
+      "glyphs": [0],
+      "chars": ["a"],
+      "text": "a",
+      "states": [["glyphIndex", false]],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "undefined|": {
+      "glyphs": [],
+      "chars": [],
+      "text": "",
+      "states": [],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "undefined|ـبـ": {
+      "glyphs": [124, 0, 124],
+      "chars": ["ـ", "ب", "ـ"],
+      "text": "ـبـ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 3, "arabicWord.0"]], "sentence": [[0, 3]] }
+    },
+    "undefined|😀مرحبا": {
+      "glyphs": [0, 0, 0, 0, 0, 0],
+      "chars": ["😀", "م", "ر", "ح", "ب", "ا"],
+      "text": "😀مرحبا",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[1, 5, "arabicWord.0"]], "sentence": [[1, 5]] }
+    },
+    "rtl|مرحبا": {
+      "glyphs": [0, 0, 0, 0, 0],
+      "chars": ["م", "ر", "ح", "ب", "ا"],
+      "text": "مرحبا",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 5, "arabicWord.0"]], "sentence": [[0, 5]] }
+    },
+    "rtl|السلام عليكم": {
+      "glyphs": [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0],
+      "chars": ["ا", "ل", "س", "ل", "ا", "م", " ", "ع", "ل", "ي", "ك", "م"],
+      "text": "السلام عليكم",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 6, "arabicWord.0"],
+          [7, 5, "arabicWord.1"]
+        ],
+        "sentence": [[0, 12]]
+      }
+    },
+    "rtl|لا إله": {
+      "glyphs": [0, 0, 3, 0, 0, 0],
+      "chars": ["ل", "ا", " ", "إ", "ل", "ه"],
+      "text": "لا إله",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 2, "arabicWord.0"],
+          [3, 3, "arabicWord.1"]
+        ],
+        "sentence": [[0, 6]]
+      }
+    },
+    "rtl|abc مرحبا 123": {
+      "glyphs": [0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0],
+      "chars": ["a", "b", "c", " ", "م", "ر", "ح", "ب", "ا", " ", "1", "2", "3"],
+      "text": "abc مرحبا 123",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[4, 5, "arabicWord.0"]], "sentence": [[4, 5]] }
+    },
+    "rtl|بِسْمِ اللَّهِ": {
+      "glyphs": [0, 184, 0, 186, 0, 184, 3, 0, 0, 0, 185, 182, 0, 184],
+      "chars": ["ب", "ِ", "س", "ْ", "م", "ِ", " ", "ا", "ل", "ل", "ّ", "َ", "ه", "ِ"],
+      "text": "بِسْمِ اللَّهِ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 6, "arabicWord.0"],
+          [7, 7, "arabicWord.1"]
+        ],
+        "sentence": [[0, 14]]
+      }
+    },
+    "rtl|ب": {
+      "glyphs": [0],
+      "chars": ["ب"],
+      "text": "ب",
+      "states": [["glyphIndex", false]],
+      "ranges": { "word": [[0, 1, "arabicWord.0"]], "sentence": [[0, 1]] }
+    },
+    "rtl|لله": {
+      "glyphs": [0, 0, 0],
+      "chars": ["ل", "ل", "ه"],
+      "text": "لله",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 3, "arabicWord.0"]], "sentence": [[0, 3]] }
+    },
+    "rtl|Hello, world": {
+      "glyphs": [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0],
+      "chars": ["H", "e", "l", "l", "o", ",", " ", "w", "o", "r", "l", "d"],
+      "text": "Hello, world",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "rtl|ܫܠܡܐ": {
+      "glyphs": [97, 57, 61, 8],
+      "chars": ["ܫ", "ܠ", "ܡ", "ܐ"],
+      "text": "ܫܠܡܐ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "rtl|مرحبا\nعالم": {
+      "glyphs": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "chars": ["م", "ر", "ح", "ب", "ا", "\n", "ع", "ا", "ل", "م"],
+      "text": "مرحبا\nعالم",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 5, "arabicWord.0"],
+          [6, 4, "arabicWord.1"]
+        ],
+        "sentence": [[0, 10]]
+      }
+    },
+    "rtl|a": {
+      "glyphs": [0],
+      "chars": ["a"],
+      "text": "a",
+      "states": [["glyphIndex", false]],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "rtl|": {
+      "glyphs": [],
+      "chars": [],
+      "text": "",
+      "states": [],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "rtl|ـبـ": {
+      "glyphs": [124, 0, 124],
+      "chars": ["ـ", "ب", "ـ"],
+      "text": "ـبـ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 3, "arabicWord.0"]], "sentence": [[0, 3]] }
+    },
+    "rtl|😀مرحبا": {
+      "glyphs": [0, 0, 0, 0, 0, 0],
+      "chars": ["😀", "م", "ر", "ح", "ب", "ا"],
+      "text": "😀مرحبا",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[1, 5, "arabicWord.0"]], "sentence": [[1, 5]] }
+    }
+  },
+  "OpenSans-Regular.ttf": {
+    "undefined|مرحبا": {
+      "glyphs": [0, 0, 0, 0, 0],
+      "chars": ["م", "ر", "ح", "ب", "ا"],
+      "text": "مرحبا",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 5, "arabicWord.0"]], "sentence": [[0, 5]] }
+    },
+    "undefined|السلام عليكم": {
+      "glyphs": [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0],
+      "chars": ["ا", "ل", "س", "ل", "ا", "م", " ", "ع", "ل", "ي", "ك", "م"],
+      "text": "السلام عليكم",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 6, "arabicWord.0"],
+          [7, 5, "arabicWord.1"]
+        ],
+        "sentence": [[0, 12]]
+      }
+    },
+    "undefined|لا إله": {
+      "glyphs": [0, 0, 3, 0, 0, 0],
+      "chars": ["ل", "ا", " ", "إ", "ل", "ه"],
+      "text": "لا إله",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 2, "arabicWord.0"],
+          [3, 3, "arabicWord.1"]
+        ],
+        "sentence": [[0, 6]]
+      }
+    },
+    "undefined|abc مرحبا 123": {
+      "glyphs": [68, 69, 70, 3, 0, 0, 0, 0, 0, 3, 20, 21, 22],
+      "chars": ["a", "b", "c", " ", "م", "ر", "ح", "ب", "ا", " ", "1", "2", "3"],
+      "text": "abc مرحبا 123",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[4, 5, "arabicWord.0"]], "sentence": [[4, 5]] }
+    },
+    "undefined|بِسْمِ اللَّهِ": {
+      "glyphs": [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0],
+      "chars": ["ب", "ِ", "س", "ْ", "م", "ِ", " ", "ا", "ل", "ل", "ّ", "َ", "ه", "ِ"],
+      "text": "بِسْمِ اللَّهِ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 6, "arabicWord.0"],
+          [7, 7, "arabicWord.1"]
+        ],
+        "sentence": [[0, 14]]
+      }
+    },
+    "undefined|ب": {
+      "glyphs": [0],
+      "chars": ["ب"],
+      "text": "ب",
+      "states": [["glyphIndex", false]],
+      "ranges": { "word": [[0, 1, "arabicWord.0"]], "sentence": [[0, 1]] }
+    },
+    "undefined|لله": {
+      "glyphs": [0, 0, 0],
+      "chars": ["ل", "ل", "ه"],
+      "text": "لله",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 3, "arabicWord.0"]], "sentence": [[0, 3]] }
+    },
+    "undefined|Hello, world": {
+      "glyphs": [43, 72, 79, 79, 82, 15, 3, 90, 82, 85, 79, 71],
+      "chars": ["H", "e", "l", "l", "o", ",", " ", "w", "o", "r", "l", "d"],
+      "text": "Hello, world",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "undefined|ܫܠܡܐ": {
+      "glyphs": [0, 0, 0, 0],
+      "chars": ["ܫ", "ܠ", "ܡ", "ܐ"],
+      "text": "ܫܠܡܐ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "undefined|مرحبا\nعالم": {
+      "glyphs": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "chars": ["م", "ر", "ح", "ب", "ا", "\n", "ع", "ا", "ل", "م"],
+      "text": "مرحبا\nعالم",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 5, "arabicWord.0"],
+          [6, 4, "arabicWord.1"]
+        ],
+        "sentence": [[0, 10]]
+      }
+    },
+    "undefined|a": {
+      "glyphs": [68],
+      "chars": ["a"],
+      "text": "a",
+      "states": [["glyphIndex", false]],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "undefined|": {
+      "glyphs": [],
+      "chars": [],
+      "text": "",
+      "states": [],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "undefined|ـبـ": {
+      "glyphs": [0, 0, 0],
+      "chars": ["ـ", "ب", "ـ"],
+      "text": "ـبـ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 3, "arabicWord.0"]], "sentence": [[0, 3]] }
+    },
+    "undefined|😀مرحبا": {
+      "glyphs": [0, 0, 0, 0, 0, 0],
+      "chars": ["😀", "م", "ر", "ح", "ب", "ا"],
+      "text": "😀مرحبا",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[1, 5, "arabicWord.0"]], "sentence": [[1, 5]] }
+    },
+    "rtl|مرحبا": {
+      "glyphs": [0, 0, 0, 0, 0],
+      "chars": ["م", "ر", "ح", "ب", "ا"],
+      "text": "مرحبا",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 5, "arabicWord.0"]], "sentence": [[0, 5]] }
+    },
+    "rtl|السلام عليكم": {
+      "glyphs": [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0],
+      "chars": ["ا", "ل", "س", "ل", "ا", "م", " ", "ع", "ل", "ي", "ك", "م"],
+      "text": "السلام عليكم",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 6, "arabicWord.0"],
+          [7, 5, "arabicWord.1"]
+        ],
+        "sentence": [[0, 12]]
+      }
+    },
+    "rtl|لا إله": {
+      "glyphs": [0, 0, 3, 0, 0, 0],
+      "chars": ["ل", "ا", " ", "إ", "ل", "ه"],
+      "text": "لا إله",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 2, "arabicWord.0"],
+          [3, 3, "arabicWord.1"]
+        ],
+        "sentence": [[0, 6]]
+      }
+    },
+    "rtl|abc مرحبا 123": {
+      "glyphs": [68, 69, 70, 3, 0, 0, 0, 0, 0, 3, 20, 21, 22],
+      "chars": ["a", "b", "c", " ", "م", "ر", "ح", "ب", "ا", " ", "1", "2", "3"],
+      "text": "abc مرحبا 123",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[4, 5, "arabicWord.0"]], "sentence": [[4, 5]] }
+    },
+    "rtl|بِسْمِ اللَّهِ": {
+      "glyphs": [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0],
+      "chars": ["ب", "ِ", "س", "ْ", "م", "ِ", " ", "ا", "ل", "ل", "ّ", "َ", "ه", "ِ"],
+      "text": "بِسْمِ اللَّهِ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 6, "arabicWord.0"],
+          [7, 7, "arabicWord.1"]
+        ],
+        "sentence": [[0, 14]]
+      }
+    },
+    "rtl|ب": {
+      "glyphs": [0],
+      "chars": ["ب"],
+      "text": "ب",
+      "states": [["glyphIndex", false]],
+      "ranges": { "word": [[0, 1, "arabicWord.0"]], "sentence": [[0, 1]] }
+    },
+    "rtl|لله": {
+      "glyphs": [0, 0, 0],
+      "chars": ["ل", "ل", "ه"],
+      "text": "لله",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 3, "arabicWord.0"]], "sentence": [[0, 3]] }
+    },
+    "rtl|Hello, world": {
+      "glyphs": [43, 72, 79, 79, 82, 15, 3, 90, 82, 85, 79, 71],
+      "chars": ["H", "e", "l", "l", "o", ",", " ", "w", "o", "r", "l", "d"],
+      "text": "Hello, world",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "rtl|ܫܠܡܐ": {
+      "glyphs": [0, 0, 0, 0],
+      "chars": ["ܫ", "ܠ", "ܡ", "ܐ"],
+      "text": "ܫܠܡܐ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "rtl|مرحبا\nعالم": {
+      "glyphs": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "chars": ["م", "ر", "ح", "ب", "ا", "\n", "ع", "ا", "ل", "م"],
+      "text": "مرحبا\nعالم",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": {
+        "word": [
+          [0, 5, "arabicWord.0"],
+          [6, 4, "arabicWord.1"]
+        ],
+        "sentence": [[0, 10]]
+      }
+    },
+    "rtl|a": {
+      "glyphs": [68],
+      "chars": ["a"],
+      "text": "a",
+      "states": [["glyphIndex", false]],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "rtl|": {
+      "glyphs": [],
+      "chars": [],
+      "text": "",
+      "states": [],
+      "ranges": { "word": [], "sentence": [] }
+    },
+    "rtl|ـبـ": {
+      "glyphs": [0, 0, 0],
+      "chars": ["ـ", "ب", "ـ"],
+      "text": "ـبـ",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[0, 3, "arabicWord.0"]], "sentence": [[0, 3]] }
+    },
+    "rtl|😀مرحبا": {
+      "glyphs": [0, 0, 0, 0, 0, 0],
+      "chars": ["😀", "م", "ر", "ح", "ب", "ا"],
+      "text": "😀مرحبا",
+      "states": [
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false],
+        ["glyphIndex", false]
+      ],
+      "ranges": { "word": [[1, 5, "arabicWord.0"]], "sentence": [[1, 5]] }
+    }
+  }
+}

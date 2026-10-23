@@ -1,0 +1,459 @@
+[
+  {
+    "name": "skip stops at the end of the program",
+    "unitsPerEm": 64,
+    "fpgm": [],
+    "prep": [],
+    "cvt": [],
+    "glyphs": [
+      {
+        "advanceWidth": 40,
+        "instructions": [176, 0, 88, 176, 5],
+        "points": [
+          {
+            "x": 0,
+            "y": 0,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 0,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 20.6,
+            "onCurve": false
+          },
+          {
+            "x": 0,
+            "y": 20.6,
+            "onCurve": true,
+            "lastPointOfContour": true
+          }
+        ]
+      }
+    ],
+    "runs": [
+      {
+        "glyph": 0,
+        "ppem": 64
+      }
+    ]
+  },
+  {
+    "name": "MIAP with a zero distance moves by the CVT value",
+    "unitsPerEm": 64,
+    "fpgm": [],
+    "prep": [],
+    "cvt": [10, 7.4],
+    "glyphs": [
+      {
+        "advanceWidth": 40,
+        "instructions": [177, 0, 0, 62, 177, 3, 1, 63],
+        "points": [
+          {
+            "x": 0,
+            "y": 0,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 0,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 20.6,
+            "onCurve": false
+          },
+          {
+            "x": 0,
+            "y": 20.6,
+            "onCurve": true,
+            "lastPointOfContour": true
+          }
+        ]
+      }
+    ],
+    "runs": [
+      {
+        "glyph": 0,
+        "ppem": 64
+      },
+      {
+        "glyph": 0,
+        "ppem": 32
+      }
+    ]
+  },
+  {
+    "name": "MDAP and ALIGNRP fall back to the dual projection vector",
+    "unitsPerEm": 64,
+    "fpgm": [],
+    "prep": [],
+    "cvt": [],
+    "glyphs": [
+      {
+        "advanceWidth": 40,
+        "instructions": [0, 3, 177, 3, 0, 134, 176, 2, 47, 176, 1, 60, 176, 3, 60],
+        "points": [
+          {
+            "x": 0,
+            "y": 0,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 0.4,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 20.6,
+            "onCurve": false
+          },
+          {
+            "x": 0,
+            "y": 20.6,
+            "onCurve": true,
+            "lastPointOfContour": true
+          }
+        ]
+      }
+    ],
+    "runs": [
+      {
+        "glyph": 0,
+        "ppem": 64
+      },
+      {
+        "glyph": 0,
+        "ppem": 64
+      }
+    ]
+  },
+  {
+    "name": "an impossible move fails the glyph, the next glyph still hints",
+    "unitsPerEm": 64,
+    "fpgm": [],
+    "prep": [],
+    "cvt": [],
+    "glyphs": [
+      {
+        "advanceWidth": 40,
+        "instructions": [176, 1, 47],
+        "points": [
+          {
+            "x": 0,
+            "y": 0,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 0.4,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 20.6,
+            "onCurve": false
+          },
+          {
+            "x": 0,
+            "y": 20.6,
+            "onCurve": true,
+            "lastPointOfContour": true
+          }
+        ]
+      },
+      {
+        "advanceWidth": 40,
+        "instructions": [0, 3, 176, 2, 47],
+        "points": [
+          {
+            "x": 0,
+            "y": 0,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 0.4,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 20.6,
+            "onCurve": false
+          },
+          {
+            "x": 0,
+            "y": 20.6,
+            "onCurve": true,
+            "lastPointOfContour": true
+          }
+        ]
+      }
+    ],
+    "runs": [
+      {
+        "glyph": 1,
+        "ppem": 64
+      },
+      {
+        "glyph": 0,
+        "ppem": 64
+      },
+      {
+        "glyph": 1,
+        "ppem": 64
+      }
+    ]
+  },
+  {
+    "name": "free vectors, super rounding, deltas, arithmetic and IUP",
+    "unitsPerEm": 64,
+    "fpgm": [],
+    "prep": [176, 60, 94],
+    "cvt": [12.7, 3.2],
+    "glyphs": [
+      {
+        "advanceWidth": 40,
+        "instructions": [
+          177, 1, 1, 10, 176, 2, 47, 14, 176, 1, 47, 1, 176, 72, 118, 176, 3, 47, 25, 177, 2, 0,
+          237, 176, 3, 196, 178, 79, 1, 1, 93, 178, 1, 20, 44, 96, 176, 128, 99, 56, 177, 0, 1, 63,
+          119, 176, 1, 47, 48, 49
+        ],
+        "points": [
+          {
+            "x": 0.2,
+            "y": 0.1,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 0.4,
+            "onCurve": true
+          },
+          {
+            "x": 10.7,
+            "y": 20.6,
+            "onCurve": false
+          },
+          {
+            "x": 0.3,
+            "y": 20.2,
+            "onCurve": true,
+            "lastPointOfContour": true
+          },
+          {
+            "x": 3.1,
+            "y": 5.5,
+            "onCurve": true
+          },
+          {
+            "x": 6.6,
+            "y": 5.9,
+            "onCurve": false
+          },
+          {
+            "x": 5.2,
+            "y": 12.1,
+            "onCurve": true,
+            "lastPointOfContour": true
+          }
+        ]
+      }
+    ],
+    "runs": [
+      {
+        "glyph": 0,
+        "ppem": 64
+      },
+      {
+        "glyph": 0,
+        "ppem": 37
+      }
+    ]
+  },
+  {
+    "name": "an fpgm error turns hinting off",
+    "unitsPerEm": 64,
+    "fpgm": [45],
+    "prep": [],
+    "cvt": [],
+    "glyphs": [
+      {
+        "advanceWidth": 40,
+        "instructions": [],
+        "points": [
+          {
+            "x": 0,
+            "y": 0,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 0,
+            "onCurve": true,
+            "lastPointOfContour": true
+          }
+        ]
+      }
+    ],
+    "runs": [
+      {
+        "glyph": 0,
+        "ppem": 12
+      },
+      {
+        "glyph": 0,
+        "ppem": 13
+      }
+    ]
+  },
+  {
+    "name": "INSTCTRL in prep inhibits grid fitting",
+    "unitsPerEm": 64,
+    "fpgm": [],
+    "prep": [177, 1, 1, 142],
+    "cvt": [],
+    "glyphs": [
+      {
+        "advanceWidth": 40,
+        "instructions": [176, 1, 47],
+        "points": [
+          {
+            "x": 0,
+            "y": 0,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 0.4,
+            "onCurve": true,
+            "lastPointOfContour": true
+          }
+        ]
+      }
+    ],
+    "runs": [
+      {
+        "glyph": 0,
+        "ppem": 64
+      }
+    ]
+  },
+  {
+    "name": "functions, loop calls and a composite glyph",
+    "unitsPerEm": 64,
+    "fpgm": [176, 0, 44, 176, 1, 47, 45, 176, 1, 44, 0, 176, 3, 47, 45],
+    "prep": [],
+    "cvt": [],
+    "glyphs": [
+      {
+        "advanceWidth": 40,
+        "instructions": [176, 0, 43, 177, 2, 1, 42],
+        "points": [
+          {
+            "x": 0.2,
+            "y": 0.1,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 0.4,
+            "onCurve": true
+          },
+          {
+            "x": 10.7,
+            "y": 20.6,
+            "onCurve": false
+          },
+          {
+            "x": 0.3,
+            "y": 20.2,
+            "onCurve": true,
+            "lastPointOfContour": true
+          }
+        ]
+      },
+      {
+        "advanceWidth": 50.6,
+        "instructions": [0, 176, 5, 47, 49, 48],
+        "components": [
+          {
+            "glyphIndex": 0,
+            "dx": 5.4,
+            "dy": 3.3
+          },
+          {
+            "glyphIndex": 0,
+            "dx": 30,
+            "dy": 0
+          }
+        ]
+      }
+    ],
+    "runs": [
+      {
+        "glyph": 0,
+        "ppem": 32
+      },
+      {
+        "glyph": 1,
+        "ppem": 32
+      },
+      {
+        "glyph": 1,
+        "ppem": 17
+      }
+    ]
+  },
+  {
+    "name": "twilight zone in prep and IUP with one touched point",
+    "unitsPerEm": 64,
+    "fpgm": [],
+    "prep": [176, 0, 19, 176, 1, 19],
+    "cvt": [],
+    "glyphs": [
+      {
+        "advanceWidth": 40,
+        "instructions": [176, 1, 47, 49, 176, 0, 19, 176, 1, 19, 176, 2, 47],
+        "points": [
+          {
+            "x": 0.2,
+            "y": 0.1,
+            "onCurve": true
+          },
+          {
+            "x": 10.3,
+            "y": 0.4,
+            "onCurve": true
+          },
+          {
+            "x": 10.7,
+            "y": 20.6,
+            "onCurve": false
+          },
+          {
+            "x": 0.3,
+            "y": 20.2,
+            "onCurve": true,
+            "lastPointOfContour": true
+          }
+        ]
+      }
+    ],
+    "runs": [
+      {
+        "glyph": 0,
+        "ppem": 64
+      },
+      {
+        "glyph": 0,
+        "ppem": 40
+      }
+    ]
+  }
+]
