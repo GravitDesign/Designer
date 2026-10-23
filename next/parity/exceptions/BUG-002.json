@@ -1,0 +1,18 @@
+{
+  "bug": "BUG-002",
+  "why": "A radial gradient's moved center survives save and load. The .fixed files equal the old output except that the center is restored. compat/fills-gradients/roundtrip's cross-app test needs nothing: the old app opens the new app's file and loses the center as it always did.",
+  "scenarios": [
+    "engine-model/colors/gradients",
+    "corpus/fills-gradients/document",
+    "corpus/fills-gradients/resave",
+    "compat/fills-gradients/roundtrip"
+  ],
+  "pending": [
+    "corpus/fills-gradients/render-light",
+    "corpus/fills-gradients/render-dark",
+    "corpus/fills-gradients/preview",
+    "corpus/fills-gradients/bitmap",
+    "platform/gvthumb/corpus/fills-gradients",
+    "import-export/corpus/fills-gradients"
+  ]
+}

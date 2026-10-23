@@ -158,3 +158,19 @@ describe("normalizeDocument, deeply nested JSON", () => {
     });
   });
 });
+
+describe("parity exceptions", () => {
+  it("loads one file per fixed bug and every .fixed file exists", async () => {
+    const { EXCEPTIONS } = await import("./exceptions.ts");
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const { EXPECTED_ROOT } = await import("./env.ts");
+    expect(EXCEPTIONS.length).toBeGreaterThan(0);
+    for (const e of EXCEPTIONS) {
+      const dir = path.dirname(path.join(EXPECTED_ROOT, e.scenario));
+      const base = path.basename(e.scenario);
+      const fixed = fs.readdirSync(dir).some((f) => f.startsWith(`${base}.fixed.`));
+      expect(fixed, `${e.scenario} has no .fixed file for ${e.bug}`).toBe(true);
+    }
+  });
+});

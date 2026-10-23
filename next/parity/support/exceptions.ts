@@ -13,23 +13,44 @@ export interface ParityException {
   bug: string;
 }
 
-/** Every allowed difference. Keep in sync with BUGS-FIXED.md. */
-export const EXCEPTIONS: readonly ParityException[] = [
-  // BUG-002: a radial gradient's moved center survives save and load. The
-  // .fixed files equal the old output except that the center is restored.
-  // Not ported yet; they will need an exception and a .fixed file from the
-  // new app's output once enabled (fills-gradients.gvdesign has a radial
-  // gradient at 0.3/0.7 that the old app draws at 0.5/0.5):
-  // - corpus/fills-gradients/render-light, render-dark, preview, bitmap
-  // - platform/gvthumb/corpus/fills-gradients
-  // - import-export/corpus/fills-gradients (export hashes)
-  // compat/fills-gradients/roundtrip's cross-app test needs nothing: the old
-  // app opens the new app's file and loses the center as it always did.
-  { scenario: "engine-model/colors/gradients", bug: "BUG-002" },
-  { scenario: "corpus/fills-gradients/document", bug: "BUG-002" },
-  { scenario: "corpus/fills-gradients/resave", bug: "BUG-002" },
-  { scenario: "compat/fills-gradients/roundtrip", bug: "BUG-002" },
-];
+/**
+ * The exceptions of one fixed bug: parity/exceptions/BUG-NNN.json.
+ * `pending` lists scenarios that will need a `.fixed` file once they are
+ * enabled for the new app (not compared yet, so no exception applies).
+ */
+interface BugExceptions {
+  bug: string;
+  why: string;
+  scenarios: string[];
+  pending?: string[];
+}
+
+const EXCEPTIONS_DIR = path.join(NEXT_ROOT, "parity", "exceptions");
+
+function loadExceptions(): ParityException[] {
+  if (!fs.existsSync(EXCEPTIONS_DIR)) return [];
+  const out: ParityException[] = [];
+  const files = fs
+    .readdirSync(EXCEPTIONS_DIR)
+    .filter((f) => f.endsWith(".json"))
+    .sort();
+  for (const file of files) {
+    const entry = JSON.parse(
+      fs.readFileSync(path.join(EXCEPTIONS_DIR, file), "utf8"),
+    ) as BugExceptions;
+    if (`${entry.bug}.json` !== file) {
+      throw new Error(`parity/exceptions/${file} names ${entry.bug}`);
+    }
+    for (const scenario of entry.scenarios) out.push({ scenario, bug: entry.bug });
+  }
+  return out;
+}
+
+/**
+ * Every allowed difference, one file per BUGS-FIXED.md entry, so each fix
+ * commit only adds its own file.
+ */
+export const EXCEPTIONS: readonly ParityException[] = loadExceptions();
 
 export function exceptionFor(scenarioId: string): ParityException | undefined {
   return EXCEPTIONS.find((e) => e.scenario === scenarioId);
