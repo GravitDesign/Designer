@@ -123,3 +123,23 @@ New: MultiEffect also stores and restores the class's `<effect>&<property>` prop
 Test: next/src/engine/style/effects/gl-backed-effects.test.ts, "stores the changed effect settings and restores them into the effects" and "opens the old app's blob with the default settings".
 
 Parity exceptions: next/parity/exceptions/BUG-004.json (engine-model/styles/effects-catalogue: the GAdjustMultiEffect blob has the two changed keys).
+
+## BUG-006 SVG import fails on elements named like built-in object members
+
+Old code: the canvg fork in chunk.vendor.js module 1391, CreateElement.
+
+- Reproduce: import (open, place or paste) an SVG that contains an element
+  whose local name is a member of Object.prototype, for example
+  `<constructor/>` or `<toString/>` (custom namespaces and generated SVGs can
+  contain such names).
+- Old: the element table was read with a plain property lookup, so the
+  name found Object or Object.prototype.toString instead of the "unknown
+  element" placeholder; the import then threw ("child.toScene is not a
+  function" / "ElementClass is not a constructor") and nothing was
+  imported.
+- New: only the element table's own names count; any other name gets the
+  unknown-element placeholder like every other unknown tag, and the rest of
+  the SVG imports normally.
+- Test: src/io/import/svg/svg-parser.test.ts, "BUG-006: element names that
+  are built-in object members" (both cases fail with the old lookup).
+- Parity exceptions: none. No recorded scenario contains such an element.

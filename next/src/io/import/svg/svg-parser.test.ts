@@ -202,3 +202,20 @@ describe("SVGImport.import", () => {
     expect(result.error).toBeInstanceOf(TypeError);
   });
 });
+
+describe("BUG-006: element names that are built-in object members", () => {
+  it("treats <constructor> like any unknown element and still imports the rest", async () => {
+    const result = await importTree(
+      el("svg", { width: "20", height: "20" }, [
+        el("constructor"),
+        el("rect", { width: "10", height: "10" }),
+      ]),
+    );
+    expect(result.error).toBeNull();
+    expect(result.node).toBeTruthy();
+  });
+
+  it("creates the unknown-element placeholder for a name found on Object.prototype", () => {
+    expect(parser().CreateElement(el("toString"))).toBeInstanceOf(SvgMissing);
+  });
+});

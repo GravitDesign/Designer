@@ -374,10 +374,12 @@ export class SvgParser {
   CreateElement(node: SvgDomNode): SvgElementBase {
     let name = node.nodeName.replace(/^[^:]+:/, "");
     name = name.replace(/-/g, "");
-    // As in the old canvg fork: any defined property counts, inherited ones
-    // included, so a name like "constructor" picks Object.
-    const found = (ELEMENTS as Record<string, unknown>)[name];
-    const ElementClass = found !== undefined ? (found as ElementConstructor) : SvgMissing;
+    // BUG-006: the old canvg fork looked the name up with a plain property
+    // read, so "constructor" or "toString" picked an Object.prototype member
+    // and the whole import failed. Only the element table's own names count.
+    const ElementClass = Object.prototype.hasOwnProperty.call(ELEMENTS, name)
+      ? (ELEMENTS[name] as ElementConstructor)
+      : SvgMissing;
     const element = new ElementClass(this, node);
     element.type = node.nodeName;
     return element;
