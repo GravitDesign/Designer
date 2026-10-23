@@ -98,3 +98,14 @@ are gone, and that a reload recovers nothing, as before).
 Also dropped: the "dev mods" setting (UI-STORAGE-011), which evaluates code
 stored in localStorage against the old webpack module ids and can't work
 with a different build.
+
+## Q-011 Ending a change or event block can throw
+
+GNode._endBlockChanges / _endBlockEvents (chunk.vendor.js module 2): when a
+code's count reaches zero and it was the last blocked one, the record is
+deleted, but the loop goes on to the next code in the list and reads the
+deleted record, which throws a TypeError. Every caller in the old engine
+ends blocks with the same list it began them with, so the throw needs a
+list that ends codes in a different grouping than it began them. Unclear
+whether any UI path does that. Kept: the port throws the same way
+(src/engine/scene/node.test.ts "Q-011").
