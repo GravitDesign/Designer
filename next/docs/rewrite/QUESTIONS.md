@@ -1741,3 +1741,319 @@ What it does: `getFonts` assigns `fontProperty` and `_paintOutline` assigns `hsv
 Why it's unclear: nothing reads them; it's a missing `var`.
 
 Kept as locals. text-editor.ts getFonts and _paintOutline.
+
+<!-- Editor, tool base (phase 6) -->
+
+## Q-148 The fill tool is registered twice
+
+Old location: chunk.vendor.js module 553 (GToolManager constructor, lines 81028-81030).
+
+What it does: the constructor calls `addTool(new GFillTool())` twice, once before and once after the slice tool. The tool list holds 30 tools with two fill tools (indices 18 and 20), and the type map points the class at the second one, so `getTool(GFillTool)` and `activateTool(GFillTool)` always reach index 20.
+
+Why it's unclear: it looks like a copy-paste slip, but the registry order is observable (tool indices, toolmgr/registry), and nothing breaks.
+
+Kept. editor/tools/tool-manager.ts registers both; tool-manager.test.ts "registers the thirty tools in the old order, the fill tool twice" and the parity scenario editor-tools/toolmgr/registry pin it.
+
+## Q-149 Annotation tools snap to no guide
+
+Old location: chunk.vendor.js module 236 (GShapeTool._getExclusions, lines 46113-46116).
+
+What it does: for tools whose item class has the GAnnotation mixin, the shape tool passes `[GBBoxGuide]` (the class) as the list of guide ids to map with. GGuides compares those ids with each guide's `getId()` string ("guide.bbox" ...), so no guide ever matches and annotation shapes are drawn without any snapping.
+
+Why it's unclear: the name says "exclusions" and the value is the bbox guide, as if only the bbox guide was meant to be left out (or used). Passing the class instead of `GBBoxGuide.ID` turns it into "no guides at all", which may or may not be what the review annotations wanted.
+
+Kept. editor/tools/shape-tool.ts _getExclusions passes the class the same way.
+
+## Q-150 The slice tool snaps a click and drops it
+
+Old location: chunk.vendor.js module 763 (GSliceTool._mouseRelease, lines 106692-106701).
+
+What it does: on a release without a drag the tool maps the click point through the guides (without beginMap/finishMap) and throws the result away, then ends its job. No slice is made.
+
+Why it's unclear: it reads like the start of a click-to-create branch that was never finished (the shape tools call _createShapeManually there).
+
+Kept. editor/tools/slice-tool.ts _mouseRelease does the same call and drops the result.
+
+## Q-151 The text tool keeps an empty default measure
+
+Old location: chunk.vendor.js module 547 (GTextTool._getDefaultMeasure, lines 80490-80513).
+
+What it does: the text tool measures "Your text here" in the default text font once, to decide whether a dragged text box is low enough for an auto height. It calls the meter with `new`. When the font isn't resolved yet the meter returns null, `new` then yields an empty object, and that object is cached for the rest of the session: its height is undefined, so `boxHeight <= undefined` is false and every dragged text box gets a fixed height from then on, even after the font arrives.
+
+Why it's unclear: it only matters when the first text box is dragged before the default font has loaded; it looks unintended but changes no data in the common case.
+
+Kept. editor/tools/text-tool.ts _getDefaultMeasure caches `{}` when the meter returns null; shape-tools.test.ts "keeps an empty measure for good when the font isn't resolved yet" pins it.
+
+<!-- Editor, select tools (phase 6) -->
+
+## Q-152 Resize snapping excludes only the resized element
+
+Old location: chunk.vendor.js module 334 (GSelectTool._updateSelectionTransform, isolated part branch).
+
+What it does: while a resize handle of an element editor is dragged, the tool copies the selection, looks for the resized element in it and then does `t = t.splice(r, 1)`. That keeps the removed entry (splice's return value), so the list passed to getAlignExclusions holds only the resized element instead of the selection without it. The path point branch further down does the same search but calls `t.splice(r, 1)` without the assignment, so there the list is the selection without the dragged path.
+
+Why it's unclear: the two branches do the same search with opposite results, which reads like a slip. But snapping during a resize is tuned around this list, and the result is only the set of elements the guides skip, so it is not clearly wrong.
+
+Kept. next/src/editor/tools/select/move-transform.ts (moveIsolatedPart) keeps the assignment; the resize parity scenarios (pointer/resize-*) pin the snapping.
+
+## Q-153 Misspelled pagesCollisionTransform option
+
+Old location: chunk.vendor.js module 334 (GSelectTool._mouseDragEnd, after the move transaction).
+
+What it does: after a move drag the tool calls updateByMousePosition when `GEditorOptions.pagesCollisionTransform` is set. The option that exists is `pageCollisionTransform` (no s); the misspelled one is never defined, so the call never runs.
+
+Why it's unclear: it may be meant to refresh the page hover state after a page drag in the multi-page view, or it may be dead code that was switched off this way on purpose.
+
+Kept. next/src/editor/tools/select/drop-apply.ts reads the misspelled name, so the call stays off.
+
+## Q-154 Selectable elements may repeat the first one
+
+Old location: chunk.vendor.js module 334 (GSelectTool._getSelectableElements).
+
+What it does: the duplicate check is `i.indexOf(r, t) < 0` where `t` is the "deep" flag. With deep set, `indexOf(r, true)` starts searching at index 1, so an element equal to the first entry is added again. Without the flag the search starts at 0 and duplicates are dropped.
+
+Why it's unclear: the second argument looks like a leftover, not a deliberate start index. A repeated first entry only matters for the Meta click cycling (it can make the cycle stay on one element) and only when two hits map to the same selectable element.
+
+Kept. SelectTool._getSelectableElements passes the flag as the start index; select-tool.test.ts ("keeps a repeated first element when deep") pins it.
+
+## Q-155 Image mask undo name is not localized
+
+Old location: chunk.vendor.js module 334 (GSelectTool._mouseDragEnd, image mask branch).
+
+What it does: dropping images into a shape with Meta names the undo step with the literal "Create image mask"; every other name in the tool comes from the GSelectTool locale keys. The page drop appends the literal " & Switch Pages" or " & Move to Page" to the localized name.
+
+Why it's unclear: probably missing keys, but the undo names are visible in the History panel and recorded by the parity scenarios, so changing them changes output.
+
+Kept. next/src/editor/tools/select/drop-apply.ts uses the same literals; pointer/meta-drag-into-image-mask pins the name.
+
+## Q-156 Dead checks in the select tool's press and modifier handlers
+
+Old location: chunk.vendor.js module 334 (GSelectTool._mouseDown, _modifiersChanged, _keyDown).
+
+What it does: _mouseDown returns early while an inline editor is open, but its later branch still checks that inline editor node to close it; that node is always null there. _modifiersChanged compares `e.button` with the right button, but a modifiers event has no button, so the check always passes. _keyDown returns while inline editing and then checks again before opening one on Enter.
+
+Why it's unclear: they look like remains of an older flow where the press could happen during inline editing.
+
+Kept. SelectTool keeps the checks with comments; they have no effect.
+
+<!-- Editor, path tools (phase 6) -->
+
+## Q-157 Freehand digits set _bop
+
+Old location: chunk.vendor.js module 335 (GFreehandTool._keyDown, lines 61086-61105).
+
+What it does: right after a stroke (or during one), the keys 0 to 9 set the
+new path's `_bop` to 0.1 ... 0.9 (0 gives 1), each in its own "Create
+freehand path" undo step unless a stroke's transaction is open. `_bop` is
+the legacy border opacity: a path neither paints nor saves it, so the
+document doesn't change, only the undo history grows (after two digits it
+takes three undos to remove the path).
+
+Why it's unclear: INVENTORY (EDT-TOOL-059) calls it "opacity", which the
+user would expect to change the stroke. It changes nothing visible. It may
+be a leftover from before paint layers, or meant to set the border layer's
+opacity.
+
+Kept. FreehandTool._keyDown; pinned by freehand-tool.test.ts ("digits set
+_bop on the new path ...") and the parity scenario freehand/digit-opacity
+(not yet listed: it needs the Ctrl+Z shortcut of the app shell).
+
+## Q-158 leaveWhenClosePath waits for the second move
+
+Old location: chunk.vendor.js module 539 (GPenTool._mouseDown and
+_mouseMove, lines 76116-76124 and 76311-76320).
+
+What it does: with the editor option leaveWhenClosePath the pen should
+exit once a path is closed. Closing by clicking the first point commits and
+forgets the path (`_reset` clears `_pathRef`), so the check after the
+close sees no path. The first pointer move afterwards picks the closed path
+up again through _checkMode, and only the second move (or the next press)
+exits the tool. The parity scenario pen/close-path-leave-option records
+the pen still active after the closing click.
+
+Why it's unclear: the option reads like "leave right when the path
+closes". Exiting one move later is probably unintended, but it's harmless.
+
+Kept. PenTool._mouseDown / _mouseMove; pinned by pen-tool.test.ts ("with
+leaveWhenClosePath the tool exits once the path is closed") and
+pen/close-path-leave-option.
+
+## Q-159 Pen prepend cursor checks the last point twice
+
+Old location: chunk.vendor.js module 539 (GPenTool._mouseMove, lines
+76386-76392).
+
+What it does: while the next point follows the pointer, the pen shows
+PenEnd over the path's other end and PenModify over the end being
+extended. In Append mode it tests the first and the last point. In Prepend
+mode it tests the last point for both, so over the first point (the one
+being extended) the cursor is not PenModify, and over the last point it
+says PenEnd.
+
+Why it's unclear: looks like a copy-and-paste slip (the Prepend branch
+should mirror Append), but it only affects the cursor.
+
+Kept. PenTool._mouseMove (comment "The old code took the last point for
+both").
+
+## Q-160 Knife right-click polyline cuts at every click
+
+Old location: chunk.vendor.js module 757 (GKnifeTool._mouseDown,
+_mouseRelease, _modifiersChanged, lines 104955-105256).
+
+What it does: every release without Alt held at its press cuts along the
+line drawn so far and forgets it. A plain right click therefore cuts with
+a one-point line (nothing happens) and starts over. An Alt+right click
+keeps its point, and letting Alt go replays a press and release, but that
+replayed press falls within the 300 ms double-click guard and is dropped.
+The next click then cuts along a line from the Alt point only. Cutting a
+rectangle along right clicks at three points across it (knife/right-click-
+points) therefore gives one open path (the rectangle opened at one edge)
+instead of two pieces.
+
+Why it's unclear: INVENTORY (EDT-TOOL-066) says right clicks add rounded or
+connector points to the cut path, as with the pen, which suggests a
+polyline cut was intended. The result is confusing, but nothing is lost
+(undo restores the shape).
+
+Kept. KnifeTool; pinned by the parity scenario knife/right-click-points
+and knife-tool.test.ts ("right clicks add rounded points to the line and
+cut at every release", "with Alt at the press ...").
+
+## Q-161 Knife elementHitTest
+
+Old location: chunk.vendor.js module 757 (GKnifeTool.elementHitTest, lines
+105769-105788).
+
+What it does: hit-tests a vertex source and, for a hit on an outline
+between two points, reads the undeclared global `locationInvTransformed`
+(a ReferenceError) after assigning another undeclared global
+(`elemHitRes`). Nothing in either bundle calls it, nor
+getTransformedVertices next to it.
+
+Why it's unclear: dead code that would crash if called; probably left over
+from an earlier knife.
+
+Kept. KnifeTool.elementHitTest throws the same ReferenceError at that
+point and skips the global assignment; no test (unreachable).
+
+## Q-162 Freehand finish on Shift up passes the modifiers event
+
+Old location: chunk.vendor.js module 335 (GFreehandTool._modifiersChanged,
+lines 61192-61201).
+
+What it does: after a Shift release (straight segment mode), letting Shift
+go finishes the stroke by calling _mouseRelease with the
+ModifiersChangedEvent instead of a mouse event. Its `client` is undefined,
+which goes to GEditor.updateByMousePosition. In the single page view that
+position is not read. With the multi-page view on, updateByMousePosition
+calls Rect.containsPoint(undefined), which would throw; I haven't tested
+that case.
+
+Why it's unclear: works in the usual case, may crash in the multi-page
+view.
+
+Kept. FreehandTool._modifiersChanged (comment there); the single page case
+is pinned by freehand/shift-straight-segments.
+
+## Q-163 Freehand click makes a closed one-point path
+
+Old location: chunk.vendor.js module 335 (GFreehandTool._mouseRelease and
+_closeIfNeeded, lines 61260-61331).
+
+What it does: a click without a move gives a stroke of one point. The
+release adds a second point 1 px to the right, then the closing check
+(end within 15 px of the start) moves it onto the first point and
+correctClosedAttribute merges the two: the result is a closed path with a
+single anchor point, selected and with its fill shown.
+
+Why it's unclear: the extra point suggests a click was meant to leave a
+small open path; the closing undoes that. The empty path stays in the
+document.
+
+Kept. FreehandTool._mouseRelease; pinned by freehand-tool.test.ts ("a
+click without moving gets a second point 1 px right ...").
+
+<!-- Editor, paths graph and annotation tools (phase 6) -->
+
+## Q-164 Paths graph handle part ids compare by type only
+
+Old location: chunk.vendor.js module 275 (GPathsGraphEditor), `_partIdAreEqual`.
+
+What it does: point and anchor parts compare by point, segment parts by their two points, and every other part type by `facet` (the test reads `F.PartType.Facet`, which is always truthy, instead of comparing the part's type with it). Handle parts (LeftHandle, RightHandle) have no facet, so two handle parts of the same side are equal whatever point they belong to.
+
+Why it's unclear: it looks like a typo for `e.type == F.PartType.Facet`, but the handle comparison would still need a point test to tell handles apart. It only matters for part selection lookups (isPartSelected, toggling), and the editor rarely holds handle parts there.
+
+Kept. next/src/editor/paths-graph/paths-graph-editor.ts, `_partIdAreEqual`; pinned by "compares handle part ids by type only" in paths-graph-editor.test.ts.
+
+## Q-165 Paths graph editor restores PartInfos as part ids
+
+Old location: chunk.vendor.js module 275 (GPathsGraphEditor), `_ensureConsistentSelection`.
+
+What it does: rebuilds the part selection from the Selected flags of anchors, edges and facets (constructor, setEditMode, restoreEditorStateData), but pushes whole GBaseEditor.PartInfo objects instead of their ids into updatePartSelection. A PartInfo has no `type`, so the selection mode becomes None and the part selection holds PartInfos the rest of the editor can't read. In the constructor it does nothing, because the editor isn't selected yet.
+
+Why it's unclear: the anchors, edges and facets keep their Selected flags, so painting still shows them selected; only the part selection is unusable until the next click replaces it. It may never have been noticed.
+
+Kept. next/src/editor/paths-graph/paths-graph-editor.ts, `_ensureConsistentSelection`; pinned by "restores PartInfos, not part ids, from the Selected flags" in paths-graph-editor.test.ts.
+
+## Q-166 Paths graph editor path-only methods
+
+Old location: chunk.vendor.js module 275 (GPathsGraphEditor), `getPointsSelectionType`.
+
+What it does: copied from GPathEditor. With exactly one selected part it reads `this._element.getAnchorPoints()`, which a paths graph doesn't have, so it throws a TypeError. With several parts it returns "S", without parts "N".
+
+Why it's unclear: nothing in the bundle calls it on a paths graph editor (the paths graph tool asks the editor's active extending mode instead), so it is dead code that would crash if reached.
+
+Kept. next/src/editor/paths-graph/paths-graph-editor.ts, `getPointsSelectionType`; pinned by "throws in getPointsSelectionType for one selected part" in paths-graph-editor.test.ts.
+
+## Q-167 Text annotation tool without the annotation tool mixin
+
+Old location: chunk.vendor.js module 1088 (GTextAnnotationTool).
+
+What it does: calls `GObject.inherit(GTextAnnotationTool, GTextTool, [GAnnotationTool])`. `inherit` takes two arguments and ignores the mixin list, so unlike the other annotation tools (which use `inheritAndMix`) its insert transaction carries no add-annotation data. The tool isn't registered in the tool manager either, so it is unreachable.
+
+Why it's unclear: probably a slip for `inheritAndMix`, but since the tool is unreachable and the transaction data only fed the dropped cloud comment sync, it has no visible effect.
+
+Kept. next/src/editor/annotations/text-annotation-tool.ts extends TextTool without AnnotationToolMixin; pinned by "tag their insert transaction as an added annotation, except the text tool" in annotation-tools.test.ts.
+
+<!-- Editor, fonts (phase 6) -->
+
+## Q-168 A font download that fails leaves its waiting requests pending
+
+Old location: designer.browser.dev.js module 590 (bundled fonts provider) and module 1379 (Google fonts provider), resolveFont.
+
+What it does: both providers download a font file once and queue further requests for the same url. When the download fails for lack of connection (onerror), only the request that started it is failed; the queued ones are dropped from the queue without an answer. When the server answers outside 200-299, nobody is called and the url stays in the queue, so every later request for that file waits forever too.
+
+Why it's unclear: in the engine those fonts stay pending (hasPendingFonts stays true), so a document that uses them never counts as loaded. It may be on purpose for the offline case (the font manager offers a retry dialog there), but the 404 case looks like an oversight.
+
+Kept. app/fonts/fonts-provider.ts downloadFontFile; pinned by "fails only the first request on a connection error, and none on a 404" in app/fonts/providers.test.ts.
+
+## Q-169 The first call to the imported fonts provider runs twice
+
+Old location: designer.browser.dev.js module 1118 (GImportedFontsProvider), initialize, load and resolveFont.
+
+What it does: the first load or resolveFont before the provider has read its font list both queues itself in a callback list and passes itself to initialize, which calls it once the list is read and then runs the callback list, which calls it again. A first resolveFont of a font that isn't imported therefore fails twice, and the font manager then asks the Google and local providers twice and fails the engine's font request twice (two FontUnavailableEvents and two MissingFontEvents for the same placeholder). A first load (the first font list query that reaches this provider) answers twice, so the providers after it are asked twice and their families can show up twice in that query's result.
+
+Why it's unclear: it looks like a bug (duplicate events, duplicate entries in the first font list), but it only shows on the first request after a page load and nothing crashes.
+
+Kept. app/fonts/imported-fonts-provider.ts initialize; pinned by "runs its first request twice, later ones once" in app/fonts/providers.test.ts.
+
+## Q-170 A listed family whose download had no connection stays pending
+
+Old location: designer.browser.dev.js module 255 (FontsProviderManager), resolveFont.
+
+What it does: once a font list query has run, a family is resolved by the provider that listed it. If that provider fails with ConnectionError, the request is neither resolved nor failed: the old app only offered a "feature unavailable" retry dialog when it considered itself offline, and did nothing otherwise. A file that downloads but doesn't parse is also left unanswered on this path, while the path without a listing tries the next provider.
+
+Why it's unclear: the font stays pending for good, so anything waiting for fonts (the missing-fonts dialog after opening a document, the corpus settle hook) never finishes. It may be meant to wait for the retry, but online nothing ever retries.
+
+Kept. app/fonts/font-manager.ts FontsProviderManager.resolveFont; pinned by "leaves a listed font pending when its download had no connection" in app/fonts/font-manager.test.ts.
+
+## Q-171 The Chinese default font checks for a family the app doesn't ship
+
+Old location: designer.browser.dev.js GDesigner.init (lines 122620-122660).
+
+What it does: for Chinese and traditional Chinese the app wants "Noto Sans CS" as its default font, but only if the bundled fonts provider has it. The bundled list has "Noto Sans CJK SC" and "Noto Sans CJK TC" ("Noto Sans CS" is only the old short name GFont.getFontFamilyCorrected maps), so the check always fails and Chinese keeps Open Sans. Japanese gets Noto Sans CJK JP as intended.
+
+Why it's unclear: the Chinese branch is dead code; the intent was probably a CJK default font for Chinese too.
+
+Kept. parity/app/fonts.ts installAppFonts; the bundled list check is pinned by "lists Open Sans first, then the CJK and Noto families" (hasFont("Noto Sans CS") is false) in app/fonts/providers.test.ts.

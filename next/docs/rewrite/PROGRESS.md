@@ -56,7 +56,7 @@ Decisions taken:
 | 3 | Scaffold next/ | done |
 | 4 | Engine core | done: all engine clusters ported, review (phase4-review-A..D) fixed; 330+ parity ids pass in the new app; scenarios that need the editor are enabled in phase 6 |
 | 5 | File format and import/export | done: .gvdesign, SVG/PDF/PNG/JPG export, SVG/PDF/AI/EPS/Sketch import, workers; review (phase5-review.md) fixed; export output compared in the browser (io-export-svg/pdf/bitmap); export scenarios that need the editor wait for phase 6 |
-| 6 | Editor | in progress: level 8 (editor core, view, guides, element/path/text/style editors) ported; tools (level 9) and touch (level 10) next |
+| 6 | Editor | in progress: levels 8 and 9 ported (editor core, view, guides, all element editors, all tools, interim fonts); editor-touch next, then the phase review |
 | 7 | UI | not started |
 | 8 | Platform | not started |
 | 9 | Cutover | not started |
@@ -260,6 +260,21 @@ From the phase 6 editor port (old behaviour kept and pinned by unit tests):
   Shift gives a NaN translation (GPathEditor; listed above).
 - A slice scaled without a preview gets height 0 (GSliceEditor
   _applyTransform multiplies by the shear `matrix[1]`).
+- Paths graph: edge delete removes only the first selected edge (listed
+  above); moving a whole graph throws on every move and the graph stays
+  (edTransform without part selection); Shift while hovering with the
+  paths graph tool throws on every move; aligning anchors throws
+  (applyTransform without a target); every frame while drawing logs
+  "Editor render error ... '__editor__'".
+- Magic tool shaping throws a TypeError when the shaped selection has an
+  open sub-path (GMagicTool._doTheClip reads `.item` on raw vertex
+  sources).
+- Pen: Space during a handle drag in a scrolled or zoomed view moves the
+  anchor by the scroll offset (listed above).
+- Fonts: the first call to the imported fonts provider runs twice, so a
+  missing font fires FontUnavailableEvent and MissingFontEvent twice
+  (Q-169); a failed font download leaves every request for that file
+  pending forever (Q-168).
 
 ## History to repair before the end
 
@@ -294,9 +309,18 @@ history check (scratchpad check-history.sh).
   providers and default font so they can run in phase 6.
 - The real app must import src/editor/index.ts (it registers the element
   editors after editor.ts); the parity app does through document.ts.
-- Level 9 hooks: registerToolManagerFactory (editor/editor-workspace.ts),
-  Editor.registerPathsGraphEditor, late-bound.ts tool manager lookup in
-  the view.
+- Phase 7 must take over the interim GDesigner parts in
+  src/parity/app/editor-tools.ts (editor options from GDesigner.init, the
+  desktop handle look, restored snap settings, the tool table and tool
+  shortcuts, the setView call on window changes) and
+  src/parity/app/fonts.ts (providers and default font).
+- Editor scenarios still waiting for phase 7: everything that runs an
+  action, a shortcut (Delete, Ctrl+Z, digits, Shift+F10), the inspector
+  (gradient fill chooser), the toolbar, the rulers' guide drags or the
+  annotations sidebar. editor-tools/toolmgr/tool-table differs only by
+  the page origin in the rich-tooltip video URLs (normalize the origin).
+- snap/page-overlay: the window background outside a page resized by a fixture is wrong
+  (view-host).
 - engine-model/events/node-events needs the layers panel (it sets
   Expanded on the parent group when a child is selected); workers/isolation
   differs by the COOP/COEP headers (BUG-008): add it to BUG-008.json with a
