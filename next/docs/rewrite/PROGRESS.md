@@ -54,7 +54,7 @@ Decisions taken:
 | 1 | Inventory | done (2311 items) |
 | 2 | Parity harness and corpus | done: 2855 old-app scenarios, review fixed, re-recorded |
 | 3 | Scaffold next/ | done |
-| 4 | Engine core | in progress: levels 0-1 committed (core, locale, math, opentype fork, vertex, color); level 2 (boolean, paint) running |
+| 4 | Engine core | in progress: levels 0-4 committed; level 5 (shapes-primitives, paths-graph, text-node) running |
 | 5 | File format and import/export | not started |
 | 6 | Editor | not started |
 | 7 | UI | not started |
@@ -63,6 +63,15 @@ Decisions taken:
 | 10 | Final check | not started |
 
 ## Log
+
+- Whole-suite proofs over the final phase 2 recording: all 2886 parity
+  tests fail under sabotage; all 156 mutations make every listed scenario
+  fail.
+- Phase 4 levels 0-4 committed: core, locale, math, opentype fork,
+  vertex, color, boolean ops, paint, offset/trace/knife, fonts with
+  HarfBuzz 2.2.0 (own wasm build, identical on 13,030 shaping cases),
+  scene node base, styles, text layout (GTL), paths, canvas effects,
+  WebGL effects.
 
 - 31 parity scenarios pass against the new app (parity/ported/*.json).
 
@@ -230,9 +239,6 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
   strings); unreachable, noted for the record.
 
 ## Pending harness work
-
-- Run `npm run parity:prove` and `npm run parity:mutations` over the whole
-  final recording once (each area ran its own; not yet run in one go).
 
 - normalize.ts gaps also seen by editor-actions (which works around them
   in lib.ts `stabilize`): anchor ids (third element of `pts` tuples), `sbl`
