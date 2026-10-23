@@ -176,7 +176,7 @@ describe("MultiEffect", () => {
   it("an unregistered subclass sees MultiEffect's tables through static inheritance", () => {
     // The old GObject.inherit didn't copy `_`-prefixed statics, so __FX was
     // undefined there; ES classes resolve it to MultiEffect's null (see
-    // questions-draft "Subclasses now inherit the _-prefixed static tables").
+    // QUESTIONS.md "Subclasses now inherit the _-prefixed static tables").
     const tables = UnregisteredMultiEffect as unknown as {
       GeometryProperties: unknown;
       __FX: unknown;

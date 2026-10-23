@@ -47,7 +47,7 @@ interface FxCacheEntry {
  * The cache every stylable element starts with. The old mixin kept one
  * array on its prototype and the mix copied that reference into every
  * class, so all elements share it until their first full reset assigns
- * their own (see questions-draft "Stylable elements share one effect cache
+ * their own (see QUESTIONS.md "Stylable elements share one effect cache
  * array").
  */
 const sharedFxCache: FxCacheEntry[] = [];
