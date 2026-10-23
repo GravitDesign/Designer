@@ -220,6 +220,12 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
   initSizeAndPosition throws on a second call (GTransform.invert missing).
 - Restored ready shapes skip all base constructors (no $refs, _effId,
   _layId, _paintSharp): no pixel snapping, linking may crash.
+- BUG-007 candidate (wrong output): once the old view has painted a vector
+  texture (TexturePattern from nodes), its cached bitmap sits on a recorded
+  canvas, _convertImage can't resolve it, and every later paint outside a
+  render pass (toBitmap, PNG/SVG/PDF exports) leaves the texture out.
+  Ported faithfully in 48e8e77f (RecorderCanvas stand-in); fix = drop the
+  emulation, with exceptions for the export scenarios that show it.
 - Symbol labels: the instance is never painted after duplicate in the
   headless old app (editor-actions symbols/labels-on).
 
@@ -241,13 +247,10 @@ history check (scratchpad check-history.sh).
 
 ## Pending porting work
 
-- Open engine differences found by the SVG export check (corpus SVG of all
-  pages, 59/63 identical): fills-colors CMYK `toScreen` gives different RGB
-  than the old app (ICC profile loaded? when?); fills-textures one node-tile
-  texture rasterizes differently (old PNG 803 bytes, new 3147);
-  import-export/export/svg/effects' recorded output looks like it captured
-  WebGL state of the recording session (the old app run again gives the
-  new app's output): re-check determinism, maybe freshBrowser.
+- The three differences found by the SVG export check are resolved:
+  CMYK colours and svg/effects pixels came from the agent's scratch harness
+  (no ICC file served, missing --disable-accelerated-2d-canvas); the
+  fills-textures star was an old-app behaviour, now ported (48e8e77f).
 - Scenes need `scene.setShadowExpandArea(9, 9, 9, 11)` as the old app's
   documents set it (exports measure 338x220 instead of 320x200 without it);
   belongs to the document/editor setup.
