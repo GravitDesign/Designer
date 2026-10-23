@@ -276,28 +276,28 @@ From the phase 6 editor port (old behaviour kept and pinned by unit tests):
   (Q-169); a failed font download leaves every request for that file
   pending forever (Q-168).
 
-## History to repair before the end
+## History repair (done)
 
 The commit check (scratchpad verify-index.sh) silently passed failing
 prettier and test steps until 2026-10-23. A re-check of every commit since
-f1682f36 found:
-- 2c2d8f2d .. 72158b6a (21 commits) fail `prettier --check` on JSON data
-  only: parity/ported/engine-geometry-offset-trace.json,
-  parity/ported/engine-symbols-images.json, scripts/data/old-type-ids.json.
-- abee30ad also fails one unit test (src/engine/color/scenarios.test.ts
-  still compared against the pre-BUG-002 output; fixed in 68c9959f).
-Everything else (tsc, eslint, other tests) passes on all of them. Plan:
-when no agent is writing to the worktree, run `git filter-branch
---tree-filter` over that range to format those three files in every
-commit and apply the scenarios.test.ts fix in abee30ad, then re-run the
-history check (scratchpad check-history.sh).
+f1682f36 found 22 commits, from "port path offsetting, image tracing and
+the knife cut" to "keep a moved radial gradient center through save and
+load", that failed `prettier --check` on JSON data only, and the last
+one also one unit test. A `git filter-branch --index-filter` over that
+range formatted the parity/ported lists, added `scripts/data` to
+.prettierignore and gave the radial gradient commit the corrected
+scenarios test. The follow-up commit that had made those two changes
+became empty and was dropped. The final tree is unchanged; the repaired
+commits pass the prettier check (verified per commit), and the radial
+gradient commit now has the exact tree of the dropped follow-up, which
+passed every check.
 
 ## Pending porting work
 
 - The three differences found by the SVG export check are resolved:
   CMYK colours and svg/effects pixels came from the agent's scratch harness
   (no ICC file served, missing --disable-accelerated-2d-canvas); the
-  fills-textures star was an old-app behaviour, now ported (48e8e77f).
+  fills-textures star was an old-app behaviour, now ported (ac1cb397).
 - Scenes need `scene.setShadowExpandArea(9, 9, 9, 11)` as the old app's
   documents set it (exports measure 338x220 instead of 320x200 without it);
   belongs to the document/editor setup.
