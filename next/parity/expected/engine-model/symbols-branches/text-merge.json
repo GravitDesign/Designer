@@ -1,0 +1,380 @@
+{
+ "changedProperties": {
+  "same": null,
+  "emptyBefore": [
+   {
+    "property": "text",
+    "value": "ab",
+    "oldValue": null,
+    "range": [
+     0,
+     1
+    ]
+   },
+   {
+    "property": "fontSize",
+    "value": 1,
+    "oldValue": null,
+    "range": [
+     0,
+     1
+    ]
+   }
+  ],
+  "emptyAfter": null,
+  "firstRun": [
+   {
+    "property": "fontSize",
+    "value": 3,
+    "oldValue": 1,
+    "range": [
+     0,
+     2
+    ]
+   }
+  ],
+  "laterRun": [
+   {
+    "property": "fontSize",
+    "value": 1,
+    "oldValue": 2,
+    "range": [
+     0,
+     1
+    ]
+   }
+  ],
+  "longerAfter": [
+   {
+    "property": "text",
+    "value": "ab",
+    "oldValue": "ab",
+    "range": [
+     0,
+     1
+    ]
+   },
+   {
+    "property": "fontSize",
+    "value": 1,
+    "oldValue": 1,
+    "range": [
+     0,
+     1
+    ]
+   }
+  ],
+  "longerBefore": [
+   {
+    "property": "text",
+    "value": "ab",
+    "oldValue": "c",
+    "range": [
+     0,
+     1
+    ]
+   },
+   {
+    "property": "fontSize",
+    "value": 1,
+    "oldValue": 2,
+    "range": [
+     0,
+     1
+    ]
+   }
+  ],
+  "missingKey": [
+   {
+    "property": "fontSize",
+    "value": 1,
+    "oldValue": "<undefined>",
+    "range": [
+     0,
+     1
+    ]
+   }
+  ]
+ },
+ "assign": {
+  "lengths": false,
+  "same": false
+ },
+ "changedText": [
+  [
+   0,
+   0
+  ],
+  [
+   0,
+   3
+  ],
+  [
+   2,
+   1
+  ],
+  [
+   3,
+   0
+  ]
+ ],
+ "start": {
+  "master": null,
+  "i1": [
+   [
+    "Hello world",
+    20
+   ]
+  ],
+  "i2": [
+   [
+    "Hello world",
+    9
+   ]
+  ],
+  "disabled": [
+   0,
+   1
+  ],
+  "plain": [
+   "Hello world",
+   "Hello world",
+   "Hello world"
+  ]
+ },
+ "size": {
+  "master": [
+   [
+    "Hello world",
+    30
+   ]
+  ],
+  "i1": [
+   [
+    "Hello world",
+    20
+   ]
+  ],
+  "i2": [
+   [
+    "Hello world",
+    9
+   ]
+  ],
+  "disabled": [
+   0,
+   1
+  ],
+  "plain": [
+   "Hello world",
+   "Hello world",
+   "Hello world"
+  ]
+ },
+ "text": {
+  "master": [
+   [
+    "Hello world",
+    30
+   ]
+  ],
+  "i1": [
+   [
+    "Hello world",
+    20
+   ]
+  ],
+  "i2": [
+   [
+    "Hello world",
+    9
+   ]
+  ],
+  "disabled": [
+   0,
+   1
+  ],
+  "plain": [
+   "Hello there",
+   "Hello world",
+   "Hello world"
+  ]
+ },
+ "selection": {
+  "master": [
+   [
+    "Hello there",
+    20
+   ]
+  ],
+  "i1": [
+   [
+    "Hello world",
+    20
+   ]
+  ],
+  "i2": [
+   [
+    "Hello world",
+    9
+   ]
+  ],
+  "disabled": [
+   0,
+   1
+  ],
+  "plain": [
+   "Hello there",
+   "Hello world",
+   "Hello world"
+  ]
+ },
+ "mixed": {
+  "master": [
+   [
+    "Hello there",
+    40
+   ]
+  ],
+  "i1": [
+   [
+    "Hel",
+    20
+   ],
+   [
+    "lo wo",
+    40
+   ],
+   [
+    "rld",
+    20
+   ]
+  ],
+  "i2": [
+   [
+    "Hello world",
+    9
+   ]
+  ],
+  "disabled": [
+   0,
+   1
+  ],
+  "plain": [
+   "Hello there",
+   "Hello world",
+   "Hello world"
+  ]
+ },
+ "multiple": {
+  "master": [
+   [
+    "Hello there",
+    50
+   ]
+  ],
+  "i1": [
+   [
+    "H",
+    20
+   ],
+   [
+    "ello wor",
+    50
+   ],
+   [
+    "ld",
+    20
+   ]
+  ],
+  "i2": [
+   [
+    "Hello world",
+    9
+   ]
+  ],
+  "disabled": [
+   0,
+   1
+  ],
+  "plain": [
+   "Hello there",
+   "Hello world",
+   "Hello world"
+  ]
+ },
+ "selectionText": {
+  "master": [
+   [
+    "Hello there",
+    50
+   ]
+  ],
+  "i1": [
+   [
+    "H",
+    20
+   ],
+   [
+    "ello wor",
+    50
+   ],
+   [
+    "ld",
+    20
+   ]
+  ],
+  "i2": [
+   [
+    "Hello world",
+    9
+   ]
+  ],
+  "disabled": [
+   0,
+   1
+  ],
+  "plain": [
+   "Howdy there",
+   "Hello world",
+   "Hello world"
+  ]
+ },
+ "collapsedText": {
+  "master": [
+   [
+    "Hello there",
+    50
+   ]
+  ],
+  "i1": [
+   [
+    "H",
+    20
+   ],
+   [
+    "ello wor",
+    50
+   ],
+   [
+    "ld",
+    20
+   ]
+  ],
+  "i2": [
+   [
+    "Hello world",
+    9
+   ]
+  ],
+  "disabled": [
+   0,
+   1
+  ],
+  "plain": [
+   "Howdy all",
+   "Hello world",
+   "Hello world"
+  ]
+ }
+}

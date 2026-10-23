@@ -23,6 +23,12 @@ export interface TextProbeApi {
   FontManager: any;
   /** A font manager with the probe fonts resolved, Open Sans Regular as default. */
   fontManager: any;
+  /** GTransactionRecorder. */
+  TransactionRecorder: any;
+  /** GScene and GWorkspace (real ones, for scene attach). */
+  Scene: any;
+  Workspace: any;
+  Layer: any;
 }
 
 /** The fonts the probe needs resolved: family, style, weight. */
@@ -121,7 +127,12 @@ export function probeText(api: TextProbeApi): Record<string, unknown> {
   const ID_KEYS = ["#", "@id", "_layId", "_effId", "&"];
   /** A blob with random ids replaced (also inside nested JSON strings). */
   const scrub = (value: any): any => {
-    if (Array.isArray(value)) return value.map(scrub);
+    // Packed anchor points keep their reference id after a "#" entry.
+    if (Array.isArray(value)) {
+      return value.map((v, i) =>
+        i > 0 && value[i - 1] === "#" && typeof v === "string" ? "<id>" : scrub(v),
+      );
+    }
     if (value && typeof value === "object") {
       const result: Record<string, any> = {};
       for (const key of Object.keys(value)) {
@@ -718,6 +729,364 @@ export function probeText(api: TextProbeApi): Record<string, unknown> {
       whenAvailable: enc(t._setTextWhenAvailable),
     };
   }
+  // -- Workspaces with their own font manager. `missing` names the
+  // families that never resolve; every other font is handed over from the
+  // probe's font manager. With `later`, the hand-over waits until
+  // `resolveAll()` is called.
+  const ownFonts = (missing: string[], later = false) => {
+    const own = new api.FontManager();
+    own.setDefaultFont(fm.getDefaultFont());
+    const waiting: (() => void)[] = [];
+    own.addEventListener(api.FontManager.ResolveFontEvent, (e: any) => {
+      const font = missing.indexOf(e.family) >= 0 ? null : fm.getFont(e.family, e.style, e.weight);
+      const answer = () => (font && font.isResolved() ? e.resolved(font) : e.failed());
+      if (later) waiting.push(answer);
+      else answer();
+    });
+    return {
+      own,
+      workspace: { ...workspace, getFontManager: () => own },
+      resolveAll: () => {
+        while (waiting.length) (waiting.shift() as () => void)();
+      },
+    };
+  };
+  const families = (fonts: any) =>
+    fonts ? fonts.map((f: any) => [f.getFamily(), f.getStyle(), f.getWeight()]) : enc(fonts);
+  const square = () =>
+    anchors(new api.Path(true), [
+      [0, 0],
+      [200, 0],
+      [200, 200],
+      [0, 200],
+    ]);
+  /** A text restored with backup outlines for a family that can't be resolved. */
+  const fakeText = (ws: any) => {
+    const source = make();
+    source.setText([
+      { text: "Red ", fontFamily: "Open Sans", fontColor: new api.RGBColor([255, 0, 0]) },
+      { text: "blue", fontFamily: "Open Sans", fontColor: new api.RGBColor([0, 0, 255]) },
+    ]);
+    source._verticesDirty = true;
+    const shapes = source.getTextShapes();
+    const b = JSON.parse(api.Node.serialize(source));
+    b.ct = [
+      { text: "Red ", fontFamily: "Gone" },
+      { text: "blue", fontFamily: "Gone" },
+    ];
+    b.content = JSON.stringify(b.ct);
+    b._bkpPath = shapes.map((s: any) => JSON.parse(api.Node.serialize(s)));
+    const restored = api.Node.deserialize(JSON.stringify(b));
+    restored._setWorkspace(ws);
+    restored.getTLCore();
+    return { restored, shapes };
+  };
+
+  // -- Fake text with two backup outlines (one per run): only the first
+  // one's vertices are read, since the iterator never moves on.
+  {
+    const { restored, shapes } = fakeText(ownFonts(["Gone"]).workspace);
+    out.fakeVertices = {
+      fake: enc(restored.isFakeText()),
+      count: shapes.length,
+      backups: shapes.map((s: any) => outline(s)),
+      outline: outline(restored),
+      boxes: boxes(restored),
+    };
+  }
+
+  // -- Undo and redo through a transaction recorder, and the store of an
+  // edited text's selection.
+  {
+    const recorder = new api.TransactionRecorder();
+    const record = (fn: () => void) => {
+      recorder.beginTransaction();
+      fn();
+      return recorder.endTransaction() || [];
+    };
+    const undo = (actions: any[]) => {
+      for (let i = actions.length - 1; i >= 0; i--) actions[i].revert();
+    };
+    const redo = (actions: any[]) => {
+      for (let i = 0; i < actions.length; i++) actions[i].action();
+    };
+    const undoState: Record<string, any> = {};
+    const recWorkspace = { ...workspace, getTransactionRecorder: () => recorder };
+    const t = new api.Text();
+    t._setWorkspace(recWorkspace);
+    t.setText("Around and around");
+    t.attachPath(square());
+    // Axis-aligned, so no glyph is rotated by an angle that Node and
+    // Chromium round differently.
+    const other = anchors(new api.Path(true), [
+      [0, 0],
+      [300, 0],
+      [300, 100],
+      [0, 100],
+    ]);
+    let actions = record(() => t.attachPath(other));
+    undoState.attachNames = actions.map((a: any) => enc(a.properties));
+    undoState.attached = state(t);
+    undo(actions);
+    undoState.attachUndone = { attached: t.hasPathAttached(), ...state(t) };
+    redo(actions);
+    undoState.attachRedone = { attached: t.hasPathAttached(), ...state(t) };
+    actions = record(() => t.transform(T(1, 0, 0, 1, 30, 40)));
+    undoState.moveNames = actions.map((a: any) => enc(a.properties));
+    undoState.moved = state(t);
+    undo(actions);
+    undoState.moveUndone = state(t);
+    redo(actions);
+    undoState.moveRedone = state(t);
+
+    const fonts = ownFonts(["Gone"]);
+    const { restored } = fakeText({ ...fonts.workspace, getTransactionRecorder: () => recorder });
+    actions = record(() => restored.transform(T(2, 0, 0, 1, 10, 0)));
+    undoState.fakeMoveNames = actions.map((a: any) => enc(a.properties));
+    undoState.fakeMoved = { fake: enc(restored.isFakeText()), ...state(restored) };
+    undo(actions);
+    undoState.fakeMoveUndone = state(restored);
+    redo(actions);
+    undoState.fakeMoveRedone = state(restored);
+
+    const edited = make();
+    edited.setText([
+      { text: "Hello ", fontFamily: "Open Sans", fontSize: 20 },
+      { text: "World", fontFamily: "Open Sans", fontWeight: 700 },
+    ]);
+    edited.getTLCore().select(3, 8);
+    undoState.storeNotEdited = blob(edited);
+    edited.repaint(true);
+    undoState.storeEdited = blob(edited);
+    undoState.storeEditedSave = blob(edited, { save: true });
+    out.undo = undoState;
+  }
+
+  // -- Direction changes, plain and on a path, mirrored or not.
+  {
+    const direction: Record<string, any> = {};
+    const withDir = (name: string, trf: any, onPath: boolean, text = "Hello world") => {
+      const t = make();
+      t.setText(text);
+      if (trf) t.setProperty("trf", trf);
+      if (onPath) t.attachPath(square());
+      t.setProperty("dir", 1);
+      direction[name] = {
+        rtl: state(t),
+        dirOnPath: enc(t._correctDirOnPath()),
+        sideOnPath: enc(t._correctSideOnPath()),
+      };
+      t.setProperty("dir", 0);
+      direction[name].ltr = state(t);
+    };
+    withDir("plain", null, false);
+    withDir("plainMirrored", T(-1, 0, 0, 1, 50, 0), false);
+    withDir("plainMoved", T(1, 0, 0, 1, 20, 30), false, "שלום עולם");
+    withDir("path", null, true);
+    withDir("pathMirrored", T(-1, 0, 0, 1, 50, 0), true);
+    out.direction = direction;
+  }
+
+  // -- Replacing fonts (the missing-fonts dialog), and fake text made on
+  // purpose.
+  {
+    const replace: Record<string, any> = {};
+    const deferred = (kind: string) => {
+      const fonts = ownFonts(["No Such Font"]);
+      const t = new api.Text();
+      t._setWorkspace(fonts.workspace);
+      t.setText([
+        { text: "Replace ", fontFamily: "Open Sans" },
+        { text: "me", fontFamily: "Open Sans", fontWeight: 700 },
+      ]);
+      if (kind === "content") {
+        t.setProperty(
+          "content",
+          JSON.stringify([
+            { text: "Other ", fontFamily: "No Such Font" },
+            { text: "text", fontFamily: "Open Sans", fontWeight: 700 },
+          ]),
+        );
+      } else t.setProperties(["_tff"], ["No Such Font"]);
+      return t;
+    };
+    const pending = (t: any) => ({
+      deferred: t._deferredRangeSetters
+        ? t._deferredRangeSetters.length
+        : enc(t._deferredRangeSetters),
+      toResolve: families(t.hasFontsToResolve()),
+      whenAvailable: enc(t._setTextWhenAvailable),
+      content: enc(t.getProperty("content")),
+      tff: enc(t.$_tff),
+      tfs: enc(t.$_tfs),
+    });
+    const bold = () => fm.getFont("Open Sans", "N", 700);
+    const cases: [string, string, () => any, boolean][] = [
+      ["fontSetter", "setter", bold, false],
+      ["fontSetterContent", "setter", bold, true],
+      ["mapSetter", "setter", () => ({ "No Such Font": "Open Sans" }), false],
+      ["mapSetterContent", "setter", () => ({ "No Such Font": "Open Sans" }), true],
+      ["mapOther", "setter", () => ({ Elsewhere: "Open Sans" }), true],
+      ["fontContent", "content", bold, true],
+      ["mapContent", "content", () => ({ "No Such Font": "Open Sans" }), true],
+      ["mapContentOnly", "content", () => ({ "No Such Font": "Open Sans" }), false],
+    ];
+    for (const [name, kind, replacement, updateContent] of cases) {
+      const t = deferred(kind);
+      const before = pending(t);
+      t.replaceFonts(replacement(), updateContent);
+      replace[name] = { before, after: pending(t), state: state(t) };
+    }
+    const t = make();
+    t.setText([
+      { text: "Make ", fontFamily: "Open Sans" },
+      { text: "fake", fontFamily: "Open Sans", fontWeight: 700 },
+    ]);
+    t.toFakeText();
+    const made: Record<string, any> = {
+      fake: enc(t.isFakeText()),
+      content: enc(t.$content),
+      backups: (t._deserializedBackupPaths || []).map((s: any) => outline(s)),
+    };
+    api.Text.dontStorePaths = false;
+    let json: string;
+    try {
+      json = api.Node.serialize(t);
+    } finally {
+      api.Text.dontStorePaths = true;
+    }
+    made.blob = scrub(JSON.parse(json));
+    const back = api.Node.deserialize(json);
+    back._setWorkspace(ownFonts(["Open Sans"]).workspace);
+    back.getTLCore();
+    made.restored = {
+      fake: enc(back.isFakeText()),
+      toResolve: families(back.hasFontsToResolve()),
+      ...state(back),
+    };
+    replace.toFakeText = made;
+    out.replaceFonts = replace;
+  }
+
+  // -- Opening a pre-3.1 file: fixed-height texts grow to their content
+  // once they are in the scene (or once their fonts resolve).
+  {
+    const legacyHeight: Record<string, any> = {};
+    const heights = (t: any) => ({
+      h: enc(t.$h),
+      legacy: enc(t._legacyHeight),
+      repaired: enc(t._repairedHeight),
+      toResolve: families(t.hasFontsToResolve()),
+    });
+    // A new scene has a page but no layer.
+    const layerOf = (scene: any) => {
+      const layer = new api.Layer();
+      scene.getActivePage().appendChild(layer);
+      return layer;
+    };
+    const inScene = (fonts: any, runs: any, pre310: boolean) => {
+      const ws = new api.Workspace();
+      ws._fontManager = fonts;
+      const scene = new api.Scene(ws);
+      scene._pre310 = pre310;
+      const t = new api.Text();
+      t.setText(runs);
+      setAll(t, { aw: false, ah: false, w: 100, h: 10 });
+      layerOf(scene).appendChild(t);
+      return { scene, t };
+    };
+    const lines = "one\ntwo\nthree";
+    let r = inScene(fm, lines, true);
+    legacyHeight.resolved = heights(r.t);
+    legacyHeight.resolvedState = state(r.t);
+    r = inScene(fm, lines, false);
+    legacyHeight.current = heights(r.t);
+    const later = ownFonts([], true);
+    r = inScene(later.own, [{ text: lines, fontFamily: "Open Sans", fontWeight: 700 }], true);
+    legacyHeight.waiting = heights(r.t);
+    later.resolveAll();
+    legacyHeight.fontsArrived = heights(r.t);
+    legacyHeight.box = enc(r.t.getGeometryBBox());
+    legacyHeight.afterBox = heights(r.t);
+
+    // Taken out of the scene and put back: the path is attached again.
+    const ws = new api.Workspace();
+    ws._fontManager = fm;
+    const scene = new api.Scene(ws);
+    const layer = layerOf(scene);
+    const path = square();
+    layer.appendChild(path);
+    const t = new api.Text();
+    t.setText("Back on the path");
+    layer.appendChild(t);
+    t.attachPath(path);
+    legacyHeight.onPath = state(t);
+    layer.removeChild(t);
+    path.transform(T(1, 0, 0, 1, 25, 0));
+    layer.appendChild(t);
+    legacyHeight.reattached = { attached: t.hasPathAttached(), ...state(t) };
+    out.legacyHeight = legacyHeight;
+  }
+
+  // -- The length limit counts UTF-16 code units (it can split a surrogate pair).
+  {
+    const cut = (text: any) => {
+      const t = make();
+      t.setText(text);
+      const plain = t.getPlainText();
+      return {
+        plain: plain.length,
+        last: plain.charCodeAt(plain.length - 1),
+        runs: t
+          .getContent()
+          .map((run: any) => [run.text.length, run.text.charCodeAt(run.text.length - 1)]),
+      };
+    };
+    const emoji = "😀";
+    out.maxLength = {
+      emojiAtEnd: cut("x".repeat(8191) + emoji),
+      exact: cut("x".repeat(8190) + emoji),
+      splitRun: cut([{ text: "y".repeat(8001) }, { text: emoji.repeat(200) }, { text: "z" }]),
+      boundary: cut([{ text: "a".repeat(8192) }, { text: "b" }]),
+      shorten: enc(
+        make()
+          ._shorten([{ text: "a".repeat(8191) }, { text: emoji }, { text: "c" }])
+          .map((run: any) => run.text.length),
+      ),
+    };
+  }
+  // -- Kept slips: setText with locked events returns still locked when a
+  // font is missing; a legacy blob with a raw `trf` array throws.
+  {
+    const t = new api.Text();
+    t._setWorkspace(ownFonts(["Gone"]).workspace);
+    t.setText("start");
+    const core = t.getTLCore();
+    t.setText([{ text: "missing", fontFamily: "Gone" }], false, true);
+    const afterMissing = enc(core._changeLock);
+    t.setText("resolved", false, true);
+    out.quirks = {
+      lockAfterMissing: afterMissing,
+      lockAfterResolved: enc(core._changeLock),
+      rawTrf: attempt(() => {
+        const n = api.Node.deserialize(
+          JSON.stringify({
+            "@": "text",
+            tlx: 10,
+            tly: 0,
+            trx: 60,
+            try: 0,
+            blx: 10,
+            bry: 20,
+            trf: [1, 0, 0, 1, 5, 5],
+            ct: { "@": "txContent", $: [{ "@": "txPara", cnt: "raw" }] },
+          }),
+        );
+        return n ? Object.keys(JSON.parse(api.Node.serialize(n))).sort() : n;
+      }),
+    };
+  }
+
   out.statics = {
     MAXLENGTH: api.Text.MAXLENGTH,
     HMARGIN: api.Text.HMARGIN,

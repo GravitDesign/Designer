@@ -14,6 +14,14 @@
  * again or is synchronized. `sbl` saves the ids of nested symbols'
  * siblings, `swp`/`swpori` the swap state of nested instances. `frame`
  * is the symbol's box in its own coordinates.
+ *
+ * The class keeps its old public name, Symbol, so in this module and in
+ * every module that imports it, `Symbol` is this class and shadows the
+ * built-in; use `globalThis.Symbol` for the built-in there.
+ *
+ * Left out: the old _copyTextToContent, which only read each run's text
+ * and changed nothing (no caller in any old bundle), and the
+ * console.log("GET SYMBOL IMAGE") in getSymbolImage.
  */
 import { Locale } from "../core/locale/locale.ts";
 import { Event } from "../core/event.ts";
@@ -710,7 +718,8 @@ export class Symbol extends SymbolBase {
       master.acceptChildren((child) => {
         const copy = asSibling(child).clone({ symbolMasterReplicate: false } as SymbolCloneOptions);
         this.appendChild(copy as Node);
-        // The master's child gets the re-based transform, not the copy (kept).
+        // The master's child gets the re-based transform, not the copy (kept;
+        // QUESTIONS.md "Rebuilding an instance moves the master's children").
         if (child.hasMixin(Properties) && asSibling(child).hasProperty("trf")) {
           asSibling(child).setProperty(
             "trf",
@@ -1142,6 +1151,8 @@ export class Symbol extends SymbolBase {
             break;
           }
         } else {
+          // Drops the first pair, not this one (kept; QUESTIONS.md
+          // "Swapping for the same master drops the first swap pair").
           swaps.splice(0, 2);
           i -= 2;
           debugLog("Strange swap array!");
@@ -1296,15 +1307,10 @@ export class Symbol extends SymbolBase {
     this.setProperty("trf", this.$trf ? transform.multiplied(this.$trf) : transform);
     const inMaster = this._hasMasterParent();
     if (!inMaster) this._blockEvents++;
-    // GElement.Transform's preTransform: the children, in the new own coordinates.
-    if (this.isTransformChildren(transform, force)) {
-      const own = this.getProperty("trf") as Transform | null;
-      const mapped =
-        own && own.invertible()
-          ? (own.inverted() as Transform).multiplied(transform).multiplied(own)
-          : transform;
-      this._transformChildren(mapped, force, exceptions);
-    }
+    // GElement.Transform's preTransform, as the old code called it: the
+    // children, in the new own coordinates. No mixin between Symbol and
+    // TransformMixin overrides it.
+    super.preTransform(transform, force, exceptions);
     if (this._relayoutNow) {
       this._layoutAnchorContents(null, null, this._layoutTransform);
       this._layoutTransform = null;
@@ -2837,12 +2843,15 @@ function asReferenceNode(node: unknown): { getReferenceId(): string } {
   return node as { getReferenceId(): string };
 }
 
-/** The scene's class (GScene), for its InvalidationFinishedEvent. */
+/**
+ * The scene's class (GScene), for its InvalidationFinishedEvent, looked up
+ * by type id as the old code did: a scene whose type id names no class
+ * throws a TypeError on attach and detach, as before.
+ */
 function sceneClassOf(scene: SymbolScene): { InvalidationFinishedEvent: unknown } {
-  const cls = Node.getClassFromId(getTypeId(scene) as number) as unknown as {
+  return Node.getClassFromId(getTypeId(scene) as number) as unknown as {
     InvalidationFinishedEvent: unknown;
-  } | null;
-  return cls || (scene.constructor as { InvalidationFinishedEvent: unknown });
+  };
 }
 
 /** A class as the comparison reads its property tables. */

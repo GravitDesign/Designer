@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { RGBColor } from "../color/rgb-color.ts";
 import { VertexInfo } from "../geometry/vertex-info.ts";
 import { Point } from "../math/point.ts";
@@ -10,7 +10,11 @@ import { installFakeCanvas } from "../paint/testing/fake-canvas.ts";
 import { Node } from "../scene/node.ts";
 import { PathBase } from "../scene/path-base.ts";
 import { Path } from "../scene/path.ts";
+import { Layer } from "../scene/layer.ts";
+import { Scene } from "../scene/scene.ts";
+import { Workspace } from "../scene/workspace.ts";
 import { Stylable } from "../style/stylable.ts";
+import { TransactionRecorder } from "../undo/transaction-recorder.ts";
 import { FontManager, type ResolveFontEvent } from "./fonts/font-manager.ts";
 import { OpenTypeFont } from "./fonts/open-type-font.ts";
 import { TEXT_PROBE_FONTS, probeText } from "./text-probe.ts";
@@ -75,6 +79,10 @@ beforeAll(() => {
         Stylable,
         FontManager,
         fontManager,
+        TransactionRecorder,
+        Scene,
+        Workspace,
+        Layer,
       }),
     ),
   ) as Record<string, Record<string, unknown>>;
@@ -187,6 +195,50 @@ describe("GText against the old engine", () => {
   it("waits for missing fonts", () => {
     expect(actual.missing).toEqual(expected.missing);
   });
+
+  it("reads only the first backup outline of a fake text", () => {
+    expect(actual.fakeVertices).toEqual(expected.fakeVertices);
+  });
+
+  for (const name of Object.keys(expected.undo as object)) {
+    it(`undoes and redoes through the transaction recorder (${name})`, () => {
+      expect((actual.undo as Record<string, unknown>)[name]).toEqual(
+        (expected.undo as Record<string, unknown>)[name],
+      );
+    });
+  }
+
+  for (const name of Object.keys(expected.direction as object)) {
+    it(`changes the direction (${name})`, () => {
+      expect((actual.direction as Record<string, unknown>)[name]).toEqual(
+        (expected.direction as Record<string, unknown>)[name],
+      );
+    });
+  }
+
+  for (const name of Object.keys(expected.replaceFonts as object)) {
+    it(`replaces fonts (${name})`, () => {
+      expect((actual.replaceFonts as Record<string, unknown>)[name]).toEqual(
+        (expected.replaceFonts as Record<string, unknown>)[name],
+      );
+    });
+  }
+
+  for (const name of Object.keys(expected.legacyHeight as object)) {
+    it(`repairs pre-3.1 heights and re-attaches on scene attach (${name})`, () => {
+      expect((actual.legacyHeight as Record<string, unknown>)[name]).toEqual(
+        (expected.legacyHeight as Record<string, unknown>)[name],
+      );
+    });
+  }
+
+  it("cuts at MAXLENGTH code units, even inside a surrogate pair", () => {
+    expect(actual.maxLength).toEqual(expected.maxLength);
+  });
+
+  it("keeps the old slips (events left locked, raw trf array throws)", () => {
+    expect(actual.quirks).toEqual(expected.quirks);
+  });
 });
 
 describe("GText", () => {
@@ -220,6 +272,82 @@ describe("GText", () => {
     (resolve as unknown as (font: OpenTypeFont) => void)(bold);
     expect(text.hasFontsToResolve()).toBeNull();
     expect(text.getPlainText()).toBe("later");
+  });
+
+  // Old chunk.vendor.js 18206-18213: the timer runs after the workspace is
+  // gone, and _updateFontManagerListener does nothing without one.
+  it("keeps listening for fonts after it leaves the workspace", () => {
+    vi.useFakeTimers();
+    try {
+      const fm = new FontManager();
+      fm.setDefaultFont(fontManager.getDefaultFont() as OpenTypeFont);
+      fm.addEventListener(FontManager.ResolveFontEvent, (event: ResolveFontEvent) => {
+        event.failed();
+      });
+      const text = new Text();
+      text._setWorkspace(workspace(fm));
+      text.setText([{ text: "gone", fontFamily: "Gone" }]);
+      expect(fm.hasEventListeners(FontManager.FontAvailableEvent)).toBe(true);
+      text._setWorkspace(null);
+      vi.advanceTimersByTime(200);
+      expect(fm.hasEventListeners(FontManager.FontAvailableEvent)).toBe(true);
+      expect(text._hasFontManagerListener).toBe(true);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  // Old chunk.vendor.js 17816, 18332-18337 and 17000-17001: the parent's
+  // methods get only the arguments the old Text passed on.
+  it("passes only the old arguments to the parent's paint and hit test", () => {
+    const parent = Object.getPrototypeOf(Text.prototype) as {
+      _preparePaint(...args: unknown[]): unknown;
+      _paint(...args: unknown[]): unknown;
+      _detailHitTest(...args: unknown[]): unknown;
+    };
+    const prepare = vi.spyOn(parent, "_preparePaint").mockReturnValue(false);
+    const paint = vi.spyOn(parent, "_paint").mockReturnValue(undefined);
+    const hitTest = vi.spyOn(parent, "_detailHitTest").mockReturnValue(null);
+    try {
+      const text = new Text();
+      const context = {} as never;
+      text._preparePaint(context, "arg");
+      text._paint(context, "arg");
+      expect(prepare.mock.calls).toEqual([[context]]);
+      expect(paint.mock.calls).toEqual([[context]]);
+      text.isFakeText = () => true;
+      Text.HITTEST_TEXT = true;
+      const point = new Point(1, 2);
+      const transform = new Transform();
+      text._detailHitTest(point, transform, 3, true, { options: true });
+      expect(hitTest.mock.calls).toEqual([[point, transform, 3, true]]);
+    } finally {
+      Text.HITTEST_TEXT = false;
+      prepare.mockRestore();
+      paint.mockRestore();
+      hitTest.mockRestore();
+    }
+  });
+
+  // Old chunk.vendor.js 17039-17041: the pixel is a slice of ImageData.data.
+  it("hit tests text pixels and returns the pixel as a Uint8ClampedArray", () => {
+    const text = new Text();
+    text._setWorkspace(workspace(fontManager));
+    text.setText("pixels");
+    // A 1x1 sample around the point (tolerance 0, scale 1): one opaque pixel.
+    const data = new Uint8ClampedArray([10, 20, 30, 255]);
+    const canvas = { getContext: () => ({ getImageData: () => ({ data }) }) };
+    const core = text.getTLCore() as NonNullable<ReturnType<Text["getTLCore"]>>;
+    core.getCanvas = (() => canvas) as unknown as typeof core.getCanvas;
+    Text.HITTEST_TEXT = true;
+    try {
+      const hit = text._detailHitTest(new Point(5, 5), new Transform(), 0);
+      const pixel = (hit?.data as { pixel: unknown }).pixel;
+      expect(pixel).toBeInstanceOf(Uint8ClampedArray);
+      expect(Array.from(pixel as Uint8ClampedArray)).toEqual([10, 20, 30, 255]);
+    } finally {
+      Text.HITTEST_TEXT = false;
+    }
   });
 
   it("stores no backup outlines while dontStorePaths is set", () => {

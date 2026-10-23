@@ -50,7 +50,11 @@ function emitExtra<T>(emit: Emit<T>, extra?: unknown): void {
   emit(extra as T);
 }
 
-/** A string mapper is an expression of x, as in the old library. */
+/**
+ * A string mapper is an expression of x, as in the old library. No engine
+ * code passes one (only gtl-probe.ts does, to pin this), so the eval stays
+ * for parity; see the QUESTIONS.md entry "GTL Per evaluates string mappers".
+ */
 function toFunction<T, R>(mapper: Mapper<T, R>): (value: T, index: number) => R {
   return "string" == typeof mapper ? (new Function("x", "return " + mapper) as never) : mapper;
 }

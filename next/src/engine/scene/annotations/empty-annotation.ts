@@ -3,7 +3,8 @@
  * An annotation without a shape, node "ann": just the meta properties and
  * the comment thread. Not an element, so it is never painted or hit.
  *
- * Two old slips are kept (QUESTIONS.md):
+ * Two old slips are kept (QUESTIONS.md, "GEmptyAnnotation restores none
+ * of its meta properties" and "Annotation model slips kept"):
  * - Restore read the class's own `MetaProperties`, which it never had
  *   (statics came from GSceneNode), so restoring sets none of the meta
  *   properties; a loaded "ann" keeps the defaults.

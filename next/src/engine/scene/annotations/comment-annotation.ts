@@ -125,7 +125,8 @@ export class CommentAnnotation extends AnnotationMixin(Path) {
    * Scales the icon to its on-canvas size when the pin has no transform
    * yet. With an invertible transform the old code called
    * `GTransform.invert`, which doesn't exist, so it threw; kept (a
-   * singular transform is left alone).
+   * singular transform is left alone). PDF import may reach this with a
+   * transform already set (QUESTIONS.md, "Annotation model slips kept").
    */
   override initSizeAndPosition(): void {
     const icon = new Transform(...ICON_TRANSFORM);

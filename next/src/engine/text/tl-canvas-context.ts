@@ -101,6 +101,8 @@ export class TLCanvasContext implements RunDrawContext {
   wordSpacing: number | undefined = undefined;
 
   constructor(core: TLCanvasCore, context: Context2D | HTMLCanvasElement) {
+    // The old constructor also unwrapped a RendererCanvas (t.parent); that
+    // canvas wrapper belonged to the dropped GRendererCtx recorder.
     if ("undefined" != typeof HTMLCanvasElement && context instanceof HTMLCanvasElement) {
       context = context.getContext("2d") as unknown as Context2D;
     }
@@ -593,12 +595,16 @@ export class TLCanvasContext implements RunDrawContext {
         if (this._textFillStyle) {
           const pattern = this._textFillStyle;
           const bounds = font.getGlyphBoundingRect(fontSize, lastText);
+          // The paint canvas methods run with this context as `this`, as in
+          // the old code; it has the fields they read, not the class type.
           const paint = Canvas2DPaintCanvas.prototype.createPatternPaint.call(
             this as never,
             pattern,
             bounds,
           ) as PatternPaint;
-          // Overwritten right below, as in the old code.
+          // Kept: the next line assigns this.fillStyle, whose getter reads
+          // this canvas fillStyle back, so the pattern style stays unless a
+          // default fill other than transparent is set (as in the old code).
           this._canvasContext.fillStyle = Canvas2DPaintCanvas.prototype._convertStyle.call(
             this as never,
             paint.paint as PaintStyle,
@@ -615,6 +621,8 @@ export class TLCanvasContext implements RunDrawContext {
         if (this._textStrokeStyle) {
           const pattern = this._textStrokeStyle;
           const bounds = font.getGlyphBoundingRect(fontSize, lastText);
+          // The paint canvas methods run with this context as `this`, as in
+          // the old code; it has the fields they read, not the class type.
           const paint = Canvas2DPaintCanvas.prototype.createPatternPaint.call(
             this as never,
             pattern,

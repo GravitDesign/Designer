@@ -163,7 +163,9 @@ function clone(run: Run): Run {
  * The formatting two runs share; keys where they differ get
  * multipleValues. With one array argument it folds the array (through
  * Array.prototype.reduce, which passes four arguments, as the old code
- * did); with more than two arguments it folds them.
+ * did); with more than two arguments it folds them. An array of two or
+ * more runs therefore recurses until the stack overflows (QUESTIONS.md
+ * "GTL Formatting.merge recurses forever on an array of runs").
  */
 function merge(...args: unknown[]): Run {
   if (1 === args.length) {

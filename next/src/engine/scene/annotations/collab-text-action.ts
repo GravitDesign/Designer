@@ -4,8 +4,8 @@
  * text editor: a green 24 by 24 circle with a white "A" and a speech
  * bubble. Its size is what GCollabText adds above its paint box.
  *
- * port-map.tsv lists this module as dead code, but GCollabText's
- * constructor adds it, so it is ported with the collab text.
+ * port-map.tsv first listed this module as dead code; it was moved to
+ * "port" because GCollabText's constructor adds it.
  */
 import { RGBColor } from "../../color/rgb-color.ts";
 import { Vertex } from "../../geometry/vertex.ts";

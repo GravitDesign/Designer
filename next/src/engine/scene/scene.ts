@@ -555,8 +555,8 @@ export class Scene extends SceneBase implements SceneHooks {
       if (reference) {
         if (reference instanceof Style) {
           linked.length = 0;
-          for (let c = 0; c < sceneNodes.length; c++) {
-            const node = sceneNodes[c] as SceneNode;
+          for (let nodeIndex = 0; nodeIndex < sceneNodes.length; nodeIndex++) {
+            const node = sceneNodes[nodeIndex] as SceneNode;
             if (
               node instanceof Element &&
               (node as Element & { hasProperty(name: string): boolean }).hasProperty("sref") &&
@@ -580,14 +580,14 @@ export class Scene extends SceneBase implements SceneHooks {
           }
         } else {
           const missing: number[] = [];
-          for (let y = 0; y < linked.length; y++) {
+          for (let linkIndex = 0; linkIndex < linked.length; linkIndex++) {
             let matched = false;
-            for (let c = 0; c < sceneNodes.length; c++) {
-              if (savedIds[c] === linked[y]) {
-                const node = sceneNodes[c] as SceneNode;
+            for (let nodeIndex = 0; nodeIndex < sceneNodes.length; nodeIndex++) {
+              if (savedIds[nodeIndex] === linked[linkIndex]) {
+                const node = sceneNodes[nodeIndex] as SceneNode;
                 if (node.getWorkspace()) {
                   found.push(node);
-                  linked[y] = node.getSceneId();
+                  linked[linkIndex] = node.getSceneId();
                   if (node.hasEventListeners(ReferenceEvent)) {
                     node.trigger(new ReferenceEvent(reference, node, true));
                   }
@@ -596,11 +596,12 @@ export class Scene extends SceneBase implements SceneHooks {
                 }
               }
             }
-            if (!matched) missing.push(y);
+            if (!matched) missing.push(linkIndex);
           }
           if (missing.length) {
             console.warn("Inexistent links found, cleaning up...");
-            for (let y = missing.length - 1; y >= 0; y--) linked.splice(missing[y] as number, 1);
+            for (let missingIndex = missing.length - 1; missingIndex >= 0; missingIndex--)
+              linked.splice(missing[missingIndex] as number, 1);
           }
         }
         if (!this._linksLookup) this._linksLookup = {};
@@ -852,19 +853,19 @@ export class Scene extends SceneBase implements SceneHooks {
       const linked = (this._linksLookup as LinksLookup)[id];
       if (linked) {
         const ids = links[id] as string[];
-        for (let o = ids.length - 1; o >= 0; o--) {
-          const sceneId = ids[o];
+        for (let idIndex = ids.length - 1; idIndex >= 0; idIndex--) {
+          const sceneId = ids[idIndex];
           let found = false;
-          for (let l = 0; l < linked.length; l++) {
-            if ((linked[l] as SceneNode).getSceneId() === sceneId) {
+          for (let nodeIndex = 0; nodeIndex < linked.length; nodeIndex++) {
+            if ((linked[nodeIndex] as SceneNode).getSceneId() === sceneId) {
               found = true;
               break;
             }
           }
           if (!found) {
             if (!removed[id]) removed[id] = [];
-            removed[id].push(ids[o] as string);
-            ids.splice(o, 1);
+            removed[id].push(ids[idIndex] as string);
+            ids.splice(idIndex, 1);
           }
         }
         if (0 === ids.length) Reflect.deleteProperty(links, id);
@@ -952,7 +953,8 @@ export class Scene extends SceneBase implements SceneHooks {
   /**
    * Drops the cached boxes of all children and asks each to refresh its
    * position. Pages have no refreshPosition, so this throws once a page
-   * is reached outside a restore; kept (QUESTIONS.md).
+   * is reached outside a restore; kept (QUESTIONS.md, "Changing the
+   * scene's ms throws").
    */
   refreshPagesPositions(): void {
     try {
@@ -1249,8 +1251,8 @@ export class Scene extends SceneBase implements SceneHooks {
           );
       }
       // The old loop assigned an undeclared `node` (a global); a local here.
-      for (let c = 0; c < pages.length; c++) {
-        const node = pages[c];
+      for (let pageIndex = 0; pageIndex < pages.length; pageIndex++) {
+        const node = pages[pageIndex];
         if (node instanceof Page) {
           position = node.getPosition(true);
           (context.canvas as PaintCanvas).setOrigin(
@@ -1366,8 +1368,8 @@ export class Scene extends SceneBase implements SceneHooks {
     }
     if (candidates && 0 == candidates.length) candidates = null;
     if (candidates) {
-      for (let c = 0; c < candidates.length; c++) {
-        const page = candidates[c] as Page;
+      for (let candidateIndex = 0; candidateIndex < candidates.length; candidateIndex++) {
+        const page = candidates[candidateIndex] as Page;
         const at = page.getPosition(multiPage);
         const pageTransform = transform
           ? transform.preMultiplied(new Transform(1, 0, 0, 1, at.getX(), at.getY()))
@@ -1827,7 +1829,8 @@ export class Scene extends SceneBase implements SceneHooks {
       if (ms >= 0) {
         this.refreshPagesPositions();
         // The old code read an undeclared `mpIdx` here (chunk.vendor.js
-        // line 34950); it threw this ReferenceError. Kept (QUESTIONS.md).
+        // line 34950); it threw this ReferenceError. Kept (QUESTIONS.md,
+        // "Changing the scene's ms throws").
         throw new ReferenceError("mpIdx is not defined");
       }
       if (links >= 0) this._checkSanityIfNecessary();
@@ -1913,8 +1916,8 @@ export class Scene extends SceneBase implements SceneHooks {
       const children = blob.$ as NonNullable<typeof blob.$>;
       let hasPage = false;
       if (children.length) {
-        for (let h = 0; h < children.length; ++h) {
-          const child = children[h] as (typeof children)[number];
+        for (let childIndex = 0; childIndex < children.length; ++childIndex) {
+          const child = children[childIndex] as (typeof children)[number];
           // Throws for an unknown node name, as the old code did.
           const cls = Node._nameToNodeClassMap.get(child["@"] as string) as NodeClass;
           if (cls.toString() === Page.toString()) hasPage = true;
@@ -1928,7 +1931,8 @@ export class Scene extends SceneBase implements SceneHooks {
     this.restoreProperties(blob, MetaProperties);
     this.restoreProperties(blob, GeometryProperties);
     // Adds the page properties the blob has to VisualProperties itself
-    // (not a copy), so they stay in the table for every later scene; kept.
+    // (not a copy), so they stay in the table for every later scene; kept
+    // (QUESTIONS.md, "Restoring a scene adds page keys to GScene.VisualProperties").
     const visual = inheritedPageProps.reduce((table, name) => {
       if (hasOwn(blob, name)) table[name] = null;
       return table;
@@ -2051,10 +2055,10 @@ export class Scene extends SceneBase implements SceneHooks {
     if (pageIndices.some((index) => index >= 0)) {
       let pageNames: string[] = [];
       let pageValues: unknown[] = [];
-      for (let h = properties.length - 1; h >= 0; h--) {
-        if ((pageIndices[h] as number) >= 0) {
-          pageNames = pageNames.concat(properties.splice(h, 1));
-          pageValues = pageValues.concat(values.splice(h, 1));
+      for (let propertyIndex = properties.length - 1; propertyIndex >= 0; propertyIndex--) {
+        if ((pageIndices[propertyIndex] as number) >= 0) {
+          pageNames = pageNames.concat(properties.splice(propertyIndex, 1));
+          pageValues = pageValues.concat(values.splice(propertyIndex, 1));
         }
       }
       const page = this.getActivePage();
@@ -2182,7 +2186,14 @@ export class Scene extends SceneBase implements SceneHooks {
     (this._trfSettings as SceneTransformSettingsValues).scaleCorners = scale;
   }
 
-  /** Keeps `destroyable` (canvas, effect, image) to destroy with the scene. */
+  /**
+   * Keeps `destroyable` (canvas, effect, image) to destroy with the scene.
+   * The old code also took renderer contexts (GRendererCtx, RendererCanvas)
+   * and destroyed them through the renderer; those branches went with the
+   * dropped recorder. It required the GDestroyable mixin (and threw on an
+   * object without hasMixin); this accepts anything with a destroy method,
+   * which every current caller has.
+   */
   addDestroyable(destroyable: unknown): void {
     if (destroyable && isDestroyable(destroyable)) this._destroyables.push(destroyable);
   }
@@ -2200,8 +2211,8 @@ export class Scene extends SceneBase implements SceneHooks {
     if (0 === this._referenceCounter) return;
     this._referenceCounter = this._referenceCounter - 1;
     if (0 === this._referenceCounter) {
-      for (let e = 0; e < this._destroyables.length; e++) {
-        const destroyable = this._destroyables[e];
+      for (let index = 0; index < this._destroyables.length; index++) {
+        const destroyable = this._destroyables[index];
         if (isDestroyable(destroyable)) destroyable.destroy();
       }
       this._destroyables = [];

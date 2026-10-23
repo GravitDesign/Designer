@@ -119,7 +119,8 @@ export class TLCore extends GObject implements Destroyable {
     this._fontManager = fontManager || null;
     this._fontCallback = fontCallback;
     if (this._deferredSettings) {
-      // The old code tested `hasOwnProperty(text)` with an undeclared `text`.
+      // The old code tested `hasOwnProperty(text)` with an undeclared `text`
+      // (QUESTIONS.md "GTL TLCore.initialize throws after deferred settings").
       throw new ReferenceError("text is not defined");
     }
   }
@@ -192,7 +193,10 @@ export class TLCore extends GObject implements Destroyable {
         let run: Run;
         if (formatting) {
           run = formatting;
-          run.text = text as string;
+          // The old module was sloppy, so writing a read-only `text` (a run
+          // derived with Object.create and a `text` descriptor) was ignored
+          // instead of throwing.
+          Reflect.set(run, "text", text);
         } else {
           run = { text: text as string };
         }
@@ -906,7 +910,10 @@ export class TLCore extends GObject implements Destroyable {
     return this._doc.save();
   }
 
-  /** Stores a setting for later; the old code stored every one under "name". */
+  /**
+   * Stores a setting for later; the old code stored every one under "name"
+   * (QUESTIONS.md "GTL TLCore.initialize throws after deferred settings").
+   */
   _setDeferred(_name: string, value?: unknown): void {
     if (!this._deferredSettings) this._deferredSettings = {};
     this._deferredSettings.name = value;

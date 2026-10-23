@@ -1,0 +1,183 @@
+{
+ "multirefs": {
+  "nestedShare": false,
+  "masterShare": true,
+  "a1Matches": true
+ },
+ "editFirst": {
+  "a1": [
+   "edited in A",
+   "b-rect",
+   "g-rect",
+   "a-rect"
+  ],
+  "outside": [
+   "b-rect"
+  ],
+  "master": [
+   "edited in A",
+   "b-rect",
+   "g-rect",
+   "a-rect"
+  ],
+  "b": [
+   "b-rect"
+  ]
+ },
+ "n1": {
+  "bRect": [
+   "B master rect",
+   "B master rect",
+   "B master rect"
+  ],
+  "gRect": [
+   null,
+   null,
+   null
+  ],
+  "aRect": [
+   null,
+   null,
+   null
+  ],
+  "n2": [
+   null,
+   null,
+   null
+  ],
+  "unknown": [
+   null,
+   null,
+   null
+  ]
+ },
+ "a1": {
+  "bRect": [
+   null,
+   null,
+   null
+  ],
+  "gRect": [
+   "rectangle:g-rect",
+   "rectangle:g-rect",
+   "rectangle:g-rect"
+  ],
+  "aRect": [
+   "rectangle:a-rect",
+   "rectangle:a-rect",
+   "rectangle:a-rect"
+  ],
+  "n2": [
+   "symbol:B",
+   "symbol:B",
+   "symbol:B"
+  ],
+  "unknown": [
+   null,
+   null,
+   null
+  ]
+ },
+ "ma": {
+  "bRect": [
+   null,
+   null,
+   null
+  ],
+  "gRect": [
+   null,
+   "rectangle:g-rect",
+   null
+  ],
+  "aRect": [
+   null,
+   "rectangle:a-rect",
+   null
+  ],
+  "n2": [
+   null,
+   "symbol:B",
+   null
+  ],
+  "unknown": [
+   null,
+   null,
+   null
+  ]
+ },
+ "mb": {
+  "bRect": [
+   null,
+   "B master rect",
+   null
+  ],
+  "gRect": [
+   null,
+   null,
+   null
+  ],
+  "aRect": [
+   null,
+   null,
+   null
+  ],
+  "n2": [
+   null,
+   null,
+   null
+  ],
+  "unknown": [
+   null,
+   null,
+   null
+  ]
+ },
+ "syncStart": {
+  "n1Rect": false,
+  "n1RectDeep": false,
+  "a1N1": true,
+  "a1N1Deep": true,
+  "a1RectDeep": false,
+  "a1Group": true,
+  "maps": [
+   1,
+   0
+  ]
+ },
+ "syncFill": {
+  "n1Rect": false,
+  "n1RectDeep": false,
+  "a1N1": true,
+  "a1N1Deep": true,
+  "a1RectDeep": false,
+  "a1Group": true,
+  "maps": [
+   2,
+   0
+  ]
+ },
+ "syncName": {
+  "n1Rect": true,
+  "n1RectDeep": false,
+  "a1N1": true,
+  "a1N1Deep": true,
+  "a1RectDeep": false,
+  "a1Group": true,
+  "maps": [
+   1,
+   0
+  ]
+ },
+ "syncGroupFill": {
+  "n1Rect": true,
+  "n1RectDeep": false,
+  "a1N1": true,
+  "a1N1Deep": true,
+  "a1RectDeep": false,
+  "a1Group": false,
+  "maps": [
+   1,
+   1
+  ]
+ }
+}

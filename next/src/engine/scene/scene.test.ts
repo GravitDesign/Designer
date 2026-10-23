@@ -198,6 +198,12 @@ describe("Scene quirks", () => {
     expect(() => scene.setProperty("ms", 1)).toThrow(TypeError);
   });
 
+  it("throws the old mpIdx ReferenceError when ms changes and no child needs a position", () => {
+    const scene = new Scene(new Workspace(), true);
+    for (const child of scene.getChildren().slice()) scene.removeChild(child);
+    expect(() => scene.setProperty("ms", 1)).toThrow(ReferenceError);
+  });
+
   it("sends page properties to the active page even when a layer is active", () => {
     const scene = newScene();
     const layer = new Layer();

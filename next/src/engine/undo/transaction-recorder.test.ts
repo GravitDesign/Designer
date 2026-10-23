@@ -185,6 +185,24 @@ describe("TransactionRecorder", () => {
     expect(leaf.changes).toContain(ElementChange.FinishGeometryUpdate);
   });
 
+  it("keeps the caller's raw block flags, like the old `!!n && n[0]`", () => {
+    const { recorder, root } = setup();
+    const leaf = new TxLeaf();
+    root.appendChild(leaf);
+    recorder.beginTransaction();
+    leaf._beginBlockChanges([NodeChange.AfterPropertiesChange], [1, 0]);
+    leaf._endBlockChanges([NodeChange.AfterPropertiesChange], [true]);
+    leaf._beginBlockChanges([NodeChange.AfterPropertiesChange]);
+    leaf._endBlockChanges([NodeChange.AfterPropertiesChange]);
+    const actions = recorder.endTransaction() ?? [];
+    expect(actions.map((a) => [a.withInvalidation, a.noGeometryInvalidation])).toEqual([
+      [1, 0],
+      [true, undefined],
+      [false, false],
+      [false, false],
+    ]);
+  });
+
   it("records special changes through the node's own actions", () => {
     const recorder = new TransactionRecorder();
     const action = vi.fn();

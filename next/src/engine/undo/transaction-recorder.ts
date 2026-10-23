@@ -8,7 +8,8 @@
  * There is only one list. `beginTransaction` replaces it and
  * `endTransaction` hands it out and stops recording, so a transaction
  * begun inside another one drops what the outer one recorded so far, and
- * changes made after the inner end are not recorded at all (QUESTIONS.md).
+ * changes made after the inner end are not recorded at all (QUESTIONS.md,
+ * "Nested transactions drop the outer actions").
  */
 import { ElementChange } from "../scene/element-change.ts";
 import { Accelerated, type AcceleratedApi } from "../scene/element-accelerated.ts";
@@ -56,8 +57,9 @@ export interface TransactionAction {
   values?: unknown[];
   oldValues?: unknown[];
   custom?: boolean | null | undefined;
-  withInvalidation?: boolean;
-  noGeometryInvalidation?: boolean;
+  /** The raw block argument entries (see blockFlag). */
+  withInvalidation?: unknown;
+  noGeometryInvalidation?: unknown;
   changes?: number[];
 }
 
@@ -107,7 +109,7 @@ function asRecorded(node: Node, fn: () => void): void {
   if (flagged) node.recordedTransaction = false;
 }
 
-function finishGeometryUpdate(node: Node, noGeometryInvalidation: boolean | undefined): void {
+function finishGeometryUpdate(node: Node, noGeometryInvalidation: unknown): void {
   asRecorded(node, () => {
     node._notifyChange(ElementChange.FinishGeometryUpdate, noGeometryInvalidation ? -1 : 0);
     if (node.hasMixin(Accelerated)) (node as unknown as AcceleratedApi)._updateQTree();
@@ -120,9 +122,13 @@ function prepareGeometryUpdate(node: Node): void {
   });
 }
 
-/** The block argument: [withInvalidation, noGeometryInvalidation]. */
-function blockFlag(arg: unknown, index: number): boolean {
-  return !!arg && !!(arg as unknown[])[index];
+/**
+ * The block argument: [withInvalidation, noGeometryInvalidation]. Like the
+ * old `!!n && n[0]`, this is false without an argument and otherwise the
+ * caller's raw entry (undefined, 0, true, ...); only its truthiness is read.
+ */
+function blockFlag(arg: unknown, index: number): unknown {
+  return !!arg && (arg as unknown[])[index];
 }
 
 /**

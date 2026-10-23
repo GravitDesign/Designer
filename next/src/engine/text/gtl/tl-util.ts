@@ -87,6 +87,7 @@ function parseFont(font: string): ParsedFont {
         style = Font.Style.Italic;
         break;
       case "oblique":
+        // Kept: QUESTIONS.md "GTL parseFont reads oblique as strikeout".
         strikeout = true;
         break;
       case "small-caps":
@@ -146,7 +147,11 @@ function parseFont(font: string): ParsedFont {
   };
 }
 
-/** Normalizes line breaks (only the first \r\n and \r, as before) and turns tabs into three spaces. */
+/**
+ * Normalizes line breaks (only the first \r\n and \r, as before) and turns
+ * tabs into three spaces. Kept: QUESTIONS.md "GTL deCRLFify replaces only
+ * the first line break".
+ */
 function deCRLFify(text: string): string {
   return text.replace("\r\n", "\n").replace("\r", "\n").replace(/\t/g, "   ");
 }

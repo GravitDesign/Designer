@@ -238,7 +238,8 @@ function annotationMembers<TBase extends AnyConstructor<AnnotationHost>>(Base: T
 
     /**
      * Whoever sets `uid` has read it: the uid joins `read`. A `read` that
-     * isn't an array (a string, a number) makes this throw, as before.
+     * isn't an array (a string, a number) makes this throw, as before
+     * (QUESTIONS.md, "Annotation model slips kept").
      */
     updateReadUnreadStatus(args: PropertiesChangeArgs): PropertiesChangeArgs {
       return updateReadList(this, args);

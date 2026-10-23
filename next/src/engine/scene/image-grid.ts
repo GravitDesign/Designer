@@ -367,6 +367,9 @@ export class ImageGrid extends Shape {
           : value,
       );
     } else if (change == ElementChange.FinishGeometryUpdate) {
+      // The only reset of the cached cells: `grid` and `mg` changes don't
+      // clear them (kept, see QUESTIONS "Image grid layout and margin
+      // changes don't reset the outline").
       this._vertexSource = null;
     } else if (change === NodeChange.ParentAttached || change === NodeChange.ParentDetach) {
       if (this.$im) {

@@ -5,6 +5,11 @@
  * new elements of that class get (`_sdf` holds the class's type id).
  * The defaults are created in the order of DEFAULT_STYLE_CLASSES, also
  * when `repairSdf` adds the ones a loaded document lacks.
+ *
+ * "GStyles" is a registration name made up for the port: the old class had
+ * no G name (it printed its minified function name) and was registered only
+ * as the node "styles". It is not in the parity G namespace and is not an
+ * old API, so nothing should depend on it.
  */
 import { ColorHelper } from "../color/color-helper.ts";
 import { RGBColor } from "../color/rgb-color.ts";

@@ -27,7 +27,14 @@
  * What it leaves out: the editor (GEditor, app.editor(), editor phase),
  * the views and windows, the font providers and default font
  * (app-fonts-ui), document titles and storage. Scenarios that need them
- * stay unlisted.
+ * stay unlisted. In particular the GEditor constructor, which the old
+ * GDocument ran for every scene, sets scene.__graphic_editor__, adds the
+ * AfterInsert, BeforeRemove, flag and geometry listeners and moves the
+ * ":selected" nodes into the selection; and boot set the page shadow of
+ * GEditorPaintConfiguration.prototype.pageDecoration (blur 4, offset y 2,
+ * rgba(0,0,0,0.25)). An engine scenario whose result depends on those
+ * listeners, or on page shadows in the multi-page view, waits for the
+ * editor phase.
  */
 import { RGBColor } from "../../engine/color/rgb-color.ts";
 import { Node } from "../../engine/scene/node.ts";
@@ -57,8 +64,11 @@ function createScene(noPage?: boolean): Scene {
   return new Scene(workspace, noPage);
 }
 
-/** GDesigner.newInfiniteDocument: a white, unbounded first page. */
-function newInfiniteDocument(): void {
+/**
+ * GDesigner.newInfiniteDocument: a white, unbounded first page. Returns
+ * the document like the old method did (the old harness hook drops it).
+ */
+function newInfiniteDocument(): InterimDocument {
   const scene = createScene();
   (scene.getActivePage() as NonNullable<ReturnType<Scene["getActivePage"]>>).setProperties(
     ["bck", "w", "h"],
@@ -71,6 +81,7 @@ function newInfiniteDocument(): void {
   // activation with scene.getAnnotations(), which gives every page its
   // annotations list ("annlst"). Documents in the old app always have one.
   scene.getAnnotations();
+  return document;
 }
 
 function activeScene(): Scene {

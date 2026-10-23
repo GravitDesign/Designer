@@ -1,4 +1,6 @@
 // Old: chunk.vendor.js module 369 (the GTL render flags).
+// The old module was a function whose constructor threw "cannot be
+// instantiated"; nothing called it with new, so a plain object stands in.
 
 /**
  * Bits for TLCore.render and TLCanvasContext.renderMode. FILL and STROKE

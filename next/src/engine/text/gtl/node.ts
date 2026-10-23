@@ -60,14 +60,19 @@ export class TLNode extends GObject {
     return nextLeaf(this);
   }
 
-  previous(): TLNode | null {
+  /**
+   * The previous sibling, or the last child of the parent's previous node.
+   * Like the old code this is undefined (not null) when that node has no
+   * children; callers only test it for truthiness.
+   */
+  previous(): TLNode | null | undefined {
     const parent = this.parent();
     if (!parent) return null;
     const siblings = parent.children();
     const previous = siblings[siblings.indexOf(this) - 1];
     if (previous) return previous;
     const parentPrevious = parent.previous();
-    return parentPrevious ? (parentPrevious.last() ?? null) : null;
+    return parentPrevious ? parentPrevious.last() : null;
   }
 
   /** The deepest node that contains the ordinal, or this node. */
@@ -103,7 +108,9 @@ export class TLNode extends GObject {
       const next = (found as TLNode).next();
       if (next && next.block) found = next;
     }
-    return found ?? null;
+    // Never null or undefined here: without children the old code threw
+    // at `found.next()` above, and so does this one.
+    return found as TLNode;
   }
 
   draw(context: unknown, viewport?: TLRect | null): void {

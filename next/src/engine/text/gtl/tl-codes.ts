@@ -399,16 +399,47 @@ function editFilter(doc: EditFilterTarget): void {
 }
 
 /**
+ * Stands in for the old GTLCodes namespace, which was a function: names
+ * that weren't codes could still be found on it (its own `name`, `length`
+ * and `prototype`) or on Function.prototype and Object.prototype.
+ */
+function OldCodesNamespace(): void {}
+
+/**
+ * What the old lookup `GTLCodes[name]` found for a name that isn't a code,
+ * and what `new` on it did. Every truthy value threw: plain methods and
+ * other values aren't constructors (TypeError), and `new Function(...)`
+ * with the code object as a parameter name is a SyntaxError. `caller` and
+ * `arguments` read as null on the old (sloppy) function. Only a malformed
+ * file has such a code name (QUESTIONS: "GTL code names found on the old
+ * GTLCodes function").
+ */
+function failForFunctionProperty(name: string): void {
+  if ("caller" === name || "arguments" === name) return;
+  if (!(OldCodesNamespace as unknown as Record<string, unknown>)[name]) return;
+  if ("constructor" === name) throw new SyntaxError("Unexpected identifier 'Object'");
+  throw new TypeError(name + " is not a constructor");
+}
+
+/**
  * Makes the code instance for a code object by its `$` name, or null.
  * The names are the keys of TLCodes, as the old code looked them up on
  * its namespace.
  */
 function codeFactory(obj: CodeObject, data: unknown, allCodes: CodeResolver): TextCode | null {
   const name = (obj as { $?: unknown }).$ as string;
-  const cls = Object.prototype.hasOwnProperty.call(TLCodes, name)
-    ? (TLCodes as unknown as Record<string, unknown>)[name]
-    : undefined;
-  return cls ? (Reflect.construct(cls as never, [obj, data, allCodes]) as TextCode) : null;
+  if (!Object.prototype.hasOwnProperty.call(TLCodes, name)) {
+    failForFunctionProperty(name);
+    return null;
+  }
+  const cls = (TLCodes as unknown as Record<string, unknown>)[name];
+  return cls
+    ? (Reflect.construct(cls as new (...args: unknown[]) => TextCode, [
+        obj,
+        data,
+        allCodes,
+      ]) as TextCode)
+    : null;
 }
 
 /** The GTL codes under their old names (GTLCodes.ListStart, GTLCodes.Bullet, ...). */

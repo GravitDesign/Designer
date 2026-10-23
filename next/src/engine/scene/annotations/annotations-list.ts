@@ -111,7 +111,8 @@ export class AnnotationsList extends Store(Properties(Container(SceneNode))) {
   /**
    * Meant to list the selected annotations; the old code pushed them into
    * an undeclared variable, so it throws a ReferenceError as soon as a
-   * selected node is found and otherwise returns an empty list. Kept.
+   * selected node is found and otherwise returns an empty list. Kept
+   * (QUESTIONS.md, "Annotation model slips kept").
    */
   getSelected(): Node[] {
     this.acceptChildren((node) => {

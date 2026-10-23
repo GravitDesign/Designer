@@ -148,6 +148,14 @@ describe("Selector", () => {
     );
   });
 
+  it("throws from ^ when the first child doesn't match, as the shifted old call did", () => {
+    const { root } = tree();
+    expect(names(root.queryAll("^ box"))).toEqual(["a"]);
+    // The first child (a box) doesn't match, so "+" gets the old shifted
+    // arguments and calls the match state as the filter.
+    expect(() => root.queryAll("^ leaf")).toThrow(TypeError);
+  });
+
   it("throws for ids, since the scene has no getById", () => {
     const { root } = tree();
     expect(() => root.queryAll("#abc")).toThrow(TypeError);

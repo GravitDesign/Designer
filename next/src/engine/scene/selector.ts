@@ -5,7 +5,8 @@
  * from the Slick selector engine. Loading this module gives every node
  * `queryCount`, `queryAll`, `querySingle`, `matches` and `filtered`.
  *
- * Several old quirks are kept on purpose (QUESTIONS.md):
+ * Several old quirks are kept on purpose (QUESTIONS.md, "Selector engine
+ * quirks"):
  * - `:first-child` (and `:first`) never matches: it asks `index(node, 0)`,
  *   which counts children from 1.
  * - `:nth-child(3)` matches the second child (the `a - 1` below), `:even`

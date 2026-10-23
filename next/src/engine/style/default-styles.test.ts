@@ -6,6 +6,14 @@ import { normalizeDocument, type Json } from "../../../parity/support/normalize.
 import { CMYKColor } from "../color/cmyk-color.ts";
 import { RGBColor } from "../color/rgb-color.ts";
 import { getTypeId } from "../core/object.ts";
+import { lookupOldTypeId } from "../core/type-ids.ts";
+import { ArrowAnnotation } from "../scene/annotations/arrow-annotation.ts";
+import { CommentAnnotation } from "../scene/annotations/comment-annotation.ts";
+import { EllipseAnnotation } from "../scene/annotations/ellipse-annotation.ts";
+import { HighlighterAnnotation } from "../scene/annotations/highlighter-annotation.ts";
+import { PencilAnnotation } from "../scene/annotations/pencil-annotation.ts";
+import { RectangleAnnotation } from "../scene/annotations/rectangle-annotation.ts";
+import { TextAnnotation } from "../scene/annotations/text-annotation.ts";
 import { Node, registerNodeClass } from "../scene/node.ts";
 import { Container } from "../scene/node-container.ts";
 import { NodeChange } from "../scene/node-change.ts";
@@ -47,6 +55,26 @@ describe("DefaultStyles", () => {
     expect(shape?.getProperty("_sdf")).toBe(94);
     expect(text?.getProperty("_sdf")).toBe(getTypeId(Text));
     expect(rectangle?.getProperty("_sdf")).toBe(getTypeId(Rectangle));
+  });
+
+  it("gives the annotation defaults their live class ids, which match the old table", () => {
+    // The old module imported these classes; this one finds them by name
+    // once registered and falls back to the table, so the two must agree.
+    const classes: Record<string, object> = {
+      GTextAnnotation: TextAnnotation,
+      GRectangleAnnotation: RectangleAnnotation,
+      GEllipseAnnotation: EllipseAnnotation,
+      GPencilAnnotation: PencilAnnotation,
+      GHighlighterAnnotation: HighlighterAnnotation,
+      GArrowAnnotation: ArrowAnnotation,
+      GCommentAnnotation: CommentAnnotation,
+    };
+    const list = styles(new DefaultStyles());
+    for (const [oldName, cls] of Object.entries(classes)) {
+      const style = list[DEFAULT_STYLE_CLASSES.indexOf(oldName)] as Style;
+      expect(style.getProperty("_sdf")).toBe(getTypeId(cls));
+      expect(getTypeId(cls)).toBe(lookupOldTypeId(oldName));
+    }
   });
 
   it("repairSdf restores ids and adds missing defaults at the end", () => {

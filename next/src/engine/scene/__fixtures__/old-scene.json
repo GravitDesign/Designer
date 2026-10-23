@@ -1,0 +1,877 @@
+{
+  "refresh": {
+    "link": {
+      "events": [["A#", true]],
+      "links": {
+        "A#": ["B"]
+      },
+      "lookup": {
+        "A#": ["B"]
+      },
+      "disabled": {},
+      "sane": true
+    },
+    "refresh": {
+      "events": [["A#", true]],
+      "links": {
+        "A#": ["B"]
+      },
+      "lookup": {
+        "A#": ["B"]
+      },
+      "disabled": {},
+      "sane": true
+    },
+    "unlink": {
+      "events": [
+        ["A#", true],
+        ["A#", true],
+        ["A#", false]
+      ],
+      "links": {
+        "A#": ["C"]
+      },
+      "lookup": {
+        "A#": ["C"]
+      },
+      "disabled": {},
+      "sane": true
+    },
+    "refresh2": {
+      "events": [
+        ["A#", true],
+        ["A#", true],
+        ["A#", false]
+      ],
+      "links": {
+        "A#": ["C"]
+      },
+      "lookup": {
+        "A#": ["C"]
+      },
+      "disabled": {},
+      "sane": true,
+      "refsB": {
+        "?string": []
+      }
+    },
+    "removed": {
+      "events": [
+        ["A#", true],
+        ["A#", true],
+        ["A#", false],
+        ["A#", false]
+      ],
+      "links": {},
+      "lookup": {},
+      "disabled": {},
+      "sane": true
+    },
+    "reinserted": {
+      "events": [
+        ["A#", true],
+        ["A#", true],
+        ["A#", false],
+        ["A#", false]
+      ],
+      "links": {},
+      "lookup": {},
+      "disabled": {},
+      "sane": true,
+      "linkCount": 0
+    },
+    "unlinkDisabled": {
+      "links": {},
+      "lookup": {},
+      "disabled": {},
+      "sane": true
+    }
+  },
+  "block": {
+    "blocked": {
+      "links": {
+        "BA#": ["BB"]
+      },
+      "lookup": {
+        "BA#": ["BB"]
+      },
+      "disabled": {},
+      "sane": true,
+      "rb": true
+    },
+    "endKeep": {
+      "links": {
+        "BA#": ["BB"]
+      },
+      "lookup": {
+        "BA#": ["BB"]
+      },
+      "disabled": {},
+      "sane": true
+    },
+    "keep": {
+      "links": {},
+      "lookup": {},
+      "disabled": {
+        "BA#": ["BB"]
+      },
+      "sane": true
+    },
+    "keepReinserted": {
+      "links": {
+        "BA#": ["BB"]
+      },
+      "lookup": {
+        "BA#": ["BB"]
+      },
+      "disabled": {},
+      "sane": true
+    },
+    "ended": {
+      "links": {
+        "BA#": ["BB"]
+      },
+      "lookup": {
+        "BA#": ["BB"]
+      },
+      "disabled": null,
+      "sane": true,
+      "rb": false
+    },
+    "after": {
+      "links": {
+        "BA#": ["BB", "BD"]
+      },
+      "lookup": {
+        "BA#": ["BB", "BD"]
+      },
+      "disabled": {},
+      "sane": true
+    }
+  },
+  "reidentified": {
+    "oldId": "RP2#",
+    "newIdDiffers": true,
+    "links": {
+      "R2P2#": ["R2B"]
+    },
+    "lookup": {
+      "R2P2#": ["R2B"]
+    },
+    "disabled": null,
+    "sane": true,
+    "linked": true,
+    "fresh": {
+      "oldId": null,
+      "links": {
+        "RP2#": ["R3B"]
+      },
+      "lookup": {
+        "RP2#": ["R3B"]
+      },
+      "disabled": null,
+      "sane": true,
+      "linked": true
+    }
+  },
+  "rtxt": {
+    "links": {
+      "TTb#": []
+    },
+    "lookup": {
+      "TTb#": ["TPb"]
+    },
+    "disabled": null,
+    "sane": false,
+    "textId": true,
+    "rtxtLeft": "deleted"
+  },
+  "rtxtWithLink": {
+    "links": {
+      "T2P2#": ["T2bB"],
+      "T2Tb#": []
+    },
+    "lookup": {
+      "T2P2#": ["T2bB"],
+      "T2Tb#": ["T2Pb"]
+    },
+    "disabled": null,
+    "sane": false,
+    "textId": true,
+    "rtxtLeft": "deleted"
+  },
+  "styleRefs": {
+    "oldId": "ST#",
+    "sref": "ST2#",
+    "linkCount": 1,
+    "links": {
+      "ST2#": ["SA2"]
+    },
+    "lookup": {
+      "ST2#": ["SA2"]
+    },
+    "disabled": null,
+    "sane": true
+  },
+  "badLinks": {
+    "links": {
+      "XP2#": ["X2B"]
+    },
+    "lookup": {
+      "XP2#": ["X2B"]
+    },
+    "disabled": null,
+    "sane": true
+  },
+  "masters": {
+    "single": [
+      {
+        "name": "P1",
+        "inScene": true,
+        "masters": [],
+        "size": [100, 100]
+      },
+      {
+        "name": "P2",
+        "inScene": true,
+        "masters": ["ALL"],
+        "size": [500, 260]
+      }
+    ],
+    "evenOdd": [
+      {
+        "name": "P1",
+        "inScene": true,
+        "masters": ["ODD"],
+        "size": [100, 100]
+      },
+      {
+        "name": "P2",
+        "inScene": true,
+        "masters": ["EVEN"],
+        "size": [500, 260]
+      },
+      {
+        "name": "P3",
+        "inScene": true,
+        "masters": ["ODD"],
+        "size": [300, 200]
+      },
+      {
+        "name": "P4",
+        "inScene": true,
+        "masters": ["EVEN"],
+        "size": [400, 250]
+      }
+    ],
+    "removedFirst": [
+      {
+        "name": "P1",
+        "inScene": false,
+        "masters": [],
+        "size": [100, 100]
+      },
+      {
+        "name": "P2",
+        "inScene": true,
+        "masters": ["ODD"],
+        "size": [500, 260]
+      },
+      {
+        "name": "P3",
+        "inScene": true,
+        "masters": ["EVEN"],
+        "size": [300, 200]
+      },
+      {
+        "name": "P4",
+        "inScene": true,
+        "masters": ["ODD"],
+        "size": [400, 250]
+      }
+    ],
+    "lockedKept": [
+      {
+        "name": "P1",
+        "inScene": true,
+        "masters": ["ODD"],
+        "size": [100, 100]
+      },
+      {
+        "name": "P2",
+        "inScene": true,
+        "masters": ["EVEN"],
+        "size": [500, 260]
+      },
+      {
+        "name": "P3",
+        "inScene": true,
+        "masters": ["EVEN"],
+        "size": [300, 200]
+      },
+      {
+        "name": "P4",
+        "inScene": true,
+        "masters": ["EVEN"],
+        "size": [400, 250]
+      }
+    ],
+    "noEven": [
+      {
+        "name": "P1",
+        "inScene": true,
+        "masters": ["ODD"],
+        "size": [100, 100]
+      },
+      {
+        "name": "P2",
+        "inScene": true,
+        "masters": ["ALL"],
+        "size": [500, 260]
+      },
+      {
+        "name": "P3",
+        "inScene": true,
+        "masters": [],
+        "size": [300, 200]
+      },
+      {
+        "name": "P4",
+        "inScene": true,
+        "masters": ["ALL"],
+        "size": [400, 250]
+      }
+    ]
+  },
+  "multiPage": {
+    "positions": [
+      [0, 0],
+      [200, 0]
+    ],
+    "sceneBox": [0, 0, 300, 100],
+    "single": null,
+    "rightElement": [
+      {
+        "element": "HR"
+      }
+    ],
+    "leftElement": [
+      {
+        "element": "HL"
+      }
+    ],
+    "rightEdge": [
+      {
+        "element": "HRR",
+        "type": 2
+      }
+    ],
+    "leftEdge": [
+      {
+        "element": "HLR",
+        "type": 2
+      }
+    ],
+    "nothingHit": [
+      {
+        "node": "HL"
+      }
+    ],
+    "emptyRight": [
+      {
+        "element": "HR"
+      }
+    ],
+    "outside": null,
+    "collisionsBoth": ["HL", "HLR", "HR", "HRR"],
+    "collisionsRight": ["HRR"],
+    "collisionsPaint": ["HL", "HLR", "HR", "HRR"],
+    "annotations": 0,
+    "overlapRight": [
+      {
+        "element": "HR"
+      }
+    ],
+    "overlapEmpty": [
+      {
+        "element": "HR"
+      }
+    ],
+    "overlapOutside": null,
+    "overlapStacked": [
+      {
+        "element": "HR"
+      }
+    ],
+    "overlapStackedEdge": [
+      {
+        "element": "HRR",
+        "type": 2
+      }
+    ],
+    "overlapStackedLeft": [
+      {
+        "element": "HL"
+      }
+    ],
+    "overlapStackedLeftEdge": [
+      {
+        "element": "HLR",
+        "type": 2
+      }
+    ],
+    "overlapNothingHit": [
+      {
+        "node": "HL"
+      }
+    ]
+  },
+  "paint": {
+    "colorNoContent": [
+      ["resetTransform"],
+      [
+        "createPatternPaint",
+        {
+          "pattern": "C#[255,0,0]"
+        },
+        {
+          "rect": [20, 34, 160, 120]
+        },
+        null
+      ],
+      ["fillRect", 20, 34, 160, 120, "solid", 0.5],
+      [
+        "setTransform",
+        {
+          "trf": [2, 0, 0, 2, 10, 20]
+        }
+      ]
+    ],
+    "colorClip": [
+      ["resetTransform"],
+      [
+        "createPatternPaint",
+        {
+          "pattern": "C#[255,0,0]"
+        },
+        {
+          "rect": [20, 34, 160, 120]
+        },
+        null
+      ],
+      ["fillRect", 20, 34, 160, 120, "solid", 0.5],
+      ["clipRect", 17, 31, 166, 126],
+      ["paintChildren", "PP"],
+      ["resetClip"],
+      [
+        "setTransform",
+        {
+          "trf": [2, 0, 0, 2, 10, 20]
+        }
+      ]
+    ],
+    "colorNoClipToPage": [
+      ["resetTransform"],
+      [
+        "createPatternPaint",
+        {
+          "pattern": "C#[255,0,0]"
+        },
+        {
+          "rect": [20, 34, 160, 120]
+        },
+        null
+      ],
+      ["fillRect", 20, 34, 160, 120, "solid", 0.5],
+      ["paintChildren", "PP"],
+      [
+        "setTransform",
+        {
+          "trf": [2, 0, 0, 2, 10, 20]
+        }
+      ]
+    ],
+    "outline": [
+      ["resetTransform"],
+      ["paintChildren", "PP"],
+      [
+        "setTransform",
+        {
+          "trf": [2, 0, 0, 2, 10, 20]
+        }
+      ]
+    ],
+    "multiPage": [
+      ["resetTransform"],
+      [
+        "createPatternPaint",
+        {
+          "pattern": "C#[255,0,0]"
+        },
+        {
+          "rect": [20, 34, 160, 120]
+        },
+        null
+      ],
+      ["fillRect", 20, 34, 160, 120, "solid", 0.5],
+      ["paintChildren", "PP"],
+      [
+        "setTransform",
+        {
+          "trf": [2, 0, 0, 2, 10, 20]
+        }
+      ]
+    ],
+    "overlapNoDecoration": {
+      "threw": "TypeError"
+    },
+    "overlapShadow": [
+      ["resetTransform"],
+      [
+        "createPatternPaint",
+        {
+          "pattern": "C#[255,0,0]"
+        },
+        {
+          "rect": [20, 34, 160, 120]
+        },
+        null
+      ],
+      ["ctx.shadowColor", "rgba(0,0,0,0.25)"],
+      ["ctx.shadowBlur", 4],
+      ["ctx.shadowOffsetX", 0],
+      ["ctx.shadowOffsetY", 2],
+      ["fillRect", 20, 34, 160, 120, "solid", 0.5],
+      ["ctx.shadowColor", "rgba(0,0,0,0)"],
+      ["paintChildren", "PP"],
+      [
+        "setTransform",
+        {
+          "trf": [2, 0, 0, 2, 10, 20]
+        }
+      ]
+    ],
+    "gradient": [
+      ["resetTransform"],
+      [
+        "createPatternPaint",
+        {
+          "pattern": "L#{\"fx\":0,\"x\":[{\"p\":0,\"c\":\"C#[0,0,0]\",\"o\":1},{\"p\":1,\"c\":\"C#[255,255,255]\",\"o\":1}]}"
+        },
+        {
+          "rect": [20, 34, 160, 120]
+        },
+        null
+      ],
+      [
+        "putVertices",
+        [
+          {
+            "point": [20, 34]
+          },
+          {
+            "point": [180, 34]
+          },
+          {
+            "point": [180, 154]
+          },
+          {
+            "point": [20, 154]
+          }
+        ],
+        true
+      ],
+      ["getTransform", true],
+      [
+        "setTransform",
+        {
+          "trf": [3, 0, 0, 3, 1, 1]
+        }
+      ],
+      ["fillVertices", "gradient", 0.5, null, false],
+      [
+        "setTransform",
+        {
+          "trf": []
+        }
+      ],
+      ["paintChildren", "PP"],
+      [
+        "setTransform",
+        {
+          "trf": [2, 0, 0, 2, 10, 20]
+        }
+      ]
+    ],
+    "infiniteGradient": [
+      ["resetTransform"],
+      ["paintChildren", "PP"],
+      [
+        "setTransform",
+        {
+          "trf": [2, 0, 0, 2, 10, 20]
+        }
+      ]
+    ],
+    "infiniteColor": [
+      ["resetTransform"],
+      [
+        "createPatternPaint",
+        {
+          "pattern": "C#[0,0,255]"
+        },
+        {
+          "rect": [10, 20, 20, 20]
+        },
+        null
+      ],
+      ["fillRect", 10, 20, 20, 20, "solid", 0.5],
+      ["paintChildren", "PP"],
+      [
+        "setTransform",
+        {
+          "trf": [2, 0, 0, 2, 10, 20]
+        }
+      ]
+    ],
+    "masterClipToPage": [
+      ["resetTransform"],
+      [
+        "createPatternPaint",
+        {
+          "pattern": "C#[0,0,255]"
+        },
+        {
+          "rect": [20, 34, 160, 120]
+        },
+        null
+      ],
+      ["fillRect", 20, 34, 160, 120, "solid", 0.5],
+      ["clipRect", 17, 31, 166, 126],
+      [
+        "fillRect",
+        20,
+        34,
+        160,
+        120,
+        {
+          "pattern": "C#[0,255,0]"
+        },
+        0.75
+      ],
+      ["resetClip"],
+      ["paintChildren", "PP"],
+      [
+        "setTransform",
+        {
+          "trf": [2, 0, 0, 2, 10, 20]
+        }
+      ]
+    ],
+    "masterClipToMaster": [
+      ["resetTransform"],
+      [
+        "createPatternPaint",
+        {
+          "pattern": "C#[0,0,255]"
+        },
+        {
+          "rect": [20, 34, 160, 120]
+        },
+        null
+      ],
+      ["fillRect", 20, 34, 160, 120, "solid", 0.5],
+      ["clipRect", 10, 20, 170, 134],
+      [
+        "fillRect",
+        20,
+        34,
+        160,
+        120,
+        {
+          "pattern": "C#[0,255,0]"
+        },
+        0.75
+      ],
+      ["resetClip"],
+      ["paintChildren", "PP"],
+      [
+        "setTransform",
+        {
+          "trf": [2, 0, 0, 2, 10, 20]
+        }
+      ]
+    ],
+    "masterNoClip": [
+      ["resetTransform"],
+      [
+        "createPatternPaint",
+        {
+          "pattern": "C#[0,0,255]"
+        },
+        {
+          "rect": [20, 34, 160, 120]
+        },
+        null
+      ],
+      ["fillRect", 20, 34, 160, 120, "solid", 0.5],
+      [
+        "fillRect",
+        20,
+        34,
+        160,
+        120,
+        {
+          "pattern": "C#[0,255,0]"
+        },
+        0.75
+      ],
+      ["paintChildren", "PP"],
+      [
+        "setTransform",
+        {
+          "trf": [2, 0, 0, 2, 10, 20]
+        }
+      ]
+    ],
+    "masterHidden": [
+      ["resetTransform"],
+      [
+        "createPatternPaint",
+        {
+          "pattern": "C#[0,0,255]"
+        },
+        {
+          "rect": [20, 34, 160, 120]
+        },
+        null
+      ],
+      ["fillRect", 20, 34, 160, 120, "solid", 0.5],
+      ["paintChildren", "PP"],
+      [
+        "setTransform",
+        {
+          "trf": [2, 0, 0, 2, 10, 20]
+        }
+      ]
+    ],
+    "masterPainted": 3
+  },
+  "paintPages": {
+    "inOrder": [
+      [
+        "setOrigin",
+        {
+          "point": [0, 0]
+        }
+      ],
+      ["dirty", []],
+      ["paint", "HL"],
+      [
+        "setOrigin",
+        {
+          "point": [-400, 0]
+        }
+      ],
+      ["dirty", [1, 0, 0, 1, -200, 0]],
+      ["paint", "HR"],
+      [
+        "setOrigin",
+        {
+          "point": [-100, -600]
+        }
+      ],
+      ["dirty", [1, 0, 0, 1, 150, -300]],
+      ["paint", "H3"]
+    ],
+    "overlapActiveLast": [
+      [
+        "setOrigin",
+        {
+          "point": [-400, 0]
+        }
+      ],
+      ["dirty", [1, 0, 0, 1, -200, 0]],
+      ["paint", "HR"],
+      [
+        "setOrigin",
+        {
+          "point": [-100, -600]
+        }
+      ],
+      ["dirty", [1, 0, 0, 1, 150, -300]],
+      ["paint", "H3"],
+      [
+        "setOrigin",
+        {
+          "point": [0, 0]
+        }
+      ],
+      ["dirty", [1, 0, 0, 1, 50, 300]],
+      ["paint", "HL"]
+    ],
+    "overlapRightActive": [
+      [
+        "setOrigin",
+        {
+          "point": [0, 0]
+        }
+      ],
+      ["dirty", []],
+      ["paint", "HL"],
+      [
+        "setOrigin",
+        {
+          "point": [-100, -600]
+        }
+      ],
+      ["dirty", [1, 0, 0, 1, -50, -300]],
+      ["paint", "H3"],
+      [
+        "setOrigin",
+        {
+          "point": [-400, 0]
+        }
+      ],
+      ["dirty", [1, 0, 0, 1, -150, 300]],
+      ["paint", "HR"]
+    ]
+  },
+  "thumbnail": [
+    {
+      "returned": "undefined",
+      "image": [100, 75, 1]
+    },
+    {
+      "returned": "undefined",
+      "image": [67, 50, 1]
+    },
+    {
+      "returned": null,
+      "image": "no callback"
+    }
+  ],
+  "visualLeak": {
+    "tableBefore": [],
+    "before": {
+      "stored": ["absent", "absent", "absent"],
+      "ownFields": []
+    },
+    "beforeSized": {
+      "stored": ["absent", "absent", "absent"],
+      "ownFields": []
+    },
+    "restored": {
+      "threw": "TypeError"
+    },
+    "table": ["w", "bl"],
+    "after": {
+      "stored": ["absent", "absent", "absent"],
+      "ownFields": ["$w", "$bl"]
+    },
+    "afterSized": {
+      "stored": ["absent", "absent", "absent"],
+      "ownFields": ["$w", "$bl"]
+    }
+  }
+}

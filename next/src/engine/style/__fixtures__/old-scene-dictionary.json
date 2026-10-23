@@ -1,0 +1,72 @@
+{
+  "flush": {
+    "imageUrl": "dictionary",
+    "before": [
+      ["data:image/png;base64,QUFBQQ==", 1, "used"],
+      ["data:image/png;base64,QkJCQg==", 1, "unused"]
+    ],
+    "after": [["data:image/png;base64,QUFBQQ==", 1, "used"]],
+    "decreased": [],
+    "unusedStillFound": false
+  },
+  "release": {
+    "entries": [],
+    "decreased": ["a", "b"],
+    "memory": 0,
+    "otherCanvas": null,
+    "lateUrl": "dictionary",
+    "entriesAfterInsert": [["data:image/png;base64,Q0NDQw==", 1, null]]
+  },
+  "texture": {
+    "before": "data:image/png;base64,QUFBQQ==",
+    "after": "dictionary",
+    "sameEntry": true,
+    "steps": [
+      [["data:image/png;base64,QUFBQQ==", 2, null]],
+      [["data:image/png;base64,QUFBQQ==", 2, null]],
+      [["data:image/png;base64,QUFBQQ==", 1, null]],
+      [["data:image/png;base64,QUFBQQ==", 0, null]],
+      []
+    ]
+  },
+  "groupRemove": {
+    "imageUrl": "dictionary",
+    "inserted": [["data:image/png;base64,QUFBQQ==", 1, null]],
+    "removed": [["data:image/png;base64,QUFBQQ==", 1, null]]
+  },
+  "swatch": {
+    "plainUrl": "data:image/png;base64,QUFBQQ==",
+    "inserted": [["data:image/png;base64,QUFBQQ==", 1, null]],
+    "afterLinked": [
+      ["data:image/png;base64,QUFBQQ==", 1, null],
+      ["data:image/png;base64,QkJCQg==", 1, null]
+    ],
+    "flushed": [["data:image/png;base64,QkJCQg==", 1, null]]
+  },
+  "resolve": {
+    "events": [
+      ["dictionary", true, true],
+      ["dictionary", true, true],
+      ["dictionary", true, true],
+      ["dictionary", true, true],
+      ["cloud-id-1", true, true],
+      ["dictionary", true, true],
+      ["dictionary", true, true],
+      ["dictionary", false, true],
+      ["dictionary", true, true]
+    ],
+    "resolved": [
+      "FILE:///c/x.png",
+      "https://host/x.png",
+      "data:image/png;base64,QUFBQQ==",
+      "//host/x.png",
+      "Data:x"
+    ]
+  },
+  "sanitizeTexture": {
+    "recreated": true,
+    "value": "data:image/png;base64,QkJCQg==",
+    "references": 1,
+    "sameUuid": true
+  }
+}

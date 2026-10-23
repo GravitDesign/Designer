@@ -1,0 +1,578 @@
+{
+  "comment": {
+    "paintBox": ["R", 0, 0, 31.999999999999996, 31.999999999999996],
+    "inside": [
+      {
+        "data": {
+          "type": 1,
+          "vertex": {
+            "outline": false
+          }
+        },
+        "element": "anc"
+      }
+    ],
+    "outside": null,
+    "leftNoTolerance": null,
+    "leftTolerance3": "throws: TypeError",
+    "leftTolerance3Identity": [
+      {
+        "data": {
+          "type": 2,
+          "vertex": {
+            "outline": true,
+            "segment": 6,
+            "slope": 0.5000000000000001,
+            "x": 0,
+            "y": 15.999999999999996
+          }
+        },
+        "element": "anc"
+      }
+    ],
+    "leftTolerance1Identity": null,
+    "leftTolerance3Scaled": null,
+    "scaled": [
+      {
+        "data": {
+          "type": 1,
+          "vertex": {
+            "outline": false
+          }
+        },
+        "element": "anc"
+      }
+    ],
+    "scaledMiss": null,
+    "filterFalse": null,
+    "filterTrue": [
+      {
+        "data": {
+          "type": 1,
+          "vertex": {
+            "outline": false
+          }
+        },
+        "element": "anc"
+      }
+    ],
+    "filterZero": [
+      {
+        "data": {
+          "type": 1,
+          "vertex": {
+            "outline": false
+          }
+        },
+        "element": "anc"
+      }
+    ],
+    "acceptor": [
+      null,
+      [
+        {
+          "data": {
+            "type": 1,
+            "vertex": {
+              "outline": false
+            }
+          },
+          "element": "anc"
+        }
+      ],
+      null,
+      [
+        {
+          "data": {
+            "type": 1,
+            "vertex": {
+              "outline": false
+            }
+          },
+          "element": "anc"
+        }
+      ],
+      null,
+      [
+        {
+          "data": {
+            "type": 1,
+            "vertex": {
+              "outline": false
+            }
+          },
+          "element": "anc"
+        }
+      ],
+      null
+    ],
+    "stacked": [
+      {
+        "data": {
+          "type": 1,
+          "vertex": {
+            "outline": false
+          }
+        },
+        "element": "anc"
+      }
+    ],
+    "emptyBox": null
+  },
+  "list": {
+    "boxes": [
+      ["R", 10, 15, 44, 39],
+      ["R", 10, 15, 44, 39]
+    ],
+    "hitRect": [
+      {
+        "data": {
+          "type": 1,
+          "vertex": {
+            "outline": false
+          }
+        },
+        "element": "anr"
+      }
+    ],
+    "hitRectStacked": [
+      {
+        "data": {
+          "type": 1,
+          "vertex": {
+            "outline": false
+          }
+        },
+        "element": "anr"
+      }
+    ],
+    "hitEllipseUnfilled": null,
+    "hitEllipseOutline": "throws: TypeError",
+    "hitEllipseOutlineIdentity": [
+      {
+        "data": {
+          "type": 2,
+          "vertex": {
+            "outline": true,
+            "segment": 1,
+            "slope": 0,
+            "x": 46,
+            "y": 50
+          }
+        },
+        "element": "ane"
+      }
+    ],
+    "hitNothingInBox": null,
+    "hitNothingInBoxStacked": null,
+    "hitOutside": null,
+    "hitAcceptorList": null,
+    "hitScaled": [
+      {
+        "data": {
+          "type": 1,
+          "vertex": {
+            "outline": false
+          }
+        },
+        "element": "anr"
+      }
+    ],
+    "paint": [
+      ["visible", "undef", ["anr", "ane"]],
+      ["hidden", "undef", []],
+      ["clipOutside", "undef", []],
+      ["clipInside", "undef", ["anr", "ane"]],
+      ["notDirty", "undef", []],
+      ["dirty", "undef", ["anr", "ane"]],
+      ["noPaint", "undef", []]
+    ],
+    "finish": {
+      "0": {
+        "result": "undef",
+        "saved": ["R", 10, 15, 44, 39],
+        "geometryBBox": ["R", 10, 15, 44, 39],
+        "paintBBox": ["R", 10, 15, 44, 39],
+        "preTransformRect": null,
+        "savedAfter": [null, null],
+        "log": [
+          ["page", "ChildGeometryUpdate", ["node:annlst", false, "undef"]],
+          ["invalidate", ["R", 10, 15, 44, 39], "annlst"],
+          ["page", "InvalidationRequested", ["R", 10, 15, 44, 39]]
+        ]
+      },
+      "1": {
+        "result": "undef",
+        "saved": ["R", 10, 15, 44, 39],
+        "geometryBBox": ["R", 1, 2, 3, 4],
+        "paintBBox": ["R", 10, 15, 44, 39],
+        "preTransformRect": ["R", 1, 2, 3, 4],
+        "savedAfter": [null, null],
+        "log": [
+          ["invalidate", ["R", 10, 15, 44, 39], "annlst"],
+          ["page", "InvalidationRequested", ["R", 10, 15, 44, 39]]
+        ]
+      },
+      "2": {
+        "result": "undef",
+        "saved": ["R", 10, 15, 44, 39],
+        "geometryBBox": ["R", 10, 15, 44, 39],
+        "paintBBox": ["R", 10, 15, 44, 39],
+        "preTransformRect": null,
+        "savedAfter": [null, null],
+        "log": [["page", "ChildGeometryUpdate", ["node:annlst", false, "undef"]]]
+      },
+      "none": {
+        "result": "undef",
+        "saved": ["R", 10, 15, 44, 39],
+        "geometryBBox": ["R", 10, 15, 44, 39],
+        "paintBBox": ["R", 10, 15, 44, 39],
+        "preTransformRect": null,
+        "savedAfter": [null, null],
+        "log": [
+          ["page", "ChildGeometryUpdate", ["node:annlst", false, "undef"]],
+          ["invalidate", ["R", 10, 15, 44, 39], "annlst"],
+          ["page", "InvalidationRequested", ["R", 10, 15, 44, 39]]
+        ]
+      },
+      "0-changed": {
+        "result": "undef",
+        "saved": ["R", 10, 15, 44, 39],
+        "geometryBBox": ["R", 10, 15, 44, 39],
+        "paintBBox": ["R", 10, 15, 44, 39],
+        "preTransformRect": null,
+        "savedAfter": [null, null],
+        "log": [
+          ["page", "ChildGeometryUpdate", ["node:annlst", true, "undef"]],
+          ["invalidate", ["R", 10, 15, 44, 39], null],
+          ["invalidate", ["R", 0, 0, 1, 1], "annlst"],
+          ["page", "InvalidationRequested", ["R", 0, 0, 1, 1]],
+          ["invalidate", ["R", 10, 15, 44, 39], "annlst"],
+          ["page", "InvalidationRequested", ["R", 10, 15, 44, 39]]
+        ]
+      },
+      "1-changed": {
+        "result": "undef",
+        "saved": ["R", 10, 15, 44, 39],
+        "geometryBBox": ["R", 1, 2, 3, 4],
+        "paintBBox": ["R", 10, 15, 44, 39],
+        "preTransformRect": ["R", 1, 2, 3, 4],
+        "savedAfter": [null, null],
+        "log": [
+          ["page", "ChildVisualUpdate", ["node:annlst"]],
+          ["invalidate", ["R", 0, 0, 1, 1], "annlst"],
+          ["page", "InvalidationRequested", ["R", 0, 0, 1, 1]],
+          ["invalidate", ["R", 10, 15, 44, 39], "annlst"],
+          ["page", "InvalidationRequested", ["R", 10, 15, 44, 39]]
+        ]
+      },
+      "2-changed": {
+        "result": "undef",
+        "saved": ["R", 10, 15, 44, 39],
+        "geometryBBox": ["R", 10, 15, 44, 39],
+        "paintBBox": ["R", 10, 15, 44, 39],
+        "preTransformRect": null,
+        "savedAfter": [null, null],
+        "log": [
+          ["page", "ChildGeometryUpdate", ["node:annlst", true, "undef"]],
+          ["invalidate", ["R", 10, 15, 44, 39], null]
+        ]
+      },
+      "-1": {
+        "result": "undef",
+        "saved": ["R", 10, 15, 44, 39],
+        "geometryBBox": ["R", 1, 2, 3, 4],
+        "paintBBox": ["R", 1, 2, 3, 4],
+        "preTransformRect": ["R", 1, 2, 3, 4],
+        "savedAfter": [null, null],
+        "log": [
+          ["invalidate", ["R", 10, 15, 44, 39], "annlst"],
+          ["page", "InvalidationRequested", ["R", 10, 15, 44, 39]],
+          ["invalidate", ["R", 1, 2, 3, 4], "annlst"],
+          ["page", "InvalidationRequested", ["R", 1, 2, 3, 4]]
+        ]
+      },
+      "-1-changed": {
+        "result": "undef",
+        "saved": ["R", 1, 2, 3, 4],
+        "geometryBBox": ["R", 1, 2, 3, 4],
+        "paintBBox": ["R", 1, 2, 3, 4],
+        "preTransformRect": ["R", 1, 2, 3, 4],
+        "savedAfter": [null, null],
+        "log": [
+          ["invalidate", ["R", 0, 0, 1, 1], "annlst"],
+          ["page", "InvalidationRequested", ["R", 0, 0, 1, 1]],
+          ["invalidate", ["R", 1, 2, 3, 4], "annlst"],
+          ["page", "InvalidationRequested", ["R", 1, 2, 3, 4]]
+        ]
+      },
+      "[0,area]": {
+        "result": "undef",
+        "saved": ["R", 1, 2, 3, 4],
+        "geometryBBox": ["R", 10, 15, 44, 39],
+        "paintBBox": ["R", 10, 15, 44, 39],
+        "preTransformRect": null,
+        "savedAfter": [null, null],
+        "log": [
+          ["page", "ChildGeometryUpdate", ["node:annlst", true, ["R", 7, 7, 1, 1]]],
+          ["invalidate", ["R", 7, 7, 1, 1], null],
+          ["invalidate", ["R", 1, 2, 3, 4], "annlst"],
+          ["page", "InvalidationRequested", ["R", 1, 2, 3, 4]],
+          ["invalidate", ["R", 10, 15, 44, 39], "annlst"],
+          ["page", "InvalidationRequested", ["R", 10, 15, 44, 39]]
+        ]
+      },
+      "[1,y]-changed": {
+        "result": "undef",
+        "saved": ["R", 10, 15, 44, 39],
+        "geometryBBox": ["R", 1, 2, 3, 4],
+        "paintBBox": ["R", 10, 15, 44, 39],
+        "preTransformRect": ["R", 1, 2, 3, 4],
+        "savedAfter": [null, null],
+        "log": [
+          ["page", "ChildVisualUpdate", ["node:annlst"]],
+          ["invalidate", ["R", 0, 0, 1, 1], "annlst"],
+          ["page", "InvalidationRequested", ["R", 0, 0, 1, 1]],
+          ["invalidate", ["R", 10, 15, 44, 39], "annlst"],
+          ["page", "InvalidationRequested", ["R", 10, 15, 44, 39]]
+        ]
+      },
+      "string": {
+        "result": "undef",
+        "saved": ["R", 10, 15, 44, 39],
+        "geometryBBox": ["R", 10, 15, 44, 39],
+        "paintBBox": ["R", 10, 15, 44, 39],
+        "preTransformRect": null,
+        "savedAfter": [null, null],
+        "log": [
+          ["page", "ChildGeometryUpdate", ["node:annlst", true, "undef"]],
+          ["invalidate", ["R", 10, 15, 44, 39], null],
+          ["invalidate", ["R", 0, 0, 1, 1], "annlst"],
+          ["page", "InvalidationRequested", ["R", 0, 0, 1, 1]],
+          ["invalidate", ["R", 10, 15, 44, 39], "annlst"],
+          ["page", "InvalidationRequested", ["R", 10, 15, 44, 39]]
+        ]
+      }
+    },
+    "other": {
+      "childVisual": {
+        "result": "undef",
+        "paintBBox": null,
+        "log": [["page", "ChildVisualUpdate", ["node:anr"]]]
+      },
+      "childGeometry": {
+        "result": "undef",
+        "paintBBox": null,
+        "log": [["page", "ChildGeometryUpdate", ["node:anr", true]]]
+      },
+      "childGeometryUnchanged": {
+        "result": "undef",
+        "paintBBox": ["R", 1, 2, 3, 4],
+        "log": [["page", "ChildGeometryUpdate", ["node:anr", false]]]
+      },
+      "invalidationRequested": {
+        "result": "undef",
+        "paintBBox": ["R", 1, 2, 3, 4],
+        "log": [["page", "InvalidationRequested", ["R", 5, 6, 7, 8]]]
+      },
+      "invalidationRequest": {
+        "result": "undef",
+        "paintBBox": ["R", 1, 2, 3, 4],
+        "log": [
+          ["invalidate", ["R", 1, 2, 3, 4], "annlst"],
+          ["page", "InvalidationRequested", ["R", 1, 2, 3, 4]]
+        ]
+      },
+      "flagNoPaint": {
+        "result": "undef",
+        "paintBBox": ["R", 1, 2, 3, 4],
+        "log": [
+          ["invalidate", ["R", 1, 2, 3, 4], "annlst"],
+          ["page", "InvalidationRequested", ["R", 1, 2, 3, 4]]
+        ]
+      },
+      "flagOther": {
+        "result": "undef",
+        "paintBBox": ["R", 1, 2, 3, 4],
+        "log": []
+      },
+      "beginEnd": {
+        "result": "undef",
+        "paintBBox": ["R", 10, 15, 44, 39],
+        "log": [
+          ["page", "ChildGeometryUpdate", ["node:annlst", true, "undef"]],
+          ["invalidate", ["R", 10, 15, 44, 39], null],
+          ["invalidate", ["R", 1, 2, 3, 4], "annlst"],
+          ["page", "InvalidationRequested", ["R", 1, 2, 3, 4]],
+          ["invalidate", ["R", 10, 15, 44, 39], "annlst"],
+          ["page", "InvalidationRequested", ["R", 10, 15, 44, 39]]
+        ]
+      },
+      "beginEndVisual": {
+        "result": "undef",
+        "paintBBox": ["R", 1, 2, 3, 4],
+        "log": [
+          ["invalidate", ["R", 1, 2, 3, 4], "annlst"],
+          ["page", "InvalidationRequested", ["R", 1, 2, 3, 4]]
+        ]
+      },
+      "moveChild": {
+        "result": true,
+        "paintBBox": null,
+        "log": [
+          ["page", "ChildGeometryUpdate", ["node:anr", true, null]],
+          ["invalidate", ["R", 10, 15, 20, 10], "anr"],
+          ["page", "InvalidationRequested", ["R", 10, 15, 20, 10]],
+          ["invalidate", ["R", 20, 15, 20, 10], "anr"],
+          ["page", "InvalidationRequested", ["R", 20, 15, 20, 10]]
+        ]
+      }
+    }
+  },
+  "links": {
+    "noScene": false,
+    "notLinkable": false,
+    "linkable": true,
+    "again": true,
+    "isLinked": true,
+    "references": ["node:collabtext"],
+    "linkedBefore": ["node:ancotext"],
+    "noSceneLinked": [],
+    "linkedWithShape": ["node:ancotext"],
+    "noteRefs": [],
+    "blobKeys": [
+      "@",
+      "@id",
+      "_effId",
+      "_layId",
+      "annotablerefs",
+      "ct",
+      "img",
+      "mtime",
+      "name",
+      "plkt",
+      "read",
+      "refanchors",
+      "reftxt",
+      "sl",
+      "targetGuid",
+      "time",
+      "trf",
+      "uf",
+      "uid"
+    ],
+    "blob": {
+      "annotablerefs": ["REF:collab"],
+      "refs": "undef",
+      "targetGuid": "tg"
+    },
+    "separateKeys": ["@", "@id", "img", "mtime", "name", "own", "read", "time", "uid"],
+    "separateOwnKeys": [
+      "@",
+      "_effId",
+      "_layId",
+      "annotablerefs",
+      "ct",
+      "name",
+      "plkt",
+      "refanchors",
+      "reftxt",
+      "sl",
+      "targetGuid",
+      "trf",
+      "uf"
+    ],
+    "separate": {
+      "annotablerefs": ["REF:collab"],
+      "outerTargetGuid": "undef",
+      "targetGuid": "tg"
+    },
+    "afterRemove": true,
+    "restoredPending": ["REF:collab"],
+    "restoredTargetGuid": "tg",
+    "restoredAfterAttach": null,
+    "restoredLinked": false,
+    "restoredReferences": [],
+    "linkedAfter": ["node:ancotext"],
+    "orphanAfterAttach": null,
+    "orphanReferences": []
+  },
+  "collab": {
+    "geometryBox": ["R", 100, 100, 5000, 3000],
+    "paintBox": ["R", 100, 76, 5000, 3024],
+    "actionsBox": ["R", 5076, 76, 24, 24],
+    "actionSource": ["R", 0, 0, 24, 24],
+    "hitNoTransform": "throws: TypeError",
+    "hitInside": null,
+    "hitButton": [
+      {
+        "data": {
+          "action": "action:0"
+        },
+        "element": "collabtext"
+      }
+    ],
+    "hitButtonCorner": [
+      {
+        "data": {
+          "action": "action:0"
+        },
+        "element": "collabtext"
+      }
+    ],
+    "hitAboveLeft": null,
+    "hitButtonScaled": [
+      {
+        "data": {
+          "action": "action:0"
+        },
+        "element": "collabtext"
+      }
+    ],
+    "hitButtonTolerance": null,
+    "detailNullTransform": "throws: TypeError",
+    "detailInsideNullTransform": "throws: TypeError",
+    "hitInsideFilled": null,
+    "hitEdgeFilled": [
+      {
+        "data": {
+          "action": "action:0"
+        },
+        "element": "collabtext"
+      }
+    ],
+    "executeEditing": [
+      "isInlineEditing",
+      "closeInlineEditor",
+      ["updateSelection", false, ["collabtext"]],
+      ["openInlineEditor", "collabtext", "evt"]
+    ],
+    "executeIdle": [
+      "isInlineEditing",
+      ["updateSelection", false, ["collabtext"]],
+      ["openInlineEditor", "collabtext", "evt"]
+    ],
+    "actionPaint": [
+      ["putVertices", 14, [1, 10, 32]],
+      ["fillVertices", "#2CBE2D", 1],
+      ["putVertices", 77, [1, 26.5, 26]],
+      ["fillVertices", "color:#FFFFFF", 1]
+    ]
+  },
+  "empty": {
+    "restored": [null, null, 0, null, "undef", false, null, 0, null, null],
+    "saved": [
+      "undef",
+      "undef",
+      "undef",
+      "undef",
+      "undef",
+      "undef",
+      "undef",
+      "undef",
+      "undef",
+      "undef"
+    ],
+    "savedKeys": ["@"]
+  }
+}

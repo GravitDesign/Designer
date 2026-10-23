@@ -105,7 +105,8 @@ interface DeferredRangeVars {
 interface PendingProperties {
   props: string[];
   values: unknown[];
-  // The old code stored the flag as `rng` but read it as `toRange` (always undefined); kept.
+  // The old code stored the flag as `rng` but read it as `toRange` (always
+  // undefined); kept (QUESTIONS.md "GText: pending range flag written as rng, read as toRange").
   rng?: unknown;
   toRange?: unknown;
 }
@@ -764,7 +765,7 @@ export class Text extends TextBase {
     const core = this.getTLCore();
     text = this._shorten(text);
     // GSystem.OperatingSystem.Windows is the enum value (1), so this runs
-    // everywhere; kept.
+    // everywhere; kept (QUESTIONS.md "GText: Windows line-break fix runs on every OS").
     if (System.OperatingSystem.Windows) text = replaceMicrosoftLineFeed(text);
     if (core) {
       if (keepSelection) previousPlain = core.getDocumentRange().plainText();
@@ -796,7 +797,8 @@ export class Text extends TextBase {
               allResolved = false;
             }
           }
-          // Returns with the change events still locked (old behaviour).
+          // Returns with the change events still locked (QUESTIONS.md
+          // "GText: setText leaves change events locked while fonts are missing").
           if (!allResolved) {
             this._setTextWhenAvailable = true;
             return;
@@ -1011,6 +1013,8 @@ export class Text extends TextBase {
   /** The outline vertices: `trf` applied, moved by the margin, and by the render bounds on a path. */
   override readVertex(vertex: Vertex, scale?: number): boolean {
     if (this.isFakeText()) {
+      // _vertexIterator never moves on, so only the first backup outline is
+      // read (QUESTIONS.md "GText: fake text reads only the first backup outline").
       return (
         !!this.hasVertexForRead() &&
         (this._backupPaths()[this._vertexIterator] as unknown as VertexReader).readVertex(vertex)
@@ -1173,8 +1177,10 @@ export class Text extends TextBase {
     force?: unknown,
     options?: unknown,
   ): ElementData<Element, unknown> | null {
+    void options;
     if (this.isFakeText() && Text.HITTEST_TEXT) {
-      return super._detailHitTest(location, transform, tolerance, force, options);
+      // The old call passed four arguments; options is not forwarded.
+      return super._detailHitTest(location, transform, tolerance, force);
     }
     let core: TLCore | null | undefined;
     if (!this.isFakeText()) core = this.getTLCore();
@@ -1222,7 +1228,12 @@ export class Text extends TextBase {
       return Math.sqrt(best) > reach
         ? null
         : new ElementData<Element, unknown>(this, {
-            pixel: Array.prototype.slice.call(data, bestIndex - 3, bestIndex + 1),
+            // ImageData gives a Uint8ClampedArray slice, as in the old code;
+            // the [0, 0, 0] placeholder stays an array.
+            pixel:
+              data instanceof Uint8ClampedArray
+                ? data.slice(bestIndex - 3, bestIndex + 1)
+                : Array.prototype.slice.call(data, bestIndex - 3, bestIndex + 1),
           });
     }
     if (Text.HITTEST_BOX) {
@@ -1313,7 +1324,8 @@ export class Text extends TextBase {
           let found = false;
           let index = 0;
           // `props` is an array, so hasOwnProperty("content") is always
-          // false: this always ends on the last entry. Kept.
+          // false: this always ends on the last entry. Kept (QUESTIONS.md
+          // "GText: the pending content property is never found").
           pending.every((entry, i) => {
             return (
               !(
@@ -2070,7 +2082,9 @@ export class Text extends TextBase {
   }
 
   override _preparePaint(context: PaintContext, arg?: unknown): boolean {
-    if (super._preparePaint(context, arg)) {
+    void arg;
+    // The old Text passed only the context on (arg is dropped).
+    if (super._preparePaint(context)) {
       const clip = this._getClipBox(context);
       if (clip && (context.canvas as PaintCanvas).hasClip()) {
         (context.canvas as PaintCanvas).clipRect(
@@ -2106,7 +2120,11 @@ export class Text extends TextBase {
     return text;
   }
 
-  /** Cuts the text (a string or runs) to MAXLENGTH characters. */
+  /**
+   * Cuts the text (a string or runs) to MAXLENGTH UTF-16 code units, which
+   * can split a surrogate pair (QUESTIONS.md "GText: the MAXLENGTH cut can
+   * split a surrogate pair").
+   */
   _shorten(text: unknown): unknown {
     text = this._fixText(text);
     if ("string" == typeof text || text instanceof String) {
@@ -2251,7 +2269,8 @@ export class Text extends TextBase {
         });
         if (replacement instanceof Font) {
           this.$_tff = replacement.getFamily();
-          // The old code set `$_tfs` twice (weight, then style); kept.
+          // The old code set `$_tfs` twice (weight, then style); kept
+          // (QUESTIONS.md "GText: replaceFonts sets _tfs twice").
           this.$_tfs = replacement.getWeight();
           this.$_tfs = replacement.getStyle();
         } else if (replacement[this.$_tff as string]) {
@@ -2358,7 +2377,8 @@ export class Text extends TextBase {
       }
       if (change === NodeChange.WorkspaceDetach && this._workspace) {
         // Without a workspace _updateFontManagerListener does nothing, so
-        // the listener stays (old behaviour).
+        // the listener stays (QUESTIONS.md "GText: the font listener stays
+        // after the text leaves the workspace").
         setTimeout(() => {
           if (!this._workspace) this._updateFontManagerListener(true);
         }, 100);
@@ -2457,7 +2477,8 @@ export class Text extends TextBase {
     if (Object.hasOwn(blob, "ttrf")) {
       own = Transform.deserialize(blob.ttrf as number[]).makeInvertible();
     } else if (Object.hasOwn(blob, "trf")) {
-      // The raw array, which has no preMultiplied (throws, as before).
+      // The raw array, which has no preMultiplied (throws, as before;
+      // QUESTIONS.md "GText: a legacy blob with a raw trf array throws").
       own = blob.trf as Transform;
     }
     move = move.translated(left, top);
@@ -2647,7 +2668,11 @@ export class Text extends TextBase {
       each(this._backupPaths(), (_index, path) => {
         Shape.prototype._paint.call(path, context);
       });
-    } else super._paint(context, arg);
+    } else {
+      void arg;
+      // The old Text passed only the context on (arg is dropped).
+      super._paint(context);
+    }
   }
 
   override _paintFill(context: ShapePaintContext, separate: boolean, fill: PaintLayer): void {
@@ -2964,7 +2989,8 @@ export class Text extends TextBase {
         );
         const previous = context.pushCanvas(canvas) as PaintCanvas;
         const scale = (canvas.getScale() as number) * (this.$trf ? this.$trf.getScaleFactor() : 1);
-        // `$_ba` of the text itself is never set; kept.
+        // `$_ba` of the text itself is never set; kept (QUESTIONS.md
+        // "GText: the border pattern check reads the text's own _ba").
         if (patternBox && (this as unknown as { $_ba: unknown }).$_ba !== BorderAlignment.Inside) {
           let reach = layer.$_bw;
           if (layer.$_ba === Stylable.BorderAlignment.Center) reach *= 0.5;

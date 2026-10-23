@@ -41,7 +41,12 @@ export interface TextCode {
 /** Turns a code object into a code instance (TLDocument.codes). */
 export type CodeResolver = (obj: unknown, data?: unknown) => TextCode | null | undefined;
 
-/** Stands in for code objects no code understands: a silver box with a question mark. */
+/**
+ * Stands in for code objects no code understands: a silver box with a
+ * question mark. Its draw calls fillText, which TLCanvasContext doesn't
+ * have, so it would throw; the word splitter already throws on such codes,
+ * so it isn't reached (QUESTIONS.md "GTL unknown code objects").
+ */
 const DefaultInline: TextCode = {
   measure(run: Run): CodeMeasurement {
     const measured = RunDraw.measure("?", run) as Measurement;

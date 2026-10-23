@@ -46,7 +46,8 @@ function actionableMembers<TBase extends AnyConstructor>(Base: TBase) {
      * The box of the button row, above the geometry box's top right
      * corner, as wide as the union of the buttons. The offset only starts
      * growing after the second button, so the second overlaps the first
-     * and the row is narrower than what hitActionTest tests. Kept.
+     * and the row is narrower than what hitActionTest tests. Kept
+     * (QUESTIONS.md, "Annotation model slips kept").
      */
     getActionsBBox(): Rect | null {
       const box = (this as unknown as GeometrySource).getGeometryBBox();

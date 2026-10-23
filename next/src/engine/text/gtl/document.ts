@@ -1,6 +1,6 @@
 // Old: chunk.vendor.js module 652 (the GTL document, carota's doc.js).
-import { WordSplitter } from "./characters.ts";
-import { Formatting, type Run, type RunText } from "./formatting.ts";
+import { WordSplitter, type WordSpan } from "./characters.ts";
+import { Formatting, type CodeObject, type Run, type RunText } from "./formatting.ts";
 import { Frame } from "./frame.ts";
 import type { CodeResolver, TextCode } from "./inline.ts";
 import { Per } from "./list-util.ts";
@@ -85,7 +85,7 @@ export class TLDocument extends TLNode implements EditFilterTarget {
     this._noWrap = false;
     this.customCodes = () => undefined;
     this.codes = ((obj: unknown, data?: unknown) =>
-      TLCodes.codeFactory(obj as never, data, this.codes) ||
+      TLCodes.codeFactory(obj as CodeObject, data, this.codes) ||
       this.customCodes(obj, data, this.codes)) as CodeResolver;
     this.selectionChanged = TLUtil.event();
     this.contentChanged = TLUtil.event();
@@ -97,16 +97,20 @@ export class TLDocument extends TLNode implements EditFilterTarget {
    * An edit command that splices words. Its inverse is made with the
    * document passed as the first argument (the old method kept carota's
    * free-function signature for the recursive call), so undoing a splice
-   * splices at 0 instead. Undo isn't used by the editor.
+   * splices at 0 instead. Undo isn't used by the editor, but a failed
+   * layout rolls back through it (QUESTIONS: "GTL undo splices at the
+   * start and rolls back in a cascade").
    */
   makeEditCommand(start: unknown, count: unknown, words: unknown): EditCommand {
     const selectionStart = this.selection.start;
     const selectionEnd = this.selection.end;
     return (log) => {
       this._wordOrdinals = [];
+      // The arguments stay as dynamic as in the old code: the inverse
+      // command passes the document as `start` and a number as `words`.
       const removed = Array.prototype.splice.apply(
         this.words,
-        ([start, count] as unknown[]).concat(words) as never,
+        ([start, count] as unknown[]).concat(words) as [number, number, ...Word[]],
       ) as Word[];
       log(
         (this.makeEditCommand as (...args: unknown[]) => EditCommand)(
@@ -148,8 +152,8 @@ export class TLDocument extends TLNode implements EditFilterTarget {
     const splitter = new WordSplitter(this.codes);
     try {
       this.words = Per.create<Character>(characters.emit, characters)
-        .per(splitter.split, splitter)
-        .map((span) => new Word(span as never, this.codes))
+        .per<WordSpan | null>(splitter.split, splitter)
+        .map((span) => new Word(span, this.codes))
         .all();
     } catch {
       return false;
@@ -238,7 +242,7 @@ export class TLDocument extends TLNode implements EditFilterTarget {
    * Emits the paragraph and list ranges that overlap `range` (widened to
    * whole blocks), each with `prev` set to the block before it. `next` was
    * meant to be the block after it but reads a missing index of the range
-   * and is undefined.
+   * and is undefined (QUESTIONS: "GTL blocks never have a next block").
    */
   blocks(emit: (block: BlockRange) => unknown, range: { start: number; end: number }): void {
     const open: { start: number; code?: boolean }[] = [];
@@ -329,11 +333,7 @@ export class TLDocument extends TLNode implements EditFilterTarget {
   /** Replaces the selection with text (line breaks normalized) or runs and moves the caret after it. */
   insert(text: unknown, selectionParam?: unknown): void {
     if ("string" == typeof text || text instanceof String) text = TLUtil.deCRLFify(text as string);
-    this.select(
-      this.selection.end + this.selectedRange().setText(text as never),
-      null,
-      selectionParam,
-    );
+    this.select(this.selection.end + this.selectedRange().setText(text), null, selectionParam);
   }
 
   modifyInsertFormatting(key: string, value: unknown): void {
@@ -392,6 +392,7 @@ export class TLDocument extends TLNode implements EditFilterTarget {
     let position = 0;
     if (!this.words) {
       console.log("SOMETHING WRONG!");
+      // The old code returned an empty object here, not a match.
       return {} as never;
     }
     this.words.some((word, index) => {
@@ -433,9 +434,9 @@ export class TLDocument extends TLNode implements EditFilterTarget {
     const splitter = new WordSplitter(this.codes);
     try {
       words = Per.create<Character>(characters.emit, characters)
-        .per(splitter.split, splitter)
+        .per<WordSpan | null>(splitter.split, splitter)
         .truthy()
-        .map((span) => new Word(span as never, this.codes))
+        .map((span) => new Word(span, this.codes))
         .all();
     } catch {
       return;

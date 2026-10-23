@@ -79,3 +79,8 @@ with markers, and the transformers.
   the next layout as spacing padding (TLDocument.\_lastSpacingPadding).
 - tl-core.test.ts runs gtl-probe.ts against the port and compares it with
   the same probe recorded in the old app (\_\_fixtures\_\_/old-gtl.json).
+  Glyph placement on a path differs from Chromium's in the last bits under
+  Node, so path digests are only exact in the browser (the same probe,
+  bundled, matches the old app there). gtl-core-quirks.test.ts pins small
+  old behaviours the probe can't reach (Per.pulse timing, Measurement's
+  inherited minX/maxX, TLNode.previous returning undefined).

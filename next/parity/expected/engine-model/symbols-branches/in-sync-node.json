@@ -1,0 +1,63 @@
+{
+ "start": {
+  "instance": true,
+  "self": true,
+  "master": true,
+  "masterDeep": true,
+  "group": true,
+  "groupDeep": true,
+  "child": true,
+  "childDeep": true,
+  "other": true,
+  "fillLayer": true
+ },
+ "fillOverride": {
+  "instance": false,
+  "self": false,
+  "master": true,
+  "masterDeep": false,
+  "group": true,
+  "groupDeep": false,
+  "child": true,
+  "childDeep": false,
+  "other": true,
+  "fillLayer": false
+ },
+ "groupSynced": {
+  "instance": true,
+  "self": true,
+  "master": true,
+  "masterDeep": true,
+  "group": true,
+  "groupDeep": true,
+  "child": true,
+  "childDeep": true,
+  "other": true,
+  "fillLayer": true
+ },
+ "nameOverride": {
+  "instance": false,
+  "self": false,
+  "master": true,
+  "masterDeep": false,
+  "group": true,
+  "groupDeep": false,
+  "child": false,
+  "childDeep": false,
+  "other": true,
+  "fillLayer": true
+ },
+ "childSynced": {
+  "instance": true,
+  "self": true,
+  "master": true,
+  "masterDeep": true,
+  "group": true,
+  "groupDeep": true,
+  "child": true,
+  "childDeep": true,
+  "other": true,
+  "fillLayer": true
+ },
+ "loose": true
+}

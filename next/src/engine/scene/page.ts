@@ -44,6 +44,9 @@ import { Node, registerNodeClass } from "./node.ts";
 import { SceneOptions } from "./scene-options.ts";
 import type { SceneHooks } from "./scene-node.ts";
 import type { ReferenceEvent } from "./reference-event.ts";
+// The selector engine adds querySingle to nodes; getActiveLayer needs it
+// (the old code loaded module 507 on demand there).
+import "./selector.ts";
 
 const GeometryProperties = {
   w: 800,
@@ -867,6 +870,10 @@ export class Page extends PageBase {
                 // old call passes 1 as the paint (and no width); kept.
                 canvas.strokeRect(x - 0.5, y - 0.5, width + 1, height + 1, null, 1 as never, 0.4);
               } else {
+                // Only the editor's paint configuration has pageDecoration;
+                // with any other this throws a TypeError, as in the old code
+                // (QUESTIONS.md, "The page shadow needs the editor's paint
+                // configuration").
                 const decoration = (configuration as unknown as { pageDecoration: PageDecoration })
                   .pageDecoration;
                 const offsetX = decoration.shadowOffsetX || 0;
@@ -990,18 +997,18 @@ export class Page extends PageBase {
         "bck" === name && value ? Pattern.deserialize(value as string) : value,
       );
     } else if (change === NodeChange.BeforePropertiesChange) {
-      const change_ = args as PropertiesChangeArgs;
+      const propertiesChange = args as PropertiesChangeArgs;
       let unbounded = false;
-      const widthIndex = change_.properties.indexOf("w");
-      const heightIndex = change_.properties.indexOf("h");
+      const widthIndex = propertiesChange.properties.indexOf("w");
+      const heightIndex = propertiesChange.properties.indexOf("h");
       // values[-1] is undefined, which is not == 0.
       if (widthIndex >= 0) {
-        if ((change_.values[widthIndex] as number) > 0) {
-          if (0 == (change_.values[heightIndex] as number)) unbounded = true;
+        if ((propertiesChange.values[widthIndex] as number) > 0) {
+          if (0 == (propertiesChange.values[heightIndex] as number)) unbounded = true;
         } else unbounded = true;
-      } else if (0 == (change_.values[heightIndex] as number)) unbounded = true;
+      } else if (0 == (propertiesChange.values[heightIndex] as number)) unbounded = true;
       if (this._scene) {
-        if (change_.properties.indexOf("off") >= 0) this._requestInvalidation();
+        if (propertiesChange.properties.indexOf("off") >= 0) this._requestInvalidation();
       }
       if (unbounded && this._pageScene) {
         // Only a single page can be made infinite, and only with w and h at once.
@@ -1012,21 +1019,21 @@ export class Page extends PageBase {
         });
         if (pages > 1 && !(widthIndex >= 0 && heightIndex >= 0)) {
           if (widthIndex >= 0) {
-            change_.properties.splice(widthIndex, 1);
-            change_.values.splice(widthIndex, 1);
+            propertiesChange.properties.splice(widthIndex, 1);
+            propertiesChange.values.splice(widthIndex, 1);
           }
           if (heightIndex >= 0) {
-            change_.properties.splice(heightIndex, 1);
-            change_.values.splice(heightIndex, 1);
+            propertiesChange.properties.splice(heightIndex, 1);
+            propertiesChange.values.splice(heightIndex, 1);
           }
         }
       }
     } else if (change === NodeChange.AfterPropertiesChange) {
       if (this._scene) {
-        const change_ = args as PropertiesChangeArgs;
-        if (change_.properties.indexOf("name") >= 0) this._requestInvalidation();
-        const widthIndex = change_.properties.indexOf("w");
-        const heightIndex = change_.properties.indexOf("h");
+        const propertiesChange = args as PropertiesChangeArgs;
+        if (propertiesChange.properties.indexOf("name") >= 0) this._requestInvalidation();
+        const widthIndex = propertiesChange.properties.indexOf("w");
+        const heightIndex = propertiesChange.properties.indexOf("h");
         if (!SceneOptions.pagesCanOverlap && (widthIndex >= 0 || heightIndex >= 0)) {
           const move = this.doCollisionlessTransform(new Matrix(), null, true).getTranslation();
           const offset = (this.getProperty("off") as Matrix | null) || new Matrix();

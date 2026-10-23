@@ -979,6 +979,177 @@ export function probeGtl(api: GtlProbeApi): Record<string, unknown> {
     out.directions = "throws " + e.constructor.name + ": " + e.message;
   }
 
+  // -- Direction changes on a core whose text is already on a path: RTL
+  // and vertical prepend a direction transformer to the path transformer,
+  // LTR removes it again and leaves the path transformer at the head.
+  // Bounds are rounded for Node, where the glyph placement on the circle
+  // differs from Chromium's in the last bits; the digests are exact.
+  try {
+    const core = make({ text: [os({ text: "Around the circle", fontSize: 16 })] });
+    core.setPath(makePath(circle, true), 0, -1, 0, 0);
+    const round = (rect: any) =>
+      rect &&
+      [rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight()].map(
+        (n: number) => Math.round(n * 1e6) / 1e6,
+      );
+    const steps: any[] = [];
+    for (const d of [-1, 1, 2, 0]) {
+      if (d >= 0) core.setDirection(d);
+      const v = new api.VertexContainer();
+      core.renderVertices(v);
+      const head = core.getTransformer();
+      steps.push({
+        direction: enc(d),
+        getDirection: core.getDirection(),
+        first: head && head.getType(),
+        hasPath: core.getTransformer("path") !== null,
+        bounds: round(core.getRenderBounds()),
+        digest: vertexDigest(v).digest,
+      });
+    }
+    out.pathDirections = steps;
+  } catch (e: any) {
+    out.pathDirections = "throws " + e.constructor.name + ": " + e.message;
+  }
+
+  // -- Render branches: bitmap scale, bottom alignment, outside borders,
+  // the selection, fill and stroke in one call, a second render at the
+  // same size (clearRect instead of a resize), and the sizes of the core,
+  // fill and stroke canvases afterwards.
+  try {
+    const renders: [string, any, [boolean, number, any, number][]][] = [
+      ["scaleBitmap", {}, [[false, 2, { shapePaint: null }, 8 | 1]]],
+      ["scaleIgnored", {}, [[false, 2, { shapePaint: null }, 1]]],
+      [
+        "valignBottom",
+        { width: 200, height: 80 },
+        [[false, 1, { shapePaint: api.RGBColor.BLACK, valign: "b" }, 1]],
+      ],
+      [
+        "valignMiddleFixed",
+        { width: 200, height: 80 },
+        [[false, 1, { shapePaint: api.RGBColor.BLACK, valign: "m" }, 1]],
+      ],
+      [
+        "outsideBorder",
+        {},
+        [[false, 1, { shapePaint: api.RGBColor.BLACK, strokeAlign: "O", strokeWidth: 3 }, 2 | 4]],
+      ],
+      [
+        "fillAndStroke",
+        {},
+        [[false, 1, { shapePaint: new api.RGBColor([0, 0, 200]), strokeWidth: 2 }, 1 | 2]],
+      ],
+      [
+        "strokeThenFillAndStroke",
+        {},
+        [
+          [false, 1, { shapePaint: api.RGBColor.BLACK }, 2],
+          [false, 1, { shapePaint: api.RGBColor.BLACK }, 1 | 2],
+        ],
+      ],
+      ["selectionFocused", { select: true }, [[true, 1, { shapePaint: null }, 16 | 1]]],
+      ["selectionUnfocused", { select: true }, [[false, 1, { shapePaint: null }, 16 | 1]]],
+      [
+        "twiceSameSize",
+        {},
+        [
+          [false, 1, { shapePaint: null }, 1],
+          [false, 1, { shapePaint: null }, 1],
+        ],
+      ],
+    ];
+    const results: Record<string, any> = {};
+    for (const [name, options, calls] of renders) {
+      const core = make({
+        text: [os({ text: "Render me", fontSize: 18 })],
+        width: options.width,
+        height: options.height,
+      });
+      if (options.select) core.select(1, 5);
+      const savedCtx = core._ctx;
+      const size = (canvas: any) => (canvas ? [canvas.width, canvas.height] : enc(canvas));
+      const steps: any[] = [];
+      for (const [focused, scale, style, flag] of calls) {
+        const logger = makeLogger();
+        core._ctx = new api.TLCanvasContext(core, logger);
+        core._ctx.textTransformer = savedCtx.textTransformer;
+        try {
+          core.render(focused, scale, style, flag);
+          steps.push([
+            logDigest(logger.log),
+            enc(core.getVShift()),
+            size(core.getCanvas()),
+            size(core.getCanvas(1)),
+            size(core.getCanvas(2)),
+            core.getCanvas(2) === core.getCanvas(1),
+          ]);
+        } catch (e: any) {
+          steps.push("throws " + e.constructor.name + ": " + e.message);
+        } finally {
+          core._ctx = savedCtx;
+        }
+      }
+      results[name] = steps;
+    }
+    out.renderBranches = results;
+  } catch (e: any) {
+    out.renderBranches = "throws " + e.constructor.name + ": " + e.message;
+  }
+
+  // -- Old slips the port keeps (QUESTIONS.md entries "GTL Formatting.merge
+  // recurses forever on an array of runs", "GTL TLCore.initialize throws
+  // after deferred settings" and "GTL unknown code objects"; the word
+  // splitter throws on an unknown code, so the text does not load).
+  const quirks: Record<string, any> = {};
+  try {
+    quirks.mergeArray = enc(F.merge([runA, runB]));
+  } catch (e: any) {
+    quirks.mergeArray = "throws " + e.constructor.name;
+  }
+  try {
+    const core = new api.TLCore();
+    core.setText("deferred");
+    core.setWidth(10);
+    const deferred = enc(core._deferredSettings);
+    try {
+      core.initialize(100, 100, fm, () => {});
+      quirks.deferredInit = [deferred, "no throw"];
+    } catch (e: any) {
+      quirks.deferredInit = [deferred, e.constructor.name + ": " + e.message];
+    }
+  } catch (e: any) {
+    quirks.deferredInit = "throws " + e.constructor.name + ": " + e.message;
+  }
+  try {
+    const core = make({ text: [os({ text: "a" }), os({ text: { $: "NoSuchCode" } })] });
+    const savedCtx = core._ctx;
+    const logger = makeLogger();
+    core._ctx = new api.TLCanvasContext(core, logger);
+    let error = "no throw";
+    try {
+      core.render(false, 1, { shapePaint: null }, 1);
+    } catch (e: any) {
+      error = e.constructor.name;
+    } finally {
+      core._ctx = savedCtx;
+    }
+    const count = (prefix: string) =>
+      logger.log.filter((entry: string) => entry.startsWith(prefix)).length;
+    quirks.unknownInline = [
+      error,
+      enc(core._loadResult),
+      core.getLength(),
+      core.getDocumentRange().plainText(),
+      count("save["),
+      count("restore["),
+      count("fillRect["),
+    ];
+  } catch (e: any) {
+    quirks.unknownInline = "throws " + e.constructor.name + ": " + e.message;
+  }
+  out.quirks = quirks;
+
   // -- Clone, events and the uninitialized core.
   try {
     const core = make({ text: [os({ text: "events" })] });

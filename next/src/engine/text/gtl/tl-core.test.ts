@@ -188,6 +188,27 @@ describe("GTL against the old engine", () => {
     expect(actual.directions).toEqual(expected.directions);
   });
 
+  // The outline digests on the circle are exact only in Chromium (see
+  // above); the transformer chain and the rounded bounds must match here.
+  it("changes direction on a path: direction transformer in front, removed for LTR", () => {
+    const withoutDigests = (steps: unknown) =>
+      (steps as Record<string, unknown>[]).map((step) => ({ ...step, digest: undefined }));
+    expect(withoutDigests(actual.pathDirections)).toEqual(withoutDigests(expected.pathDirections));
+  });
+
+  const renderBranches = expected.renderBranches as Record<string, unknown>;
+  for (const name of Object.keys(renderBranches)) {
+    it(`renders: ${name}`, () => {
+      expect((actual.renderBranches as Record<string, unknown>)[name]).toEqual(
+        renderBranches[name],
+      );
+    });
+  }
+
+  it("keeps the old slips: merge of a run array, deferred initialize, unknown codes", () => {
+    expect(actual.quirks).toEqual(expected.quirks);
+  });
+
   it("fires events, clones and handles an uninitialized core", () => {
     expect(actual.misc).toEqual(expected.misc);
   });

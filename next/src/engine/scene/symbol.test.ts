@@ -7,11 +7,12 @@ import { FillPaintLayer } from "../style/fill-paint-layer.ts";
 import { Ellipse } from "./ellipse.ts";
 import { Group } from "./group.ts";
 import type { ContainerNode } from "./node-container.ts";
+import { AfterSpecialChangeEvent } from "./node-events.ts";
 import { Node, registerNodeClass, type NodeWorkspace } from "./node.ts";
 import { PathsGraph } from "./paths-graph/paths-graph.ts";
 import { Rectangle } from "./rectangle.ts";
 import type { SceneNode } from "./scene-node.ts";
-import { Symbol, SymbolSiblingUpdateEvent } from "./symbol.ts";
+import { Symbol, SymbolSiblingUpdateEvent, type SymbolScene } from "./symbol.ts";
 
 /**
  * A scene stand-in: a group at the root that is its own scene, with the
@@ -283,6 +284,47 @@ describe("GSymbol", () => {
       ),
     ).toBe(true);
     expect(target).toEqual([{ text: "x", fontSize: 14 }]);
+  });
+
+  it("undo actions tell the scene about the special change, revert flips created", () => {
+    const { scene, master } = masterWithInstance();
+    const sent: [Node | null, unknown][] = [];
+    let canSend = true;
+    const target = scene as unknown as SymbolScene;
+    target._canEventBeSent = (type) => type === AfterSpecialChangeEvent && canSend;
+    target._sendEvent = (event) => {
+      expect(event).toBeInstanceOf(AfterSpecialChangeEvent);
+      const special = event as AfterSpecialChangeEvent;
+      sent.push([special.node, special.data]);
+    };
+    const data = { created: true, scene: target };
+    master.getTransactionAction(data)();
+    master.getTransactionRevertAction(data)();
+    master.getTransactionActionDeserialized({ created: false })();
+    master.getTransactionRevertAction({ scene: target })();
+    expect(sent).toEqual([
+      [master, { created: true, scene }],
+      [master, { created: false, scene }],
+      [master, { created: false, scene }],
+      [master, { created: true, scene }],
+    ]);
+    expect(master.getTransactionActionSerialized(data)).toEqual({ created: true });
+    expect(master.getTransactionActionSerialized({})).toEqual({ created: false });
+    expect(master.getTransactionActionSerialized(null)).toBe(null);
+    // Without data, or when the scene doesn't take the event: no-ops.
+    sent.length = 0;
+    master.getTransactionAction(null)();
+    master.getTransactionRevertAction(undefined)();
+    master.getTransactionActionDeserialized(null)();
+    canSend = false;
+    master.getTransactionAction(data)();
+    master.getTransactionRevertAction(data)();
+    master.getTransactionActionDeserialized({ created: true })();
+    expect(sent).toEqual([]);
+    // The deserialized action uses the node's own scene: none, no event.
+    canSend = true;
+    new Symbol().getTransactionActionDeserialized({ created: true })();
+    expect(sent).toEqual([]);
   });
 
   it("has the old event classes", () => {

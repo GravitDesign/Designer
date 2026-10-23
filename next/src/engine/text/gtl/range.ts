@@ -140,6 +140,9 @@ export class TLRange {
             }
           }
         }
+        // `next` is always undefined, so a ListEnd is always appended; joining
+        // a following list is left to the edit filter (QUESTIONS: "GTL blocks never
+        // have a next block").
         suffix =
           next && next.isList()
             ? []
@@ -162,7 +165,7 @@ export class TLRange {
             return run;
           });
         const formatting = block.getFormatting();
-        if (isNaN(formatting.listMarker as never)) {
+        if (isNaN(Number(formatting.listMarker))) {
           let depth = 0;
           block.save().some((run) => {
             const name = codeName(run);

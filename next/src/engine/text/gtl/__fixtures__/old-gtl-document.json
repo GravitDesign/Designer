@@ -1,0 +1,2571 @@
+{
+  "undo": {
+    "setText": [
+      {
+        "words": ["undo ", "me ", "now", "\n"],
+        "frame": true,
+        "plain": "undo me now",
+        "saved": [
+          {
+            "text": "undo me now",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 0,
+        "redo": 0
+      },
+      {
+        "result": -2,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["re ", "me ", "now", "\n"],
+        "frame": true,
+        "plain": "re me now",
+        "saved": [
+          {
+            "text": "re me now",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 1,
+        "redo": 0
+      },
+      {
+        "log": {
+          "rollbacks": 1,
+          "errors": ["TypeError"],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["word:1", "re ", "me ", "now", "\n"],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 1
+      },
+      {
+        "result": "throws TypeError",
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["word:undef", "word:1", "re ", "me ", "now", "\n"],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 0
+      },
+      {
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["word:undef", "word:1", "re ", "me ", "now", "\n"],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 0
+      }
+    ],
+    "setTextAtStart": [
+      {
+        "words": ["start ", "here", "\n"],
+        "frame": true,
+        "plain": "start here",
+        "saved": [
+          {
+            "text": "start here",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 0,
+        "redo": 0
+      },
+      {
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["Xstart ", "here", "\n"],
+        "frame": true,
+        "plain": "Xstart here",
+        "saved": [
+          {
+            "text": "Xstart here",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 1,
+        "redo": 0
+      },
+      {
+        "log": {
+          "rollbacks": 1,
+          "errors": ["TypeError"],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["word:1", "Xstart ", "here", "\n"],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 1
+      },
+      {
+        "result": "throws TypeError",
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["word:undef", "word:1", "Xstart ", "here", "\n"],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 0
+      },
+      {
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["word:undef", "word:1", "Xstart ", "here", "\n"],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 0
+      }
+    ],
+    "twoEdits": [
+      {
+        "words": ["one ", "two ", "three", "\n"],
+        "frame": true,
+        "plain": "one two three",
+        "saved": [
+          {
+            "text": "one two three",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 0,
+        "redo": 0
+      },
+      {
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["1 ", "2 ", "three", "\n"],
+        "frame": true,
+        "plain": "1 2 three",
+        "saved": [
+          {
+            "text": "1 2 three",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 2,
+        "redo": 0
+      },
+      {
+        "log": {
+          "rollbacks": 2,
+          "errors": ["TypeError", "TypeError"],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["word:1", "word:2", "1 ", "2 ", "three", "\n"],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 2
+      },
+      {
+        "result": "throws TypeError",
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["word:undef", "word:1", "word:2", "1 ", "2 ", "three", "\n"],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 1
+      },
+      {
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["word:undef", "word:1", "word:2", "1 ", "2 ", "three", "\n"],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 1
+      }
+    ],
+    "toggleList": [
+      {
+        "words": ["first", "\n", "second", "\n", "third", "\n"],
+        "frame": true,
+        "plain": "first\nsecond\nthird",
+        "saved": [
+          {
+            "text": "first\nsecond\nthird",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": null,
+            "stylisticSet": null,
+            "localizedForm": null
+          }
+        ],
+        "undo": 0,
+        "redo": 0
+      },
+      {
+        "result": true,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["_", "first", "_", "second", "_", "third", "_", "\n"],
+        "frame": true,
+        "plain": "_first_second_third_",
+        "saved": [
+          {
+            "text": {
+              "$": "ListStart"
+            },
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": "Bullet",
+            "stylisticSet": null,
+            "localizedForm": null
+          },
+          {
+            "text": "first",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": "Bullet",
+            "stylisticSet": null,
+            "localizedForm": null
+          },
+          {
+            "text": {
+              "$": "ListNext"
+            },
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": "Bullet",
+            "stylisticSet": null,
+            "localizedForm": null
+          },
+          {
+            "text": "second",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": "Bullet",
+            "stylisticSet": null,
+            "localizedForm": null
+          },
+          {
+            "text": {
+              "$": "ListNext"
+            },
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": "Bullet",
+            "stylisticSet": null,
+            "localizedForm": null
+          },
+          {
+            "text": "third",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": "Bullet",
+            "stylisticSet": null,
+            "localizedForm": null
+          },
+          {
+            "text": {
+              "$": "ListEnd"
+            },
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": "Bullet",
+            "stylisticSet": null,
+            "localizedForm": null
+          }
+        ],
+        "undo": 1,
+        "redo": 0
+      },
+      {
+        "log": {
+          "rollbacks": 1,
+          "errors": ["TypeError"],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["word:7", "word:1", "_", "first", "_", "second", "_", "third", "_", "\n"],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 1
+      },
+      {
+        "result": "throws TypeError",
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": [
+          "word:undef",
+          "word:7",
+          "word:1",
+          "_",
+          "first",
+          "_",
+          "second",
+          "_",
+          "third",
+          "_",
+          "\n"
+        ],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 0
+      },
+      {
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": [
+          "word:undef",
+          "word:7",
+          "word:1",
+          "_",
+          "first",
+          "_",
+          "second",
+          "_",
+          "third",
+          "_",
+          "\n"
+        ],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 0
+      }
+    ],
+    "toggleListOff": [
+      {
+        "words": ["a", "\n", "b", "\n"],
+        "frame": true,
+        "plain": "a\nb",
+        "saved": [
+          {
+            "text": "a\nb",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": null,
+            "stylisticSet": null,
+            "localizedForm": null
+          }
+        ],
+        "undo": 0,
+        "redo": 0
+      },
+      {
+        "result": true,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["a", "\n", "b", "\n"],
+        "frame": true,
+        "plain": "a\nb",
+        "saved": [
+          {
+            "text": "a\nb",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": "undef",
+            "stylisticSet": null,
+            "localizedForm": null
+          }
+        ],
+        "undo": 2,
+        "redo": 0
+      },
+      {
+        "log": {
+          "rollbacks": 2,
+          "errors": ["TypeError", "TypeError"],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["word:5", "word:1", "word:3", "a", "\n", "b", "\n"],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 2
+      },
+      {
+        "result": "throws TypeError",
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["word:undef", "word:5", "word:1", "word:3", "a", "\n", "b", "\n"],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 1
+      },
+      {
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["word:undef", "word:5", "word:1", "word:3", "a", "\n", "b", "\n"],
+        "frame": false,
+        "plain": "throws TypeError",
+        "saved": "throws TypeError",
+        "undo": 0,
+        "redo": 1
+      }
+    ]
+  },
+  "filters": {
+    "orphanListNext": [
+      {
+        "result": 6,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["plain", "_", "item ", "text ", "here", "_", "\n"],
+        "frame": true,
+        "plain": "plain_item text here_",
+        "saved": [
+          {
+            "text": "plain",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": null,
+            "stylisticSet": null,
+            "localizedForm": null
+          },
+          {
+            "text": {
+              "$": "ListStart"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": 0,
+            "listMarker": "Bullet",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": "item",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": " text here",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": null,
+            "stylisticSet": null,
+            "localizedForm": null
+          },
+          {
+            "text": {
+              "$": "ListEnd"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": 0,
+            "listMarker": "Bullet",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 1,
+        "redo": 0
+      }
+    ],
+    "strayListEnd": [
+      {
+        "result": 0,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["plain", " ", "text ", "here", "\n"],
+        "frame": true,
+        "plain": "plain text here",
+        "saved": [
+          {
+            "text": "plain text here",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": null,
+            "stylisticSet": null,
+            "localizedForm": null
+          }
+        ],
+        "undo": 1,
+        "redo": 0
+      }
+    ],
+    "unclosedListStart": [
+      {
+        "result": 6,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["plain", "_", "_", "one ", "text ", "here", "_", "\n"],
+        "frame": true,
+        "plain": "plain__one text here_",
+        "saved": [
+          {
+            "text": "plain",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": null,
+            "stylisticSet": null,
+            "localizedForm": null
+          },
+          {
+            "text": {
+              "$": "ListStart"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "Number",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": {
+              "$": "ListNext"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": 0,
+            "listMarker": "Number",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": "one",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": " text here",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": null,
+            "stylisticSet": null,
+            "localizedForm": null
+          },
+          {
+            "text": {
+              "$": "ListEnd"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "Number",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 1,
+        "redo": 0
+      }
+    ],
+    "twoUnclosed": [
+      {
+        "result": 12,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["plain", "_", "_", "one", "_", "_", "two ", "text ", "here", "_", "_", "\n"],
+        "frame": true,
+        "plain": "plain__one__two text here__",
+        "saved": [
+          {
+            "text": "plain",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": null,
+            "stylisticSet": null,
+            "localizedForm": null
+          },
+          {
+            "text": {
+              "$": "ListStart"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "Number",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": {
+              "$": "ListNext"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": 0,
+            "listMarker": "Number",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": "one",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": {
+              "$": "ListStart"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "Bullet",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": {
+              "$": "ListNext"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": 1,
+            "listMarker": "Bullet",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": "two",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": " text here",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": null,
+            "stylisticSet": null,
+            "localizedForm": null
+          },
+          {
+            "text": {
+              "$": "ListEnd"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "Number",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": {
+              "$": "ListEnd"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "Bullet",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 1,
+        "redo": 0
+      }
+    ],
+    "endAfterList": [
+      {
+        "result": 0,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["a", "\n", "b", "\n", "c", "\n"],
+        "frame": true,
+        "plain": "a\nb\nc",
+        "saved": [
+          {
+            "text": "a\nb\nc",
+            "fontWeight": 400,
+            "fontStyle": "normal",
+            "underline": false,
+            "strikeout": false,
+            "fontColor": "transparent",
+            "fontFamily": "Open Sans",
+            "fontSize": 20,
+            "align": "left",
+            "script": "normal",
+            "transformation": null,
+            "charSpacing": null,
+            "wordSpacing": null,
+            "lineSpacing": 1,
+            "paragraphSpacing": "0",
+            "paragraphIndent": 0,
+            "ligatures": false,
+            "langScript": "auto",
+            "variant": null,
+            "fractions": false,
+            "listDepth": 0,
+            "listMarker": null,
+            "stylisticSet": null,
+            "localizedForm": null
+          }
+        ],
+        "undo": 1,
+        "redo": 0
+      }
+    ]
+  },
+  "failures": {
+    "ProbeThrows": [
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["keep ", "this", "\n"],
+        "frame": true,
+        "plain": "keep this",
+        "saved": [
+          {
+            "text": "keep this",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 0,
+        "redo": 0
+      },
+      {
+        "result": 0,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["keep ", "this", "\n"],
+        "frame": true,
+        "plain": "keep this",
+        "saved": [
+          {
+            "text": "keep this",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 0,
+        "redo": 0
+      }
+    ],
+    "ProbeNull": [
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["keep ", "this", "\n"],
+        "frame": true,
+        "plain": "keep this",
+        "saved": [
+          {
+            "text": "keep this",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 0,
+        "redo": 0
+      },
+      {
+        "result": 0,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["keep ", "this", "\n"],
+        "frame": true,
+        "plain": "keep this",
+        "saved": [
+          {
+            "text": "keep this",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 0,
+        "redo": 0
+      }
+    ],
+    "armed": [
+      {
+        "words": ["one", "\n", "two _", "\n", "three", "\n"],
+        "frame": true,
+        "plain": "one\ntwo _\nthree",
+        "saved": [
+          {
+            "text": "one\ntwo ",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": {
+              "$": "ProbeArmed"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": "\nthree",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 0,
+        "redo": 0
+      },
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 1,
+          "errors": ["Error"],
+          "warnings": 1
+        }
+      },
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 1,
+          "errors": ["Error"],
+          "warnings": 1
+        }
+      },
+      {
+        "words": ["one", "\n", "two _", "\n", "three", "\n"],
+        "frame": true,
+        "plain": "one\ntwo _\nthree",
+        "saved": [
+          {
+            "text": "one\ntwo ",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": {
+              "$": "ProbeArmed"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": "\nthree",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 0,
+        "redo": 0
+      },
+      {
+        "result": true,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      {
+        "words": ["_", "one", "_", "two _", "\n", "three", "\n"],
+        "frame": true,
+        "plain": "_one_two _\nthree",
+        "saved": [
+          {
+            "text": {
+              "$": "ListStart"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": 0,
+            "listMarker": "Bullet",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": "one",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": 0,
+            "listMarker": "Bullet",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": {
+              "$": "ListEnd"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "Bullet",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": "two ",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": {
+              "$": "ProbeArmed"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": "\nthree",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 1,
+        "redo": 0
+      },
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 1,
+          "errors": ["Error"],
+          "warnings": 1
+        }
+      },
+      {
+        "words": ["_", "one", "_", "two _", "\n", "three", "\n"],
+        "frame": true,
+        "plain": "_one_two _\nthree",
+        "saved": [
+          {
+            "text": {
+              "$": "ListStart"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": 0,
+            "listMarker": "Bullet",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": "one",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": 0,
+            "listMarker": "Bullet",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": {
+              "$": "ListEnd"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "Bullet",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": "two ",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": {
+              "$": "ProbeArmed"
+            },
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          },
+          {
+            "text": "\nthree",
+            "fontWeight": "undef",
+            "fontStyle": "undef",
+            "underline": "undef",
+            "strikeout": "undef",
+            "fontColor": "undef",
+            "fontFamily": "Open Sans",
+            "fontSize": "undef",
+            "align": "undef",
+            "script": "undef",
+            "transformation": "undef",
+            "charSpacing": "undef",
+            "wordSpacing": "undef",
+            "lineSpacing": "undef",
+            "paragraphSpacing": "undef",
+            "paragraphIndent": "undef",
+            "ligatures": "undef",
+            "langScript": "undef",
+            "variant": "undef",
+            "fractions": "undef",
+            "listDepth": "undef",
+            "listMarker": "undef",
+            "stylisticSet": "undef",
+            "localizedForm": "undef"
+          }
+        ],
+        "undo": 1,
+        "redo": 0
+      }
+    ]
+  },
+  "codeNames": [
+    [
+      "Nope",
+      "null",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "toString",
+      "throws TypeError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "constructor",
+      "throws SyntaxError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "call",
+      "throws TypeError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "apply",
+      "throws TypeError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "bind",
+      "throws TypeError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "name",
+      "throws TypeError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "length",
+      "null",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "prototype",
+      "throws TypeError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "caller",
+      "null",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "arguments",
+      "null",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "hasOwnProperty",
+      "throws TypeError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "valueOf",
+      "throws TypeError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "isPrototypeOf",
+      "throws TypeError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "__proto__",
+      "throws TypeError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "__defineGetter__",
+      "throws TypeError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "editFilter",
+      "throws TypeError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ],
+    [
+      "codeFactory",
+      "throws RangeError",
+      {
+        "result": false,
+        "log": {
+          "rollbacks": 0,
+          "errors": [],
+          "warnings": 0
+        }
+      },
+      "before"
+    ]
+  ],
+  "numbering": [
+    [[0, 23], "1.24", "x.", "x)"],
+    [[0, 24], "1.25", "y.", "y)"],
+    [[0, 25], "1.26", "aa.", "aa)"],
+    [[0, 26], "1.27", "bb.", "bb)"],
+    [[0, 49], "1.50", "yy.", "yy)"],
+    [[0, 50], "1.51", "aaa.", "aaa)"],
+    [[0, 74], "1.75", "yyy.", "yyy)"],
+    [[0, 75], "1.76", "aaaa.", "aaaa)"],
+    [[0, 0, 3], "1.1.4", "iv.", "iv)"],
+    [[0, 0, 8], "1.1.9", "ix.", "ix)"],
+    [[0, 0, 3998], "1.1.3999", "mmmcmxcix.", "mmmcmxcix)"],
+    [[0, 0, 3999], "1.1.4000", "mmmm.", "mmmm)"],
+    [[0, 0, 4000], "1.1.4001", "mmmmi.", "mmmmi)"],
+    [[0, 0, 4998], "1.1.4999", "mmmmcmxcix.", "mmmmcmxcix)"],
+    [[0, 0, 0, 4], "1.1.1.5", "5.", "5)"],
+    [[0, 0, 0, 0, 24], "1.1.1.1.25", "y.", "y)"],
+    [[0, 0, 0, 0, 25], "1.1.1.1.26", "aa.", "aa)"],
+    [[0, 0, 0, 0, 0, 3999], "1.1.1.1.1.4000", "mmmm.", "mmmm)"],
+    [[5, 6, 7, 8, 9, 10, 11], "6.7.8.9.10.11.12", "12.", "12)"]
+  ],
+  "defaultMeter": {
+    "resolved": [
+      {
+        "width": 64.599609375,
+        "height": 26.376953125,
+        "ascent": 21.376953125,
+        "descent": 5.859375,
+        "minY": "undef",
+        "maxY": "undef",
+        "minX": 0,
+        "maxX": 0
+      },
+      {
+        "width": 175.69921875,
+        "height": 43.52197265625,
+        "ascent": 35.27197265625,
+        "descent": 9.66796875,
+        "minY": "undef",
+        "maxY": "undef",
+        "minX": 0,
+        "maxX": 0
+      },
+      {
+        "width": 0,
+        "height": 15.826171875,
+        "ascent": 12.826171875,
+        "descent": 3.515625,
+        "minY": "undef",
+        "maxY": "undef",
+        "minX": 0,
+        "maxX": 0
+      }
+    ],
+    "unresolved": {
+      "width": "undef",
+      "height": "undef",
+      "ascent": "undef",
+      "descent": "undef",
+      "minY": "undef",
+      "maxY": "undef",
+      "minX": 0,
+      "maxX": 0
+    }
+  },
+  "defaultFont": ["Open Sans", "N", 400]
+}

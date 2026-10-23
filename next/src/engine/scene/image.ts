@@ -451,8 +451,12 @@ export class Image extends Rectangle implements Destroyable {
 
   /**
    * A hit on a non-transparent pixel near the location (the nearest one
-   * within the tolerance) or on the shape. Without `itrf` the inverse below
-   * fails, so such an image can't be hit (kept).
+   * within the tolerance) or on the shape. The hit's `pixel` is the RGBA
+   * of that pixel, a Uint8ClampedArray slice of the image data as in the
+   * old code. A degenerate `itrf` or `transform` (zero scale) makes the
+   * inverse null and the mapping throw, and a null `transform` throws at
+   * getScaleFactor (kept, see QUESTIONS "Image hit test throws on a
+   * degenerate transform").
    */
   override _detailHitTest(
     location: Point,
@@ -460,7 +464,7 @@ export class Image extends Rectangle implements Destroyable {
     tolerance?: number,
     force?: unknown,
   ): ElementData<Element, unknown> | null {
-    let pixel: ArrayLike<number> | null = null;
+    let pixel: Uint8ClampedArray | number[] | null = null;
     if (this._imageCanvas) {
       let matrix = new Transform();
       if (this.$itrf) matrix = matrix.multiplied(this.$itrf);
@@ -477,7 +481,7 @@ export class Image extends Rectangle implements Destroyable {
       const imageData = (
         this._imageCanvas.getContext("2d") as CanvasRenderingContext2D
       ).getImageData(x - radius, y - radius, size, size);
-      const data: ArrayLike<number> = imageData ? imageData.data : [0, 0, 0];
+      const data: Uint8ClampedArray | number[] = imageData ? imageData.data : [0, 0, 0];
       let best = Number.MAX_VALUE;
       let bestIndex = NaN;
       for (let i = 3; i < data.length; i += 4) {
@@ -493,7 +497,7 @@ export class Image extends Rectangle implements Destroyable {
         }
       }
       if (Math.sqrt(best) > radius) return null;
-      pixel = Array.prototype.slice.call(data, bestIndex - 3, bestIndex + 1) as number[];
+      pixel = data.slice(bestIndex - 3, bestIndex + 1);
     } else if (this._status === ImageStatus.Loaded && this._image) {
       pixel = [0, 0, 0, 255];
     }
@@ -784,6 +788,9 @@ export class Image extends Rectangle implements Destroyable {
         Image.NO_IMAGE_BACKGROUND,
       );
       if (this._status === ImageStatus.Error) {
+        // The cross ends at (pw, ph) and (px, ph), not at px + pw and
+        // py + ph, so it is off for a crop box that doesn't start at 0
+        // (kept, see QUESTIONS "Image error cross ignores the crop origin").
         canvas.strokeLine(
           this.$px,
           this.$py,
@@ -1098,8 +1105,10 @@ export class Image extends Rectangle implements Destroyable {
     this.$storedUrl = null;
     this.$tmpUrl = null;
     if (this._imageCanvasOffscreen) {
-      // The old call went to the renderer's destroy, which the port has no
-      // counterpart for: worker canvases are not ported.
+      // Releases the renderer canvas _getProperImageCanvas took. Worker
+      // rendering is not ported (RenderScheduler.isMultiThreaded is false
+      // for any canvas), so this is a no-op today, kept for the old order.
+      RenderScheduler.destroy(this._imageCanvasOffscreen);
       this._imageCanvasOffscreen = null;
     }
     this._imageCanvas = null;
