@@ -94,5 +94,7 @@ describe("NoisePattern", () => {
     noise._node = null;
     const blob = noise._serializeToBlob({ save: true });
     expect(blob).toMatchObject({ amount: 0.8, type: "color", s: "percent", w: 100, h: 100 });
+    // The old override passed no options on, so saving keeps surl.
+    expect(Object.keys(blob)).toContain("surl");
   });
 });

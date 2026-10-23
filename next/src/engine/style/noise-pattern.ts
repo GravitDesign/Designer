@@ -162,8 +162,13 @@ export class NoisePattern extends TexturePattern {
     return copy;
   }
 
-  override _serializeToBlob(options?: { save?: boolean } | null): NoiseBlob {
-    const blob = super._serializeToBlob(options) as NoiseBlob;
+  /**
+   * The old override called the texture blob without the options, so a
+   * saved noise pattern keeps its stored url (surl) too.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- the overridden signature
+  override _serializeToBlob(_options?: { save?: boolean } | null): NoiseBlob {
+    const blob = super._serializeToBlob() as NoiseBlob;
     blob.amount = this.getAmount();
     blob.type = this.getType();
     return blob;
