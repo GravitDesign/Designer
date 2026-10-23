@@ -1,0 +1,263 @@
+{
+  "bplist": {
+    "keyed": {
+      "ok": {
+        "$archiver": "NSKeyedArchiver",
+        "$objects": [
+          "$null",
+          {
+            "NSString": 2,
+            "flag": true,
+            "no": false
+          },
+          "Hello"
+        ],
+        "$top": {
+          "root": 1
+        },
+        "$version": 100000
+      }
+    },
+    "types": {
+      "ok": {
+        "int8": 7,
+        "int16": 300,
+        "int32": 70000,
+        "int64": 705032704,
+        "neg": -1,
+        "real": 1.5,
+        "pi": 3.141592653589793,
+        "data": {
+          "$data": [48, 46, 49, 32, 48, 46, 50, 32, 48, 46, 51]
+        },
+        "utf16": "Wörld ✓",
+        "ascii": "plain",
+        "list": [1, "two", 3, [4]],
+        "date": {
+          "$date": 1577934245000
+        }
+      }
+    },
+    "long": {
+      "ok": {
+        "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "items": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+        "blob": {
+          "$data": [
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+            24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
+          ]
+        },
+        "wide": "éééééééééééééééééééé"
+      }
+    },
+    "uids": {
+      "ok": [0, 200, 70000]
+    },
+    "not-a-plist": {
+      "error": "Error: Invalid binary plist. Expected 'bplist' at offset 0."
+    }
+  },
+  "archiver": {
+    "top": {
+      "NSString": 2,
+      "flag": true,
+      "no": false
+    },
+    "byRef2": "Hello",
+    "fromOdd": null,
+    "fromNumber": null,
+    "toByte": [25.5, 63.75, 255, 127.5]
+  },
+  "base64": {
+    "": {
+      "ok": []
+    },
+    "QQ==": {
+      "ok": [65]
+    },
+    "QUI=": {
+      "ok": [65, 66]
+    },
+    "QUJD": {
+      "ok": [65, 66, 67]
+    },
+    "-_-_": {
+      "ok": [251, 255, 191]
+    },
+    "a?b!": {
+      "ok": [104, 6, 192]
+    },
+    "AB=C": {
+      "ok": [0]
+    },
+    "SGVsbG8gV29ybGQ=": {
+      "ok": [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100]
+    }
+  },
+  "composeQuery": {
+    "OpenSans-Bold": {
+      "fontName": "OpenSans-Bold",
+      "fontFamily": "Open Sans",
+      "fontWeight": 700,
+      "fontStyle": "N"
+    },
+    "OpenSans-Regular": {
+      "fontName": "OpenSans-Regular",
+      "fontFamily": "Open Sans",
+      "fontWeight": 400,
+      "fontStyle": "I"
+    },
+    "Helvetica": {
+      "fontName": "Helvetica",
+      "fontFamily": "Helvetica",
+      "fontWeight": 400,
+      "fontStyle": "N"
+    },
+    "ParitySerif-Italic": {
+      "fontName": "ParitySerif-Italic",
+      "fontFamily": "Parity Serif-Italic",
+      "fontWeight": 400,
+      "fontStyle": "I"
+    },
+    "HelveticaNeue-Light": {
+      "fontName": "HelveticaNeue-Light",
+      "fontFamily": "Helvetica Neue",
+      "fontWeight": 400,
+      "fontStyle": "N"
+    },
+    "Roboto-Medium": {
+      "fontName": "Roboto-Medium",
+      "fontFamily": "Roboto",
+      "fontWeight": 400,
+      "fontStyle": "N"
+    },
+    "Avenir Next Condensed-DemiBold": {
+      "fontName": "Avenir Next Condensed-DemiBold",
+      "fontFamily": "Avenir Next Condensed-Demi Bold",
+      "fontWeight": 700,
+      "fontStyle": "N"
+    },
+    "SFProText-Semibold": {
+      "fontName": "SFProText-Semibold",
+      "fontFamily": "SF Pro Text-Semibold",
+      "fontWeight": 700,
+      "fontStyle": "N"
+    },
+    "Arial-BoldItalicMT": {
+      "fontName": "Arial-BoldItalicMT",
+      "fontFamily": "Arial-Bold Italic MT",
+      "fontWeight": 700,
+      "fontStyle": "I"
+    },
+    "  Futura \n Medium  ": {
+      "fontName": "Futura Medium",
+      "fontFamily": "Futura Medium",
+      "fontWeight": 400,
+      "fontStyle": "N"
+    },
+    "Lato-Normal": {
+      "fontName": "Lato-Normal",
+      "fontFamily": "Lato",
+      "fontWeight": 400,
+      "fontStyle": "N"
+    },
+    "Source Code Pro-900": {
+      "fontName": "Source Code Pro-900",
+      "fontFamily": "Source Code Pro-900",
+      "fontWeight": 900,
+      "fontStyle": "N"
+    },
+    "\"Quoted\"-Bold": {
+      "fontName": "\"Quoted\"-Bold",
+      "fontFamily": "Quoted",
+      "fontWeight": 700,
+      "fontStyle": "N"
+    },
+    "DIN2014-Bold": {
+      "fontName": "DIN2014-Bold",
+      "fontFamily": "DIN 2014",
+      "fontWeight": 700,
+      "fontStyle": "N"
+    },
+    "Font-normal": {
+      "fontName": "Font-normal",
+      "fontFamily": "Font",
+      "fontWeight": 400,
+      "fontStyle": "N"
+    },
+    "Gill Sans-700": {
+      "fontName": "Gill Sans-700",
+      "fontFamily": "Gill Sans-700",
+      "fontWeight": 700,
+      "fontStyle": "N"
+    }
+  },
+  "gradients": {
+    "linear-down": {
+      "ok": "{\"@\":\"fillPaintLayer\",\"_pt\":\"L#{\\\"fy\\\":0,\\\"x\\\":[{\\\"p\\\":0,\\\"c\\\":\\\"C#[255,0,0]\\\",\\\"o\\\":1},{\\\"p\\\":0.3,\\\"c\\\":\\\"C#[0,255,0]\\\",\\\"o\\\":0.5},{\\\"p\\\":1,\\\"c\\\":\\\"C#[0,0,255]\\\",\\\"o\\\":1}],\\\"r\\\":-4.71238898038469}\"}"
+    },
+    "linear-diag": {
+      "ok": "{\"@\":\"fillPaintLayer\",\"_pt\":\"L#{\\\"s\\\":1.4142135623730954,\\\"fx\\\":0,\\\"fy\\\":0,\\\"x\\\":[{\\\"p\\\":0,\\\"c\\\":\\\"C#[255,0,0]\\\",\\\"o\\\":1},{\\\"p\\\":0.3,\\\"c\\\":\\\"C#[0,255,0]\\\",\\\"o\\\":0.5},{\\\"p\\\":1,\\\"c\\\":\\\"C#[0,0,255]\\\",\\\"o\\\":1}],\\\"r\\\":-5.497787143782138}\"}"
+    },
+    "linear-left": {
+      "ok": "{\"@\":\"fillPaintLayer\",\"_pt\":\"L#{\\\"fx\\\":1,\\\"x\\\":[{\\\"p\\\":0,\\\"c\\\":\\\"C#[255,0,0]\\\",\\\"o\\\":1},{\\\"p\\\":0.3,\\\"c\\\":\\\"C#[0,255,0]\\\",\\\"o\\\":0.5},{\\\"p\\\":1,\\\"c\\\":\\\"C#[0,0,255]\\\",\\\"o\\\":1}],\\\"r\\\":-3.141592653589793}\"}"
+    },
+    "linear-point": {
+      "ok": "{\"@\":\"fillPaintLayer\",\"_pt\":\"L#{\\\"x\\\":[{\\\"p\\\":0,\\\"c\\\":\\\"C#[255,0,0]\\\",\\\"o\\\":1},{\\\"p\\\":0.3,\\\"c\\\":\\\"C#[0,255,0]\\\",\\\"o\\\":0.5},{\\\"p\\\":1,\\\"c\\\":\\\"C#[0,0,255]\\\",\\\"o\\\":1}]}\"}"
+    },
+    "radial-ellipse": {
+      "ok": "{\"@\":\"fillPaintLayer\",\"_pt\":\"R#{\\\"s\\\":0.5,\\\"t\\\":[-1,0,0,-1.1102230246251565e-16,1,0.5],\\\"x\\\":[{\\\"p\\\":0,\\\"c\\\":\\\"C#[255,0,0]\\\",\\\"o\\\":1},{\\\"p\\\":0.3,\\\"c\\\":\\\"C#[0,255,0]\\\",\\\"o\\\":0.5},{\\\"p\\\":1,\\\"c\\\":\\\"C#[0,0,255]\\\",\\\"o\\\":1}]}\"}"
+    },
+    "radial-round": {
+      "ok": "{\"@\":\"fillPaintLayer\",\"_pt\":\"R#{\\\"s\\\":0.5,\\\"t\\\":[1.4,0,0,1.4,-0.39999999999999997,-0.39999999999999997],\\\"x\\\":[{\\\"p\\\":0,\\\"c\\\":\\\"C#[255,0,0]\\\",\\\"o\\\":1},{\\\"p\\\":0.3,\\\"c\\\":\\\"C#[0,255,0]\\\",\\\"o\\\":0.5},{\\\"p\\\":1,\\\"c\\\":\\\"C#[0,0,255]\\\",\\\"o\\\":1}]}\"}"
+    },
+    "radial-zero": {
+      "ok": "{\"@\":\"fillPaintLayer\",\"_pt\":\"R#{\\\"s\\\":0.5,\\\"t\\\":[0.6000000000000001,0.8,-0.28800000000000003,0.21600000000000008,0.344,-0.008000000000000063],\\\"x\\\":[{\\\"p\\\":0,\\\"c\\\":\\\"C#[255,0,0]\\\",\\\"o\\\":1},{\\\"p\\\":0.3,\\\"c\\\":\\\"C#[0,255,0]\\\",\\\"o\\\":0.5},{\\\"p\\\":1,\\\"c\\\":\\\"C#[0,0,255]\\\",\\\"o\\\":1}]}\"}"
+    },
+    "radial-none": {
+      "ok": "{\"@\":\"fillPaintLayer\",\"_pt\":\"R#{\\\"s\\\":0.5,\\\"t\\\":[1.4,-1,-1.0000000000000002,-1.3999999999999995,1.6653345369377348e-16,1.7999999999999998],\\\"x\\\":[{\\\"p\\\":0,\\\"c\\\":\\\"C#[255,0,0]\\\",\\\"o\\\":1},{\\\"p\\\":0.3,\\\"c\\\":\\\"C#[0,255,0]\\\",\\\"o\\\":0.5},{\\\"p\\\":1,\\\"c\\\":\\\"C#[0,0,255]\\\",\\\"o\\\":1}]}\"}"
+    },
+    "radial-vertical": {
+      "ok": "{\"@\":\"fillPaintLayer\",\"_pt\":\"R#{\\\"s\\\":0.5,\\\"t\\\":[-1.4,0,0,1,1.2,-0.3],\\\"x\\\":[{\\\"p\\\":0,\\\"c\\\":\\\"C#[255,0,0]\\\",\\\"o\\\":1},{\\\"p\\\":0.3,\\\"c\\\":\\\"C#[0,255,0]\\\",\\\"o\\\":0.5},{\\\"p\\\":1,\\\"c\\\":\\\"C#[0,0,255]\\\",\\\"o\\\":1}]}\"}"
+    },
+    "angular": {
+      "ok": "{\"@\":\"fillPaintLayer\",\"_pt\":\"A#{\\\"s\\\":0.5,\\\"x\\\":[{\\\"p\\\":0,\\\"c\\\":\\\"C#[255,0,0]\\\",\\\"o\\\":1},{\\\"p\\\":0.19999999999999996,\\\"c\\\":\\\"C#[0,0,255]\\\",\\\"o\\\":1},{\\\"p\\\":0.7,\\\"c\\\":\\\"C#[0,255,0]\\\",\\\"o\\\":1},{\\\"p\\\":1,\\\"c\\\":\\\"C#[0,0,0]\\\",\\\"o\\\":1}],\\\"a0\\\":-3.141592653589793}\"}"
+    },
+    "color": {
+      "ok": "{\"@\":\"fillPaintLayer\",\"_pt\":\"C#[219,41,41]\",\"_op\":0.4}"
+    }
+  },
+  "paths": {
+    "square-fixed": {
+      "ok": "{\"@\":\"path\",\"closed\":true,\"pts\":[3735932941,[\"AAAgQQAAoEE=\"],[\"AADcQgAAoEE=\"],[\"AADcQgAAoEI=\"],[\"AAAgQQAAoEI=\"]],\"_layId\":\"j26gR9ORc5JQdpTgfNmJUdHoP5OCBEb8\",\"_effId\":\"ApldYoN1yh0bXIUZG99rNq9buxQkIjjG\"}"
+    },
+    "radii": {
+      "ok": "{\"@\":\"path\",\"closed\":true,\"pts\":[3735932941,[\"AAAAAAAAAAA=\",\"C\",\"AACAQAAAgEA=\"],[\"AACgQgAAAAA=\",\"C\",\"AAAgQgAAIEI=\"],[\"AACgQgAAoEI=\"],[\"AAAAAAAAoEI=\",\"C\",\"AADAQAAAwEA=\"]],\"_layId\":\"A0DsT1rLgP1OhehnrkZMupLj2KGgLQbO\",\"_effId\":\"09FoZGE7uuWrCDakLvRPBxnGZ80c8MFf\"}"
+    },
+    "curves": {
+      "ok": "{\"@\":\"path\",\"pts\":[3735932941,[\"AACgQAAAgkI=\"],[\"TS\",\"AAAkQgAAoEA=\",\"h\",\"AAC4QQAAoEA=\",\"H\",\"AABsQgAAoEA=\"],[\"TA\",\"AACyQgAAgkI=\",\"h\",\"AACaQgAAVEI=\",\"H\",\"AADiQgAAgkI=\"],[\"TM\",\"AAD6QgAAoEA=\",\"h\",\"AAD6QgAAiEE=\",\"H\",\"AAD6QgAA4MA=\"]],\"_layId\":\"fgD6nlih7MBQ6ojoLyN9vLZ47Lg0K6Fa\",\"_effId\":\"MkRdiej8CQk7MjFF7wAVob3uGJMUnPPV\"}"
+    },
+    "curve-first": {
+      "ok": "{\"@\":\"path\",\"closed\":true,\"pts\":[3735932941,[\"TM\",\"AAAAAAAAAAA=\",\"h\",\"AAAAAAAAAAA=\",\"H\",\"AAAAAAAAAAA=\"],[\"AACAPwAAAAA=\"],[\"AACAPwAAgD8=\"]],\"_layId\":\"RbMf2z7eIh7MadWwA0Oj3F56swYcs1z9\",\"_effId\":\"gaLgccmr4lTWgGHJnHCM1fFYELLtkyb8\"}"
+    },
+    "bad-mode": {
+      "ok": "{\"@\":\"path\",\"closed\":true,\"pts\":[3735932941,[\"AAAAAAAAAAA=\",\"C\",\"AACgQAAAoEA=\"],[\"AABwQgAAcEI=\"]],\"_layId\":\"8ZWJE7GfQTOTodiuHIFo3SOq0hW6eGOc\",\"_effId\":\"wd9p6PdUymqvu5Lf9CrmbKBo4bAanH6A\"}"
+    },
+    "bad-first": {
+      "error": "TypeError: Cannot read properties of undefined (reading 'setProperties')"
+    },
+    "single": {
+      "ok": null
+    },
+    "empty": {
+      "ok": null
+    }
+  },
+  "rect": {
+    "transformation": "[Object GTransform(sx=2, shy=0, shx=0, sy=0.5, tx=-20, ty=-5)]",
+    "emptyFrom": "[Object GTransform(sx=0, shy=0, shx=0, sy=0.5, tx=0, ty=-5)]",
+    "point": "[Object GPoint(x=0.25, y=-300]",
+    "minDistance": 12
+  }
+}
