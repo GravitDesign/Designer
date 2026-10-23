@@ -24,6 +24,8 @@
  *   view), which the exporters read for page backgrounds;
  * - onDocumentsChanged: the GDesigner document events (added, activated,
  *   deactivated, removed, status and scene changes) for the view host;
+ * - the font providers and default font GDesigner.init sets up for the
+ *   workspace's font manager (./fonts.ts);
  * - the engine options the app sets at boot (GSceneOptions.scaleLabel =
  *   false, GSceneOptions.defaultBorderPositionForLines = true);
  * - GDesigner.createScene and GDesigner.newInfiniteDocument: a scene in
@@ -65,11 +67,11 @@
  *     did, GSceneWidget.release) and activates the last remaining one.
  *
  * What it leaves out: the views and windows (parity/app/view-host.ts), the
- * tool manager, the font providers and default font (app-fonts-ui), the
- * save point and modified state, recent files, the missing-fonts dialog,
- * the save and error dialogs, storage other than the file input and
- * downloads, and opening any format but .gvdesign. Scenarios that need
- * them stay unlisted.
+ * tool manager, the save point and modified state, recent files, the
+ * missing-fonts dialog (and the font tracking around opening a document
+ * that only feeds it), the save and error dialogs, storage other than the
+ * file input and downloads, and opening any format but .gvdesign.
+ * Scenarios that need them stay unlisted.
  */
 import { RGBColor } from "../../engine/color/rgb-color.ts";
 import { Node } from "../../engine/scene/node.ts";
@@ -82,6 +84,8 @@ import { GVDESIGN_FILE_TYPE } from "../../io/gvdesign/format.ts";
 import { loadGvdesign } from "../../io/gvdesign/load.ts";
 import { documentRealFileSize, isFileTooSmall } from "../../io/gvdesign/save-checks.ts";
 import { storeGvdesign } from "../../io/gvdesign/store.ts";
+import type { FontManager } from "../../engine/text/fonts/font-manager.ts";
+import { installAppFonts } from "./fonts.ts";
 
 // GDesigner.init: the scene options the app always runs with.
 SceneOptions.scaleLabel = false;
@@ -205,6 +209,8 @@ export class InterimDocument {
 }
 
 const workspace = new EditorWorkspace();
+// GDesigner.init: the font providers and the default font (./fonts.ts).
+installAppFonts(workspace.getFontManager() as FontManager);
 const documents: InterimDocument[] = [];
 let activeDocument: InterimDocument | null = null;
 
