@@ -11,9 +11,19 @@
  * app-shell-storage clusters replace it.
  *
  * What it ports:
- * - the app's one workspace, made when GDesigner is constructed (the old
- *   app made a GEditorWorkspace, which only adds the editor's style and
- *   tool managers; those belong to the editor phase);
+ * - the app's one workspace, made when GDesigner is constructed: a
+ *   GEditorWorkspace with its style editor manager (its tool manager comes
+ *   with the tools, see registerToolManagerFactory in
+ *   editor/editor-workspace.ts);
+ * - GDocument._updateScene's editor part: every scene of a document gets
+ *   its GEditor (the scene's own when it already has one), and the old
+ *   editor is released when the scene goes; app.editor() is the active
+ *   document's GEditor. The scene also gets the shadow expand area of the
+ *   editor view's page shadow (9, 9, 9, 11: GEditorWidget set it from
+ *   GEditorPaintConfiguration.pageDecoration when the window opened its
+ *   view), which the exporters read for page backgrounds;
+ * - onDocumentsChanged: the GDesigner document events (added, activated,
+ *   deactivated, removed, status and scene changes) for the view host;
  * - the engine options the app sets at boot (GSceneOptions.scaleLabel =
  *   false, GSceneOptions.defaultBorderPositionForLines = true);
  * - GDesigner.createScene and GDesigner.newInfiniteDocument: a scene in
@@ -54,28 +64,19 @@
  *     its scene's dictionaries and references (what closing its view
  *     did, GSceneWidget.release) and activates the last remaining one.
  *
- * What it leaves out: the editor (GEditor; app.editor() returns a stand-in
- * whose clearSelection clears the Selected flag the old selection would
- * have held), the views and windows, the font providers and default font
- * (app-fonts-ui), the save point and modified state, recent files, the
- * missing-fonts dialog, the save and error dialogs, storage other than the
- * file input and downloads, and opening any format but .gvdesign.
- * Scenarios that need them stay unlisted. In particular the GEditor
- * constructor, which the old GDocument ran for every scene, sets
- * scene.__graphic_editor__, adds the AfterInsert, BeforeRemove, flag and
- * geometry listeners and moves the ":selected" nodes into the selection;
- * and boot set the page shadow of
- * GEditorPaintConfiguration.prototype.pageDecoration (blur 4, offset y 2,
- * rgba(0,0,0,0.25)). An engine scenario whose result depends on those
- * listeners, or on page shadows in the multi-page view, waits for the
- * editor phase.
+ * What it leaves out: the views and windows (parity/app/view-host.ts), the
+ * tool manager, the font providers and default font (app-fonts-ui), the
+ * save point and modified state, recent files, the missing-fonts dialog,
+ * the save and error dialogs, storage other than the file input and
+ * downloads, and opening any format but .gvdesign. Scenarios that need
+ * them stay unlisted.
  */
 import { RGBColor } from "../../engine/color/rgb-color.ts";
-import { NodeFlag } from "../../engine/scene/node-change.ts";
 import { Node } from "../../engine/scene/node.ts";
 import { SceneOptions } from "../../engine/scene/scene-options.ts";
 import { Scene } from "../../engine/scene/scene.ts";
-import { Workspace } from "../../engine/scene/workspace.ts";
+import { Editor } from "../../editor/index.ts";
+import { EditorWorkspace } from "../../editor/editor-workspace.ts";
 import type { SerializeOptions } from "../../engine/serialize/blob.ts";
 import { GVDESIGN_FILE_TYPE } from "../../io/gvdesign/format.ts";
 import { loadGvdesign } from "../../io/gvdesign/load.ts";
@@ -107,7 +108,9 @@ let nextSessionId = 1;
 
 /** The part of GDocument the hooks use. */
 export class InterimDocument {
-  private scene: Scene;
+  private scene: Scene | null = null;
+  private editor: Editor | null = null;
+  private title: string | null = null;
   private status: number = DocumentStatus.Init;
   private readonly sessionId = nextSessionId++;
 
@@ -116,19 +119,25 @@ export class InterimDocument {
     scene: Scene,
     private readonly fileName: string | null = null,
   ) {
-    this.scene = scene;
+    this.updateScene(scene);
     // The constructor's setScene makes it Ready.
     this.status = DocumentStatus.Ready;
   }
 
   getScene(): Scene {
-    return this.scene;
+    return this.scene as Scene;
+  }
+
+  /** The scene's GEditor (GDocument.getEditor). */
+  getEditor(): Editor | null {
+    return this.editor;
   }
 
   /** GDocument.setScene: the new scene, then Ready. */
   setScene(scene: Scene): void {
-    this.scene = scene;
+    this.updateScene(scene);
     this.status = DocumentStatus.Ready;
+    notifyDocumentsChanged();
   }
 
   getStatus(): number {
@@ -137,6 +146,26 @@ export class InterimDocument {
 
   setStatus(status: number): void {
     this.status = status;
+    notifyDocumentsChanged();
+  }
+
+  /** Closing the document: GDocument.release drops its scene (setScene(null)). */
+  release(): void {
+    this.updateScene(null);
+  }
+
+  /**
+   * GDocument._updateScene, the editor part: the old editor is released,
+   * the new scene gets its editor and the view's shadow expand area.
+   */
+  private updateScene(scene: Scene | null): void {
+    if (this.scene && this.editor) this.editor.release();
+    this.editor = null;
+    this.scene = scene;
+    if (scene) {
+      this.editor = Editor.getEditor(scene) || new Editor(scene);
+      scene.setShadowExpandArea(9, 9, 9, 11);
+    }
   }
 
   isNew(): boolean {
@@ -149,11 +178,22 @@ export class InterimDocument {
       if (!untitledNumbers.has(this.sessionId)) {
         untitledNumbers.set(this.sessionId, nextUntitledNumber++);
       }
-      return "Untitled-" + String(untitledNumbers.get(this.sessionId));
+      return this.title || "Untitled-" + String(untitledNumbers.get(this.sessionId));
     }
     // Storage item getName: the full name up to its last dot.
     const dot = this.fileName.lastIndexOf(".");
     return dot >= 0 ? this.fileName.substr(0, dot) : this.fileName;
+  }
+
+  /**
+   * GDocument.setTitle: the title of a new document (an opened one keeps
+   * its file name); a change counts as a document change.
+   */
+  setTitle(title: string): void {
+    if (title !== this.title) {
+      this.title = title;
+      notifyDocumentsChanged();
+    }
   }
 
   /** The storage item's extension, upper case like getExtension. */
@@ -164,12 +204,30 @@ export class InterimDocument {
   }
 }
 
-const workspace = new Workspace();
+const workspace = new EditorWorkspace();
 const documents: InterimDocument[] = [];
 let activeDocument: InterimDocument | null = null;
 
+const documentsListeners = new Set<() => void>();
+
+/**
+ * Calls `listener` after a document was added, activated, deactivated or
+ * removed, or changed its status or scene (the GDesigner document events
+ * the old windows listened to). Returns the unsubscribe function.
+ */
+export function onDocumentsChanged(listener: () => void): () => void {
+  documentsListeners.add(listener);
+  return () => {
+    documentsListeners.delete(listener);
+  };
+}
+
+function notifyDocumentsChanged(): void {
+  for (const listener of Array.from(documentsListeners)) listener();
+}
+
 /** The workspace every scene of the app lives in. */
-export function appWorkspace(): Workspace {
+export function appWorkspace(): EditorWorkspace {
   return workspace;
 }
 
@@ -187,6 +245,7 @@ function createScene(noPage?: boolean): Scene {
 function activateDocument(document: InterimDocument | null): void {
   activeDocument = document;
   if (document) document.getScene().getAnnotations();
+  notifyDocumentsChanged();
 }
 
 /** GDesigner.addDocument: adds it and opens its window, which activates it. */
@@ -205,7 +264,9 @@ export function removeDocument(document: InterimDocument): void {
   // released the scene's dictionaries and forgot its reference ids in
   // the workspace, so a file opened again keeps its ids.
   document.getScene().releaseDictionaries();
+  document.release();
   documents.splice(index, 1);
+  notifyDocumentsChanged();
   // The window manager then activates the remaining window.
   if (wasActive) activateDocument(documents[documents.length - 1] ?? null);
 }
@@ -355,20 +416,6 @@ function activeScene(): Scene {
   return activeDocument.getScene();
 }
 
-/** The stand-in for GEditor the scenarios call. */
-const interimEditor = {
-  /**
-   * GEditor.clearSelection. Without the editor nothing is selected
-   * except nodes restored with the Selected flag, which the old GEditor
-   * constructor moved into its selection; clearing drops the flag.
-   */
-  clearSelection(): void {
-    activeScene().acceptChildren((node: Node) => {
-      if (node.hasFlag(NodeFlag.Selected)) node.removeFlag(NodeFlag.Selected);
-    });
-  },
-};
-
 export const documentHooks = {
   newInfiniteDocument,
   document(): InterimDocument | null {
@@ -377,9 +424,14 @@ export const documentHooks = {
   scene(): Scene {
     return activeScene();
   },
-  editor(): typeof interimEditor {
+  editor(): Editor {
     activeScene();
-    return interimEditor;
+    return (activeDocument as InterimDocument).getEditor() as Editor;
+  },
+  /** GEditor.getSelection of the active document, or an empty list. */
+  selection(): Node[] {
+    activeScene();
+    return (activeDocument as InterimDocument).getEditor()?.getSelection() || [];
   },
   serialize(options?: SerializeOptions): string | null {
     return Node.serialize(activeScene(), options);

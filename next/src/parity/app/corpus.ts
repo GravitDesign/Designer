@@ -10,9 +10,9 @@
  * Behind those actions are the format code in io/gvdesign and the
  * interim document list.
  *
- * Interim, until the editor view and the font providers exist:
- * - viewIdle() is true, since no view renders anything yet; settle()
- *   therefore waits for images, texture patterns and fonts only;
+ * Interim, until the app shell and the font providers exist:
+ * - viewIdle() asks the interim view host (view-host.ts) whether the
+ *   active view has a repaint or tiles left;
  * - waitForDocument() watches the number of scene nodes and the window
  *   size for a second (the old hook also watched the view box).
  */
@@ -25,6 +25,7 @@ import {
   getDocuments,
 } from "./document.ts";
 import { Image } from "../../engine/scene/image.ts";
+import { activeViewIdle } from "./view-host.ts";
 
 const frame = (): Promise<void> => new Promise((resolve) => requestAnimationFrame(() => resolve()));
 const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
@@ -79,9 +80,8 @@ function fontsReady(): boolean {
   return !(fonts && fonts.hasPendingFonts()) && window.document.fonts.status === "loaded";
 }
 
-/** No view exists yet, so nothing is left to render. */
 function viewIdle(): boolean {
-  return true;
+  return activeViewIdle();
 }
 
 async function settle(options?: { quietFrames?: number; timeout?: number }): Promise<void> {
