@@ -75,6 +75,17 @@ async function prepareContext(page: Page, options: OpenOptions): Promise<void> {
   if (options.language) settings.language = options.language;
   await page.addInitScript(
     ({ settings: s, hideFileSystemAccess }) => {
+      // Chromium passes the machine's touch screen through as
+      // navigator.maxTouchPoints (20 on a touch laptop) even in a context
+      // without touch, and both apps then ask about touch mode. Playwright's
+      // touch emulation (hasTouch) reports 1, so only values above 1 come
+      // from the hardware; pin those to the "no touch" value.
+      if (navigator.maxTouchPoints > 1) {
+        Object.defineProperty(Navigator.prototype, "maxTouchPoints", {
+          configurable: true,
+          get: () => 0,
+        });
+      }
       if (hideFileSystemAccess) {
         const w = window as unknown as Record<string, unknown>;
         w.showOpenFilePicker = undefined;
