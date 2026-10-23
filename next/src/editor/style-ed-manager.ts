@@ -5,12 +5,15 @@ import { getTypeId, registerClass } from "../engine/core/object.ts";
 import type { Point } from "../engine/math/point.ts";
 import type { Transform } from "../engine/math/transform.ts";
 import { AfterPropertiesChangeEvent } from "../engine/scene/node-events.ts";
+import type { PropertiesNode } from "../engine/scene/node-properties.ts";
+import type { Node } from "../engine/scene/node.ts";
 import { Page } from "../engine/scene/page.ts";
 import { Scene } from "../engine/scene/scene.ts";
 import { AngularGradient } from "../engine/style/angular-gradient.ts";
 import { Gradient } from "../engine/style/gradient.ts";
 import { LinearGradient } from "../engine/style/linear-gradient.ts";
 import { RadialGradient } from "../engine/style/radial-gradient.ts";
+import type { StyleOwner } from "../engine/style/stylable-sets.ts";
 import { Stylable } from "../engine/style/stylable.ts";
 import { EditorOptions } from "./editor-options.ts";
 import { AngularGradientEditor } from "./element-editors/angular-gradient-editor.ts";
@@ -61,7 +64,7 @@ export class StyleEditorEvent extends Event {
 }
 
 /** The view as the manager uses it (GEditorWidget). */
-interface StyleEdView {
+export interface StyleEdView {
   getScene(): Scene;
   getEditor(): StyleEdMainEditor | null;
   _convertClientPositionFromMousePosition(event: MouseEvent): Point;
@@ -71,19 +74,25 @@ interface StyleEdView {
 }
 
 /** The scene's GEditor as the manager uses it. */
-interface StyleEdMainEditor {
+export interface StyleEdMainEditor {
   beginTransaction(): void;
   commitTransaction(name?: string | null, relatedData?: unknown): void;
 }
 
-/** A node holding a pattern property: a stylable element or a paint layer. */
-interface PatternHolder {
-  getProperty(name: string, ...rest: unknown[]): unknown;
-  hasMixin(mixin: unknown): boolean;
+/**
+ * A node holding a pattern property: a stylable element, a page or the
+ * scene, or a paint layer or effect (which name their stylable owner).
+ */
+export type PatternHolder = PropertiesNode & {
+  /** Set while the node is attached to a scene. */
   _scene?: unknown;
-  getOwnerStylable?: () => PatternHolder | null;
+  /**
+   * The stylable element owning a paint layer or effect. The engine types
+   * it by the few members the style code uses (StyleOwner); it is a Node.
+   */
+  getOwnerStylable?: () => StyleOwner | null;
   getPatternPropNames?: () => string[] | null;
-}
+};
 
 /**
  * Opens the gradient editors over the selection when a gradient fill or
@@ -188,28 +197,29 @@ export class StyleEdManager extends EventTarget {
    * (attached to the element editor of the holder or of its stylable
    * owner), or closes the active one when the property isn't a gradient.
    */
-  updateEditor(holder: PatternHolder, name: string, temporary?: unknown): void {
+  updateEditor(holder: PatternHolder, name: string, temporary?: boolean | null): void {
     this.deactivateEditor();
-    const value = holder.getProperty(name, false, null, temporary);
+    // A null `temporary` (from the change event) is passed on as it is.
+    const value = holder.getProperty(name, false, null, temporary as boolean | undefined);
     if (value) {
       let editorClass: unknown = null;
-      let parentEditor: unknown = null;
+      let parentEditor: ElementEditor | null = null;
       let activation: StyleEditorActivation | null = null;
       if (
         (holder.hasMixin(Stylable) && holder._scene) ||
         holder instanceof Page ||
         holder instanceof Scene
       ) {
-        parentEditor = ElementEditor.openEditor(holder as never);
+        parentEditor = ElementEditor.openEditor(holder);
       } else if (holder.getOwnerStylable) {
-        const owner = holder.getOwnerStylable();
-        if (owner && owner._scene) parentEditor = ElementEditor.openEditor(owner as never);
+        const owner = holder.getOwnerStylable() as (Node & { _scene?: unknown }) | null;
+        if (owner && owner._scene) parentEditor = ElementEditor.openEditor(owner);
       }
       if (value instanceof Gradient) {
         activation = {
-          parentEditor: parentEditor as StyleEditorActivation["parentEditor"],
+          parentEditor,
           propName: name,
-          propHolder: holder as never,
+          propHolder: holder,
           propTemporary: temporary as boolean | undefined,
         };
         if (value instanceof LinearGradient) editorClass = LinearGradientEditor;
@@ -283,6 +293,9 @@ export class StyleEdManager extends EventTarget {
           if (editor.getParentEditor()) editor.deactivate();
           if (editor.activate(activation)) {
             this._activeEditor = editor;
+            // updateEditor closes the active editor first, so `previous`
+            // is always null there (see "Style editor switch never fires
+            // EditorChangedEvent" in QUESTIONS.md).
             if (previous && this.hasEventListeners(StyleEditorChangedEvent)) {
               this.trigger(new StyleEditorChangedEvent(previous, editor));
             }
@@ -304,7 +317,7 @@ export class StyleEdManager extends EventTarget {
 
   _afterPropertiesChange(event: AfterPropertiesChangeEvent): void {
     if (!this._editorUpdateBlocker) {
-      const node = event.node as unknown as PatternHolder;
+      const node = event.node as PatternHolder;
       const patternNames = node.getPatternPropNames ? node.getPatternPropNames() : null;
       const properties = event.properties as string[];
       if (patternNames && patternNames.length) {

@@ -24,11 +24,11 @@ import { getRegisteredClass, registerClass } from "../engine/core/object.ts";
 import { equals, extend, uuid } from "../engine/core/util.ts";
 import { QuadTree } from "../engine/geometry/quadtree.ts";
 import { PathUtil } from "../engine/geometry/path-util.ts";
-import { VertexSourceMixin } from "../engine/geometry/vertex-source.ts";
+import { VertexSourceMixin, type VertexReader } from "../engine/geometry/vertex-source.ts";
 import { VertexTransformer } from "../engine/geometry/vertex-transformer.ts";
 import { GMath } from "../engine/math/math.ts";
 import { Point } from "../engine/math/point.ts";
-import { Rect } from "../engine/math/rect.ts";
+import { Rect, type RectSide } from "../engine/math/rect.ts";
 import { Transform } from "../engine/math/transform.ts";
 import { AnnotationMixin } from "../engine/scene/annotations/annotation.ts";
 import { AnnotationsList } from "../engine/scene/annotations/annotations-list.ts";
@@ -44,7 +44,7 @@ import { Element } from "../engine/scene/element.ts";
 import { Group } from "../engine/scene/group.ts";
 import { Item } from "../engine/scene/item.ts";
 import { Layer } from "../engine/scene/layer.ts";
-import { Container } from "../engine/scene/node-container.ts";
+import { Container, type ContainerNode } from "../engine/scene/node-container.ts";
 import {
   AfterFlagChangeEvent,
   AfterInsertEvent,
@@ -58,6 +58,7 @@ import { Node } from "../engine/scene/node.ts";
 import { Page } from "../engine/scene/page.ts";
 import { PathBase } from "../engine/scene/path-base.ts";
 import { Path } from "../engine/scene/path.ts";
+import type { Shape } from "../engine/scene/shape.ts";
 import { PathsGraph } from "../engine/scene/paths-graph/paths-graph.ts";
 import {
   RecordedTransactionFinishedEvent,
@@ -130,7 +131,8 @@ interface EdNode {
   validateInsertion(parent: EdNode, next: EdNode | null): boolean;
   isFullUnderCollision(collision: unknown): boolean;
   getElementIndex(): number;
-  [member: string]: unknown;
+  /** Node's flag that an undo or redo is restoring this node. */
+  recordedTransaction: boolean;
 }
 
 /**
@@ -1096,9 +1098,14 @@ export class Editor extends EventTarget {
         }
       } else exceptions.push(annotation);
     };
+    // Declared outside the loop on purpose: the old `var` was hoisted and
+    // never reset, so after the first page with annotations (or
+    // AnnotationsList) every later node re-adds that same list and skips
+    // its own check. See "Annotation exceptions stick to the first
+    // annotation list" in QUESTIONS.md.
+    let list: EdNode | undefined;
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i] as EdNode;
-      let list: EdNode | undefined;
       if (node instanceof Page && node.hasAnnotations()) {
         list = node.getAnnotations() as unknown as EdNode;
       } else if (node instanceof AnnotationsList) list = node as unknown as EdNode;
@@ -1545,6 +1552,10 @@ export class Editor extends EventTarget {
           if (!keep || keep.indexOf(internal[i]) < 0)
             (internal[i] as EdNode).removeFlag(NodeFlag.Selected);
         }
+      } catch {
+        // The old code returned true from its finally block, which
+        // swallowed any exception thrown while deselecting (by a flag
+        // listener, say). Kept: the remaining children stay selected.
       } finally {
         this._finishSelectionUpdate();
       }
@@ -1663,7 +1674,8 @@ export class Editor extends EventTarget {
   /**
    * Scales the selection's previews by (sx, sy) around the side given by
    * the signs of (dx, dy): negative takes the bottom/right edge, positive
-   * the top/left, zero the centre.
+   * the top/left, zero the centre. The fifth parameter was in the old
+   * signature but never read.
    */
   scaleSelection(
     scaleX: number,
@@ -1734,10 +1746,15 @@ export class Editor extends EventTarget {
     }
   }
 
-  /** Previews a resize of the selection (the selection editor's, else each block editor's). */
-  resizeSelection(a: unknown, b: unknown, c: unknown): void {
+  /**
+   * Previews moving `side` of the selection's box by `delta` (the
+   * selection editor's box, else each block editor's). The nudge passes
+   * the view's multi-page flag as `multiPage`; BoxEditor.resize takes only
+   * side and delta, so it is passed on and ignored, as in the old code.
+   */
+  resizeSelection(side: RectSide | string, delta: Point, multiPage?: unknown): void {
     if (this._selection && this._selection.length) {
-      if (this._selEditor) this._selEditor.resize(a, b, c);
+      if (this._selEditor) this._selEditor.resize(side, delta, multiPage);
       else {
         let individual = this.filterIndividualElements(this._selection);
         if (
@@ -1752,7 +1769,7 @@ export class Editor extends EventTarget {
         }
         for (let i = 0; i < individual.length; ++i) {
           const editor = editorOf(individual[i]);
-          if (editor && editor instanceof BlockEditor) editor.resize(a, b, c);
+          if (editor && editor instanceof BlockEditor) editor.resize(side, delta, multiPage);
         }
       }
       if (this.hasEventListeners(EdGeometryChangeEvent)) this.trigger(new EdGeometryChangeEvent());
@@ -2147,46 +2164,50 @@ export class Editor extends EventTarget {
           const next = node.getNext(true);
           let path: EdNode | null = null;
           if (node instanceof PathBase) {
-            parent.removeChild(node as unknown as EdNode);
+            parent.removeChild(node);
             const anchorPoints = node.cloneAnchorPoints();
-            if (
-              (path = new Path(
-                node.getProperty("closed") as never,
-                node.getProperty("evenodd") as never,
-                anchorPoints as never,
-              ) as unknown as EdNode)
-            ) {
-              (path as unknown as Path).assignFrom(node as never);
-              node = null;
-              parent.insertChild(path, next);
-              result.push(path);
-            }
+            const converted = new Path(
+              node.getProperty("closed") as boolean,
+              node.getProperty("evenodd") as boolean,
+              anchorPoints,
+            );
+            converted.assignFrom(node);
+            path = asNode(converted);
+            node = null;
+            parent.insertChild(path, next);
+            result.push(path);
           } else if (node instanceof Text) {
-            const shapes = node.getTextShapes() as unknown as EdNode[] | null;
-            parent.removeChild(node as unknown as EdNode);
+            const shapes = node.getTextShapes();
+            parent.removeChild(node);
             if (shapes) {
               for (let k = shapes.length - 1; k >= 0; k--) {
-                parent.insertChild(shapes[k] as EdNode, next);
-                result.push(shapes[k] as EdNode);
+                const shape = asNode(shapes[k] as Node);
+                parent.insertChild(shape, next);
+                result.push(shape);
               }
             }
           } else if (node.hasMixin(VertexSourceMixin)) {
             parent.removeChild(node);
-            if (
-              (path = PathUtil.createPathFromVertexSource(
-                node as never,
-              ) as unknown as EdNode | null)
-            ) {
-              const shape = node as EdNode & { $trf: unknown };
+            // Without asList the result is one Path or CompoundPath.
+            const converted = PathUtil.createPathFromVertexSource(
+              node as unknown as VertexReader,
+            ) as Path | CompoundPath | null;
+            if (converted) {
+              // The vertices are already transformed: assignFrom must not
+              // copy the shape's transform onto the path.
+              const shape = node as unknown as Shape;
               const transform = shape.$trf;
               shape.$trf = null;
-              (path as unknown as Path).assignFrom(node as never);
+              converted.assignFrom(shape);
+              // Unreachable (path bases took the first branch), kept from
+              // the old code; it wrote the fields without property events.
               if (node instanceof PathBase) {
-                (path as unknown as Record<string, unknown>).$evenodd = node.getProperty("evenodd");
-                (path as unknown as Record<string, unknown>).$closed = node.getProperty("closed");
+                (converted as Path).$evenodd = node.getProperty("evenodd") as boolean;
+                (converted as Path).$closed = node.getProperty("closed") as boolean;
               }
               shape.$trf = transform;
               node = null;
+              path = asNode(converted);
               parent.insertChild(path, next);
               result.push(path);
             }
@@ -2205,57 +2226,58 @@ export class Editor extends EventTarget {
    * Joins the selected paths and compound paths into one compound path
    * where the topmost of them was; returns it (or the single path).
    */
-  joinPaths(): EdNode | null {
-    let joined: EdNode | null = null;
+  joinPaths(): Path | CompoundPath | null {
+    let joined: Path | CompoundPath | null = null;
     if (this._selection && this._selection.length) {
-      const ordered = Node.order((this.getSelection() as Node[]).slice()) as unknown as EdNode[];
-      const paths: EdNode[] = [];
+      const ordered = Node.order((this.getSelection() as Node[]).slice()) as Node[];
+      const paths: (Path | CompoundPath)[] = [];
       for (let i = 0; i < ordered.length; ++i) {
-        const node = ordered[i] as EdNode;
+        const node = ordered[i] as Node;
         if (node instanceof Path || node instanceof CompoundPath) paths.push(node);
       }
       if (paths.length > 1) {
         const compound = new CompoundPath();
-        joined = compound as unknown as EdNode;
-        const last = paths[paths.length - 1] as EdNode;
-        const parent = last.getParent() as EdNode;
+        joined = compound;
+        const last = paths[paths.length - 1] as Path | CompoundPath;
+        const parent = last.getParent() as ContainerNode;
         const next = last.getNext();
         for (let i = 0; i < paths.length; ++i) {
-          const path = paths[i] as EdNode;
+          const path = paths[i] as Path | CompoundPath;
           if (path instanceof Path) {
-            (path.getParent() as unknown as EdNode).removeChild(path as unknown as EdNode);
-            (compound.getPaths() as unknown as EdNode).appendChild(
-              path.clone() as unknown as EdNode,
-            );
+            (path.getParent() as ContainerNode).removeChild(path);
+            compound.getPaths().appendChild(path.clone() as Node);
           } else {
-            (path.getParent() as EdNode).removeChild(path);
-            const subPaths = (path as unknown as CompoundPath).cloneSubPaths() as unknown as EdNode;
-            let following: EdNode | null;
-            for (let child = subPaths.getFirstChild(); null !== child; child = following) {
+            (path.getParent() as ContainerNode).removeChild(path);
+            const subPaths = path.cloneSubPaths();
+            let following: Node | null;
+            for (
+              let child: Node | null = subPaths.getFirstChild();
+              null !== child;
+              child = following
+            ) {
               following = child.getNext();
               subPaths.removeChild(child);
-              (compound.getPaths() as unknown as EdNode).appendChild(child);
+              compound.getPaths().appendChild(child);
             }
           }
         }
         parent.insertChild(joined, next);
-      } else if (1 == paths.length) joined = paths[0] as EdNode;
+      } else if (1 == paths.length) joined = paths[0] as Path | CompoundPath;
     }
     return joined;
   }
 
   /** Splits a compound path into its paths in its place; returns them. */
-  splitCompoundPath(compound: unknown): EdNode[] | null {
-    let paths: EdNode[] | null = null;
+  splitCompoundPath(compound: unknown): Node[] | null {
+    let paths: Node[] | null = null;
     if (compound instanceof CompoundPath) {
       paths = [];
-      const node = compound as unknown as EdNode;
-      const parent = node.getParent();
-      const next = node.getNext();
-      if (parent) parent.removeChild(node);
-      const subPaths = compound.cloneSubPaths() as unknown as EdNode;
-      let following: EdNode | null;
-      for (let child = subPaths.getFirstChild(); null !== child; child = following) {
+      const parent = compound.getParent();
+      const next = compound.getNext();
+      if (parent) parent.removeChild(compound);
+      const subPaths = compound.cloneSubPaths();
+      let following: Node | null;
+      for (let child: Node | null = subPaths.getFirstChild(); null !== child; child = following) {
         following = child.getNext();
         subPaths.removeChild(child);
         if (parent) parent.insertChild(child, next);
@@ -2903,8 +2925,9 @@ export class Editor extends EventTarget {
    * returns whether it opened.
    */
   openInlineEditor(node: EdNode, view?: unknown, position?: unknown): boolean {
-    // The tool manager arrives with the tools cluster (level 9); until
-    // then there is no temporary tool.
+    // A workspace has no tool manager when the tools module was never
+    // imported (unit tests on a bare EditorWorkspace); the old code threw
+    // there, this treats it as "no temporary tool".
     const toolManager = (
       this._scene.getWorkspace() as unknown as EditorWorkspaceLike
     ).getToolManager();

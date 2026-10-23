@@ -4,6 +4,7 @@
 // capture listeners, and a window whose animation frames run only when a
 // test asks (runFrames). Nothing is laid out: offsetWidth and the boxes
 // are 0, so widgets fall back to the sizes they were given.
+import { PaintCanvas } from "../../../engine/paint/paint-canvas.ts";
 import { FakeCanvas, installFakeCanvas } from "../../../engine/paint/testing/fake-canvas.ts";
 
 type Listener = (event: FakeDomEvent) => void;
@@ -161,6 +162,20 @@ export function pendingFrames(): number {
   return frames.size;
 }
 
+/** The fake window while the fake DOM is installed. */
+let currentWindow: { devicePixelRatio: number } | null = null;
+
+/**
+ * Sets the fake window's devicePixelRatio and makes PaintCanvas read it
+ * again (it caches the screen DPI). The fake DOM's undo function sets it
+ * back to 1.
+ */
+export function setDevicePixelRatio(ratio: number): void {
+  if (!currentWindow) throw new Error("the fake DOM is not installed");
+  currentWindow.devicePixelRatio = ratio;
+  PaintCanvas._initScreenDPI();
+}
+
 /** The document of the fake DOM. */
 export function fakeDom(): FakeDocument {
   return fakeDocument;
@@ -201,7 +216,10 @@ export function installFakeDom(): () => void {
   };
   globals.window = fakeWindow;
   globals.requestAnimationFrame = fakeWindow.requestAnimationFrame;
+  currentWindow = fakeWindow;
   return () => {
+    if (fakeWindow.devicePixelRatio !== 1) setDevicePixelRatio(1);
+    currentWindow = null;
     for (const [name, value] of saved) {
       if (value === undefined) Reflect.deleteProperty(globals, name);
       else globals[name] = value;

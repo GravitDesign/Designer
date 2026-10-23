@@ -1,0 +1,361 @@
+{
+  "fwdOne": {
+    "kids": ["b", "a", "c", "d"],
+    "sel": ["a"],
+    "undo": 1,
+    "undoName": "Arrange Order"
+  },
+  "fwdTwo": {
+    "kids": ["c", "a", "b", "d"],
+    "sel": ["a", "b"],
+    "undo": 1,
+    "undoName": "Arrange Order"
+  },
+  "fwdSkipSelected": {
+    "kids": ["b", "a", "d", "c"],
+    "sel": ["a", "c"],
+    "undo": 1,
+    "undoName": "Arrange Order"
+  },
+  "fwdLast": {
+    "kids": ["a", "b", "c"],
+    "sel": ["c"],
+    "undo": 0,
+    "undoName": null
+  },
+  "fwdBehindSelected": {
+    "kids": ["a", "b", "c"],
+    "sel": ["b", "c"],
+    "undo": 0,
+    "undoName": null
+  },
+  "fwdNonElement": {
+    "kids": ["<node>", "b", "a", "c"],
+    "sel": ["a"],
+    "undo": 1,
+    "undoName": "Arrange Order"
+  },
+  "bwdNonElement": {
+    "kids": ["a", "c", "b", "<node>"],
+    "sel": ["c"],
+    "undo": 1,
+    "undoName": "Arrange Order"
+  },
+  "backOne": {
+    "kids": ["c", "a", "b", "d"],
+    "sel": ["c"],
+    "undo": 1,
+    "undoName": "Arrange Order"
+  },
+  "backTwo": {
+    "kids": ["c", "d", "a", "b"],
+    "sel": ["c", "d"],
+    "undo": 1,
+    "undoName": "Arrange Order"
+  },
+  "backFirst": {
+    "kids": ["a", "b", "c"],
+    "sel": ["a"],
+    "undo": 0,
+    "undoName": null
+  },
+  "backPastAlwaysBack": {
+    "kids": ["a", "b", "d", "c"],
+    "sel": ["d"],
+    "undo": 1,
+    "undoName": "Arrange Order"
+  },
+  "frontAlwaysBack": {
+    "kids": ["a", "b", "c"],
+    "sel": ["a"],
+    "undo": 0,
+    "undoName": null
+  },
+  "fwdAlwaysBackBlocked": {
+    "kids": ["a", "b", "c"],
+    "sel": ["a"],
+    "undo": 0,
+    "undoName": null
+  },
+  "fwdAlwaysBackAmongBack": {
+    "kids": ["b", "a", "c"],
+    "sel": ["a"],
+    "undo": 1,
+    "undoName": "Arrange Order"
+  },
+  "bwdIntoBack": {
+    "kids": ["a", "b", "c"],
+    "sel": ["c"],
+    "undo": 0,
+    "undoName": null
+  },
+  "explicitNoTx": {
+    "kids": ["b", "c", "d", "a"],
+    "sel": ["d"],
+    "undo": 0,
+    "undoName": null
+  },
+  "explicitBack": {
+    "kids": ["d", "a", "b", "c"],
+    "sel": [],
+    "undo": 0,
+    "undoName": null
+  },
+  "al_AlignLeft": {
+    "boxes": [
+      [-10, -10, 20, 20],
+      [-10, 35, 30, 10],
+      [-10, -50, 10, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "al_AlignCenter": {
+    "boxes": [
+      [37.5, -10, 20, 20],
+      [32.5, 35, 30, 10],
+      [42.5, -50, 10, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "al_AlignRight": {
+    "boxes": [
+      [85, -10, 20, 20],
+      [75, 35, 30, 10],
+      [95, -50, 10, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "al_AlignTop": {
+    "boxes": [
+      [-10, -50, 20, 20],
+      [35, -50, 30, 10],
+      [95, -50, 10, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "al_AlignMiddle": {
+    "boxes": [
+      [-10, -12.5, 20, 20],
+      [35, -7.5, 30, 10],
+      [95, -22.5, 10, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "al_AlignBottom": {
+    "boxes": [
+      [-10, 25, 20, 20],
+      [35, 35, 30, 10],
+      [95, 5, 10, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "al_AlignJustifyHorizontal": {
+    "boxes": [
+      [-10, -10, 115, 20],
+      [-10, 35, 115, 10],
+      [-10, -50, 115, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "al_AlignJustifyVertical": {
+    "boxes": [
+      [-10, -50, 20, 95],
+      [35, -50, 30, 95],
+      [95, -50, 10, 95]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alGroup_AlignLeft": {
+    "boxes": [
+      [-10, -10, 20, 20],
+      [35, 35, 30, 10],
+      [95, -50, 10, 40]
+    ],
+    "undo": 0,
+    "undoName": null
+  },
+  "alGroup_AlignCenter": {
+    "boxes": [
+      [-10, -10, 20, 20],
+      [35, 35, 30, 10],
+      [95, -50, 10, 40]
+    ],
+    "undo": 0,
+    "undoName": null
+  },
+  "alGroup_AlignJustifyHorizontal": {
+    "boxes": [
+      [-10, -10, 20, 20],
+      [35, 35, 30, 10],
+      [95, -50, 10, 40]
+    ],
+    "undo": 0,
+    "undoName": null
+  },
+  "alGroup_AlignJustifyVertical": {
+    "boxes": [
+      [-10, -10, 20, 20],
+      [35, 35, 30, 10],
+      [95, -50, 10, 40]
+    ],
+    "undo": 0,
+    "undoName": null
+  },
+  "alGroup_AlignBottom": {
+    "boxes": [
+      [-10, -10, 20, 20],
+      [35, 35, 30, 10],
+      [95, -50, 10, 40]
+    ],
+    "undo": 0,
+    "undoName": null
+  },
+  "alGroupArea_AlignLeft": {
+    "boxes": [
+      [-33.3, -10, 20, 20],
+      [11.700000000000003, 35, 30, 10],
+      [71.7, -50, 10, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alGroupArea_AlignMiddle": {
+    "boxes": [
+      [-10, 6, 20, 20],
+      [35, 51, 30, 10],
+      [95, -34, 10, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alGroupArea_AlignJustifyHorizontal": {
+    "boxes": [
+      [-33.3, -10, 12.29565217391304, 20],
+      [-5.63478260869565, 35, 18.443478260869565, 10],
+      [31.25217391304348, -50, 6.147826086956524, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alGroupArea_AlignJustifyVertical": {
+    "boxes": [
+      [-10, 12.473684210526319, 20, 2.7368421052631575],
+      [35, 18.63157894736842, 30, 1.3684210526315823],
+      [95, 7.0000000000000036, 10, 5.473684210526315]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alArea": {
+    "boxes": [
+      [-33.3, -10, 20, 20],
+      [-33.3, 35, 30, 10],
+      [-33.30000000000001, -50, 10, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alAreaJustify": {
+    "boxes": [
+      [-33.3, -10, 70.7, 20],
+      [-33.300000000000004, 35, 70.7, 10],
+      [-33.30000000000005, -50, 70.7, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alLockedRef": {
+    "boxes": [
+      [95, -10, 20, 20],
+      [95, 35, 30, 10],
+      [95, -50, 10, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alLockedMid": {
+    "boxes": [
+      [-10, 35, 20, 20],
+      [35, 35, 30, 10],
+      [95, -50, 10, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alEmptyArea": {
+    "boxes": [
+      [-10, -10, 20, 20],
+      [35, 35, 30, 10],
+      [95, -50, 10, 40]
+    ],
+    "undo": 0,
+    "undoName": null
+  },
+  "alSingle": {
+    "boxes": [
+      [100, -10, 20, 20],
+      [80, 20, 40, 60]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alSingleMiddle": {
+    "boxes": [
+      [-10, 25, 20, 20],
+      [80, 20, 40, 60]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alSingleToArea": {
+    "boxes": [
+      [280, -10, 20, 20],
+      [80, 20, 40, 60]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alSingleOnPage": {
+    "boxes": [[390, -10, 20, 20]],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alZeroSize": {
+    "boxes": [
+      [-10, -10, 20, 20],
+      [7, 7, 0, 0],
+      [-10, -50, 10, 40]
+    ],
+    "undo": 1,
+    "undoName": "Arrange Alignment"
+  },
+  "alNoTx": {
+    "boxes": [
+      [-10, -10, 20, 20],
+      [-10, 35, 30, 10],
+      [-10, -50, 10, 40]
+    ],
+    "undo": 0,
+    "undoName": null
+  },
+  "pathResize": false,
+  "pathEd": "[Object GPathEditor]",
+  "PT": 2,
+  "alignPartsAllowed": true,
+  "alParts": [
+    [
+      [0, 0],
+      [30, 10],
+      [60, 0]
+    ],
+    "Arrange Alignment"
+  ]
+}

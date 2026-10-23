@@ -103,7 +103,10 @@ export class BBoxGuide extends GuideMap(Guide) {
     let activePosition: Point | undefined;
     let page: Page | null = null;
     let pageBox: Rect | null = null;
-    let pagePosition: Point | null = null;
+    // Set together with `page` (in the iteratePages callback, so typed
+    // explicitly: TypeScript would narrow a plain `= null` to null). The
+    // visitors below only run when there is a page, so it is set there.
+    let pagePosition = null as Point | null;
     const activePage = this._scene.getActivePage();
     let point = new Point(x, y);
     let scenePoint = point;
@@ -148,7 +151,7 @@ export class BBoxGuide extends GuideMap(Guide) {
       }
       const box = element.getGeometryBBox();
       if (!box || box.isEmpty()) return;
-      const offset = pagePosition as unknown as Point;
+      const offset = pagePosition as Point;
       let topLeft = box.getSide(Rect.Side.TOP_LEFT).add(offset);
       let bottomRight = box.getSide(Rect.Side.BOTTOM_RIGHT).add(offset);
       let center = box.getSide(Rect.Side.CENTER).add(offset);
@@ -277,7 +280,7 @@ export class BBoxGuide extends GuideMap(Guide) {
     const snapPage = page as Page | null;
     if (snapPage) {
       if (this._scoped && snapPage != this._snapMainPage) this._setEffectiveScope(snapPage);
-      let pivot = point.subtract(pagePosition as unknown as Point);
+      let pivot = point.subtract(pagePosition as Point);
       if (activePosition) pivot = pivot.add(activePosition);
       this._applySnappingToPivots([pivot], snapDistance, snapPage, visit);
     }

@@ -36,6 +36,7 @@ import { Gradient } from "../../engine/style/gradient.ts";
 import { Pattern } from "../../engine/style/pattern.ts";
 import { Editor, type EditorInvalidationRequestEvent } from "../editor.ts";
 import { EditorOptions } from "../editor-options.ts";
+import { EditorWorkspace } from "../editor-workspace.ts";
 import { EditorPaintConfiguration } from "../editor-paint-configuration.ts";
 import { ElementEditor } from "../element-editors/element-editor.ts";
 import { BBoxGuide } from "../guides/bbox-guide.ts";
@@ -46,13 +47,39 @@ import {
 import { FullPixelsGuide } from "../guides/full-pixels-guide.ts";
 import { Guides, type GuidesInvalidationRequestEvent } from "../guides/guides.ts";
 import {
-  getWorkspaceToolManager,
-  toolInvalidationRequestEvent,
-  type ToolInvalidationRequest,
-  type ViewToolManager,
-} from "./late-bound.ts";
+  InvalidationRequestEvent as ToolInvalidationRequestEvent,
+  type ToolManager,
+} from "../tools/tool-manager.ts";
 import type { RulerWidget } from "./ruler-widget.ts";
 import { SceneWidget } from "./scene-widget.ts";
+
+/** The missing tool manager warning was printed. */
+let missingToolManagerWarned = false;
+
+/**
+ * The tool manager of the scene's workspace (GEditorWorkspace). The old
+ * view called `scene.getWorkspace().getToolManager()` and threw on a
+ * workspace without one; here such a view (a plain engine workspace, as
+ * in unit tests, or the tools never loaded) paints no tool, and a
+ * development build warns once.
+ */
+function getWorkspaceToolManager(scene: Scene): ToolManager | null {
+  const workspace = scene.getWorkspace();
+  const toolManager = workspace instanceof EditorWorkspace ? workspace.getToolManager() : null;
+  if (
+    !toolManager &&
+    !missingToolManagerWarned &&
+    import.meta.env.DEV &&
+    import.meta.env.MODE !== "test"
+  ) {
+    missingToolManagerWarned = true;
+    console.warn(
+      "GEditorWidget: the scene's workspace has no tool manager, so no tool paints or " +
+        "repaints in this view. Use a GEditorWorkspace and import editor/index.ts.",
+    );
+  }
+  return toolManager;
+}
 
 /** The chessboard behind transparent pages, made once. */
 let chessboard: HTMLCanvasElement | null = null;
@@ -154,10 +181,10 @@ export class EditorWidget extends SceneWidget {
       undefined,
       true,
     );
-    const toolManager = getWorkspaceToolManager(this._scene.getWorkspace());
+    const toolManager = getWorkspaceToolManager(this._scene);
     if (toolManager)
       toolManager.addEventListener(
-        toolInvalidationRequestEvent(toolManager),
+        ToolInvalidationRequestEvent,
         this._toolInvalidationRequest,
         this,
       );
@@ -165,20 +192,20 @@ export class EditorWidget extends SceneWidget {
 
   /** The rulers, which also start guide line drags. */
   override setRulers(visible: boolean): void {
-    if (visible && !this._horizontalRuler) {
+    // hasRulers() is the old `!this._horizontalRuler` check; unlike the
+    // field it doesn't narrow the rulers to null for the code after super.
+    if (visible && !this.hasRulers()) {
       super.setRulers(visible);
-      // Made by the call above.
-      const horizontal = this._horizontalRuler as unknown as RulerWidget;
-      const vertical = this._verticalRuler as unknown as RulerWidget;
+      // Both made by the call above.
+      const horizontal = this._horizontalRuler as RulerWidget;
+      const vertical = this._verticalRuler as RulerWidget;
       horizontal.addEventListener(MouseEvent.Down, this._rulerDownLister, this);
       vertical.addEventListener(MouseEvent.Down, this._rulerDownLister, this);
-    } else if (!visible && this._horizontalRuler) {
-      this._horizontalRuler.removeEventListener(MouseEvent.Down, this._rulerDownLister, this);
-      (this._verticalRuler as RulerWidget).removeEventListener(
-        MouseEvent.Down,
-        this._rulerDownLister,
-        this,
-      );
+    } else if (!visible && this.hasRulers()) {
+      const horizontal = this._horizontalRuler as RulerWidget;
+      const vertical = this._verticalRuler as RulerWidget;
+      horizontal.removeEventListener(MouseEvent.Down, this._rulerDownLister, this);
+      vertical.removeEventListener(MouseEvent.Down, this._rulerDownLister, this);
       super.setRulers(visible);
     }
   }
@@ -470,10 +497,10 @@ export class EditorWidget extends SceneWidget {
         this,
       );
     this._scene.removeEventListener(AfterPropertiesChangeEvent, this._afterPropertiesChanged, this);
-    const toolManager = getWorkspaceToolManager(this._scene.getWorkspace());
+    const toolManager = getWorkspaceToolManager(this._scene);
     if (toolManager)
       toolManager.removeEventListener(
-        toolInvalidationRequestEvent(toolManager),
+        ToolInvalidationRequestEvent,
         this._toolInvalidationRequest,
         this,
       );
@@ -541,7 +568,7 @@ export class EditorWidget extends SceneWidget {
     if (area) this.invalidate(area);
   }
 
-  _toolInvalidationRequest(event: ToolInvalidationRequest): void {
+  _toolInvalidationRequest(event: ToolInvalidationRequestEvent): void {
     this.invalidate(event.area);
   }
 
@@ -597,7 +624,7 @@ export class EditorWidget extends SceneWidget {
       paint(transform: Transform, context: unknown): void;
     }>(this._scene);
     if (sceneEditor) sceneEditor.paint(worldToView, this._elementPaintContext);
-    const toolManager: ViewToolManager | null = getWorkspaceToolManager(this._scene.getWorkspace());
+    const toolManager = getWorkspaceToolManager(this._scene);
     if (toolManager) toolManager.paint(this._elementPaintContext);
     if (decoration.margin && this._scene.isFixedSized()) {
       const transform = worldToView;
@@ -660,12 +687,7 @@ export class EditorWidget extends SceneWidget {
     const transform = worldToView.preMultiplied(
       new Transform(1, 0, 0, 1, position.getX(), position.getY()),
     );
-    const box = page.isFixedSized()
-      ? page.getGeometryBBox()
-      : (page as unknown as { getPaintBBox(a: unknown, b: unknown): Rect | null }).getPaintBBox(
-          null,
-          true,
-        );
+    const box = page.isFixedSized() ? page.getGeometryBBox() : page.getPaintBBox(null, true);
     if (!box) return;
     const mapped = transform.mapRect(box);
     const x = mapped.getX();
@@ -819,7 +841,7 @@ export class EditorWidget extends SceneWidget {
    * reference exists.
    */
   _handleSymbolDrop(symbol: SymbolNode): SymbolNode {
-    const symbols = this._scene.getSymbols() as unknown as SymbolNode[] | null;
+    const symbols = this._scene.getSymbols();
     if (!symbols) return symbol;
     let found = false;
     for (let i = 0; i < symbols.length && !found; i++) {
@@ -839,7 +861,7 @@ export class EditorWidget extends SceneWidget {
           found = true;
       if (found) console.log("inserting:found");
       else {
-        (symbol as unknown as { _master: boolean })._master = true;
+        symbol._master = true;
         if (!(
           symbol.getProperty("masterRef") === symbol.getReferenceId() &&
           symbol.getProperty("masterMultiRef") === symbol.getMultireferenceId()
@@ -905,7 +927,7 @@ export class EditorWidget extends SceneWidget {
       }
       sources.push({ type, source });
       if (null === type) continue;
-      const hits = (this._scene as unknown as SceneHitTest).hitTest(
+      const hits = this._scene.hitTest(
         point,
         this.getWorldTransform(this._scene),
         null,
@@ -994,21 +1016,4 @@ export class EditorWidget extends SceneWidget {
   override toString(): string {
     return "[Object GEditorWidget]";
   }
-}
-
-/** The scene hit test with the arguments the drop uses. */
-interface SceneHitTest {
-  hitTest(
-    location: Point,
-    transform: Transform,
-    acceptor: null,
-    stacked: boolean,
-    level: number,
-    tolerance: number,
-    force: boolean,
-    filter: (element: Element) => boolean,
-    options: boolean,
-    preferSelected: boolean,
-    multiPageView: boolean,
-  ): { element: Element; data: unknown }[] | null;
 }

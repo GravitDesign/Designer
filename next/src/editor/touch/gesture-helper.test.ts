@@ -141,4 +141,30 @@ describe("GestureHelper", () => {
     helper.touchEnd(asTouch(touchEvent("touchend", [], [one])));
     expect(helper._state.isSwiping()).toBe(true);
   });
+
+  it("drops the held-back start on a system gesture, for good", () => {
+    const helper = new GestureHelper();
+    const gesture = new RecordingGesture();
+    helper.addGesture(gesture);
+    helper.touchStart(asTouch(touchEvent("touchstart", [one], [one])));
+    helper.gestureStart(asTouch(touchEvent("gesturestart", [one], [])));
+    vi.advanceTimersByTime(100);
+    // The end doesn't deliver it either.
+    helper.touchEnd(asTouch(touchEvent("touchend", [], [one])));
+    expect(gesture.calls).toEqual([]);
+    // The next touch start is held back and delivered as usual.
+    helper.touchStart(asTouch(touchEvent("touchstart", [one], [one])));
+    vi.advanceTimersByTime(50);
+    expect(gesture.calls).toEqual(["activate", "start"]);
+  });
+
+  it("counts a page scroll during the touch as a swipe with click suppression", () => {
+    const helper = new GestureHelper();
+    helper.setDelayedTouchEventsEnabled(false);
+    helper.setClickSuppressionEnabled(true);
+    helper.touchStart(asTouch(touchEvent("touchstart", [one], [one])));
+    helper.scroll();
+    helper.touchEnd(asTouch(touchEvent("touchend", [], [one])));
+    expect(helper._state.isSwiping()).toBe(true);
+  });
 });

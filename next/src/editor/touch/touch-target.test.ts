@@ -150,4 +150,44 @@ describe("EditorTouchTarget", () => {
     // The tap still went through, after the 50 ms delayed start.
     expect(element.types()).toEqual(["mousedown", "mouseup", "click"]);
   });
+
+  it("drops the context menu on a touchcancel and sends a mouseup without a click", () => {
+    const menu = vi.fn();
+    setTouchHost({
+      getActiveView: () => null,
+      getContextMenu: () => null,
+      getActiveTool: () => null,
+      triggerContextMenu: menu,
+    });
+    const element = new FakeTarget();
+    new EditorTouchTarget(et(element));
+    const finger = touchAt(1, 30, 40, element);
+    element.fire(touchEvent("touchstart", [finger], [finger]));
+    vi.advanceTimersByTime(300);
+    const cancel = touchEvent("touchcancel", [], [finger]);
+    element.fire(cancel);
+    vi.advanceTimersByTime(1000);
+    expect(menu).not.toHaveBeenCalled();
+    expect(element.types()).toEqual(["mousedown", "mouseup"]);
+    expect(element.dispatched[1]?.cancelable).toBe(true);
+    expect(cancel.defaultPrevented).toBe(true);
+  });
+
+  it("drops the context menu on a system gesture", () => {
+    const menu = vi.fn();
+    setTouchHost({
+      getActiveView: () => null,
+      getContextMenu: () => null,
+      getActiveTool: () => null,
+      triggerContextMenu: menu,
+    });
+    const element = new FakeTarget();
+    new EditorTouchTarget(et(element));
+    const finger = touchAt(1, 30, 40, element);
+    element.fire(touchEvent("touchstart", [finger], [finger]));
+    vi.advanceTimersByTime(100);
+    element.fire(touchEvent("gesturestart", [finger], []));
+    vi.advanceTimersByTime(1000);
+    expect(menu).not.toHaveBeenCalled();
+  });
 });

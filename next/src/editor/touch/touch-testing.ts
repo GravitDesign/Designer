@@ -11,6 +11,13 @@ export interface Dispatched {
   clientX: number;
   clientY: number;
   button: number;
+  /** The rest of the mouse event's init dictionary, as given. */
+  bubbles?: boolean;
+  detail?: number;
+  screenX?: number;
+  screenY?: number;
+  view?: unknown;
+  relatedTarget?: unknown;
 }
 
 /** An element stand-in that records dispatched events and holds listeners. */
@@ -79,6 +86,8 @@ export interface FakeTouchEvent {
   cancelable: boolean;
   defaultPrevented: boolean;
   isTrusted: boolean;
+  /** The element the event was dispatched on, for listeners that read it. */
+  target?: FakeTarget;
   preventDefault(): void;
   stopPropagation(): void;
 }
@@ -108,6 +117,8 @@ export function touchEvent(
 
 /** Installs MouseEvent, Touch, window and document fakes; returns the document. */
 export function installTouchGlobals(): FakeTarget {
+  // Keeps the whole init dictionary, so tests can check every field the
+  // gestures pass (the old code's initMouseEvent arguments).
   class FakeMouseEvent {
     type: string;
     cancelable: boolean;
@@ -115,6 +126,7 @@ export function installTouchGlobals(): FakeTarget {
     clientY: number;
     button: number;
     constructor(type: string, init: Record<string, unknown>) {
+      Object.assign(this, init);
       this.type = type;
       this.cancelable = !!init.cancelable;
       this.clientX = init.clientX as number;

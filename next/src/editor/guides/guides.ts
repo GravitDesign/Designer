@@ -274,11 +274,12 @@ export class Guides extends EventTarget {
         else prepareGuideLine(guide as GuideLine, page);
       }
       const pad = Math.ceil(1 / (this._view as GuidesView).getZoom());
-      // The bounds are numbers here: every visual added at least one line.
-      let left = minX as unknown as number;
-      let top = minY as unknown as number;
-      let right = maxX as unknown as number;
-      let bottom = maxY as unknown as number;
+      // A visual whose line has fewer than two points adds no bounds; null
+      // bounds coerce to 0 here, as in the old code.
+      let left = Number(minX);
+      let top = Number(minY);
+      let right = Number(maxX);
+      let bottom = Number(maxY);
       left -= pad;
       top -= pad;
       right += pad;

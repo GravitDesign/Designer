@@ -1,6 +1,8 @@
 // Old: chunk.vendor.js module 1080 (GActionManager).
 import { MouseEvent } from "../engine/core/mouse-event.ts";
+import type { Transform } from "../engine/math/transform.ts";
 import { ActionableMixin } from "../engine/scene/annotations/actionable.ts";
+import type { Element } from "../engine/scene/element.ts";
 import type { Scene } from "../engine/scene/scene.ts";
 import { EditorOptions } from "./editor-options.ts";
 
@@ -13,17 +15,21 @@ export interface ActionManagerView {
   ): void;
   removeEventListener(eventClass: unknown, listener: unknown, target?: object): unknown;
   getScene(): Scene;
-  getWorldTransform(scene: Scene): unknown;
+  getWorldTransform(scene: Scene): Transform;
   getViewConfiguration(): { multiPageView?: unknown };
   getEditor(): unknown;
 }
 
-interface ActionHit {
-  element?: unknown;
-  data?: { action?: { execute(element: unknown, editor: unknown, view: unknown): void } };
+/** The hit data of an actionable element: the action a click runs. */
+interface ActionHitData {
+  action?: { execute(element: Element, editor: unknown, view: ActionManagerView): void } | null;
 }
 
-/** Runs the action of an actionable element (an annotation link) clicked in the view. */
+/**
+ * Runs the action of an actionable element (an annotation link) clicked in
+ * the view. A plain class, as in the old code: GActionManager did not
+ * inherit GObject and had no type name.
+ */
 export class ActionManager {
   _view: ActionManagerView | null = null;
 
@@ -38,14 +44,10 @@ export class ActionManager {
   _mouseClick(event: MouseEvent): void {
     const view = this._view as ActionManagerView;
     const scene = view.getScene();
-    const hits = (
-      scene as unknown as {
-        hitTest(...args: unknown[]): ActionHit[] | null;
-      }
-    ).hitTest(
+    const hits = scene.hitTest(
       event.client,
       view.getWorldTransform(scene),
-      (node: { hasMixin(mixin: unknown): boolean }) => node.hasMixin(ActionableMixin),
+      (element) => element.hasMixin(ActionableMixin),
       false,
       -1,
       EditorOptions.pickDistance,
@@ -57,8 +59,10 @@ export class ActionManager {
       false,
     );
     const hit = hits && hits[0];
-    if (hit && hit.element && hit.data && hit.data.action) {
-      hit.data.action.execute(hit.element, view.getEditor(), view);
+    // The hit data of an actionable element carries its action.
+    const data = hit ? (hit.data as ActionHitData | null) : null;
+    if (hit && hit.element && data && data.action) {
+      data.action.execute(hit.element, view.getEditor(), view);
     }
   }
 }

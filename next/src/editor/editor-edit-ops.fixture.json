@@ -1,0 +1,271 @@
+{
+  "annotation-exceptions/list-sticks": {
+    "afterPage": ["theirs", "theirs", "theirs"],
+    "withoutPage": ["later", "comment"]
+  },
+  "clear-internal-selection/swallows": {
+    "result": true,
+    "threw": false,
+    "events": 1,
+    "counter": 0,
+    "stillSelected": ["a", "b"]
+  },
+  "delete/no-delete-lock": {
+    "after": ["rectangle:a"],
+    "selection": ["a"],
+    "observed": null,
+    "newStates": 1,
+    "undoName": "Delete Selection",
+    "undoRestores": true,
+    "observedAfterUndo": null
+  },
+  "delete/only-no-delete": {
+    "tree": ["rectangle:a"],
+    "newStates": 0
+  },
+  "delete/empties-groups-and-compound-shapes": {
+    "after": [["group:outer", ["rectangle:keep"]]],
+    "selection": [],
+    "observed": null,
+    "newStates": 1,
+    "undoName": "Delete Selection",
+    "undoRestores": true,
+    "observedAfterUndo": null
+  },
+  "delete/empties-nested-groups": {
+    "after": [],
+    "selection": [],
+    "observed": null,
+    "newStates": 1,
+    "undoName": "Delete Selection",
+    "undoRestores": true,
+    "observedAfterUndo": null
+  },
+  "delete/partial-locked-skipped": {
+    "after": ["rectangle:a"],
+    "selection": ["a"],
+    "observed": null,
+    "newStates": 1,
+    "undoName": "Delete Selection",
+    "undoRestores": true,
+    "observedAfterUndo": null
+  },
+  "delete/removal-blocked": {
+    "after": ["rectangle:a"],
+    "selection": ["a"],
+    "observed": null,
+    "newStates": 1,
+    "undoName": "Delete Selection",
+    "undoRestores": true,
+    "observedAfterUndo": null
+  },
+  "delete/path-parts": {
+    "allowed": true,
+    "after": ["path:p"],
+    "selection": ["p"],
+    "observed": [
+      [0, 0],
+      [40, 40]
+    ],
+    "newStates": 1,
+    "undoName": "Delete Selection",
+    "undoRestores": true,
+    "observedAfterUndo": [
+      [0, 0],
+      [40, 0],
+      [40, 40]
+    ]
+  },
+  "delete/active-layer": {
+    "after": ["layer:first"],
+    "selection": [],
+    "observed": null,
+    "newStates": 1,
+    "undoName": "Delete Selection",
+    "undoRestores": true,
+    "observedAfterUndo": null
+  },
+  "delete/symbol-instance-child": {
+    "selected": ["a", "extra"],
+    "after": [
+      ["symbol:master", ["rectangle:a", "rectangle:b"]],
+      ["symbol:instance", ["rectangle:a", "rectangle:b"]]
+    ],
+    "selection": [],
+    "observed": [false, "F", false],
+    "newStates": 1,
+    "undoName": "Delete Selection",
+    "undoRestores": true,
+    "observedAfterUndo": [true, null, true]
+  },
+  "delete/symbol-instance-child-detail": {
+    "tree": [
+      ["symbol:master", ["rectangle:a"]],
+      ["symbol:instance", ["rectangle:a"]]
+    ],
+    "vis": true,
+    "newStates": 1
+  },
+  "clone/shift": {
+    "tree": ["rectangle:a", "rectangle:a"],
+    "clone": [10, 0, 0, 10, 10, 10],
+    "selection": ["a"],
+    "selectedIsClone": true
+  },
+  "clone/repeat": {
+    "lastAfterFirst": ["a", "b"],
+    "tree": [
+      "rectangle:a",
+      "rectangle:a",
+      "rectangle:a",
+      "rectangle:a",
+      "rectangle:b",
+      "rectangle:b",
+      "rectangle:b",
+      "rectangle:b"
+    ],
+    "first": [
+      [10, 0, 0, 10, 30, 5],
+      [10, 0, 0, 10, 50, 5]
+    ],
+    "second": [
+      [10, 0, 0, 10, 60, 10],
+      [10, 0, 0, 10, 80, 10]
+    ],
+    "third": [
+      [10, 0, 0, 10, 90, 15],
+      [10, 0, 0, 10, 110, 15]
+    ]
+  },
+  "clone/repeat-after-editor-move": {
+    "last": ["a"],
+    "again": [10, 0, 0, 10, 30, 0]
+  },
+  "clone/repeat-without-last": {
+    "clone": [10, 0, 0, 10, 10, 10],
+    "last": ["a"]
+  },
+  "clone/page": {
+    "selected": ["Page 1"],
+    "pages": ["page:Page 1", "page:Page 1.1"],
+    "cloneIsLastPage": true,
+    "off": [1, 0, 0, 1, 450, 0],
+    "activeIsClone": true,
+    "cloneTree": ["rectangle:content", ["annlst:undefined", ["anr:own"]]],
+    "originalTree": [
+      "rectangle:content",
+      ["annlst:undefined", ["anr:theirs", ["anr:own", ["cmt:reply"]]]]
+    ]
+  },
+  "clone/transform-box-stays": {
+    "hadEditor": true,
+    "before": true,
+    "after": true,
+    "plainSelect": true
+  },
+  "clone/linked-connector": {
+    "ends": [true, true],
+    "linked": ["c"],
+    "unlinked": [],
+    "clones": ["a", "b"],
+    "tree": ["rectangle:a", "rectangle:a", "rectangle:b", "rectangle:b", "connector:c"],
+    "onlyConnector": ["c"]
+  },
+  "insert/beside-selection-in-group": {
+    "tree": [["group:g", ["rectangle:x", "rectangle:new", "rectangle:y"]], "rectangle:z"],
+    "selection": ["new"]
+  },
+  "insert/beside-selection-prefers-target": [
+    ["group:g", ["rectangle:x"]],
+    "rectangle:z",
+    "rectangle:new",
+    "rectangle:last"
+  ],
+  "insert/beside-selection-locked-group": [
+    ["group:g", ["rectangle:x", "rectangle:y"]],
+    "rectangle:z",
+    "rectangle:new"
+  ],
+  "insert/beside-selection-other-page": {
+    "selectedInGroup": ["x"],
+    "selectedOnPage": ["z"],
+    "one": ["rectangle:a", "rectangle:n1", "rectangle:n2"],
+    "two": [["group:g", ["rectangle:x", "rectangle:y"]], "rectangle:z", "rectangle:w"]
+  },
+  "insert/next": ["rectangle:a", "rectangle:n", "rectangle:b", ["group:g", ["rectangle:m"]]],
+  "insert/style-from-single-selection": {
+    "source": [0.5, 0],
+    "styled": [0.5, 0],
+    "twoSelected": [1, 1],
+    "noInitialSetup": [1, 0]
+  },
+  "insert/relink-symbols": {
+    "copiedIds": [true, true, true],
+    "masterCopyGotNewId": true,
+    "oldId": true,
+    "tree": [
+      ["symbol:earlier", ["rectangle:a"]],
+      ["symbol:master", ["rectangle:a"]],
+      ["symbol:instance copy", ["rectangle:a"]]
+    ],
+    "refs": ["master copy", "master copy", "master copy", "original"],
+    "isMaster": [true, false, false],
+    "masters": [
+      ["master", true],
+      ["master", true]
+    ],
+    "linked": [true, true]
+  },
+  "insert/no-relink-symbols": {
+    "tree": [["symbol:S", ["rectangle:a"]]],
+    "masterRefIsOriginal": true,
+    "isMaster": false
+  },
+  "insert/relink-symbols-same-scene": {
+    "keepsMaster": true,
+    "isMaster": false,
+    "masterOf": "master"
+  },
+  "modified/save-point-id": [
+    ["at first", true],
+    ["undone to first", false],
+    ["unknown id", true, true],
+    ["at second", false],
+    ["unknown id again", false, true],
+    ["rolled back", true]
+  ],
+  "modified/filter": [
+    ["at save point", false, false, false, false],
+    ["inserted a", false, true, false, true],
+    ["rename data", "rename b", false, false],
+    ["renamed b, nothing selected", false, true, true, true],
+    ["renamed c", false, true, true, true],
+    ["new save point", false, false, false, false]
+  ],
+  "modified/filter-without-states": [false, false, true],
+  "select/compound-sub-path": {
+    "selection": [],
+    "editor": true,
+    "selectedFlag": true,
+    "catchHandle": false,
+    "validate": false,
+    "compoundSelection": ["compound"],
+    "compoundResizeAll": true
+  },
+  "select/path-resize-off": {
+    "on": [true, true],
+    "off": [false, true],
+    "restored": [true, true]
+  },
+  "select/selection-edit": {
+    "selection": ["img", "p", "r"],
+    "imageEditMode": true,
+    "imageDblMode": true,
+    "pathResizeAll": true,
+    "rectResizeAll": false
+  },
+  "select/detail-subselect": {
+    "subselect": [true, true, true],
+    "other": [false, true, true]
+  }
+}

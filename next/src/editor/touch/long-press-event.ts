@@ -109,9 +109,14 @@ export class LongPressEvent extends Event {
         detail: { clientX, clientY },
       }),
     );
+    // Only a string class name counts: the old code called indexOf on it,
+    // which threw for an SVG parent (className is an SVGAnimatedString)
+    // after the dispatch, so no release was swallowed there. See "Long
+    // press inside an SVG doesn't swallow the release" in QUESTIONS.md.
     const parent = target.parentElement;
+    const className: unknown = parent ? parent.className : undefined;
     const outsideScene =
-      parent && parent.className && -1 === String(parent.className).indexOf("g-scene-widget");
+      typeof className === "string" && !!className && -1 === className.indexOf("g-scene-widget");
     if (notCancelled && outsideScene) {
       const swallow = (release: globalThis.Event): void => {
         if (!release.isTrusted) return;

@@ -4,6 +4,7 @@ import { Point } from "../../engine/math/point.ts";
 import { Rect } from "../../engine/math/rect.ts";
 import { EditorOptions } from "../editor-options.ts";
 import { Panning, type PanningView } from "./panning.ts";
+import { installFakeDom, setDevicePixelRatio } from "./testing/fake-dom.ts";
 
 /** A view whose box is (100, 50) 400 x 300 and that records its scrolls. */
 function fakeView(): PanningView & { calls: string[] } {
@@ -66,5 +67,26 @@ describe("Panning", () => {
     panning.endPan();
     panning.endPan();
     expect(panning._view.calls.filter((call) => call === "finishPan")).toHaveLength(1);
+  });
+
+  it("compares device pixel points with the CSS pixel view box at device pixel ratio 2", () => {
+    const uninstall = installFakeDom();
+    try {
+      setDevicePixelRatio(2);
+      const panning = tool();
+      panning.beginPan();
+      const step = EditorOptions.autoPanStep as number;
+      // (900, 400) is (450, 200) in CSS pixels: inside the box, which ends at x 500.
+      panning.panView(new Point(900, 400));
+      // (1000, 400) is on its right edge, (200, 100) on its top left corner.
+      panning.panView(new Point(1000, 400));
+      panning.panView(new Point(200, 100));
+      expect(panning._view.calls.slice(1)).toEqual([
+        "scrollBy " + step + ",0",
+        "scrollBy " + -step + "," + -step,
+      ]);
+    } finally {
+      uninstall();
+    }
   });
 });

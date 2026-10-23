@@ -78,7 +78,10 @@ export class PointsGuide extends GuideMap(GuideDetailMap(Guide)) {
     const snapDistance = (zoom ? (distance as number) / zoom : distance) as number;
     let page: Page | null = null;
     let pageBox: Rect | null = null;
-    let pagePosition: Point | null = null;
+    // Set together with `page` (in the iteratePages callback, so typed
+    // explicitly: TypeScript would narrow a plain `= null` to null). The
+    // visitor below only runs when there is a page, so it is set there.
+    let pagePosition = null as Point | null;
     let point = new Point(x, y);
     let scenePoint = point;
     const activePage = this._scene.getActivePage();
@@ -148,7 +151,7 @@ export class PointsGuide extends GuideMap(GuideDetailMap(Guide)) {
           if (anyPivot || column.containsPoint(at)) {
             const type = (pivot as Pivot).ptType ? ((pivot as Pivot).ptType as string) : null;
             const auto = !!(pivot as Pivot).autoH;
-            at = at.add(pagePosition as unknown as Point);
+            at = at.add(pagePosition as Point);
             if (activePosition) at = at.subtract(activePosition);
             const dist = Math.abs(point.getX() - at.getX());
             if (
@@ -192,7 +195,7 @@ export class PointsGuide extends GuideMap(GuideDetailMap(Guide)) {
           if (anyPivot || row.containsPoint(at)) {
             const type = (pivot as Pivot).ptType ? ((pivot as Pivot).ptType as string) : null;
             const auto = !!(pivot as Pivot).autoH;
-            at = at.add(pagePosition as unknown as Point);
+            at = at.add(pagePosition as Point);
             if (activePosition) at = at.subtract(activePosition);
             const dist = Math.abs(point.getY() - at.getY());
             if (

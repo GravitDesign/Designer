@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { CMYKColor } from "../engine/color/cmyk-color.ts";
 import { RGBColor } from "../engine/color/rgb-color.ts";
 import { Point } from "../engine/math/point.ts";
@@ -8,12 +8,17 @@ import { Cursor } from "./cursor.ts";
 import { Editor } from "./editor.ts";
 import { EditorOptions } from "./editor-options.ts";
 import { EditorPaintConfiguration } from "./editor-paint-configuration.ts";
-import { EditorWorkspace, registerToolManagerFactory } from "./editor-workspace.ts";
+import {
+  EditorWorkspace,
+  registerToolManagerFactory,
+  resetMissingToolManagerWarning,
+} from "./editor-workspace.ts";
 import { EditorAnnotation } from "./handles/editor-annotation.ts";
 import { PreserveAspectRatioAnnotation } from "./handles/preserve-aspect-ratio-annotation.ts";
 import { RotateAnnotation } from "./handles/rotate-annotation.ts";
 import { SkewVerticalAnnotation } from "./handles/skew-vertical-annotation.ts";
 import { StyleEdManager } from "./style-ed-manager.ts";
+import type { ToolManager } from "./tools/tool-manager.ts";
 import { LinearGradientEditor } from "./element-editors/linear-gradient-editor.ts";
 import { RadialGradientEditor } from "./element-editors/radial-gradient-editor.ts";
 
@@ -103,16 +108,47 @@ describe("EditorPaintConfiguration", () => {
 });
 
 describe("EditorWorkspace", () => {
-  it("makes its tool manager with the registered factory", () => {
-    expect(new EditorWorkspace().getToolManager()).toBeNull();
-    const toolManager = {};
-    registerToolManagerFactory(() => toolManager);
+  it("makes its tool manager with the registered factory and puts the old one back", () => {
+    const first = {} as ToolManager;
+    const second = {} as ToolManager;
+    const original = registerToolManagerFactory(() => first);
     try {
-      expect(new EditorWorkspace().getToolManager()).toBe(toolManager);
+      const previous = registerToolManagerFactory(() => second);
+      expect(new EditorWorkspace().getToolManager()).toBe(second);
+      registerToolManagerFactory(previous);
+      expect(new EditorWorkspace().getToolManager()).toBe(first);
+      registerToolManagerFactory(null);
+      expect(new EditorWorkspace().getToolManager()).toBeNull();
     } finally {
-      registerToolManagerFactory(() => null);
+      registerToolManagerFactory(original);
     }
     expect(new EditorWorkspace().getStyleEdManager()).toBeInstanceOf(StyleEdManager);
+  });
+
+  it("warns once in development when no tool manager factory is registered", () => {
+    const previous = registerToolManagerFactory(null);
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    try {
+      // Quiet in unit tests, which make workspaces without the tools on purpose.
+      new EditorWorkspace();
+      expect(warn).not.toHaveBeenCalled();
+      vi.stubEnv("MODE", "development");
+      resetMissingToolManagerWarning();
+      new EditorWorkspace();
+      new EditorWorkspace();
+      expect(warn).toHaveBeenCalledTimes(1);
+      expect(String(warn.mock.calls[0]?.[0])).toContain("Import editor/index.ts");
+      // A registered factory never warns.
+      resetMissingToolManagerWarning();
+      registerToolManagerFactory(() => ({}) as ToolManager);
+      new EditorWorkspace();
+      expect(warn).toHaveBeenCalledTimes(1);
+    } finally {
+      vi.unstubAllEnvs();
+      warn.mockRestore();
+      resetMissingToolManagerWarning();
+      registerToolManagerFactory(previous);
+    }
   });
 });
 

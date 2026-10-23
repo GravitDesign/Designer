@@ -1,0 +1,230 @@
+{
+  "textVS": true,
+  "convert": {
+    "kids": [
+      {
+        "cls": "[GPath]",
+        "name": "r",
+        "closed": true,
+        "evenodd": false,
+        "trf": [10, 0, 0, 20, 30, 40],
+        "points": [
+          [-1, -1, "R"],
+          [1, -1, "R"],
+          [1, 1, "R"],
+          [-1, 1, "R"]
+        ],
+        "box": [20, 20, 20, 40]
+      },
+      {
+        "cls": "[GPath]",
+        "name": "e",
+        "closed": true,
+        "evenodd": false,
+        "trf": [15, 0, 0, 5, 100, 0],
+        "points": [
+          [1, 0, "TA"],
+          [0, 1, "TS"],
+          [-1, 0, "TA"],
+          [0, 0, "R"]
+        ],
+        "box": [85, 0, 30, 5]
+      },
+      {
+        "cls": "[GPath]",
+        "name": "p",
+        "closed": false,
+        "evenodd": false,
+        "trf": null,
+        "points": [
+          [0, 0, "R"],
+          [5, 5, "R"]
+        ],
+        "box": [0, 0, 5, 5]
+      },
+      {
+        "cls": "[GGroup]",
+        "name": "g",
+        "box": [-1, -1, 2, 2]
+      },
+      {
+        "cls": "[GRectangle]",
+        "name": "after",
+        "box": [299, 299, 2, 2]
+      }
+    ],
+    "sel": ["[GGroup]:g", "[GPath]:r", "[GPath]:e", "[GPath]:p"],
+    "undo": "Convert to Path(s)",
+    "fop": [null],
+    "rRemoved": true
+  },
+  "convertUndo": {
+    "kids": ["[GRectangle]:r", "[GEllipse]:e", "[GPath]:p", "[GGroup]:g", "[GRectangle]:after"],
+    "sel": ["[GGroup]:g", "[GRectangle]:r", "[GEllipse]:e", "[GPath]:p"]
+  },
+  "convertRedo": {
+    "kids": ["[GPath]:r", "[GPath]:e", "[GPath]:p", "[GGroup]:g", "[GRectangle]:after"],
+    "sel": ["[GGroup]:g", "[GPath]:r", "[GPath]:e", "[GPath]:p"]
+  },
+  "csTrf": [1, 0, 0, 1, 7, 3],
+  "csBox": [-3, -7, 35, 20],
+  "convertCompound": {
+    "kids": [
+      {
+        "cls": "[GPath]",
+        "name": "cs",
+        "closed": true,
+        "evenodd": false,
+        "trf": null,
+        "points": [
+          [12, -7, "R"],
+          [-3, -7, "R"],
+          [-3, 13, "R"],
+          [12, 13, "R"],
+          [17, 13, "R"],
+          [32, 13, "R"],
+          [32, -7, "R"],
+          [17, -7, "R"],
+          [12, -7, "R"]
+        ],
+        "box": [-3, -7, 35, 20]
+      },
+      {
+        "cls": "[GRectangle]",
+        "name": "after",
+        "box": [299, 299, 2, 2]
+      }
+    ],
+    "sel": ["[GPath]:cs"],
+    "undo": 0,
+    "csTrfAfter": [1, 0, 0, 1, 7, 3]
+  },
+  "textInSel": 2,
+  "convertText": {
+    "kids": ["before", "s2", "s1", "s0", "after"],
+    "sel": ["s2", "s1", "s0", "before"],
+    "undo": "Convert to Path(s)"
+  },
+  "join": {
+    "joined": {
+      "cls": "[GCompoundPath]",
+      "name": null,
+      "subPaths": [
+        {
+          "cls": "[GPath]",
+          "name": "p1",
+          "closed": true,
+          "evenodd": false,
+          "trf": null,
+          "points": [
+            [0, 0, "R"],
+            [10, 0, "R"],
+            [10, 10, "R"]
+          ],
+          "box": [0, 0, 10, 10]
+        },
+        {
+          "cls": "[GPath]",
+          "name": "cp1",
+          "closed": true,
+          "evenodd": false,
+          "trf": null,
+          "points": [
+            [20, 0, "R"],
+            [30, 0, "R"],
+            [30, 10, "R"]
+          ],
+          "box": [20, 0, 10, 10]
+        },
+        {
+          "cls": "[GPath]",
+          "name": "cp2",
+          "closed": true,
+          "evenodd": false,
+          "trf": null,
+          "points": [
+            [40, 0, "R"],
+            [50, 0, "R"],
+            [50, 10, "R"]
+          ],
+          "box": [40, 0, 10, 10]
+        },
+        {
+          "cls": "[GPath]",
+          "name": "p2",
+          "closed": false,
+          "evenodd": false,
+          "trf": null,
+          "points": [
+            [60, 0, "R"],
+            [70, 0, "R"]
+          ],
+          "box": [60, 0, 10, 0]
+        }
+      ],
+      "box": [0, 0, 70, 10]
+    },
+    "kids": ["[GRectangle]:r", "[GCompoundPath]:null", "[GRectangle]:after"],
+    "p1Removed": true,
+    "p2Removed": true,
+    "cpRemoved": true,
+    "sel": ["[GRectangle]:r"],
+    "undo": 0,
+    "firstIsOriginal": false,
+    "cpKidsLeft": 2
+  },
+  "joinOne": true,
+  "joinNone": null,
+  "split": {
+    "parts": [
+      {
+        "cls": "[GPath]",
+        "name": "cp1",
+        "closed": true,
+        "evenodd": false,
+        "trf": [2, 0, 0, 2, 1, 1],
+        "points": [
+          [20, 0, "R"],
+          [30, 0, "R"],
+          [30, 10, "R"]
+        ],
+        "box": [41, 1, 20, 20]
+      },
+      {
+        "cls": "[GPath]",
+        "name": "cp2",
+        "closed": true,
+        "evenodd": false,
+        "trf": [2, 0, 0, 2, 1, 1],
+        "points": [
+          [40, 0, "R"],
+          [50, 0, "R"],
+          [50, 10, "R"]
+        ],
+        "box": [81, 1, 20, 20]
+      }
+    ],
+    "kids": ["[GPath]:cp1", "[GPath]:cp2", "[GRectangle]:after"],
+    "cpRemoved": true,
+    "cpKidsLeft": 2
+  },
+  "splitLone": {
+    "parts": [
+      {
+        "cls": "[GPath]",
+        "name": "l1",
+        "closed": false,
+        "evenodd": false,
+        "trf": null,
+        "points": [
+          [0, 0, "R"],
+          [1, 1, "R"]
+        ],
+        "box": [0, 0, 1, 1]
+      }
+    ],
+    "noParent": [true],
+    "loneKidsLeft": 1
+  },
+  "splitNot": null
+}

@@ -122,7 +122,11 @@ export abstract class IconAnnotation {
     if (tinted) tinted.destroy();
   }
 
-  /** Loads the icon from `url` (as a PNG data URL); null removes it. */
+  /**
+   * Loads the icon from `url` (as a PNG data URL); null removes it. Loads
+   * are not cancelled: the one that finishes last wins, even over a later
+   * setIcon(null) (see "Icon handle setIcon load race" in QUESTIONS.md).
+   */
   setIcon(url: string | null | undefined): void {
     if (!url) {
       this._icon = null;
@@ -169,6 +173,9 @@ export abstract class IconAnnotation {
       event.status !== Image.ImageStatus.Resolving
     ) {
       if (event.status === Image.ImageStatus.Loaded) this._updateBounds();
+      // Unhooks the current icon, not the event's image, and throws when
+      // the icon was removed meanwhile (see "Icon handle setIcon load race"
+      // in QUESTIONS.md).
       (this._icon as Image).removeEventListener(Image.StatusEvent, this._statusEvent, this);
     }
   }

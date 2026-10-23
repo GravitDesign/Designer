@@ -1,0 +1,277 @@
+{
+  "_source": "Recorded in the old app (http://127.0.0.1:3190) from chunk.vendor.js modules 81 (GEditorAnnotation) and 383 (icon handle base): handle canvas logs in the fake-canvas log format, the blits, and the paint-canvas calls of the icon handle.",
+  "editorAnnotation": [
+    {
+      "args": ["rect", 8, "white", "blue", null, null, false, false],
+      "draws": [
+        [18, 18, 95, 39, true],
+        [18, 18, 1, 1, true]
+      ],
+      "logs": [
+        [
+          "fillStyle=\"#2880E6\"",
+          "strokeStyle=\"#FFFFFF\"",
+          "lineWidth=1",
+          "beginPath()",
+          "moveTo(5.5,5.5)",
+          "lineTo(12.5,5.5)",
+          "lineTo(12.5,12.5)",
+          "lineTo(5.5,12.5)",
+          "closePath()",
+          "shadowColor=\"rgba(0,0,0,0.75)\"",
+          "shadowBlur=2",
+          "shadowOffsetX=0",
+          "shadowOffsetY=0",
+          "fill()",
+          "shadowColor=\"transparent\"",
+          "stroke()"
+        ]
+      ],
+      "createdOnSecondCall": 0
+    },
+    {
+      "args": ["circle", 8, "white", "blue", null, null, false, false],
+      "draws": [
+        [20, 20, 94, 38, true],
+        [20, 20, 0, 0, true]
+      ],
+      "logs": [
+        [
+          "fillStyle=\"#2880E6\"",
+          "strokeStyle=\"#FFFFFF\"",
+          "lineWidth=1.5",
+          "beginPath()",
+          "arc(10,10,4,0,6.283185307179586,false)",
+          "closePath()",
+          "shadowColor=\"rgba(0,0,0,0.75)\"",
+          "shadowBlur=3",
+          "shadowOffsetX=0",
+          "shadowOffsetY=0",
+          "fill()",
+          "shadowColor=\"transparent\"",
+          "stroke()"
+        ]
+      ],
+      "createdOnSecondCall": 0
+    },
+    {
+      "args": ["circle", 8, "blue", "white", null, null, false, false],
+      "draws": [
+        [18, 18, 95, 39, true],
+        [18, 18, 1, 1, true]
+      ],
+      "logs": [
+        [
+          "fillStyle=\"#FFFFFF\"",
+          "strokeStyle=\"#2880E6\"",
+          "lineWidth=1",
+          "beginPath()",
+          "arc(9,9,3.5,0,6.283185307179586,false)",
+          "closePath()",
+          "shadowColor=\"rgba(0,0,0,0.75)\"",
+          "shadowBlur=2",
+          "shadowOffsetX=0",
+          "shadowOffsetY=0",
+          "fill()",
+          "shadowColor=\"transparent\"",
+          "stroke()"
+        ]
+      ],
+      "createdOnSecondCall": 0
+    },
+    {
+      "args": ["circle", 10, "white", "blue", 2, null, true, false],
+      "draws": [
+        [20, 20, 94, 38, true],
+        [20, 20, 0, 0, true]
+      ],
+      "logs": [
+        [
+          "fillStyle=\"#2880E6\"",
+          "strokeStyle=\"#FFFFFF\"",
+          "lineWidth=2",
+          "beginPath()",
+          "arc(10,10,3,0,6.283185307179586,false)",
+          "closePath()",
+          "shadowColor=\"rgba(0,0,0,0.75)\"",
+          "shadowBlur=4",
+          "shadowOffsetX=0",
+          "shadowOffsetY=0",
+          "fill()",
+          "shadowColor=\"transparent\"",
+          "stroke()",
+          "drawImage(canvas,0,0)"
+        ],
+        [
+          "beginPath()",
+          "arc(10,10,4,0,6.283185307179586,false)",
+          "closePath()",
+          "lineWidth=2",
+          "stroke()",
+          "globalCompositeOperation=\"destination-out\"",
+          "fill(\"evenodd\")",
+          "fillStyle=\"#2880E6\"",
+          "globalCompositeOperation=\"source-in\"",
+          "fillRect(0,0,20,20)"
+        ]
+      ],
+      "createdOnSecondCall": 0
+    },
+    {
+      "args": ["diamond", 9, null, "blue", null, null, false, false],
+      "draws": [
+        [19, 19, 94, 39, true],
+        [19, 19, 0, 0, true]
+      ],
+      "logs": [
+        [
+          "fillStyle=\"#2880E6\"",
+          "strokeStyle=\"transparent\"",
+          "lineWidth=0",
+          "beginPath()",
+          "moveTo(4,9.5)",
+          "lineTo(9.5,4)",
+          "lineTo(15,9.5)",
+          "lineTo(9.5,15)",
+          "closePath()",
+          "shadowColor=\"rgba(0,0,0,0.75)\"",
+          "shadowBlur=2",
+          "shadowOffsetX=0",
+          "shadowOffsetY=0",
+          "fill()"
+        ]
+      ],
+      "createdOnSecondCall": 0
+    },
+    {
+      "args": ["rect", 12, "white", "blue", 2, "transparent", true, false],
+      "draws": [
+        [22, 22, 93, 37, true],
+        [22, 22, -1, -1, true]
+      ],
+      "logs": [
+        [
+          "fillStyle=\"#2880E6\"",
+          "strokeStyle=\"#FFFFFF\"",
+          "lineWidth=2",
+          "beginPath()",
+          "moveTo(7,7)",
+          "lineTo(15,7)",
+          "lineTo(15,15)",
+          "lineTo(7,15)",
+          "closePath()",
+          "shadowColor=\"transparent\"",
+          "shadowBlur=4",
+          "shadowOffsetX=0",
+          "shadowOffsetY=0",
+          "fill()",
+          "shadowColor=\"transparent\"",
+          "stroke()",
+          "drawImage(canvas,0,0)"
+        ],
+        [
+          "beginPath()",
+          "moveTo(6,6)",
+          "lineTo(16,6)",
+          "lineTo(16,16)",
+          "lineTo(6,16)",
+          "closePath()",
+          "lineWidth=2",
+          "stroke()",
+          "globalCompositeOperation=\"destination-out\"",
+          "fill(\"evenodd\")",
+          "fillStyle=\"#2880E6\"",
+          "globalCompositeOperation=\"source-in\"",
+          "fillRect(0,0,22,22)"
+        ]
+      ],
+      "createdOnSecondCall": 0
+    },
+    {
+      "args": ["circle", 14, "white", "blue", 3, "rgba(1,2,3,0.5)", false, true],
+      "draws": [
+        [24, 24, 92, 36, true],
+        [24, 24, -2, -2, true]
+      ],
+      "logs": [
+        [
+          "fillStyle=\"#FFFFFF\"",
+          "strokeStyle=\"#2880E6\"",
+          "lineWidth=3",
+          "beginPath()",
+          "arc(12,12,4.5,0,6.283185307179586,false)",
+          "closePath()",
+          "shadowColor=\"rgba(1,2,3,0.5)\"",
+          "shadowBlur=6",
+          "shadowOffsetX=0",
+          "shadowOffsetY=0",
+          "fill()",
+          "shadowColor=\"transparent\"",
+          "stroke()"
+        ]
+      ],
+      "createdOnSecondCall": 0
+    }
+  ],
+  "icon": [
+    {
+      "case": {
+        "angle": 0,
+        "dynamic": false,
+        "color": null,
+        "trf": null
+      },
+      "log": [
+        ["drawImage", "handle30", 85, 35, true],
+        ["getTransform", true],
+        ["setTransform", [1, 0, 0, 1, 95, 48]],
+        ["drawImage", "icon", 0, 0, false, 1, null, false, 16, 12],
+        ["setTransform", [1, 0, 0, 1, 3, 4]]
+      ]
+    },
+    {
+      "case": {
+        "angle": 0.5,
+        "dynamic": true,
+        "color": "blue",
+        "trf": [1, 0, 0, 1, 7, 9]
+      },
+      "log": [
+        ["drawImage", "handle30", 92, 44, true],
+        ["getTransform", true],
+        ["createCanvas", 0, 0, 16, 12],
+        ["tinted.fillCanvas", "#2880E6", 1],
+        ["tinted.drawImage", "icon", 0, 0, true, 1, "destination-in", true, 16, 12],
+        [
+          "setTransform",
+          [
+            0.8775825618903728, -0.479425538604203, 0.479425538604203, 0.8775825618903728,
+            100.1027862732518, 61.56990893749139
+          ]
+        ],
+        ["drawImage", "tinted", 0, 0, false, 1, null, false, 16, 12],
+        ["setTransform", [1, 0, 0, 1, 3, 4]],
+        ["tinted.destroy"]
+      ]
+    },
+    {
+      "case": {
+        "angle": null,
+        "dynamic": true,
+        "color": null,
+        "trf": [2, 0, 0, 2, 0, 0]
+      },
+      "log": [
+        ["drawImage", "handle30", 186, 85, true],
+        ["getTransform", true],
+        ["createCanvas", 0, 0, 16, 12],
+        ["tinted.fillCanvas", "#FF0000", 1],
+        ["tinted.drawImage", "icon", 0, 0, true, 1, "destination-in", true, 16, 12],
+        ["setTransform", [1, 0, 0, 1, 196, 98]],
+        ["drawImage", "tinted", 0, 0, false, 1, null, false, 16, 12],
+        ["setTransform", [1, 0, 0, 1, 3, 4]],
+        ["tinted.destroy"]
+      ]
+    }
+  ]
+}

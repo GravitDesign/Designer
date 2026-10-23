@@ -328,15 +328,17 @@ export class DistanceHelper extends EventTarget {
     const topDist = offset.topDist as number;
     const rightDist = offset.rightDist as number;
     const bottomDist = offset.bottomDist as number;
-    const targetInside = leftDist <= 0 && topDist <= 0 && rightDist >= 0 && bottomDist >= 0;
-    const baseInside = leftDist >= 0 && topDist >= 0 && rightDist <= 0 && bottomDist <= 0;
-    if (targetInside || baseInside) {
-      const outer = targetInside ? base : target;
+    // The distances are target edge minus base edge. The lines run from
+    // each side of the inner rect out to the outer one.
+    const baseInsideTarget = leftDist <= 0 && topDist <= 0 && rightDist >= 0 && bottomDist >= 0;
+    const targetInsideBase = leftDist >= 0 && topDist >= 0 && rightDist <= 0 && bottomDist <= 0;
+    if (baseInsideTarget || targetInsideBase) {
+      const inner = baseInsideTarget ? base : target;
       if (leftDist) {
-        const side = outer.getSide(Rect.Side.LEFT_CENTER);
+        const side = inner.getSide(Rect.Side.LEFT_CENTER);
         const value = Math.abs(leftDist);
-        const y1 = outer.getY();
-        const y2 = y1 + outer.getHeight();
+        const y1 = inner.getY();
+        const y2 = y1 + inner.getHeight();
         addValue(
           side.add(new Point(-value / 2, 0)),
           value,
@@ -347,10 +349,10 @@ export class DistanceHelper extends EventTarget {
         );
       }
       if (topDist) {
-        const side = outer.getSide(Rect.Side.TOP_CENTER);
+        const side = inner.getSide(Rect.Side.TOP_CENTER);
         const value = Math.abs(topDist);
-        const x1 = outer.getX();
-        const x2 = x1 + outer.getWidth();
+        const x1 = inner.getX();
+        const x2 = x1 + inner.getWidth();
         addValue(
           side.add(new Point(0, -value / 2)),
           value,
@@ -361,10 +363,10 @@ export class DistanceHelper extends EventTarget {
         );
       }
       if (rightDist) {
-        const side = outer.getSide(Rect.Side.RIGHT_CENTER);
+        const side = inner.getSide(Rect.Side.RIGHT_CENTER);
         const value = Math.abs(rightDist);
-        const y1 = outer.getY();
-        const y2 = y1 + outer.getHeight();
+        const y1 = inner.getY();
+        const y2 = y1 + inner.getHeight();
         addValue(
           side.add(new Point(value / 2, 0)),
           value,
@@ -375,10 +377,10 @@ export class DistanceHelper extends EventTarget {
         );
       }
       if (bottomDist) {
-        const side = outer.getSide(Rect.Side.BOTTOM_CENTER);
+        const side = inner.getSide(Rect.Side.BOTTOM_CENTER);
         const value = Math.abs(bottomDist);
-        const x1 = outer.getX();
-        const x2 = x1 + outer.getWidth();
+        const x1 = inner.getX();
+        const x2 = x1 + inner.getWidth();
         addValue(
           side.add(new Point(0, value / 2)),
           value,
@@ -406,16 +408,20 @@ export class DistanceHelper extends EventTarget {
     const topDist = offset.topDist as number;
     const rightDist = offset.rightDist as number;
     const bottomDist = offset.bottomDist as number;
-    const allNegative = leftDist < 0 && topDist < 0 && rightDist < 0 && bottomDist < 0;
-    const allPositive = leftDist > 0 && topDist > 0 && rightDist > 0 && bottomDist > 0;
-    const tallerTarget = leftDist > 0 && topDist < 0 && rightDist > 0 && bottomDist < 0;
-    const widerTarget = leftDist < 0 && topDist > 0 && rightDist < 0 && bottomDist > 0;
-    const crossA = leftDist < 0 && topDist > 0 && rightDist > 0 && bottomDist < 0;
-    const crossB = leftDist > 0 && topDist < 0 && rightDist < 0 && bottomDist > 0;
-    const crossing = crossA || crossB;
-    if (allNegative || allPositive || crossA || crossB) {
-      const first = allNegative || crossB ? target : base;
-      const second = allNegative || crossB ? base : target;
+    // The distances are target edge minus base edge. Shifted diagonally
+    // (target up-left, down-right, up-right or down-left of the base), or
+    // crossing: the target spans the base horizontally while the base
+    // spans it vertically (targetWider), or the other way round.
+    const targetUpLeft = leftDist < 0 && topDist < 0 && rightDist < 0 && bottomDist < 0;
+    const targetDownRight = leftDist > 0 && topDist > 0 && rightDist > 0 && bottomDist > 0;
+    const targetUpRight = leftDist > 0 && topDist < 0 && rightDist > 0 && bottomDist < 0;
+    const targetDownLeft = leftDist < 0 && topDist > 0 && rightDist < 0 && bottomDist > 0;
+    const targetWider = leftDist < 0 && topDist > 0 && rightDist > 0 && bottomDist < 0;
+    const targetTaller = leftDist > 0 && topDist < 0 && rightDist < 0 && bottomDist > 0;
+    const crossing = targetWider || targetTaller;
+    if (targetUpLeft || targetDownRight || targetWider || targetTaller) {
+      const first = targetUpLeft || targetTaller ? target : base;
+      const second = targetUpLeft || targetTaller ? base : target;
       const firstTopRight = first.getSide(Rect.Side.TOP_RIGHT);
       const firstBottomRight = first.getSide(Rect.Side.BOTTOM_RIGHT);
       let firstBottomLeft = first.getSide(Rect.Side.BOTTOM_LEFT);
@@ -474,9 +480,9 @@ export class DistanceHelper extends EventTarget {
         high(x1, x2),
       );
     }
-    if (tallerTarget || widerTarget || crossA || crossB) {
-      const first = tallerTarget || crossB ? target : base;
-      const second = tallerTarget || crossB ? base : target;
+    if (targetUpRight || targetDownLeft || targetWider || targetTaller) {
+      const first = targetUpRight || targetTaller ? target : base;
+      const second = targetUpRight || targetTaller ? base : target;
       const firstTopLeft = first.getSide(Rect.Side.TOP_LEFT);
       const firstBottomLeft = first.getSide(Rect.Side.BOTTOM_LEFT);
       let firstBottomRight = first.getSide(Rect.Side.BOTTOM_RIGHT);
@@ -548,23 +554,34 @@ export class DistanceHelper extends EventTarget {
     const topDist = offset.topDist as number;
     const rightDist = offset.rightDist as number;
     const bottomDist = offset.bottomDist as number;
-    const de = leftDist >= 0 && topDist >= 0 && rightDist >= 0 && bottomDist <= 0;
-    const ge = leftDist <= 0 && topDist <= 0 && rightDist <= 0 && bottomDist >= 0;
-    const fe = leftDist >= 0 && topDist >= 0 && rightDist <= 0 && bottomDist >= 0;
-    const me = leftDist <= 0 && topDist <= 0 && rightDist >= 0 && bottomDist <= 0;
-    const ye = leftDist <= 0 && topDist >= 0 && rightDist <= 0 && bottomDist <= 0;
-    const _e = leftDist >= 0 && topDist <= 0 && rightDist >= 0 && bottomDist >= 0;
-    const ve = leftDist >= 0 && topDist <= 0 && rightDist <= 0 && bottomDist <= 0;
-    const be = leftDist <= 0 && topDist >= 0 && rightDist >= 0 && bottomDist >= 0;
-    if ((de || ge || ve || be) && topDist && rightDist) {
-      const inner = de || be ? target : base;
-      const outer = de || be ? base : target;
+    // The distances are target edge minus base edge. Each flag names the rect
+    // that sticks out past the other on one side while it lies within the
+    // other rect on the other axis (edges may be aligned).
+    // Target past the base's right edge, within it vertically.
+    const targetOutRight = leftDist >= 0 && topDist >= 0 && rightDist >= 0 && bottomDist <= 0;
+    // Base past the target's right edge, within it vertically.
+    const baseOutRight = leftDist <= 0 && topDist <= 0 && rightDist <= 0 && bottomDist >= 0;
+    // Target below the base's bottom edge, within it horizontally.
+    const targetOutBottom = leftDist >= 0 && topDist >= 0 && rightDist <= 0 && bottomDist >= 0;
+    // Base below the target's bottom edge, within it horizontally.
+    const baseOutBottom = leftDist <= 0 && topDist <= 0 && rightDist >= 0 && bottomDist <= 0;
+    // Target past the base's left edge, within it vertically.
+    const targetOutLeft = leftDist <= 0 && topDist >= 0 && rightDist <= 0 && bottomDist <= 0;
+    // Base past the target's left edge, within it vertically.
+    const baseOutLeft = leftDist >= 0 && topDist <= 0 && rightDist >= 0 && bottomDist >= 0;
+    // Target above the base's top edge, within it horizontally.
+    const targetOutTop = leftDist >= 0 && topDist <= 0 && rightDist <= 0 && bottomDist <= 0;
+    // Base above the target's top edge, within it horizontally.
+    const baseOutTop = leftDist <= 0 && topDist >= 0 && rightDist >= 0 && bottomDist >= 0;
+    if ((targetOutRight || baseOutRight || targetOutTop || baseOutTop) && topDist && rightDist) {
+      const inner = targetOutRight || baseOutTop ? target : base;
+      const outer = targetOutRight || baseOutTop ? base : target;
       const outerTopRight = outer.getSide(Rect.Side.TOP_RIGHT);
       const innerTopRight = inner.getSide(Rect.Side.TOP_RIGHT);
       const right = Math.abs(rightDist);
       const y1 = outerTopRight.getY();
       const y2 =
-        de || ge
+        targetOutRight || baseOutRight
           ? inner.getSide(Rect.Side.LEFT_CENTER).getY()
           : outer.getSide(Rect.Side.BOTTOM_RIGHT).getY();
       addValue(
@@ -576,7 +593,8 @@ export class DistanceHelper extends EventTarget {
         high(y1, y2),
       );
       const top = Math.abs(topDist);
-      const x1 = de || ge ? inner.getX() : outer.getSide(Rect.Side.TOP_CENTER).getX();
+      const x1 =
+        targetOutRight || baseOutRight ? inner.getX() : outer.getSide(Rect.Side.TOP_CENTER).getX();
       const x2 = innerTopRight.getX();
       addValue(
         innerTopRight.add(new Point(0, -top / 2)),
@@ -587,15 +605,15 @@ export class DistanceHelper extends EventTarget {
         high(x1, x2),
       );
     }
-    if ((ye || _e || ve || be) && topDist && leftDist) {
-      const inner = ye || be ? base : target;
-      const outer = ye || be ? target : base;
+    if ((targetOutLeft || baseOutLeft || targetOutTop || baseOutTop) && topDist && leftDist) {
+      const inner = targetOutLeft || baseOutTop ? base : target;
+      const outer = targetOutLeft || baseOutTop ? target : base;
       const outerTopLeft = outer.getSide(Rect.Side.TOP_LEFT);
       const innerTopLeft = inner.getSide(Rect.Side.TOP_LEFT);
       const left = Math.abs(leftDist);
       const y1 = innerTopLeft.getY();
       const y2 =
-        ye || _e
+        targetOutLeft || baseOutLeft
           ? outer.getSide(Rect.Side.LEFT_CENTER).getY()
           : inner.getSide(Rect.Side.BOTTOM_LEFT).getY();
       addValue(
@@ -609,7 +627,7 @@ export class DistanceHelper extends EventTarget {
       const top = Math.abs(topDist);
       const x1 = outerTopLeft.getX();
       const x2 =
-        ye || _e
+        targetOutLeft || baseOutLeft
           ? outer.getSide(Rect.Side.TOP_RIGHT).getX()
           : inner.getSide(Rect.Side.TOP_CENTER).getX();
       addValue(
@@ -621,13 +639,18 @@ export class DistanceHelper extends EventTarget {
         high(x1, x2),
       );
     }
-    if ((ye || _e || fe || me) && bottomDist && leftDist) {
-      const inner = ye || me ? base : target;
-      const outer = ye || me ? target : base;
+    if (
+      (targetOutLeft || baseOutLeft || targetOutBottom || baseOutBottom) &&
+      bottomDist &&
+      leftDist
+    ) {
+      const inner = targetOutLeft || baseOutBottom ? base : target;
+      const outer = targetOutLeft || baseOutBottom ? target : base;
       const outerBottomLeft = outer.getSide(Rect.Side.BOTTOM_LEFT);
       const innerBottomLeft = inner.getSide(Rect.Side.BOTTOM_LEFT);
       const left = Math.abs(leftDist);
-      const y1 = ye || _e ? outer.getSide(Rect.Side.LEFT_CENTER).getY() : inner.getY();
+      const y1 =
+        targetOutLeft || baseOutLeft ? outer.getSide(Rect.Side.LEFT_CENTER).getY() : inner.getY();
       const y2 = innerBottomLeft.getY();
       addValue(
         innerBottomLeft.add(new Point(-left / 2, 0)),
@@ -640,7 +663,7 @@ export class DistanceHelper extends EventTarget {
       const bottom = Math.abs(bottomDist);
       const x1 = outerBottomLeft.getX();
       const x2 =
-        ye || _e
+        targetOutLeft || baseOutLeft
           ? outer.getSide(Rect.Side.BOTTOM_RIGHT).getX()
           : inner.getSide(Rect.Side.TOP_CENTER).getX();
       addValue(
@@ -652,13 +675,18 @@ export class DistanceHelper extends EventTarget {
         high(x1, x2),
       );
     }
-    if ((de || ge || fe || me) && bottomDist && rightDist) {
-      const inner = de || me ? target : base;
-      const outer = de || me ? base : target;
+    if (
+      (targetOutRight || baseOutRight || targetOutBottom || baseOutBottom) &&
+      bottomDist &&
+      rightDist
+    ) {
+      const inner = targetOutRight || baseOutBottom ? target : base;
+      const outer = targetOutRight || baseOutBottom ? base : target;
       const outerBottomRight = outer.getSide(Rect.Side.BOTTOM_RIGHT);
       const innerBottomRight = inner.getSide(Rect.Side.BOTTOM_RIGHT);
       const right = Math.abs(rightDist);
-      const y1 = de || ge ? inner.getSide(Rect.Side.LEFT_CENTER).getY() : outer.getY();
+      const y1 =
+        targetOutRight || baseOutRight ? inner.getSide(Rect.Side.LEFT_CENTER).getY() : outer.getY();
       const y2 = outerBottomRight.getY();
       addValue(
         outerBottomRight.add(new Point(right / 2, 0)),
@@ -669,7 +697,8 @@ export class DistanceHelper extends EventTarget {
         high(y1, y2),
       );
       const bottom = Math.abs(bottomDist);
-      const x1 = de || ge ? inner.getX() : outer.getSide(Rect.Side.TOP_CENTER).getX();
+      const x1 =
+        targetOutRight || baseOutRight ? inner.getX() : outer.getSide(Rect.Side.TOP_CENTER).getX();
       const x2 = innerBottomRight.getX();
       addValue(
         innerBottomRight.add(new Point(0, bottom / 2)),
@@ -680,8 +709,8 @@ export class DistanceHelper extends EventTarget {
         high(x1, x2),
       );
     }
-    if ((de || ge) && leftDist) {
-      const rect = de ? target : base;
+    if ((targetOutRight || baseOutRight) && leftDist) {
+      const rect = targetOutRight ? target : base;
       const side = rect.getSide(Rect.Side.LEFT_CENTER);
       const left = Math.abs(leftDist);
       const y1 = rect.getY();
@@ -695,8 +724,8 @@ export class DistanceHelper extends EventTarget {
         high(y1, y2),
       );
     }
-    if ((ye || _e) && rightDist) {
-      const rect = ye ? target : base;
+    if ((targetOutLeft || baseOutLeft) && rightDist) {
+      const rect = targetOutLeft ? target : base;
       const side = rect.getSide(Rect.Side.RIGHT_CENTER);
       const right = Math.abs(rightDist);
       const y1 = rect.getY();
@@ -710,8 +739,8 @@ export class DistanceHelper extends EventTarget {
         high(y1, y2),
       );
     }
-    if ((ve || be) && bottomDist) {
-      const rect = ve ? target : base;
+    if ((targetOutTop || baseOutTop) && bottomDist) {
+      const rect = targetOutTop ? target : base;
       const side = rect.getSide(Rect.Side.BOTTOM_CENTER);
       const bottom = Math.abs(bottomDist);
       const x1 = rect.getX();
@@ -725,8 +754,8 @@ export class DistanceHelper extends EventTarget {
         high(x1, x2),
       );
     }
-    if ((fe || me) && topDist) {
-      const rect = fe ? target : base;
+    if ((targetOutBottom || baseOutBottom) && topDist) {
+      const rect = targetOutBottom ? target : base;
       const side = rect.getSide(Rect.Side.TOP_CENTER);
       const top = Math.abs(topDist);
       const x1 = rect.getX();
@@ -777,10 +806,12 @@ export class DistanceHelper extends EventTarget {
       }
       const view = this._view as DistanceHelperView;
       const pad = Math.ceil(1 / view.getZoom());
-      let left = minX as unknown as number;
-      let top = minY as unknown as number;
-      let right = maxX as unknown as number;
-      let bottom = maxY as unknown as number;
+      // Every visual has a two-point line here, so the bounds are set; were
+      // they null they would coerce to 0, as in the old code.
+      let left = Number(minX);
+      let top = Number(minY);
+      let right = Number(maxX);
+      let bottom = Number(maxY);
       left -= pad;
       top -= pad;
       right += pad;

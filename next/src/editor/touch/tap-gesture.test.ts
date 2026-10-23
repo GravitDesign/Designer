@@ -114,4 +114,35 @@ describe("TapGesture", () => {
     helper.touchEnd(t(touchEvent("touchend", [], [a, b])));
     expect(target.types()).toEqual([]);
   });
+
+  it("dispatches mouse events with every field the old initMouseEvent set", () => {
+    const target = new FakeTarget();
+    const helper = setup();
+    const finger = { ...touchAt(1, 30, 40, target), screenX: 130, screenY: 240 };
+    helper.touchStart(t(touchEvent("touchstart", [finger], [finger])));
+    expect(target.dispatched[0]).toEqual({
+      type: "mousedown",
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      detail: 1,
+      screenX: 130,
+      screenY: 240,
+      clientX: 30,
+      clientY: 40,
+      button: 0,
+      relatedTarget: null,
+    });
+  });
+
+  it("answers a touchcancel with a cancelable mouseup and no click, even for a swipe", () => {
+    const target = new FakeTarget();
+    const helper = setup();
+    const finger = touchAt(1, 30, 40, target);
+    helper.touchStart(t(touchEvent("touchstart", [finger], [finger])));
+    helper.touchMove(t(touchEvent("touchmove", [finger], [finger])));
+    helper.touchCancel(t(touchEvent("touchcancel", [], [finger])));
+    expect(target.types()).toEqual(["mousedown", "mouseup"]);
+    expect(target.dispatched[1]).toMatchObject({ cancelable: true, clientX: 30, clientY: 40 });
+  });
 });

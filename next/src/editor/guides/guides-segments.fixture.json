@@ -1,0 +1,1434 @@
+{
+  "snapDistance": 5,
+  "finish": [
+    {
+      "name": "neighbours before and after",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [
+            [10, 20],
+            [60, 70],
+            [150, 160]
+          ],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 70],
+            [80, 100],
+            [150, 200]
+          ],
+          "valueSegments": [
+            { "bounds": [70, 80], "value": 10, "valuePt": [50, 75], "valueDir": 4 },
+            { "bounds": [100, 150], "value": 50, "valuePt": [50, 125], "valueDir": 4 }
+          ]
+        }
+      ],
+      "areas": [[49, -1, 25.66666666666667, 202]],
+      "paint": [
+        ["strokeLine", 110.5, 20.5, 110.5, 160.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 180.5, 110.5, 220.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 320.5, 110.5, 420.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 160.5, 110.5, 180.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "10", 115, 170, "10px Verdana", "middle", "left", 1, "#FF00AA"],
+        ["strokeLine", 110.5, 220.5, 110.5, 320.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "50", 115, 270, "10px Verdana", "middle", "left", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "neighbour before only",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [[10, 20]],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 20],
+            [80, 200]
+          ],
+          "valueSegments": [{ "bounds": [20, 80], "value": 60, "valuePt": [50, 50], "valueDir": 4 }]
+        }
+      ],
+      "areas": [[49, -1, 25.66666666666667, 202]],
+      "paint": [
+        ["strokeLine", 110.5, 20.5, 110.5, 60.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 180.5, 110.5, 420.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 60.5, 110.5, 180.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "60", 115, 120, "10px Verdana", "middle", "left", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "neighbour after only",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [[150, 160]],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 100],
+            [150, 200]
+          ],
+          "valueSegments": [
+            { "bounds": [100, 150], "value": 50, "valuePt": [50, 125], "valueDir": 4 }
+          ]
+        }
+      ],
+      "areas": [[49, -1, 25.66666666666667, 202]],
+      "paint": [
+        ["strokeLine", 110.5, 20.5, 110.5, 220.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 320.5, 110.5, 420.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 220.5, 110.5, 320.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "50", 115, 270, "10px Verdana", "middle", "left", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "unsorted bounds",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [
+            [150, 160],
+            [10, 20],
+            [60, 70]
+          ],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 70],
+            [80, 100],
+            [150, 200]
+          ],
+          "valueSegments": [
+            { "bounds": [70, 80], "value": 10, "valuePt": [50, 75], "valueDir": 4 },
+            { "bounds": [100, 150], "value": 50, "valuePt": [50, 125], "valueDir": 4 }
+          ]
+        }
+      ],
+      "areas": [[49, -1, 25.66666666666667, 202]],
+      "paint": [
+        ["strokeLine", 110.5, 20.5, 110.5, 160.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 180.5, 110.5, 220.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 320.5, 110.5, 420.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 160.5, 110.5, 180.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "10", 115, 170, "10px Verdana", "middle", "left", 1, "#FF00AA"],
+        ["strokeLine", 110.5, 220.5, 110.5, 320.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "50", 115, 270, "10px Verdana", "middle", "left", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "source past the line end",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [
+            [10, 20],
+            [60, 70]
+          ],
+          "srcBounds": [80, 250],
+          "freeSegments": [
+            [0, 70],
+            [80, 200]
+          ],
+          "valueSegments": [{ "bounds": [70, 80], "value": 10, "valuePt": [50, 75], "valueDir": 4 }]
+        }
+      ],
+      "areas": [[49, -1, 25.66666666666667, 202]],
+      "paint": [
+        ["strokeLine", 110.5, 20.5, 110.5, 160.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 180.5, 110.5, 420.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 160.5, 110.5, 180.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "10", 115, 170, "10px Verdana", "middle", "left", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "source before the line start",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [[10, 20]],
+          "srcBounds": [-30, -10],
+          "freeSegments": [
+            [0, -10],
+            [10, 200]
+          ],
+          "valueSegments": [{ "bounds": [-10, 10], "value": 20, "valuePt": [50, 0], "valueDir": 4 }]
+        }
+      ],
+      "areas": [[49, -9.5, 25.66666666666667, 210.5]],
+      "paint": [
+        ["strokeLine", 110.5, 20.5, 110.5, 0.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 40.5, 110.5, 420.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 0.5, 110.5, 40.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "20", 115, 20, "10px Verdana", "middle", "left", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "after neighbour past the line end",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [[210, 230]],
+          "srcBounds": [80, 100],
+          "freeSegments": [[0, 100]],
+          "valueSegments": [
+            { "bounds": [100, 210], "value": 110, "valuePt": [50, 155], "valueDir": 4 }
+          ]
+        }
+      ],
+      "areas": [[49, -1, 34, 202]],
+      "paint": [
+        ["strokeLine", 110.5, 20.5, 110.5, 220.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 220.5, 110.5, 440.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "110", 115, 330, "10px Verdana", "middle", "left", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "bounds inside the source",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [[85, 90]],
+          "srcBounds": [80, 100],
+          "freeSegments": [[0, 200]]
+        }
+      ],
+      "areas": [[49, -1, 2, 202]],
+      "paint": [["strokeLine", 110.5, 20.5, 110.5, 420.5, 1, "#4BD7D0", false]]
+    },
+    {
+      "name": "edges touching the source",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [
+            [60, 80],
+            [100, 120]
+          ],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 60],
+            [80, 100],
+            [120, 200]
+          ],
+          "valueSegments": [
+            { "bounds": [60, 80], "value": 20, "valuePt": [50, 70], "valueDir": 4 },
+            { "bounds": [100, 120], "value": 20, "valuePt": [50, 110], "valueDir": 4 }
+          ]
+        }
+      ],
+      "areas": [[49, -1, 25.66666666666667, 202]],
+      "paint": [
+        ["strokeLine", 110.5, 20.5, 110.5, 140.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 180.5, 110.5, 220.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 260.5, 110.5, 420.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 140.5, 110.5, 180.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "20", 115, 160, "10px Verdana", "middle", "left", 1, "#FF00AA"],
+        ["strokeLine", 110.5, 220.5, 110.5, 260.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "20", 115, 240, "10px Verdana", "middle", "left", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "bound starting at the source start",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [[80, 85]],
+          "srcBounds": [80, 100],
+          "freeSegments": [[0, 200]]
+        }
+      ],
+      "areas": [[49, -1, 2, 202]],
+      "paint": [["strokeLine", 110.5, 20.5, 110.5, 420.5, 1, "#4BD7D0", false]]
+    },
+    {
+      "name": "bound ending at the source end",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [[100, 120]],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 100],
+            [120, 200]
+          ],
+          "valueSegments": [
+            { "bounds": [100, 120], "value": 20, "valuePt": [50, 110], "valueDir": 4 }
+          ]
+        }
+      ],
+      "areas": [[49, -1, 25.66666666666667, 202]],
+      "paint": [
+        ["strokeLine", 110.5, 20.5, 110.5, 220.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 260.5, 110.5, 420.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 220.5, 110.5, 260.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "20", 115, 240, "10px Verdana", "middle", "left", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "no source bounds",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [[10, 20]],
+          "freeSegments": [[0, 200]]
+        }
+      ],
+      "areas": [[49, -1, 2, 202]],
+      "paint": [["strokeLine", 110.5, 20.5, 110.5, 420.5, 1, "#4BD7D0", false]]
+    },
+    {
+      "name": "no bounds",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "srcBounds": [80, 100]
+        }
+      ],
+      "areas": [[49, -1, 2, 202]],
+      "paint": []
+    },
+    {
+      "name": "horizontal",
+      "visuals": [
+        {
+          "line": [
+            [0, 50],
+            [200, 50]
+          ],
+          "orient": 1,
+          "page": null,
+          "bounds": [
+            [10, 20],
+            [60, 70],
+            [150, 160]
+          ],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 70],
+            [80, 100],
+            [150, 200]
+          ],
+          "valueSegments": [
+            { "bounds": [70, 80], "value": 10, "valuePt": [75, 50], "valueDir": 2 },
+            { "bounds": [100, 150], "value": 50, "valuePt": [125, 50], "valueDir": 2 }
+          ]
+        }
+      ],
+      "areas": [[-1, 49, 202, 25]],
+      "paint": [
+        ["strokeLine", 10.5, 120.5, 150.5, 120.5, 1, "#4BD7D0", false],
+        ["strokeLine", 170.5, 120.5, 210.5, 120.5, 1, "#4BD7D0", false],
+        ["strokeLine", 310.5, 120.5, 410.5, 120.5, 1, "#4BD7D0", false],
+        ["strokeLine", 150.5, 120.5, 170.5, 120.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "10", 160, 125, "10px Verdana", "hanging", "center", 1, "#FF00AA"],
+        ["strokeLine", 210.5, 120.5, 310.5, 120.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "50", 260, 125, "10px Verdana", "hanging", "center", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "horizontal before only",
+      "visuals": [
+        {
+          "line": [
+            [0, 50],
+            [200, 50]
+          ],
+          "orient": 1,
+          "page": null,
+          "bounds": [[0, 30]],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 30],
+            [80, 200]
+          ],
+          "valueSegments": [{ "bounds": [30, 80], "value": 50, "valuePt": [55, 50], "valueDir": 2 }]
+        }
+      ],
+      "areas": [[-1, 49, 202, 25]],
+      "paint": [
+        ["strokeLine", 10.5, 120.5, 70.5, 120.5, 1, "#4BD7D0", false],
+        ["strokeLine", 170.5, 120.5, 410.5, 120.5, 1, "#4BD7D0", false],
+        ["strokeLine", 70.5, 120.5, 170.5, 120.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "50", 120, 125, "10px Verdana", "hanging", "center", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "preset free segments",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [[10, 20]],
+          "srcBounds": [80, 100],
+          "freeSegments": [[5, 6]]
+        }
+      ],
+      "areas": [[49, -1, 2, 202]],
+      "paint": [["strokeLine", 110.5, 30.5, 110.5, 32.5, 1, "#4BD7D0", false]]
+    },
+    {
+      "name": "other orientation",
+      "visuals": [
+        {
+          "line": [
+            [0, 0],
+            [30, 40]
+          ],
+          "orient": 3,
+          "page": null,
+          "bounds": [[10, 20]],
+          "srcBounds": [80, 100]
+        }
+      ],
+      "areas": [[-1, -1, 32, 42]],
+      "paint": []
+    },
+    {
+      "name": "one-point line",
+      "visuals": [{ "line": [[30, 40]], "orient": 3, "page": null }],
+      "areas": [[-1, -1, 2, 2]],
+      "paint": []
+    },
+    {
+      "name": "page offset, single page",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": [100, 50],
+          "bounds": [
+            [10, 20],
+            [150, 160]
+          ],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 20],
+            [80, 100],
+            [150, 200]
+          ],
+          "valueSegments": [
+            { "bounds": [20, 80], "value": 60, "valuePt": [50, 50], "valueDir": 4 },
+            { "bounds": [100, 150], "value": 50, "valuePt": [50, 125], "valueDir": 4 }
+          ]
+        }
+      ],
+      "areas": [[49, -1, 25.66666666666667, 202]],
+      "paint": [
+        ["strokeLine", 110.5, 20.5, 110.5, 60.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 180.5, 110.5, 220.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 320.5, 110.5, 420.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 60.5, 110.5, 180.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "60", 115, 120, "10px Verdana", "middle", "left", 1, "#FF00AA"],
+        ["strokeLine", 110.5, 220.5, 110.5, 320.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "50", 115, 270, "10px Verdana", "middle", "left", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "page offset, multi page",
+      "visuals": [
+        {
+          "line": [
+            [0, 50],
+            [200, 50]
+          ],
+          "orient": 1,
+          "page": [100, 50],
+          "bounds": [
+            [10, 20],
+            [150, 160]
+          ],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 20],
+            [80, 100],
+            [150, 200]
+          ],
+          "valueSegments": [
+            { "bounds": [20, 80], "value": 60, "valuePt": [50, 50], "valueDir": 2 },
+            { "bounds": [100, 150], "value": 50, "valuePt": [125, 50], "valueDir": 2 }
+          ]
+        }
+      ],
+      "areas": [[99, 99, 202, 25]],
+      "paint": [
+        ["strokeLine", 210.5, 220.5, 250.5, 220.5, 1, "#4BD7D0", false],
+        ["strokeLine", 370.5, 220.5, 410.5, 220.5, 1, "#4BD7D0", false],
+        ["strokeLine", 510.5, 220.5, 610.5, 220.5, 1, "#4BD7D0", false],
+        ["strokeLine", 250.5, 220.5, 370.5, 220.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "60", 310, 225, "10px Verdana", "hanging", "center", 1, "#FF00AA"],
+        ["strokeLine", 410.5, 220.5, 510.5, 220.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "50", 460, 225, "10px Verdana", "hanging", "center", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "zoomed in",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [
+            [10, 20],
+            [150, 160]
+          ],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 20],
+            [80, 100],
+            [150, 200]
+          ],
+          "valueSegments": [
+            { "bounds": [20, 80], "value": 60, "valuePt": [50, 50], "valueDir": 4 },
+            { "bounds": [100, 150], "value": 50, "valuePt": [50, 125], "valueDir": 4 }
+          ]
+        }
+      ],
+      "areas": [[49, -1, 7.166666666666664, 202]],
+      "paint": [
+        ["strokeLine", 110.5, 20.5, 110.5, 60.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 180.5, 110.5, 220.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 320.5, 110.5, 420.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 60.5, 110.5, 180.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "60", 115, 120, "10px Verdana", "middle", "left", 1, "#FF00AA"],
+        ["strokeLine", 110.5, 220.5, 110.5, 320.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "50", 115, 270, "10px Verdana", "middle", "left", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "zoomed out",
+      "visuals": [
+        {
+          "line": [
+            [0, 50],
+            [200, 50]
+          ],
+          "orient": 1,
+          "page": null,
+          "bounds": [
+            [10, 20],
+            [150, 160]
+          ],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 20],
+            [80, 100],
+            [150, 200]
+          ],
+          "valueSegments": [
+            { "bounds": [20, 80], "value": 60, "valuePt": [50, 50], "valueDir": 2 },
+            { "bounds": [100, 150], "value": 50, "valuePt": [125, 50], "valueDir": 2 }
+          ]
+        }
+      ],
+      "areas": [[-4, 46, 208, 100]],
+      "paint": [
+        ["strokeLine", 10.5, 120.5, 50.5, 120.5, 1, "#4BD7D0", false],
+        ["strokeLine", 170.5, 120.5, 210.5, 120.5, 1, "#4BD7D0", false],
+        ["strokeLine", 310.5, 120.5, 410.5, 120.5, 1, "#4BD7D0", false],
+        ["strokeLine", 50.5, 120.5, 170.5, 120.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "60", 110, 125, "10px Verdana", "hanging", "center", 1, "#FF00AA"],
+        ["strokeLine", 210.5, 120.5, 310.5, 120.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "50", 260, 125, "10px Verdana", "hanging", "center", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "no distance helper",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [
+            [10, 20],
+            [150, 160]
+          ],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 20],
+            [80, 100],
+            [150, 200]
+          ],
+          "valueSegments": [{ "bounds": [20, 80] }, { "bounds": [100, 150] }]
+        }
+      ],
+      "areas": [[49, -1, 2, 202]],
+      "paint": [
+        ["strokeLine", 110.5, 20.5, 110.5, 60.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 180.5, 110.5, 220.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 320.5, 110.5, 420.5, 1, "#4BD7D0", false],
+        ["strokeLine", 110.5, 60.5, 110.5, 180.5, 1, "#FF00AA", false],
+        ["strokeLine", 110.5, 220.5, 110.5, 320.5, 1, "#FF00AA", false]
+      ]
+    },
+    {
+      "name": "free segments colour",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": null,
+          "bounds": [
+            [10, 20],
+            [150, 160]
+          ],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 20],
+            [80, 100],
+            [150, 200]
+          ],
+          "valueSegments": [
+            { "bounds": [20, 80], "value": 60, "valuePt": [50, 50], "valueDir": 4 },
+            { "bounds": [100, 150], "value": 50, "valuePt": [50, 125], "valueDir": 4 }
+          ]
+        }
+      ],
+      "areas": [[49, -1, 25.66666666666667, 202]],
+      "paint": [
+        ["strokeLine", 110.5, 20.5, 110.5, 60.5, 1, "#0A141E", false],
+        ["strokeLine", 110.5, 180.5, 110.5, 220.5, 1, "#0A141E", false],
+        ["strokeLine", 110.5, 320.5, 110.5, 420.5, 1, "#0A141E", false],
+        ["strokeLine", 110.5, 60.5, 110.5, 180.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "60", 115, 120, "10px Verdana", "middle", "left", 1, "#FF00AA"],
+        ["strokeLine", 110.5, 220.5, 110.5, 320.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "50", 115, 270, "10px Verdana", "middle", "left", 1, "#FF00AA"]
+      ]
+    },
+    {
+      "name": "point pairs and markers",
+      "visuals": [
+        {
+          "pair": [
+            [10, 10],
+            [40, 10]
+          ],
+          "page": null
+        },
+        {
+          "pair": [
+            { "pt": [10, 30], "annot": "circle", "size": 6 },
+            { "pt": [60, 30], "annot": "rect", "size": 8 }
+          ],
+          "page": null
+        },
+        {
+          "line": [
+            { "pt": [70, 0], "annot": "diamond", "size": 6 },
+            { "pt": [70, 50], "annot": "circle", "size": 6 }
+          ],
+          "page": null
+        }
+      ],
+      "areas": [[0.514704, -9.485296, 78.97059200000001, 68.97059200000001]],
+      "paint": [
+        ["strokeLine", 30.5, 40.5, 90.5, 40.5, 1, "#4BD7D0", false],
+        ["strokeLine", 30.5, 80.5, 130.5, 80.5, 1, "#4BD7D0", false],
+        ["drawImage", 16, 16, 22, 72, true],
+        ["drawImage", 18, 18, 121, 71, true]
+      ]
+    },
+    {
+      "name": "several visuals, one on a page",
+      "visuals": [
+        {
+          "line": [
+            [50, 0],
+            [50, 200]
+          ],
+          "orient": 2,
+          "page": [20, 30],
+          "bounds": [[150, 160]],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 100],
+            [150, 200]
+          ],
+          "valueSegments": [
+            { "bounds": [100, 150], "value": 50, "valuePt": [50, 125], "valueDir": 4 }
+          ]
+        },
+        {
+          "line": [
+            [0, 50],
+            [200, 50]
+          ],
+          "orient": 1,
+          "page": [20, 30],
+          "bounds": [[10, 20]],
+          "srcBounds": [80, 100],
+          "freeSegments": [
+            [0, 20],
+            [80, 200]
+          ],
+          "valueSegments": [{ "bounds": [20, 80], "value": 60, "valuePt": [50, 50], "valueDir": 2 }]
+        },
+        {
+          "pair": [
+            [5, 5],
+            [9, 9]
+          ],
+          "page": [20, 30]
+        }
+      ],
+      "areas": [[19, 29, 202, 202]],
+      "paint": [
+        ["strokeLine", 150.5, 80.5, 150.5, 280.5, 1, "#4BD7D0", false],
+        ["strokeLine", 150.5, 380.5, 150.5, 480.5, 1, "#4BD7D0", false],
+        ["strokeLine", 150.5, 280.5, 150.5, 380.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "50", 155, 330, "10px Verdana", "middle", "left", 1, "#FF00AA"],
+        ["strokeLine", 50.5, 180.5, 90.5, 180.5, 1, "#4BD7D0", false],
+        ["strokeLine", 210.5, 180.5, 450.5, 180.5, 1, "#4BD7D0", false],
+        ["strokeLine", 90.5, 180.5, 210.5, 180.5, 1, "#FF00AA", false],
+        ["putAuxilliaryText", "60", 150, 185, "10px Verdana", "hanging", "center", 1, "#FF00AA"],
+        ["strokeLine", 60.5, 90.5, 68.5, 98.5, 1, "#4BD7D0", false]
+      ]
+    }
+  ],
+  "mapRect": [
+    {
+      "name": "extends the line end past a marker",
+      "rect": [47, 80, 40, 30],
+      "mapped": [50, 80, 40, 30],
+      "afterMap": [
+        {
+          "line": [{ "pt": [50, 30], "annot": "circle", "size": 6 }, [50, 110]],
+          "page": null,
+          "bounds": [
+            [0, 10],
+            [200, 220]
+          ],
+          "srcBounds": [80, 110]
+        }
+      ],
+      "afterFinish": [
+        {
+          "line": [{ "pt": [50, 30], "annot": "circle", "size": 6 }, [50, 110]],
+          "page": null,
+          "bounds": [
+            [0, 10],
+            [200, 220]
+          ],
+          "srcBounds": [80, 110]
+        }
+      ],
+      "areas": [[40.514704, 20.514704000000002, 18.970592000000003, 90.485296]],
+      "paint": []
+    },
+    {
+      "name": "extends both ends",
+      "rect": [47, 0, 40, 100],
+      "mapped": [50, 0, 40, 100],
+      "afterMap": [
+        {
+          "line": [
+            [50, 0],
+            [50, 100]
+          ],
+          "page": null,
+          "bounds": [
+            [0, 10],
+            [200, 220]
+          ],
+          "srcBounds": [0, 100]
+        }
+      ],
+      "afterFinish": [
+        {
+          "line": [
+            [50, 0],
+            [50, 100]
+          ],
+          "page": null,
+          "bounds": [
+            [0, 10],
+            [200, 220]
+          ],
+          "srcBounds": [0, 100]
+        }
+      ],
+      "areas": [[49, -1, 2, 102]],
+      "paint": []
+    },
+    {
+      "name": "keeps both markers",
+      "rect": [47, 40, 40, 10],
+      "mapped": [50, 40, 40, 10],
+      "afterMap": [
+        {
+          "line": [
+            { "pt": [50, 30], "annot": "circle", "size": 6 },
+            { "pt": [50, 60], "annot": "rect", "size": 6 }
+          ],
+          "page": null,
+          "bounds": [
+            [0, 10],
+            [200, 220]
+          ],
+          "srcBounds": [40, 50]
+        }
+      ],
+      "afterFinish": [
+        {
+          "line": [
+            { "pt": [50, 30], "annot": "circle", "size": 6 },
+            { "pt": [50, 60], "annot": "rect", "size": 6 }
+          ],
+          "page": null,
+          "bounds": [
+            [0, 10],
+            [200, 220]
+          ],
+          "srcBounds": [40, 50]
+        }
+      ],
+      "areas": [[40.514704, 20.514704000000002, 18.970592000000003, 48.970592]],
+      "paint": []
+    },
+    {
+      "name": "pair guide on y",
+      "rect": [120, 197, 40, 30],
+      "mapped": [120, 200, 40, 30],
+      "afterMap": [
+        {
+          "pair": [
+            [100, 200],
+            [160, 200]
+          ],
+          "page": null
+        }
+      ],
+      "afterFinish": [
+        {
+          "pair": [
+            [100, 200],
+            [160, 200]
+          ],
+          "page": null
+        }
+      ],
+      "areas": [[99, 199, 62, 2]],
+      "paint": [["strokeLine", 210.5, 420.5, 330.5, 420.5, 1, "#4BD7D0", false]]
+    },
+    {
+      "name": "pair guide extended both ways",
+      "rect": [60, 197, 100, 30],
+      "mapped": [60, 200, 100, 30],
+      "afterMap": [
+        {
+          "pair": [
+            [60, 200],
+            [160, 200]
+          ],
+          "page": null
+        }
+      ],
+      "afterFinish": [
+        {
+          "pair": [
+            [60, 200],
+            [160, 200]
+          ],
+          "page": null
+        }
+      ],
+      "areas": [[59, 199, 102, 2]],
+      "paint": [["strokeLine", 130.5, 420.5, 330.5, 420.5, 1, "#4BD7D0", false]]
+    },
+    {
+      "name": "both axes",
+      "rect": [48, 198, 40, 30],
+      "mapped": [50, 200, 40, 30],
+      "afterMap": [
+        {
+          "line": [{ "pt": [50, 30], "annot": "circle", "size": 6 }, [50, 230]],
+          "page": null,
+          "bounds": [
+            [0, 10],
+            [200, 220]
+          ],
+          "srcBounds": [200, 230]
+        },
+        {
+          "pair": [
+            [50, 200],
+            [130, 200]
+          ],
+          "page": null
+        }
+      ],
+      "afterFinish": [
+        {
+          "line": [{ "pt": [50, 30], "annot": "circle", "size": 6 }, [50, 230]],
+          "page": null,
+          "bounds": [
+            [0, 10],
+            [200, 220]
+          ],
+          "srcBounds": [200, 230]
+        },
+        {
+          "pair": [
+            [50, 200],
+            [130, 200]
+          ],
+          "page": null
+        }
+      ],
+      "areas": [[40.514704, 20.514704000000002, 90.485296, 210.485296]],
+      "paint": [["strokeLine", 110.5, 420.5, 270.5, 420.5, 1, "#4BD7D0", false]]
+    },
+    {
+      "name": "bottom-right pivot",
+      "rect": [0, 60, 52, 30],
+      "mapped": [-2, 60, 52, 30],
+      "afterMap": [
+        {
+          "line": [{ "pt": [50, 30], "annot": "circle", "size": 6 }, [50, 90]],
+          "page": null,
+          "bounds": [
+            [0, 10],
+            [200, 220]
+          ],
+          "srcBounds": [60, 90]
+        }
+      ],
+      "afterFinish": [
+        {
+          "line": [{ "pt": [50, 30], "annot": "circle", "size": 6 }, [50, 90]],
+          "page": null,
+          "bounds": [
+            [0, 10],
+            [200, 220]
+          ],
+          "srcBounds": [60, 90]
+        }
+      ],
+      "areas": [[40.514704, 20.514704000000002, 18.970592000000003, 70.485296]],
+      "paint": []
+    },
+    {
+      "name": "nothing in range",
+      "rect": [300, 300, 10, 10],
+      "mapped": [300, 300, 10, 10],
+      "afterMap": [],
+      "afterFinish": [],
+      "areas": [],
+      "paint": []
+    }
+  ],
+  "source": "Recorded from the old app (chunk.vendor.js module 210, GGuides, with module 540 as the distance helper) by a scratch Playwright script.",
+  "inputs": {
+    "finish": [
+      {
+        "name": "neighbours before and after",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [
+              [10, 20],
+              [60, 70],
+              [150, 160]
+            ],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "neighbour before only",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [[10, 20]],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "neighbour after only",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [[150, 160]],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "unsorted bounds",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [
+              [150, 160],
+              [10, 20],
+              [60, 70]
+            ],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "source past the line end",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [
+              [10, 20],
+              [60, 70]
+            ],
+            "srcBounds": [80, 250]
+          }
+        ]
+      },
+      {
+        "name": "source before the line start",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [[10, 20]],
+            "srcBounds": [-30, -10]
+          }
+        ]
+      },
+      {
+        "name": "after neighbour past the line end",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [[210, 230]],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "bounds inside the source",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [[85, 90]],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "edges touching the source",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [
+              [60, 80],
+              [100, 120]
+            ],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "bound starting at the source start",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [[80, 85]],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "bound ending at the source end",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [[100, 120]],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "no source bounds",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [[10, 20]]
+          }
+        ]
+      },
+      {
+        "name": "no bounds",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "horizontal",
+        "visuals": [
+          {
+            "orient": 1,
+            "line": [
+              [0, 50],
+              [200, 50]
+            ],
+            "bounds": [
+              [10, 20],
+              [60, 70],
+              [150, 160]
+            ],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "horizontal before only",
+        "visuals": [
+          {
+            "orient": 1,
+            "line": [
+              [0, 50],
+              [200, 50]
+            ],
+            "bounds": [[0, 30]],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "preset free segments",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [[10, 20]],
+            "srcBounds": [80, 100],
+            "freeSegments": [[5, 6]]
+          }
+        ]
+      },
+      {
+        "name": "other orientation",
+        "visuals": [
+          {
+            "orient": 3,
+            "line": [
+              [0, 0],
+              [30, 40]
+            ],
+            "bounds": [[10, 20]],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      { "name": "one-point line", "visuals": [{ "orient": 3, "line": [[30, 40]] }] },
+      {
+        "name": "page offset, single page",
+        "page": [100, 50],
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [
+              [10, 20],
+              [150, 160]
+            ],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "page offset, multi page",
+        "page": [100, 50],
+        "multi": true,
+        "visuals": [
+          {
+            "orient": 1,
+            "line": [
+              [0, 50],
+              [200, 50]
+            ],
+            "bounds": [
+              [10, 20],
+              [150, 160]
+            ],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "zoomed in",
+        "zoom": 4,
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [
+              [10, 20],
+              [150, 160]
+            ],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "zoomed out",
+        "zoom": 0.25,
+        "visuals": [
+          {
+            "orient": 1,
+            "line": [
+              [0, 50],
+              [200, 50]
+            ],
+            "bounds": [
+              [10, 20],
+              [150, 160]
+            ],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "no distance helper",
+        "noHelper": true,
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [
+              [10, 20],
+              [150, 160]
+            ],
+            "srcBounds": [80, 100]
+          }
+        ]
+      },
+      {
+        "name": "free segments colour",
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [
+              [10, 20],
+              [150, 160]
+            ],
+            "srcBounds": [80, 100],
+            "freeSegmentsColor": [10, 20, 30]
+          }
+        ]
+      },
+      {
+        "name": "point pairs and markers",
+        "visuals": [
+          {
+            "pair": [
+              [10, 10],
+              [40, 10]
+            ]
+          },
+          {
+            "pair": [
+              { "pt": [10, 30], "annot": "circle", "size": 6 },
+              { "pt": [60, 30], "annot": "rect", "size": 8 }
+            ]
+          },
+          {
+            "line": [
+              { "pt": [70, 0], "annot": "diamond", "size": 6 },
+              { "pt": [70, 50], "annot": "circle", "size": 6 }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "several visuals, one on a page",
+        "page": [20, 30],
+        "multi": true,
+        "visuals": [
+          {
+            "orient": 2,
+            "line": [
+              [50, 0],
+              [50, 200]
+            ],
+            "bounds": [[150, 160]],
+            "srcBounds": [80, 100],
+            "onPage": true
+          },
+          {
+            "orient": 1,
+            "line": [
+              [0, 50],
+              [200, 50]
+            ],
+            "bounds": [[10, 20]],
+            "srcBounds": [80, 100]
+          },
+          {
+            "pair": [
+              [5, 5],
+              [9, 9]
+            ],
+            "onPage": true
+          }
+        ]
+      }
+    ],
+    "mapRect": [
+      { "name": "extends the line end past a marker", "rect": [47, 80, 40, 30] },
+      { "name": "extends both ends", "rect": [47, 0, 40, 100] },
+      { "name": "keeps both markers", "rect": [47, 40, 40, 10] },
+      { "name": "pair guide on y", "rect": [120, 197, 40, 30] },
+      { "name": "pair guide extended both ways", "rect": [60, 197, 100, 30] },
+      { "name": "both axes", "rect": [48, 198, 40, 30] },
+      { "name": "bottom-right pivot", "rect": [0, 60, 52, 30] },
+      { "name": "nothing in range", "rect": [300, 300, 10, 10] }
+    ]
+  }
+}

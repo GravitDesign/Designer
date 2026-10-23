@@ -11,6 +11,14 @@
  * renders only the strips that came into view (_panSubAreas); while a pan
  * or zoom lasts the renderer runs without WebGL, and when it ends the view
  * renders everything that was skipped (finishPan, finishZoom).
+ *
+ * Left out: the old RendererConfig.ENABLE_TIMING console timers in
+ * _paintScene and the render callbacks of _repaint. ENABLE_TIMING is
+ * always false, and the timers never paired up ("Compositing time" was
+ * never ended, "rendering" ended but never started). The debug-canvas
+ * clear in _scheduleRendering checks for a window for real; the old
+ * check (`void 0 !== typeof window`) was always true. Both only matter
+ * with debug flags that are off.
  */
 import { Event } from "../../engine/core/event.ts";
 import { MouseEvent, type MouseWheelEvent } from "../../engine/core/mouse-event.ts";
@@ -95,9 +103,6 @@ type RenderCallback = (
   finished: boolean,
   skipped: boolean,
 ) => void;
-
-/** The scene as the view paints it through the tile renderer. */
-type PaintedScene = Parameters<TileRenderer["paintAndRender"]>[0];
 
 /** A paint context field the old code read although it never existed. */
 interface MaybeNoWebGL {
@@ -419,6 +424,9 @@ export class SceneWidget extends Widget {
       if (done) done();
     };
     if (this._repaintRequestFrameId || this._finishPanRequestFrameId) {
+      // A resize still waiting is dropped with its `done` (see "A deferred
+      // resize drops the done callback of the one it replaces" in
+      // QUESTIONS.md).
       if (this._resizeRequestFrameId) {
         Platform.cancelFrame(this._resizeRequestFrameId);
         this._resizeRequestFrameId = null;
@@ -809,8 +817,9 @@ export class SceneWidget extends Widget {
   }
 
   /**
-   * Takes the new scroll position. With limitScrollingToView (off in the
-   * app) it keeps the content within reach.
+   * Takes the new scroll position. With limitScrollingToView it keeps the
+   * content within reach; nothing turns it on (see "limitScrollingToView
+   * and the view watermark are unused" in QUESTIONS.md).
    */
   _correctScrollPosition(scrollX: number, scrollY: number): void {
     const previousX = this._scrollX;
@@ -830,10 +839,11 @@ export class SceneWidget extends Widget {
     const viewBox = this.getViewBox().scaled(dpi, dpi);
     const multiPageView = this._viewConfiguration.multiPageView;
     const output = this._viewConfiguration.paintMode === ScenePaintConfiguration.PaintMode.Output;
+    // The old code used both boxes without a null check.
     const sceneBox = (): Rect =>
-      output
-        ? (this._scene as unknown as BoxedScene).getGeometryBBox(false, multiPageView)
-        : (this._scene as unknown as BoxedScene).getPaintBBox(multiPageView);
+      (output
+        ? this._scene.getGeometryBBox(false, multiPageView)
+        : this._scene.getPaintBBox(multiPageView)) as Rect;
     let contentBox: Rect | null = sceneBox().scaled(this.getLogicalZoom(), this.getLogicalZoom());
     const translationTo = (target: Point, source: Point): Point =>
       new Transform()
@@ -864,7 +874,9 @@ export class SceneWidget extends Widget {
     if (output) {
       const active = this._scene.getActivePage();
       // The old code reused its content box variable here, so the size
-      // checks below use the active page's box in output mode.
+      // checks below use the active page's unscaled box in output mode
+      // (see "limitScrollingToView measures the unscaled page in output
+      // mode" in QUESTIONS.md).
       contentBox = active && active.getGeometryBBox();
       startPoint = contentBox && contentBox.getSide(Rect.Side.TOP_LEFT).add(new Point(-gap, 0));
     } else startPoint = sceneBox().getSide(Rect.Side.TOP_LEFT).add(new Point(-gap, 0));
@@ -891,7 +903,7 @@ export class SceneWidget extends Widget {
   _paintScene(screen: Rect | null, panRepaint: boolean, callback: RenderCallback): void {
     renderInProgress = true;
     this._sceneCanvas.paintAndRender(
-      this._scene as unknown as PaintedScene,
+      this._scene,
       this._scenePaintContext,
       this.getViewTransform(),
       new Point(this._scrollX, this._scrollY),
@@ -932,6 +944,10 @@ export class SceneWidget extends Widget {
     let partial: DirtyMatcher | null | undefined;
     if (RendererConfig.DRAW_DURING_RENDERING && !RendererConfig.SHOW_LOWRES_GIMMICK && graphic) {
       const tile = this._sceneCanvas.getSubCanvasContainingGraphic(graphic);
+      // Deliberate deviation: the old code read tile.cx of the missing tile
+      // and threw, skipping the renderInProgress reset and the noWebGL
+      // restore of the render callback. Only reachable with
+      // DRAW_DURING_RENDERING, which is off.
       if (!tile) return;
       const tileRect = new Rect(tile.cx, tile.cy, tile.canvas.getWidth(), tile.canvas.getHeight());
       if (!(partial = dirty.intersect(tileRect))) return;
@@ -963,6 +979,12 @@ export class SceneWidget extends Widget {
     }
   }
 
+  /**
+   * Covers the screen with the configuration's watermark texture, after
+   * saving the screen without it. The app only ever sets the watermark to
+   * null (see "limitScrollingToView and the view watermark are unused" in
+   * QUESTIONS.md).
+   */
   _paintWatermark(): void {
     if (!this._viewConfiguration.watermark) return;
     const texture = this._elementCanvas.createTexture(
@@ -1482,12 +1504,6 @@ export class SceneWidget extends Widget {
   override toString(): string {
     return "[Object GSceneWidget]";
   }
-}
-
-/** The scene bounding boxes _limitScrollPosition asks for, with the view's arguments. */
-interface BoxedScene {
-  getGeometryBBox(includeInvisible: boolean, multiPageView: boolean): Rect;
-  getPaintBBox(multiPageView: boolean): Rect;
 }
 
 // Prototype defaults, as in the old module: the constructor and the
