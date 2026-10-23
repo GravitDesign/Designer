@@ -53,6 +53,10 @@ Old code: chunk.vendor.js module 158 (GRadialGradient), lines 33135-33148.
     compat/fills-gradients/roundtrip: the 0.3/0.7 gradient keeps
     `"_cx":0.3,"_cy":0.7`. The compat cross-app test (new app saves, old
     app opens) still matches the old expected file.
+  - io-export-svg/corpus/fills-gradients, io-export-pdf/corpus/fills-gradients
+    and io-export-bitmap/corpus/fills-gradients: the exported gradient is
+    centered at 0.3/0.7. The old app gives the same hashes when the file's
+    `_cx`/`_cy` are renamed to the `cx`/`cy` its reader expects.
   - Not ported yet, will need a `.fixed` file from the new app's output:
     corpus/fills-gradients render-light, render-dark, preview and bitmap,
     platform/gvthumb/corpus/fills-gradients and
@@ -200,8 +204,10 @@ waitForResponse and the DCTDecode filter.
 - Old: the PostScript worker can't decode JPEGs, so it asks the page and
   blocks in Atomics.wait on a SharedArrayBuffer until the page answers. The
   old server sent no COOP/COEP headers, so the page had no
-  SharedArrayBuffer and every JPEG failed at once with error "02" ("Parts
-  of the EPS file aren't supported..."); the image was left out. With
+  SharedArrayBuffer and every JPEG failed at once with the "Parts of the
+  EPS file aren't supported..." message: error "02" and no image when the
+  data isn't a JPEG the image reader accepts, error "0" and an all-black
+  image of the right size for a real JPEG (image-dct-rgb.eps). With
   SharedArrayBuffer the handshake was broken too: the page signalled with
   Atomics.wake, which browsers have removed, so it threw and the worker
   slept until its 300-second timeout; the page told a size request by a

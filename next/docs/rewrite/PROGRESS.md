@@ -55,7 +55,7 @@ Decisions taken:
 | 2 | Parity harness and corpus | done: 2855 old-app scenarios, review fixed, re-recorded |
 | 3 | Scaffold next/ | done |
 | 4 | Engine core | done: all engine clusters ported, review (phase4-review-A..D) fixed; 330+ parity ids pass in the new app; scenarios that need the editor are enabled in phase 6 |
-| 5 | File format and import/export | in progress: io-gvdesign, io-export-svg/pdf/bitmap, io-import-svg |
+| 5 | File format and import/export | done: .gvdesign, SVG/PDF/PNG/JPG export, SVG/PDF/AI/EPS/Sketch import, workers; review (phase5-review.md) fixed; export output compared in the browser (io-export-svg/pdf/bitmap); export scenarios that need the editor wait for phase 6 |
 | 6 | Editor | not started |
 | 7 | UI | not started |
 | 8 | Platform | not started |
@@ -224,6 +224,29 @@ behaviour. Until decided, the parity scenarios record the old behaviour.
 - Symbol labels: the instance is never painted after duplicate in the
   headless old app (editor-actions symbols/labels-on).
 
+From the phase 5 review (old behaviour kept and pinned; QUESTIONS.md
+entries Q-075..Q-119 say where):
+- .gvdesign whose JSON holds no scene stays Loading forever (Q-118).
+- SVG import: a CSS rule named `__proto__` or `constructor` writes onto
+  Object.prototype / Object for the session; `<use href="#toString">` or
+  an id `constructor` fails the import.
+- SVG export: texts colored by their font color export as
+  `fill:[Object GRGBColor]` (Q-088; 162 corpus texts); a broken image
+  throws a ReferenceError (undeclared `dashed`).
+- PDF export: concurrent raster drops the last pixels (Q-091); never calls
+  back when a node's paint throws or after an abort during rasterization
+  (Q-092, Q-093); bleed box geometry (Q-119); astral ToUnicode hex (Q-089).
+- Multi-file export: drops a file whose final name is taken (Q-094); a
+  directory export with an unnamed item never finishes (Q-095); the
+  fallback ZIP is lost when the storage can't download (Q-096).
+- PDF import never calls back for a file pdf.js can't open, such as one
+  with a user password (Q-104).
+- PS worker: a non-object errordict handler crashes it (Q-106);
+  image/imagemask with PS objects die with DataCloneError (Q-107).
+- Sketch: layer effects dropped (Q-098), replaceChild test inverted
+  (Q-099), a first union counts as no operation (Q-101), "Regular" fonts
+  import as italic (Q-102), borders always import as Inside (Q-103).
+
 ## History to repair before the end
 
 The commit check (scratchpad verify-index.sh) silently passed failing
@@ -249,12 +272,15 @@ history check (scratchpad check-history.sh).
 - Scenes need `scene.setShadowExpandArea(9, 9, 9, 11)` as the old app's
   documents set it (exports measure 338x220 instead of 320x200 without it);
   belongs to the document/editor setup.
-- io-export-svg, io-import-svg and io-export-pdf must be committed together
-  (shared pdf/number-format.ts; the importer uses svg-util/svg-images).
-  Register `SVGExport: SvgExport` and the PDF exporter in
-  src/io/export/index.ts. SVG import has one deliberate change (element
-  names that are Object.prototype members no longer crash): split it into
-  a faithful port plus a BUG fix commit.
+- Phase 6: enable import-export/meta canvas-limits, clamp-to-max,
+  unknown-format, pdf-is-supported, exportables-canvas and
+  exportables-assets (they call app.editor().insertElements). Check
+  corpus/text-scripts SVG export once a canvas has drawn the text: the old
+  app exports it through the UI, both apps throw "reading 'getMatrix'"
+  when the scene is built with G only.
+- The phase 5 fix runs of io-export-pdf/bitmap had 7 and 10 failures in
+  two of six runs while the machine was loaded (names not kept); check in
+  the full runs whether any of them is flaky.
 
 - Every port agent reported "old quirks kept" (in its final report and in
   comments/READMEs next to the code). At the end of phase 4, collect them

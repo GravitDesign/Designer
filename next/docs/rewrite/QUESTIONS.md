@@ -944,3 +944,511 @@ What it does: GCollabText's hit test ends in `hitActionTest(location, transform)
 Why it's unclear: the editor always passes a view transform, so the app never hits this; other callers (tools, plugins) would.
 
 Kept. Pinned by annotations-probe.test.ts ("comment: leftTolerance3", "list: hitEllipseOutline", "collab: hitNoTransform", "collab: detailNullTransform"), recorded from the old app.
+
+<!-- File formats, SVG export and import (phase 5 review) -->
+
+## Q-075 SVG import arc rotation
+
+Old location: public/chunk.vendor.js 248961-248962 (module 1392, arcToBezier: `Math.sin((A * n.PI2) / 360)`).
+
+What it does: the arc helper turns `xAxisRotation` into radians as if it were degrees, but the path parser already passes radians. A rotated elliptical arc (`A rx ry 30 ...`) comes out with its rotation divided by about 57, so it is drawn almost unrotated.
+
+Why it's unclear: clearly a units slip, but every rotated arc in an imported SVG has always looked this way in Gravit, and fixing it changes the geometry of imported files.
+
+Kept. Pinned by next/src/io/import/svg/helpers.test.ts "matches the old importer's arc segments exactly" and the io-import-svg/paths-svg parity scenario.
+
+## Q-076 SVG import font listeners
+
+Old location: public/chunk.vendor.js 245165-245185 (_resolvedFont removing the FontAvailableEvent and FontUnavailableEvent listeners), 245261 (addFontToResolve adding them once).
+
+What it does: the importer adds its font listeners with the first font it waits for and removes them when no font is left to resolve. The flag that says they are on is never reset, so a font asked for after that is never answered, the job count never reaches zero and the import never calls back.
+
+Why it's unclear: a text whose font is only asked for after another font has resolved (fonts that resolve at different times, an unknown family whose fallback is looked up later) hangs the import; whether that happens in practice depends on the font provider's timing.
+
+Kept. Pinned by the io-import-svg/text-unknown-family-svg parity scenario (the callback never runs, `called: false`).
+
+## Q-077 SVG import font provider queue
+
+Old location: public/chunk.vendor.js 245110-245135 (svg.fontProvider.queryFirst, the `fontCallbackMap` keyed by `t + "_" + i + "_" + n` of the query).
+
+What it does: queries to the font provider are queued by a key built from the query, but the query is an object, so every key is "[object Object]_undefined_undefined". While one query is out, every later one waits for it and gets the same answer, whatever family it asked for. The answer is passed on with all its arguments.
+
+Why it's unclear: the key was meant to tell families apart. With a provider that answers synchronously nothing waits, so whether two families get mixed up depends on the provider.
+
+Kept. Pinned by the io-import-svg/font-fallback-svg parity scenario (the recorded provider queries) and next/src/io/import/svg/svg-parser.test.ts "passes every argument of the provider's answer to every waiting query".
+
+## Q-078 SVG import nested svg
+
+Old location: public/chunk.vendor.js 246275 onwards (svg.Element.svg).
+
+What it does: a nested `<svg>` becomes a group whose x, y and viewBox fit go into the transform its children get. The group itself gets no transform, no name and none of the nested svg's style.
+
+Why it's unclear: a style or name on the nested svg is lost, although its children inherit the style through canvg's lookup; it may be on purpose (the outer svg is handled the same way) or an oversight.
+
+Kept. Pinned by the io-import-svg/structure-svg and io-import-svg/viewbox-aspect-svg parity scenarios.
+
+## Q-079 SVG import switch
+
+Old location: public/chunk.vendor.js 246421 onwards (svg.Element.switch).
+
+What it does: a `<switch>` takes the scene node of its first child that is neither a foreignObject nor an unknown element, then builds every child into it, so all of its children are drawn instead of only the first matching one. A switch holding Gravit's editing data replaces the whole import with the original document instead.
+
+Why it's unclear: SVG renders only the first child whose conditions match. Files that rely on switch for fallbacks import with every alternative on top of each other.
+
+Kept. Pinned by the io-import-svg/anchors-svg parity scenario and the roundtrip-*-preserved scenarios.
+
+## Q-080 SVG import text box
+
+Old location: public/chunk.vendor.js 247571-247580 (svg.Element.TextElementBase getBoundingBox).
+
+What it does: the box of an imported text, which gradients and patterns on the text are fitted to, uses the text's width as its height too.
+
+Why it's unclear: looks like a typo for getHeight(); gradient and pattern fills on imported text are placed against a square box.
+
+Kept. Pinned by the io-import-svg/text-layout-svg parity scenario (a text with a gradient fill).
+
+## Q-081 SVG import text children
+
+Old location: public/chunk.vendor.js 247583 onwards (svg.Element.text).
+
+What it does: every tspan (and every text node, which becomes a tspan) gives one Gravit text. The texts then get the settings (position, style) of the text element's child at the same index, which is not always the tspan they came from when the text mixes text nodes, tspans, textPaths, trefs and anchors.
+
+Why it's unclear: the index pairing only lines up when the children are all tspans; mixed content gets shifted positions or styles.
+
+Kept. Pinned by the io-import-svg/text-layout-svg and io-import-svg/use-text-svg parity scenarios.
+
+## Q-082 SVG import image listener
+
+Old location: public/chunk.vendor.js 247930-247945 (svg.Element.image, `i.image.removeEventListener(x.StatusEvent, this)`).
+
+What it does: the image's status listener sizes the image to the element's width and height once it has loaded, then tries to remove itself with `this` instead of the listener function, which removes nothing. Every later status change (a reload) scales the image again.
+
+Why it's unclear: the remove call shows the intent; the effect only shows when the image loads more than once.
+
+Kept. Pinned by the io-import-svg/images-svg-placed parity scenario.
+
+## Q-083 SVG import use
+
+Old location: public/chunk.vendor.js 248111 onwards (svg.Element.use).
+
+What it does: a `<use>` builds a fresh copy of the referenced element from its DOM node (without parent or type) and gives it the use's style and other attributes. The use's class attribute is copied only after the copy has picked its CSS rules, so CSS rules for the use's classes don't style the copy.
+
+Why it's unclear: in browsers the instance inherits from the use element, so class rules on the use apply. Imported files that style `<use>` by class lose that style.
+
+Kept. Pinned by the io-import-svg/use-symbol-svg, io-import-svg/use-text-svg and io-import-svg/structure-svg parity scenarios.
+
+## Q-084 SVG import feColorMatrix
+
+Old location: public/chunk.vendor.js 248535 onwards and 248669 (svg.Element.feColorMatrix apply: `e.getImageData(...)`).
+
+What it does: canvg recolored canvas pixels in feColorMatrix's apply. The importer calls apply with its scene context, which has no getImageData, so a filter with an feColorMatrix that the importer applies throws a TypeError and the import fails.
+
+Why it's unclear: the canvas code was left behind when the fork switched to building scene nodes; color matrix filters are common in exported SVGs.
+
+Kept. Pinned by the io-import-svg/color-matrix-svg parity scenario.
+
+## Q-085 SVG import line bounds
+
+Old location: public/chunk.vendor.js 245486-245510 (svg.Rect, `expand`).
+
+What it does: canvg's bounding box, which gradients and patterns use for objectBoundingBox units, moves its bottom edge to the x of a point below it instead of the y, so boxes of lines and paths come out wrong vertically.
+
+Why it's unclear: an x/y slip; gradient and pattern fills with objectBoundingBox units on paths are placed against that box.
+
+Kept. Pinned by next/src/io/import/svg/svg-values.test.ts "moves the bottom edge to the x of a lower point (old quirk)".
+
+## Q-086 SVG import em units
+
+Old location: public/chunk.vendor.js 245360 (svg.Property getEM, reading the font of `i.ctx`).
+
+What it does: em and ex lengths are relative to the font of canvg's canvas context. The importer never sets one, so any em or ex length throws a TypeError ("Cannot read properties of undefined (reading 'font')") and the import fails.
+
+Why it's unclear: em units are valid SVG; files that use them can't be imported at all.
+
+Kept. Pinned by next/src/io/import/svg/svg-parser.test.ts "fails on em lengths, which needed canvg's canvas" and the io-import-svg/units-em-svg parity scenario.
+
+## Q-087 SVG import matrix order
+
+Old location: public/chunk.vendor.js 245652 (svg.Transform.Type.matrix).
+
+What it does: in a transform list, `matrix()` is applied on the other side (multiplied instead of pre-multiplied) than translate, scale and rotate, so a matrix after another function applies in the opposite order.
+
+Why it's unclear: transform lists like `translate(10) matrix(...)` import with a different result than browsers show; single matrix() transforms, the common case, are unaffected.
+
+Kept. Pinned by next/src/io/import/svg/svg-values.test.ts "applies matrix() on the other side than translate()" and the io-import-svg/transforms-svg parity scenario.
+
+## Q-088 SVG export text font colors
+
+Old location: public/chunk.vendor.js 257703 (the SVG text word's renderSVG: `E instanceof s || y.set("fill", E)`, E the word's fill color).
+
+What it does: a text colored by its font color (`_fc`, which the default text style sets, so every text made with the text tool, and run colors set through the inspector or text ranges) hands the color object, not a CSS color, to the style. The exported `<text>` gets `fill:[Object GRGBColor]`, which browsers ignore, so the text shows black. Only texts colored by a fill layer get a real color. Checked in the old app: exporting the corpus documents through File > Export writes this for every such text.
+
+Why it's unclear: clearly wrong output, but it is what every SVG export of such a text has written. Listed as a BUGS-FIXED candidate.
+
+Kept. Pinned by the io-export-svg/corpus/text-layout, text-runs, text-character-styles, text-lists, text-on-path, symbols and pages-master parity scenarios.
+
+<!-- File formats, PDF and bitmap export (phase 5 review) -->
+
+## Q-089 PDF writer quirks kept from the old code
+
+Old location: public/chunk.vendor.js module 1431 `_updateUnicode` (252964-252968), module 1430 (252857-252866), module 1422 page contents (252674-252698), module 1442 and the GPDFDocument constructor (253532-253543, 252268).
+
+What it does:
+- ToUnicode: a code point above U+FFFF was meant to become a surrogate pair, but the lead surrogate isn't floored, so it's written as hex with a fraction. U+1F100 comes out as `[<d83c.4dd00>]`, which isn't valid hex, so copying such glyphs out of the PDF breaks.
+- An embedded font file's /Length1 is the length of the compressed stream, not of the font file as PDF asks.
+- Page contents are always deflated; the document's compress option is ignored there.
+- The header always says `%PDF-1.7`; the version option is ignored.
+
+Why it's unclear: the first two are wrong output that readers mostly tolerate; the last two make options do nothing. Fixing any of them changes PDF bytes against the old app.
+
+Kept. next/src/io/export/pdf/cid-font-type.ts, font-stream.ts, object-store.ts, header.ts. Pinned by next/src/io/export/pdf/pdf-writer.recorded.test.ts "embeds fonts like the old classes: cid-cff" (the astral ToUnicode entries and /Length1 in the recorded file) and pdf-document.test.ts "deflates page contents even without compress (kept old quirk)", "writes version 1.7 whatever version it is given (kept old quirk)" and "gives an embedded font file the compressed length as /Length1 (kept old quirk)".
+
+## Q-090 PDF author is the signed-in user's name
+
+Old location: designer.browser.dev.js:80606-80618 (GExporter.exportExportable, PDF branch: `gDesigner.getUser()`, then `getFullUserName()` or the locale text "text.default-export-author") and chunk.vendor.js:110507 (getFullUserName: the first word of the name plus the last name).
+
+What it does: the PDF's /Author is the full name of the signed-in account. In the parity setup the old app is signed in to the stub server's account ("Test User", no last name), so every recorded PDF has `/Author (Test)`. Without a user it would be the localized default author text.
+
+Why it's unclear: the rewrite has no accounts, so the new app has no user name to write. Either it always writes the default author text (which changes every PDF against the recordings), or it gets a name from somewhere else (a setting, the OS user).
+
+Kept for now: the parity hooks pass the same user as the old app's stub account. next/src/parity/app/import-export.ts gives the exporter host the user "Test"; the io-export-pdf scenarios pass "Test" as the user option (parity/scenarios/io-export-pdf/cases.ts PDF_USER). Pinned by every io-export-pdf scenario (the /Author in the recorded files). The app shell (phase 7) has to decide what its host returns.
+
+## Q-091 Concurrent PDF raster drops the last pixels
+
+Old location: public/chunk.vendor.js:239343-239349 (module 1113, concurrencyRaster); new: next/src/workers/raster.ts.
+
+What it does: the pixels are split into one slice per worker, each a multiple of 4 pixels. The last worker's range includes the leftover pixels (count - sliceSize * workers), but only `pixels.slice(start, end)` is copied into its padded buffer before `end` grows. The leftover pixels reach the worker as 0, so they come out black with alpha 0. Because alpha 0 sets hasTransparency, an opaque image gets a soft mask and those pixels are transparent in the PDF. This happens for any rasterized image over 100x100 when the PDF export uses workers. Example: 101x101 on 4 workers loses the last 9 pixels of the bottom row.
+
+Why it's unclear: it is plainly wrong output, but fixing it changes PDF bytes against the old app.
+
+Kept. Pinned by next/src/workers/workers.test.ts "Raster.concurrencyRaster remainder (kept old bug)" (and the 7x3 case in "splits into slices of 4 pixels per worker..."). The fix would copy `pixels.slice(range.start, range.end + remainder)`.
+
+## Q-092 A PDF export never finishes when a node's paint throws
+
+Old location: public/chunk.vendor.js module 1406, GPDFExport.export: the node export (`try { proxy(node).paint(context) } finally {...}`, around 251589-251648) and the exportEach timer (251652-251661).
+
+What it does: an exception from painting a node goes through the `finally`, which still finishes the page or starts the raster jobs, and then out of the setTimeout in exportEach. Only errors inside raster jobs and the final write reach the failure handler, so the export callback is never called and the export dialog waits forever.
+
+Why it's unclear: this is a hang, not a decision. Reporting the error through the callback would let the dialog close with a message.
+
+Kept. Pinned by "never calls back when a node's paint throws (kept hang)" in next/src/io/export/pdf/pdf-export.test.ts.
+
+## Q-093 Aborting a PDF export during rasterization never calls back
+
+Old location: public/chunk.vendor.js module 1406, GPDFExport.export: `if (E.isAbort()) return` at the start of the node export and in the raster loop (around 251549-251550 and 251600-251610).
+
+What it does: after document.abort(), the node export and the raster loop return without calling done() or job.done(), so the export callback is never called and GExporter's messenger.close never runs. An abort between two pages behaves differently: exportEach goes on to write, the rejected document promise reaches the failure handler, and the callback gets an undefined error with no bytes, which GExporter treats as "aborted" and closes the dialog. Abort also rejects the document promise before anything listens to it, which shows up as an unhandled rejection.
+
+Why it's unclear: whether the dialog closes after Cancel depends on when Cancel was pressed.
+
+Kept. Pinned by "stops between pages after an abort and calls back without bytes" and "never calls back after an abort while nodes are rasterized (kept hang)" in next/src/io/export/pdf/pdf-export.test.ts.
+
+## Q-094 Multi-file export drops a file whose final name is taken
+
+Old location: designer.browser.dev.js:80664-80725 (GExporter.exportToDirectory); new: next/src/io/export/exporter.ts exportToDirectory.
+
+What it does: the "(n)" numbering only counts names given out before, so names "a(2)", "a", "a" become "a(2).png", "a.png", "a(2).png". zip-fs throws "Entry filename already exists." for the second "a(2).png". The exporter's `.catch(countWritten)` swallows that and counts the file as written, so the ZIP silently lacks it. The numbering also counts across folders ("Icons/A" then "A" gives "A(2).png" at the top level).
+
+Why it's unclear: silent data loss; the numbering across folders may be intended.
+
+Kept. Pinned by next/src/io/export/exporter.test.ts "drops a file whose final name is taken and still finishes (old behaviour)" and "makes subdirectories for "/" ...".
+
+## Q-095 Export to a directory never finishes when an item has no name
+
+Old location: designer.browser.dev.js:80664-80725; new: next/src/io/export/exporter.ts exportToDirectory.
+
+What it does: an item with an empty name is skipped without being counted, so onDone (and with it the ZIP save) never runs.
+
+Why it's unclear: looks like an oversight; the export just hangs.
+
+Kept. Pinned by next/src/io/export/exporter.test.ts "never calls onDone when an item has no name (old behaviour)".
+
+## Q-096 Fallback ZIP is lost when the storage can't download
+
+Old location: designer.browser.dev.js:80726-80823 (GExporter.export, chooseDirectory fallback); new: next/src/io/export/exporter.ts export.
+
+What it does: when the user doesn't choose a directory, the ZIP is saved with noPrompt true and the format's file type, not ZIP. A storage that can prompt but can't download then saves nothing, and onDone never runs.
+
+Why it's unclear: probably meant to download; the wrong file type and the lost file both look unintended.
+
+Kept. Pinned by next/src/io/export/exporter.test.ts "falls back to a ZIP saved without a prompt when no directory is chosen (old behaviour)" and "saves nothing from the fallback ZIP when the storage can't download (old behaviour)".
+
+## Q-097 zip.js addData without params throws after adding the entry
+
+Old location: designer.browser.dev.js:133843-133846 (zip-fs ZipFileEntry constructor); new: next/src/io/zip/zip-fs.ts ZipFileEntry.
+
+What it does: init's `params || {}` only replaced init's own copy, so the constructor then read `params.Reader` and threw a TypeError. By then the entry was already in fs.entries and in its parent's children.
+
+Why it's unclear: the half-added entry is a bug, but nothing in the app calls addData without params.
+
+Kept. Pinned by next/src/io/zip/zip.test.ts "throws on addData without params, after the entry has joined the tree (old zip.js)".
+
+<!-- File formats, PDF, EPS, PostScript and Sketch import (phase 5 review) -->
+
+## Q-098 Sketch import drops layer effects
+
+Old location: chunk.vendor.js:109422-109430 (module 794 sketchshape, the effects loop), module 597 (sketcheffect) and 1123-1126 (the effect classes).
+
+What it does: the shape importer creates each effect with `new Effect(data)` and calls `applyTo(node)`, but never `parse()`. `_effect` is set only in parse, so applyTo adds nothing. Drop shadows, inner shadows, gaussian and zoom blurs and colour controls never reach the imported layers. Only a background blur shows up, because its applyTo adds a fill layer on its own.
+
+Why it's unclear: the effect classes are complete, so the importer clearly meant to convert them. Users lose every shadow and blur of a Sketch file without a warning. A fix would call `parse()` before `applyTo`; that changes the output of every Sketch file with effects.
+
+Kept. next/src/io/import/sketch/effects/sketch-effect.ts and sketch-shape.ts. Pinned by the parity scenario io-import-sketch/styles-v49 (layers "shadows", "blur-gauss", "blur-zoom", "blur-bg").
+
+## Q-099 Sketch symbol override replaceChild test is inverted
+
+Old location: chunk.vendor.js:109568-109583 (module 796 sketchbase, replaceChild).
+
+What it does: replaceChild is meant to put an override layer (or nothing) in place of a layer of the symbol master. The test is inverted: when the layer is not a direct child, the first direct child is replaced (the index variable was never set, and `splice(undefined, 1, ...)` starts at 0); when it is a direct child, the search goes on in the children, and the layer usually stays.
+
+Why it's unclear: image overrides and nested-symbol overrides replace or remove the wrong layer, or none. A fix would replace the matching child at its own index and only search deeper when it isn't a direct child.
+
+Kept. next/src/io/import/sketch/sketch-base.ts replaceChild. Pinned by sketch-model.test.ts "replaces the first child when the layer is not a direct child (old inverted test)" and the parity scenarios io-import-sketch/symbols-v49 (I-scaled, I-remove) and symbols-edge-v49.
+
+## Q-100 Sketch path event blocks are unbalanced
+
+Old location: chunk.vendor.js:240232-240240 and the release loop after it (module 1134 sketchpathutil, generatePath).
+
+What it does: while building a path, composite events and child changes are blocked only when the path is created by a straight point. A path that starts with a curve point is never blocked, but is released like the others at the end (a release without a block does nothing). A path that ends up with a single anchor stays blocked, but it is dropped anyway.
+
+Why it's unclear: the blocks look meant for every path, so curved paths send change events while their anchors are added. The imported geometry is the same either way, so users see no difference; it only costs work.
+
+Kept. next/src/io/import/sketch/sketch-path-util.ts. The parity scenario io-import-sketch/primitives-v49 runs both cases (ovals start with a curve point, "G-single" has one point) and pins the resulting paths.
+
+## Q-101 Sketch boolean groups take a first union as no operation
+
+Old location: chunk.vendor.js:242909-242912 (module 1213 sketchshapegroup).
+
+What it does: to see whether a boolean group mixes operations, the importer keeps the first operation in a variable and tests it with `if (first)`. Union is 0, which is falsy, so after a first union the next operation becomes "the first" instead of being compared. A group of union then subtract counts as uniform and is merged with one operation instead of step by step.
+
+Why it's unclear: users get a different shape than in Sketch for groups that start with a union and continue with another operation. A fix would test `first !== null`.
+
+Kept. next/src/io/import/sketch/sketch-shape-group.ts. Pinned by the parity scenario io-import-sketch/booleans-v49 (group "B-union-sub").
+
+## Q-102 Sketch font names with Regular import as italic
+
+Old location: chunk.vendor.js:240408 (module 1136 sketchtext, composeQuery).
+
+What it does: the style is read with `/normal|italic|oblique|regular/i`, then `"normal" === style ? Normal : Italic`. Any font name containing "Regular" or "Oblique" (and "Italic") gets the italic style, so "OpenSans-Regular" is looked up as Open Sans italic.
+
+Why it's unclear: almost every Sketch text uses a Regular face, and these import in italic or fall back to another font. A fix would map "regular" to Normal.
+
+Kept. next/src/io/import/sketch/sketch-text.ts composeQuery. Pinned by sketch-patterns.test.ts "reads \"OpenSans-Regular\" like the old importer" (recorded from the old module) and the font queries of the parity scenarios io-import-sketch/text-v49 and symbols-edge-v49.
+
+## Q-103 Sketch borders always import as inside
+
+Old location: chunk.vendor.js:70841 (module 439 sketchelement): `t.setProperty("_ba", _[o.position || 1])` with `o = i.style`.
+
+What it does: the border alignment is looked up from `style.position`, but Sketch keeps the position on each border and the style has none. Every border imports as Inside. A centre position (0) would also become Inside because of `|| 1`.
+
+Why it's unclear: centred and outside borders move inwards, so strokes look thinner or shifted after the import. A fix would read `border.position` and test for undefined instead of using `||`.
+
+Kept. next/src/io/import/sketch/sketch-element.ts (BORDER_ALIGNMENTS). Pinned by the parity scenario io-import-sketch/styles-v49 (layer "borders" with positions 0, 1, 2 and none).
+
+## Q-104 PDF import never calls back for a document pdf.js can't open
+
+Old location: chunk.vendor.js module 1393 (GPDFImport.import): `A.getDocument(...).then(function (e) { ... })` with no rejection handler.
+
+What it does: when pdf.js rejects the document (a PDF that needs a user password, a file it can't parse), the import's callback is never called. The page waits forever; the AI check, which has a catch, does report the error.
+
+Why it's unclear: users get no error and no import for an encrypted or broken PDF. A fix would add a rejection handler that calls back with the error.
+
+Kept. next/src/io/import/pdf/pdf-import.ts (file comment). Pinned by the parity scenarios io-import-pdf-eps/pdf/encrypted-user-password-pdf (called: false) and io-import-pdf-eps/ai-check/encrypted-user-password-pdf (PasswordException reported).
+
+## Q-105 EPS page side: show without a font name throws
+
+Old location: chunk.vendor.js module 1404 (GEPSParser), the text handler that calls getDefaultFont on the wrong object.
+
+What it does: text the worker sends without a font name makes the page side call getDefaultFont on an object that doesn't have it, so the handler throws and the text is lost.
+
+Why it's unclear: a crash path. A fix would ask the font manager for its default font.
+
+Kept. next/src/io/import/eps/eps-parser.ts. Pinned by eps-parser.test.ts "throws for text without a font name, as the old page side did".
+
+## Q-106 PS worker: errordict handler that isn't an object
+
+Old location: public/pscore.js initiateError: `"execute" in this.errordict.value[t]`.
+
+What it does: a handler put into errordict that isn't an object or function (`errordict /typecheck 5 put`) makes `in` throw a TypeError; the run ends with no further messages and no "done", so the EPS import waits for its timeout.
+
+Why it's unclear: a crash, but PostScript files rarely do this. A fix would skip or ignore the handler.
+
+Kept. next/src/workers/ps/core.ts initiateError. Pinned by src/workers/ps/__fixtures__/corpus/basic-errordict-number-handler.ps (interpreter.recorded.test.ts).
+
+## Q-107 PS worker: image/imagemask with PS objects as operands
+
+Old location: public/psclasses.js compositeObjectBuilder (own isEOF/getUint8 functions on every composite) with pscore.js posting drawImage uncloned.
+
+What it does: `{} (abc) 5 [1 0 0 1 0 0] {<ff>} image` posts PS objects as width and height; structured clone throws DataCloneError and the run ends with no "done". The port throws the same DataCloneError from toGravit (core.ts holdsPSObject).
+
+Why it's unclear: a crash on malformed input. A fix would raise typecheck instead.
+
+Kept. Pinned by corpus/gfx-image-ps-operands.ps and gfx-imagemask-ps-operands.ps (interpreter.recorded.test.ts).
+
+## Q-108 PS worker: shading mesh parameters
+
+Old location: public/ps*.js, the shading code ported to next/src/workers/ps/color-shadings.ts.
+
+What it does: the mesh parameters (BitsPerComponent, BitsPerCoordinate, BitsPerFlag, Decode, VerticesPerRow, Function) are read from the dict passed in, which for PatternType 2 is the pattern dict, not its shading. Mesh data only reads from files (ColorBitsReader). A lattice mesh (type 5) only builds triangles between its first two rows.
+
+Why it's unclear: mesh shadings in patterns and lattice meshes with more than two rows import wrong or not at all. A fix would read the shading dict and build every row.
+
+Kept. Pinned by the corpus programs color-sh4-*.ps, color-sh5-*.ps, color-sh6-*.ps, color-sh7-*.ps and color-sh-pattern-mesh.ps (interpreter.recorded.test.ts).
+
+## Q-109 PS worker: filter quirks
+
+Old location: public/ps*.js filters, ported to next/src/workers/ps/filters.ts.
+
+What it does:
+- SubFileDecode reads one more source byte on every call, even while bytes from an earlier partial EOD match are still queued.
+- ASCII85Decode passes the `>` of `~>` through the tuple check too, and starts a new tuple on every call that needs more data.
+- ReusableStreamDecode checks a variable that isn't assigned yet for its parameter dict, so a dict operand is never taken.
+- LZWDecode reads an undeclared global (`currentValue`) on its first byte, which throws a ReferenceError; the decoder never runs.
+
+Why it's unclear: these lose or corrupt data, and LZW images never import. Fixes are local to each filter.
+
+Kept. Pinned by the corpus programs filter-subfile-*.ps, filter-ascii85-*.ps, filter-reusable-*.ps and filter-lzw.ps (interpreter.recorded.test.ts).
+
+## Q-110 PS worker: show operator quirks
+
+Old location: public/ps*.js text operators, ported to next/src/workers/ps/show.ts.
+
+What it does:
+- kshow and cshow ignore their procedure and behave like show, as do xshow, yshow and xyshow when the widths are a number string.
+- ashow and awidthshow pop the string before checking the numbers, so a typecheck leaves the stack changed.
+- charpath and xyshow/xshow/yshow draw every outlined glyph at the start position (only show, ashow, widthshow and awidthshow advance), and stringwidth of an outlined font pushes 0 0.
+- The paint type is read as `paintType` (lowercase), which fonts don't have, so outlined text is always filled.
+
+Why it's unclear: text set with these operators lands in the wrong place, and stroked fonts are filled. Each is a small fix.
+
+Kept. Pinned by the corpus programs show-builtin-*.ps, show-outlined-*.ps and font-type1-stroked.ps (interpreter.recorded.test.ts).
+
+## Q-111 PS worker: comparison and control operator quirks
+
+Old location: public/ps*.js, ported to next/src/workers/ps/operators/basic-compare.ts.
+
+What it does:
+- eq and ne compare with JS loose equality; ne of two composite objects (or an object and a number) is always false.
+- `and` and `or` check the operands as integers before popping them, and bitshift uses JS 32-bit shifts.
+- if and ifelse skip silently when the condition isn't a bool but still pop their operands; they run the procedure without checking it.
+- loop ends on stop (clearing the stop flag) and exit; for, forall and repeat end only on exit. exit outside a loop and outside stopped runs quit.
+
+Why it's unclear: these differ from PostScript and can change the control flow of real programs. Fixing them changes the output of the files that hit them.
+
+Kept. Pinned by the corpus programs basic-compare.ps, basic-logic.ps, basic-loops.ps, basic-exit-outside.ps and basic-exit-stopped.ps (interpreter.recorded.test.ts).
+
+## Q-112 PS worker: dictionary operator quirks
+
+Old location: public/ps*.js, ported to next/src/workers/ps/operators/basic-dicts.ts.
+
+What it does:
+- systemdict, statusdict and where wrap plain JS objects (and where even dict objects) in new global dict objects on every call.
+- internaldict's error path names an undeclared `myname` and throws.
+- where also finds names that are properties of the dict object itself (value, access, ...), and store/def write into `.value` of whatever is on top of the dictionary stack.
+- put's string range check compares with the string object's `length`, which doesn't exist, so only negative indices are refused.
+- maxlength is the number of entries plus 100; dict ignores its size.
+- packedarray takes its count unchecked: a non-number count packs the whole stack.
+
+Why it's unclear: mostly harmless for real files, but some paths throw or write into the wrong object.
+
+Kept. Pinned by the corpus programs basic-dicts.ps, basic-dictstack-lookup.ps, basic-internaldict-error.ps, basic-put-get.ps and basic-packedarray-nocount.ps (interpreter.recorded.test.ts).
+
+## Q-113 PS worker: file operator quirks
+
+Old location: public/ps*.js, ported to next/src/workers/ps/operators/basic-files.ts.
+
+What it does:
+- file, currentfile and status are stubs: file pops its two operands and pushes a file on the program input, status always answers false.
+- fileposition of an unpositioned file pushes undefined (the file object has no valuePointer).
+- readline appends the line to the target string's old content and skips leading line breaks.
+- readstring and readhexstring replace the target string's value.
+- writestring discards its operands.
+
+Why it's unclear: programs that read their own data with these operators get other bytes than in PostScript.
+
+Kept. Pinned by the corpus programs basic-files.ps, basic-readline.ps and basic-readstring.ps (interpreter.recorded.test.ts).
+
+## Q-114 PS worker: math operator quirks
+
+Old location: public/ps*.js, ported to next/src/workers/ps/operators/basic-math.ts.
+
+What it does:
+- div rounds its result to 9 decimals (5 above 1e5) through a string round trip.
+- idiv computes parseInt(1 / (top / second)), that is second / top through two divisions.
+- cos's typecheck path and atan both throw: cos names an undeclared `myname`, atan calls a radianToDegree that PSCore doesn't have.
+- cvr and cvi test `"number" !== (value, false)`, which is always true, so their typecheck branch never runs; cvr leaves numbers alone and executes anything else.
+- cvs never writes into the target string and pushes a new string instead.
+- There is no truncate, ln or xor operator.
+
+Why it's unclear: atan in any file ends the import, and the rounding moves coordinates slightly.
+
+Kept. Pinned by the corpus programs basic-arith.ps, basic-arith-errors.ps, basic-trig.ps, basic-atan.ps, basic-cos-typecheck.ps, basic-cvi.ps, basic-cvr.ps, basic-cvr-bool.ps and basic-cvs.ps (interpreter.recorded.test.ts).
+
+## Q-115 PS worker: matrix and device operator quirks
+
+Old location: public/ps*.js, ported to next/src/workers/ps/operators/basic-matrix.ts.
+
+What it does:
+- currentmatrix, defaultmatrix and identmatrix leave the matrix on the stack, as PostScript says, but setmatrix copies into the CTM array in place.
+- setscreen and setcachelimit are stubs; currentscreen pushes a fixed frequency, angle and spot function, marking the function `executive` (a typo for executable, so it stays a literal string).
+- cachestatus pushes fixed numbers.
+
+Why it's unclear: harmless for drawing, but the spot function can't be executed.
+
+Kept. Pinned by the corpus programs basic-matrix.ps and basic-screen-cache.ps (interpreter.recorded.test.ts).
+
+## Q-116 PS worker: stop, save/restore, wcheck and eexec quirks
+
+Old location: public/ps*.js, ported to next/src/workers/ps/operators/basic-names.ts.
+
+What it does:
+- stop outside `stopped` runs quit, which reports error "04" to the page (the page then ends the import), and still sets the stop flag.
+- save/restore only version composite objects and the graphics state stack; restore keeps the state saved at the matching save.
+- wcheck reports false for anything that isn't an object with unlimited access, including numbers.
+- eexec pushes the plain systemdict object on the dictionary stack while it runs the decrypted font program, so `def` inside it writes into `.value` of a plain object and throws.
+
+Why it's unclear: eexec fonts that `def` into systemdict fail to load, and a stray stop ends the import.
+
+Kept. Pinned by the corpus programs basic-stop-quit.ps, basic-save-restore.ps, basic-access.ps, basic-eexec-file.ps and basic-eexec-string.ps (interpreter.recorded.test.ts).
+
+## Q-117 PS worker: stack and misc operator quirks
+
+Old location: public/ps*.js, ported to next/src/workers/ps/operators/basic-stack.ts.
+
+What it does:
+- mark pushes a "[" mark.
+- cleartomark without a mark empties the stack.
+- dictstack makes the given array share the interpreter's dictionary stack and replaces its first entry (the plain systemdict) by a dict object wrapping it, which stays in the dictionary stack.
+- type answers unknowntype for numbers, booleans and null alike.
+- print discards its string; version pushes "3010".
+
+Why it's unclear: programs that branch on type see every simple value as unknowntype.
+
+Kept. Pinned by the corpus programs basic-stack.ps, basic-dictstack.ps, basic-type.ps and basic-print-version.ps (interpreter.recorded.test.ts).
+
+<!-- File formats, .gvdesign loading (phase 5 review) -->
+
+## Q-118 A .gvdesign that holds no scene stays Loading
+
+Old location: designer.browser.dev.js:6486-6512 (GDocument.deserializeData), chunk.vendor.js module 894 (GNode.deserializeAsync).
+
+What it does: after the restore, the whole status branch of deserializeData is guarded by `i && (...)`, so its `_updateStatus(LoadFailed)` can never run. A file whose JSON parses but holds no scene never leaves Loading:
+- a root that restores to null skips the branch and the promise never settles;
+- a truthy non-scene (a JSON array, a group or page root) reaches `i.isCloudSynchronization()`, which only scenes have; the TypeError ends the async promise executor, the outer promise never settles and the browser logs an unhandled rejection;
+- a root without children (a lone shape, a root of an unknown class) never even finishes its restore, because deserializeAsync only calls back once its time-sliced executor has run a list of children.
+
+Cut-off or empty JSON also stays Loading (deserializeAsync never calls back). A synchronous throw from deserializeAsync rejects the promise; the status stays Loading there too.
+
+Why it's unclear: the code clearly meant to show LoadFailed, so the user sees a document that loads forever with no error. This is a BUGS-FIXED candidate (broken UI). The new code does not reproduce the unhandled-rejection log.
+
+Kept. next/src/io/gvdesign/load.ts deserializeScene only settles with a scene; next/src/parity/app/document.ts no longer sets LoadFailed. Pinned by load.test.ts: "never settles for a JSON array of shapes / a group root", "never settles for a root of an unknown class / a lone childless shape, whose restore never calls back", "never settles for JSON that is cut off", and "rejects when deserializeAsync throws".
+
+## Q-119 PDF bleed box is written as x y width height
+
+Old location: chunk.vendor.js module 1440 (the PDF page box) and the PDF exporter's page setup, which calls setBleedBox with the page area expanded by twice the bleed.
+
+What it does: every page box is written as `[top left width height]`, so PDF readers take the third and fourth numbers as the upper right corner instead of a size. The media box starts at 0 0 and comes out right. The bleed box starts outside the page, at a negative x and y, so readers get a box that doesn't match the bleed area.
+
+Why it's unclear: the box is wrong, but the files open and print normally; a reader only uses the bleed box when asked to.
+
+Kept. next/src/io/export/pdf/media-box.ts writes the old order; pinned by the io-export-pdf/export/bleed.pdf parity scenario.
