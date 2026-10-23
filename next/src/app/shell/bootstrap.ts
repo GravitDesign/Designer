@@ -19,7 +19,6 @@
  * are registered directly), the annotations sidebar and the cloud footer
  * panels.
  */
-import { Color } from "../../engine/color/color.ts";
 import { Locale } from "../../engine/core/locale/locale.ts";
 import { LocaleKey } from "../../engine/core/locale/locale-key.ts";
 import { Editor } from "../../editor/editor.ts";
@@ -45,6 +44,14 @@ import type { AppRegistry } from "./registry.ts";
 import { buildToolTable } from "./tool-table.ts";
 
 type Exports = Record<string, unknown>;
+
+/**
+ * Module 803, the build flags: nodeEnv "production", storeVendor "" (no
+ * app store build). The old bootstrap started the update manager only
+ * without a store vendor (`C = !storeVendor`).
+ */
+const NODE_ENV = "production";
+const STORE_VENDOR: string = "";
 
 /** An action class as the table constructs it, with the statics its arguments use. */
 type ActionClass = (new (...args: unknown[]) => Action) & {
@@ -666,6 +673,7 @@ export async function boot(container: Container): Promise<Designer> {
     // Plugin errors were shown as alerts; everything else went to the
     // (dropped) online error report.
   };
+  designer.setEnv(NODE_ENV);
   designer.setVersion("3.15.0");
   designer.setVersionFriendlyName("i015.3");
   designer.preInit();
@@ -674,6 +682,7 @@ export async function boot(container: Container): Promise<Designer> {
   designer.setIsBeta(false);
   const registry = buildRegistry();
   setAppRegistry(registry);
+  Designer.loadsCmykProfile = true;
   designer.init();
   designer.relayout();
   await designer.start().finally(() => {
@@ -717,25 +726,35 @@ export async function boot(container: Container): Promise<Designer> {
   if (designer.hasEventListeners(ApplicationStatusEvent))
     designer.trigger(new ApplicationStatusEvent(ApplicationStatusEvent.Status.Ready));
   checkScreenSize();
+  // Here the old app started the reminder manager (dropped with the
+  // licence). With the always-pro licence it reset two reminder settings,
+  // and that setSetting wrote the merged settings (defaults included) to
+  // storage. Nothing else writes them before the user changes a setting,
+  // so the write stays.
+  designer.writeSettings();
   // The Electron update manager and the memory warning (app-dialogs-notify).
-  const UpdateManager = lateExport<new () => { start(): void }>(
-    "dialogs/software-update-manager.ts",
-    "SoftwareUpdateManager",
-  );
-  if (UpdateManager && hasLateModule("dialogs/software-update-manager.ts")) {
-    try {
-      new UpdateManager().start();
-    } catch (error) {
-      console.error(error);
+  if (!STORE_VENDOR) {
+    const UpdateManager = lateExport<new () => { start(): void }>(
+      "dialogs/software-update-manager.ts",
+      "SoftwareUpdateManager",
+    );
+    if (UpdateManager && hasLateModule("dialogs/software-update-manager.ts")) {
+      try {
+        new UpdateManager().start();
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
+  const MemoryManager = lateExport<new () => { start(): void }>(
+    "dialogs/memory-warning-dialog.ts",
+    "MemoryManager",
+  );
+  if (MemoryManager) new MemoryManager().start();
   // The old app loaded the CMYK profile in init and never waited; boot ends
   // once it is there, so a CMYK colour right after start converts the same
-  // way every time (a second request when the first is still running).
-  if (!Color.currentCMYKProfile)
-    await new Promise<void>((resolve) =>
-      Color.setCMYKProfile("USWebCoatedSWOPv2", "assets/data/icc/", resolve),
-    );
+  // way every time.
+  await designer.whenCmykProfileLoaded();
   return designer;
 }
 

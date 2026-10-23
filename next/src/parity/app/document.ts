@@ -23,8 +23,9 @@ import {
 import { EventTarget as EngineEventTarget } from "../../engine/core/event-target.ts";
 import { RGBColor } from "../../engine/color/rgb-color.ts";
 import type { Editor } from "../../editor/editor.ts";
+// Registers the tool manager factory before the node designer's workspace exists.
+import "../../editor/tools/tool-manager.ts";
 import { Node } from "../../engine/scene/node.ts";
-import { SceneOptions } from "../../engine/scene/scene-options.ts";
 import { Scene as SceneClass, type Scene } from "../../engine/scene/scene.ts";
 import type { SerializeOptions } from "../../engine/serialize/blob.ts";
 import type { FontManager } from "../../engine/text/fonts/font-manager.ts";
@@ -35,10 +36,6 @@ import { DocumentStatusEvent } from "../../app/document/document-status-event.ts
 import { FontsProviderManager } from "../../app/fonts/font-manager.ts";
 import { designer, designerOrNull, setDesigner, whenDesigner } from "../../app/shell/globals.ts";
 import { installAppFonts } from "./fonts.ts";
-
-// GDesigner.init: the scene options the app always runs with.
-SceneOptions.scaleLabel = false;
-SceneOptions.defaultBorderPositionForLines = true;
 
 /** The documents as the other hook files type them. */
 export type InterimDocument = Omit<Document, "getScene" | "getStatus"> & {
@@ -128,8 +125,11 @@ function activeDocumentOrThrow(): InterimDocument {
 }
 
 export const documentHooks = {
+  /** GDesigner.newInfiniteDocument, then the welcome screen closed (old-harness.js). */
   newInfiniteDocument(): Document | null {
-    return designer().newInfiniteDocument() as unknown as Document | null;
+    const document = designer().newInfiniteDocument() as unknown as Document | null;
+    designer().closeNewDocumentDialog();
+    return document;
   },
   document(): InterimDocument | null {
     return getActiveDocument();
@@ -159,35 +159,23 @@ export const documentHooks = {
     return designer().canExecuteAction(id, args);
   },
   execute(id: string, args?: unknown[]): unknown {
-    const fallback = UNPORTED_ACTIONS[id];
-    if (fallback && !designer().getAction(id)) return fallback();
     return designer().executeAction(id, args);
   },
-};
-
-/**
- * Interim, until app-actions-view ports GCloseActiveWindowAction (a1649):
- * what it did: Windows.removeWindow of the active document's active
- * window (which asks to save a modified document). Used only while the designer
- * has no action with the id; bootstrap registers the real one when its
- * file exists.
- */
-const UNPORTED_ACTIONS: Record<string, () => unknown> = {
-  "file.close-active-window": () => {
-    const document = getActiveDocument();
-    const window = document && document.getActiveWindow();
-    if (window)
-      designer()
-        .getWindows()
-        .removeWindow(window as never);
-    return true;
+  /** GDesigner.getSetting (old-harness.js app.setting). */
+  setting(key: string): unknown {
+    return designer().getSetting(key);
+  },
+  /** GDesigner.setSetting (old-harness.js app.setSetting). */
+  setSetting(key: string, value: unknown): void {
+    designer().setSetting(key, value);
   },
 };
 
 // ---------------------------------------------------------------------------
 // Node unit tests load these hooks without a DOM, where the real Designer
 // can't be built. They get a designer with just the document list the
-// hooks and GDocument use: documents are added and activated, removed
+// hooks and GDocument use: documents are added and activated (with the
+// designer's Activated and Deactivated events), removed
 // (released) and the last one activated again; there are no windows,
 // settings or actions.
 
@@ -214,9 +202,17 @@ class NodeDesigner extends EngineEventTarget {
 
   activateDocument(document: Document | null): void {
     if (document === this.active) return;
-    if (this.active) this.active.deactivate();
+    if (this.active) {
+      const previous = this.active;
+      this.active = null;
+      previous.deactivate();
+      this.trigger(new DocumentEvent(DocumentEvent.Type.Deactivated, previous));
+    }
     this.active = document;
-    if (document) document.activate();
+    if (document) {
+      document.activate();
+      this.trigger(new DocumentEvent(DocumentEvent.Type.Activated, document));
+    }
   }
 
   newInfiniteDocument(): Document {
@@ -237,12 +233,18 @@ class NodeDesigner extends EngineEventTarget {
     if (!this.active) this.activateDocument(this.documents[this.documents.length - 1] ?? null);
   }
 
+  closeNewDocumentDialog(): void {}
+
   getWindows(): { getActiveWindow(): null } {
     return { getActiveWindow: () => null };
   }
 
   getSetting(_key: string, defaultValue?: unknown): unknown {
     return defaultValue;
+  }
+
+  setSetting(): undefined {
+    return undefined;
   }
 
   getActions(): { getId(): string }[] {

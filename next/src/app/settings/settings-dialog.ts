@@ -1,0 +1,376 @@
+// Old: designer.browser.dev.js module 1275 (GSettingsDialog).
+/**
+ * Edit > Settings...: one row per setting, Cancel and Save Changes. The
+ * switches start from the current settings and nothing is applied until
+ * Save, which reads every row back from the dialog and writes them with
+ * one setSetting call. Escape doesn't close it (opened not closable).
+ *
+ * Old behaviour kept on purpose (BUGS-FIXED candidates, see the report):
+ *
+ * - Save writes keys whose row isn't in the dialog: "system_fonts_enabled"
+ *   has no row at all, the developer rows ("enable_steps_debug",
+ *   "enable_cache") only exist outside production and "create_backup_copy"
+ *   only in Electron. Reading a missing row gives undefined, so Save sets
+ *   them to undefined and they drop out of the stored settings.
+ * - Three rows are shown inverted: "Save text layers as paths" is checked
+ *   when dont_store_textpath is false, the scrubbing row when scrubbing is
+ *   off, the auto-save warning row when its "disabled" key is false. Save
+ *   inverts them back.
+ * - "Disable notifications" was a setting of the cloud account. The
+ *   dialog asked the account service for it (getting the default, false)
+ *   and Save sent a change there; the local server answers that request
+ *   with its HTML page, so a change made Save fail after the local
+ *   settings were written and the dialog stayed open. Kept: see
+ *   `userSettings` below.
+ */
+import { createElement, type ReactNode } from "react";
+import { Locale } from "../../engine/core/locale/locale.ts";
+import { LocaleKey } from "../../engine/core/locale/locale-key.ts";
+import { LocaleLanguage } from "../../engine/core/locale/locale-language.ts";
+import { formatNumber, parseNumber } from "../../engine/core/util.ts";
+import { EditorOptions } from "../../editor/editor-options.ts";
+import { RendererConfig } from "../../engine/paint/renderer-config.ts";
+import { Scene } from "../../engine/scene/scene.ts";
+import { Text } from "../../engine/text/text.ts";
+import { Dialog } from "../dialogs/dialog.ts";
+import { Overlay } from "../dialogs/dialog-container.ts";
+import { Runtime } from "../shell/container.ts";
+import { container, designer } from "../shell/globals.ts";
+import { renderInto } from "../state/islands.tsx";
+import type { InputBox } from "../widgets/input-box.ts";
+import { ScrubbingSetting } from "./settings-keys.ts";
+import {
+  SETTINGS_TEXT_KEYS,
+  SettingsRows,
+  ThemeRows,
+  type SettingsRowsModel,
+} from "./settings-dialog-view.tsx";
+
+/** GConfig (module 10) and the cloud auto-save names (module 1276). */
+const AUTO_SAVE_ENABLED = true;
+const AUTOSAVE_INTERVALS: readonly number[] = [5, 10, 20];
+const AUTOSAVE_INTERVAL_DEFAULT = 5;
+const AUTO_SAVE_SETTING = "auto_save";
+const AUTO_SAVE_INTERVAL_SETTING = "auto_save_interval";
+const DISABLE_WARNING_SETTING_NAME = "autosave-prompt-for-local-files-disabled";
+
+/**
+ * The cloud user settings the dialog read and wrote (gApi.getUserSettings
+ * and updateUserSettings). The account service is dropped; what is left
+ * is what the old app got from the local server: the defaults on read,
+ * and on a change the server's HTML page, which failed to parse.
+ */
+const userSettings = {
+  get(): Promise<{ notifications_disabled: boolean }> {
+    return Promise.resolve({ notifications_disabled: false });
+  },
+  /** Old: updateUserSettings({ notifications_disabled }, true). */
+  update(): Promise<never> {
+    return Promise.reject(
+      new SyntaxError(`Unexpected token '<', "<!DOCTYPE "... is not valid JSON`),
+    );
+  },
+};
+
+interface Theme {
+  name: string;
+  localeClass: LocaleKey;
+  key: string;
+}
+
+let themes: Theme[] | null = null;
+
+function text(className: string, key: string): string {
+  return Locale.get(new LocaleKey(className, key)) as string;
+}
+
+function settingText(key: string): string {
+  return text("GSettingsDialog", key);
+}
+
+/** The dialog itself; `new SettingsDialog()` gives a promise of a built one. */
+export class SettingsDialogImpl {
+  private _dialog: Dialog | null = null;
+  /** The theme the selector shows ($(".g-theme-selector").data("theme")). */
+  private _theme = "light";
+  private _themeName = "";
+  private _decimalsShown = false;
+  private _decimalsBox: InputBox | null = null;
+  private _notificationsDisabled = false;
+
+  constructor() {
+    if (!themes)
+      themes = [
+        {
+          name:
+            settingText("text.light-theme") +
+            " (" +
+            text("GCommonNames", "text.default").toLowerCase() +
+            ")",
+          localeClass: new LocaleKey("GSettingsDialog", "text.light-theme"),
+          key: "light",
+        },
+        {
+          name: settingText("text.dark-theme"),
+          localeClass: new LocaleKey("GSettingsDialog", "text.dark-theme"),
+          key: "dark",
+        },
+      ];
+  }
+
+  async _buildDialog(): Promise<void> {
+    this._notificationsDisabled = (
+      await userSettings.get().catch(() => ({ notifications_disabled: false }))
+    ).notifications_disabled;
+    const list = themes as Theme[];
+    let current: Theme | undefined;
+    for (let i = 0; i < list.length; ++i)
+      if ((list[i] as Theme).key === designer().getSetting("theme", "light")) {
+        current = list[i];
+        break;
+      }
+    current = current || (list[0] as Theme);
+    this._theme = current.key;
+    this._themeName = current.name;
+    this._decimalsShown = null !== designer().getSetting("decimals_num", Scene.decimalsNum);
+    const content = document.createElement("div");
+    this._dialog = new Dialog(content, {
+      releaseOnClose: true,
+      className: "g-settings-dialog",
+      buttons: [
+        createElement(
+          "button",
+          { key: "cancel", className: "settings-button", onClick: () => this.close() },
+          text("GLocale", "cancel"),
+        ),
+        createElement(
+          "button",
+          {
+            key: "save",
+            className: "settings-button",
+            onClick: () => {
+              void this.save(this.close.bind(this));
+            },
+          },
+          settingText("action.save-changes"),
+        ),
+      ],
+    });
+    this._render();
+  }
+
+  private _render(): void {
+    if (this._dialog) this._dialog.renderContent(this._rows());
+  }
+
+  /** The rows in the old order; some only in some builds. */
+  private _rows(): ReactNode {
+    const d = designer();
+    const env = d.getEnv();
+    const texts: Record<string, string> = {};
+    for (const key of SETTINGS_TEXT_KEYS) texts[key] = settingText(key);
+    const developer = !("production" === env || d.isBeta() || "lts" === env || "rc" === env);
+    const model: SettingsRowsModel = {
+      texts,
+      highlightOnHover: !!d.getSetting("highlight_on_hover"),
+      autoExpandLayers: !!d.getSetting("auto_expand_layers"),
+      autoSave: AUTO_SAVE_ENABLED
+        ? {
+            checked: !!d.getSetting("auto_save", true),
+            intervals: AUTOSAVE_INTERVALS,
+            selected: AUTOSAVE_INTERVALS.indexOf(
+              d.getSetting(AUTO_SAVE_INTERVAL_SETTING, AUTOSAVE_INTERVAL_DEFAULT) as number,
+            ),
+            warningSetting: DISABLE_WARNING_SETTING_NAME,
+            warningChecked: !d.getSetting(DISABLE_WARNING_SETTING_NAME, false),
+          }
+        : null,
+      developer: developer
+        ? {
+            stepsDebug: !!d.getSetting(
+              "enable_steps_debug",
+              (EditorOptions as unknown as { debugTransactions?: boolean }).debugTransactions,
+            ),
+            cache: !!d.getSetting(
+              "enable_cache",
+              (RendererConfig as unknown as { ENABLE_CACHE?: boolean }).ENABLE_CACHE,
+            ),
+          }
+        : null,
+      themeName: this._themeName,
+      onThemeClick: (event) => this._openThemeSelector(event.target as Element),
+      toolbarAlignment: !!d.getSetting("ui_toolbar_alignment", false),
+      storeTextPath: !d.getSetting("dont_store_textpath", Text.dontStorePaths),
+      decimals: this._decimals(),
+      disableUnsupportedWarning: !!d.getSetting("disable_warning_unsupported_features", false),
+      epsOutlineFonts: !!d.getSetting("eps_outline_fonts", true),
+      notificationsDisabled: this._notificationsDisabled,
+      scrubbingSetting: ScrubbingSetting.getSetting(),
+      scrubbingOff: !ScrubbingSetting.isEnabled(),
+      backupCopy:
+        container().getRuntime() === Runtime.Electron
+          ? !!d.getSetting("create_backup_copy", false)
+          : null,
+    };
+    return createElement(SettingsRows, { model });
+  }
+
+  private _decimals(): SettingsRowsModel["decimals"] {
+    const stored = designer().getSetting("decimals_num", Scene.decimalsNum) as number | null;
+    return {
+      on: null !== stored,
+      valueShown: this._decimalsShown,
+      boxRef: (box: InputBox | null) => {
+        // The box's first value, once it is attached (.gInputBox("value", ...)).
+        if (box && !this._decimalsBox) box.value(null !== stored ? formatNumber(stored, 0) : "2");
+        this._decimalsBox = box;
+      },
+      onToggle: (input) => {
+        const current = designer().getSetting("decimals_num", Scene.decimalsNum) as number | null;
+        let value = "2";
+        if (null !== current) value = formatNumber(current, 0);
+        this._decimalsShown = input.checked;
+        this._render();
+        if (this._decimalsBox) this._decimalsBox.value(value);
+      },
+      onBoxChange: (box) => {
+        let value = parseNumber(box.value());
+        if ((value as number) < 0) value = 0;
+        if ((value as number) > 6) value = 6;
+        box.value(null !== value ? formatNumber(value as number, 0) : "2");
+      },
+    };
+  }
+
+  private _openThemeSelector(target: Element): void {
+    const list = themes as Theme[];
+    const content = document.createElement("div");
+    const overlay = new Overlay(content, {
+      padding: false,
+      releaseOnClose: true,
+      clazz: "theme-selector",
+      // Enter picks the row under the mouse.
+      enterCallback: () => {
+        const hovered = document.querySelector<HTMLElement>(
+          ".g-overlay.theme-selector .g-theme-row:hover",
+        );
+        if (hovered) hovered.click();
+      },
+    });
+    renderInto(
+      content,
+      createElement(ThemeRows, {
+        themes: list,
+        onPick: (index) => {
+          const theme = list[index] as Theme;
+          // Old: stats with the English theme name (dropped).
+          void Locale.get(theme.localeClass, undefined, LocaleLanguage.English);
+          this._theme = theme.key;
+          this._themeName = theme.name;
+          this._render();
+          overlay.close();
+        },
+      }),
+    );
+    overlay.open(target);
+  }
+
+  open(): void {
+    (this._dialog as Dialog).open(false);
+  }
+
+  close(): void {
+    (this._dialog as Dialog).close();
+  }
+
+  /** Writes the rows, then the notification setting; `done` only runs if both worked. */
+  async save(done: () => void): Promise<void> {
+    this._saveBasicSettings();
+    await this._saveNotificationSetting();
+    done();
+    // Old: $(".symbols-container").triggerHandler("scroll"), to redraw the
+    // symbols panel previews with the new settings.
+    const symbols = document.querySelector(".symbols-container");
+    if (symbols) symbols.dispatchEvent(new Event("scroll"));
+  }
+
+  private _find(setting: string): HTMLInputElement | null {
+    return (this._dialog as Dialog)
+      .getContent()
+      .querySelector<HTMLInputElement>('[data-setting="' + setting + '"]');
+  }
+
+  /** `.prop("checked")` of the row: undefined when the row isn't there. */
+  private _checked(setting: string): boolean | undefined {
+    const input = this._find(setting);
+    return input ? input.checked : undefined;
+  }
+
+  private async _saveNotificationSetting(): Promise<void> {
+    const disabled = this._checked("notifications_disabled") as boolean;
+    const current = await userSettings.get();
+    if (current && current.notifications_disabled !== disabled) await userSettings.update();
+  }
+
+  private _saveBasicSettings(): void {
+    const interval = this._find(AUTO_SAVE_INTERVAL_SETTING);
+    const autoSaveInterval = AUTOSAVE_INTERVALS[parseInt(interval ? interval.value : "")];
+    let decimals: number | null = null;
+    if (this._checked("decimals-num-onoff")) {
+      const value = parseNumber((this._decimalsBox as InputBox).value());
+      if (!("number" != typeof value || isNaN(value))) decimals = value;
+    }
+    designer().setSetting(
+      [
+        "highlight_on_hover",
+        "auto_expand_layers",
+        AUTO_SAVE_SETTING,
+        DISABLE_WARNING_SETTING_NAME,
+        "system_fonts_enabled",
+        "theme",
+        "dont_store_textpath",
+        "enable_steps_debug",
+        "enable_cache",
+        "disable_warning_unsupported_features",
+        "eps_outline_fonts",
+        "ui_toolbar_alignment",
+        "decimals_num",
+        AUTO_SAVE_INTERVAL_SETTING,
+        "create_backup_copy",
+        ScrubbingSetting.getSetting(),
+      ],
+      [
+        this._checked("highlight_on_hover"),
+        this._checked("auto_expand_layers"),
+        this._checked(AUTO_SAVE_SETTING),
+        !this._checked(DISABLE_WARNING_SETTING_NAME),
+        this._checked("system_fonts_enabled"),
+        this._find("theme") ? this._theme : undefined,
+        !this._checked("dont_store_textpath"),
+        this._checked("enable_steps_debug"),
+        this._checked("enable_cache"),
+        this._checked("disable_warning_unsupported_features"),
+        this._checked("eps_outline_fonts"),
+        this._checked("ui_toolbar_alignment"),
+        decimals,
+        autoSaveInterval,
+        this._checked("create_backup_copy"),
+        !this._checked(ScrubbingSetting.getSetting()),
+      ],
+    );
+  }
+}
+
+/**
+ * `new SettingsDialog()` is a promise of the built dialog, as the old
+ * constructor returned one (the settings action opens it when it resolves).
+ */
+export const SettingsDialog = function SettingsDialog(): Promise<SettingsDialogImpl> {
+  const dialog = new SettingsDialogImpl();
+  return new Promise((resolve, reject) => {
+    dialog
+      ._buildDialog()
+      .then(() => resolve(dialog))
+      .catch(() => reject(false));
+  });
+} as unknown as new () => Promise<SettingsDialogImpl>;

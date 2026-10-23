@@ -19,8 +19,3 @@ export const engineColor = {
   GLinearGradient: LinearGradient,
   GRadialGradient: RadialGradient,
 };
-
-// The old app loads the CMYK profile once its UI is up (GDesigner init).
-// Until the new shell does the same, the parity build starts the load
-// here, so CMYK conversions switch to the profile the same way.
-if (typeof window !== "undefined") Color.setCMYKProfile("USWebCoatedSWOPv2", "assets/data/icc/");

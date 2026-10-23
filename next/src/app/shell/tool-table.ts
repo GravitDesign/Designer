@@ -27,7 +27,8 @@ import { TextTool } from "../../editor/tools/text-tool.ts";
 import type { ToolClass } from "../../editor/tools/tool-manager.ts";
 import { TriangleTool } from "../../editor/tools/triangle-tool.ts";
 import { ZoomTool } from "../../editor/tools/zoom-tool.ts";
-import type { RichTooltipConfig, ToolTableEntry } from "./registry.ts";
+import { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
+import type { ToolTableEntry } from "./registry.ts";
 
 interface TooltipOptions {
   video?: string;
@@ -45,18 +46,21 @@ const localized = (owner: string, key: string): string =>
 const videoUrl = (name: string): string =>
   (typeof location === "object" ? location.origin : "") + "/rich-tooltip-video/" + name;
 
-/** GRichTooltipConfig.from: the fields given, in this order. */
+/**
+ * GRichTooltipConfig.from, as the old table built it. The tooltip plugin
+ * takes only real configs ("Not a Tooltip Config" otherwise). Fields not
+ * given stay undefined, so JSON shows only the given ones.
+ */
 function richTooltip(owner: string, options: TooltipOptions): RichTooltipConfig {
-  const config: Record<string, unknown> = {
-    _title: localized(owner, "tooltip-title"),
-    _description: localized(owner, "tooltip-description"),
-  };
-  if (options.video !== undefined) config._video = videoUrl(options.video);
-  if (options.isPro !== undefined) config._isPro = options.isPro;
-  config._middle = false;
-  if (options.shortcut !== undefined) config._shortcut = options.shortcut;
-  config._learnMore = "";
-  return config as unknown as RichTooltipConfig;
+  return RichTooltipConfig.from({
+    title: localized(owner, "tooltip-title"),
+    description: localized(owner, "tooltip-description"),
+    video: options.video !== undefined ? videoUrl(options.video) : undefined,
+    isPro: options.isPro,
+    middle: false,
+    shortcut: options.shortcut,
+    learnMore: "",
+  });
 }
 
 function entry(

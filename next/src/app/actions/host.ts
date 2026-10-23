@@ -16,6 +16,7 @@ import type { Point } from "../../engine/math/point.ts";
 import type { Transform } from "../../engine/math/transform.ts";
 import type { Editor } from "../../editor/editor.ts";
 import type { EditorWorkspace } from "../../editor/editor-workspace.ts";
+import type { ToolManager } from "../../editor/tools/tool-manager.ts";
 import type { Action } from "./action.ts";
 import type { ClipboardBridge } from "../clipboard/clipboard-bridge.ts";
 import type { Container } from "../shell/container.ts";
@@ -187,7 +188,9 @@ export interface ActionDesigner {
   openDocument(item: ActionStorageItem): void;
   openNewDocumentDialog(options: { closable: boolean; defaultOption: string }): void;
   getWindows(): { getActiveWindow(): ActionWindow | null } | null;
+  getLeftSidebars(): ActionSidebars;
   getRightSidebars(): ActionSidebars;
+  getToolManager(): ToolManager;
   getPaste(): ClipboardBridge;
   getClipboardContent(mimeType: string): string | null | undefined;
   setClipboardContent(mimeType: string, content: string | null): void;

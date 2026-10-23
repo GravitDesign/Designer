@@ -9,23 +9,15 @@
  * manager following the active view) live in the app now
  * (src/app/shell/designer.ts, bootstrap.ts, tool-table.ts); these hooks
  * read them.
- *
- * Still interim here: the lookup of the properties sidebar
- * (GPropertiesSidebar, app-inspector-geometry), see below.
  */
 import { Node } from "../../engine/scene/node.ts";
 import type { ContainerNode } from "../../engine/scene/node-container.ts";
 import { NodeFlag } from "../../engine/scene/node-change.ts";
-import { AfterFlagChangeEvent } from "../../engine/scene/node-events.ts";
-import { Page } from "../../engine/scene/page.ts";
-import { AnnotationMixin } from "../../engine/scene/annotations/annotation.ts";
 import type { Workspace } from "../../engine/scene/workspace.ts";
 import type { FontManager } from "../../engine/text/fonts/font-manager.ts";
 import { RendererConfig } from "../../engine/paint/renderer-config.ts";
 import { Vertex } from "../../engine/geometry/vertex.ts";
-import { Editor } from "../../editor/editor.ts";
 import { EditorOptions } from "../../editor/editor-options.ts";
-import { ItemTool } from "../../editor/tools/item-tool.ts";
 import type { Tool } from "../../editor/tools/tool.ts";
 import {
   ToolChangedEvent,
@@ -33,14 +25,7 @@ import {
   type ToolManager,
 } from "../../editor/tools/tool-manager.ts";
 import type { EditorWidget } from "../../editor/view/editor-widget.ts";
-import {
-  appWorkspace,
-  documentHooks,
-  documentStatusName,
-  getActiveDocument,
-  onDocumentsChanged,
-  type InterimDocument,
-} from "./document.ts";
+import { appWorkspace, documentHooks } from "./document.ts";
 import { activeView } from "./view-host.ts";
 import { appRegistry, designerOrNull, whenDesigner } from "../../app/shell/globals.ts";
 
@@ -54,66 +39,6 @@ function toolManager(): ToolManager {
 function toolName(tool: unknown): string | null {
   return tool ? String(tool).replace(/^\[Object (.*)\]$/, "$1") : null;
 }
-
-// The properties sidebar (GPropertiesSidebar, designer.browser.dev.js
-// module 571, _updateFromToolOrSelection) shows the selection, or without
-// one the default style of the active item tool (else the active page). It
-// does that on document activation, tool changes, selection changes and
-// page activation; asking an item tool for its default style creates the
-// scene's default styles, which every saved document then holds. Only that
-// lookup is ported here; the panels come with the inspector clusters.
-let propertiesDocument: InterimDocument | null = null;
-
-function updateFromToolOrSelection(): void {
-  const document = propertiesDocument;
-  const editor = document ? document.getEditor() : null;
-  if (!document || !editor) return;
-  let elements = editor.getSelection() as Node[] | null;
-  if (elements && elements.length)
-    elements = editor.filterIndividualElements(
-      elements.filter((node) => !node.hasMixin(AnnotationMixin)) as never,
-    ) as unknown as Node[];
-  if (!elements || 0 === elements.length) {
-    const tool = toolManager().getActiveTool();
-    if (tool instanceof ItemTool) tool.getDefaultStyle();
-  }
-}
-
-function propertiesPageFlag(event: AfterFlagChangeEvent): void {
-  const editor = propertiesDocument ? propertiesDocument.getEditor() : null;
-  if (
-    event.node instanceof Page &&
-    event.flag === NodeFlag.Active &&
-    editor &&
-    !editor.hasSelection()
-  )
-    updateFromToolOrSelection();
-}
-
-function activatePropertiesDocument(document: InterimDocument | null): void {
-  if (document === propertiesDocument) return;
-  if (propertiesDocument) {
-    toolManager().removeEventListener(ToolChangedEvent, updateFromToolOrSelection);
-    const editor = propertiesDocument.getEditor();
-    if (editor) editor.removeEventListener(Editor.SelectionChangedEvent, updateFromToolOrSelection);
-    propertiesDocument.getScene().removeEventListener(AfterFlagChangeEvent, propertiesPageFlag);
-    propertiesDocument = null;
-  }
-  if (document) {
-    propertiesDocument = document;
-    toolManager().addEventListener(ToolChangedEvent, updateFromToolOrSelection);
-    const editor = document.getEditor();
-    if (editor) editor.addEventListener(Editor.SelectionChangedEvent, updateFromToolOrSelection);
-    document.getScene().addEventListener(AfterFlagChangeEvent, propertiesPageFlag);
-    updateFromToolOrSelection();
-  }
-}
-
-if (typeof HTMLDivElement === "function")
-  onDocumentsChanged(() => {
-    const active = getActiveDocument();
-    activatePropertiesDocument(active && "ready" === documentStatusName(active) ? active : null);
-  });
 
 // ---------------------------------------------------------------------------
 // The hooks.

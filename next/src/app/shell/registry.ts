@@ -8,17 +8,9 @@ import type { ToolClass } from "../../editor/tools/tool-manager.ts";
 import type { Action } from "../actions/action.ts";
 import type { SidebarLike } from "./layout.ts";
 import type { HostedView } from "./part.ts";
+import type { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
 
-/** GRichTooltipConfig as the tool table holds it (only the given fields are set). */
-export interface RichTooltipConfig {
-  _title: string;
-  _description: string;
-  _video?: string;
-  _isPro?: boolean;
-  _middle: boolean;
-  _shortcut?: string[];
-  _learnMore: string;
-}
+export type { RichTooltipConfig };
 
 /** One entry of gravit.tools. */
 export interface ToolTableEntry {

@@ -2,6 +2,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import { buildRegistry, pendingRegistrations } from "./bootstrap.ts";
 import { setLateModules } from "./late.ts";
 import { PendingSidebar } from "./pending-sidebar.ts";
+import { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
+import { attachRichTooltip } from "../widgets/rich-tooltip.ts";
 
 /** A fake action class that remembers its constructor arguments. */
 function fakeAction(name: string, statics: Record<string, unknown> = {}) {
@@ -84,5 +86,26 @@ describe("buildRegistry", () => {
       "H",
       "Z",
     ]);
+  });
+
+  it("gives every tool a real rich tooltip config, which the tooltip plugin accepts", () => {
+    const tools = buildRegistry().tools;
+    for (const tool of tools) {
+      expect(tool.richTooltipConfig).toBeInstanceOf(RichTooltipConfig);
+      const target = { addEventListener: () => undefined, removeEventListener: () => undefined };
+      expect(() => attachRichTooltip(target as never, tool.richTooltipConfig)).not.toThrow();
+    }
+    // JSON shows the given fields only, in the old order (toolmgr/tool-table).
+    const pointer = JSON.parse(JSON.stringify(tools[0]?.richTooltipConfig)) as object;
+    expect(Object.keys(pointer)).toEqual([
+      "_title",
+      "_description",
+      "_video",
+      "_middle",
+      "_shortcut",
+      "_learnMore",
+    ]);
+    const bezigon = tools.find((t) => t.toolString === "GBezigonTool");
+    expect(JSON.parse(JSON.stringify(bezigon?.richTooltipConfig))._isPro).toBe(false);
   });
 });

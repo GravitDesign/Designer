@@ -23,6 +23,9 @@
  * dialog, GDocument); a missing one is skipped, so the shell runs while
  * they are ported. Every such point names the cluster.
  */
+// The editor with its tool manager factory and element editors, before
+// Designer.workspaceFactory makes the first workspace.
+import "../../editor/index.ts";
 import { Color } from "../../engine/color/color.ts";
 import { RGBColor } from "../../engine/color/rgb-color.ts";
 import type { Event, EventClass } from "../../engine/core/event.ts";
@@ -65,6 +68,8 @@ import { setTouchHost } from "../../editor/touch/touch-host.ts";
 import type { EditorWidget } from "../../editor/view/editor-widget.ts";
 import { SceneWidget } from "../../editor/view/scene-widget.ts";
 import type { Action } from "../actions/action.ts";
+import type { Menu } from "../menus/menu.ts";
+import type { MenuItem } from "../menus/menu-item.ts";
 import { DocumentEvent } from "../document/document-event.ts";
 import { DocumentStatus } from "../document/document-status.ts";
 import { PageClip } from "../export/page-clip.ts";
@@ -94,6 +99,7 @@ import { Layout, type LayoutPart } from "./layout-ids.ts";
 import { Sidebars } from "./layout.ts";
 import { MouseTracker } from "./mouse-tracker.ts";
 import type { ShellPart } from "./part.ts";
+import { PaintModeEvent } from "./paint-mode-event.ts";
 import { SettingChangedEvent } from "./setting-changed-event.ts";
 import { defaultSettings, SETTINGS_PROPERTY, type DesignerSettings } from "./settings.ts";
 import { shortcutBinder, shortcutToMousetrap } from "./shortcut-binder.ts";
@@ -124,37 +130,13 @@ export interface DesignerStorageItem {
   getVersionId?(): string | null;
 }
 
-/** GMenu / GMenuItem as the main menu build uses them (app-menus-toolbar). */
-interface MenuLike {
-  addItem(item: MenuItemLike): void;
-  removeItem(index: number): void;
-  indexOf(item: MenuItemLike): number;
-  update(): void;
-  addEventListener(eventClass: EventClass, listener: (event: never) => void): void;
-  setEnabled?(enabled: boolean): void;
-}
-
-interface MenuItemLike {
-  getMenu(): MenuLike;
-  setCaption(caption: string | null): void;
-  setIcon(icon: string | null): void;
-  setEnabled(enabled: boolean): void;
-  setChecked(checked: boolean): void;
-  setPro(pro: boolean, id?: string): void;
-  setNoHover(noHover: boolean): void;
-  setShortcutHint(shortcut: readonly KeyValue[]): void;
-  setVisible(visible: boolean): void;
-  setAction(action: Action): void;
-  addClass(name: string): void;
-  addEventListener(eventClass: EventClass, listener: (event: never) => void): void;
-}
-
-interface MenuItemClass {
-  new (type: number, menuClass?: unknown, data?: unknown, isVisible?: unknown): MenuItemLike;
-  Type: { Menu: number; Item: number; Divider: number };
-  ActivateEvent: EventClass;
-  UpdateEvent: EventClass;
-}
+/**
+ * GMenu / GMenuItem (app-menus-toolbar). The classes are reached late
+ * (late.ts) so the shell loads without them; only their types are imported.
+ */
+type MenuLike = Menu;
+type MenuItemLike = MenuItem;
+type MenuItemClass = typeof MenuItem;
 
 /** The parts the menus cluster provides (header and toolbar). */
 interface HeaderLike extends ShellPart {
@@ -177,7 +159,35 @@ interface ContextMenuLike {
 interface NewDocumentDialogLike {
   open(options?: unknown): void;
   close(): void;
+  isOpen?(): boolean;
   getDialogElement?(): HTMLElement | null;
+}
+
+/** GInstallPwaDialog (dialogs/install-pwa-dialog.ts). */
+interface InstallPwaDialogLike {
+  open(): void;
+  close(): void;
+}
+
+/** The browser's install prompt (beforeinstallprompt). */
+type PwaEvent = globalThis.Event;
+
+/** What createCountdown hands back. */
+export interface Countdown {
+  intervalID: ReturnType<typeof setInterval>;
+  timeoutID: ReturnType<typeof setTimeout> | null;
+}
+
+const DAY = 24 * 60 * 60 * 1000;
+
+/** GInstallToDesktopAction's storage keys (actions/file/install-to-desktop-action.ts). */
+const PWA_CLOSED_DATE_PROPERTY = "pwa.closed-install-pwa-dialog-date";
+const PWA_STARTS_PROPERTY = "pwa.show-install-dialog-3-times-a-week";
+
+/** GSoftwareUpdateManager (dialogs/software-update-manager.ts) as callers use it. */
+export interface SoftwareUpdateManagerLike {
+  checkForUpdates(silent?: boolean): Promise<void> | void;
+  installUpdate(): void;
 }
 
 /** A part whose module is not ported yet: an empty element and no behaviour. */
@@ -246,10 +256,16 @@ export class Designer extends EventTarget {
   static shellBuilder: ((designer: Designer) => ShellElements) | null = null;
 
   /**
-   * Whether init loads the CMYK profile itself. False while the interim
-   * src/parity/g/engine-color.ts loads it at module load (see init).
+   * Whether init loads the CMYK profile (GColor.setCMYKProfile). Boot
+   * turns it on; unit tests leave it off, so they make no request.
    */
   static loadsCmykProfile = false;
+
+  private _cmykProfileLoad: Promise<void> | null = null;
+  private _pwaEvent: PwaEvent | null = null;
+  private _waitingPwaDialog: boolean | null = null;
+  private _waitingPwaDialogDarkBackground: boolean | null = null;
+  private _installPwaDialog: InstallPwaDialogLike | null = null;
 
   private _settings: Settings = defaultSettings() as Settings;
   private _settingsLoaded = false;
@@ -300,7 +316,10 @@ export class Designer extends EventTarget {
     this._workspace = Designer.workspaceFactory();
     this._mainMenu = this._createMenu();
     // The touch input layer (editor-touch): taps and pans on the page, the
-    // view gestures on the active window, the gesture lookups.
+    // view gestures on the active window, the gesture lookups. The long
+    // press listeners go first: both listen on the document in the bubble
+    // phase, and the old long-press module was loaded before this ran.
+    startLongPressEvents();
     new DocumentTouchTarget(document);
     this._editorTouchHandler = new EditorTouchTarget();
     setTouchHost({
@@ -432,7 +451,10 @@ export class Designer extends EventTarget {
   }
 
   getToolManager(): ToolManager {
-    return this._workspace.getToolManager() as ToolManager;
+    const manager = this._workspace.getToolManager();
+    // The factory comes with editor/index.ts, imported above.
+    if (!manager) throw new Error("the workspace has no tool manager");
+    return manager;
   }
 
   getCursorManager(): MouseTracker {
@@ -550,9 +572,11 @@ export class Designer extends EventTarget {
     item.setCaption(caption);
     item.setIcon(icon || null);
     target.addItem(item);
-    if (onOpen && OpenEvent) item.getMenu().addEventListener(OpenEvent, onOpen);
+    // A Type.Menu item made with a menu class always has its menu.
+    const menu = item.getMenu() as MenuLike;
+    if (onOpen && OpenEvent) menu.addEventListener(OpenEvent, onOpen);
     if (onUpdate) item.addEventListener(MenuItem.UpdateEvent, () => onUpdate(item));
-    return item.getMenu();
+    return menu;
   }
 
   addMenuSeparator(menu: MenuLike, isVisible?: (() => boolean) | null): MenuItemLike | null {
@@ -579,7 +603,8 @@ export class Designer extends EventTarget {
     const MenuItem = this._menuItemClass();
     if (!MenuItem) return null;
     const item = new MenuItem(MenuItem.Type.Item);
-    if (activate) item.addEventListener(MenuItem.ActivateEvent, activate as (event: never) => void);
+    // Bound as an event listener, as the old addMenuItem did.
+    if (activate) item.addEventListener(MenuItem.ActivateEvent, activate as unknown as () => void);
     if (shortcut) {
       this.registerShortcut(
         shortcut,
@@ -1058,6 +1083,20 @@ export class Designer extends EventTarget {
     return scene;
   }
 
+  /**
+   * Resolves once the CMYK profile request init started has finished
+   * (at once when init started none). The old app never waited; boot
+   * does, so a CMYK colour converts the same way every time.
+   */
+  whenCmykProfileLoaded(): Promise<void> {
+    return this._cmykProfileLoad || Promise.resolve();
+  }
+
+  /** The welcome screen once it was created (the old _newDocumentDialog field). */
+  getNewDocumentDialog(): NewDocumentDialogLike | null {
+    return this._newDocumentDialog;
+  }
+
   private _newDocumentDialogInstance(): NewDocumentDialogLike | null {
     if (!this._newDocumentDialog) {
       const Dialog = lateExport<new () => NewDocumentDialogLike>(
@@ -1466,9 +1505,7 @@ export class Designer extends EventTarget {
       .then((value) => {
         const keep = value || false;
         EditorOptions.preserveAspectRatio = keep as boolean;
-        (
-          EditorOptions as unknown as { allowTextRatioPreservation: unknown }
-        ).allowTextRatioPreservation = keep;
+        EditorOptions.allowTextRatioPreservation = keep as boolean;
       });
     SceneOptions.scaleLabel = false;
     SceneOptions.defaultBorderPositionForLines = true;
@@ -1488,8 +1525,6 @@ export class Designer extends EventTarget {
       const detail = (event as CustomEvent<{ clientX: number; clientY: number }>).detail;
       if (event.target) this._triggerContextMenu(event.target, detail.clientX, detail.clientY);
     });
-    // GLongPressEvent started itself when its module loaded (once per page).
-    startLongPressEvents();
     if (!Designer.shellBuilder) throw new Error("no shell builder (mount.tsx sets it)");
     const shell = Designer.shellBuilder(this);
     this._mainframe = shell.mainframe;
@@ -1594,12 +1629,10 @@ export class Designer extends EventTarget {
     this.setPartVisible(Layout.Panels, false);
     this.setPartVisible(Layout.Info, false);
     css(this._mainframe, "display", "");
-    // GColor.setCMYKProfile("USWebCoatedSWOPv2", "assets/data/icc/") ran here. The
-    // interim src/parity/g/engine-color.ts still makes that call when it loads
-    // (before boot); a second call while that request runs would fetch the
-    // file twice, so until that call goes the designer leaves it to the hook.
     if (!Color.currentCMYKProfile && Designer.loadsCmykProfile)
-      Color.setCMYKProfile("USWebCoatedSWOPv2", "assets/data/icc/");
+      this._cmykProfileLoad = new Promise((resolve) =>
+        Color.setCMYKProfile("USWebCoatedSWOPv2", "assets/data/icc/", resolve),
+      );
     this._initialized = true;
     useShellStore.setState({ initialized: true });
     this._windows.addEventListener(WindowEvent, this._windowEvent, this);
@@ -1831,6 +1864,7 @@ export class Designer extends EventTarget {
     view.getViewConfiguration().paintMode = mode;
     Platform.scheduleFrame(() => {
       view.invalidateAndResetCache(null);
+      if (this.hasEventListeners(PaintModeEvent)) this.trigger(new PaintModeEvent(mode));
     });
   }
 
@@ -2199,6 +2233,143 @@ export class Designer extends EventTarget {
 
   getWebURL(): string {
     return location.origin;
+  }
+
+  /** The update manager boot started (the old _softwareUpdateManager field). */
+  getSoftwareUpdateManager(): SoftwareUpdateManagerLike | null {
+    const find = lateExport<() => SoftwareUpdateManagerLike | null>(
+      "dialogs/software-update-manager.ts",
+      "softwareUpdateManager",
+    );
+    return find ? find() : null;
+  }
+
+  /**
+   * Runs `done` after `ms` and shows the time left in a
+   * `<time class="g-timer">` on the body, updated every second.
+   */
+  createCountdown(done: (() => void) | null, ms: number): Countdown {
+    let timer: HTMLElement | null = null;
+    const end = new Date().getTime() + ms;
+    const intervalID = setInterval(() => {
+      const left = end - Date.now();
+      if (left < 0) {
+        clearInterval(intervalID);
+        if (timer) timer.remove();
+        return;
+      }
+      const minutes = Math.floor((left % 3600000) / 60000);
+      const seconds = Math.floor((left % 60000) / 1000);
+      if (!timer) {
+        timer = document.createElement("time");
+        timer.setAttribute("data-interval", String(intervalID));
+        timer.classList.add("g-timer");
+        document.body.appendChild(timer);
+      }
+      timer.textContent = (
+        Locale.get(new LocaleKey("GCommonNames", "text.countdown-timer")) as string
+      )
+        .replace("%minutes", String(minutes))
+        .replace("%seconds", String(seconds));
+    }, 1000);
+    let timeoutID: ReturnType<typeof setTimeout> | null = null;
+    if (done) timeoutID = setTimeout(done, ms);
+    return { intervalID, timeoutID };
+  }
+
+  /**
+   * Keeps the browser's install prompt. A dialog that waited for it opens
+   * now; on wide screens the dialog offers itself on the third start
+   * within a week, unless "Not now" was pressed in the last 30 days.
+   */
+  setPwaEvent(event: PwaEvent | null | undefined): void {
+    if (!event || "beforeinstallprompt" !== event.type) return;
+    this._pwaEvent = event;
+    if (this._waitingPwaDialog && !this._installPwaDialog) {
+      this.showInstallPwaDialog(!!this._waitingPwaDialogDarkBackground);
+      this._waitingPwaDialog = null;
+      this._waitingPwaDialogDarkBackground = null;
+    }
+    if (window.screen.availWidth < 1024) return;
+    const now = this.now();
+    const container = containerOrNull() as Container;
+    void container.getProperty(PWA_CLOSED_DATE_PROPERTY).then((closed) => {
+      if (closed && now - (closed as number) < 30 * DAY) {
+        container.setProperty(PWA_STARTS_PROPERTY, JSON.stringify([]));
+        return;
+      }
+      void container.getProperty(PWA_STARTS_PROPERTY).then((stored) => {
+        let starts: number[] | undefined;
+        let recent: number[] = [];
+        if (stored && (stored as string).length)
+          try {
+            starts = JSON.parse(stored as string) as number[];
+          } catch {
+            // A broken value counts as no starts.
+          }
+        if (!starts) starts = [];
+        for (const start of starts) if (now - start < 7 * DAY) recent.push(start);
+        if (2 === recent.length) {
+          if (this._ready) this.showInstallPwaDialog();
+          else this.executeWhenReady(() => this.showInstallPwaDialog());
+        }
+        recent.push(now);
+        if (recent.length > 2) recent = recent.slice(-2);
+        container.setProperty(PWA_STARTS_PROPERTY, JSON.stringify(recent));
+      });
+    });
+  }
+
+  /** Opens the install dialog, or waits for the install prompt where the browser has one. */
+  showInstallPwaDialog(dark = false): void {
+    if (this._installPwaDialog) return;
+    if (this._shouldWaitForPWAEvent()) {
+      this._waitingPwaDialog = true;
+      this._waitingPwaDialogDarkBackground = dark;
+      return;
+    }
+    const Dialog = lateExport<new (dark?: boolean) => InstallPwaDialogLike>(
+      "dialogs/install-pwa-dialog.ts",
+      "InstallPwaDialog",
+    );
+    if (!Dialog) return;
+    this._installPwaDialog = new Dialog(dark);
+    this._installPwaDialog.open();
+  }
+
+  private _shouldWaitForPWAEvent(): boolean {
+    const supported = lateExport<() => boolean>(
+      "actions/file/install-to-desktop-action.ts",
+      "isPwaSupported",
+    );
+    return !this.hasPwaEvent() && !!supported && supported();
+  }
+
+  closeInstallPwaDialog(): void {
+    if (this._installPwaDialog) {
+      this._installPwaDialog.close();
+      this._installPwaDialog = null;
+    }
+  }
+
+  getPwaEvent(): PwaEvent | null {
+    return this._pwaEvent;
+  }
+
+  hasPwaEvent(): boolean {
+    return !!this._pwaEvent;
+  }
+
+  /**
+   * Writes the settings object to storage, as setSetting does after a
+   * change. Boot calls it once the start is done (see bootstrap).
+   */
+  writeSettings(): void {
+    try {
+      (containerOrNull() as Container).setProperty(SETTINGS_PROPERTY, this._settings);
+    } catch {
+      // The old code ignored storage errors (quota, private mode).
+    }
   }
 
   /** The licence state reaches the toolbar, sidebars, menu and tabs (all enabled here). */

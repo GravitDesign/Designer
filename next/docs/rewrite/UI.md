@@ -193,9 +193,10 @@ Keep class order as the old code added it; the DOM snapshots record
   `renderInto(element, <TheView controller={this} />)` from
   src/app/state/islands.tsx (one React root per island, rendered
   synchronously, so code that looks at the DOM right after `init()`
-  works). The header and the toolbar (menus cluster) do the same with
-  their part element; the sidebars with their `.sidebar-container`; the
-  footer panels with their `.panel-container`.
+  works). The sidebars do the same with their `.sidebar-container`, the
+  footer panels with their `.panel-container`. The header and the
+  toolbar (menus cluster) build their own DOM in the part element and
+  use islands only for content (section 6).
 - Islands share state through the Zustand stores, not through React
   context. Never render React children into an element a controller
   owns other than through its island, and never toggle classes or
@@ -288,6 +289,14 @@ handle.update();                  // re-render after controller state changed
   measures or queries the overlay right after opening still works.
   Never call them from inside a component render; from effects, use the
   controller.
+- Menus, the menu bar, the header, the toolbar, overlays and dialogs
+  own plain DOM, built by their controllers in the old order with the
+  old classes: their elements move between containers (a menu detached
+  from the menu bar into the touch toolbar, a dialog into the overlay
+  container), `getHtmlElement()` is public API other code uses, and the
+  DOM snapshots compare class order. React renders only content
+  islands inside them (`renderInto`), never the element the controller
+  hands out.
 - The overlay's controller keeps the old class and API
   (`MessageDialog.open/close`, `SystemDialog.alert/confirm/prompt`,
   `Menu.open/close`, `ContextMenu.open`). It owns its state; the
@@ -312,8 +321,8 @@ a small handle type.
 | `gPropertyRow`, `gInputLabel` | `<PropertyRow>`, `<InputLabel>` | |
 | `gAccordion` | `<Accordion>` | |
 | `gRichTooltip`, `data-title` tooltips | `<RichTooltip>`, tooltip manager controller | tooltip positions from shell/tooltip-position.ts |
-| `gDialog`, dialog container | `Dialog` controller + `<DialogView>` via `openOverlay` | |
-| `gMenu`, `gMenuButton` | `Menu`/`MenuItem` controllers + `<MenuView>` via `openOverlay` | menus cluster |
+| `gDialog`, dialog container | `Dialog` controller that owns its DOM (section 6), React island for the content | |
+| `gMenu`, `gMenuButton` | `Menu`/`MenuItem` controllers that own their DOM (section 6), React islands for content | menus cluster |
 | `gAutoEdit`, `gElastic` | `<AutoEdit>`, `<ElasticTextarea>` | |
 
 Conventions:
