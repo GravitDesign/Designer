@@ -806,3 +806,40 @@ the rollback in the layout (around 89759).
   don't change.
 - Parity exceptions: none. No recorded scenario undoes inside the text
   core.
+
+## BUG-026 Undo, Save, Redo of an inserted image makes the next save fail
+
+Old code: chunk.vendor.js module 227, GDictionary serialize (44947-44956,
+sanitize then flush); module 658, GSceneDictionary (92130-92374, the throw
+at 92322).
+
+- Reproduce: Modify > Flatten (F7) a shape, Paste Image or drop a PNG
+  file, then Undo, save the file, and Redo. Save again. The same happens
+  for Delete, Save, Undo of an image.
+- Old: every save flushes the scene dictionary and deletes entries that
+  nothing refers to. After the Undo the image is out of the scene, so its
+  entry (the image data) was deleted, while the undo history still held
+  the image with its `dictionary://` url. Redo inserted it again, the
+  dictionary found no entry for the url, and every later save threw
+  "Missing entry value for dictionary://..."; the document couldn't be
+  saved any more and the image data was gone.
+- New: the save still writes only the entries something refers to, so
+  files are unchanged, but the scene dictionary keeps the entries it drops
+  aside. When a node with such a url is inserted again (or a save finds a
+  node pointing at one), the entry comes back with its data. Loading a
+  document clears the kept entries. The kept entry gives up its decoded
+  canvas, which is decoded again when needed.
+- Test: src/engine/style/scene-dictionary.test.ts, "keeps the data of an
+  image removed before a save for when it comes back (BUG-026)": insert,
+  remove, save (no entries written), insert again, save: the entry is
+  written with its data and one reference. Fails with the old dictionary
+  (the value is gone). "recreates a missing entry from the stored url and
+  says so" still throws for an entry deleted outside a flush.
+- Parity exceptions: parity/exceptions/BUG-026.json.
+  editor-actions/exec/modify.path2bmp and modify.path2bmp--two: the
+  document after Redo is "same as after" (it serializes like the
+  document right after Flatten) instead of the serialize error; nothing
+  else in the output changes. Pending, not enabled for the new app yet:
+  editor-actions/shortcuts/modify (modify.path2bmp case),
+  editor-actions/clipboard/paste-events (paste.paste) and
+  editor-actions/dnd/drops (png-file, two-files).

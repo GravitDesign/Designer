@@ -133,6 +133,26 @@ describe("GSceneDictionary", () => {
     expect(() => scene.dictionary.sanitize()).toThrow("Missing entry value for " + url);
   });
 
+  it("keeps the data of an image removed before a save for when it comes back (BUG-026)", () => {
+    // Undo of an inserted image, Save, Redo.
+    const scene = new DictionaryTestScene();
+    const image = imageWithUrl("data:image/png;base64,DDDD");
+    scene.appendChild(image);
+    const url = image.getProperty("url") as string;
+    scene.removeChild(image);
+    // The save writes only entries something refers to.
+    expect(scene.dictionary.serialize().entries).toEqual([]);
+    expect(scene.dictionary.getEntry(url)).toBeUndefined();
+    scene.appendChild(image);
+    expect(image.getProperty("url")).toBe(url);
+    expect(scene.dictionary.getValue(url)).toBe("data:image/png;base64,DDDD");
+    // The old dictionary lost the data here, and this save threw
+    // "Missing entry value for dictionary://...".
+    const saved = scene.dictionary.serialize().entries;
+    expect(saved.map((entry) => entry.value)).toEqual(["data:image/png;base64,DDDD"]);
+    expect(scene.dictionary.getEntry(url)?.references).toBe(1);
+  });
+
   it("answers the workspace for its own urls", () => {
     const scene = new DictionaryTestScene();
     const entry = scene.dictionary.putValueIfAbsent(

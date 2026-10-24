@@ -13,7 +13,7 @@ import { getRegisteredClass, registerClass } from "../core/object.ts";
 import { Image } from "../scene/image.ts";
 import { AfterInsertEvent, AfterRemoveEvent } from "../scene/node-events.ts";
 import type { Node } from "../scene/node.ts";
-import { Dictionary, type DictionaryEntry } from "./dictionary.ts";
+import { Dictionary, DictionaryEntry } from "./dictionary.ts";
 import { PaintLayer } from "./paint-layer.ts";
 import type { PaintLayers } from "./paint-layers.ts";
 import { Stylable } from "./stylable.ts";
@@ -103,10 +103,19 @@ export class SceneDictionary extends Dictionary {
   declare _scene: DictionaryScene;
   declare _workspace: DictionaryWorkspace | null;
   declare _memory: number;
+  /**
+   * Entries a flush dropped because nothing referred to them, by uuid. A
+   * node that comes back with their url (redo of an inserted image, undo of
+   * its removal) gets them back instead of a url without data
+   * (BUGS-FIXED.md "BUG-026 Undo, Save, Redo of an inserted image makes the
+   * next save fail").
+   */
+  declare _dropped: Record<string, DictionaryEntry>;
 
   constructor(scene: DictionaryScene) {
     super();
     this._scene = scene;
+    this._dropped = {};
     this._scene.addEventListener(
       AfterInsertEvent,
       this._afterInsertEvent as (event: never) => void,
@@ -165,7 +174,7 @@ export class SceneDictionary extends Dictionary {
     if (url) {
       if (Dictionary.isDictionary(url)) {
         if (!(url in entries)) {
-          const entry = this.getEntry(url);
+          const entry = this.getEntry(url) || this._restoreDropped(url);
           if (entry) entries[url] = entry;
           else this._redirectUrl(event.node);
         }
@@ -178,7 +187,7 @@ export class SceneDictionary extends Dictionary {
           const layerUrl = this._getUrl(layer);
           if (Dictionary.isDictionary(layerUrl)) {
             if (!(layerUrl in entries)) {
-              const entry = this.getEntry(layerUrl);
+              const entry = this.getEntry(layerUrl) || this._restoreDropped(layerUrl);
               if (entry) entries[layerUrl] = entry;
             }
           } else this._redirectUrl(layer);
@@ -297,7 +306,7 @@ export class SceneDictionary extends Dictionary {
    */
   override sanitize(): void {
     const ensure = (url: unknown, value: unknown) => {
-      if (Dictionary.isDictionary(url) && !this.getEntry(url)) {
+      if (Dictionary.isDictionary(url) && !this.getEntry(url) && !this._restoreDropped(url)) {
         const id = url.substring((Dictionary.PROTOCOL + "://").length);
         if (!value) throw new Error("Missing entry value for " + url);
         const entry = new this.EntryClass(value, id);
@@ -326,6 +335,36 @@ export class SceneDictionary extends Dictionary {
         }
       }
     });
+  }
+
+  /** Keeps an entry the map drops for a node that may come back with its url. */
+  override removeEntry(
+    entryOrKey: DictionaryEntry | string | null | undefined,
+    remove?: boolean,
+  ): void {
+    const entry = entryOrKey instanceof DictionaryEntry ? entryOrKey : this.getEntry(entryOrKey);
+    super.removeEntry(entryOrKey, remove);
+    if (entry && !(String(entry.uuid) in this._map)) {
+      // Its canvas is decoded again if the entry comes back.
+      entry.cachedCanvas = null;
+      this._dropped[String(entry.uuid)] = entry;
+    }
+  }
+
+  /** Puts a dropped entry back into the map, without references; null if there is none. */
+  _restoreDropped(url: string): DictionaryEntry | null {
+    const id = url.substring((Dictionary.PROTOCOL + "://").length);
+    const entry = this._dropped[id];
+    if (!entry) return null;
+    Reflect.deleteProperty(this._dropped, id);
+    entry.references = 0;
+    this.addEntry(entry);
+    return entry;
+  }
+
+  override deserialize(blob: Parameters<Dictionary["deserialize"]>[0]): void {
+    this._dropped = {};
+    super.deserialize(blob);
   }
 
   /** Recounts every entry and drops those without references. */
