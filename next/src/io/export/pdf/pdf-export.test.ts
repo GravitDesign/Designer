@@ -161,7 +161,8 @@ describe("PDFExport.export error and abort paths", () => {
     layer.appendChild(rectangle(10, 10, 50, 50, new AngularGradient()));
     const calls: unknown[][] = [];
     PDFExport.export(page, { dpi: 72, disableWorker: true }, (...args) => calls.push(args));
-    await wait(100);
+    // Wait for the callback rather than a fixed time: under load 100 ms isn't enough.
+    await vi.waitFor(() => expect(calls.length).toBeGreaterThan(0), { timeout: 10_000 });
     expect(calls).toEqual([[failure]]);
     expect(finish).toHaveBeenCalled();
   });
@@ -186,7 +187,7 @@ describe("PDFExport.export error and abort paths", () => {
       },
       (...args) => calls.push(args),
     );
-    await wait(100);
+    await vi.waitFor(() => expect(calls.length).toBeGreaterThan(0), { timeout: 10_000 });
     // The rejected document promise reaches the callback as an undefined
     // error, which the exporter takes as "aborted" (old GExporter).
     expect(calls).toEqual([[undefined]]);

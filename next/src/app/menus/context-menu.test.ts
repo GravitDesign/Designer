@@ -67,6 +67,9 @@ let world: FakeWorld;
 let windows: FakeElement;
 
 beforeEach(() => {
+  // The active menu manager arms a 250 ms timer on document; fake timers
+  // let afterEach run it while the fake DOM still exists.
+  vi.useFakeTimers();
   dom = installFakeDom();
   world = {
     registered: new Set(),
@@ -109,6 +112,8 @@ afterEach(() => {
   ActiveMenuManager.setActiveMenu(null, true);
   Designer.contextMenuTrigger = null;
   resetGlobals();
+  vi.runOnlyPendingTimers();
+  vi.useRealTimers();
   dom.uninstall();
 });
 
