@@ -534,3 +534,34 @@ Old code: chunk.vendor.js module 726, GOpenTypeUtil.getOpenTypeInfo
   electron/migration-old-userdata and platform/storage/old-session-profile
   import an ExtraBold font (OpenSans-ExtraBold renamed to "Mig Fonts") and
   record it as weight 400; once enabled they should get 800.
+
+## BUG-016 Restored ready shapes skip their base constructors
+
+Old code: chunk.vendor.js module 530, GSimpleShape constructor
+(75048-75078, the base constructor only inside `if (e)`) and restore
+(75195-75210).
+
+- Reproduce: draw a ready shape (Toolbar > ready shapes), save and reopen
+  the file, or duplicate, copy and paste it, or undo its deletion. Every
+  one of these creates the shape without a processor and restores it from
+  its blob.
+- Old: without a processor the constructor did nothing, not even the base
+  constructors. The restore set the saved properties, but `_paintSharp`
+  and the reference list `$refs` were never created. A loaded ready shape
+  was painted without pixel snapping in the view (soft edges where a
+  newly drawn one is crisp), and linking it to a shared style called
+  `$refs.concat` on undefined.
+- New: the constructor runs the base constructors and sets pixel snapping
+  in both cases; with a processor it goes on as before. Saved files are
+  unchanged.
+- Test: src/engine/scene/simple-shape.test.ts, "restores a ready shape
+  with pixel snapping and a reference list (BUG-016)": after a save and a
+  load the shape snaps to pixels, has an empty reference list and records
+  a shared style link. It fails with the old constructor (`_paintSharp`
+  false, `$refs` undefined).
+- Parity exceptions: parity/exceptions/BUG-016.json,
+  corpus/shapes-ready/render-light and render-dark: the loaded ready shapes
+  are drawn pixel-snapped. Checked that all 9,725 differing pixels lie
+  within 2 px of a shape edge in the old render; fills are unchanged.
+  engine-model/special/ready-shape, the preview, the bitmap and the
+  exports of shapes-ready.gvdesign don't snap and still match.

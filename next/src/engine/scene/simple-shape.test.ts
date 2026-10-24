@@ -78,11 +78,23 @@ describe("GSimpleShape", () => {
     expect(back.toString()).toBe("Test Triangle");
   });
 
-  it("without a processor starts empty, like the old constructor that ran no base constructor", () => {
-    const shape = new SimpleShape();
-    expect(Object.keys(shape)).toEqual([]);
-    expect(shape.getAnnotationsCount()).toBe(0);
-    expect(shape.rewindVertices(0)).toBe(false);
+  it("restores a ready shape with pixel snapping and a reference list (BUG-016)", () => {
+    const empty = new SimpleShape();
+    expect(empty.getAnnotationsCount()).toBe(0);
+    expect(empty.rewindVertices(0)).toBe(false);
+    const shape = triangle();
+    const back = Node.deserialize(Node.serialize(shape) as string) as SimpleShape;
+    // The old constructor ran no base constructor without a processor, so
+    // both were missing after a load.
+    expect(back._paintSharp).toBe(true);
+    expect(back.$refs).toEqual([]);
+    // Linking it to a shared style records the reference.
+    back._referenceEvent({
+      target: back,
+      linked: true,
+      reference: { getReferenceId: () => "style-1" },
+    } as never);
+    expect(back.$refs).toEqual(["style-1"]);
   });
 
   it("saves a ready shape without handles with an empty list and restores it (BUG-005)", () => {

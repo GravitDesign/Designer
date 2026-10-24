@@ -51,10 +51,10 @@ export class SimpleShape extends Shape {
   /**
    * A ready shape from `processor` with the annotations at `positions`,
    * scaled to `width` x `height` when both are given. Without a
-   * processor (restoring from a file) the old constructor did nothing at
-   * all, not even the base constructors: the node starts without any own
-   * fields and gets them from the file. That state is kept by removing
-   * what the base constructors set.
+   * processor (restoring from a file) the node gets the rest from the
+   * file. The old constructor ran no base constructor then, so a loaded
+   * shape had no pixel snapping and no reference list (BUGS-FIXED.md
+   * "BUG-016 Restored ready shapes skip their base constructors").
    */
   constructor(
     processor?: ParameterizedVertexProcessor | null,
@@ -65,10 +65,8 @@ export class SimpleShape extends Shape {
     icon?: string | null,
   ) {
     super();
-    if (!processor) {
-      for (const key of Object.keys(this)) Reflect.deleteProperty(this, key);
-      return;
-    }
+    this._paintSharp = true;
+    if (!processor) return;
     this._parameterizedVertexProcessor = processor;
     this._annotationsParamVals = null;
     if (positions) {
@@ -80,7 +78,6 @@ export class SimpleShape extends Shape {
     }
     this._sShapeName = name as string | null;
     this._icon = icon || null;
-    this._paintSharp = true;
     const vertices = this._parameterizedVertexProcessor.getVertices(this._annotationsParamVals);
     if (vertices && vertices.getCount()) {
       this._paths = PathUtil.createPathFromVertexSource(vertices, true) as Path[];
