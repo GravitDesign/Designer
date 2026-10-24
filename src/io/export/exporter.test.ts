@@ -395,7 +395,7 @@ function storage(options: {
 }
 
 describe("Exporter.exportToDirectory", () => {
-  it('makes subdirectories for "/" (reused case-insensitively) and numbers names across them', async () => {
+  it('makes subdirectories for "/" (reused case-insensitively) and numbers names per directory (BUG-093)', async () => {
     const zip = new ZipDirectory();
     let done = 0;
     await Exporter.exportToDirectory(
@@ -408,8 +408,8 @@ describe("Exporter.exportToDirectory", () => {
     expect(await zipContents(await zipOf(zip))).toEqual({
       "Icons/A.png": "Icons/A",
       "Icons/B.png": "icons/B",
-      "A(2).png": "A",
-      "A(3).png": " A ",
+      "A.png": "A",
+      "A(2).png": " A ",
       "x/Deep/C.png": "x/ /Deep/C",
     });
   });
@@ -424,9 +424,9 @@ describe("Exporter.exportToDirectory", () => {
     expect(done).toBe(0);
   });
 
-  it("drops a file whose final name is taken and still finishes (old behaviour)", async () => {
-    // "a(2)", "a", "a" give "a(2).png", "a.png", "a(2).png": zip-fs refuses
-    // the second "a(2).png" and the exporter counts it as written.
+  it("numbers a file on until its final name is free (BUG-093)", async () => {
+    // The old numbering gave "a(2)", "a", "a" the names "a(2).png",
+    // "a.png", "a(2).png", and zip-fs refused the second "a(2).png".
     const zip = new ZipDirectory();
     let done = 0;
     await Exporter.exportToDirectory(
@@ -436,7 +436,11 @@ describe("Exporter.exportToDirectory", () => {
     );
     await settle();
     expect(done).toBe(1);
-    expect(await zipContents(await zipOf(zip))).toEqual({ "a(2).png": "first", "a.png": "second" });
+    expect(await zipContents(await zipOf(zip))).toEqual({
+      "a(2).png": "first",
+      "a.png": "second",
+      "a(3).png": "third",
+    });
   });
 
   it("counts a file that can't be added as written and writes into the parent when a directory fails", async () => {
@@ -521,7 +525,8 @@ describe("Exporter.export", () => {
     expect(await zipContents(calls[0]?.data)).toEqual({
       "Icons/A.png": "Icons/A",
       "Icons/B.png": "icons/B",
-      "A(2).png": "A",
+      // Numbered per directory (BUG-093): "A" is free at the top level.
+      "A.png": "A",
     });
     expect(done).toBe(1);
   });

@@ -434,7 +434,25 @@ export class Exporter {
   ): Promise<void> {
     const directories: Record<string, ExportDirectory> = {};
     let written = 0;
-    const used: { name: string; format: string }[] = [];
+    // The file names given out per directory (lower case, for file systems
+    // that ignore case). A name that is taken gets "(n)" with the first n
+    // that is free there. The old numbering counted the names given out in
+    // any directory and could hand out a name twice ("a(2)", "a", "a" gave
+    // "a(2).png" twice), and the second file was dropped (BUGS-FIXED.md
+    // "BUG-093 A multi-file export silently drops a file whose final name is
+    // taken").
+    const taken = new Map<ExportDirectory, Set<string>>();
+    const freeName = (target: ExportDirectory, exportable: Exportable, name: string): string => {
+      let names = taken.get(target);
+      if (!names) taken.set(target, (names = new Set()));
+      const stem = sanitizeFilename(fileNameOf(name)) + (exportable.suffix || "");
+      let fileName = stem + "." + exportable.format;
+      for (let n = 2; names.has(fileName.toLowerCase()); n++) {
+        fileName = stem + "(" + n + ")." + exportable.format;
+      }
+      names.add(fileName.toLowerCase());
+      return fileName;
+    };
     const countWritten = (): void => {
       if (++written === exportables.length && onDone) onDone();
     };
@@ -491,7 +509,7 @@ export class Exporter {
         if (name && target) {
           Exporter.exportExportable(
             exportable,
-            writeInto(target, Exporter.generateExportName(exportable, name, used)),
+            writeInto(target, freeName(target, exportable, name)),
             progress,
           );
         }

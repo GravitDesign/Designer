@@ -1141,7 +1141,7 @@ What it does: the "(n)" numbering only counts names given out before, so names "
 
 Why it's unclear: silent data loss; the numbering across folders may be intended.
 
-Kept. Pinned by next/src/io/export/exporter.test.ts "drops a file whose final name is taken and still finishes (old behaviour)" and "makes subdirectories for "/" ...".
+Fixed: see BUG-093 in BUGS-FIXED.md.
 
 ## Q-095 Export to a directory never finishes when an item has no name
 

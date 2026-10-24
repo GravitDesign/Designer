@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-093",
+  "why": "Multi-file exports number file names per directory until the name is free, instead of handing out a name twice and dropping the second file. The enabled ZIP and folder exports have no repeated names, so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}

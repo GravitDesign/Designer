@@ -2428,3 +2428,31 @@ GDocument.hasPagesWithInfiniteEmptyCanvas (lines 8321-8325).
   the old app's run takes the same path as before and still matches its
   recording. import-export/ui/empty-infinite-canvas (a visible empty
   infinite page) is unchanged.
+
+## BUG-093 A multi-file export silently drops a file whose final name is taken
+
+Old code: designer.browser.dev.js module 1253, GExporter.exportToDirectory
+(lines 80664-80725).
+
+- Reproduce: export several items into a folder or ZIP (Export panel or
+  the export dialog with several exportables) whose names are `a(2)`,
+  `a` and `a`.
+- Old: the "(n)" numbering only counted the names handed out so far, by
+  name and format, so the three items got `a(2).png`, `a.png` and
+  `a(2).png`. The ZIP refused the second `a(2).png` ("Entry filename
+  already exists."), and the exporter swallowed that and counted the file
+  as written: the ZIP silently lacked it. The count was also shared by all
+  folders, so `Icons/A` and then `A` gave `A(2).png` at the top level.
+- New: each directory keeps the file names it has handed out (ignoring
+  case), and a name that is taken there gets "(n)" with the first n that
+  is free: `a(2).png`, `a.png`, `a(3).png`; `Icons/A.png` and `A.png`.
+- Test: src/io/export/exporter.test.ts, "numbers a file on until its final
+  name is free (BUG-093)", "makes subdirectories for "/" (reused
+  case-insensitively) and numbers names per directory (BUG-093)" and
+  "writes several items into a ZIP when the storage can't choose a
+  directory" (all fail with the old numbering).
+- Parity exceptions: none. The enabled ZIP and folder exports
+  (import-export/ui/dialog-assets-zip and the export panel scenarios)
+  have no repeated names and give the same output;
+  import-export/meta/export-names records the single-name helper, which
+  is unchanged.
