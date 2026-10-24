@@ -77,6 +77,23 @@ describe("ClipboardBridge", () => {
     expect(layersOf(b).getChildren().length).toBe(before + 1);
   });
 
+  it("pastes a copied SVG file (BUG-083)", () => {
+    const handled: unknown[] = [];
+    const internals = bridge as unknown as {
+      _handlePasteData(data: unknown): void;
+      _documentPasteEvent(event: unknown): void;
+    };
+    internals._handlePasteData = (data) => handled.push(data);
+    const file = new Blob(["<svg/>"], { type: "image/svg+xml" });
+    internals._documentPasteEvent({
+      clipboardData: {
+        items: [{ type: "image/svg+xml", kind: "file", getAsFile: () => file }],
+        getData: () => "",
+      },
+    });
+    expect(handled).toEqual([{ "image/svg+xml": file }]);
+  });
+
   it("does nothing while the annotations sidebar is active", () => {
     (fixture.designer as unknown as Record<string, unknown>).getRightSidebars = () => ({
       getActiveSidebar: () => "annotations",

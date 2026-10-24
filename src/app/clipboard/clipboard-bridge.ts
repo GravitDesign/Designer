@@ -228,6 +228,15 @@ export class ClipboardBridge {
             case "application/pdf":
               value = (items[i] as DataTransferItem).getAsFile();
               break;
+            case "image/svg+xml":
+              // A copied .svg file is a file item; getData gives nothing
+              // for it, which dropped the paste (BUGS-FIXED.md "BUG-083
+              // Pasting an SVG file does nothing").
+              value =
+                "file" === (items[i] as DataTransferItem).kind
+                  ? (items[i] as DataTransferItem).getAsFile()
+                  : clipboardData.getData(type) || null;
+              break;
             default:
               value = clipboardData.getData(type) || null;
           }

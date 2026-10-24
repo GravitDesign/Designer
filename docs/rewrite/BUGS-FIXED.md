@@ -2160,3 +2160,23 @@ Old code: chunk.vendor.js module 1391, svg.Element.image, lines
 - Parity exceptions: none. The recorded scenarios load each image once:
   io-import-svg/images-svg-placed and the other image, marker and pattern
   scenarios give the same output as before.
+
+## BUG-083 Pasting an SVG file does nothing
+
+Old code: designer.browser.dev.js module 1313, the document paste event
+(lines 101900-101910).
+
+- Reproduce: copy an .svg file in the file manager and paste it into the
+  canvas (Ctrl+V / Cmd+V) in a Chromium browser.
+- Old: the paste handler took file contents with getAsFile only for PNG,
+  JPEG, GIF and PDF items; for every other type it asked getData, which
+  gives an empty string for a file item. The image/svg+xml file was
+  dropped and nothing was pasted.
+- New: an image/svg+xml file item is read with getAsFile and placed like
+  a pasted PNG; SVG text on the clipboard (a string item) goes through
+  getData as before.
+- Test: src/app/clipboard/clipboard-bridge.test.ts, "pastes a copied SVG
+  file (BUG-083)" (fails with the old handler: the paste data is empty).
+- Parity exceptions: none enabled. Pending, not enabled for the new app
+  yet: import-export/clipboard/paste-event-svg-file (the old app records
+  a timeout and an unchanged page).

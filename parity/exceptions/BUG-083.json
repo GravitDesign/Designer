@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-083",
+  "why": "A copied SVG file is pasted: the paste handler reads image/svg+xml file items with getAsFile. The scenario that records the old timeout is not enabled for the new app yet.",
+  "scenarios": [],
+  "pending": ["import-export/clipboard/paste-event-svg-file"]
+}
