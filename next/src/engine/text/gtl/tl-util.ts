@@ -148,12 +148,12 @@ function parseFont(font: string): ParsedFont {
 }
 
 /**
- * Normalizes line breaks (only the first \r\n and \r, as before) and turns
- * tabs into three spaces. Kept: QUESTIONS.md "GTL deCRLFify replaces only
- * the first line break".
+ * Normalizes every line break (\r\n and \r) and turns tabs into three
+ * spaces. The old code replaced only the first \r\n and the first \r
+ * (BUGS-FIXED.md "BUG-023 deCRLFify replaces only the first line break").
  */
 function deCRLFify(text: string): string {
-  return text.replace("\r\n", "\n").replace("\r", "\n").replace(/\t/g, "   ");
+  return text.replace(/\r\n/g, "\n").replace(/\r/g, "\n").replace(/\t/g, "   ");
 }
 
 /** An object that inherits from `base` and has `values` as read-only own properties. */

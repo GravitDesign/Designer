@@ -721,3 +721,25 @@ Old code: chunk.vendor.js module 70, GText._paintBorder (18615-18618).
 - Parity exceptions: none. No recorded scenario has a text with an inside
   pattern border; the corpus, export and engine-model text scenarios still
   match.
+
+## BUG-023 deCRLFify replaces only the first line break
+
+Old code: chunk.vendor.js module 161, GTLUtil.deCRLFify (35257-35263).
+
+- Reproduce: set or paste a text with several Windows (CR LF) or classic
+  Mac (CR) line breaks into the text core, for example words from a PDF
+  import or a string with lone CR characters.
+- Old: deCRLFify called `replace("\r\n", "\n")` and `replace("\r", "\n")`
+  with strings, which replace only the first match each. Every later
+  CR LF kept its CR and every later lone CR stayed, so stray CR characters
+  were laid out and saved (`a\r\nb\r\nc\rd` became `a\nb\n\nc\rd`: the
+  second CR LF turned into two breaks and the lone CR stayed). GText
+  already turns CR LF into LF before it reaches the core, so mainly lone
+  CR characters were affected.
+- New: both replacements are global, so every CR LF and every lone CR
+  becomes one LF. Tabs still become three spaces.
+- Test: src/engine/text/gtl/tl-core.test.ts, "normalizes every line break
+  (BUG-023)": `deCRLFify("a\r\nb\r\nc\rd\te\r")` gives `"a\nb\nc\nd   e\n"`
+  (the old recording, still checked, is `"a\nb\n\nc\rd   e\r"`).
+- Parity exceptions: none. No recorded scenario sets a text with more than
+  one line break of these kinds through the text core.

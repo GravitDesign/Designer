@@ -110,7 +110,12 @@ describe("GTL against the old engine", () => {
     expect(actual.parseFont).toEqual(expected.parseFont);
     expect(actual.cssProperty).toEqual(expected.cssProperty);
     expect(actual.transformText).toEqual(expected.transformText);
-    expect(actual.deCRLFify).toEqual(expected.deCRLFify);
+  });
+
+  it("normalizes every line break (BUG-023)", () => {
+    // The old GTLUtil.deCRLFify replaced only the first CRLF and the first CR.
+    expect(expected.deCRLFify).toBe("a\nb\n\nc\rd   e\r");
+    expect(actual.deCRLFify).toBe("a\nb\nc\nd   e\n");
   });
 
   it("builds font strings (super/sub at 0.8) and additional props", () => {

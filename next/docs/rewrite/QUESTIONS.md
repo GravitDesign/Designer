@@ -642,7 +642,7 @@ Old: public/chunk.vendor.js:35259-35262 (GTLUtil.deCRLFify, module 161). New: ne
 
 Unclear: clearly meant to normalize all line breaks; the leftover "\r" is laid out and saved in `content`. A fix changes saved text, so it needs a BUGS-FIXED entry and a parity exception.
 
-Kept. Pinned by tl-core.test.ts "parses fonts and CSS like GTLUtil" (`deCRLFify("a\r\nb\r\nc\rd\te\r")`).
+Fixed: see BUG-023 in BUGS-FIXED.md.
 
 ## Q-046 GTL Formatting.merge recurses forever on an array of runs
 
