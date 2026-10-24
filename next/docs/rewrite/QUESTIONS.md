@@ -1960,8 +1960,7 @@ Why it's unclear: the extra point suggests a click was meant to leave a
 small open path; the closing undoes that. The empty path stays in the
 document.
 
-Kept. FreehandTool._mouseRelease; pinned by freehand-tool.test.ts ("a
-click without moving gets a second point 1 px right ...").
+Fixed: see BUG-052 in BUGS-FIXED.md.
 
 <!-- Editor, paths graph and annotation tools (phase 6) -->
 

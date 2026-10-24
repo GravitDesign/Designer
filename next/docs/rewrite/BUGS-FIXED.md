@@ -1124,3 +1124,24 @@ lines 80490-80512.
   the empty object is cached).
 - Parity exceptions: none. The parity runs load the default font before
   any text box is dragged.
+
+## BUG-052 A freehand click leaves an invisible closed one-point path
+
+Old code: chunk.vendor.js module 335 (GFreehandTool._mouseRelease 61265,
+_closeIfNeeded 61325-61328).
+
+- Reproduce: with the freehand tool, click without moving.
+- Old: the release gave the one-point stroke a second point 1 px to the
+  right, then the closing check (end within 15 px of the start) moved
+  that point back onto the first one and correctClosedAttribute merged
+  the two. The result was a selected, closed path with one anchor point
+  and its fill shown, which paints nothing and stays in the document
+  (Q-163).
+- New: a click isn't closed. It leaves the open two-point path the added
+  point was meant to make, (x, y) to (x + 1, y), selected. The magic tool
+  still treats a click as before.
+- Test: src/editor/tools/freehand-tool.test.ts, "BUG-052: a click without
+  moving leaves an open path with a second point 1 px right" (fails with
+  the old code: one point, closed).
+- Parity exceptions: none. No recorded freehand scenario is a plain
+  click.

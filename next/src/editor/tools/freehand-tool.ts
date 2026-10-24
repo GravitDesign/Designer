@@ -494,9 +494,7 @@ export class FreehandTool extends Panning(ItemTool) {
   /**
    * With Shift: fixes the straight segment and starts the next one.
    * Without: finishes the stroke (a one-point stroke gets a second point
-   * 1 to the right), closes it if needed and selects it. After a click
-   * the closing merges the two points again; see "Freehand click makes a
-   * closed one-point path" in QUESTIONS.md.
+   * 1 to the right), closes it if needed and selects it.
    */
   _mouseRelease(event: MouseEvent): void {
     if (Platform.modifiers.shiftKey) {
@@ -525,13 +523,14 @@ export class FreehandTool extends Panning(ItemTool) {
         this._released = true;
         const newPath = this._newPath as Path;
         const anchors = newPath.getAnchorPoints();
-        if (anchors.getFirstChild() === anchors.getLastChild()) {
+        const click = anchors.getFirstChild() === anchors.getLastChild();
+        if (click) {
           const first = anchors.getFirstChild() as AnchorPoint;
           const point = new AnchorPoint();
           point.setProperties(["x", "y"], [first.$x + 1, first.$y]);
           anchors.appendChild(point);
         }
-        this._finalizeDrawing();
+        this._finalizeDrawing(click);
         if (newPath.hasFlag(NodeFlag.Highlighted)) newPath.removeFlag(NodeFlag.Highlighted);
       } finally {
         this._finishTransaction();
@@ -542,8 +541,15 @@ export class FreehandTool extends Panning(ItemTool) {
     this._allowDeactivation();
   }
 
-  _finalizeDrawing(): void {
-    if (this._closeIfNeeded()) this._correctFillVisibility();
+  /**
+   * Closes the stroke if its end is near its start and selects it. A click
+   * (`click`: the stroke is the press point plus the added point) stays an
+   * open path. The old code closed it too and merged the two points into
+   * an invisible closed one-point path (BUG-052 A freehand click leaves an
+   * invisible closed one-point path).
+   */
+  _finalizeDrawing(click?: boolean): void {
+    if (!click && this._closeIfNeeded()) this._correctFillVisibility();
     (this._newPath as Path).setFlag(NodeFlag.Selected);
   }
 

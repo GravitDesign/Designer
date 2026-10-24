@@ -123,11 +123,19 @@ describe("FreehandTool strokes", () => {
     expect(loopWithSelected(true)).toEqual([true]);
   });
 
-  it("a click without moving gets a second point 1 px right, which the closing then merges", () => {
+  it("BUG-052: a click without moving leaves an open path with a second point 1 px right", () => {
     const { page, input } = setup();
     input.click(100, 100);
     const path = pathAt(page, 0);
-    expect([points(path), path.getProperty("closed")]).toEqual([[[100, 100]], true]);
+    // The old code closed it and merged the two points: [[100, 100]], closed.
+    expect([points(path), path.getProperty("closed")]).toEqual([
+      [
+        [100, 100],
+        [101, 100],
+      ],
+      false,
+    ]);
+    expect(path.hasFlag(NodeFlag.Selected)).toBe(true);
   });
 
   it("Shift continues with straight segments until Shift goes up", () => {
