@@ -104,3 +104,47 @@ describe("SketchImport", () => {
     expect(SketchTexturePattern.pdfRenderer).toBe(renderPdfImage);
   });
 });
+
+/** A scene node as this test reads it. */
+interface ReadNode {
+  getProperty(name: string): unknown;
+  acceptChildren(visit: (node: ReadNode) => void): void;
+  getEffects?(): { getChildren(): ReadNode[] } | null;
+}
+
+/** The node names and visibility of each layer's effects, by layer name. */
+function effectsByLayer(pages: unknown[]): Record<string, string[]> {
+  const out: Record<string, string[]> = {};
+  for (const page of pages as ReadNode[]) {
+    page.acceptChildren((node) => {
+      const effects = node.getEffects ? node.getEffects() : null;
+      const list = effects ? effects.getChildren() : [];
+      if (list.length) {
+        out[node.getProperty("name") as string] = list.map(
+          (effect) =>
+            `${Node.getName(effect)}${effect.getProperty("vs") === false ? " (hidden)" : ""}`,
+        );
+      }
+    });
+  }
+  return out;
+}
+
+describe("Sketch layer effects (BUG-103)", () => {
+  it("imports shadows, blurs and colour controls, a disabled one hidden", async () => {
+    const result = (await importFile("styles-v49.sketch", {
+      workspace: new Workspace(),
+    })) as SketchImportResult;
+    expect(effectsByLayer(result.pages)).toEqual({
+      "blur-gauss": ["GGLBlurEffect"],
+      "blur-zoom": ["GGLZoomBlurEffect"],
+      "blur-bg": ["GGLBlurEffect"],
+      shadows: [
+        "GGLColorAdjustEffect",
+        "dropShadowEffect",
+        "dropShadowEffect (hidden)",
+        "innerShadowEffect",
+      ],
+    });
+  });
+});

@@ -10,10 +10,11 @@ export interface EffectNodeLike {
 }
 
 /**
- * A layer effect. The shape importer only constructs and applies effects,
- * it never calls `parse()`, so `_effect` stays null and `applyTo` adds
- * nothing (QUESTIONS.md "Sketch import drops layer effects"); only a
- * background blur adds its fill layer (sketch-blur-effect.ts).
+ * A layer effect: `parse()` makes the engine effect, `applyTo` adds it to
+ * the node's effects, hidden when Sketch has it disabled. Without parse()
+ * `_effect` stays null and only a background blur adds its fill layer
+ * (sketch-blur-effect.ts); see "Sketch layer effects are dropped" in
+ * BUGS-FIXED.md.
  */
 export class SketchEffect<D = unknown> extends SketchParser<D> {
   declare _effect: EffectNodeLike | null | undefined;

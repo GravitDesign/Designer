@@ -7,6 +7,7 @@ import { Stylable } from "../../../engine/style/stylable.ts";
 import { getClassFromName } from "./class-registry.ts";
 import { SketchBlurEffect } from "./effects/sketch-blur-effect.ts";
 import { SketchColorAdjustEffect } from "./effects/sketch-color-adjust-effect.ts";
+import type { SketchEffect } from "./effects/sketch-effect.ts";
 import { SketchDropShadowEffect } from "./effects/sketch-drop-shadow-effect.ts";
 import { SketchInnerShadowEffect } from "./effects/sketch-inner-shadow-effect.ts";
 import type { SketchShapeGroup } from "./sketch-shape-group.ts";
@@ -89,15 +90,22 @@ export class SketchShape extends SketchNode {
           undefined !== style.contextSettings.opacity ? style.contextSettings.opacity : 1,
         );
       }
-      if (style.colorControls) new SketchColorAdjustEffect(style.colorControls).applyTo(this._node);
-      if (style.blur) new SketchBlurEffect(style.blur).applyTo(this._node);
+      // Each effect is parsed before it is applied; the old importer never
+      // called parse(), so only a background blur's fill layer arrived
+      // ("Sketch layer effects are dropped" in BUGS-FIXED.md).
+      const apply = (effect: SketchEffect): void => {
+        effect.parse();
+        effect.applyTo(this._node);
+      };
+      if (style.colorControls) apply(new SketchColorAdjustEffect(style.colorControls));
+      if (style.blur) apply(new SketchBlurEffect(style.blur));
       if (style.innerShadows)
         style.innerShadows.forEach((shadow) => {
-          new SketchInnerShadowEffect(shadow).applyTo(this._node);
+          apply(new SketchInnerShadowEffect(shadow));
         });
       if (style.shadows)
         style.shadows.forEach((shadow) => {
-          new SketchDropShadowEffect(shadow).applyTo(this._node);
+          apply(new SketchDropShadowEffect(shadow));
         });
     }
     this._sendEvent(new SketchProcessEvent(Process.AfterParse, this));

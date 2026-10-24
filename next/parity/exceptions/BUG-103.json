@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-103",
+  "why": "Sketch shadows, inner shadows, blurs and colour controls are imported as Gravit effects (a disabled one hidden); the old importer never parsed them and dropped them all. The .fixed file equals the old output except for the effects of the layers blur-gauss, blur-zoom, blur-bg and shadows.",
+  "scenarios": ["io-import-sketch/styles-v49"],
+  "pending": []
+}

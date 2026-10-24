@@ -1376,3 +1376,34 @@ place import.
   AI check, which already reported the error, and stay as they are.
   Pending: import-export/import/open/pdf-broken.pdf.state (the old empty
   dialog and Loading).
+
+## BUG-103 Sketch layer effects are dropped
+
+Old code: chunk.vendor.js module 794 (sketchshape, the effects loop at
+lines 109422-109430), module 597 (sketcheffect) and modules 1123-1126 (the
+effect classes).
+
+- Reproduce: open a Sketch file whose layers have shadows, inner shadows,
+  a gaussian or zoom blur or colour controls
+  (parity/fixtures/import/sketch/styles-v49.sketch).
+- Old: the importer made each effect with `new Effect(data)` and called
+  `applyTo(node)`, but never `parse()`, which is what creates the engine
+  effect. `applyTo` found nothing to add, so every shadow, blur and colour
+  adjustment was lost without a warning. Only a background blur showed a
+  trace, the background fill layer its applyTo adds by itself
+  (QUESTIONS.md Q-098).
+- New: each effect is parsed before it is applied. Drop and inner shadows,
+  gaussian, zoom and background blurs and colour controls arrive as the
+  matching Gravit effects; one that is disabled in Sketch is imported
+  hidden. A disabled blur still imports nothing, as the blur class
+  intends.
+- Test: src/io/import/sketch/sketch-import.test.ts, "Sketch layer effects
+  (BUG-103)" (with the old code no layer has any effect).
+- Parity exceptions: parity/exceptions/BUG-103.json,
+  io-import-sketch/styles-v49. Its `.fixed` file equals the old recording
+  except that the layers blur-gauss, blur-zoom, blur-bg and shadows have an
+  effects list (a GGLBlurEffect, a GGLZoomBlurEffect, a clipping
+  GGLBlurEffect, and a colour adjustment, two drop shadows, the second
+  hidden, and an inner shadow) where the old one had only the empty list's
+  id; checked with a diff of the expanded JSON. No other enabled Sketch
+  fixture has effects; the whole io-import-sketch suite passes otherwise.

@@ -1183,7 +1183,7 @@ What it does: the shape importer creates each effect with `new Effect(data)` and
 
 Why it's unclear: the effect classes are complete, so the importer clearly meant to convert them. Users lose every shadow and blur of a Sketch file without a warning. A fix would call `parse()` before `applyTo`; that changes the output of every Sketch file with effects.
 
-Kept. next/src/io/import/sketch/effects/sketch-effect.ts and sketch-shape.ts. Pinned by the parity scenario io-import-sketch/styles-v49 (layers "shadows", "blur-gauss", "blur-zoom", "blur-bg").
+Fixed: see BUG-103 in BUGS-FIXED.md.
 
 ## Q-099 Sketch symbol override replaceChild test is inverted
 
