@@ -3000,9 +3000,10 @@ export class Text extends TextBase {
         );
         const previous = context.pushCanvas(canvas) as PaintCanvas;
         const scale = (canvas.getScale() as number) * (this.$trf ? this.$trf.getScaleFactor() : 1);
-        // `$_ba` of the text itself is never set; kept (QUESTIONS.md
-        // "GText: the border pattern check reads the text's own _ba").
-        if (patternBox && (this as unknown as { $_ba: unknown }).$_ba !== BorderAlignment.Inside) {
+        // The border layer's alignment, as in shapes. The old code read the
+        // text's own `$_ba`, which is never set (BUGS-FIXED.md "BUG-022 Text
+        // border pattern box reads the text's own _ba").
+        if (patternBox && layer.$_ba !== BorderAlignment.Inside) {
           let reach = layer.$_bw;
           if (layer.$_ba === Stylable.BorderAlignment.Center) reach *= 0.5;
           if (this.$trf) {

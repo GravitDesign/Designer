@@ -697,3 +697,27 @@ Old code: chunk.vendor.js module 70, GText.replaceFonts (17982-17986).
   else equals the old recording. Both fail with the old code.
 - Parity exceptions: none. No recorded scenario replaces a font
   (ui/dialog/missing-fonts only shows the dialog).
+
+## BUG-022 Text border pattern box reads the text's own `_ba`
+
+Old code: chunk.vendor.js module 70, GText._paintBorder (18615-18618).
+
+- Reproduce: give a text an Inside border with a gradient or texture
+  pattern and compare the pattern with the same border on a rectangle.
+- Old: before building the border's pattern, the box the pattern spans is
+  widened by the border's reach unless the border is inside. The check
+  read `$_ba` of the text, which a text never has (it is a border layer
+  property), so every text border pattern box was widened, also for
+  Inside borders, where shapes keep the box as it is. The gradient or
+  texture of an inside text border was stretched over a box larger than
+  the text.
+- New: the check reads the border layer's alignment, as shapes do
+  (shape.ts). Center borders still widen by half the width, outside
+  borders by the full width.
+- Test: src/engine/text/text.test.ts, "widens the border's pattern box
+  only for borders that aren't inside (BUG-022)": for a 100 x 50 pattern
+  box and a 10 wide border, Inside keeps 100 x 50, Center gives 110 x 60
+  and Outside 120 x 70. The old code widens the Inside box too.
+- Parity exceptions: none. No recorded scenario has a text with an inside
+  pattern border; the corpus, export and engine-model text scenarios still
+  match.

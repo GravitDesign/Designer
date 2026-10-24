@@ -10,6 +10,7 @@ import { installFakeCanvas } from "../paint/testing/fake-canvas.ts";
 import { Node } from "../scene/node.ts";
 import { PathBase } from "../scene/path-base.ts";
 import { Path } from "../scene/path.ts";
+import { Rect } from "../math/rect.ts";
 import { Layer } from "../scene/layer.ts";
 import { Scene } from "../scene/scene.ts";
 import { Workspace } from "../scene/workspace.ts";
@@ -286,6 +287,36 @@ describe("GText against the old engine", () => {
 });
 
 describe("GText", () => {
+  it("widens the border's pattern box only for borders that aren't inside (BUG-022)", () => {
+    const text = new Text();
+    text._setWorkspace(workspace(fontManager));
+    text.setText("border");
+    const boxes: number[][] = [];
+    const stubbed = text as unknown as Record<string, unknown>;
+    stubbed.hasStyleBorder = () => true;
+    stubbed.getPatternBBox = () => new Rect(0, 0, 100, 50);
+    stubbed._createStyleCanvas = () => ({ getScale: () => 1 });
+    stubbed.createShapePaint = (_context: unknown, _pattern: unknown, box: Rect) => {
+      boxes.push([box.getX(), box.getY(), box.getWidth(), box.getHeight()]);
+      return null;
+    };
+    const context = {
+      configuration: { isOutline: () => false },
+      isIncludingInvisible: () => false,
+      pushCanvas: () => ({}),
+      popCanvas: () => {},
+    };
+    for (const alignment of ["I", "C", "O"]) {
+      text._paintBorder(context as never, false, { $_ba: alignment, $_bw: 10 } as never);
+    }
+    // The old code read the text's own _ba (never set) and widened all three.
+    expect(boxes).toEqual([
+      [0, 0, 100, 50],
+      [-5, -5, 110, 60],
+      [-10, -10, 120, 70],
+    ]);
+  });
+
   it("registers GStylable with the GTL core, so a core initializes", () => {
     const text = new Text();
     text._setWorkspace(workspace(fontManager));

@@ -582,7 +582,7 @@ The border paint tests `this.$_ba !== Inside` on the text itself. Texts have no 
 
 Unclear: the layer's `$_ba` was probably meant. Changing it changes the pattern box of textured borders on text.
 
-Kept. Not pinned by a test in text.test.ts; the text painting tests of R4-D-008 cover border painting.
+Fixed: see BUG-022 in BUGS-FIXED.md.
 
 ## Q-040 GText: a legacy blob with a raw trf array throws
 
