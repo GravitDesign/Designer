@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-042",
+  "why": "Letting Shift go after a straight freehand segment finishes the stroke in the multi-page view instead of throwing. freehand/shift-straight-segments runs in the single-page view, where nothing changes, so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}

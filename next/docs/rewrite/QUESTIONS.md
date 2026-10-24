@@ -1943,8 +1943,7 @@ that case.
 Why it's unclear: works in the usual case, may crash in the multi-page
 view.
 
-Kept. FreehandTool._modifiersChanged (comment there); the single page case
-is pinned by freehand/shift-straight-segments.
+Fixed: see BUG-042 in BUGS-FIXED.md.
 
 ## Q-163 Freehand click makes a closed one-point path
 

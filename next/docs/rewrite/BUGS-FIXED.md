@@ -895,3 +895,28 @@ Old code: chunk.vendor.js module 764 (GMagicTool._doTheClip), lines
   (reading 'getParent')).
 - Parity exceptions: none. The magic/* scenarios select only closed
   shapes.
+
+## BUG-042 Finishing a freehand stroke with Shift up throws in the multi-page view
+
+Old code: chunk.vendor.js module 335 (GFreehandTool._modifiersChanged),
+lines 61192-61201, and GEditor.updateByMousePosition (module 82).
+
+- Reproduce: in the multi-page view (F6), draw with the freehand tool,
+  press Shift during the stroke for straight segments, release the mouse,
+  click a further point with Shift held and then let Shift go.
+- Old: letting Shift go finishes the stroke by calling _mouseRelease with
+  the ModifiersChangedEvent instead of a mouse event. Its `client` is
+  undefined, and in the multi-page view updateByMousePosition calls
+  Rect.containsPoint(undefined), which throws a TypeError (checked in the
+  old app: "Cannot read properties of undefined (reading 'getX')" from
+  containsPoint). The stroke stays open and unselected and the tool
+  doesn't reset. In the single-page view the position isn't read, so it
+  finishes normally (Q-162).
+- New: the stroke is finished with the last mouse event, so the page
+  under the pointer is updated from where the pointer is. The single-page
+  view behaves as before.
+- Test: src/editor/tools/freehand-tool.test.ts, "BUG-042: Shift up
+  finishes the stroke in the multi-page view too" (fails with the old
+  code: TypeError: Cannot read properties of undefined (reading 'getX')).
+- Parity exceptions: none. freehand/shift-straight-segments runs in the
+  single-page view, where nothing changes.

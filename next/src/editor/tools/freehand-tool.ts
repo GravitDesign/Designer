@@ -215,7 +215,7 @@ export class FreehandTool extends Panning(ItemTool) {
 
   _smoothingManager: SmoothingManager | null = null;
   _released = true;
-  _lastMouseEvent: MouseEvent | ModifiersChangedEvent | null = null;
+  _lastMouseEvent: MouseEvent | null = null;
   /** The path of the stroke being drawn. */
   _newPath: Path | null = null;
   /** The path of the last stroke (digits still act on it). */
@@ -441,14 +441,14 @@ export class FreehandTool extends Panning(ItemTool) {
     if (event.changed.shiftKey && this._lastMouseEvent && this._newPath) {
       if (Platform.modifiers.shiftKey) {
         (this._smoothingManager as SmoothingManager)._smoothCurrent();
-        this._mouseDrag(this._lastMouseEvent as MouseEvent);
+        this._mouseDrag(this._lastMouseEvent);
       } else if (this._released) {
         this._released = false;
-        // The old code passed the modifiers event as the release event;
-        // only its missing client is read (by updateByMousePosition). See
-        // "Freehand finish on Shift up passes the modifiers event" in
-        // QUESTIONS.md.
-        this._mouseRelease(event as unknown as MouseEvent);
+        // Finishes at the last pointer position. The old code passed the
+        // modifiers event, whose missing client made updateByMousePosition
+        // throw in the multi-page view (BUG-042 Finishing a freehand
+        // stroke with Shift up throws in the multi-page view).
+        this._mouseRelease(this._lastMouseEvent);
       }
     }
   }

@@ -3,10 +3,11 @@ import { Key } from "../../engine/core/key.ts";
 import { RGBColor } from "../../engine/color/rgb-color.ts";
 import { Point } from "../../engine/math/point.ts";
 import { NodeFlag } from "../../engine/scene/node-change.ts";
+import type { Page } from "../../engine/scene/page.ts";
 import { Path } from "../../engine/scene/path.ts";
 import { FillPaintLayer } from "../../engine/style/fill-paint-layer.ts";
 import { Cursor } from "../cursor.ts";
-import { installFakeDom } from "../view/testing/fake-dom.ts";
+import { installFakeDom, runAllFrames } from "../view/testing/fake-dom.ts";
 import { MouseEvent } from "../../engine/core/mouse-event.ts";
 import { EditorOptions } from "../editor-options.ts";
 import { FreehandTool } from "./freehand-tool.ts";
@@ -145,6 +146,32 @@ describe("FreehandTool strokes", () => {
     const pts = points(pathAt(page, 0));
     expect(pts.slice(-3)).toEqual([
       [250, 130],
+      [300, 250],
+      [300, 250],
+    ]);
+    expect(pathAt(page, 0).hasFlag(NodeFlag.Selected)).toBe(true);
+  });
+
+  it("BUG-042: Shift up finishes the stroke in the multi-page view too", () => {
+    const { scene, view, page, input } = setup();
+    (page as unknown as Page).setProperties(["w", "h"], [400, 300]);
+    (scene.insertPage() as Page).setProperties(["w", "h"], [400, 300]);
+    scene.setActivePage(page as unknown as Page);
+    view.getViewConfiguration().multiPageView = true;
+    view.transform(0, 0, 1);
+    runAllFrames();
+    input.down(100, 100);
+    input.drag(120, 110);
+    input.drag(150, 130);
+    setModifiers({ shiftKey: true });
+    input.drag(250, 130);
+    input.up(250, 130);
+    input.move(300, 250);
+    input.down(300, 250);
+    input.up(300, 250);
+    // The old code threw here: TypeError from Rect.containsPoint.
+    setModifiers({ shiftKey: false });
+    expect(points(pathAt(page, 0)).slice(-2)).toEqual([
       [300, 250],
       [300, 250],
     ]);
