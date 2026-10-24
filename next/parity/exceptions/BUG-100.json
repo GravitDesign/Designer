@@ -1,6 +1,6 @@
 {
   "bug": "BUG-100",
-  "why": "A .gvdesign that holds no scene (cut-off or empty JSON, a non-scene root, a scene without pages) fails the load with the error-reading-file message instead of staying Loading. corpus/edge/invalid-json/state records the old status 'loading'; it doesn't run against the new app yet.",
-  "scenarios": [],
-  "pending": ["corpus/edge/invalid-json/state"]
+  "why": "A .gvdesign that holds no scene (cut-off or empty JSON, a non-scene root, a scene without pages) fails the load with the error-reading-file message instead of staying Loading. corpus/edge/invalid-json/state records the old status 'loading'; the .fixed file has the LoadFailed status (11, which the corpus hook has no name for) and is otherwise the same.",
+  "scenarios": ["corpus/edge/invalid-json/state"],
+  "pending": []
 }

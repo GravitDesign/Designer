@@ -1302,8 +1302,9 @@ Old code: designer.browser.dev.js module 163, GDocument.deserializeData
   out as pending with the old code.
 - Parity exceptions: parity/exceptions/BUG-100.json. Only
   corpus/edge/invalid-json/state records the old behaviour (status
-  "loading"); its suite doesn't run against the new app yet, so it is
-  pending.
+  "loading"). Its `.fixed` file has the LoadFailed status instead ("11",
+  which the corpus hook has no name for) and is otherwise the same
+  (checked with diff).
 
 ## BUG-101 Merging equal clip paths on import keeps only the first child of the second
 
