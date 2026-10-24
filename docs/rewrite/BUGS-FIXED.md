@@ -2204,3 +2204,30 @@ handler ignoring the import error) and chunk.vendor.js module 1390
   has no unit test (the place path needs the whole document host).
 - Parity exceptions: none enabled. Pending, not enabled for the new app
   yet: import-export/import/place/svg-shapes.svgz.
+
+## BUG-085 Texts colored by their font color export as `fill:[Object GRGBColor]`
+
+Old code: chunk.vendor.js module 1467, the SVG text word's renderSVG
+(line 257703), and the list markers of the SVG text renderer.
+
+- Reproduce: make a text with the text tool (it is colored by its font
+  color, not by a fill layer), or open any document with such texts, and
+  export it as SVG (File > Export, or Print, which goes through SVG).
+- Old: the font color reached the SVG writer as a color object, which
+  was written as is: `fill:[Object GRGBColor]` on every `<text>` and
+  `fill="[Object GRGBColor]"` on list bullets and numbers. Browsers ignore
+  that value, so the texts and markers showed black.
+- New: the color is written as the canvas writes it, an uppercase hex
+  color (`fill:#C81E1E`), for the words and for list markers. Texts
+  colored by a fill layer are unchanged.
+- Test: src/io/export/svg/svg-export-font-color.test.ts, "BUG-085: texts
+  colored by their font color" (fails with the old writer: the SVG
+  contains `[Object`). List markers are covered by the
+  io-export-svg/corpus/text-lists parity scenario.
+- Parity exceptions: io-export-svg/corpus/text-layout, text-runs,
+  text-character-styles, text-lists, text-on-path, symbols, pages-master,
+  pages-master-odd-even and transforms, and io-export-svg/extra/
+  symbol-instance. Checked by replacing every `fill:#XXXXXX` /
+  `fill="#XXXXXX"` and every `[Object GRGBColor]` fill with the same
+  placeholder: each `.fixed` file then equals the old output exactly, and
+  none contains `[Object GRGBColor]` any more.

@@ -133,6 +133,10 @@ export class SvgTLCore extends TLCore {
         defs.appendChild(gradient);
         pattern = SvgUtil.createIdUrl(gradient.getAttribute("id"));
       }
+      // A font color marker gets the CSS color like the text's words; the
+      // old code wrote "[Object GRGBColor]" (BUGS-FIXED.md "BUG-085 Texts
+      // colored by their font color export as fill:[Object GRGBColor]").
+      if (pattern instanceof Color) pattern = Color.rgbToHtmlHex(pattern.toScreen());
       const element = context.createSvgElement("path");
       element.setAttribute("d", path);
       if (mode !== SvgText.Mode.STROKE) {

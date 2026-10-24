@@ -15,6 +15,7 @@ import {
   openTypeLanguageSystemTagNumberToBCP47TagNumber,
   stringToTag,
 } from "../../../engine/text/fonts/harfbuzz.ts";
+import { Color } from "../../../engine/color/color.ts";
 import { Length } from "../../../engine/math/length.ts";
 import { Gradient } from "../../../engine/style/gradient.ts";
 import { LinearGradient } from "../../../engine/style/linear-gradient.ts";
@@ -155,6 +156,11 @@ Object.assign(SvgTextWord.prototype, {
   textFractions: false,
 });
 
+/** A color as the canvas sets it (hex); anything else as it is. */
+function cssPaint(paint: unknown): unknown {
+  return paint instanceof Color ? Color.rgbToHtmlHex(paint.toScreen()) : paint;
+}
+
 /** The words on one baseline. */
 export class SvgTextLine {
   origin: Transform;
@@ -222,12 +228,13 @@ export class SvgTextLine {
       if (word.textUnderline) decorations.push("underline");
       if (word.textStrikeout) decorations.push("line-through");
       if (decorations.length) style.set("text-decoration", decorations.join(" "));
-      // Kept: a text colored by its font color hands the color object here,
-      // which prints as "[Object GRGBColor]" (QUESTIONS.md "SVG export text
-      // font colors").
-      const fill = word.fillColor || "none";
+      // A text colored by its font color hands the color object here; it
+      // is written like the canvas writes it. The old code wrote the object
+      // itself, "[Object GRGBColor]" (BUGS-FIXED.md "BUG-085 Texts colored
+      // by their font color export as fill:[Object GRGBColor]").
+      const fill = cssPaint(word.fillColor || "none");
       if (!(fill instanceof Gradient)) style.set("fill", fill);
-      const stroke = word.strokeColor || "none";
+      const stroke = cssPaint(word.strokeColor || "none");
       if (!(stroke instanceof Gradient)) style.set("stroke", stroke);
       if (word.mode >= Mode.STROKE) {
         style.set("stroke-width", numberFormat.formatNumber(word.lineWidth as number));

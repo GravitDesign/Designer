@@ -1,0 +1,17 @@
+{
+  "bug": "BUG-085",
+  "why": "Texts and list markers colored by their font color export with a CSS color (uppercase hex, as the canvas writes it) instead of fill:[Object GRGBColor]. With every fill color and every [Object GRGBColor] fill replaced by the same placeholder, each .fixed file equals the old output.",
+  "scenarios": [
+    "io-export-svg/corpus/text-layout",
+    "io-export-svg/corpus/text-runs",
+    "io-export-svg/corpus/text-character-styles",
+    "io-export-svg/corpus/text-lists",
+    "io-export-svg/corpus/text-on-path",
+    "io-export-svg/corpus/symbols",
+    "io-export-svg/corpus/pages-master",
+    "io-export-svg/corpus/pages-master-odd-even",
+    "io-export-svg/corpus/transforms",
+    "io-export-svg/extra/symbol-instance"
+  ],
+  "pending": []
+}

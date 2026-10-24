@@ -1075,7 +1075,7 @@ What it does: a text colored by its font color (`_fc`, which the default text st
 
 Why it's unclear: clearly wrong output, but it is what every SVG export of such a text has written. Listed as a BUGS-FIXED candidate.
 
-Kept. Pinned by the io-export-svg/corpus/text-layout, text-runs, text-character-styles, text-lists, text-on-path, symbols and pages-master parity scenarios.
+Fixed: see BUG-085 in BUGS-FIXED.md.
 
 <!-- File formats, PDF and bitmap export (phase 5 review) -->
 
