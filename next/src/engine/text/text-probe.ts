@@ -782,8 +782,9 @@ export function probeText(api: TextProbeApi): Record<string, unknown> {
     return { restored, shapes };
   };
 
-  // -- Fake text with two backup outlines (one per run): only the first
-  // one's vertices are read, since the iterator never moves on.
+  // -- Fake text with two backup outlines (one per run): the old app read
+  // only the first one's vertices, since the iterator never moved on
+  // (BUG-020).
   {
     const { restored, shapes } = fakeText(ownFonts(["Gone"]).workspace);
     out.fakeVertices = {

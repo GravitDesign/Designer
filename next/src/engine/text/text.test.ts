@@ -48,6 +48,16 @@ const expected = JSON.parse(
   readFileSync(resolve(here, "__fixtures__/old-text.json"), "utf8"),
 ) as Record<string, Record<string, unknown>>;
 
+/**
+ * The parts of old-text.json that show a bug the port fixes, as the port
+ * gives them (BUGS-FIXED.md "BUG-020 A fake text gives only its first
+ * backup outline to vertex readers").
+ */
+const fixed = JSON.parse(
+  readFileSync(resolve(here, "__fixtures__/old-text.fixed.json"), "utf8"),
+) as { bug: string; fakeVertices: Record<string, unknown>; undo: Record<string, unknown> };
+const expectedUndo = { ...(expected.undo as object), ...fixed.undo } as Record<string, unknown>;
+
 let actual: Record<string, Record<string, unknown>>;
 let uninstall: () => void;
 let fontManager: FontManager;
@@ -196,15 +206,32 @@ describe("GText against the old engine", () => {
     expect(actual.missing).toEqual(expected.missing);
   });
 
-  it("reads only the first backup outline of a fake text", () => {
-    expect(actual.fakeVertices).toEqual(expected.fakeVertices);
+  it("reads every backup outline of a fake text (BUG-020)", () => {
+    expect(actual.fakeVertices).toEqual(fixed.fakeVertices);
+    type Outline = { digest: string; head: unknown[]; bounds: [string, ...number[]] };
+    const fake = actual.fakeVertices as { backups: Outline[]; outline: Outline };
+    const old = expected.fakeVertices as { backups: Outline[]; outline: Outline };
+    // The old outline was the first backup's alone.
+    expect(old.outline.bounds).toEqual(old.backups[0]?.bounds);
+    // Now it starts like the first one and covers both.
+    expect(fake.outline.head).toEqual(fake.backups[0]?.head);
+    const [first, second] = fake.backups as [Outline, Outline];
+    const [, x1, y1, w1, h1] = first.bounds as [string, number, number, number, number];
+    const [, x2, y2, w2, h2] = second.bounds as [string, number, number, number, number];
+    const left = Math.min(x1, x2);
+    const top = Math.min(y1, y2);
+    expect(fake.outline.bounds).toEqual([
+      "R",
+      left,
+      top,
+      Math.max(x1 + w1, x2 + w2) - left,
+      Math.max(y1 + h1, y2 + h2) - top,
+    ]);
   });
 
   for (const name of Object.keys(expected.undo as object)) {
     it(`undoes and redoes through the transaction recorder (${name})`, () => {
-      expect((actual.undo as Record<string, unknown>)[name]).toEqual(
-        (expected.undo as Record<string, unknown>)[name],
-      );
+      expect((actual.undo as Record<string, unknown>)[name]).toEqual(expectedUndo[name]);
     });
   }
 

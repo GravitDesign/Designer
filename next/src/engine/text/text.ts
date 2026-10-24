@@ -1014,12 +1014,17 @@ export class Text extends TextBase {
   /** The outline vertices: `trf` applied, moved by the margin, and by the render bounds on a path. */
   override readVertex(vertex: Vertex, scale?: number): boolean {
     if (this.isFakeText()) {
-      // _vertexIterator never moves on, so only the first backup outline is
-      // read (QUESTIONS.md "GText: fake text reads only the first backup outline").
-      return (
-        !!this.hasVertexForRead() &&
-        (this._backupPaths()[this._vertexIterator] as unknown as VertexReader).readVertex(vertex)
-      );
+      // Reads the backup outlines one after the other. The old code never
+      // moved _vertexIterator on, so only the first one was read
+      // (BUGS-FIXED.md "BUG-020 A fake text gives only its first backup
+      // outline to vertex readers").
+      const paths = this._backupPaths();
+      while (this._vertexIterator < paths.length) {
+        const path = paths[this._vertexIterator] as unknown as VertexReader;
+        if (path.readVertex(vertex)) return true;
+        this._vertexIterator++;
+      }
+      return false;
     }
     const read = this._vertexContainer.readVertex(vertex);
     if ((vertex.x || 0 === vertex.x) && scale) vertex.x += Text.HMARGIN / scale;
@@ -1056,9 +1061,12 @@ export class Text extends TextBase {
 
   override hasVertexForRead(): boolean {
     if (this.isFakeText()) {
-      const path = this._backupPaths()[this._vertexIterator] as unknown as
-        { hasVertexForRead(): unknown } | undefined;
-      return (path && path.hasVertexForRead()) as boolean;
+      const paths = this._backupPaths();
+      for (let i = this._vertexIterator; i < paths.length; i++) {
+        if ((paths[i] as unknown as { hasVertexForRead(): unknown }).hasVertexForRead())
+          return true;
+      }
+      return false;
     }
     return this._vertexContainer.hasVertexForRead();
   }

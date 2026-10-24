@@ -645,3 +645,34 @@ getEffectPadding (234828-234852, `_savedBBox = _savedBBox.expanded(...)`).
 - Parity exceptions: none. The recorded renders and exports with contact
   shadows (engine-model/render effect cases, corpus effects-extra-shadows)
   compute the padding with a new box each time and still match.
+
+## BUG-020 A fake text gives only its first backup outline to vertex readers
+
+Old code: chunk.vendor.js module 70, GText readVertex (16880-16887) and
+hasVertexForRead (around 16915-16921).
+
+- Reproduce: open a file with a text of several style runs whose font is
+  missing (or a text imported from a PDF), so the text is a fake text
+  drawn from its backup outlines (`_bkpPath`, one per run). Look at it in
+  outline view, hover it, or read its vertices (outline export, Vectorize
+  Text).
+- Old: readVertex and hasVertexForRead read the backup path at
+  `_vertexIterator`, which rewindVertices set to 0 and nothing ever moved
+  on. Only the first run's outline came out, while painting drew all
+  runs, so the outline view, hover and selection showed only the first
+  run.
+- New: when one backup outline is read to its end, reading goes on with
+  the next one; hasVertexForRead looks at the current and the remaining
+  ones.
+- Test: src/engine/text/text.test.ts, "reads every backup outline of a
+  fake text (BUG-020)": the outline of the two-run fake text starts with
+  the first run's vertices and its bounds are the union of both runs'
+  bounds (the old outline had the first run's bounds alone). The probe's
+  fakeVertices and the three fake-text undo cases (fakeMoved,
+  fakeMoveUndone, fakeMoveRedone) now compare with
+  __fixtures__/old-text.fixed.json; they differ from old-text.json only in
+  the outline's vertex digest and its width (32.16 to 78.84, and 64.32 to
+  157.68 at twice the size), which is the width of the text's source box.
+  All four fail with the old reader.
+- Parity exceptions: none. No parity scenario reads the vertices of a fake
+  text with more than one run (engine-model/text still matches).

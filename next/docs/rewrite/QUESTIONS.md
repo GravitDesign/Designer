@@ -602,7 +602,7 @@ A fake text (missing or embedded fonts, with `_bkpPath`) has one backup path per
 
 Unclear: an old bug users can see. Fixing it changes outlines and exports of such texts. Candidate for a BUGS-FIXED entry.
 
-Kept. Pinned by text.test.ts "reads only the first backup outline of a fake text" (old-text.json fakeVertices: two backups, the outline digest is the first one's).
+Fixed: see BUG-020 in BUGS-FIXED.md.
 
 ## Q-042 GText: the MAXLENGTH cut can split a surrogate pair
 
