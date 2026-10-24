@@ -1980,3 +1980,26 @@ onwards.
   `class="blue"` points at a group that sets its own fill. Pending, not
   enabled for the new app yet: import-export/import/open/svg-structure.svg
   (and its render) and import-export/import/place/svg-structure.svg.
+
+## BUG-076 `<use>` of a `<text>` fails the import
+
+Old code: chunk.vendor.js module 1391, svg.Element.use, line 248111
+onwards.
+
+- Reproduce: import an SVG that reuses a text, for example
+  `<defs><text id="t">Referenced text</text></defs>` and
+  `<use xlink:href="#t" x="10" y="50"/>`.
+- Old: a `<text>` builds into a list of Gravit texts (one per tspan), and
+  the use treated that list as one node: `getTransform` on the list threw
+  a TypeError and the whole import failed with nothing imported.
+- New: the use places every text of the list with its transform, x and
+  y, the same way it places a single node.
+- Test: src/io/import/svg/svg-text-import.test.ts, "BUG-076: a <use> of a
+  <text>" (fails with the old use: TypeError node.getTransform is not a
+  function); the used text ends up where the same text written in place
+  would.
+- Parity exceptions: io-import-svg/use-text-svg. The old app recorded the
+  TypeError and no node; the `.fixed` file has the text. Checked against
+  the old app: the fixture with the use replaced by the text itself at
+  x 10, y 50 gives the same node, apart from the random ids and the name
+  "t" the referenced element's id gives it (as for every used element).

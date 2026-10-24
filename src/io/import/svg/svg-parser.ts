@@ -2701,10 +2701,9 @@ export class SvgUse extends SvgRenderedElementBase {
         if (attribute.hasValue()) copy.attributes[name] = attribute;
       });
     stack.push({ transform: new Transform() });
-    // A referenced <text> gives a list, which has no transform and throws below, as before.
-    const node = copy.toScene(stack, target) as ImportNode | null | undefined;
+    const result = copy.toScene(stack, target);
     stack.pop();
-    if (node) {
+    const place = (node: ImportNode) => {
       const context: SceneContext = {
         transform: node.getTransform() ? (node.getTransform() as Transform) : new Transform(),
       };
@@ -2715,8 +2714,13 @@ export class SvgUse extends SvgRenderedElementBase {
       if (node.hasMixin(ElementTransform)) {
         node.setTransform((node.getTransform() || new Transform()).multiplied(parent));
       }
-    }
-    return node;
+    };
+    // A referenced <text> gives its texts as a list; each is placed. The
+    // old code treated the list as one node and threw (BUGS-FIXED.md
+    // "BUG-076 <use> of a <text> fails the import").
+    if (Array.isArray(result)) each(result, (_index, node) => place(node));
+    else if (result) place(result);
+    return result;
   }
 
   override createSceneNode(): CreatedNode {

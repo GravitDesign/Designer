@@ -137,3 +137,27 @@ describe("BUG-074: text children with mixed content", () => {
     expect(fill(found[1] as Blob)).toBe("C#[255,0,0]");
   });
 });
+
+describe("BUG-076: a <use> of a <text>", () => {
+  it("imports the referenced text, moved by the use", async () => {
+    const font = { "font-family": "Open Sans", "font-size": "12" };
+    const used = await importTree(
+      el("svg", { width: "200", height: "100" }, [
+        el("rect", { width: "1", height: "1" }),
+        el("defs", {}, [el("text", { id: "t", ...font }, [text("Referenced")])]),
+        el("use", { "xlink:href": "#t", x: "10", y: "50" }),
+      ]),
+    );
+    const direct = await importTree(
+      el("svg", { width: "200", height: "100" }, [
+        el("rect", { width: "1", height: "1" }),
+        el("text", { x: "10", y: "50", ...font }, [text("Referenced")]),
+      ]),
+    );
+    expect(used.error).toBeNull();
+    const [found] = texts(used.node);
+    const [expected] = texts(direct.node);
+    expect(found?.ct?.[0]?.text).toBe("Referenced");
+    expect(found?.trf).toEqual(expected?.trf);
+  });
+});

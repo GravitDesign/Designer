@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-076",
+  "why": "A <use> of a <text> imports the text instead of failing with a TypeError. The old app recorded the error and no node; the .fixed file has the text, which the old app gives when the use is replaced by the text itself at the use's position (apart from the name \"t\" the referenced id gives it).",
+  "scenarios": ["io-import-svg/use-text-svg"],
+  "pending": []
+}
