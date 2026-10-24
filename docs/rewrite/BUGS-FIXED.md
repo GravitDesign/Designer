@@ -2028,3 +2028,27 @@ Old code: chunk.vendor.js module 1391, svg.Element.feColorMatrix (line
   elements removed give exactly the `.fixed` output, apart from the
   random ids. Pending, not enabled for the new app yet:
   import-export/import/open/svg-clip-mask-filter.svg (and its render).
+
+## BUG-078 Line and polyline bounds move the bottom edge to x
+
+Old code: chunk.vendor.js module 1391, svg.Rect expand, lines
+245500-245505.
+
+- Reproduce: import an SVG with a gradient or pattern in
+  objectBoundingBox units (the default) on a line, polyline or polygon,
+  for example `<polyline points="120,100 160,140 200,100"
+  fill="url(#g)"/>` with a diagonal linear gradient.
+- Old: the box these elements remember for objectBoundingBox units took
+  the x of a point below its bottom edge as the new bottom, so the box
+  came out with the wrong height (often negative) and the gradient got the
+  wrong angle and length.
+- New: the bottom edge takes the point's y.
+- Test: src/io/import/svg/svg-values.test.ts, "moves the bottom edge to
+  the y of a lower point (BUG-078)" (fails with the old expand: height -8
+  instead of 30).
+- Parity exceptions: io-import-svg/gradients-svg. The `.fixed` file
+  differs from the old output only in the angle of the diagonal gradient
+  on the polyline (-0.4636 instead of -0.6435 rad). Checked against the
+  old app: with the polyline replaced by a rect of the same box (120, 100,
+  80 x 40), the old app gives exactly the new angle. No other io-import-svg
+  scenario changes.

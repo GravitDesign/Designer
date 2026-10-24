@@ -1045,7 +1045,7 @@ What it does: canvg's bounding box, which gradients and patterns use for objectB
 
 Why it's unclear: an x/y slip; gradient and pattern fills with objectBoundingBox units on paths are placed against that box.
 
-Kept. Pinned by next/src/io/import/svg/svg-values.test.ts "moves the bottom edge to the x of a lower point (old quirk)".
+Fixed: see BUG-078 in BUGS-FIXED.md.
 
 ## Q-086 SVG import em units
 

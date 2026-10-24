@@ -84,9 +84,10 @@ export function createPath(text: string | null | undefined): SvgPoint[] {
 
 /**
  * canvg's svg.Rect, the bounding boxes the elements remember for
- * gradients and patterns. An empty one starts at +-Infinity; expand()
- * moves the bottom edge to the x of a point below it, as the old code did
- * (QUESTIONS.md "SVG import line bounds").
+ * gradients and patterns. An empty one starts at +-Infinity. The old
+ * expand() moved the bottom edge to the x of a point below it
+ * (BUGS-FIXED.md "BUG-078 Line and polyline bounds move the bottom edge
+ * to x").
  */
 export class SvgBounds {
   _x0: number;
@@ -121,7 +122,7 @@ export class SvgBounds {
     if (point.x < this._x0) this._x0 = point.x;
     if (point.x > this._x1) this._x1 = point.x;
     if (point.y < this._y0) this._y0 = point.y;
-    if (point.y > this._y1) this._y1 = point.x;
+    if (point.y > this._y1) this._y1 = point.y;
   }
 }
 

@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-078",
+  "why": "Bounding boxes of lines, polylines and polygons get their bottom edge from the y of the lowest point, so objectBoundingBox gradients on them are placed against the right box. The .fixed file differs from the old output only in the angle of the gradient on the polyline; the old app gives that angle for a rect with the polyline's box.",
+  "scenarios": ["io-import-svg/gradients-svg"],
+  "pending": []
+}

@@ -119,10 +119,10 @@ describe("SvgProperty", () => {
 });
 
 describe("SvgBounds", () => {
-  it("moves the bottom edge to the x of a lower point (old quirk)", () => {
+  it("moves the bottom edge to the y of a lower point (BUG-078)", () => {
     const bounds = new SvgBounds();
     bounds.expand(new SvgPoint(5, 10));
     bounds.expand(new SvgPoint(2, 40));
-    expect([bounds.x(), bounds.y(), bounds.width(), bounds.height()]).toEqual([2, 10, 3, -8]);
+    expect([bounds.x(), bounds.y(), bounds.width(), bounds.height()]).toEqual([2, 10, 3, 30]);
   });
 });
