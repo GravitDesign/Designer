@@ -33,18 +33,9 @@ let migrating = false;
 function startServer(): Promise<number> {
   return new Promise((resolve) => {
     server = createServer();
-    // The old app attached its license WebSocket server (routes/ws.js)
-    // before its own error handler. The ws server re-emitted the listen
-    // error on itself, which had no listener, so the error became an
-    // uncaught exception in the main process: Electron's "A JavaScript
-    // error occurred in the main process" box, no window, the process
-    // kept running and held the single-instance lock. The handler below
-    // it never ran. Kept as it was (parity electron/port-in-use); see the
-    // BUGS-FIXED candidate "Port in use: the friendly error box never
-    // shows".
-    server.on("error", (err) => {
-      throw err;
-    });
+    // In the old app the license WebSocket server turned this error into
+    // an uncaught exception before this handler ran (see BUG-130 "Port in
+    // use: the friendly error box never shows" in BUGS-FIXED.md).
     server.on("error", (err: NodeJS.ErrnoException) => {
       if (err.code === "EADDRINUSE") {
         // A random port would change the origin and reset the settings, so

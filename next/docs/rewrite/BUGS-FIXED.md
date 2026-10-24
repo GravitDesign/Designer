@@ -257,3 +257,28 @@ waitForResponse and the DCTDecode filter.
   group in both apps; io-import-pdf-eps/eps/image-dct-eps and
   import-export/import/open/eps-image-dct.eps.state stop at ASCIIHexDecode,
   which the worker lacks, before the JPEG.
+
+## BUG-130 Port in use: the friendly error box never shows
+
+Old code: electron-main.js (the port-in-use handler) and routes/ws.js (the
+license WebSocket server attached to the same HTTP server).
+
+- Reproduce: start the desktop app while another program listens on
+  127.0.0.1:47823 (the fixed port since #6).
+- Old: the license WebSocket server re-emitted the listen error on itself,
+  where nothing listened, so it became an uncaught exception in the main
+  process. Electron showed "A JavaScript error occurred in the main
+  process", no window opened, the process kept running and held the
+  single-instance lock, so the next start did nothing either. The app's
+  own EADDRINUSE handler, which shows a readable message and quits, never
+  ran.
+- New: the new server has no license WebSocket server (it refuses
+  upgrades), and electron/main.ts no longer re-throws the error, so the
+  handler runs: a "Port 47823 is already in use..." box, then the app
+  quits with code 0.
+- Test: parity electron/port-in-use (new app, expected
+  `port-in-use.fixed.json`: exit code 0, the showErrorBox event with that
+  text, will-quit). It fails with the re-throwing listener back in place.
+- Parity exceptions: electron/port-in-use. The .fixed file is the new
+  app's recorded output; the old expected file records the uncaught
+  exception box, a process that has to be killed and no will-quit.

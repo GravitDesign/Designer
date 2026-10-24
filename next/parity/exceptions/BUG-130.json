@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-130",
+  "why": "With port 47823 taken, the new desktop app shows its 'Port 47823 is already in use' box and quits (code 0, will-quit). The old app's license WebSocket server re-emitted the listen error with no listener, so Electron showed 'A JavaScript error occurred in the main process' instead, opened no window and kept running. The .fixed file is the new app's recorded output.",
+  "scenarios": ["electron/port-in-use"],
+  "pending": []
+}
