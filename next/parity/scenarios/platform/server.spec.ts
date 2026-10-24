@@ -1,9 +1,14 @@
-// HTTP routes of the app server that the rewrite keeps (server.js,
-// routes/user.js): what each one answers, plus static file serving. Every
-// request goes through Playwright's request API to the base URL of the app
-// under test, so the same scenarios check the new server on its own port.
-// The license, subscription and cloud routes are in dropped.spec.ts.
-import { openApp } from "../../support/apps.ts";
+// HTTP routes of the app server (server.js, routes/user.js): what each one
+// answers, plus static file serving. Every request goes through
+// Playwright's request API to the base URL of the app under test, so the
+// same scenarios check the new server on its own port. The license,
+// subscription and cloud routes are in dropped.spec.ts. The JSON stubs and
+// PUT /user served only code the rewrite drops (the cloud maintenance
+// check, translation downloads, the account locale, a request for "/null"),
+// so the new server has none of them: their removedInNewApp checks expect
+// 404.
+import type { Page } from "@playwright/test";
+import { openApp, type AppKind } from "../../support/apps.ts";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios } from "../../support/scenario.ts";
 import { base, recordResponse } from "./lib.ts";
@@ -48,6 +53,33 @@ const PUT_USER_LOCALES: readonly unknown[] = [
   null,
 ];
 
+/** Fails unless every request answers 404 (a route the new server doesn't have). */
+async function assertNotFound(
+  page: Page,
+  kind: AppKind,
+  requests: readonly { method: "GET" | "PUT"; path: string; data?: unknown }[],
+): Promise<void> {
+  const wrong: string[] = [];
+  for (const r of requests) {
+    const response = await page.request.fetch(base(kind) + r.path, {
+      method: r.method,
+      maxRedirects: 0,
+      ...(r.data !== undefined ? { data: r.data as object } : {}),
+    });
+    if (response.status() !== 404)
+      wrong.push(`${r.method} ${r.path} answered ${response.status()}`);
+  }
+  if (wrong.length > 0) throw new Error(`dropped routes still answer:\n${wrong.join("\n")}`);
+}
+
+const JSON_ROUTES = [
+  "/maintenance/status?lang=0",
+  "/maintenance/status",
+  "/i18n-url/en-US/designer?lang=1",
+  "/i18n-url/de-DE/designer?lang=0",
+  "/null",
+] as const;
+
 const scenarios = defineScenarios([
   {
     id: "platform/server/connection-test",
@@ -65,13 +97,19 @@ const scenarios = defineScenarios([
     covers: ["FMT-SERVER-005", "FMT-SERVER-006", "FMT-SERVER-014"],
     kind: "json",
     // The exact requests the old app makes on startup, then variants.
-    driver: async ({ page, kind }) => [
-      await recordResponse(page, kind, "/maintenance/status?lang=0", { body: "json" }),
-      await recordResponse(page, kind, "/maintenance/status", { body: "json" }),
-      await recordResponse(page, kind, "/i18n-url/en-US/designer?lang=1", { body: "json" }),
-      await recordResponse(page, kind, "/i18n-url/de-DE/designer?lang=0", { body: "json" }),
-      await recordResponse(page, kind, "/null", { body: "json" }),
-    ],
+    driver: async ({ page, kind }) => {
+      const out: unknown[] = [];
+      for (const route of JSON_ROUTES) {
+        out.push(await recordResponse(page, kind, route, { body: "json" }));
+      }
+      return out;
+    },
+    removedInNewApp: async ({ page, kind }) =>
+      assertNotFound(
+        page,
+        kind,
+        JSON_ROUTES.map((path) => ({ method: "GET" as const, path })),
+      ),
   },
   {
     id: "platform/server/put-user-locale",
@@ -94,6 +132,15 @@ const scenarios = defineScenarios([
       });
       return out;
     },
+    removedInNewApp: async ({ page, kind }) =>
+      assertNotFound(page, kind, [
+        ...PUT_USER_LOCALES.map((locale) => ({
+          method: "PUT" as const,
+          path: "/user",
+          data: { locale },
+        })),
+        { method: "PUT" as const, path: "/user" },
+      ]),
   },
   {
     id: "platform/server/static-files",

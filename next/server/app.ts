@@ -1,3 +1,4 @@
+import http from "node:http";
 import path from "node:path";
 import express, { type Express } from "express";
 import { ASSETS_ROOT, CLIENT_ROOT, DOCS_ROOT } from "./paths.ts";
@@ -47,11 +48,39 @@ export function createApp(options: ServerOptions = {}): Express {
       },
     }),
   );
-  app.use("/docs", express.static(docsRoot));
+  app.use(
+    "/docs",
+    express.static(docsRoot, {
+      setHeaders: (res, filePath) => {
+        // The old server's mime table (mime-types 2) typed .mp4 as
+        // application/mp4; the current one says video/mp4. Kept, see
+        // "User guide videos served as application/mp4" in QUESTIONS.md.
+        if (path.extname(filePath).toLowerCase() === ".mp4") {
+          res.setHeader("Content-Type", "application/mp4");
+        }
+      },
+    }),
+  );
 
   app.get("/connection/test", (_req, res) => {
     res.send("OK");
   });
 
   return app;
+}
+
+/**
+ * The HTTP server around createApp. It refuses every WebSocket upgrade
+ * (the old license socket at /license/license is gone) by answering 404
+ * and closing the connection; without an "upgrade" listener Node would
+ * pass the request to Express, whose 404 keeps the connection open, so a
+ * client would wait for the socket to close before giving up.
+ */
+export function createServer(options: ServerOptions = {}): http.Server {
+  const server = http.createServer(createApp(options));
+  server.on("upgrade", (_req, socket) => {
+    socket.on("error", () => {});
+    socket.end("HTTP/1.1 404 Not Found\r\nConnection: close\r\nContent-Length: 0\r\n\r\n");
+  });
+  return server;
 }

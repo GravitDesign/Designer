@@ -1,7 +1,12 @@
 import { builtinModules } from "node:module";
 import { defineConfig } from "vite";
 
-/** Builds the Electron main process (with the embedded server) to dist-electron/. */
+/**
+ * Builds the Electron main process (with the embedded server, electron-updater
+ * and every other dependency bundled in) to dist-electron/main.js, so the
+ * packaged app needs no node_modules. The window's preload
+ * (electron/preload.cjs) is plain CommonJS and ships as it is.
+ */
 export default defineConfig({
   build: {
     outDir: "dist-electron",

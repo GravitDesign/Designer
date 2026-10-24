@@ -9,3 +9,7 @@ test-results/
 
 # The repo root ignores lockfiles; the new app keeps its own.
 !package-lock.json
+
+# LevelDB log files are test fixtures of the profile migration.
+!src/app/migration/fixtures/**/*.log
+!parity/expected/electron/old-userdata/**/*.log

@@ -13,63 +13,6 @@
   "cacheControl": null
  },
  {
-  "request": "GET /maintenance/status",
-  "status": 200,
-  "contentType": "application/json; charset=utf-8",
-  "cacheControl": null,
-  "body": {
-   "maintenance": false
-  }
- },
- {
-  "request": "GET /i18n-url/en-US/designer?lang=1",
-  "status": 200,
-  "contentType": "application/json; charset=utf-8",
-  "cacheControl": null,
-  "body": {}
- },
- {
-  "request": "GET /null",
-  "status": 200,
-  "contentType": "application/json; charset=utf-8",
-  "cacheControl": null,
-  "body": {}
- },
- {
-  "request": "PUT /user",
-  "status": 200,
-  "contentType": "application/json; charset=utf-8",
-  "cacheControl": null,
-  "body": {
-   "id": "12345678",
-   "name": "Test User",
-   "locale": "en",
-   "email": "example@example.net",
-   "version": "3.15.0",
-   "runtime": "Browser",
-   "settings": {
-    "notifications_disabled": false
-   }
-  }
- },
- {
-  "request": "PUT /user",
-  "status": 200,
-  "contentType": "application/json; charset=utf-8",
-  "cacheControl": null,
-  "body": {
-   "id": "12345678",
-   "name": "Test User",
-   "locale": "de-DE",
-   "email": "example@example.net",
-   "version": "3.15.0",
-   "runtime": "Browser",
-   "settings": {
-    "notifications_disabled": false
-   }
-  }
- },
- {
   "request": "GET /",
   "status": 200,
   "contentType": "text/html; charset=utf-8",

@@ -198,9 +198,31 @@ export async function launchDesktop(
     cwd: desktop.appDir,
     timeout: 60_000,
   });
-  const page = await app.firstWindow({ timeout: 60_000 });
+  const page = await mainWindow(app);
   await waitForClient(page);
   return { app, page };
+}
+
+/**
+ * The window that shows the client. The new app's first start may open a
+ * hidden window first, for the migration from the old releases' profile
+ * (electron/migration.ts), and closes it before the main window opens.
+ */
+async function mainWindow(app: ElectronApplication): Promise<Page> {
+  const end = Date.now() + 60_000;
+  for (;;) {
+    const page = app
+      .windows()
+      .find(
+        (p) =>
+          !p.isClosed() &&
+          p.url().startsWith(DESKTOP_ORIGIN + "/") &&
+          !p.url().includes("__gravit-migration__"),
+      );
+    if (page) return page;
+    if (Date.now() > end) throw new Error("the desktop app opened no main window within 60 s");
+    await new Promise((r) => setTimeout(r, 100));
+  }
 }
 
 /** Waits until the client in a desktop window has booted. */

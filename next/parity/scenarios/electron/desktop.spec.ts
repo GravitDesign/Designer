@@ -12,8 +12,9 @@
 // `npx vite build && npx vite build --config vite.electron.config.ts`.
 import fs from "node:fs";
 import path from "node:path";
-import { expect, type ElectronApplication, type Page } from "@playwright/test";
+import { expect, test, type ElectronApplication, type Page } from "@playwright/test";
 import { EXPECTED_ROOT, NEXT_ROOT, RECORDING } from "../../support/env.ts";
+import { portedScenarioIds } from "../../support/suite.ts";
 import {
   clickMenu,
   installFsaStub,
@@ -26,6 +27,7 @@ import {
 } from "../platform/lib.ts";
 import {
   closeDesktop,
+  createSandbox,
   DESKTOP_ORIGIN,
   launchDesktop,
   occupyPort,
@@ -200,18 +202,38 @@ const DROPPED_ROUTES = [
   "/user/settings",
 ];
 
+/** The old embedded server's JSON stubs and locale route, gone in the new one. */
+const DROPPED_STUBS: readonly [string, string, unknown?][] = [
+  ["GET", "/maintenance/status"],
+  ["GET", "/i18n-url/en-US/designer?lang=1"],
+  ["GET", "/null"],
+  ["PUT", "/user", { locale: 1 }],
+  ["PUT", "/user", { locale: "de-DE" }],
+];
+
 /** Opens the license WebSocket from Node: its greeting, or how it was refused. */
 async function licenseSocket(): Promise<unknown> {
   const ws = new WebSocket(`ws://127.0.0.1:47823/license/license?lang=1`);
   return new Promise((resolve) => {
+    let opened = false;
     const timer = setTimeout(() => {
       ws.close();
-      resolve({ opened: true, greeting: null });
+      resolve({ opened, greeting: null });
     }, 5000);
+    ws.addEventListener("open", () => {
+      opened = true;
+    });
     ws.addEventListener("message", (e) => {
       clearTimeout(timer);
       ws.close();
       resolve({ opened: true, greeting: String(e.data) });
+    });
+    // A refused handshake: Node's WebSocket reports the error, but its
+    // close event can wait until the server drops the connection.
+    ws.addEventListener("error", () => {
+      if (opened) return;
+      clearTimeout(timer);
+      resolve({ opened: false, code: 1006 });
     });
     ws.addEventListener("close", (e) => {
       clearTimeout(timer);
@@ -287,20 +309,16 @@ const scenarios: DesktopScenario[] = [
   },
   {
     id: "electron/embedded-server",
-    covers: ["FMT-ELECTRON-001", "FMT-SERVER-004", "FMT-SERVER-018"],
+    covers: ["FMT-ELECTRON-001", "FMT-SERVER-004"],
     kind: "json",
     // The routes the main process serves on 127.0.0.1:47823 that the
-    // rewrite keeps: the online probe, the JSON stubs, the user locale,
-    // the client and the user guide.
+    // rewrite keeps: the online probe, the client and the user guide.
+    // (The JSON stubs and PUT /user served dropped code only; they are
+    // checked in electron/embedded-server-dropped.)
     run: (context) =>
       withApp(context, context.sandbox, async () => [
         await http("GET", "/connection/test"),
         await http("HEAD", "/connection/test"),
-        await http("GET", "/maintenance/status", { body: "json" }),
-        await http("GET", "/i18n-url/en-US/designer?lang=1", { body: "json" }),
-        await http("GET", "/null", { body: "json" }),
-        await http("PUT", "/user", { json: { locale: 1 }, body: "json" }),
-        await http("PUT", "/user", { json: { locale: "de-DE" }, body: "json" }),
         await http("GET", "/", { body: "none" }),
         await http("GET", "/index.html", { body: "none" }),
         await http("GET", "/docs/index.html", { body: "none" }),
@@ -333,6 +351,13 @@ const scenarios: DesktopScenario[] = [
         for (const route of DROPPED_ROUTES) {
           const r = await http("GET", route, { body: "none" });
           if (r.status !== 404) left.push(`${route} answered ${r.status}`);
+        }
+        // The stubs that served only dropped code: the cloud maintenance
+        // check, translation downloads, a request for "/null" and the
+        // account locale.
+        for (const [method, route, json] of DROPPED_STUBS) {
+          const r = await http(method, route, { body: "none", ...(json ? { json } : {}) });
+          if (r.status !== 404) left.push(`${method} ${route} answered ${r.status}`);
         }
         const ws = (await licenseSocket()) as { opened: boolean };
         if (ws.opened) left.push("the license WebSocket accepted the upgrade");
@@ -533,3 +558,118 @@ const scenarios: DesktopScenario[] = [
 ];
 
 desktopSuite("electron desktop", scenarios, { newApp: false });
+
+/**
+ * A profile of the released old desktop app (1.0, which served the page
+ * from a random port, so each launch had its own origin): launch 1 set the
+ * dark theme and imported a font, launch 2 (newer) turned the rulers on.
+ * Made with the release build in a temp profile; see
+ * src/app/migration/plan.ts.
+ */
+const RELEASE_PROFILE = path.join(
+  NEXT_ROOT,
+  "src",
+  "app",
+  "migration",
+  "fixtures",
+  "old-release-profile",
+);
+
+/** Window creations main-hook.cjs logged. */
+function windowsCreated(log: string): number {
+  return readEvents(log).filter((e) => (e as { event: string }).event === "browser-window-created")
+    .length;
+}
+
+// Not a parity comparison: the old app never read the data of its earlier
+// origins, so there is no old output to match. Runs with the new desktop
+// scenarios (in this file, since every desktop test binds port 47823).
+const newDesktopEnabled = [...portedScenarioIds()].some((id) => id.startsWith("electron/"));
+if (!RECORDING && newDesktopEnabled) {
+  test.describe("new desktop app: first start after the released old app", () => {
+    test("takes over the newest session's settings and every imported font, once", async () => {
+      test.setTimeout(240_000);
+      const sandbox = createSandbox("migration");
+      try {
+        copyProfile(RELEASE_PROFILE, sandbox.userData);
+        const first = await withApp({ kind: "new" }, sandbox, async ({ page }) => ({
+          settings: await storedSettings(page),
+          keys: await page.evaluate(() => Object.keys(localStorage).sort()),
+          fonts: await fontDatabase(page),
+          stylesheet: await themeStylesheet(page),
+        }));
+        // Launch 2 of the old app is the newest: light theme, rulers on.
+        expect(first.settings).toMatchObject({ theme: "light", rulers_visible: true });
+        expect(first.stylesheet).toEqual(["/designer.browser.light.css"]);
+        // The licence, update check and analytics keys stay behind.
+        expect(first.keys).not.toContain("offline_cache");
+        expect(first.keys).not.toContain("gtm:clientid");
+        // The font imported in launch 1.
+        expect(first.fonts).toEqual({
+          keys: ["Mig Fonts Extrabold_400_N", "_gravit_font_list_"],
+          list: [
+            {
+              style: "N",
+              weight: "400",
+              family: "Mig Fonts Extrabold",
+              subfamily: "Extrabold",
+              displayname: "Mig Fonts",
+            },
+          ],
+        });
+        const marker = path.join(sandbox.userData, "gravit-migration.json");
+        const report = JSON.parse(fs.readFileSync(marker, "utf8")) as Record<string, unknown>;
+        expect(report).toMatchObject({
+          localStorage: { "designer.settings": "http://127.0.0.1:64009" },
+          fonts: ["Mig Fonts Extrabold_400_N"],
+          origins: ["http://127.0.0.1:54572", "http://127.0.0.1:64009"],
+          errors: [],
+        });
+        // The hidden migration window and the main window.
+        expect(windowsCreated(sandbox.log)).toBe(2);
+
+        // A second start doesn't migrate again: the dark theme chosen now
+        // stays, and only the main window opens.
+        await withApp({ kind: "new" }, sandbox, async ({ page }) => {
+          await page.evaluate(() => {
+            const s = JSON.parse(localStorage.getItem("designer.settings") ?? "{}") as object;
+            localStorage.setItem("designer.settings", JSON.stringify({ ...s, theme: "dark" }));
+          });
+        });
+        fs.rmSync(sandbox.log, { force: true });
+        const second = await withApp({ kind: "new" }, sandbox, async ({ page }) => ({
+          settings: await storedSettings(page),
+          fonts: await fontDatabase(page),
+        }));
+        expect(second.settings).toMatchObject({ theme: "dark", rulers_visible: true });
+        expect(second.fonts).toEqual(first.fonts);
+        expect(windowsCreated(sandbox.log)).toBe(1);
+        expect(JSON.parse(fs.readFileSync(marker, "utf8"))).toEqual(report);
+      } finally {
+        await removeSandbox(sandbox);
+      }
+    });
+  });
+}
+
+/**
+ * Removes a sandbox once Electron's helper processes have let go of their
+ * cache files (they can outlive the main process by a moment on Windows).
+ */
+async function removeSandbox(sandbox: Sandbox): Promise<void> {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      sandbox.remove();
+      return;
+    } catch (error) {
+      const code = (error as NodeJS.ErrnoException).code;
+      if (code !== "EBUSY" && code !== "EPERM") throw error;
+      if (attempt >= 60) {
+        // Only a temp folder; don't fail the test for it.
+        console.warn(`could not remove ${sandbox.root}: ${String(error)}`);
+        return;
+      }
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+  }
+}
