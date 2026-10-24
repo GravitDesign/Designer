@@ -1463,7 +1463,7 @@ What it does: when the bbox guide found an equal-spacing match, its turn in the 
 
 Why it's unclear: returning the unsnapped rect looks unintended; one would expect the edge snap or the later guides to apply. It only happens when a spacing candidate exists but loses.
 
-Kept. editor/guides/guides.ts mapRect, with a comment pointing here.
+Fixed: see BUG-047 in BUGS-FIXED.md.
 
 ## Q-122 Full pixels guide keeps the bottom-right zone
 

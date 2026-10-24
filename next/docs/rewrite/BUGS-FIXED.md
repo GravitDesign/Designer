@@ -1010,3 +1010,27 @@ lines 76805-76820.
   handle mirrors the right one at (220, 150), where the old app put the
   anchor at (-1730, -850) and the handle at (-3780, -1850). The right
   handle and everything else are the same.
+
+## BUG-047 Snapping returns the unsnapped rect when equal spacing loses
+
+Old code: chunk.vendor.js module 210 (GGuides.mapRect, the bbox guide
+branch), lines 40798-40822.
+
+- Reproduce: drag an element so that an equal-spacing match is in reach
+  but another element's edge is nearer, for example in a row of boxes
+  where the dragged box's edge is 1 px from a box below and the spacing
+  match is 2 px away.
+- Old: when the bbox guide found an equal-spacing candidate, its turn in
+  the guide loop always returned: the spaced rect when the spacing won,
+  otherwise the input rect unchanged, because the variable it returned
+  started as the input rect. The edge snap the bbox guide had just found
+  and all later guides (grid, guide lines, points, page, full pixels)
+  were skipped (Q-121).
+- New: the loop returns only when the spacing wins; otherwise the edge
+  snaps and the later guides apply as for any other rect.
+- Test: src/editor/guides/guides.test.ts, "BUG-047: snaps to an edge when
+  an equal spacing is found but farther" (fails with the old code: x 92
+  instead of 93).
+- Parity exceptions: none. editor-tools/snap/equal-spacing and
+  snap/equal-spacing-overlay have the spacing win and give the same output
+  in the new app (re-run against the fixed build).

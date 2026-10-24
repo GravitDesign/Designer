@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-047",
+  "why": "When an equal-spacing match loses, the edge snaps and later guides apply instead of the rect coming back unsnapped. editor-tools/snap/equal-spacing and snap/equal-spacing-overlay have the spacing win and give the same output, so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}

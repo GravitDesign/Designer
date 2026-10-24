@@ -305,6 +305,24 @@ describe("Guides pipeline", () => {
     expect(areas.length).toBe(2);
   });
 
+  it("BUG-047: snaps to an edge when an equal spacing is found but farther", () => {
+    const scene = newScene();
+    scene.appendChild(rect(10, 10, 20, 20));
+    scene.appendChild(rect(50, 10, 20, 20));
+    // Its left edge is 1 to the right of the moving rect's right edge.
+    scene.appendChild(rect(113, 200, 20, 20));
+    const guides = editorGuides(scene);
+    guides._view = fakeView(scene);
+    Guides.options.guides = [BBoxGuide.ID];
+    guides.beginMap();
+    // The equal spacing (gap 20 after the second box) is 2 away, the edge
+    // of the third box 1: the edge wins. The old code returned the rect
+    // unchanged.
+    const mapped = guides.mapRect(new Rect(92, 10, 20, 20));
+    guides.finishMap();
+    expect(mapped).toEqual(new Rect(93, 10, 20, 20));
+  });
+
   it("invalidates a given area, ignores empty ones without lines", () => {
     const guides = new Guides(newScene());
     const areas: (Rect | null)[] = [];

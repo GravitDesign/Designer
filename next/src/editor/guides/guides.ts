@@ -504,18 +504,17 @@ export class Guides extends EventTarget {
             (!deltaY || Math.abs(distanceDelta[1] as number) < Math.abs(deltaY))
           ) {
             this._visuals = this._visuals.concat(distanceVisualsY);
-            result = distanceRect;
+            return distanceRect;
           } else if (
             distanceVisualsX.length &&
             (!deltaX || Math.abs(distanceDelta[0] as number) < Math.abs(deltaX))
           ) {
             this._visuals = this._visuals.concat(distanceVisualsX);
-            result = distanceRect;
+            return distanceRect;
           }
-          // result is the rect itself when neither distance won, so the
-          // bbox guide's turn always ends the search (see "Equal-spacing
-          // check ends mapRect" in QUESTIONS.md).
-          if (result) return result;
+          // When neither spacing wins, the edge snaps and the later guides
+          // apply. The old code returned the unsnapped rect here (BUG-047
+          // Snapping returns the unsnapped rect when equal spacing loses).
         }
       }
     }
