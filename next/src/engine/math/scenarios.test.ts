@@ -76,13 +76,19 @@ describe("engine-geometry scenarios in Node", () => {
     expect(captured.length).toBe(23);
     expect(ours.length).toBe(13);
   });
-  it.each(ours.map((s) => [s.id, s] as const))("%s matches the old app", async (id, scenario) => {
-    const expected = fs.readFileSync(path.join(EXPECTED_ROOT, `${id}.json`), "utf8");
-    const actual = await run(scenario);
-    if (actual !== expected) {
-      // A readable diff instead of two 100 KB strings.
-      expect(JSON.parse(actual)).toEqual(JSON.parse(expected));
-    }
-    expect(actual).toBe(expected);
-  });
+  // Some scenarios (bezier) take a few seconds and passed the 5 s default
+  // when the machine was busy; the result check is the same.
+  it.each(ours.map((s) => [s.id, s] as const))(
+    "%s matches the old app",
+    async (id, scenario) => {
+      const expected = fs.readFileSync(path.join(EXPECTED_ROOT, `${id}.json`), "utf8");
+      const actual = await run(scenario);
+      if (actual !== expected) {
+        // A readable diff instead of two 100 KB strings.
+        expect(JSON.parse(actual)).toEqual(JSON.parse(expected));
+      }
+      expect(actual).toBe(expected);
+    },
+    60_000,
+  );
 });
