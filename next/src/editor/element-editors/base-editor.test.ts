@@ -118,14 +118,22 @@ describe("GBaseEditor", () => {
     expect(editor.canApplyTransform()).toBeFalsy();
   });
 
-  it("reads the outline background from the bottom-right pixel whatever x and y are", () => {
+  it("BUG-055: reads the outline background at x and y, clamped to the canvas", () => {
     const reads: number[][] = [];
     const ctx = context((x, y) => {
       reads.push([x, y]);
       return [255, 255, 255];
     });
-    BaseEditor.getOutlineColor(ctx, 10, 20, blue, null);
-    expect(reads).toEqual([[199, 99]]);
+    // The old code read the bottom-right pixel (199, 99) whatever x and y.
+    BaseEditor.getOutlineColor(ctx, 10.6, 20.2, blue, null);
+    expect(reads).toEqual([[10, 20]]);
+    const clamped: number[][] = [];
+    const outside = context((x, y) => {
+      clamped.push([x, y]);
+      return [255, 255, 255];
+    });
+    BaseEditor.getOutlineColor(outside, -5, 500, blue, null);
+    expect(clamped).toEqual([[0, 99]]);
     // The background is cached on the context.
     BaseEditor.getOutlineColor(ctx, 10, 20, blue, null);
     expect(reads).toHaveLength(1);

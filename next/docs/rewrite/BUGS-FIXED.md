@@ -1194,3 +1194,28 @@ drag start 59090-59135).
   `.fixed` file is the new app's output; compared with the old expected
   file (JSON diff) only the "dragging" probe's cursor differs:
   g-cursor-select-plus with select-plus.cur instead of g-cursor-select.
+
+## BUG-055 The adaptive outline colour reads the bottom-right pixel
+
+Old code: chunk.vendor.js module 39 (GBaseEditor.getOutlineColor), lines
+7428-7436.
+
+- Reproduce: select an element on a blue background, or next to a blue
+  element, and compare the outline colour with the same element whose
+  surroundings at the bottom-right corner of the view (or of the repainted
+  area) differ.
+- Old: the pixel position was clamped with a one-argument Math.min, so x
+  and y were dropped and the background was always read from the canvas'
+  bottom-right pixel. The outline colour (blue, white or dark blue)
+  depended on whatever was painted there (Q-131).
+- New: the background is read at the point the callers pass, just above
+  and left of the element's paint box, clamped to the canvas. The element
+  canvas has no origin or offset, so view pixels are canvas pixels; in a
+  partial repaint a pixel outside the dirty area still holds the last
+  paint.
+- Test: src/editor/element-editors/base-editor.test.ts, "BUG-055: reads
+  the outline background at x and y, clamped to the canvas" (fails with
+  the old code: reads [199, 99] instead of [10, 20]).
+- Parity exceptions: none. editor-tools/eledit/adaptive-outline-white and
+  adaptive-outline-dark give the same screenshots in the new app (re-run
+  against the fixed build).

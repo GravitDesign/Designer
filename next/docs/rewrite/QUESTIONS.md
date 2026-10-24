@@ -1568,7 +1568,7 @@ What it does: clamps the pixel position with `Math.max(0, Math.min(canvas.getWid
 
 Why it's unclear: the callers pass the point just above the left of the element's paint box, so the intent was clearly to read the background next to the element. In a partial repaint the pixel read depends on the dirty area (the eledit/adaptive-outline fixtures work around that).
 
-Kept. base-editor.ts getOutlineColor; pinned by "reads the outline background from the bottom-right pixel whatever x and y are" in base-editor.test.ts.
+Fixed: see BUG-055 in BUGS-FIXED.md.
 
 ## Q-132 Segment bend moves the right handle 0.01 further
 

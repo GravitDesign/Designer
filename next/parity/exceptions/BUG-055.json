@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-055",
+  "why": "The adaptive outline colour reads the background next to the element instead of the canvas' bottom-right pixel. editor-tools/eledit/adaptive-outline-white and adaptive-outline-dark give the same screenshots in the new app, so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}

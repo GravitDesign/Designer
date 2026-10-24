@@ -125,10 +125,10 @@ export class BaseEditor extends GObject {
    * when it has any) is close to it. Then white, or a dark blue when white
    * would be close too.
    *
-   * The pixel read always comes from the canvas' bottom-right corner: the
-   * clamps call Math.min with one argument, so x and y are ignored (see
-   * "Outline colour reads the bottom-right pixel" in QUESTIONS.md). The
-   * colour read is cached on the context.
+   * The pixel is read at (x, y) on the canvas, clamped to it. The old code
+   * called Math.min with one argument and always read the bottom-right
+   * pixel (BUG-055 The adaptive outline colour reads the bottom-right
+   * pixel). The colour read is cached on the context.
    */
   static getOutlineColor(
     context: EditorPaintContext,
@@ -139,8 +139,8 @@ export class BaseEditor extends GObject {
   ): Color {
     const white = [255, 255, 255];
     const canvas = context.canvas as NonNullable<PaintContext["canvas"]>;
-    x = Math.max(0, Math.min(canvas.getWidth() - 1));
-    y = Math.max(0, Math.min(canvas.getHeight() - 1));
+    x = Math.max(0, Math.min(canvas.getWidth() - 1, Math.floor(x)));
+    y = Math.max(0, Math.min(canvas.getHeight() - 1, Math.floor(y)));
     const background = (context.computedBackgroundColor
       ? context.computedBackgroundColor
       : canvas.getBitmap().getPixelValue(x, y).slice(0, 3)) as unknown as number[];
