@@ -2231,3 +2231,33 @@ Old code: chunk.vendor.js module 1467, the SVG text word's renderSVG
   `fill="#XXXXXX"` and every `[Object GRGBColor]` fill with the same
   placeholder: each `.fixed` file then equals the old output exactly, and
   none contains `[Object GRGBColor]` any more.
+
+## BUG-086 A broken image makes the SVG export never finish
+
+Old code: chunk.vendor.js module 1456, GSVGPaintCanvas.strokeLine
+(lines 256488-256493, the undeclared `dashed`), and designer.browser.dev.js
+module 1253, GExporter.exportExportable (the SVG branch drops the error).
+
+- Reproduce: export (SVG, or Print, which goes through SVG) a page with an
+  image whose source fails to load. The image paints its error cross with
+  strokeLine.
+- Old: the SVG canvas's strokeLine read a `dashed` it never declared (its
+  signature lacks the base class's parameter), so it threw a
+  ReferenceError. The error escaped GSVGExport.export, the callback never
+  ran, nothing was written and the export waited. An SVG export error that
+  did reach the exporter's callback was dropped as well.
+- New: strokeLine draws the line (dashed when the caller asks for it,
+  through the base class's parameter). An error while painting an SVG
+  export reaches the export's callback, and the exporter reports an SVG
+  error to the dialog's messenger the way it reports a PDF error.
+- Test: src/io/export/svg/svg-export-errors.test.ts, "exports a broken
+  image with its error cross" and "calls back with the error when painting
+  a node throws", and src/io/export/exporter.test.ts, "reports an SVG
+  export error to the messenger (BUG-086)" (all fail with the old code).
+- Parity exceptions: io-export-svg/extra/image-broken (the old app
+  recorded `called: false` and the ReferenceError; the `.fixed` file has
+  the exported SVG with the gray box and the error cross) and
+  io-export-svg/corpus/text-scripts, where the old app's export threw
+  (TypeError reading getMatrix of null, an engine bug of its own) out of
+  the exporter, recorded as `called: false`; the `.fixed` file has the same
+  error, now delivered through the callback (`called: true`).

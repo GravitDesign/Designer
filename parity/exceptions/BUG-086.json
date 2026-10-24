@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-086",
+  "why": "An SVG export with a broken image finishes: the SVG canvas's strokeLine draws the line instead of throwing on an undeclared dashed, and a painting error reaches the export's callback. image-broken has the exported SVG where the old app recorded called: false; text-scripts records the same engine error as before, now delivered through the callback (called: true).",
+  "scenarios": ["io-export-svg/extra/image-broken", "io-export-svg/corpus/text-scripts"],
+  "pending": []
+}

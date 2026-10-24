@@ -1349,6 +1349,12 @@ export class SvgExport {
       if (options.preserveEditingCapabilities) SvgExport.addEditingCapabilities(context, element);
       new SvgPostProcess(context.svgDoc).postProcess();
       context.endJob(element.toString());
+    } catch (error) {
+      // A painting error ends the export through the callback; the old
+      // code let it escape, so nothing was written and the caller waited
+      // (BUGS-FIXED.md "BUG-086 A broken image makes the SVG export never
+      // finish").
+      fnResult(error);
     } finally {
       if (background && element instanceof Page)
         element.setProperties(["bck", "bop"], [savedBackground, savedOpacity]);

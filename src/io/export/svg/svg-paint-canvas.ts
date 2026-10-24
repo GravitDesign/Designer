@@ -68,8 +68,11 @@ export class SvgPaintCanvas extends Canvas2DPaintCanvas {
   }
 
   /**
-   * Kept: the old method read an undeclared `dashed` after setting the
-   * stroke style, so it always threw a ReferenceError there.
+   * The line as a stroked path. The old method read an undeclared
+   * `dashed` (its signature lacks the base class's parameter), so it threw
+   * a ReferenceError and the export never finished (BUGS-FIXED.md
+   * "BUG-086 A broken image makes the SVG export never finish"); `dashed`
+   * is now the base class's parameter.
    */
   override strokeLine(
     x1: number,
@@ -78,6 +81,7 @@ export class SvgPaintCanvas extends Canvas2DPaintCanvas {
     y2: number,
     lineWidth?: number | null,
     paint?: PaintStyle | null,
+    dashed?: boolean,
   ): void {
     const style = this._convertStyle(paint || RGBColor.BLACK);
     lineWidth = lineWidth || 1;
@@ -90,9 +94,12 @@ export class SvgPaintCanvas extends Canvas2DPaintCanvas {
     context.globalAlpha = 1;
     context.strokeStyle = style as string;
     context.lineWidth = lineWidth;
-    void start;
-    void end;
-    throw new ReferenceError("dashed is not defined");
+    if (dashed) context.setLineDash([4]);
+    context.beginPath();
+    context.moveTo(start.getX(), start.getY());
+    context.lineTo(end.getX(), end.getY());
+    context.stroke();
+    if (dashed) context.setLineDash([]);
   }
 
   /** Replaced by the exporter on the root canvas; sub-canvases inherit it. */

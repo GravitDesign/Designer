@@ -343,6 +343,10 @@ export class Exporter {
         },
         (error, data) => {
           if (!error && data) callback(new Blob([data], { type: "image/svg+xml" }));
+          // Reported like a PDF export error; the old code dropped it
+          // (BUGS-FIXED.md "BUG-086 A broken image makes the SVG export
+          // never finish").
+          else if (error && messenger && messenger.error) messenger.error(error);
         },
       );
     } else {

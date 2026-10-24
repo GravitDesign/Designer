@@ -206,6 +206,30 @@ describe("Exporter.exportExportable", () => {
       ).toThrow("Unknown format.");
     }
   });
+
+  it("reports an SVG export error to the messenger (BUG-086)", () => {
+    const real = exporters.SVGExport;
+    exporters.SVGExport = {
+      export(_element: unknown, _options: unknown, callback: (error: unknown) => void) {
+        callback(new Error("paint failed"));
+      },
+    } as unknown as typeof real;
+    try {
+      const scene = new Scene(new Workspace());
+      const errors: unknown[] = [];
+      const blobs: unknown[] = [];
+      Exporter.exportExportable(
+        { element: scene.getActivePage() as Page, format: "svg" },
+        (blob) => blobs.push(blob),
+        null,
+        { error: (error: unknown) => errors.push(error) },
+      );
+      expect(blobs).toEqual([]);
+      expect(String(errors[0])).toContain("paint failed");
+    } finally {
+      exporters.SVGExport = real;
+    }
+  });
 });
 
 describe("ZipDirectory", () => {
