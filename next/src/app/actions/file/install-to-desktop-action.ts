@@ -1,8 +1,7 @@
-// Old: designer.browser.dev.js module 1172 (GInstallToDesktopAction).
+// Old: designer.browser.dev.js module 1172 (GInstallToDesktopAction) and module 1173 (the PWA support check).
 import { LocaleKey } from "../../../engine/core/locale/locale-key.ts";
 import { PlatformType, WebBrowser } from "../../../engine/core/platform.ts";
 import { Runtime } from "../../shell/container.ts";
-import { lateExport } from "../../shell/late.ts";
 import { Action } from "../action.ts";
 import { Category } from "../category.ts";
 import { gContainer, gDesigner } from "../host.ts";
@@ -24,13 +23,11 @@ function pwaDesigner(): PwaDesigner {
 }
 
 /**
- * Whether this browser can install the app (module 1173,
- * shell/pwa-support.ts of app-shell-storage). Until that module exists
- * the same three checks run here.
+ * Whether this browser can install the app: the browser runtime, Chrome
+ * or Edge, and the install prompt event exists. Module 1173 (the old
+ * PWA support check) merged into this function.
  */
 export function isPwaSupported(): boolean {
-  const support = lateExport<{ isSupported(): boolean }>("shell/pwa-support.ts", "PwaSupport");
-  if (support) return support.isSupported();
   return (
     gContainer().getRuntime() === Runtime.Browser &&
     (PlatformType.webBrowser === WebBrowser.Chrome ||

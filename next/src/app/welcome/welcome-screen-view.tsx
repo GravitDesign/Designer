@@ -48,6 +48,12 @@ export type SidebarEntry =
   | { kind: "option"; option: WelcomeOption };
 
 export interface WelcomeScreenViewProps {
+  /**
+   * Shown at the top of the sidebar in the GravitDesign Next look (the
+   * mark and wordmark, brand/brand-mark.tsx); absent in the classic look,
+   * whose stylesheet paints the old logo there.
+   */
+  brandHead?: ReactNode;
   entries: readonly SidebarEntry[];
   links: readonly WelcomeLink[];
   presets: readonly Preset[];
@@ -65,16 +71,21 @@ export interface WelcomeScreenViewProps {
 const SIZE_OPTIONS = { minValue: 0, incrementValue: 1, allowEmptyValue: true };
 
 function Sidebar({
+  brandHead,
   entries,
   links,
   state,
   onVersionClick,
-}: Pick<WelcomeScreenViewProps, "entries" | "links" | "state" | "onVersionClick">): ReactNode {
+}: Pick<
+  WelcomeScreenViewProps,
+  "brandHead" | "entries" | "links" | "state" | "onVersionClick"
+>): ReactNode {
   // Old: links dealt round-robin into three columns.
   const columns: WelcomeLink[][] = [[], [], []];
   links.forEach((link, index) => (columns[index % 3] as WelcomeLink[]).push(link));
   return (
     <div className="sidebar">
+      {brandHead}
       <div className="sidebar-options">
         {entries.map((entry) =>
           entry.kind === "separator" ? (
@@ -265,6 +276,8 @@ export function RecentDocumentsView({
         items.map((item, index) => (
           <div key={index} className="item file" onClick={item.onClick}>
             <div className={"icon" + (item.iconClass ? " " + item.iconClass : "")} />
+            {/* Text, where the old overlay parsed the name as HTML: see
+                "Recent file names on the welcome screen are text" in QUESTIONS.md. */}
             <div className="name">{item.name}</div>
           </div>
         ))

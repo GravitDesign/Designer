@@ -10,27 +10,20 @@ import { GMath } from "../../engine/math/math.ts";
 import { Ellipse } from "../../engine/scene/ellipse.ts";
 import { AfterPropertiesChangeEvent } from "../../engine/scene/node-events.ts";
 import { BorderPaintLayer } from "../../engine/style/border-paint-layer.ts";
+import type { PaintLayers } from "../../engine/style/paint-layers.ts";
 import { BorderAlignment } from "../../engine/style/stylable-sets.ts";
 import { InputBox } from "../widgets/input-box.ts";
-import type { Editor } from "../../editor/editor.ts";
-import type { Scene } from "../../engine/scene/scene.ts";
 import type { Document } from "../document/document.ts";
 import { designer } from "../shell/globals.ts";
-import { el, Properties, propertyRow, text, type InspectedElements } from "./properties.ts";
-
-/** The document's editor and scene (both exist while a panel shows the document). */
-function editorOf(document: Document | null): Editor {
-  return (document as Document).getEditor() as Editor;
-}
-
-function sceneOf(document: Document | null): Scene {
-  return (document as Document).getScene() as Scene;
-}
-
-/** What the panels need of a shape's paint layers. */
-export interface BorderLayersOwner {
-  getPaintLayers(): { getBorderLayers(): unknown[] };
-}
+import {
+  editorOf,
+  el,
+  Properties,
+  propertyRow,
+  sceneOf,
+  text,
+  type InspectedElements,
+} from "./properties.ts";
 
 /** Degrees as the angle boxes show them: counter-clockwise, two decimals. */
 export function angleText(radians: number): string {
@@ -137,7 +130,7 @@ export class EllipseProperties extends Properties {
   override update(document: Document | null, elements: InspectedElements | null): boolean {
     if (this._document) {
       // The old code removed the scene listener without its target.
-      sceneOf(this._document).removeEventListener(
+      sceneOf(this._document as Document).removeEventListener(
         AfterPropertiesChangeEvent,
         this._afterPropertiesChange,
       );
@@ -172,13 +165,13 @@ export class EllipseProperties extends Properties {
   _setBorderAlignmentCenter(): void {
     const names = ["_ba"];
     const values = [BorderAlignment.Center];
-    const editor = editorOf(this._document);
+    const editor = editorOf(this._document as Document);
     editor.beginTransaction();
     try {
       for (let r = 0, s = this._ellipses.length; r < s; ++r) {
-        const layers = (this._ellipses[r] as unknown as BorderLayersOwner)
-          .getPaintLayers()
-          .getBorderLayers();
+        const layers = (
+          (this._ellipses[r] as Ellipse).getPaintLayers() as PaintLayers
+        ).getBorderLayers();
         for (let l = 0, c = layers.length; l < c; l++) {
           const layer = layers[l];
           if (layer instanceof BorderPaintLayer) layer.setProperties(names, values);
@@ -210,7 +203,7 @@ export class EllipseProperties extends Properties {
   }
 
   _assignProperties(properties: string[], values: unknown[], title: string): void {
-    const editor = editorOf(this._document);
+    const editor = editorOf(this._document as Document);
     editor.beginTransaction();
     try {
       for (let i = 0; i < this._ellipses.length; ++i)

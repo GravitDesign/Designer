@@ -62,11 +62,22 @@ export function appUrl(kind: AppKind): string {
 }
 
 /**
- * Blocks every request that leaves the machine. The old app calls
- * analytics and a CDN for library icons; neither may influence a test.
+ * Sets up a parity context (every context calls this before its first
+ * page):
+ * - blocks every request that leaves the machine. The old app calls
+ *   analytics and a CDN for library icons; neither may influence a test;
+ * - puts the new app in its classic look (window.__gdBranding, read by
+ *   index.html's script and src/app/brand/branding.ts), so it compares
+ *   against the old app as before; the old app ignores it. Nothing is
+ *   stored, so a page reload or resetState keeps it. The brand scenarios
+ *   (scenarios/brand) open the new app with ?branding=next instead, which
+ *   wins over this.
  */
 export async function isolateNetwork(context: BrowserContext): Promise<void> {
   await context.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, (route) => route.abort());
+  await context.addInitScript(() => {
+    Object.defineProperty(window, "__gdBranding", { value: "classic", configurable: true });
+  });
 }
 
 async function prepareContext(page: Page, options: OpenOptions): Promise<void> {

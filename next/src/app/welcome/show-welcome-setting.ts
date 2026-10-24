@@ -9,6 +9,6 @@ export const ShowWelcomeSetting = {
 
   isEnabled(): boolean {
     const value: unknown = designer().getSetting("show_welcome_screen");
-    return "boolean" != typeof value || value;
+    return typeof value !== "boolean" || value;
   },
 };

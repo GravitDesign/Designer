@@ -1,9 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { Transform } from "../../engine/math/transform.ts";
 import { Page } from "../../engine/scene/page.ts";
 import { Rectangle } from "../../engine/scene/rectangle.ts";
 import { Slice } from "../../engine/scene/slice.ts";
 import type { Document } from "../document/document.ts";
+import { fake, installFakeDom, type FakeDomHandle } from "../menus/testing/fake-dom.testing.ts";
+import type { Designer } from "../shell/designer.ts";
+import { resetGlobals, setDesigner } from "../shell/globals.ts";
 import { ExportProperties } from "./export-properties.ts";
 
 type Row = { sz: string; sf: string; fm: string };
@@ -109,5 +112,56 @@ describe("ExportProperties", () => {
   it("shows nothing without a document", () => {
     expect(new ExportProperties().update(null)).toBe(false);
     expect(new Page()).toBeTruthy();
+  });
+});
+
+// paint-dom's isInput checks element classes the fake DOM doesn't have.
+const TAGS: Record<string, string> = {
+  HTMLInputElement: "INPUT",
+  HTMLSelectElement: "SELECT",
+  HTMLTextAreaElement: "TEXTAREA",
+  HTMLButtonElement: "BUTTON",
+};
+const g = globalThis as unknown as Record<string, unknown>;
+const savedClasses: Record<string, unknown> = {};
+
+describe("ExportProperties rows", () => {
+  let dom: FakeDomHandle;
+  beforeEach(() => {
+    dom = installFakeDom();
+    for (const [name, tag] of Object.entries(TAGS)) {
+      savedClasses[name] = g[name];
+      g[name] = {
+        [Symbol.hasInstance]: (value: unknown) =>
+          (value as { tagName?: string } | null)?.tagName === tag,
+      };
+    }
+    setDesigner({ isTouchEnabled: () => false } as unknown as Designer);
+  });
+  afterEach(() => {
+    resetGlobals();
+    for (const name of Object.keys(TAGS)) g[name] = savedClasses[name];
+    dom.uninstall();
+  });
+
+  it("leaves the size and suffix boxes empty for a row without sz and sf", () => {
+    // Old: .val(p.sz) and .val(p.sf) with undefined write "" (a hand-written
+    // __export list can miss either key).
+    const rect = new Rectangle();
+    rect.setProperty("__export", [{ fm: "svg" }], true);
+    const { properties } = panelFor([rect]);
+    const panel = dom.document.createElement("div");
+    const internals = properties as unknown as {
+      _panel: unknown;
+      _toolbar: unknown;
+      _exportButton: unknown;
+    };
+    internals._panel = panel;
+    internals._toolbar = dom.document.createElement("div");
+    internals._exportButton = dom.document.createElement("button");
+    properties._updateProperties();
+    const inputs = fake(panel).querySelectorAll("input");
+    expect(inputs).toHaveLength(2);
+    expect(inputs.map((input) => input.value)).toEqual(["", ""]);
   });
 });

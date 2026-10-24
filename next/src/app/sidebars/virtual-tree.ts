@@ -398,7 +398,13 @@ export class VirtualTree extends VirtualList {
   _expandedWidth = 0;
   _expandStyle: string | null = null;
   _dragNodes: VirtualTreeNode[] | null = null;
-  _freeHeight!: number;
+  // The list constructor reaches the next three through the overridden
+  // endUpdate and _updateScroller before the class fields of this class
+  // exist (fields are set after super() returns). The old code kept them
+  // on the prototype, so they are declared here and given their prototype
+  // defaults below the class; an initializer would also reset the timer
+  // id that the first endUpdate has just started.
+  declare _freeHeight: number;
   _upSeparatorStyle: string | null = null;
   /** Never set (the old code measured a class "undefined"); see _initComputedVals. */
   _downSeparatorStyle: string | undefined = undefined;
@@ -410,7 +416,7 @@ export class VirtualTree extends VirtualList {
   _downSepHeight = 0;
   _dropAllowedCallback: DropAllowedCallback | null = null;
   _dropCallback: DropCallback | null = null;
-  _renderFinishCallback: (() => void) | null = null;
+  declare _renderFinishCallback: (() => void) | null;
   _dragStartPt: Point | null = null;
   _dragLastPt: Point | null = null;
   _dragBBox: Rect | null = null;
@@ -424,7 +430,7 @@ export class VirtualTree extends VirtualList {
   _clickCallback: ((node: VirtualTreeNode) => void) | null = null;
   _expandCallback: ((node: VirtualTreeNode) => void) | null = null;
   _putLastChildWhenInside = false;
-  _invalidationRequestTimerId: ReturnType<typeof setTimeout> | null = null;
+  declare _invalidationRequestTimerId: ReturnType<typeof setTimeout> | null;
   _focusTimerId: ReturnType<typeof setTimeout> | null = null;
   _updateMarksTimerId: ReturnType<typeof setTimeout> | null = null;
   _aScroll!: AutoScroll;
@@ -468,7 +474,8 @@ export class VirtualTree extends VirtualList {
   ) {
     // The old code set up the root and the indentation before the list
     // constructor ran; that constructor renders nothing for an empty tree,
-    // so setting them right after it gives the same result.
+    // so setting them right after it gives the same result. Its endUpdate
+    // starts the 25 ms first render, which runs once the tree is set up.
     super(container, renderer as (...args: never[]) => void, 0, 0);
     this._root = new VirtualTreeNode();
     this._root.expanded = true;
@@ -1344,6 +1351,11 @@ export class VirtualTree extends VirtualList {
     return "[GVirtualTree]";
   }
 }
+
+// The prototype defaults of the declared fields (see their declaration).
+VirtualTree.prototype._freeHeight = 0;
+VirtualTree.prototype._renderFinishCallback = null;
+VirtualTree.prototype._invalidationRequestTimerId = null;
 
 /** What the drag init event (touch press and hold) and a drag event carry. */
 interface PointerLike {

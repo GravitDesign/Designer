@@ -5,6 +5,9 @@
  * when it was dismissed so the designer waits before offering it again.
  * Browsers without the install prompt get a "requires Chromium" note
  * instead of the buttons. Escape closes it.
+ *
+ * The "(subscription required)" link after the description is left out,
+ * since the app has no subscriptions (REMOVED.md).
  */
 import { createElement } from "react";
 import { Key } from "../../engine/core/key.ts";
@@ -43,8 +46,8 @@ export class InstallPwaDialog {
       createElement(InstallPwaDialogView, {
         texts: {
           title: text("text.title"),
-          description: text("text.description-text"),
-          proLink: text("text.description-pro-link"),
+          // The text ended in a space before the dropped subscription link.
+          description: text("text.description-text").trimEnd(),
           dot: text("text.end-sentence-dot"),
           install: text("action.install-button"),
           notNow: text("action.not-now-button"),

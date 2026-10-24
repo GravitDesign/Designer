@@ -10,9 +10,6 @@
  * always enabled and never offline, which is what the old local app
  * showed; see "The library panel can't load assets any more" in
  * QUESTIONS.md.
- *
- * It extends View with GSidebar's defaults (module 806) written out,
- * because shell/sidebar.ts (app-shell-storage) doesn't exist yet.
  */
 import { Locale } from "../../engine/core/locale/locale.ts";
 import { LocaleKey } from "../../engine/core/locale/locale-key.ts";

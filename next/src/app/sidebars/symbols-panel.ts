@@ -166,7 +166,8 @@ export class SymbolsPanel {
     if (this.scene_) {
       const inScene = this._sceneSymbol(symbol);
       if (inScene) {
-        // The old code removed an unbound listener here, so nothing came off.
+        // The old code removed an unbound listener here, so nothing came off
+        // (see "The symbols panel piles up thumbnail listeners" in QUESTIONS.md).
         if (!keepSymbol) {
           const blocked = this.blockHandlers;
           this.blockHandlers = true;
@@ -239,6 +240,8 @@ export class SymbolsPanel {
     const group = document.createElement("span");
     group.classList.add("symbol-title-group");
     tile.appendChild(group);
+    // Never removed, so each scene switch adds one more; see "The symbols
+    // panel piles up thumbnail listeners" in QUESTIONS.md.
     symbol.addEventListener(SymbolThumbnailEvent, this._thumbnailListener());
     const image = document.createElement("span");
     image.classList.add("symbol-image");

@@ -142,6 +142,19 @@ describe("MenuItem", () => {
     expect(updates).toHaveBeenCalledTimes(1);
   });
 
+  it("treats an undefined checked or active state as off, as the old add/removeClass did", () => {
+    const action = new TestAction("a.b", "Title");
+    action.isChecked = () => undefined as unknown as boolean;
+    const item = new MenuItem();
+    item.setAction(action);
+    item.update();
+    expect(item.isChecked()).toBe(false);
+    item.update();
+    expect(item.isChecked()).toBe(false);
+    item.changeActiveState(undefined);
+    expect(item.isActive()).toBe(false);
+  });
+
   it("runs the action on mouse up and closes the active menu", () => {
     const action = new TestAction("a.b", "Title");
     const menu = new Menu();

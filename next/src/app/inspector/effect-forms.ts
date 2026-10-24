@@ -188,7 +188,8 @@ export function setUnitValue(inputs: Iterable<Element>, value: Length | null): v
   }
 }
 
-function text$(input: HTMLInputElement): HTMLInputElement {
+/** Makes `input` a text box (the old `<input type="text">`). */
+function textInput(input: HTMLInputElement): HTMLInputElement {
   input.setAttribute("type", "text");
   return input;
 }
@@ -228,7 +229,10 @@ function setSlider(elements: Iterable<Element>, value: unknown): void {
   }
 }
 
-/** The same, with the editor read when the form was made. */
+/**
+ * Hides the selection while the mouse is down on `element` (the sliders),
+ * with the editor read when the form was made.
+ */
 function hideSelectionWith(element: HTMLElement, host: EffectFormHost): void {
   const editor = (host._document as Document).getEditor();
   element.addEventListener("mousedown", () => {
@@ -282,7 +286,7 @@ function opacityInput(
   opacity: unknown,
   increment: boolean,
 ): HTMLInputElement {
-  const element = text$(input("opc"));
+  const element = textInput(input("opc"));
   element.addEventListener("change", (event) => {
     const value = (Length.parseEquationValue(boxValue(event.target as Element)) as number) / 100;
     assign(["opc"], [value]);
@@ -454,7 +458,7 @@ export const webGLForm: CreateSettings = (host, effect, assign, part) => {
           true,
         );
       });
-      const box = text$(input(name));
+      const box = textInput(input(name));
       setValue(box, shown);
       box.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
@@ -575,21 +579,8 @@ export const webGLForm: CreateSettings = (host, effect, assign, part) => {
       ) {
         opacity = opacityParameter.value;
       }
-      const colorChooser = el("div");
-      patternChooser(colorChooser, { types });
+      const colorChooser = chooser(host, types);
       chooserSet(colorChooser, new RGBColor(value as number[]), opacity);
-      colorChooser.addEventListener("chooseropen", () => {
-        const opened = (host._document as Document).getEditor();
-        if (opened) opened.hideSelection();
-        host._chooserElem = colorChooser;
-      });
-      colorChooser.addEventListener("chooserclose", () => {
-        if (host._document) {
-          const closing = host._document.getEditor();
-          if (closing) closing.resetHideSelection();
-        }
-        host._chooserElem = null;
-      });
       colorChooser.addEventListener("patternchange", (event) => {
         const [pattern, newOpacity, temporary, fromChooser] = eventArgs(event);
         const current = read("shp") as Record<string, unknown>;
@@ -679,7 +670,7 @@ export const shadowForm: CreateSettings = (host, effect, assign, part) => {
   const ranges = (effect as unknown as { RANGES?: { r?: unknown[] } }).RANGES;
   if (ranges && ranges.r) range = ranges.r;
   const lengthBox = (property: string, value: Length, options: UnitBoxOptions) => {
-    const box = text$(input(property));
+    const box = textInput(input(property));
     unitBox(box, options);
     setUnitValue([box], value);
     return box;
@@ -706,22 +697,8 @@ export const shadowForm: CreateSettings = (host, effect, assign, part) => {
     const points = typed ? typed.toUnit(Length.Unit.PT) : null;
     if (null !== points) assign(["r"], [points]);
   });
-  const color = el("div");
-  color.setAttribute("data-property", "pat");
-  patternChooser(color, { types: [Color, Gradient] });
+  const color = chooser(host, [Color, Gradient], "pat");
   chooserSet(color, pattern, opacity);
-  color.addEventListener("chooseropen", () => {
-    const editor = (host._document as Document).getEditor();
-    if (editor) editor.hideSelection();
-    host._chooserElem = color;
-  });
-  color.addEventListener("chooserclose", () => {
-    if (host._document) {
-      const editor = host._document.getEditor();
-      if (editor) editor.resetHideSelection();
-    }
-    host._chooserElem = null;
-  });
   onShadowPattern(color, assign, true, true);
   return append(
     el("div"),
@@ -764,7 +741,7 @@ export const curvedShadowForm: CreateSettings = (host, effect, assign, part) => 
     postfix: string,
     decimals: number,
   ): HTMLDivElement => {
-    const box = text$(input(property));
+    const box = textInput(input(property));
     setValue(box, value);
     box.addEventListener("change", (event) => {
       let typed = Length.parseEquationValue(boxValue(event.target as Element));
@@ -837,22 +814,8 @@ export const curvedShadowForm: CreateSettings = (host, effect, assign, part) => 
     row(text("GEffectProperties", "text.coverage"), "c", coverage, false, 0, 1, null, "", 2),
   );
   form.appendChild(row(text("GCommonNames", "text.angle"), "a", angle, false, 0, 360, 1, "°", 0));
-  const color = el("div");
-  color.setAttribute("data-property", "pat");
-  patternChooser(color, { types: [Color, Gradient] });
+  const color = chooser(host, [Color, Gradient], "pat");
   chooserSet(color, pattern, opacity);
-  color.addEventListener("chooseropen", () => {
-    const opened = (host._document as Document).getEditor();
-    if (opened) opened.hideSelection();
-    host._chooserElem = color;
-  });
-  color.addEventListener("chooserclose", () => {
-    if (host._document) {
-      const closing = host._document.getEditor();
-      if (closing) closing.resetHideSelection();
-    }
-    host._chooserElem = null;
-  });
   onShadowPattern(color, assign, true, true);
   form.appendChild(
     propertyRow(el("div", "touch-effects-shadow"), {
@@ -882,7 +845,7 @@ export const contactShadowForm: CreateSettings = (host, effect, assign, part) =>
   if (ranges && ranges.r) range = ranges.r;
   const field = (name: string): HTMLElement => {
     if ("r" === name) {
-      const box = text$(el("input"));
+      const box = textInput(el("input"));
       unitBox(box, {
         minValue: range[0] as number,
         maxValue: range[1] as number,
@@ -893,7 +856,7 @@ export const contactShadowForm: CreateSettings = (host, effect, assign, part) =>
       return box;
     }
     if ("a" === name) {
-      const box = text$(el("input"));
+      const box = textInput(el("input"));
       inputBox(box, { minValue: 5, maxValue: 35, postfix: "°" });
       setBoxValue([box], angle);
       box.addEventListener("change", (event) =>
@@ -902,7 +865,7 @@ export const contactShadowForm: CreateSettings = (host, effect, assign, part) =>
       return box;
     }
     if ("o" === name) {
-      const box = text$(el("input"));
+      const box = textInput(el("input"));
       unitBox(box, { source: "effects" });
       setUnitValue([box], offset);
       box.addEventListener("change", () => assign(["o"], [unitValue(box).toUnit(Length.Unit.PT)]));
@@ -939,14 +902,14 @@ export const longShadowForm: CreateSettings = (host, effect, assign, part) => {
   const fade = read("fdm");
   const field = (name: string): HTMLElement => {
     if ("l" === name) {
-      const box = text$(el("input"));
+      const box = textInput(el("input"));
       unitBox(box, { minValue: 0, source: "effects" });
       setUnitValue([box], length);
       box.addEventListener("change", () => assign(["l"], [unitValue(box).toUnit(Length.Unit.PT)]));
       return box;
     }
     if ("a" === name) {
-      const box = text$(el("input"));
+      const box = textInput(el("input"));
       inputBox(box, { minValue: -180, maxValue: 180, postfix: "°" });
       setBoxValue([box], formatNumber(Math.round(GMath.toDegrees(angle)), 1));
       box.addEventListener("change", (event) =>
@@ -959,7 +922,7 @@ export const longShadowForm: CreateSettings = (host, effect, assign, part) => {
     }
     if ("opc" === name) return opacityInput(assign, opacity, false);
     if ("den" === name) {
-      const box = text$(el("input"));
+      const box = textInput(el("input"));
       box.addEventListener("change", (event) => {
         const value = (boxValue(event.target as Element) as unknown as number) / 100;
         assign(["den"], [value]);
@@ -1109,7 +1072,7 @@ export const overlayForm: CreateSettings = (host, effect, assign, part) => {
     host._chooserElem = null;
   });
   onShadowPattern(color, assign, false, true);
-  const opacityBox = text$(input("opc"));
+  const opacityBox = textInput(input("opc"));
   opacityBox.addEventListener("change", (event) => {
     const value = (boxValue(event.target as Element) as unknown as number) / 100;
     assign(["opc"], [value]);
@@ -1283,7 +1246,7 @@ export const mirrorForm: CreateSettings = (host, effect, assign, part) => {
   const height = read("rfh") as number;
   const field = (name: string): HTMLElement => {
     if ("rfh" === name) {
-      const box = text$(input(name));
+      const box = textInput(input(name));
       box.addEventListener("change", (event) => {
         const value =
           (Length.parseEquationValue(boxValue(event.target as Element)) as number) / 100;
@@ -1300,7 +1263,7 @@ export const mirrorForm: CreateSettings = (host, effect, assign, part) => {
       return box;
     }
     if ("pad" === name) {
-      const box = text$(input(name));
+      const box = textInput(input(name));
       box.addEventListener("change", (event) => {
         const value = unitValue(event.target as Element).getValue();
         assign([name], [value]);
@@ -1328,7 +1291,7 @@ export const mirrorForm: CreateSettings = (host, effect, assign, part) => {
       setSlider([opacitySlider], 100 * opacity);
       return opacitySlider;
     }
-    const box = text$(input("opc"));
+    const box = textInput(input("opc"));
     box.addEventListener("change", () => {
       const value = boxValue(box);
       setSlider(inSettings(box, '[data-property="opc"].g-input-slider'), value);

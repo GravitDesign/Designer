@@ -18,6 +18,7 @@ import { Locale } from "../../engine/core/locale/locale.ts";
 import { LocaleKey } from "../../engine/core/locale/locale-key.ts";
 import { Rect } from "../../engine/math/rect.ts";
 import { Transform } from "../../engine/math/transform.ts";
+import { Element } from "../../engine/scene/element.ts";
 import type { Node } from "../../engine/scene/node.ts";
 import { Rectangle } from "../../engine/scene/rectangle.ts";
 import type { Scene } from "../../engine/scene/scene.ts";
@@ -25,7 +26,8 @@ import { FillPaintLayer } from "../../engine/style/fill-paint-layer.ts";
 import { TexturePattern } from "../../engine/style/texture-pattern.ts";
 import { SVGImport } from "../../io/import/svg/svg-import.ts";
 import type { Document } from "../document/document.ts";
-import { css, cssAll } from "../shell/dom.ts";
+import { baseConfig } from "../file-formats.ts";
+import { css, cssAll, height as boxHeight, width as boxWidth } from "../shell/dom.ts";
 import { container, designer } from "../shell/globals.ts";
 import { debounce, stringToBase64String } from "../util/designer-util.ts";
 import { LibraryElements, type LibraryCategory } from "./library-elements.ts";
@@ -59,6 +61,26 @@ type UpdateUI = (
 /** The marketplace and Unsplash calls: there is no API object any more. */
 function marketApi(): never {
   throw new TypeError("No marketplace API");
+}
+
+/** jQuery's "swing" easing. */
+function swing(p: number): number {
+  return 0.5 - Math.cos(p * Math.PI) / 2;
+}
+
+/**
+ * $(el).animate({ scrollTop }, "slow"): 600 ms with swing easing, the first
+ * step at once and the next ones on animation frames.
+ */
+export function animateScrollTop(element: HTMLElement, end: number, duration: number): void {
+  const start = element.scrollTop;
+  const startTime = Date.now();
+  const step = (): void => {
+    const p = Math.min(1, (Date.now() - startTime) / duration);
+    element.scrollTop = start + (end - start) * swing(p);
+    if (p < 1) requestAnimationFrame(step);
+  };
+  step();
 }
 
 function div(className?: string): HTMLDivElement {
@@ -122,12 +144,18 @@ export class LibraryPanel {
       const wrappers = [...this._parent.querySelectorAll<HTMLElement>(".assets-wrapper")].filter(
         (wrapper) => wrapper.children.length,
       );
+      // The width is the first non-empty box's (jQuery's css("width") of the
+      // set, 250 for none), as before. The old code then reflowed the whole
+      // set in one jQuery call; this reflows each box that holds photo
+      // columns; see "Library photo boxes reflow one by one on resize" in
+      // QUESTIONS.md.
       const first = wrappers[0];
-      const width = first ? getComputedStyle(first).width : "";
-      const current = width ? parseInt(width.split("px")[0] as string) : 250;
-      if (first && Math.abs(current - this._wrapperWidth) > 50) {
+      const current = first ? boxWidth(first) : 250;
+      if (Math.abs(current - this._wrapperWidth) > 50) {
         this._wrapperWidth = current;
-        this._initMasonryLayoutColumns(first, null, false, true);
+        for (const wrapper of wrappers)
+          if (wrapper.querySelector(":scope > .column"))
+            this._initMasonryLayoutColumns(wrapper, null, false, true);
       }
     }, 200);
     const panel = div("g-library-panel");
@@ -231,8 +259,8 @@ export class LibraryPanel {
       list = tiles;
     }
     if (0 === list.length) return;
-    const width = getComputedStyle(wrapper).width;
-    this._wrapperWidth = width ? parseInt(width.split("px")[0] as string) : 250;
+    // jQuery's css("width") gave "0px" for a hidden box (two columns then).
+    this._wrapperWidth = boxWidth(wrapper);
     let count = 2;
     count = Math.max(Math.ceil(this._wrapperWidth / 200), count);
     const columnWidth = this._wrapperWidth / count - 4 * (count - 1);
@@ -276,7 +304,7 @@ export class LibraryPanel {
         credit.addEventListener("click", (event) => {
           event.preventDefault();
           const url = new URL((asset.user as { profile: string }).profile);
-          url.searchParams.append("utm_source", encodeURIComponent("Gravit Designer"));
+          url.searchParams.append("utm_source", encodeURIComponent(baseConfig.DESIGNER.TITLE));
           url.searchParams.append("utm_medium", "referral");
           container().openExternalLink(event, url.toString());
         });
@@ -409,12 +437,13 @@ export class LibraryPanel {
 
   /** Moves the node's center to the drop position. */
   _transformNode(node: Node, position?: { x: number; y: number }): void {
+    if (!position || !node.hasMixin(Element.Transform)) return;
+    // getGeometryBBox and transform are the Element and Transform mixins'
+    // (checked above), which Node's typings lack.
     const element = node as unknown as {
       getGeometryBBox(): Rect | null;
       transform(transform: Transform, noTransform?: boolean): void;
-      hasMixin(mixin: unknown): boolean;
     };
-    if (!position || typeof element.transform !== "function") return;
     const box = element.getGeometryBBox();
     let x = box && box.getX() ? box.getX() : 0;
     let y = box && box.getY() ? box.getY() : 0;
@@ -427,6 +456,8 @@ export class LibraryPanel {
 
   /** Shows "Back to top" while the library is scrolled down. */
   _createScrollEvent(): void {
+    // The old code unbound every scroll handler of the containers; only this
+    // panel adds one, so removing its own is the same.
     for (const scroller of document.querySelectorAll<HTMLElement>(".library-container")) {
       if (scrollHandler) scroller.removeEventListener("scroll", scrollHandler);
     }
@@ -447,7 +478,7 @@ export class LibraryPanel {
           top.addEventListener("click", () => {
             designer().stats("librarypanel_click_backtotop");
             for (const scroller of document.querySelectorAll<HTMLElement>(".library-container"))
-              scroller.scrollTo({ top: 0, behavior: "smooth" });
+              animateScrollTop(scroller, 0, 600);
           });
           target.appendChild(top);
         }
@@ -912,10 +943,7 @@ export class LibraryPanel {
   }
 
   _getChildrenHeight(column: HTMLElement): number {
-    return [...column.children].reduce(
-      (sum, child) => sum + (child as HTMLElement).getBoundingClientRect().height,
-      0,
-    );
+    return [...column.children].reduce((sum, child) => sum + boxHeight(child as HTMLElement), 0);
   }
 }
 

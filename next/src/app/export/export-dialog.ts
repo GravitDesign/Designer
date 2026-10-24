@@ -49,7 +49,11 @@ import { Menu, MenuPosition } from "../menus/menu.ts";
 import type { MenuItem } from "../menus/menu-item.ts";
 import { css } from "../shell/dom.ts";
 import { container, designer } from "../shell/globals.ts";
-import { lateExport } from "../shell/late.ts";
+import { InputSlider } from "../color/opacity-slider.ts";
+import {
+  UnsupportedFeaturesDialog,
+  type UnsupportedFeatureEntry,
+} from "../color/pattern-type-menu.ts";
 import { InputBox } from "../widgets/input-box.ts";
 import {
   Exporter,
@@ -333,12 +337,11 @@ export class ExportDialog {
     // JPEG quality: a slider and a box that follow each other.
     const slider = make("div");
     const qualityInput = make("input");
-    const sliders = lateExport<SliderClass>("color/opacity-slider.ts", "InputSlider");
-    const qualitySlider = sliders ? new sliders(slider, { min: 25, max: 100 }) : null;
+    const qualitySlider = new InputSlider(slider, { min: 25, max: 100 });
     css(slider, "align-self", "center");
-    if (qualitySlider) qualitySlider.value(this._settings.jpegQuality);
+    qualitySlider.value(this._settings.jpegQuality);
     slider.addEventListener("change", () => {
-      const value = parseInt(String(qualitySlider ? qualitySlider.value() : NaN), 10);
+      const value = parseInt(String(qualitySlider.value()), 10);
       this._settings.jpegQuality = value;
       this._updatePreview();
       qualityBox.value(value);
@@ -355,7 +358,7 @@ export class ExportDialog {
       let value = parseInt(qualityBox.value(), 10);
       if (value > 100) value = 100;
       else if (value < 25) value = 25;
-      if (qualitySlider) qualitySlider.value(value);
+      qualitySlider.value(value);
       this._settings.jpegQuality = value;
       this._updatePreview();
     });
@@ -1038,13 +1041,10 @@ export class ExportDialog {
                     exporters.SVGExport.getUnsupportedFeatures(exportable.element),
                   );
               }
-              if (features.length) {
-                const Unsupported = lateExport<new (entries: unknown[]) => { open(): void }>(
-                  "color/pattern-type-menu.ts",
-                  "UnsupportedFeaturesDialog",
-                );
-                if (Unsupported) new Unsupported(features).open();
-              }
+              // The exporters registry types the list loosely; SvgExport
+              // fills it with { name, features } entries.
+              if (features.length)
+                new UnsupportedFeaturesDialog(features as UnsupportedFeatureEntry[]).open();
             }
           },
           () => this.close(),
@@ -1316,15 +1316,4 @@ export class ExportDialog {
 interface SavedOpacity {
   index: number;
   opacity: unknown;
-}
-
-/** The slider of the JPEG quality (color/opacity-slider.ts, app-color-ui). */
-interface SliderClass {
-  new (
-    element: HTMLElement,
-    options: { min: number; max: number },
-  ): {
-    value(): string | number;
-    value(value: unknown): unknown;
-  };
 }

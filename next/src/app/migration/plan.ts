@@ -16,7 +16,9 @@
  * - localStorage: when the new origin has no "designer.settings" yet,
  *   each kept key (LocalStorageKeys) is taken from the newest old origin
  *   that has it. The newest origin is the old app's last session. Keys of
- *   the dropped licence, cloud and analytics code are left behind.
+ *   the dropped licence, cloud and analytics code are left behind. The
+ *   settings come over whole, including a stored "language"; the app
+ *   ignores it (English only, QUESTIONS.md Q-001).
  * - Imported fonts (IndexedDB gravitFontsDB): every font file from every
  *   old origin that the new origin doesn't have, and the font list
  *   extended by them (newest origin first). Each old session started

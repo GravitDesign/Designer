@@ -16,28 +16,18 @@ import { mountCheckboxSlider, unmountCheckboxSlider } from "../widgets/checkbox-
 import { CornerTypePicker } from "../widgets/corner-type-select.ts";
 import { InputBox, type InputBoxOptions } from "../widgets/input-box.ts";
 import { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
-import type { Editor } from "../../editor/editor.ts";
-import type { Scene } from "../../engine/scene/scene.ts";
 import type { Document } from "../document/document.ts";
 import { designer } from "../shell/globals.ts";
 import { SettingChangedEvent } from "../shell/setting-changed-event.ts";
-import { el, Properties, propertyRow, text, type InspectedElements } from "./properties.ts";
-
-/** The document's editor and scene (both exist while a panel shows the document). */
-function editorOf(document: Document | null): Editor {
-  return (document as Document).getEditor() as Editor;
-}
-
-function sceneOf(document: Document | null): Scene {
-  return (document as Document).getScene() as Scene;
-}
-
-/** The scene calls of the panel. */
-interface PanelScene {
-  stringToPoint(text: string): number | null;
-  pointToString(value: number, decimals?: number): string;
-  getOptimalDecimalsCount(): number;
-}
+import {
+  editorOf,
+  el,
+  Properties,
+  propertyRow,
+  sceneOf,
+  text,
+  type InspectedElements,
+} from "./properties.ts";
 
 /** The new inner point angle and, with plain edges, inner radius for `points` points. */
 export function pointsValues(
@@ -79,10 +69,6 @@ export class PolygonProperties extends Properties {
   override _document: Document | null = null;
   _polygons: Polygon[] = [];
 
-  private _scene(): PanelScene {
-    return (this._document as Document).getScene() as unknown as PanelScene;
-  }
-
   override init(panel: HTMLElement): void {
     this._panel = panel;
     const sliderTooltip = () =>
@@ -101,7 +87,7 @@ export class PolygonProperties extends Properties {
         input.setAttribute("data-property", property);
         input.addEventListener("change", () => {
           designer().stats("polygonproperties_change_radius");
-          const value = this._scene().stringToPoint(input.value);
+          const value = sceneOf(this._document as Document).stringToPoint(input.value);
           if (null !== value && "number" == typeof value && value >= 0)
             this._assignProperty(
               property,
@@ -149,7 +135,7 @@ export class PolygonProperties extends Properties {
         input.setAttribute("data-property", property);
         input.addEventListener("change", () => {
           designer().stats("polygonproperties_change_corner-radius");
-          const value = this._scene().stringToPoint(input.value);
+          const value = sceneOf(this._document as Document).stringToPoint(input.value);
           if (null !== value && "number" == typeof value && value >= 0)
             this._assignProperty(
               property,
@@ -169,17 +155,17 @@ export class PolygonProperties extends Properties {
           richTooltipConfig: sliderTooltip(),
         });
         slider.addEventListener("mousedown", () => {
-          const editor = editorOf(this._document);
+          const editor = editorOf(this._document as Document);
           editor.hideSelection();
           document.addEventListener(
             "mouseup",
-            () => editorOf(this._document).resetHideSelection(),
+            () => editorOf(this._document as Document).resetHideSelection(),
             { once: true },
           );
         });
         slider.addEventListener("input", () => {
           const radius = this._assignCornersRadius(parseInt(String(handle.value())) / 100, true);
-          const scene = this._scene();
+          const scene = sceneOf(this._document as Document);
           setValues(
             this._panel as HTMLElement,
             '[data-property="corners-radius"]',
@@ -199,13 +185,17 @@ export class PolygonProperties extends Properties {
         input.classList.add("corner-radius");
         input.addEventListener("change", () => {
           designer().stats("polygonproperties_change_corners-radius");
-          const value = this._scene().stringToPoint((InputBox.of(input) as InputBox).value());
+          const value = sceneOf(this._document as Document).stringToPoint(
+            (InputBox.of(input) as InputBox).value(),
+          );
           if (null !== value && "number" == typeof value && value >= 0)
             this._assignCornersRadius(value, false, true);
           else this._updateProperties();
         });
         return inputBox(input, { minValue: 0, incrementValue: 1 });
       }
+      // The old control returned undefined for "corners-type" instead of
+      // throwing; nothing asks for it, since that picker is built inline below.
       throw new Error("Unknown input property: " + property);
     };
 
@@ -441,7 +431,7 @@ export class PolygonProperties extends Properties {
   override update(document: Document | null, elements: InspectedElements | null): boolean {
     if (this._document) {
       // The old code removed both listeners without their target.
-      sceneOf(this._document).removeEventListener(
+      sceneOf(this._document as Document).removeEventListener(
         AfterPropertiesChangeEvent,
         this._afterPropertiesChange,
       );
@@ -483,7 +473,7 @@ export class PolygonProperties extends Properties {
     const polygon = this._polygons[0] as Polygon;
     const panel = this._panel as HTMLElement;
     const advanced = this._advancedPanel as HTMLElement;
-    const scene = this._scene();
+    const scene = sceneOf(this._document as Document);
     const decimals = () => scene.getOptimalDecimalsCount();
     const point = (name: string) =>
       scene.pointToString(polygon.getProperty(name) as number, decimals());
@@ -542,7 +532,7 @@ export class PolygonProperties extends Properties {
   }
 
   _assignCornersRadius(value: number, temporary: boolean, absolute?: boolean): number {
-    const editor = editorOf(this._document);
+    const editor = editorOf(this._document as Document);
     if (!temporary) editor.beginTransaction();
     let first = 0;
     try {
@@ -571,7 +561,7 @@ export class PolygonProperties extends Properties {
   }
 
   _assignProperties(properties: string[], values: unknown[], title?: string): void {
-    const editor = editorOf(this._document);
+    const editor = editorOf(this._document as Document);
     editor.beginTransaction();
     try {
       for (let i = 0; i < this._polygons.length; ++i)
@@ -582,7 +572,7 @@ export class PolygonProperties extends Properties {
   }
 
   _assignSize(factor: number, temporary: boolean): void {
-    const editor = editorOf(this._document);
+    const editor = editorOf(this._document as Document);
     if (!temporary) editor.beginTransaction();
     try {
       for (let n = 0; n < this._polygons.length; ++n) {
@@ -597,7 +587,7 @@ export class PolygonProperties extends Properties {
   }
 
   _assignPoints(points: number, temporary: boolean): void {
-    const editor = editorOf(this._document);
+    const editor = editorOf(this._document as Document);
     if (!temporary) editor.beginTransaction();
     try {
       for (let n = 0; n < this._polygons.length; ++n) {
@@ -618,7 +608,7 @@ export class PolygonProperties extends Properties {
 
   _assignEdges(plainEdges: boolean, temporary?: boolean): void {
     if (!plainEdges) return;
-    const editor = editorOf(this._document);
+    const editor = editorOf(this._document as Document);
     if (!temporary) editor.beginTransaction();
     try {
       for (let n = 0; n < this._polygons.length; ++n) {

@@ -30,14 +30,19 @@ export function hasLateModule(path: string): boolean {
   return path in modules;
 }
 
-/** GSystemDialog (app-widgets-dialogs) as the shell uses it. */
+/** GSystemDialog (dialogs/system-dialog.ts) as the shell uses it. */
 export interface SystemDialogLike {
   alert(message: string, ...rest: unknown[]): unknown;
   confirm?(message: string, done: (ok: boolean) => void, ...rest: unknown[]): unknown;
   showOneTimeDialog?(message: string, setting: string): unknown;
 }
 
-/** GSystemDialog, or a console fallback until the dialogs cluster exists. */
+/**
+ * GSystemDialog. It is looked up late because the dialog module loads
+ * Mousetrap, which needs a DOM, and the shell and the actions are unit
+ * tested in Node; boot always loads it, so the console fallback only
+ * serves those tests.
+ */
 export function systemDialog(): SystemDialogLike {
   const dialog = lateExport<SystemDialogLike>("dialogs/system-dialog.ts", "SystemDialog");
   if (dialog) return dialog;

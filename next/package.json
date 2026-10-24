@@ -72,7 +72,7 @@
   "main": "dist-electron/main.js",
   "build": {
     "appId": "com.gravit.designer.local",
-    "productName": "Gravit Designer",
+    "productName": "GravitDesign Next",
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -117,14 +117,14 @@
           ]
         }
       ],
-      "icon": "../public/assets/prerendered/icon.ico"
+      "icon": "build/icon.ico"
     },
     "nsis": {
       "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": true,
-      "installerIcon": "../public/assets/prerendered/icon.ico",
-      "uninstallerIcon": "../public/assets/prerendered/icon.ico"
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
     },
     "linux": {
       "target": [
@@ -141,7 +141,7 @@
           ]
         }
       ],
-      "icon": "../public/assets/prerendered",
+      "icon": "build/icon.png",
       "category": "Graphics",
       "maintainer": "GravitDesign <https://github.com/GravitDesign/designer>"
     },
@@ -155,7 +155,7 @@
           ]
         }
       ],
-      "icon": "../public/assets/prerendered/icon512.png",
+      "icon": "build/icon.png",
       "category": "public.app-category.graphics-design"
     }
   }

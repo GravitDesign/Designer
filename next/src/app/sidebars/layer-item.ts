@@ -82,7 +82,7 @@ export function buildLayerItemContainer(
   name = name || node.getNodeNameTranslated();
   const title = document.createElement("span");
   // The old code inserted the name as HTML; see "Layer and page names
-  // are no longer read as HTML" in BUGS-FIXED.md.
+  // are no longer read as HTML" (BF-119) in bugfix-plan.md.
   title.textContent = name;
   title.classList.add("layer-title");
   titleGroup.appendChild(title);
@@ -157,7 +157,7 @@ export function getIconByLayerType(
     else icon += "detached";
   }
   if (node instanceof Shape && node.getParent() instanceof CompoundShape && node.getPrevious()) {
-    switch ((node as unknown as PanelNode).getProperty("bool")) {
+    switch (node.getProperty("bool")) {
       case VertexPolyBoolean.OR:
         icon = "gravit-icon-merge-union";
         break;
@@ -185,7 +185,7 @@ export function getLayerOrItemStatus(node: Node): LayerOrItemStatus {
   let parent: Node | null = node;
   while ((parent = parent.getParent()) && !(parent instanceof Scene)) {
     if (parent instanceof Block) {
-      const block = parent as unknown as PanelNode;
+      const block = parent;
       parentHidden = false === block.getProperty("vis") || parentHidden;
       const lock = block.getProperty("lkt") as string | null;
       if (lock) {
@@ -195,8 +195,7 @@ export function getLayerOrItemStatus(node: Node): LayerOrItemStatus {
       }
     }
     if (parent instanceof Layer)
-      parentOutlined =
-        true === (parent as unknown as PanelNode).getProperty("otl") || parentOutlined;
+      parentOutlined = true === parent.getProperty("otl") || parentOutlined;
   }
   const item = node as PanelNode;
   const isHidden = parentHidden || false === item.getProperty("vis");

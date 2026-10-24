@@ -57,6 +57,13 @@ export interface LocalStorageValues {
   "pwa.show-install-dialog-3-times-a-week": string;
   /** Recent files of the Electron runtime: up to 10 unique ids (module 1491). */
   recent_documents: string[];
+  /**
+   * New in the rewrite: the look picked with ?branding=next|classic
+   * (src/app/brand/branding.ts; index.html's script writes it).
+   */
+  "designer.branding": "next" | "classic";
+  /** New in the rewrite: the GravitDesign Next introduction was closed (src/app/brand/intro-dialog.ts). */
+  "designer.next-intro-shown": boolean;
 }
 
 export type LocalStorageKey = keyof LocalStorageValues;
@@ -77,6 +84,8 @@ export const LocalStorageKeys = {
   PwaClosedInstallDialogDate: "pwa.closed-install-pwa-dialog-date",
   PwaInstallDialogShownTimes: "pwa.show-install-dialog-3-times-a-week",
   RecentDocuments: "recent_documents",
+  Branding: "designer.branding",
+  NextIntroShown: "designer.next-intro-shown",
 } as const satisfies Record<string, LocalStorageKey>;
 
 /**

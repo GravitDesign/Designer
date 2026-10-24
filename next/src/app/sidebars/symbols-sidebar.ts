@@ -4,10 +4,6 @@
  * Create New Symbol, and the symbol masters of the active document as
  * tiles (symbols-panel.ts). A click on a tile selects the master and
  * zooms to it, a double click selects the master and its instances.
- *
- * It extends View with GSidebar's defaults (module 806) written out,
- * because shell/sidebar.ts (app-shell-storage) doesn't exist yet; switch
- * the base to Sidebar once it does.
  */
 import { Locale } from "../../engine/core/locale/locale.ts";
 import { LocaleKey } from "../../engine/core/locale/locale-key.ts";

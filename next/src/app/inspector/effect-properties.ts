@@ -44,7 +44,7 @@ import { StyleEdManager, type StyleEditorEvent } from "../../editor/style-ed-man
 import { TouchTool } from "../../editor/touch/touch-tool.ts";
 import type { Document } from "../document/document.ts";
 import { ContextMenuContext } from "../menus/context-menu.ts";
-import { css, outerHeight } from "../shell/dom.ts";
+import { computed, css, height, outerHeight } from "../shell/dom.ts";
 import { designer, dragImage } from "../shell/globals.ts";
 import type { SidebarTouchTool } from "../shell/layout.ts";
 import { SidebarEvent } from "../shell/sidebar-event.ts";
@@ -70,7 +70,7 @@ import {
 } from "./effect-forms.ts";
 import { EffectsPanel, type EffectsPanelItem } from "./effects-panel.ts";
 import { PanelIds } from "./panel-ids.ts";
-import { addClass, el, getData, setData, toggleClass } from "./paint-dom.ts";
+import { addClass, el, fadeCopyHint, getData, setData, toggleClass } from "./paint-dom.ts";
 import { Properties, type InspectedElements } from "./properties.ts";
 import { handleDragForDeleteIcon } from "../widgets/drag-delete.ts";
 import { PressMode } from "../shell/press-mode.ts";
@@ -96,6 +96,11 @@ const text = (className: string, key: string): string =>
 /** The category names (module locals of the old code, set by every constructor). */
 let categories: EffectCategories | null = null;
 
+/** `$(el).position().top`: the top relative to the offset parent, without the margin. */
+function positionTop(element: HTMLElement): number {
+  return element.offsetTop - (parseFloat(computed(element, "margin-top")) || 0);
+}
+
 // The drag state shared by all rows (old module locals A and T).
 let dragAllowed = false;
 let dragged: Effect | null = null;
@@ -108,21 +113,6 @@ function canDropOn(block: Element): boolean {
       return dragged.getParent() === effect.getParent();
   }
   return false;
-}
-
-/** jQuery's `.animate({ opacity: 0, top: "+=20" }, 500, remove)` of the copy hint. */
-function fadeOutDown(element: HTMLElement): void {
-  const top = parseFloat(element.style.top) || 0;
-  if (typeof element.animate === "function") {
-    const animation = element.animate(
-      [
-        { opacity: 1, top: top + "px" },
-        { opacity: 0, top: top + 20 + "px" },
-      ],
-      { duration: 500, easing: "ease-in-out" },
-    );
-    animation.onfinish = () => element.remove();
-  } else setTimeout(() => element.remove(), 500);
 }
 
 export class EffectProperties extends Properties implements EffectFormHost {
@@ -153,10 +143,10 @@ export class EffectProperties extends Properties implements EffectFormHost {
   _disableFx: unknown = null;
   /** The effects of the quick-add buttons. */
   _defaultEffects: unknown[] = [
-    BlurEffect,
-    GLColorAdjustEffect,
     DropShadowEffect,
     InnerShadowEffect,
+    BlurEffect,
+    GLColorAdjustEffect,
   ];
   _styleEditorChange = false;
   _styleEdOn = false;
@@ -187,10 +177,10 @@ export class EffectProperties extends Properties implements EffectFormHost {
       new TouchTool({
         id: "effect",
         icon: "gravit-icon-touch-effect-panel",
-        panel: this._panel as unknown as string,
-        toolbar: this._toolbar as unknown as string,
+        panel: this._panel,
+        toolbar: this._toolbar,
         panelWidth: "368px",
-      }) as unknown as SidebarTouchTool,
+      }) as SidebarTouchTool,
     ]);
     const label = el("label");
     label.textContent = text("GEffectProperties", "title");
@@ -557,7 +547,8 @@ export class EffectProperties extends Properties implements EffectFormHost {
       image = null;
       event.stopPropagation();
       // A drag that wasn't dropped on a row removes the effect, wherever it
-      // ended (see "Effect drag without drop deletes" in QUESTIONS.md).
+      // ended (BF-105 in docs/rewrite/bugfix-plan.md: "Dragging an effect row
+      // and not dropping it on a row deletes the effect").
       if (dragged) {
         const removing = dragged;
         const elements = this._elements as EffectsOwner[];
@@ -682,17 +673,25 @@ export class EffectProperties extends Properties implements EffectFormHost {
       if (this._document) this._document.updateActiveStylesList("Effect", effect);
       designer().setMouseOverContext(PanelIds.EffectPropertiesPanel, event, (copied?: Event) => {
         const previousHint = panel.querySelector(".copy-info-overlay");
-        const row =
-          copied && copied.target ? (copied.target as Element).closest(".effect-block") : null;
-        const rowHeight = row ? parseFloat(getComputedStyle(row).height) || 0 : 0;
-        const rowTop = row ? (row as HTMLElement).offsetTop : 0;
+        // Old: e && $(e.target).closest(".effect-block"), then its height()
+        // and position().top; an empty set's position() is undefined, so
+        // reading its top threw (the row is always found: the event is the
+        // row's own mouseenter).
+        let rowHeight = 0;
+        let rowTop = 0;
+        if (copied) {
+          const row = (copied.target as Element | null)?.closest<HTMLElement>(".effect-block");
+          if (!row) throw new TypeError("Cannot read properties of undefined (reading 'top')");
+          rowHeight = height(row) || 0;
+          rowTop = positionTop(row) || 0;
+        }
         const top = rowHeight ? rowTop + rowHeight / 2 : rowTop;
         const hint = el("span", "copy-info-overlay");
         css(hint, "top", top);
         hint.textContent = text("GEffectProperties", "text.copy-effect");
         if (previousHint) previousHint.remove();
         panel.appendChild(hint);
-        setTimeout(() => fadeOutDown(hint), 1e3);
+        setTimeout(() => fadeCopyHint(hint), 1e3);
       });
       if (this._checkContext) panel.removeEventListener("mousemove", this._checkContext);
       this._checkContext = (move: MouseEvent) => {

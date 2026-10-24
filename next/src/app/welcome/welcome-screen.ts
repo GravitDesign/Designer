@@ -20,6 +20,9 @@ import { Length } from "../../engine/math/length.ts";
 import { YOUTUBE_PLAYLIST } from "../actions/help/help-links.ts";
 import { OpenAction } from "../actions/file/open-action.ts";
 import { OpenSafariAction } from "../actions/file/open-safari-action.ts";
+import { BrandLockup } from "../brand/brand-mark.tsx";
+import { isNextBranding } from "../brand/branding.ts";
+import { brandVersionLine } from "../brand/version.ts";
 import { Dialog } from "../dialogs/dialog.ts";
 import { Overlay } from "../dialogs/dialog-container.ts";
 import { Document } from "../document/document.ts";
@@ -92,6 +95,8 @@ export class WelcomeScreen {
   /** The version line's click counter (non-production builds only). */
   private _versionInfo: { current: number } | null = null;
   private _footerSerial = 0;
+  /** The preset table, read once as the old dialog built it once (_createPresetsFrame). */
+  private readonly _presets: Preset[] = Presets.getPresets(true);
 
   constructor() {
     this._state = {
@@ -151,9 +156,12 @@ export class WelcomeScreen {
 
   private _view() {
     return createElement(WelcomeScreenView, {
+      brandHead: isNextBranding()
+        ? createElement(BrandLockup, { className: "gd-welcome-lockup" })
+        : undefined,
       entries: this._entries,
       links: this._links(),
-      presets: Presets.getPresets(true),
+      presets: this._presets,
       texts: {
         width: text("GCommonNames", "text.width"),
         height: text("GCommonNames", "text.height"),
@@ -200,7 +208,12 @@ export class WelcomeScreen {
     return suffix;
   }
 
+  /**
+   * "Version i015.3 Web" (classic), or "GravitDesign Next 2.0.0 Web" in
+   * the "next" look (CHANGES.md).
+   */
   private _versionText(): string {
+    if (isNextBranding()) return brandVersionLine() + this._versionSuffix();
     return (
       text("GCommonNames", "text.version") +
       " " +
@@ -294,7 +307,7 @@ export class WelcomeScreen {
   /** The start page: presets again and a new "don't show" row with the current setting. */
   private _showStartPage(): void {
     const stored: unknown = designer().getSetting("show_welcome_screen");
-    const show = "boolean" != typeof stored || stored;
+    const show = typeof stored !== "boolean" || stored;
     this._setState({
       footer: { serial: ++this._footerSerial, checked: !show },
       activeOption: this._isSpectatorMode() ? this._state.activeOption : "start-option",

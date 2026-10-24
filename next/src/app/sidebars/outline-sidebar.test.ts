@@ -1,8 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Platform } from "../../engine/core/platform.ts";
+import type { Rect } from "../../engine/math/rect.ts";
+import { Transform } from "../../engine/math/transform.ts";
+import { Block } from "../../engine/scene/block.ts";
+import { CompoundShape } from "../../engine/scene/compound-shape.ts";
 import { Layer } from "../../engine/scene/layer.ts";
 import { Node } from "../../engine/scene/node.ts";
-import type { Page } from "../../engine/scene/page.ts";
+import { Page } from "../../engine/scene/page.ts";
 import { Rectangle } from "../../engine/scene/rectangle.ts";
 import { Scene } from "../../engine/scene/scene.ts";
 import { EditorWorkspace } from "../../editor/editor-workspace.ts";
@@ -12,6 +16,7 @@ import { DocumentEvent } from "../document/document-event.ts";
 import { DocumentStatus } from "../document/document-status.ts";
 import { ContextMenuContext } from "../menus/context-menu.ts";
 import { setContainer, setDesigner } from "../shell/globals.ts";
+import { SettingChangedEvent } from "../shell/setting-changed-event.ts";
 import { OutlineSidebar } from "./outline-sidebar.ts";
 import {
   classHeights,
@@ -28,6 +33,20 @@ vi.mock("../inspector/color-deps.ts", () => ({
   eventArgs: () => [],
 }));
 
+// The export rows are the inspector's export panel; these tests only check
+// that the sidebar builds and updates it (its own tests cover the rows).
+const exportCalls = vi.hoisted(() => [] as unknown[][]);
+vi.mock("../inspector/export-properties.ts", () => ({
+  ExportProperties: class {
+    init(panel: { className: string }, toolbar: { className: string }) {
+      exportCalls.push(["init", panel.className, toolbar.className]);
+    }
+    update(document: unknown, elements: unknown) {
+      exportCalls.push(["update", document, elements]);
+    }
+  },
+}));
+
 let dom: ReturnType<typeof installTreeDom>;
 let stored: Record<string, unknown>;
 let triggered: unknown[];
@@ -36,10 +55,12 @@ let editor: Editor;
 let scene: Scene;
 let viewConfiguration: { multiPageView: boolean; pageLabelsVisible: boolean };
 let zoomedAt: unknown[];
+let touch: boolean;
 
 const listeners = () => ({ addEventListener() {}, removeEventListener() {} });
 
 beforeEach(() => {
+  exportCalls.length = 0;
   vi.useFakeTimers();
   dom = installTreeDom();
   classHeights["layer-row"] = 34;
@@ -48,6 +69,7 @@ beforeEach(() => {
   triggered = [];
   executed = [];
   zoomedAt = [];
+  touch = false;
   scene = new Scene(new EditorWorkspace());
   editor = new Editor(scene);
   viewConfiguration = { multiPageView: false, pageLabelsVisible: false };
@@ -67,7 +89,8 @@ beforeEach(() => {
     ...listeners(),
   };
   setDesigner({
-    isTouchEnabled: () => false,
+    isTouchEnabled: () => touch,
+    setItemDraggingState() {},
     stats() {},
     getActiveDocument: () => document,
     getSetting: (_key: string, value?: unknown) => value,
@@ -287,5 +310,228 @@ describe("GOutlineSidebar", () => {
     sidebar._moveLayers(layer, null, [rect]);
     expect(rect.getParent()).toBe(layer);
     expect(rect.hasFlag(Node.Flag.Selected as number)).toBe(true);
+  });
+});
+
+describe("GOutlineSidebar risky branches", () => {
+  it("builds and updates the export rows through the export panel", () => {
+    const { sidebar } = makeSidebar();
+    expect(exportCalls).toEqual([
+      ["init", "properties-panel export-panel", "toolbar toolbar-export"],
+    ]);
+    exportCalls.length = 0;
+    activate(sidebar);
+    expect(exportCalls.length).toBeGreaterThan(0);
+    expect(exportCalls.every((call) => call[0] === "update" && call[2] === null)).toBe(true);
+    expect((exportCalls[0] as unknown[])[1]).not.toBeNull();
+  });
+
+  it("doesn't delete a page locked against deletion", () => {
+    const { sidebar } = makeSidebar();
+    activate(sidebar);
+    scene.insertPage();
+    const page = scene.getActivePage() as Page;
+    page.setProperty("plkt", Block.ProgramLck.NoDelete);
+    sidebar._deletePage();
+    expect(page.getParent()).toBe(scene);
+  });
+
+  it("asks before deleting a master page, after navigating and refreshing the selection", () => {
+    let answer: ((ok: boolean) => void) | null = null;
+    vi.spyOn(SystemDialog, "confirm").mockImplementation(((
+      _message: string,
+      done: (ok: boolean) => void,
+    ) => {
+      answer = done;
+    }) as never);
+    const { sidebar } = makeSidebar();
+    activate(sidebar);
+    const first = scene.getActivePage() as Page;
+    const master = scene.insertPage();
+    scene.setActivePage(master);
+    vi.spyOn(master, "getSlavePages").mockReturnValue([first]);
+    const order: string[] = [];
+    vi.spyOn(sidebar, "_navigateDrawingCenter").mockImplementation(
+      () => void order.push("navigate"),
+    );
+    vi.spyOn(sidebar, "_refreshSelection").mockImplementation(() => void order.push("refresh"));
+    sidebar._deletePage();
+    expect(order).toEqual(["navigate", "refresh"]);
+    expect(master.getParent()).toBe(scene);
+    (answer as unknown as (ok: boolean) => void)(false);
+    expect(master.getParent()).toBe(scene);
+    sidebar._deletePage();
+    (answer as unknown as (ok: boolean) => void)(true);
+    expect(master.getParent()).toBeNull();
+  });
+
+  it("moves pages last node first and relinks even/odd masters", () => {
+    const { sidebar } = makeSidebar();
+    activate(sidebar);
+    const p0 = scene.getActivePage() as Page;
+    const p1 = scene.insertPage();
+    const p2 = scene.insertPage();
+    vi.spyOn(scene, "isEvenOddMaster").mockReturnValue(true);
+    const calls: string[] = [];
+    const end = scene.endBlockReferenceChanges.bind(scene);
+    vi.spyOn(scene, "endBlockReferenceChanges").mockImplementation(() => {
+      calls.push("end");
+      end();
+    });
+    vi.spyOn(scene, "reassignMasterPages").mockImplementation(() => void calls.push("reassign"));
+    sidebar._movePageTreeNodeCallback(scene, p0, [p2, p1]);
+    const pages: Node[] = [];
+    for (let child = scene.getFirstChild(); child; child = child.getNext())
+      if (child instanceof Page) pages.push(child);
+    expect(pages).toEqual([p1, p2, p0]);
+    // Relinked once more after the reference changes end.
+    expect(calls.slice(-2)).toEqual(["end", "reassign"]);
+  });
+
+  it("moves Alt-dropped copies into a shape to the shape's paint box when they lie outside it", () => {
+    const { sidebar } = makeSidebar();
+    activate(sidebar);
+    const page = scene.getActivePage() as Page;
+    const shape = new Rectangle();
+    shape.setProperty("trf", new Transform(50, 0, 0, 50, 100, 100));
+    const loose = new Rectangle();
+    loose.setProperty("trf", new Transform(10, 0, 0, 10, 0, 0));
+    page.appendChild(shape);
+    page.appendChild(loose);
+    sidebar._duplicateLayerTreeNodeCallback(shape, null, [loose]);
+    const copy = shape.getFirstChild() as Rectangle;
+    expect(copy).toBeInstanceOf(Rectangle);
+    expect(copy).not.toBe(loose);
+    const shapeBox = shape.getPaintBBox() as Rect;
+    const copyBox = copy.getPaintBBox() as Rect;
+    expect([copyBox.getX(), copyBox.getY()]).toEqual([shapeBox.getX(), shapeBox.getY()]);
+    expect(editor.getSelection()).toEqual([copy]);
+  });
+
+  it("gives copies dropped into a compound shape the compound's style", () => {
+    const { sidebar } = makeSidebar();
+    activate(sidebar);
+    const page = scene.getActivePage() as Page;
+    const compound = new CompoundShape();
+    compound.appendChild(new Rectangle());
+    const loose = new Rectangle();
+    page.appendChild(compound);
+    page.appendChild(loose);
+    const assigned: unknown[] = [];
+    vi.spyOn(Rectangle.prototype, "assignStyleFrom").mockImplementation(function (
+      this: Rectangle,
+      source: unknown,
+    ) {
+      assigned.push([this, source]);
+    } as never);
+    sidebar._duplicateLayerTreeNodeCallback(compound, null, [loose]);
+    const copy = compound.getLastChild();
+    expect(copy).not.toBe(loose);
+    expect(assigned).toEqual([[copy, compound]]);
+  });
+
+  it("deletes the active layer with the selection once it holds no items", () => {
+    const { sidebar } = makeSidebar();
+    activate(sidebar);
+    const page = scene.getActivePage() as Page;
+    const layer = new Layer();
+    const keep = new Layer();
+    page.appendChild(keep);
+    page.appendChild(layer);
+    const rect = new Rectangle();
+    layer.appendChild(rect);
+    scene.setActiveLayer(layer);
+    editor.updateSelection(false, [rect]);
+    sidebar._deleteLayerOrItem();
+    expect(rect.getParent()).toBeNull();
+    expect(layer.getParent()).toBeNull();
+    // With an item left the layer stays.
+    const other = new Rectangle();
+    const last = new Rectangle();
+    keep.appendChild(other);
+    keep.appendChild(last);
+    scene.setActiveLayer(keep);
+    editor.updateSelection(false, [other]);
+    sidebar._deleteLayerOrItem();
+    expect(keep.getParent()).toBe(page);
+  });
+
+  it("forwards a drop on the layers toolbar to the last visited row as a drop at its top", () => {
+    const { sidebar, element } = makeSidebar();
+    activate(sidebar);
+    const target = dom.document.createElement("div");
+    const received: { altKey: boolean; layerY: number }[] = [];
+    target.addEventListener("drop", (event) => received.push(event as never));
+    vi.spyOn(sidebar.getLayerPanel(), "getLastVisitedDroppable").mockReturnValue(target as never);
+    const event = fireEvent(element.querySelector(".layer-toolbar"), "drop", {
+      altKey: true,
+      layerY: 20,
+    });
+    expect(event.defaultPrevented).toBe(true);
+    expect(received.map((e) => [e.altKey, e.layerY])).toEqual([[true, 0]]);
+  });
+
+  it("clamps the pages list height while dragging the divider", () => {
+    const { element } = makeSidebar();
+    const pages = element.querySelector<TestElement>(".pages-container") as TestElement;
+    pages.style.height = "100px";
+    const divider = element.querySelector<TestElement>("#page-layer-divider");
+    fireEvent(divider, "mousedown", { clientY: 200 });
+    expect(element.classList.contains("page-container-resizing")).toBe(true);
+    fireEvent(dom.document, "mousemove", { clientY: 230 });
+    expect(pages.style.height).toBe("130px");
+    fireEvent(dom.document, "mousemove", { clientY: 0 });
+    expect(pages.style.height).toBe("50px");
+    fireEvent(dom.document, "mousemove", { clientY: 2000 });
+    expect(pages.style.height).toBe("500px");
+    fireEvent(dom.document, "mouseup");
+    fireEvent(dom.document, "mousemove", { clientY: 230 });
+    expect(pages.style.height).toBe("500px");
+    expect(element.classList.contains("page-container-resizing")).toBe(false);
+  });
+
+  it("uses 48px rows in touch mode and 34px rows otherwise", () => {
+    const { sidebar } = makeSidebar();
+    touch = true;
+    sidebar._settingChanged(new SettingChangedEvent("touch", false, true));
+    expect(sidebar.getLayerPanel().vtree._rowHeight).toBe("48");
+    expect(sidebar._pagePanel?.vtree._rowHeight).toBe("48");
+    touch = false;
+    sidebar._settingChanged(new SettingChangedEvent("other", null, null));
+    expect(sidebar.getLayerPanel().vtree._rowHeight).toBe("48");
+    sidebar._settingChanged(new SettingChangedEvent("touch", true, false));
+    expect(sidebar.getLayerPanel().vtree._rowHeight).toBe("34");
+    expect(sidebar._pagePanel?.vtree._rowHeight).toBe("34");
+  });
+
+  it("removes every scene and editor listener when the document is deactivated", async () => {
+    const { sidebar } = makeSidebar();
+    const added: unknown[][] = [];
+    const removed: unknown[][] = [];
+    for (const target of [scene, editor] as unknown as {
+      addEventListener(...args: unknown[]): void;
+      removeEventListener(...args: unknown[]): void;
+    }[]) {
+      const add = target.addEventListener.bind(target);
+      const remove = target.removeEventListener.bind(target);
+      vi.spyOn(target, "addEventListener").mockImplementation((...args: unknown[]) => {
+        added.push([target, ...args]);
+        add(...args);
+      });
+      vi.spyOn(target, "removeEventListener").mockImplementation((...args: unknown[]) => {
+        removed.push([target, ...args]);
+        remove(...args);
+      });
+    }
+    activate(sidebar);
+    await vi.runAllTimersAsync();
+    // The sidebar's own four and the two panels' listeners.
+    expect(added.length).toBeGreaterThanOrEqual(4);
+    sidebar._documentEvent(
+      new DocumentEvent(DocumentEvent.Type.Deactivated, sidebar._document as never),
+    );
+    const key = (entry: unknown[]) => entry.slice(0, 3);
+    for (const entry of added) expect(removed.map(key)).toContainEqual(key(entry));
+    expect(sidebar._document).toBeNull();
   });
 });

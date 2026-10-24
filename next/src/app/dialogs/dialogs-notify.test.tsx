@@ -9,7 +9,6 @@ import { ShortcutsDialogView } from "./shortcuts-dialog-view.tsx";
 import { SoftwareUpdateEvents } from "./software-update-events.ts";
 import { SoftwareUpdateManager, softwareUpdateManager } from "./software-update-manager.ts";
 import { SoftwareUpdatePanelView } from "./software-update-panel-view.tsx";
-import { ConfirmationDialogView } from "./confirmation-dialog-view.tsx";
 
 const noop = () => undefined;
 
@@ -171,18 +170,6 @@ describe("dialog content", () => {
       '<div class="content"><div class="message">Downloading<div class="progress-content">' +
         '<div class="progress-element"><div class="progress-bar" style="width:42.00%"></div></div>' +
         '<div class="percent">42.00</div></div></div></div>',
-    );
-  });
-
-  it("confirmation dialog: header, info, rule, footer button (UI-DIALOG-016)", () => {
-    expect(
-      renderToStaticMarkup(
-        <ConfirmationDialogView info="Saved" buttonText="Save" onConfirm={noop} />,
-      ),
-    ).toBe(
-      '<div class="header"><span class="gravit-icon-thanks"></span></div>' +
-        '<div class="content"><span>Saved</span></div><hr/>' +
-        '<div class="footer"><button class="highlight">Save</button></div>',
     );
   });
 });

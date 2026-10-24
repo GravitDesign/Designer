@@ -54,6 +54,7 @@ function makeSymbol(scene: FakeScene, id: string, name = "Master"): SymbolNode {
     toBitmap: vi.fn(),
     hasEventListeners: () => listeners.length > 0,
     addEventListener: (_type: unknown, listener: unknown) => listeners.push(listener),
+    testListeners: listeners,
   });
   scene.symbols.push(symbol);
   return symbol;
@@ -189,6 +190,27 @@ describe("SymbolsPanel", () => {
     expect(clicked).toEqual([master]);
     expect(doubled).toEqual([master]);
     expect(stats).toEqual(["symbol_click_select", "symbol_click_focus"]);
+  });
+
+  it("adds another thumbnail listener per master on every scene switch, as the old code did", () => {
+    const scene = makeScene();
+    const master = makeSymbol(scene, "a1");
+    const listeners = (master as unknown as { testListeners: ((event: unknown) => void)[] })
+      .testListeners;
+    const panel = newPanel();
+    panel.setScene(scene as unknown as Scene);
+    panel.setScene(null);
+    panel.setScene(scene as unknown as Scene);
+    // See "The symbols panel piles up thumbnail listeners" in QUESTIONS.md.
+    expect(listeners).toHaveLength(2);
+    const { canvas, image } = thumbnail();
+    const updated = vi.spyOn(
+      panel as unknown as { _thumbnailUpdated(update: unknown): void },
+      "_thumbnailUpdated",
+    );
+    for (const listener of listeners) listener({ symbol: master, image });
+    expect(updated).toHaveBeenCalledTimes(2);
+    expect(fake(canvas).getAttribute("style")).toBe("width: 85px; height: 51px; margin: 5px;");
   });
 
   it("newSymbolClick runs Create Symbol only when it can, and always returns false", () => {

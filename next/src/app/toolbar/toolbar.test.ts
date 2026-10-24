@@ -1,15 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { EventTarget } from "../../engine/core/event-target.ts";
-import { HandTool } from "../../editor/tools/hand-tool.ts";
-import { LassoTool } from "../../editor/tools/lasso-tool.ts";
 import { PenTool } from "../../editor/tools/pen-tool.ts";
-import { PointerTool } from "../../editor/tools/pointer-tool.ts";
-import { RectangleTool } from "../../editor/tools/rectangle-tool.ts";
 import { SubSelectTool } from "../../editor/tools/sub-select-tool.ts";
-import { ToolChangedEvent, type ToolClass } from "../../editor/tools/tool-manager.ts";
-import { ZoomTool } from "../../editor/tools/zoom-tool.ts";
 import { SceneWidget } from "../../editor/view/scene-widget.ts";
-import { Action } from "../actions/action.ts";
 import { ActiveMenuManager } from "../menus/active-menu-manager.ts";
 import type { Menu } from "../menus/menu.ts";
 import {
@@ -19,153 +12,12 @@ import {
   type FakeDomHandle,
   type FakeElement,
 } from "../menus/testing/fake-dom.testing.ts";
-import { resetGlobals, setAppRegistry, setDesigner } from "../shell/globals.ts";
-import type { ToolTableEntry } from "../shell/registry.ts";
+import { resetGlobals } from "../shell/globals.ts";
 import { SettingChangedEvent } from "../shell/setting-changed-event.ts";
 import { WindowEvent } from "../shell/windows.ts";
 import { MenuButton } from "../widgets/menu-button.ts";
 import { Toolbar } from "./toolbar.ts";
-
-class TestAction extends Action {
-  enabled = true;
-  runs: unknown[][] = [];
-  constructor(
-    private readonly _id: string,
-    private readonly _title: string,
-    private readonly _icon: string | null = null,
-  ) {
-    super();
-  }
-  override getId(): string {
-    return this._id;
-  }
-  override getTitle(): string {
-    return this._title;
-  }
-  override getIcon(): string | null {
-    return this._icon;
-  }
-  override isEnabled(): boolean {
-    return this.enabled;
-  }
-  override execute(...args: unknown[]): void {
-    this.runs.push(args);
-  }
-}
-
-/** One fake tool instance per class, as the tool manager keeps them. */
-class FakeToolManager extends EventTarget {
-  readonly instances = new Map<ToolClass, object>();
-  active: object | null = null;
-  activatable = true;
-  getTool(tool: ToolClass): object {
-    let instance = this.instances.get(tool);
-    if (!instance) {
-      instance = Object.create(tool.prototype) as object;
-      this.instances.set(tool, instance);
-    }
-    return instance;
-  }
-  getActiveTool(): object | null {
-    return this.active;
-  }
-  isContextActivatable(): boolean {
-    return this.activatable;
-  }
-  activateTool(tool: object): boolean {
-    const previous = this.active;
-    this.active = tool;
-    this.trigger(new ToolChangedEvent(previous as never, tool as never));
-    return true;
-  }
-}
-
-const entry = (
-  tool: ToolClass,
-  toolString: string,
-  group: string,
-  icon: string,
-  category?: string,
-): ToolTableEntry => ({
-  tool,
-  toolString,
-  title: toolString.replace(/^G|Tool$/g, ""),
-  group,
-  category,
-  icon,
-  richTooltipConfig: null as never,
-});
-
-const TOOLS: ToolTableEntry[] = [
-  entry(PointerTool, "GPointerTool", "select", "gravit-icon-cursor-filled"),
-  entry(SubSelectTool, "GSubSelectTool", "select", "gravit-icon-cursor"),
-  entry(LassoTool, "GLassoTool", "select", "gravit-icon-rope", "special"),
-  entry(PenTool, "GPenTool", "path", "gravit-icon-pen"),
-  entry(RectangleTool, "GRectangleTool", "shape", "gravit-icon-rectangle"),
-  entry(HandTool, "GHandTool", "view", "gravit-icon-move"),
-  entry(ZoomTool, "GZoomTool", "view", "gravit-icon-zoom-in"),
-];
-
-interface Fixture {
-  designer: EventTarget & Record<string, unknown>;
-  tools: FakeToolManager;
-  windows: EventTarget & { active: unknown };
-  actions: Map<string, TestAction>;
-  settings: Record<string, unknown>;
-  editor: Record<string, unknown> | null;
-  executed: [string, unknown, unknown][];
-}
-
-function setup(): Fixture {
-  const actions = new Map<string, TestAction>();
-  for (const [id, title, icon] of [
-    ["file.save", "Save", "gravit-icon-save"],
-    ["edit.undo", "Undo", "gravit-icon-undo"],
-    ["edit.redo", "Redo", "gravit-icon-redo"],
-    ["modify.group", "Group", "gravit-icon-group"],
-    ["file.export", "Advanced Export...", "gravit-icon-export"],
-  ] as const)
-    actions.set(id, new TestAction(id, title, icon));
-  const tools = new FakeToolManager();
-  tools.active = tools.getTool(PointerTool);
-  const windows = Object.assign(new EventTarget(), {
-    active: null as unknown,
-    getActiveWindow(): unknown {
-      return this.active;
-    },
-    getWindows: () => [],
-  });
-  const settings: Record<string, unknown> = { snap_disabled: false };
-  const fixture: Fixture = {
-    designer: null as never,
-    tools,
-    windows,
-    actions,
-    settings,
-    editor: null,
-    executed: [],
-  };
-  const designer = Object.assign(new EventTarget(), {
-    getAction: (id: string) => actions.get(id) || null,
-    executeAction: (id: string, args?: unknown, source?: unknown) => {
-      fixture.executed.push([id, args, source]);
-      return true;
-    },
-    getToolManager: () => tools,
-    getWindows: () => windows,
-    getSetting: (key: string) => settings[key],
-    getActiveDocument: () =>
-      fixture.editor ? { getEditor: () => fixture.editor, getScene: () => null } : null,
-    getRightSidebars: () => ({ getActiveSidebar: () => null, getSidebar: () => null }),
-    isTouchEnabled: () => false,
-    canActivateTool: () => true,
-    relayout: vi.fn(),
-  });
-  fixture.designer = designer as never;
-  setDesigner(designer as never);
-  setAppRegistry({ plugins: [], actions: [], sidebars: [], panels: [], footer: [], tools: TOOLS });
-  return fixture;
-}
+import { setup, type TestAction } from "./toolbar-fixture.testing.ts";
 
 let dom: FakeDomHandle;
 let toolbarElement: FakeElement;
@@ -405,5 +257,99 @@ describe("Toolbar", () => {
     fire(dropdown, "mousedown");
     expect(button.menu.isOpen()).toBe(true);
     expect(classes(dropdown)).toContain("g-active");
+  });
+});
+
+describe("Toolbar manual zoom input", () => {
+  function zoomSetup(withWindow = true) {
+    const f = setup();
+    const view = Object.assign(new EventTarget(), { getZoom: () => 1.5 });
+    const window = { getView: () => view };
+    if (withWindow) f.windows.active = window;
+    const zoomed: unknown[][] = [];
+    f.designer.zoomAtViewCenter = (...args: unknown[]) => zoomed.push(args);
+    makeToolbar();
+    const button = find(".zoom-button");
+    const [minus, manual, action, , plus] = button.children as FakeElement[];
+    const input = manual?.children[0] as FakeElement;
+    const shown = () =>
+      [minus, manual, action, plus].map((e) => (e?.style.display === "none" ? "hidden" : "shown"));
+    return { f, view, window, zoomed, button, action: action as FakeElement, input, shown };
+  }
+  const key = (target: FakeElement, type: string, keyCode: number) =>
+    fire(target, type, { keyCode });
+
+  it("swaps the -/+ buttons for the input on a double click and fills in the zoom", () => {
+    const { action, input, shown } = zoomSetup();
+    expect(shown()).toEqual(["shown", "hidden", "shown", "shown"]);
+    fire(action, "dblclick");
+    expect(shown()).toEqual(["hidden", "shown", "hidden", "hidden"]);
+    expect(input.value).toBe("150");
+    expect(dom.document.activeElement).toBe(input);
+    expect(input.selected).toBe(1);
+  });
+
+  it("does nothing on a double click without an active window", () => {
+    const { action, shown } = zoomSetup(false);
+    fire(action, "dblclick");
+    expect(shown()).toEqual(["shown", "hidden", "shown", "shown"]);
+  });
+
+  it("zooms to the typed percentage on Enter and shows the buttons again", () => {
+    const { action, input, view, zoomed, shown } = zoomSetup();
+    fire(action, "dblclick");
+    input.value = "250";
+    key(input, "keydown", 13);
+    key(input, "keyup", 13);
+    expect(zoomed).toEqual([[view, 2.5]]);
+    expect(shown()).toEqual(["shown", "hidden", "shown", "shown"]);
+  });
+
+  it("restores the buttons on Escape without zooming, and ignores a keyup without keydown", () => {
+    const { action, input, zoomed, shown } = zoomSetup();
+    fire(action, "dblclick");
+    key(input, "keyup", 13);
+    expect(zoomed).toEqual([]);
+    expect(shown()).toEqual(["hidden", "shown", "hidden", "hidden"]);
+    key(input, "keydown", 27);
+    key(input, "keyup", 27);
+    expect(zoomed).toEqual([]);
+    expect(shown()).toEqual(["shown", "hidden", "shown", "shown"]);
+  });
+
+  it("restores the buttons on blur only while no key is down", () => {
+    const { action, input, shown } = zoomSetup();
+    fire(action, "dblclick");
+    key(input, "keydown", 50);
+    fire(input, "blur");
+    expect(shown()).toEqual(["hidden", "shown", "hidden", "hidden"]);
+    key(input, "keyup", 50);
+    fire(input, "blur");
+    expect(shown()).toEqual(["shown", "hidden", "shown", "shown"]);
+  });
+
+  it("lets only digits, backspace, delete and the left/right arrows through", () => {
+    const { input } = zoomSetup();
+    const prevented = (code: number) => key(input, "keypress", code).defaultPrevented;
+    expect([65, 47, 58, 32].map(prevented)).toEqual([true, true, true, true]);
+    expect([48, 53, 57, 8, 46, 37, 39].map(prevented)).toEqual([
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ]);
+  });
+
+  it("rewrites the caption on every view transform, even at the same zoom", () => {
+    const { f, window, view, action } = zoomSetup();
+    f.windows.trigger(new WindowEvent(WindowEvent.Type.Activated, window as never));
+    const caption = action.children[1] as FakeElement;
+    expect(caption.textContent).toBe("150%");
+    caption.textContent = "reset";
+    view.trigger(new SceneWidget.TransformEvent());
+    expect(caption.textContent).toBe("150%");
   });
 });

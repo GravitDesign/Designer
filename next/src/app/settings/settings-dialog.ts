@@ -32,6 +32,7 @@ import { EditorOptions } from "../../editor/editor-options.ts";
 import { RendererConfig } from "../../engine/paint/renderer-config.ts";
 import { Scene } from "../../engine/scene/scene.ts";
 import { Text } from "../../engine/text/text.ts";
+import { config } from "../config.ts";
 import { Dialog } from "../dialogs/dialog.ts";
 import { Overlay } from "../dialogs/dialog-container.ts";
 import { Runtime } from "../shell/container.ts";
@@ -46,10 +47,7 @@ import {
   type SettingsRowsModel,
 } from "./settings-dialog-view.tsx";
 
-/** GConfig (module 10) and the cloud auto-save names (module 1276). */
-const AUTO_SAVE_ENABLED = true;
-const AUTOSAVE_INTERVALS: readonly number[] = [5, 10, 20];
-const AUTOSAVE_INTERVAL_DEFAULT = 5;
+/** The cloud auto-save names (module 1276). */
 const AUTO_SAVE_SETTING = "auto_save";
 const AUTO_SAVE_INTERVAL_SETTING = "auto_save_interval";
 const DISABLE_WARNING_SETTING_NAME = "autosave-prompt-for-local-files-disabled";
@@ -96,6 +94,22 @@ export class SettingsDialogImpl {
   private _themeName = "";
   private _decimalsShown = false;
   private _decimalsBox: InputBox | null = null;
+  /** Whether the decimals box got its first value (on its first attach). */
+  private _decimalsInitialised = false;
+  /**
+   * The box's ref, made once: a new callback on every render would make
+   * React detach and re-attach the box, and the re-attach would put the
+   * stored value back over a typed one.
+   */
+  private readonly _decimalsBoxRef = (box: InputBox | null): void => {
+    // The box's first value, once it is attached (.gInputBox("value", ...)).
+    if (box && !this._decimalsInitialised) {
+      this._decimalsInitialised = true;
+      const stored = designer().getSetting("decimals_num", Scene.decimalsNum) as number | null;
+      box.value(null !== stored ? formatNumber(stored, 0) : "2");
+    }
+    this._decimalsBox = box;
+  };
   private _notificationsDisabled = false;
 
   constructor() {
@@ -174,12 +188,13 @@ export class SettingsDialogImpl {
       texts,
       highlightOnHover: !!d.getSetting("highlight_on_hover"),
       autoExpandLayers: !!d.getSetting("auto_expand_layers"),
-      autoSave: AUTO_SAVE_ENABLED
+      // GConfig (module 10): false on Safari, which then has neither row.
+      autoSave: config.AUTO_SAVE_ENABLED
         ? {
             checked: !!d.getSetting("auto_save", true),
-            intervals: AUTOSAVE_INTERVALS,
-            selected: AUTOSAVE_INTERVALS.indexOf(
-              d.getSetting(AUTO_SAVE_INTERVAL_SETTING, AUTOSAVE_INTERVAL_DEFAULT) as number,
+            intervals: config.AUTOSAVE_INTERVALS,
+            selected: config.AUTOSAVE_INTERVALS.indexOf(
+              d.getSetting(AUTO_SAVE_INTERVAL_SETTING, config.AUTOSAVE_INTERVAL_DEFAULT) as number,
             ),
             warningSetting: DISABLE_WARNING_SETTING_NAME,
             warningChecked: !d.getSetting(DISABLE_WARNING_SETTING_NAME, false),
@@ -187,14 +202,8 @@ export class SettingsDialogImpl {
         : null,
       developer: developer
         ? {
-            stepsDebug: !!d.getSetting(
-              "enable_steps_debug",
-              (EditorOptions as unknown as { debugTransactions?: boolean }).debugTransactions,
-            ),
-            cache: !!d.getSetting(
-              "enable_cache",
-              (RendererConfig as unknown as { ENABLE_CACHE?: boolean }).ENABLE_CACHE,
-            ),
+            stepsDebug: !!d.getSetting("enable_steps_debug", EditorOptions.debugTransactions),
+            cache: !!d.getSetting("enable_cache", RendererConfig.ENABLE_CACHE),
           }
         : null,
       themeName: this._themeName,
@@ -220,11 +229,7 @@ export class SettingsDialogImpl {
     return {
       on: null !== stored,
       valueShown: this._decimalsShown,
-      boxRef: (box: InputBox | null) => {
-        // The box's first value, once it is attached (.gInputBox("value", ...)).
-        if (box && !this._decimalsBox) box.value(null !== stored ? formatNumber(stored, 0) : "2");
-        this._decimalsBox = box;
-      },
+      boxRef: this._decimalsBoxRef,
       onToggle: (input) => {
         const current = designer().getSetting("decimals_num", Scene.decimalsNum) as number | null;
         let value = "2";
@@ -314,11 +319,11 @@ export class SettingsDialogImpl {
 
   private _saveBasicSettings(): void {
     const interval = this._find(AUTO_SAVE_INTERVAL_SETTING);
-    const autoSaveInterval = AUTOSAVE_INTERVALS[parseInt(interval ? interval.value : "")];
+    const autoSaveInterval = config.AUTOSAVE_INTERVALS[parseInt(interval ? interval.value : "")];
     let decimals: number | null = null;
     if (this._checked("decimals-num-onoff")) {
       const value = parseNumber((this._decimalsBox as InputBox).value());
-      if (!("number" != typeof value || isNaN(value))) decimals = value;
+      if (typeof value === "number" && !isNaN(value)) decimals = value;
     }
     designer().setSetting(
       [

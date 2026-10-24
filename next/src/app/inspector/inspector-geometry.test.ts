@@ -5,10 +5,14 @@ import { Group } from "../../engine/scene/group.ts";
 import { Layer } from "../../engine/scene/layer.ts";
 import { Page } from "../../engine/scene/page.ts";
 import { Rectangle } from "../../engine/scene/rectangle.ts";
+import { Symbol as SymbolNode } from "../../engine/scene/symbol.ts";
 import type { Document } from "../document/document.ts";
 import type { Designer } from "../shell/designer.ts";
 import { resetGlobals, setDesigner } from "../shell/globals.ts";
 import { setLateModules } from "../shell/late.ts";
+import { SettingChangedEvent } from "../shell/setting-changed-event.ts";
+import type { FakeElement } from "../menus/testing/fake-dom.testing.ts";
+import { installPaintTestDom, type PaintTestDom } from "./paint-dom.testing.ts";
 import { AlignProperties } from "./align-properties.ts";
 import { DimensionProperties } from "./dimension-properties.ts";
 import { FrameProperties } from "./frame-properties.ts";
@@ -289,5 +293,235 @@ describe("the dimension panel", () => {
   it("updates only for transformable non-page elements", () => {
     const panel = dimension([]);
     expect(panel.update(fakeDocument(), [new Page()] as InspectedElements)).toBe(false);
+  });
+});
+
+describe("the dimension panel with several elements and editors (R7-C-504)", () => {
+  interface Applied {
+    matrix: number[];
+    full: unknown;
+    linked: unknown;
+  }
+
+  /** A transformable element with an open editor that records applyTransform. */
+  function element(
+    box: Rect,
+    log: Applied[],
+    target: Record<string, unknown> = {},
+  ): Record<string, unknown> {
+    let pending: { getMatrix(): number[] } | null = null;
+    Object.assign(target, {
+      hasMixin: () => true,
+      getGeometryBBox: () => box,
+      getAngle: () => 0.25,
+      _scene: {},
+    });
+    target.__editor__ = {
+      getElement: () => target,
+      getPEGeometryBBox: () => new Rect(box.getX() + 1, box.getY() + 1, box.getWidth(), 5),
+      getRotationAngle: () => 0.75,
+      _setTransform: (t: { getMatrix(): number[] }) => {
+        pending = t;
+      },
+      applyTransform: (_target: unknown, full: unknown, linked: unknown) =>
+        log.push({ matrix: (pending as { getMatrix(): number[] }).getMatrix(), full, linked }),
+    };
+    return target;
+  }
+
+  /** A panel whose keep-ratio link says `ratio`. */
+  function panelWith(
+    ratio: "yes" | "no",
+    editorExtras: Record<string, unknown> = {},
+    log: string[] = [],
+  ): DimensionProperties {
+    fakeDesigner();
+    const panel = new DimensionProperties();
+    panel._panel = {
+      ...emptyPanel,
+      querySelectorAll: () => [],
+      querySelector: (selector: string) =>
+        selector === "[data-ratio]" ? { getAttribute: () => ratio } : null,
+    } as unknown as HTMLElement;
+    const document = fakeDocument(log);
+    const editor = document.getEditor() as unknown as Record<string, unknown>;
+    Object.assign(editor, editorExtras);
+    panel._document = {
+      getScene: document.getScene,
+      getEditor: () => editor,
+    } as unknown as Document;
+    return panel;
+  }
+
+  it("resizes several elements by one transform of their united box, keeping the ratio", () => {
+    const log: Applied[] = [];
+    const commits: string[] = [];
+    const panel = panelWith("yes", {}, commits);
+    const a = element(new Rect(0, 0, 100, 50), log);
+    const b = element(new Rect(100, 10, 100, 50), log);
+    panel._elements = [a as never, b as never];
+    panel._assignDimension("w", "400");
+    // Union (0, 0, 200, 60); scale 2 both ways around its top left.
+    expect(log.map((entry) => entry.matrix)).toEqual([
+      [2, 0, 0, 2, 0, 0],
+      [2, 0, 0, 2, 0, 0],
+    ]);
+    expect(log.map((entry) => !!entry.full)).toEqual([false, false]);
+    expect(commits).toEqual(["begin", "commit Change Size"]);
+  });
+
+  it("keeps the other side without the ratio link", () => {
+    const log: Applied[] = [];
+    const panel = panelWith("no");
+    panel._elements = [element(new Rect(0, 0, 100, 50), log) as never];
+    panel._assignDimension("h", "100");
+    expect(log.map((entry) => entry.matrix)).toEqual([[1, 0, 0, 2, 0, 0]]);
+  });
+
+  it("skips elements linked to others in the selection", () => {
+    const log: Applied[] = [];
+    const b: Record<string, unknown> = {};
+    const panel = panelWith("no", {
+      getLinkedElementsInSelection: (node: unknown) => (node === b ? [b] : []),
+    });
+    const a = element(new Rect(0, 0, 100, 50), log);
+    element(new Rect(100, 0, 100, 50), log, b);
+    panel._elements = [a as never, b as never];
+    panel._assignDimension("x", "10");
+    // Several elements move as one box: only a moves, with the linked list.
+    expect(log).toHaveLength(1);
+    expect(log[0]?.matrix).toEqual([1, 0, 0, 1, 10, 0]);
+    expect(log[0]?.linked).toEqual([b]);
+  });
+
+  it("transforms the full content for symbol moves, rotation and the full-content setting", () => {
+    const log: Applied[] = [];
+    const panel = panelWith("no");
+    const symbol = element(
+      new Rect(0, 0, 100, 50),
+      log,
+      Object.create(SymbolNode.prototype) as Record<string, unknown>,
+    );
+    panel._elements = [symbol as never];
+    panel._assignDimension("x", "10");
+    panel._assignDimension("w", "50");
+    const plain = panelWith("no", {
+      getEdTransformSettings: () => ({ fullContentTransform: true }),
+    });
+    plain._elements = [element(new Rect(0, 0, 100, 50), log) as never];
+    plain._assignDimension("w", "50");
+    const rotate = panelWith("no");
+    rotate._elements = [element(new Rect(0, 0, 100, 50), log) as never];
+    rotate._assignDimension("rotate", "90");
+    expect(log.map((entry) => !!entry.full)).toEqual([true, false, true, true]);
+  });
+
+  it("reads the boxes and angles from the element editors while dragging", () => {
+    const log: Applied[] = [];
+    const panel = panelWith("no", {
+      getSelectionEditor: () => ({ getRotationAngle: () => 1.5 }),
+    });
+    const a = element(new Rect(0, 0, 100, 50), log);
+    panel._elements = [a as never];
+    // One element: the editor's box and rotation angle.
+    expect(panel._getCurrentDimensions(false, true)).toEqual({
+      x: 1,
+      y: 1,
+      w: 100,
+      h: 5,
+      angle: 0.75,
+    });
+    expect(panel._getCurrentDimensions(false, false)).toEqual({
+      x: 0,
+      y: 0,
+      w: 100,
+      h: 50,
+      angle: 0.25,
+    });
+    const b = element(new Rect(200, 0, 100, 50), log);
+    panel._elements = [a as never, b as never];
+    // Several: the united editor boxes and the selection editor's angle.
+    expect(panel._getCurrentDimensions(false, true)).toEqual({
+      x: 1,
+      y: 1,
+      w: 300,
+      h: 5,
+      angle: 1.5,
+    });
+    const calls: unknown[][] = [];
+    panel._updateDimensions = (keepBoxes?: boolean, fromEditors?: boolean) => {
+      calls.push([keepBoxes, fromEditors]);
+    };
+    panel._edGeometryChange();
+    expect(calls).toEqual([[false, true]]);
+  });
+
+  it("refreshes on the decimals setting only", () => {
+    const panel = panelWith("no");
+    let updates = 0;
+    panel._updateDimensions = () => {
+      updates++;
+    };
+    panel._settingChanged(new SettingChangedEvent("touch", false, true));
+    panel._settingChanged(new SettingChangedEvent("decimals_num", 1, 2));
+    expect(updates).toBe(1);
+  });
+});
+
+describe("the dimension panel in touch mode (R7-C-504)", () => {
+  let t: PaintTestDom | null = null;
+  const sidebarClasses: string[] = [];
+
+  afterEach(() => {
+    t?.uninstall();
+    t = null;
+  });
+
+  function touchPanel() {
+    sidebarClasses.length = 0;
+    t = installPaintTestDom({
+      isTouchEnabled: () => true,
+      getRightSidebars: () => ({
+        addClassName: (name: string) => sidebarClasses.push("+" + name),
+        removeClassName: (name: string) => sidebarClasses.push("-" + name),
+      }),
+    });
+    const doc = t.dom.document;
+    const make = (tag: string, ...classes: string[]): FakeElement => {
+      const element = doc.createElement(tag);
+      if (classes.length) element.classList.add(...classes);
+      return element;
+    };
+    const root = make("div", "dimension-panel");
+    const button = make("button", "transform-button");
+    const anchors = make("div", "anchor-panel");
+    const advanced = make("div", "advanced-transform-properties");
+    const toolbar = make("div", "advanced-transform-toolbar");
+    const label = make("label");
+    toolbar.append(label);
+    doc.body.append(root, advanced, toolbar);
+    const panel = new DimensionProperties();
+    panel._panel = root as unknown as HTMLElement;
+    panel._transformButton = button as unknown as HTMLButtonElement;
+    panel._anchorsPanel = anchors as unknown as HTMLElement;
+    return { panel, button, root, anchors, advanced, label };
+  }
+
+  it("switches the button, the anchors and the sidebar's z-index with transform mode", () => {
+    const { panel, button, root, anchors, advanced, label } = touchPanel();
+    expect(panel.isAvailable(true)).toBe(true);
+    expect(button.classList.contains("g-active")).toBe(true);
+    expect(button.textContent).toBe("Close");
+    expect(label.textContent).toBe("ADVANCED TRANSFORM");
+    expect(anchors.classList.contains("down")).toBe(true);
+    expect(root.classList.contains("have-anchor")).toBe(false);
+    expect(advanced.classList.contains("have-anchor")).toBe(true);
+    expect(panel.isAvailable(false)).toBe(true);
+    expect(button.classList.contains("g-active")).toBe(false);
+    expect(button.textContent).toBe("Transform");
+    expect(anchors.classList.contains("down")).toBe(false);
+    expect(root.classList.contains("have-anchor")).toBe(true);
+    expect(advanced.classList.contains("have-anchor")).toBe(false);
+    expect(sidebarClasses).toEqual(["+more-z-index", "-more-z-index"]);
   });
 });

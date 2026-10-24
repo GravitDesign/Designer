@@ -8,7 +8,11 @@
  *         > .g-dialog-footer > [footerStart] .buttons > buttons
  *
  * The container is created on open and removed (with the dialog when
- * releaseOnClose) after the close animation, 250 ms by default. Open
+ * releaseOnClose) by a timer started on close. By default that timer has
+ * no delay: the default closeTimeout is null, isNaN(null) is false, and
+ * parseInt("null") gives NaN, which setTimeout treats as 0, in the old
+ * code as here. 250 ms only applies to a non-numeric closeTimeout such as
+ * a string; a numeric `timeout` passed to close() wins over both. Open
  * dialogs form a stack: Escape and a mousedown on the bare container
  * close the top one if it was opened closable. The Escape listener is
  * added when this module loads, as the old module did.

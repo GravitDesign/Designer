@@ -1011,6 +1011,9 @@ export class TextProperties extends Properties {
         const length = Length.parseEquation(value as string, scene.getProperty("ut") as string);
         if (length) value = length.toUnit(Length.Unit.PX);
       } else value = parseNumber(value as string);
+      // parseNumber gives NaN, never null, for a box that isn't a number, so
+      // from "%" the line height becomes "NaN" (see "Line height unit switch
+      // writes NaN for text in the box" in QUESTIONS.md).
       if (null !== value && "%" === current) {
         const unit = (scene.getProperty("ut") as string) || "px";
         toggle.textContent = unit;
@@ -1107,6 +1110,9 @@ export class TextProperties extends Properties {
           const length = Length.parseEquation(box.value, scene.getProperty("ut") as string);
           if (length) value = length.toUnit(Length.Unit.PX);
         } else value = parseNumber(box.value);
+        // A length box that doesn't parse leaves null, which isNaN lets
+        // through: the spacing becomes 0 (see "Paragraph spacing unit switch
+        // turns text into 0" in QUESTIONS.md).
         if (!isNaN(value as number)) {
           const targets = this._text.map((t) => this._inspected(t));
           const size = (this._getProperty("_tfi", targets) as number) || 20;
@@ -1149,10 +1155,10 @@ export class TextProperties extends Properties {
   }
 
   /** Opens the eye dropper of the text color field. */
-  override openEyeDropper(event?: unknown, options?: unknown): void {
+  override openEyeDropper(pageX?: number, pageY?: number): void {
     const chooser = (this._panel as HTMLElement).querySelector('[data-property="_fc"]');
     const widget = chooser ? PatternChooserWidget.of(chooser) : null;
-    if (widget) widget.openEyeDropper(event as number | undefined, options as number | undefined);
+    if (widget) widget.openEyeDropper(pageX, pageY);
   }
 
   _getAdvancedSettingsOverlayDiv(): HTMLElement {
@@ -1918,6 +1924,13 @@ export class TextProperties extends Properties {
    * first init (only a new list click handler took the new ones), so here
    * the list is handed to the box once; see "Font size box keeps the unit
    * of its first init" in QUESTIONS.md.
+   *
+   * The box is constructed a second time because the ported UnitBox binds
+   * its list click (and unbinds the input box's own click) only in its
+   * constructor, and the first one in init had no list. The second
+   * construction also adds a second change listener that marks the
+   * selected list item; both mark the same item, so it does nothing more.
+   * The old code did the same on every update, adding a listener each time.
    */
   private _updateSizeBox(input: HTMLInputElement): void {
     const unitBox = UnitBox.of(input) as UnitBox;
@@ -1951,16 +1964,24 @@ export class TextProperties extends Properties {
       select.removeAttribute("disabled");
       select.classList.remove("g-disabled");
       select.appendChild(option("", text("GCommonNames", "text.default")));
+      // A tag without a BCP 47 code looks up "text.lang.null", which has no
+      // string: its name is undefined, and the sort throws as soon as such a
+      // name is the left side of a comparison. The select then keeps only
+      // "Default" and the stylistic set select is not updated (see "Unknown
+      // language tag stops the text panel update" in QUESTIONS.md).
       const named = tags
         .map((value) => {
           const bcp47 = OpenTypeFont.openTypeLanguageSystemTagStringToBCP47(value);
           return {
-            name: text("GBCP47LanguageTags", "text.lang.".concat(String(bcp47))),
+            name: Locale.get(
+              new LocaleKey("GBCP47LanguageTags", "text.lang.".concat(String(bcp47))),
+            ),
             tag: value,
           };
         })
-        .sort((a, b) => a.name.localeCompare(b.name));
-      for (const { name, tag: value } of named) select.appendChild(option(value, name));
+        .sort((a, b) => (a.name as string).localeCompare(b.name as string));
+      // Old: .text(undefined) left the option empty.
+      for (const { name, tag: value } of named) select.appendChild(option(value, name ?? ""));
       if (language) setSelectValue(select, language);
       else if (this._hasMultipleLanguages()) {
         select.appendChild(this._mixedOption());

@@ -4,48 +4,20 @@
  * old app defined in designer.browser.dev.js module 1689 (ported with
  * the widgets as widgets/debounce.ts), and jQuery's own `:button`.
  *
- * Kept here as plain functions so the actions need no jQuery. They must
- * stay in step with module 1689.
+ * :editable and :textSelectable come from widgets/debounce.ts, so there
+ * is one copy of module 1689.
  */
 
-/** Input types `:editable` accepted ("" and a missing type count as text). */
-const EDITABLE_INPUT_TYPES = [
-  "",
-  "text",
-  "password",
-  "email",
-  "number",
-  "month",
-  "search",
-  "tel",
-  "week",
-  "url",
-  "time",
-  "datetime",
-  "datetime-local",
-  "date",
-];
+import { isEditable, isTextSelectable as isTextSelectableElement } from "../widgets/debounce.ts";
 
-/** `$(element).is(":editable")`. */
-export function isEditable(element: Element | null | undefined): boolean {
-  if (!element) return false;
-  if (
-    "true" === element.getAttribute("contenteditable") ||
-    (element as HTMLElement).isContentEditable
-  ) {
-    return true;
-  }
-  if (element.nodeName.toLowerCase() === "input") {
-    const type = element.getAttribute("type");
-    return !type || EDITABLE_INPUT_TYPES.includes(type);
-  }
-  return element.nodeName.toLowerCase() === "textarea";
-}
+export { isEditable };
 
-/** `$(element).is(":textSelectable")`: the element's computed user-select is "text". */
-export function isTextSelectable(element: unknown): boolean {
-  if (!(element instanceof Element)) return false;
-  return "text" === getComputedStyle(element).userSelect;
+/**
+ * `$(target).is(":textSelectable")` for an event target: false for
+ * anything that is not an element (the document, the window).
+ */
+export function isTextSelectable(target: unknown): boolean {
+  return target instanceof Element && isTextSelectableElement(target);
 }
 
 /** `$(element).is("button")`. */

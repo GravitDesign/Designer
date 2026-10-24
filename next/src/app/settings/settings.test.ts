@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { config } from "../config.ts";
 import { setContainer, setDesigner } from "../shell/globals.ts";
 import { SettingsDialogImpl } from "./settings-dialog.ts";
 import { Setting, Switch, SettingsRows, type SettingsRowsModel } from "./settings-dialog-view.tsx";
@@ -131,6 +132,89 @@ describe("settings dialog save (UI-SETTING-016, UI-SETTING-005, UI-SETTING-009, 
     await expect(dialog.save(done)).rejects.toThrow(/is not valid JSON/);
     expect(designer.calls).toHaveLength(1);
     expect(done).not.toHaveBeenCalled();
+  });
+});
+
+/** The model the dialog renders, from the SettingsRows element _rows() builds. */
+function rowsModel(dialog: SettingsDialogImpl): SettingsRowsModel {
+  const rows = (dialog as unknown as { _rows(): { props: { model: SettingsRowsModel } } })._rows();
+  return rows.props.model;
+}
+
+describe("settings dialog rows model", () => {
+  beforeEach(() => {
+    setContainer({ getRuntime: () => "browser" } as never);
+  });
+
+  it("keeps a typed rounding when the dialog re-renders (theme pick)", () => {
+    setDesigner(fakeDesigner({ decimals_num: 2 }) as never);
+    const dialog = new SettingsDialogImpl();
+    let value = "";
+    const box = {
+      value(next?: string) {
+        if (next !== undefined) value = next;
+        return value;
+      },
+    };
+    const first = rowsModel(dialog).decimals.boxRef as (box: unknown) => void;
+    first(box);
+    expect(value).toBe("2");
+    value = "3";
+    // A re-render: React detaches a ref that changed and attaches the new one.
+    const second = rowsModel(dialog).decimals.boxRef as (box: unknown) => void;
+    if (second !== first) {
+      first(null);
+      second(box);
+    }
+    expect(value).toBe("3");
+  });
+
+  it("has no auto-save rows where GConfig turns auto save off (Safari)", async () => {
+    const designer = fakeDesigner({ auto_save: true });
+    setDesigner(designer as never);
+    const enabled = config.AUTO_SAVE_ENABLED;
+    config.AUTO_SAVE_ENABLED = false;
+    try {
+      expect(rowsModel(new SettingsDialogImpl()).autoSave).toBeNull();
+    } finally {
+      config.AUTO_SAVE_ENABLED = enabled;
+    }
+    expect(rowsModel(new SettingsDialogImpl()).autoSave).toMatchObject({
+      checked: true,
+      intervals: [5, 10, 20],
+      selected: 0,
+    });
+    // Save without those rows: auto_save and the interval drop out, the
+    // inverted warning key reads as true.
+    const rows: Record<string, { checked?: boolean; value?: string }> = { ...PRODUCTION_ROWS };
+    delete rows.auto_save;
+    delete rows.auto_save_interval;
+    delete rows["autosave-prompt-for-local-files-disabled"];
+    const { dialog } = dialogWith(rows);
+    await dialog.save(() => undefined);
+    const { keys, values } = designer.calls[0] as { keys: string[]; values: unknown[] };
+    const saved = Object.fromEntries(keys.map((key, i) => [key, values[i]]));
+    expect(saved.auto_save).toBeUndefined();
+    expect(saved.auto_save_interval).toBeUndefined();
+    expect(saved["autosave-prompt-for-local-files-disabled"]).toBe(true);
+  });
+
+  it("clamps the typed rounding to 0..6; text gives NaN as in the old dialog", () => {
+    setDesigner(fakeDesigner() as never);
+    const { onBoxChange } = rowsModel(new SettingsDialogImpl()).decimals;
+    const results = ["9", "-1", "4", "abc"].map((typed) => {
+      let value = typed;
+      onBoxChange({
+        value(next?: string) {
+          if (next !== undefined) value = next;
+          return value;
+        },
+      } as never);
+      return value;
+    });
+    // parseNumber never gives null, so the old "2" fallback is unreachable:
+    // see "Settings rounding box shows NaN for text" in QUESTIONS.md.
+    expect(results).toEqual(["6", "0", "4", "NaN"]);
   });
 });
 

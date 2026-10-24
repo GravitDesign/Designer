@@ -3,8 +3,8 @@
  * Fold buttons of the panel headers. A header gets a `button.g-accordion`
  * with a right or down arrow and a `.g-accordion-ghost`; the button shows
  * and hides the element after the header, and the header switches between
- * `collapsed` and `expanded`. For React headers, accordion-view.tsx has
- * the button; this file is the DOM version for headers built in code.
+ * `collapsed` and `expanded`. The panels build their headers in code, so
+ * this is plain DOM.
  */
 import { designerOrNull } from "../shell/globals.ts";
 

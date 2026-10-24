@@ -117,8 +117,15 @@ export function clickPreview(preview: Element, stopIndex: number | null): void {
   clickedPreviews.push([preview, stopIndex]);
 }
 
+let popupPattern: unknown = null;
+
+/** What the fake chooser popup returns as its pattern (null: no popup). */
+export function setPopupPattern(pattern: unknown): void {
+  popupPattern = pattern;
+}
+
 export function patternChooserPopup(): { getPattern(): unknown; isOpenned(): boolean } | null {
-  return null;
+  return popupPattern === null ? null : { getPattern: () => popupPattern, isOpenned: () => true };
 }
 
 export function eventArgs(event: Event): unknown[] {

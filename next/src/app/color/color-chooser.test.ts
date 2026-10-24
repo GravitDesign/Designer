@@ -1,10 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { Locale } from "../../engine/core/locale/locale.ts";
+import { LocaleKey } from "../../engine/core/locale/locale-key.ts";
 import { EventTarget } from "../../engine/core/event-target.ts";
 import { CMYKColor } from "../../engine/color/cmyk-color.ts";
 import { Color } from "../../engine/color/color.ts";
 import { HSVColor } from "../../engine/color/hsv-color.ts";
 import { RGBColor } from "../../engine/color/rgb-color.ts";
-import type { Node } from "../../engine/scene/node.ts";
+import { Node } from "../../engine/scene/node.ts";
 import { AngularGradient } from "../../engine/style/angular-gradient.ts";
 import { Background } from "../../engine/style/background.ts";
 import { Gradient } from "../../engine/style/gradient.ts";
@@ -16,7 +18,13 @@ import { Swatch } from "../../engine/style/swatch.ts";
 import { TexturePattern } from "../../engine/style/texture-pattern.ts";
 import type { Designer } from "../shell/designer.ts";
 import { resetGlobals, setDesigner } from "../shell/globals.ts";
+import { Menu } from "../menus/menu.ts";
 import { InputBox } from "../widgets/input-box.ts";
+import { Platform } from "../../engine/core/platform.ts";
+import { Group } from "../../engine/scene/group.ts";
+import { Rectangle } from "../../engine/scene/rectangle.ts";
+import { PatternTarget } from "./pattern-target.ts";
+import { StyleEdManager, StyleEditorEvent } from "../../editor/style-ed-manager.ts";
 import {
   PatternChooser,
   PatternChooserWidget,
@@ -45,11 +53,21 @@ class FakeDesigner extends EventTarget {
     this.swatches[scope] = list;
     this.trigger(new SwatchesChangedEvent(scope));
   }
-  getActiveDocument(): null {
-    return null;
+  activeDocument: unknown = null;
+  clipboard: string | null = null;
+  storage: unknown = null;
+  getActiveDocument(): unknown {
+    return this.activeDocument;
   }
+  getClipboardContent(): string | null {
+    return this.clipboard;
+  }
+  getDefaultStorage(): unknown {
+    return this.storage;
+  }
+  styleEdManager: unknown = null;
   getWorkspace() {
-    return { getStyleEdManager: () => null };
+    return { getStyleEdManager: () => this.styleEdManager };
   }
   isTouchEnabled(): boolean {
     return this.touch;
@@ -408,6 +426,297 @@ describe("PatternChooser quirks kept from the old code", () => {
   });
 });
 
+describe("PatternChooser and the canvas gradient editor", () => {
+  /**
+   * An active StyleEdManager whose editor does what the gradient editors do:
+   * without noEvent, updatePartSelection reports the stop back as
+   * ActivePointChange (gradient-style-editor.ts updatePartSelection).
+   */
+  class FakeStyleEdManager extends EventTarget {
+    calls: unknown[][] = [];
+    events = 0;
+    editor = {
+      updatePartSelection: (
+        toggle: boolean,
+        parts: { idx: number }[] | null,
+        noEvent?: boolean,
+      ) => {
+        this.calls.push([toggle, parts, noEvent]);
+        if (!noEvent) this.handleEditorPartUpdate(parts ? (parts[0] ?? null) : null);
+      },
+      getPartsSelectionLength: () => 0,
+      getPartSelection: () => null,
+    };
+    isActivated(): boolean {
+      return true;
+    }
+    getActiveEditor() {
+      return this.editor;
+    }
+    handleEditorPartUpdate(part: { idx: number } | null): void {
+      this.events++;
+      this.trigger(
+        new StyleEditorEvent(
+          StyleEdManager.EditorEventType.ActivePointChange,
+          part ? { idx: part.idx } : null,
+        ),
+      );
+    }
+  }
+
+  it("selects the stop on the canvas without an ActivePointChange echo or extra onPattern", () => {
+    const manager = new FakeStyleEdManager();
+    app.styleEdManager = manager;
+    const { chooser: c } = chooser();
+    const onPattern = vi.fn();
+    open(c, { onPattern });
+    c.setPattern(new LinearGradient());
+    manager.calls.length = 0;
+    onPattern.mockClear();
+    c.setActiveGradientStopByIdx(1);
+    expect(manager.calls).toEqual([[false, [{ type: expect.anything(), idx: 1 }], true]]);
+    expect(manager.events).toBe(0);
+    expect(onPattern).not.toHaveBeenCalled();
+  });
+});
+
+describe("TouchPatternChooser long-press menu (kept quirks)", () => {
+  /** Long-presses `target` and activates menu item `index` (0: document, 1: global). */
+  function longPress(target: FakeElement, index: number): void {
+    const spy = vi.spyOn(Menu.prototype, "open").mockImplementation(() => {});
+    fire(target, "long-press");
+    const menu = spy.mock.contexts[0] as Menu | undefined;
+    spy.mockRestore();
+    expect(menu).toBeInstanceOf(Menu);
+    (menu as Menu).getItem(index)?.activate();
+  }
+  const added = (scope: string) =>
+    (app.swatches[scope] ?? []).map((s) => [
+      Pattern.serialize((s as Swatch).getProperty("_pt") as Pattern),
+      (s as Swatch).getProperty("_op"),
+    ]);
+
+  it("adds the current color, not the pressed one, with the pressed swatch's opacity", () => {
+    app.touch = true;
+    const { chooser: c, root } = chooser(true);
+    open(c);
+    c.setPattern(new RGBColor([10, 20, 30]));
+    (c as unknown as { _updateOpacity(opacity: number): void })._updateOpacity(0.5);
+    const red = all(root, ".colors-palette .swatch")[13] as FakeElement;
+    longPress(red, 0);
+    expect(added("document")).toEqual([["C#[10,20,30]", 1]]);
+  });
+
+  it("adds the current gradient with the pressed swatch's whole pattern as first stop color", () => {
+    app.touch = true;
+    app.swatches["document-linear-gradient"] = [];
+    app.swatches["global-linear-gradient"] = [];
+    const { chooser: c, root } = chooser(true);
+    open(c);
+    c.setPattern(new LinearGradient());
+    const red = all(root, ".colors-palette .swatch")[13] as FakeElement;
+    longPress(red, 1);
+    const list = app.swatches["global-linear-gradient"] as Swatch[];
+    expect(list.length).toBe(1);
+    const gradient = list[0]?.getProperty("_pt") as Gradient;
+    expect(gradient).toBeInstanceOf(LinearGradient);
+    expect(Pattern.serialize(gradient.getStops()[0]?.color)).toBe("C#[255,0,0]");
+    // A gradient swatch pressed: its gradient becomes the stop's "color".
+    app.swatches["global-linear-gradient"] = [
+      new Swatch(
+        new LinearGradient([
+          { position: 0, color: new RGBColor([1, 2, 3]), opacity: 1 },
+          { position: 1, color: new RGBColor([4, 5, 6]), opacity: 1 },
+        ] as never),
+        1,
+      ),
+    ];
+    q(root, '.chooser button[data-palette="swatches"]').click();
+    const swatch = q(root, ".swatches-wrapper.global .swatch");
+    longPress(swatch, 0);
+    const doc = app.swatches["document-linear-gradient"] as Swatch[];
+    expect(doc.length).toBe(1);
+    const stop = (doc[0]?.getProperty("_pt") as Gradient).getStops()[0]?.color;
+    expect(stop).toBeInstanceOf(LinearGradient);
+  });
+
+  it("adds the hex box's paint to the document swatches, even from the global item", () => {
+    app.touch = true;
+    const { chooser: c, root } = chooser(true);
+    open(c);
+    c.setPattern(new RGBColor([10, 20, 30]));
+    longPress(q(root, "[data-css] input"), 1);
+    expect(app.setCalls).toEqual(["document"]);
+    expect(added("document")).toEqual([["C#[10,20,30]", 1]]);
+  });
+  it("toggles the advanced texture settings and the expand icon", () => {
+    app.touch = true;
+    const { chooser: c, root } = chooser(true);
+    open(c);
+    const advanced = q(root, ".pattern-advanced-settings");
+    const icon = q(root, "#expand-icon");
+    const before = display(advanced);
+    q(root, ".advanced-option").click();
+    expect(display(advanced)).toBe("none" === before ? "block" : "none");
+    expect(icon.className).toBe("expand-icon gravit-icon-down");
+    q(root, ".advanced-option").click();
+    expect(display(advanced)).toBe("none" === before ? "none" : "block");
+    expect(icon.className).toBe("expand-icon gravit-icon-right");
+  });
+});
+
+describe("PatternChooser branches without a parity scenario (R7-C-103)", () => {
+  afterEach(() => {
+    Platform.modifiers.optionKey = false;
+    vi.restoreAllMocks();
+  });
+
+  it("option-click on a swatch selects matching elements, closes the choosers and opens the fill", () => {
+    const calls: unknown[][] = [];
+    const nodes = [{}];
+    const editor = {
+      addEventListener() {},
+      removeEventListener() {},
+      keysOff() {},
+      keysOn() {},
+      selectFromPattern: (pattern: Pattern, all: boolean) => {
+        calls.push(["selectFromPattern", Pattern.serialize(pattern), all]);
+        return nodes;
+      },
+      updateSelection: (toggle: boolean, selection: unknown) =>
+        calls.push(["updateSelection", toggle, selection === nodes]),
+      blinkSelection: (time: number, count: number) => calls.push(["blink", time, count]),
+    };
+    app.activeDocument = { getEditor: () => editor, getScene: () => null };
+    const { chooser: c, root } = chooser();
+    open(c);
+    c.setPattern(new RGBColor([10, 20, 30]));
+    expect(c.isOpenned()).toBe(true);
+    // Two fill rows: one previews blue, one red.
+    const panel = document.createElement("div") as unknown as FakeElement;
+    panel.className = "fill-properties-panel";
+    body.appendChild(panel);
+    const clicked: string[] = [];
+    for (const color of [new RGBColor([0, 0, 255]), new RGBColor([255, 0, 0])]) {
+      const field = document.createElement("div") as unknown as FakeElement;
+      field.className = "g-pattern-chooser";
+      const preview = document.createElement("div") as unknown as FakeElement;
+      preview.className = "preview";
+      field.appendChild(preview);
+      panel.appendChild(field);
+      new PatternTarget(preview as unknown as HTMLElement, {
+        allowDrag: false,
+        allowDrop: false,
+      }).pattern = color;
+      preview.addEventListener("click", () => clicked.push(Pattern.serialize(color) as string));
+    }
+    Platform.modifiers.optionKey = true;
+    (all(root, ".colors-palette .swatch")[13] as FakeElement).click();
+    expect(calls).toEqual([
+      ["selectFromPattern", "C#[255,0,0]", true],
+      ["updateSelection", false, true],
+      ["blink", 2000, 4],
+    ]);
+    expect(c.isOpenned()).toBe(false);
+    expect(clicked).toEqual(["C#[255,0,0]"]);
+  });
+
+  it("paste without a shape on the clipboard alerts", () => {
+    const { chooser: c, root } = chooser();
+    const onPattern = vi.fn();
+    open(c, { onPattern });
+    c.setPattern(new TexturePattern());
+    app.clipboard = null;
+    q(root, ".paste-btn").click();
+    expect(window.alert).toHaveBeenCalledTimes(1);
+    expect(window.alert).toHaveBeenCalledWith(
+      Locale.get(new LocaleKey("GCommonNames", "arrow-paste.alert")),
+    );
+    expect(onPattern).not.toHaveBeenCalled();
+  });
+
+  it("paste with a group makes the group the texture", () => {
+    const { chooser: c, root } = chooser();
+    const onPattern = vi.fn();
+    open(c, { onPattern });
+    c.setPattern(new TexturePattern());
+    const group = new Group();
+    group.appendChild(new Rectangle());
+    app.clipboard = Node.serialize([group]) as string;
+    // Rendering the node texture needs a canvas: catch the update instead.
+    const update = vi.spyOn(
+      c as unknown as { _updatePattern(...a: unknown[]): void },
+      "_updatePattern",
+    );
+    update.mockImplementation(() => {});
+    q(root, ".paste-btn").click();
+    expect(window.alert).not.toHaveBeenCalled();
+    expect(update).toHaveBeenCalledTimes(1);
+    const [sent, source] = update.mock.calls[0] as [TexturePattern & { _node: unknown }, string];
+    expect(sent).toBeInstanceOf(TexturePattern);
+    expect(sent._node).toBeInstanceOf(Group);
+    expect(source).toBe("texture_paste");
+  });
+
+  it("choose image prompts for the image types and makes the file the texture", async () => {
+    const prompts: unknown[][] = [];
+    app.storage = {
+      canPromptOpen: () => true,
+      openPrompt: (types: unknown, done: (item: unknown) => void, multiple: boolean) => {
+        prompts.push([types, multiple]);
+        done({ read: (callback: (data: unknown) => void) => callback(new Uint8Array([1, 2])) });
+      },
+    };
+    class FakeReader {
+      result: string | null = null;
+      onload: (() => void) | null = null;
+      readAsDataURL(blob: Blob): void {
+        void blob.arrayBuffer().then((buffer) => {
+          this.result = "data:image/png;base64," + buffer.byteLength;
+          this.onload?.();
+        });
+      }
+    }
+    vi.stubGlobal("FileReader", FakeReader);
+    const { chooser: c, root } = chooser();
+    const onPattern = vi.fn();
+    open(c, { onPattern });
+    c.setPattern(new TexturePattern());
+    // Loading the image needs a browser: catch the update instead.
+    const update = vi.spyOn(
+      c as unknown as { _updatePattern(...a: unknown[]): void },
+      "_updatePattern",
+    );
+    update.mockImplementation(() => {});
+    vi.spyOn(TexturePattern.prototype, "setTexture").mockImplementation(function (
+      this: TexturePattern,
+      texture: unknown,
+    ) {
+      (this as unknown as { _url: unknown })._url = texture;
+    });
+    q(root, ".pattern-choose-image-button").click();
+    expect(prompts).toEqual([[PatternChooser.enableFileTypes, false]]);
+    await vi.waitFor(() => expect(update).toHaveBeenCalled());
+    const [sent, source] = update.mock.calls[0] as [TexturePattern & { _url: unknown }, string];
+    expect(sent).toBeInstanceOf(TexturePattern);
+    expect(sent._url).toBe("data:image/png;base64,2");
+    expect(source).toBe("texture_upload");
+  });
+
+  it("toggles the advanced texture settings with the desktop Advanced button", () => {
+    const { chooser: c, root } = chooser();
+    open(c);
+    const advanced = q(root, ".pattern-advanced-settings");
+    const before = display(advanced);
+    const caption = Locale.get(new LocaleKey("GCommonNames", "text.advanced"));
+    const toggle = all(root, "button").find((b) => b.innerHTML === caption) as FakeElement;
+    toggle.click();
+    expect(display(advanced)).toBe("none" === before ? "block" : "none");
+    toggle.click();
+    expect(display(advanced)).toBe(before === "none" ? "none" : "block");
+  });
+});
+
 describe("PatternChooserWidget (UI-COLOR-025)", () => {
   function widget(options = {}) {
     createPatternChoosers();
@@ -418,6 +727,13 @@ describe("PatternChooserWidget (UI-COLOR-025)", () => {
       field: new PatternChooserWidget(element as unknown as HTMLElement, options),
     };
   }
+
+  it("keeps an option that updateSettings passes as undefined ($.extend)", () => {
+    const { element, field } = widget();
+    field.updateSettings({ asButton: undefined, label: "x" });
+    q(element, ".preview").click();
+    expect(element.classList.contains("g-active")).toBe(true);
+  });
 
   it("builds the preview with its eye dropper", () => {
     const { element } = widget();

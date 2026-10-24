@@ -5,7 +5,8 @@
  * those requests and Open Shared File for a pasted link; the rewrite reads
  * no start URL parameters (browser-container.ts) and has no shared files,
  * so nothing calls it now. Kept for the preset case, which needs no cloud:
- * a new scene with the preset's unit, dpi and page size, fit to the window.
+ * a new scene with the preset's unit, dpi and page size. Other requests
+ * are fit to the window once their document is active; presets are not.
  *
  * The container's openStorageFile (cloud and Electron items) isn't ported;
  * the request is handled directly, as the old callback did with no item.

@@ -1,48 +1,22 @@
 /**
- * Modules of other app clusters the actions need, looked up late (see
- * shell/late.ts and docs/rewrite/UI.md section 9) while those clusters
- * are ported in parallel. Each lookup names the port-map file and the old
- * export name minus G; the types are the parts the actions use.
+ * What the actions use of other app clusters: the rich tooltip configs,
+ * the panel ids, the system dialog and the action icons (both looked up
+ * late, see shell/late.ts: the dialog module loads Mousetrap, which needs
+ * a DOM, and the actions are unit tested in Node) and the style layer
+ * helper.
  */
 import type { Node } from "../../engine/scene/node.ts";
+import { RichTooltipConfig, type RichTooltipFields } from "../widgets/rich-tooltip-config.ts";
 import { lateExport, systemDialog } from "../shell/late.ts";
 import { iterateEqualStyleLayers as iterateLayers } from "../util/designer-util.ts";
 
-/** TOOLTIP_AREA of module 67 (widgets/rich-tooltip-config.ts). */
-export const TOOLTIP_AREA = {
-  TOOLBAR: "TOOLBAR",
-  SIDEBAR: "SIDEBAR",
-  MAIN_MENU: {
-    TRY_PRO_COMMON: "TRY_PRO_COMMON",
-    TRY_EXP_PDF_ADVANCED_SETTING: "TRY_EXP_PDF_ADVANCED_SETTING",
-  },
-} as const;
+export { TOOLTIP_AREA, type RichTooltipFields } from "../widgets/rich-tooltip-config.ts";
+export { PanelIds } from "../inspector/panel-ids.ts";
 
-/** The fields of a GRichTooltipConfig the actions set. */
-export interface RichTooltipFields {
-  title: unknown;
-  description?: unknown;
-  shortcut?: unknown;
-  middle?: boolean;
-  video?: unknown;
-  learnMore?: string;
-}
-
-/** GRichTooltipConfig.from (module 67), or the plain fields until that module exists. */
+/** GRichTooltipConfig.from (module 67). */
 export function richTooltipConfig(fields: RichTooltipFields): unknown {
-  const config = lateExport<{ from(fields: RichTooltipFields): unknown }>(
-    "widgets/rich-tooltip-config.ts",
-    "RichTooltipConfig",
-  );
-  return config ? config.from(fields) : fields;
+  return RichTooltipConfig.from(fields);
 }
-
-/** The ids of the style panels the mouse-over context names (module 607). */
-export const PanelIds = {
-  FillPropertiesPanel: "fill-properties-panel",
-  BorderPropertiesPanel: "border-properties-panel",
-  EffectPropertiesPanel: "effect-properties-panel",
-} as const;
 
 /** The action icon table (module 844, menus/action-icons.ts). */
 export function actionIcons(): Readonly<Record<string, string>> {
@@ -79,7 +53,7 @@ export function confirmDialog(
   ...rest: unknown[]
 ): void {
   const dialog = systemDialog();
-  if (!dialog.confirm) throw new Error("dialogs/system-dialog.ts is not ported yet");
+  if (!dialog.confirm) throw new Error("no system dialog (the app modules are not loaded)");
   dialog.confirm(message, done, ...rest);
 }
 
@@ -89,7 +63,7 @@ export function errorDialog(message: string, options?: { showTitle?: boolean }):
     "dialogs/system-dialog.ts",
     "SystemDialog",
   );
-  if (dialog && dialog.error) dialog.error(message, options);
+  if (dialog) dialog.error(message, options);
   else console.error("[system dialog]", message);
 }
 

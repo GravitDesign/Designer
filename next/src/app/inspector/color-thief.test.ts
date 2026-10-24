@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
-import { quantize, samplePixels, type RGB } from "./color-thief.ts";
+import { afterEach, describe, expect, it } from "vitest";
+import { ColorThief, quantize, samplePixels, type RGB } from "./color-thief.ts";
 
 describe("samplePixels", () => {
   it("takes every quality-th pixel that is opaque enough and not near white", () => {
@@ -49,5 +49,57 @@ describe("quantize", () => {
     const cmap = quantize([[200, 200, 200]], 2);
     const palette = (cmap as Exclude<typeof cmap, false | undefined>).palette();
     expect(palette).toEqual([[104, 104, 104]]);
+  });
+});
+
+describe("ColorThief.getPalette", () => {
+  const g = globalThis as unknown as Record<string, unknown>;
+  const saved = g.document;
+  afterEach(() => {
+    g.document = saved;
+  });
+
+  /** A document whose canvases throw from getImageData when `taint` is set. */
+  function fakeDocument(taint: boolean) {
+    const children: unknown[] = [];
+    const body = {
+      appendChild(child: { parentNode: unknown }) {
+        child.parentNode = body;
+        children.push(child);
+      },
+      removeChild(child: unknown) {
+        children.splice(children.indexOf(child), 1);
+      },
+    };
+    g.document = {
+      body,
+      createElement: () => ({
+        parentNode: null as unknown,
+        width: 0,
+        height: 0,
+        getContext: () => ({
+          drawImage() {},
+          getImageData: (_x: number, _y: number, w: number, h: number) => {
+            if (taint) throw new Error("SecurityError");
+            return { data: new Uint8ClampedArray(4 * w * h).fill(100) };
+          },
+        }),
+      }),
+    };
+    return children;
+  }
+
+  const image = { width: 2, height: 2 } as unknown as HTMLCanvasElement;
+
+  it("removes its canvas after sampling", () => {
+    const children = fakeDocument(false);
+    new ColorThief().getPalette(image, 2);
+    expect(children).toHaveLength(0);
+  });
+
+  it("leaves the canvas in body when getImageData throws, like the old code", () => {
+    const children = fakeDocument(true);
+    expect(() => new ColorThief().getPalette(image, 2)).toThrow("SecurityError");
+    expect(children).toHaveLength(1);
   });
 });

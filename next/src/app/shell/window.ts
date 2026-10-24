@@ -29,7 +29,6 @@ import { DocumentEvent } from "../document/document-event.ts";
 import { DocumentStatusEvent } from "../document/document-status-event.ts";
 import { DocumentStatus } from "../document/document-status.ts";
 import { PageClip } from "../export/page-clip.ts";
-import { FontsProviderManager } from "../fonts/font-manager.ts";
 import { css, cssAll } from "./dom.ts";
 import { designer } from "./globals.ts";
 
@@ -219,10 +218,10 @@ export class Window extends EventTarget {
     this._releaseView();
     this._document.removeEventListener(DocumentStatusEvent, this._documentStatusChanged, this);
     designer().removeEventListener(DocumentEvent, this._documentEvent, this);
-    const fonts = FontsProviderManager.getInstance() as unknown as {
-      releaseDocumentListener?(sessionId: number | undefined): void;
-    };
-    if (fonts.releaseDocumentListener) fonts.releaseDocumentListener(this._document.sessionId);
+    // The old release also called the font manager's
+    // releaseDocumentListener, which never found the listener: see
+    // "Closing a document never releases its missing-fonts listener" in
+    // QUESTIONS.md.
   }
 
   /** The active page's content at 100%, or fitted when it is larger than the view. */

@@ -1,18 +1,18 @@
 /**
  * window.__parity.app.corpus, the hooks declared in
- * parity/scenarios/corpus/contract.ts, for the interim app of
- * ./document.ts.
+ * parity/scenarios/corpus/contract.ts, over the app and the document
+ * hooks of ./document.ts.
  *
  * saveDocumentBytes and openDocumentBytes go through the same file
  * actions as the old hooks (old-hooks.js): "file.save-as.gvdesign", whose
  * Blob is caught on its way through URL.createObjectURL, and "file.open",
  * whose file input gets the bytes as a File instead of a native picker.
  * Behind those actions are the format code in io/gvdesign and the
- * interim document list.
+ * designer's document list.
  *
- * Interim, until the app shell and the font providers exist:
- * - viewIdle() asks the interim view host (view-host.ts) whether the
- *   active view has a repaint or tiles left;
+ * Besides the actions:
+ * - viewIdle() asks the view host (view-host.ts) whether the active view
+ *   has a repaint or tiles left;
  * - waitForDocument() watches the number of scene nodes and the window
  *   size for a second (the old hook also watched the view box).
  */

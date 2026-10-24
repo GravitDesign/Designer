@@ -21,16 +21,17 @@ import { InputBox } from "../widgets/input-box.ts";
 import { mountCheckboxSlider, unmountCheckboxSlider } from "../widgets/checkbox-slider.ts";
 import { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
 import type { Document } from "../document/document.ts";
-import type { Scene } from "../../engine/scene/scene.ts";
-import type { Editor } from "../../editor/editor.ts";
 import { designer } from "../shell/globals.ts";
 import { SettingChangedEvent } from "../shell/setting-changed-event.ts";
-import { el, Properties, propertyRow, text, type InspectedElements } from "./properties.ts";
-
-/** The scene and editor of the panel's document (set whenever the panel is shown). */
-const sceneOf = (document: Document | null): Scene => (document as Document).getScene() as Scene;
-const editorOf = (document: Document | null): Editor =>
-  (document as Document).getEditor() as Editor;
+import {
+  editorOf,
+  el,
+  Properties,
+  propertyRow,
+  sceneOf,
+  text,
+  type InspectedElements,
+} from "./properties.ts";
 
 const CORNERS = ["tl", "tr", "bl", "br"];
 const SMOOTHNESS = ["tl_sx", "tl_sy", "tr_sx", "tr_sy", "bl_sx", "bl_sy", "br_sx", "br_sy"];
@@ -222,7 +223,7 @@ export class RectangleProperties extends Properties {
       input.setAttribute("data-property", property);
       input.addEventListener("change", () => {
         designer().stats("rectangleproperties_scale_individual-corners");
-        const value = sceneOf(this._document).stringToPoint(input.value);
+        const value = sceneOf(this._document as Document).stringToPoint(input.value);
         if (null !== value && "number" == typeof value && value >= 0)
           this._assignProperty(property, value);
         else this._updateProperties();
@@ -281,15 +282,19 @@ export class RectangleProperties extends Properties {
         }),
       });
       element.addEventListener("mousedown", () => {
-        const editor = editorOf(this._document);
+        const editor = editorOf(this._document as Document);
         editor.hideSelection();
-        document.addEventListener("mouseup", () => editorOf(this._document).resetHideSelection(), {
-          once: true,
-        });
+        document.addEventListener(
+          "mouseup",
+          () => editorOf(this._document as Document).resetHideSelection(),
+          {
+            once: true,
+          },
+        );
       });
       element.addEventListener("input", () => {
         const radius = this._assignCorners(parseInt(String(slider.value())) / 100, undefined, true);
-        const scene = sceneOf(this._document);
+        const scene = sceneOf(this._document as Document);
         const decimals = cornerDecimals(scene.getProperty("ut"), Guides.options.guides, () =>
           scene.getOptimalDecimalsCount(),
         );
@@ -311,7 +316,7 @@ export class RectangleProperties extends Properties {
       input.classList.add("corner-radius");
       input.addEventListener("change", () => {
         designer().stats("rectangleproperties_slide_corners-radius");
-        const value = sceneOf(this._document).stringToPoint(
+        const value = sceneOf(this._document as Document).stringToPoint(
           (InputBox.of(input) as InputBox).value(),
         );
         if (null !== value && "number" == typeof value && value >= 0)
@@ -327,7 +332,7 @@ export class RectangleProperties extends Properties {
   override update(document: Document | null, elements: InspectedElements | null): boolean {
     if (this._document) {
       // The old code removed both listeners without their target.
-      sceneOf(this._document).removeEventListener(
+      sceneOf(this._document as Document).removeEventListener(
         AfterPropertiesChangeEvent,
         this._afterPropertiesChange,
       );
@@ -390,7 +395,7 @@ export class RectangleProperties extends Properties {
     }
     for (const t of types) t.classList.remove("g-disabled");
     const percent = cornerPercent(radius, rectangle.getPointsMinDistance());
-    const scene = sceneOf(this._document);
+    const scene = sceneOf(this._document as Document);
     const decimals = cornerDecimals(scene.getProperty("ut"), Guides.options.guides, () =>
       scene.getOptimalDecimalsCount(),
     );
@@ -451,7 +456,7 @@ export class RectangleProperties extends Properties {
     type: string | undefined,
     temporary?: boolean,
   ): number {
-    if (!temporary) editorOf(this._document).beginTransaction();
+    if (!temporary) editorOf(this._document as Document).beginTransaction();
     let first = 0;
     try {
       for (let a = 0; a < this._rectangles.length; ++a) {
@@ -477,7 +482,9 @@ export class RectangleProperties extends Properties {
       }
     } finally {
       if (!temporary)
-        editorOf(this._document).commitTransaction(text("GCommonNames", "action.change-corners"));
+        editorOf(this._document as Document).commitTransaction(
+          text("GCommonNames", "action.change-corners"),
+        );
     }
     return first;
   }
@@ -487,7 +494,7 @@ export class RectangleProperties extends Properties {
   }
 
   _assignProperties(properties: string[], values: unknown[]): void {
-    const editor = editorOf(this._document);
+    const editor = editorOf(this._document as Document);
     editor.beginTransaction();
     try {
       for (let i = 0; i < this._rectangles.length; ++i)

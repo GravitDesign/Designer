@@ -11,6 +11,8 @@ import { Element } from "../../../engine/scene/element.ts";
 import { Image } from "../../../engine/scene/image.ts";
 import type { Node } from "../../../engine/scene/node.ts";
 import type { ContainerNode } from "../../../engine/scene/node-container.ts";
+import type { Scene } from "../../../engine/scene/scene.ts";
+import { InputSlider } from "../../color/opacity-slider.ts";
 import { blockChanges, releaseChanges } from "../../util/designer-util.ts";
 import { type Shortcut } from "../action.ts";
 import { Category } from "../category.ts";
@@ -29,27 +31,29 @@ interface ToleranceContent {
 }
 
 /**
- * The old content was built with the gInputSlider plugin (module 845,
- * app-widgets-dialogs). Until that widget is ported this builds the same
- * elements, classes and attributes without the slider's track and thumb,
- * so the slider can't be dragged; the value stays 10. Moving the slider
- * wrote the rounded value into the text field. Typing into the field
- * never reached the slider: its handler looks for the slider inside the
- * field's own span. See "Simplify ignores the typed tolerance" in
- * QUESTIONS.md.
+ * The slider (gInputSlider, 0-100 in steps of 1, starting at 10) and the
+ * text field. Moving the slider writes its value, through the scene's
+ * unit conversion and rounded, into the field. Typing into the field
+ * never reaches the slider: the old handler looked for the slider inside
+ * the field's own span. See "Q-248 Simplify ignores the typed tolerance"
+ * in QUESTIONS.md.
  */
-function createToleranceContent(): ToleranceContent {
+function createToleranceContent(scene: Scene | null): ToleranceContent {
   const root = document.createElement("div");
-  const slider = document.createElement("div");
-  slider.className = "g-input-slider";
-  slider.setAttribute("value", "10");
-  slider.setAttribute("min", "0");
-  slider.setAttribute("max", "100");
-  slider.setAttribute("name", "tolerance");
-  slider.style.width = "50%";
+  const element = document.createElement("div");
+  const slider = new InputSlider(element, { min: 0, max: 100, step: 1 });
+  element.setAttribute("name", "tolerance");
+  element.style.width = "50%";
+  slider.value(10);
   const span = document.createElement("span");
   span.style.width = "50%";
   const input = document.createElement("input");
+  element.addEventListener("change", () => {
+    if (scene)
+      input.value = String(
+        Number((scene.stringToPoint(String(slider.value())) as number).toFixed(0)),
+      );
+  });
   input.setAttribute("type", "text");
   input.style.width = "3em";
   input.value = "10";
@@ -59,8 +63,8 @@ function createToleranceContent(): ToleranceContent {
   // Old: $("<label>").html(...) with the string table text.
   label.innerHTML = Locale.get(new LocaleKey("GSimplifyAction", "text.tolerance")) as string;
   span.append(input, label);
-  root.append(slider, span);
-  return { element: root, getTolerance: () => slider.getAttribute("value") as string };
+  root.append(element, span);
+  return { element: root, getTolerance: () => String(slider.value()) };
 }
 
 /**
@@ -124,7 +128,7 @@ export class SimplifyAction extends ElementAction {
       }
     }
     if (!sources.length) return;
-    const content = createToleranceContent();
+    const content = createToleranceContent(designerDocument ? designerDocument.getScene() : null);
     // The prompt takes an element instead of a default text; OK then calls
     // back with true instead of the field's value.
     const done: PromptCallback = (confirmed) => {

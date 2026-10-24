@@ -229,6 +229,17 @@ export class FakeElement {
     this._text = value;
   }
 
+  /** Only for text content, escaped like the browser serializes a text node. */
+  get innerHTML(): string {
+    if (this.children.length) throw new Error("the fake innerHTML only serializes text");
+    return this._text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  /** Doesn't parse: the markup is kept as the element's text. */
+  set innerHTML(value: string) {
+    this.textContent = value;
+  }
+
   get firstElementChild(): FakeElement | null {
     return this.children[0] ?? null;
   }
@@ -451,6 +462,12 @@ export class FakeElement {
 
   blur(): void {
     if (this.ownerDocument.activeElement === this) this.ownerDocument.activeElement = null;
+  }
+
+  /** Text inputs: counts the select() calls. */
+  selected = 0;
+  select(): void {
+    this.selected++;
   }
 }
 

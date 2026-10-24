@@ -13,6 +13,14 @@ import "../../editor/element-editors/rectangle-editor.ts";
 import "../../editor/element-editors/page-editor.ts";
 import "../../editor/element-editors/scene-editor.ts";
 import "../../editor/element-editors/layer-editor.ts";
+import "../../editor/element-editors/image-editor.ts";
+import "../../editor/element-editors/symbol-editor.ts";
+import "../../editor/element-editors/selection-position-editor.ts";
+import { Block } from "../../engine/scene/block.ts";
+import { Image } from "../../engine/scene/image.ts";
+import { Node as SceneNode } from "../../engine/scene/node.ts";
+import { Symbol as SymbolNode } from "../../engine/scene/symbol.ts";
+import { MenuButton } from "../widgets/menu-button.ts";
 import { Action } from "../actions/action.ts";
 import { OpenQuickHelpScreenAction } from "../actions/help/open-quick-help-action.ts";
 import { ToggleTouchAction } from "../actions/view/toggle-touch-action.ts";
@@ -435,6 +443,24 @@ describe("VirtualKeyBar", () => {
     expect(state()).toEqual([false, false, true, false]);
   });
 
+  it("gives the paste and arrange menus their second class", () => {
+    const { element } = bar();
+    const menuOf = (icon: string): FakeElement => {
+      const button = element.querySelector<FakeElement>("." + icon)?.parentElement as FakeElement;
+      // The split paste button has its own dropdown; arrange is the button itself.
+      const target =
+        (button.parentElement as FakeElement).querySelector<FakeElement>(".dropdown-button") ||
+        button;
+      return fake((MenuButton.of(target as unknown as Element) as MenuButton).menu._htmlElement);
+    };
+    expect(menuOf("gravit-icon-touch-paste").className).toContain(
+      "g-assistant-bar-menu paste-menu",
+    );
+    expect(menuOf("gravit-icon-touch-arrange-order").className).toContain(
+      "g-assistant-bar-menu arrange-menu",
+    );
+  });
+
   it("shows the fullscreen button active while fullscreen", () => {
     const { bar: keyBar, element, actions, designer } = bar();
     keyBar.activate();
@@ -646,41 +672,42 @@ describe("touch toolbar", () => {
   });
 });
 
-describe("TouchContextMenu", () => {
-  const IDS = [
-    "arrange.transform.flip-horizontal",
-    "arrange.transform.flip-vertical",
-    "arrange.transform.rotate-90-left",
-    "arrange.transform.rotate-90-right",
-    "paste.paste",
-    "edit.paste.in-place",
-    "edit.paste.inside",
-    "edit.paste.replace",
-    "edit.paste.style",
-    "modify.createnestedcompound",
-    "modify.converttopath",
-    "modify.vectorize",
-    "modify.converttorawpath",
-    "modify.ouline",
-    "modify.offset",
-    "modify.simplify",
-    "modify.join-paths",
-    "modify.split-path",
-    "modify.split-line",
-    "modify.createsymbol",
-    "modify.resetinstance",
-    "modify.detachsymbol",
-    "modify.attachToPath",
-    "modify.detachFromPath",
-    "edit.selectbyfonttype",
-    "modify.clip",
-    "modify.mask-with-shape",
-    "modify.path2bmp",
-    "edit.duplicate",
-  ];
+/** The actions the touch overlay looks up (without merge and paste here). */
+const MENU_IDS = [
+  "arrange.transform.flip-horizontal",
+  "arrange.transform.flip-vertical",
+  "arrange.transform.rotate-90-left",
+  "arrange.transform.rotate-90-right",
+  "paste.paste",
+  "edit.paste.in-place",
+  "edit.paste.inside",
+  "edit.paste.replace",
+  "edit.paste.style",
+  "modify.createnestedcompound",
+  "modify.converttopath",
+  "modify.vectorize",
+  "modify.converttorawpath",
+  "modify.ouline",
+  "modify.offset",
+  "modify.simplify",
+  "modify.join-paths",
+  "modify.split-path",
+  "modify.split-line",
+  "modify.createsymbol",
+  "modify.resetinstance",
+  "modify.detachsymbol",
+  "modify.attachToPath",
+  "modify.detachFromPath",
+  "edit.selectbyfonttype",
+  "modify.clip",
+  "modify.mask-with-shape",
+  "modify.path2bmp",
+  "edit.duplicate",
+];
 
+describe("TouchContextMenu", () => {
   function menu(): { touch: TouchContextMenu; harness: Harness; hits: unknown[] } {
-    const harness = setup(IDS);
+    const harness = setup(MENU_IDS);
     const union = new TestAction("modify.merge.union");
     harness.actions.set("modify.merge.union", union);
     harness.actions.set("modify.merge", new MergeTestAction([union]));
@@ -765,4 +792,136 @@ describe("TouchContextMenu", () => {
     fire(duplicate.children[0], "click");
     expect(harness.designer.executed).toEqual(["edit.duplicate"]);
   });
+});
+
+describe("TouchContextMenu commands", () => {
+  interface Commands {
+    _setAllSelectionsLocked(): void;
+    _setAllSelectionsHidden(): void;
+    _instanceToGoToMaster(): SymbolNode | null;
+    _goToMaster(): void;
+    _getSelectedItems(): SceneNode[];
+    readonly element: HTMLElement;
+  }
+
+  type Page = SceneNode & { appendChild(n: SceneNode): void };
+
+  function scene(): {
+    touch: Commands;
+    harness: Harness;
+    editor: Editor;
+    page: Page;
+  } {
+    const harness = setup(MENU_IDS);
+    harness.actions.set("modify.merge", new MergeTestAction([]));
+    harness.actions.set("edit.paste.here", new PasteHereTestAction("edit.paste.here"));
+    const editor = new Editor(new Scene(new EditorWorkspace()));
+    harness.designer.editor = editor;
+    const contextMenu = {
+      _contextMenuClientPosition: null,
+      _mouseEvent: null,
+      _getHitsElments: () => ({ elementHits: [] }),
+    } as unknown as ContextMenu;
+    const touch = new TouchContextMenu(contextMenu) as unknown as Commands;
+    const page = editor.getScene().getActivePage() as unknown as Page;
+    return { touch, harness, editor, page };
+  }
+
+  function shape(page: Page, x = 0): Rectangle {
+    const r = new Rectangle();
+    r.setProperty("trf", new Transform(10, 0, 0, 10, x, 0));
+    page.appendChild(r);
+    return r;
+  }
+
+  it("locks every selected element in one undo step", () => {
+    const { touch, editor, page } = scene();
+    const a = shape(page);
+    const b = shape(page, 20);
+    editor.updateSelection(false, [a, b]);
+    a.setFlag(SceneNode.Flag.Highlighted as number);
+    const undoBefore = editor.getUndoStates().length;
+    touch._setAllSelectionsLocked();
+    expect(a.getProperty("lkt")).toBe(Block.LockType.Full);
+    expect(b.getProperty("lkt")).toBe(Block.LockType.Full);
+    expect(a.hasFlag(SceneNode.Flag.Highlighted as number)).toBe(false);
+    expect(editor.getSelection() || []).toEqual([]);
+    expect(editor.getUndoStates().length).toBe(undoBefore + 1);
+    expect(editor.getUndoStateName()).toBe("Toggle Locker");
+  });
+
+  it("stops locking when removing the flag doesn't shrink the list", () => {
+    const { touch, editor, page } = scene();
+    const a = shape(page);
+    const b = shape(page, 20);
+    editor.updateSelection(false, [a, b]);
+    // A copy of the selection: the flag removal doesn't reach it.
+    vi.spyOn(touch, "_getSelectedItems").mockReturnValue([a, b]);
+    touch._setAllSelectionsLocked();
+    expect(a.getProperty("lkt")).toBe(Block.LockType.Full);
+  });
+
+  it("hides every selected element in one undo step", () => {
+    const { touch, editor, page } = scene();
+    const a = shape(page);
+    const b = shape(page, 20);
+    editor.updateSelection(false, [a, b]);
+    b.setFlag(SceneNode.Flag.Highlighted as number);
+    const undoBefore = editor.getUndoStates().length;
+    touch._setAllSelectionsHidden();
+    expect(a.getProperty("vis")).toBe(false);
+    expect(b.getProperty("vis")).toBe(false);
+    expect(b.hasFlag(SceneNode.Flag.Highlighted as number)).toBe(false);
+    expect(editor.getUndoStates().length).toBe(undoBefore + 1);
+    expect(editor.getUndoStateName()).toBe("Toggle Visibility");
+  });
+
+  it("selects the first unlocked instance and zooms to it in one transaction", () => {
+    const { touch, harness, editor, page } = scene();
+    const locked = new SymbolNode();
+    locked.setProperty("trf", new Transform(10, 0, 0, 10, 0, 0));
+    page.appendChild(locked);
+    const free = new SymbolNode();
+    free.setProperty("trf", new Transform(10, 0, 0, 10, 50, 0));
+    page.appendChild(free);
+    const other = shape(page, 100);
+    expect(touch._instanceToGoToMaster()).toBeNull();
+    editor.updateSelection(false, [locked, other, free]);
+    locked.setProperty("lkt", Block.LockType.Full);
+    expect(touch._instanceToGoToMaster()).toBe(free);
+    const begin = vi.spyOn(editor, "beginTransaction");
+    const commit = vi.spyOn(editor, "commitTransaction");
+    touch._goToMaster();
+    // Old: it selects the instance itself, not its master (see "Go to
+    // master in the touch menu selects the instance" in QUESTIONS.md).
+    expect(editor.getSelection()).toEqual([free]);
+    expect(harness.designer.executed).toEqual(["view.zoom.fit-selection"]);
+    expect(begin).toHaveBeenCalledTimes(1);
+    expect(commit).toHaveBeenCalledWith("Go to Master");
+  });
+
+  for (const [detail, caption] of [
+    [false, "Crop"],
+    [true, "No crop"],
+  ] as const)
+    it("names the crop item " + caption + " with selection detail " + detail, () => {
+      const { touch, editor, page } = scene();
+      const image = new Image();
+      image.setProperty("trf", new Transform(10, 0, 0, 10, 0, 0));
+      page.appendChild(image);
+      editor.updateSelection(false, [image]);
+      editor.setSelectionDetail(detail);
+      expect(editor.hasSelectionDetail()).toBe(detail);
+      // The text menu's button comes first, then the image menu's.
+      const imageButton = fake(touch.element).querySelectorAll<FakeElement>(
+        ".action-menu-button > div > button",
+      )[1] as FakeElement;
+      fire(imageButton, "click");
+      const menu = fake(document.body)
+        .querySelectorAll<FakeElement>(".g-context-menu")
+        .find((m) => m.textContent.includes("Original Size")) as FakeElement;
+      expect((menu.querySelector<FakeElement>(".g-menu-item") as FakeElement).textContent).toBe(
+        caption,
+      );
+    });
 });

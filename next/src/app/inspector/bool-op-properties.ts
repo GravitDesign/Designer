@@ -8,21 +8,18 @@ import { VertexPolyBoolean } from "../../engine/geometry/boolean/vertex-poly-boo
 import { CompoundShape } from "../../engine/scene/compound-shape.ts";
 import { AfterPropertiesChangeEvent } from "../../engine/scene/node-events.ts";
 import type { Node } from "../../engine/scene/node.ts";
-import type { Editor } from "../../editor/editor.ts";
-import type { Scene } from "../../engine/scene/scene.ts";
 import type { Document } from "../document/document.ts";
 import { designer } from "../shell/globals.ts";
 import { lateExport } from "../shell/late.ts";
-import { el, Properties, propertyRow, text, type InspectedElements } from "./properties.ts";
-
-/** The document's editor and scene (both exist while a panel shows the document). */
-function editorOf(document: Document | null): Editor {
-  return (document as Document).getEditor() as Editor;
-}
-
-function sceneOf(document: Document | null): Scene {
-  return (document as Document).getScene() as Scene;
-}
+import {
+  editorOf,
+  el,
+  Properties,
+  propertyRow,
+  sceneOf,
+  text,
+  type InspectedElements,
+} from "./properties.ts";
 
 /** A node with the properties mixin. */
 type PropertyNode = Node & {
@@ -86,7 +83,7 @@ export class BoolOpProperties extends Properties {
         (event.target as HTMLElement).closest("[data-op]")?.getAttribute("data-op") as string,
       );
       designer().stats("booleanops_click_" + boolOpStatsName(op));
-      const editor = editorOf(this._document);
+      const editor = editorOf(this._document as Document);
       editor.beginTransaction();
       try {
         const elements = this._elements as Node[];
@@ -133,7 +130,7 @@ export class BoolOpProperties extends Properties {
   override update(document: Document | null, elements: InspectedElements | null): boolean {
     if (this._document) {
       // The old code removed the scene listener without its target.
-      sceneOf(this._document).removeEventListener(
+      sceneOf(this._document as Document).removeEventListener(
         AfterPropertiesChangeEvent,
         this._afterPropertiesChange,
       );

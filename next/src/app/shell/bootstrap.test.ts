@@ -4,6 +4,14 @@ import { setLateModules } from "./late.ts";
 import { PendingSidebar } from "./pending-sidebar.ts";
 import { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
 import { attachRichTooltip } from "../widgets/rich-tooltip.ts";
+import * as fileTypes from "../document/file-types.ts";
+import { ArrowAnnotationTool } from "../../editor/annotations/arrow-annotation-tool.ts";
+import { CommentAnnotationTool } from "../../editor/annotations/comment-annotation-tool.ts";
+import { EllipseAnnotationTool } from "../../editor/annotations/ellipse-annotation-tool.ts";
+import { HighlighterAnnotationTool } from "../../editor/annotations/highlighter-annotation-tool.ts";
+import { PencilAnnotationTool } from "../../editor/annotations/pencil-annotation-tool.ts";
+import { RectangleAnnotationTool } from "../../editor/annotations/rectangle-annotation-tool.ts";
+import { TextAnnotationTool } from "../../editor/annotations/text-annotation-tool.ts";
 
 /** A fake action class that remembers its constructor arguments. */
 function fakeAction(name: string, statics: Record<string, unknown> = {}) {
@@ -107,5 +115,37 @@ describe("buildRegistry", () => {
     ]);
     const bezigon = tools.find((t) => t.toolString === "GBezigonTool");
     expect(JSON.parse(JSON.stringify(bezigon?.richTooltipConfig))._isPro).toBe(false);
+  });
+
+  it("adds a Save As entry for each image format of GDocument.FileTypes, in the old order", () => {
+    setLateModules({
+      "actions/file/save-as-action.ts": { SaveAsAction: fakeAction("saveas") },
+      "document/file-types.ts": fileTypes,
+    });
+    expect(buildRegistry().actions.map((action) => action.getId())).toEqual([
+      'saveas:["gvdesign"]',
+      'saveas:["png"]',
+      'saveas:["jpg"]',
+      'saveas:["svg"]',
+      'saveas:["pdf",{"dpi":72}]',
+      'saveas:["pdf",{"dpi":96}]',
+      'saveas:["pdf",{"dpi":150}]',
+      'saveas:["pdf",{"dpi":300}]',
+    ]);
+  });
+
+  it("has no annotation tool: the comments sidebar was the only way to them (DROP-009)", () => {
+    const annotationTools: unknown[] = [
+      ArrowAnnotationTool,
+      CommentAnnotationTool,
+      EllipseAnnotationTool,
+      HighlighterAnnotationTool,
+      PencilAnnotationTool,
+      RectangleAnnotationTool,
+      TextAnnotationTool,
+    ];
+    const tools = buildRegistry().tools;
+    expect(tools.length).toBeGreaterThan(0);
+    expect(tools.filter((t) => annotationTools.includes(t.tool))).toEqual([]);
   });
 });

@@ -10,15 +10,18 @@
  *   singletons from src/app/shell/globals.ts typed as these.
  * - DocumentWindow is GWindow as the document uses it. Windows writes the
  *   document's `_windows` and `_activeWindow` itself, as before.
- * - The dialogs (the message dialog, the missing-fonts dialog, the SVG
- *   unsupported-features dialog) are opened through registerDocumentDialogs,
- *   which their clusters call; until then a message goes to the console.
+ * - The dialogs: the message dialog (dialogs/message-dialog.ts) and the
+ *   missing-fonts dialog (dialogs/missing-fonts-dialog.ts) are looked up
+ *   late, as the shell does (shell/late.ts); the SVG unsupported-features
+ *   dialog registers itself through registerDocumentDialogs. Without the
+ *   app modules (unit tests) a message goes to the console.
  */
 import type { Node } from "../../engine/scene/node.ts";
 import type { Scene } from "../../engine/scene/scene.ts";
 import type { EditorWorkspace } from "../../editor/editor-workspace.ts";
 import type { StorageItem } from "../storage/storage.ts";
 import { containerOrNull, designer } from "../shell/globals.ts";
+import { lateExport } from "../shell/late.ts";
 
 /** The view of a window (GEditorWidget) as the document uses it. */
 export interface DocumentView {
@@ -83,19 +86,41 @@ export interface DocumentDialogs {
   message(text: string, detail?: unknown): void;
   /**
    * new GMissingFontsDialog(document, fonts, null, done).open() (module
-   * 841); `done(keep)` runs when the user chose.
+   * 841); `done` gets the replaced fonts, or null when the user kept them.
    */
-  missingFonts(document: unknown, fonts: unknown[], done?: (keep: boolean) => void): void;
+  missingFonts(document: unknown, fonts: unknown[], done?: (replaced: unknown) => void): void;
   /** The SVG export's unsupported-features dialog (module 1238). */
   unsupportedFeatures(features: unknown[]): void;
 }
 
+type MessageDialogClass = new (text: string, detail?: unknown) => { open(): void };
+type MissingFontsDialogClass = new (
+  document: unknown,
+  fonts: unknown[],
+  enablers: null,
+  done?: (replaced: unknown) => void,
+) => { open(): void };
+
 const fallbackDialogs: DocumentDialogs = {
-  message(text) {
-    console.warn("message dialog:", text);
+  message(text, detail) {
+    const MessageDialog = lateExport<MessageDialogClass>(
+      "dialogs/message-dialog.ts",
+      "MessageDialog",
+    );
+    // The old dialog set its text with jQuery .html(), which shows nothing
+    // for a value that is not a string or a node: an import error object
+    // (a PDF exception) gave an empty dialog. See "An import error shows an
+    // empty message dialog" in QUESTIONS.md.
+    if (MessageDialog) new MessageDialog(typeof text === "string" ? text : "", detail).open();
+    else console.warn("message dialog:", text);
   },
-  missingFonts(_document, fonts) {
-    console.warn("missing fonts:", fonts);
+  missingFonts(document, fonts, done) {
+    const MissingFontsDialog = lateExport<MissingFontsDialogClass>(
+      "dialogs/missing-fonts-dialog.ts",
+      "MissingFontsDialog",
+    );
+    if (MissingFontsDialog) new MissingFontsDialog(document, fonts, null, done).open();
+    else console.warn("missing fonts:", fonts);
   },
   unsupportedFeatures(features) {
     console.warn("unsupported SVG features:", features);

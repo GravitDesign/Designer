@@ -9,6 +9,60 @@
     <title>Gravit Designer</title>
     <link id="theme-stylesheet" rel="stylesheet" href="/designer.browser.light.css" />
     <link rel="manifest" href="/manifest.json" crossorigin="use-credentials" />
+    <script>
+      // The look: GravitDesign Next or the classic Gravit Designer. Decided
+      // here, before the first paint, by the rules of resolveBranding in
+      // src/app/brand/branding.ts (branding.test.ts runs this script too).
+      (function () {
+        var w = window;
+        var d = document;
+        var key = "designer.branding";
+        var ok = function (v) {
+          return v === "next" || v === "classic";
+        };
+        var read = function (k) {
+          try {
+            return JSON.parse(w.localStorage.getItem(k) || "null");
+          } catch (e) {
+            return null;
+          }
+        };
+        var branding = "next";
+        var query = null;
+        try {
+          query = new URLSearchParams(w.location.search).get("branding");
+        } catch (e) {}
+        if (ok(query)) {
+          branding = query;
+          try {
+            w.localStorage.setItem(key, JSON.stringify(query));
+          } catch (e) {}
+        } else if (ok(w.__gdBranding)) branding = w.__gdBranding;
+        else if (ok(read(key))) branding = read(key);
+        // The classic look leaves the page exactly as the old app had it.
+        if (branding !== "next") return;
+        d.documentElement.setAttribute("data-branding", branding);
+        var settings = read("designer.settings");
+        var theme = settings && settings.theme;
+        theme = !theme || theme === "default" ? "light" : String(theme);
+        d.documentElement.setAttribute("data-gd-theme", theme);
+        var head = d.head;
+        var link = function (rel, href, id) {
+          var l = d.createElement("link");
+          l.rel = rel;
+          l.href = href;
+          if (id) l.id = id;
+          head.appendChild(l);
+        };
+        // The accent first: next.css overrides some of the rules it restates.
+        link("stylesheet", "/brand/accent." + theme + ".css", "brand-accent");
+        link("stylesheet", "/brand/next.css");
+        link("icon", "/brand/icons/favicon.ico");
+        var manifest = d.querySelector('link[rel="manifest"]');
+        if (manifest) manifest.setAttribute("href", "/brand/manifest.json");
+        d.title = "GravitDesign Next";
+      })();
+    </script>
   </head>
   <body class="loading">
     <script type="module" src="/src/main.tsx"></script>

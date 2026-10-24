@@ -15,6 +15,7 @@ import {
   type LoadCallbacks,
   type ResolveCallbacks,
 } from "./fonts-provider.ts";
+import { containerOrNull, designerOrNull } from "../shell/globals.ts";
 import { parsePreviewSvg, type PreviewCallback, type PreviewFamily } from "./font-preview.ts";
 
 const PROVIDER_ID = uuid();
@@ -29,14 +30,6 @@ const pendingDownloads = new Map<string, ResolveCallbacks[]>();
 type PendingCall = (error?: FontsProviderError | true) => void;
 
 export class WebFontsProvider extends FontsProvider {
-  /**
-   * The app's root path and version, which the family list url carries
-   * (GContainer.getRootPath, GDesigner.getVersion). Without a version the
-   * old code used a random number.
-   */
-  static rootPath = "";
-  static version: string | number | null = null;
-
   private _totalFonts = 0;
   private _initialized = false;
   private _initializing = false;
@@ -102,7 +95,10 @@ export class WebFontsProvider extends FontsProvider {
       const request = new XMLHttpRequest();
       request.open(
         "GET",
-        WebFontsProvider.rootPath + "/assets/data/google_previews/previews" + batch + ".json",
+        (containerOrNull()?.getRootPath() ?? "") +
+          "/assets/data/google_previews/previews" +
+          batch +
+          ".json",
       );
       request.onload = function () {
         if (!(this.status >= 200 && this.status < 300)) return;
@@ -139,9 +135,13 @@ export class WebFontsProvider extends FontsProvider {
   private _load(): void {
     this._initializing = true;
     const request = new XMLHttpRequest();
-    const version =
-      WebFontsProvider.version !== null ? WebFontsProvider.version : ~~(1e4 * Math.random());
-    request.open("GET", WebFontsProvider.rootPath + "/assets/data/googlefonts.json?" + version);
+    // The url carries the app's root path and version, so the cache keeps
+    // the list until the app changes; a random number before the designer
+    // exists.
+    const root = containerOrNull()?.getRootPath() ?? "";
+    const app = designerOrNull();
+    const version = app ? app.getVersion() : ~~(1e4 * Math.random());
+    request.open("GET", root + "/assets/data/googlefonts.json?" + version);
     request.onload = () => {
       if (request.status >= 200 && request.status < 300) {
         this._initialized = true;

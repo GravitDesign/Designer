@@ -1,5 +1,6 @@
 // Old: designer.browser.dev.js module 1613 (GSettingsAction).
 import { LocaleKey } from "../../../engine/core/locale/locale-key.ts";
+import { SettingsActionId } from "../../settings/settings-action-id.ts";
 import { lateExport } from "../../shell/late.ts";
 import { Action } from "../action.ts";
 import { Category } from "../category.ts";
@@ -7,8 +8,7 @@ import { gDesigner } from "../host.ts";
 
 /** Edit > Settings: opens the settings dialog. */
 export class SettingsAction extends Action {
-  // The old id came from module 1277 (settings/settings-action-id.ts).
-  static ID = "edit.settings";
+  static ID = SettingsActionId.ID;
   static TITLE = new LocaleKey("GSettingsAction", "title");
 
   override getId(): string {

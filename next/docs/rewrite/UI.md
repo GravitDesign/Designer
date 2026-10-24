@@ -493,6 +493,11 @@ icon and rich tooltip.
   theme; the stylesheet does it. Code that needs theme-dependent colours
   (canvas painting) reads `designer().getSetting("theme")` or the
   computed style, as the old code did.
+- The GravitDesign Next look (CHANGES.md CHG-001) adds the stylesheets
+  in public/brand after the theme link, only when src/app/brand says the
+  look is "next"; the classic look, which every parity scenario uses, has
+  only the old stylesheets. Brand UI lives in src/app/brand; other code
+  asks `isNextBranding()` where the two looks differ.
 
 ## 12. Settings
 

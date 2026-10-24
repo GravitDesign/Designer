@@ -38,11 +38,11 @@ export class MousetrapBinder implements ShortcutBinder {
   }
 }
 
-/** Makes Mousetrap the app's shortcut binder (before boot binds anything). */
+/**
+ * Makes Mousetrap the app's shortcut binder. boot() calls it before the
+ * designer binds the first shortcut; until then shortcutBinder() is the
+ * single-key fallback, which drops every combo.
+ */
 export function installMousetrapBinder(): void {
   setShortcutBinder(new MousetrapBinder());
 }
-
-// bootstrap.ts loads every app module (an eager import.meta.glob) before
-// boot() binds the first shortcut, so installing here is early enough.
-if (typeof document === "object") installMousetrapBinder();

@@ -318,7 +318,7 @@ const missingFontsActions: Record<string, Record<string, string | null>> = {};
 const listenerFor = new Map<string, (event?: DocumentStatusEvent) => void>();
 let missingFontsDialog: MissingFontsDialog | null = null;
 
-/** The open dialog, if any (for tests and the font manager's reset). */
+/** The open dialog, if any (for tests). */
 export function currentMissingFontsDialog(): MissingFontsDialog | null {
   return missingFontsDialog;
 }
@@ -396,4 +396,8 @@ export function handleMissingFont(request: FontRequest): void {
   }
 }
 
-FontsProviderManager.setMissingFontsHandler(handleMissingFont);
+// The old manager's reset() dropped its reference to the open dialog, so
+// the next missing font after a reset builds a new one.
+FontsProviderManager.setMissingFontsHandler(handleMissingFont, () => {
+  missingFontsDialog = null;
+});

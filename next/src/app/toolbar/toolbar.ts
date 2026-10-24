@@ -27,7 +27,7 @@ import { Locale } from "../../engine/core/locale/locale.ts";
 import { LocaleKey } from "../../engine/core/locale/locale-key.ts";
 import { LocaleLanguage } from "../../engine/core/locale/locale-language.ts";
 import { GMath } from "../../engine/math/math.ts";
-import type { Editor } from "../../editor/editor.ts";
+import { Editor } from "../../editor/editor.ts";
 import { HandTool } from "../../editor/tools/hand-tool.ts";
 import { KnifeTool } from "../../editor/tools/knife-tool.ts";
 import { PenTool } from "../../editor/tools/pen-tool.ts";
@@ -63,7 +63,6 @@ import {
 } from "../widgets/rich-tooltip-config.ts";
 import { attachRichTooltip } from "../widgets/rich-tooltip.ts";
 import { MenuButton } from "../widgets/menu-button.ts";
-import type { PageButton } from "./pages-button.ts";
 import { TouchToolbar } from "./zoom-menu.ts";
 
 /** The ids of the actions the toolbar shows (the old classes' ID constants). */
@@ -140,10 +139,6 @@ interface MainActionLike {
 }
 
 /** The parts of a window the toolbar uses. */
-interface ToolbarWindow {
-  getView(): SceneWidget | null;
-}
-
 /** The document calls of the toolbar (GDocument). */
 interface ToolbarDocument {
   getEditor(): Editor | null;
@@ -259,9 +254,6 @@ export class Toolbar {
   readonly _htmlElement: HTMLElement;
   _zoomButton: HTMLElement | null = null;
   _touchZoomButton: HTMLElement | null = null;
-  _pageButton: PageButton | null = null;
-  _selectSection: HTMLElement | null = null;
-  _commentToggleSection: HTMLElement | null = null;
   _currentZoomLevel = -1;
   _initShapeMenu = false;
   _toolsDiv: HTMLElement | null = null;
@@ -520,18 +512,14 @@ export class Toolbar {
     return undefined;
   }
 
-  /** Simple UI (view or comment only sharing) never applies to local files. */
+  /**
+   * The old _updateUI built the page button, the select section and the
+   * comment toggle for the simple UI of view-only and comment-only shared
+   * files (isPagesInspectEnabled false). Sharing is dropped, so only the
+   * action update is left.
+   */
   _updateUI(): void {
     this._updateActions();
-  }
-
-  _updatePageButton(): void {
-    if (this._pageButton) {
-      const document = designer().getActiveDocument() as ToolbarDocument | null;
-      const scene = document && document.getScene();
-      this._pageButton.scene((scene || null) as Parameters<PageButton["scene"]>[0]);
-      css(this._pageButton.element, "display", scene ? "" : "none");
-    }
   }
 
   _createSnapButton(): HTMLElement {
@@ -553,44 +541,6 @@ export class Toolbar {
     });
     button.classList.add("snap-button");
     return button;
-  }
-
-  /** The comment on/off button of the simple UI (the annotations sidebar toggle). */
-  _createCommentToggleToolbarBtn(): HTMLElement | null {
-    const d = designer();
-    const action = d.getAction(
-      ToolbarActionIds.ToggleSidebar + "." + SidebarsIds.GAnnotationsSidebar,
-    );
-    if (!action) return null;
-    const checked = action.isChecked();
-    return this._createLabelButton({
-      icon: checked ? "gravit-icon-hide-comment" : "gravit-icon-show-comment",
-      label: text("GToolbar", "text.comment-toggle"),
-      click: () => {
-        d.executeAction(action.getId(), undefined, "toolbar", true);
-        this.updateCommentToggleStatus();
-      },
-      tooltipConfig: RichTooltipConfig.from({
-        title: checked ? text("GToolbar", "text.comment-off") : text("GToolbar", "text.comment-on"),
-      }),
-    });
-  }
-
-  updateCommentToggleStatus(): void {
-    if (!this._commentToggleSection) return;
-    const action = designer().getAction(
-      ToolbarActionIds.ToggleSidebar + "." + SidebarsIds.GAnnotationsSidebar,
-    );
-    const button = this._commentToggleSection.querySelector(".toolbar-button");
-    const icon = button && button.querySelector<HTMLElement>(".action-button > .icon");
-    let iconClass = "gravit-icon-show-comment";
-    let tooltip = RichTooltipConfig.from({ title: text("GToolbar", "text.comment-on") });
-    if (action && action.isChecked()) {
-      iconClass = "gravit-icon-hide-comment";
-      tooltip = RichTooltipConfig.from({ title: text("GToolbar", "text.comment-off") });
-    }
-    if (icon) this._updateIcon(icon, iconClass);
-    if (button) richTooltip(button, tooltip);
   }
 
   /** The touch Open menu: open, then the recent files under a title. */
@@ -710,8 +660,11 @@ export class Toolbar {
       label: text("GToolbar", "text.zoom"),
       menu,
       menudblclick: () => {
-        const active = d.getWindows().getActiveWindow() as ToolbarWindow | null;
-        const view = active && active.getView();
+        const active = d.getWindows().getActiveWindow();
+        // The old handler threw on getActiveWindow().getView() here, before
+        // it touched the buttons, so without a window nothing changes.
+        if (!active) return;
+        const view = active.getView();
         this._showZoomInput(false);
         const input = zoom.querySelector<HTMLInputElement>(".gravit-zoom-manual-input > input");
         if (input && view) {
@@ -769,10 +722,11 @@ export class Toolbar {
     input.addEventListener("keyup", (event) => {
       if (!keydown) return;
       if (13 === event.which) {
-        const active = d.getWindows().getActiveWindow() as ToolbarWindow | null;
+        const active = d.getWindows().getActiveWindow();
         this._showZoomInput(true);
-        if (active && active.getView())
-          d.zoomAtViewCenter(active.getView() as never, (input.value as unknown as number) / 100);
+        const view = active && active.getView();
+        // The input's text, divided by 100 as the old code did.
+        if (view) d.zoomAtViewCenter(view, Number(input.value) / 100);
       } else if (27 === event.which) this._showZoomInput(true);
       keydown = false;
     });
@@ -935,18 +889,17 @@ export class Toolbar {
     }
   }
 
-  /** Back from touch mode: the desktop zoom button and page button again. */
+  /**
+   * Back from touch mode: the desktop zoom button again. (The old code also
+   * reset the simple UI's page button, which the local app never builds.)
+   */
   _updateDesktopUI(): void {
     const current = this._htmlElement.querySelector<HTMLElement>(".view-section > .zoom-button");
     if (current !== this._zoomButton) {
       this._zoomButton = null;
       this._initZoomButton();
-      if (current) current.replaceWith(this._zoomButton as unknown as HTMLElement);
+      if (current && this._zoomButton) current.replaceWith(this._zoomButton);
       this._updateZoomFromWindow(true);
-    }
-    if (this._pageButton) {
-      this._pageButton.reinit();
-      this._pageButton.element.classList.remove("dropdown");
     }
   }
 
@@ -956,23 +909,17 @@ export class Toolbar {
     switch (event.type) {
       case DocumentEvent.Type.Activated:
         if (editor)
-          editor.addEventListener(
-            (editor.constructor as unknown as typeof Editor).SelectionChangedEvent,
-            this._selectionChangedEvent,
-            this,
-          );
-        this._updatePageButton();
+          editor.addEventListener(Editor.SelectionChangedEvent, this._selectionChangedEvent, this);
         this._updateActions();
         this._updateContextTools();
         break;
       case DocumentEvent.Type.Deactivated: {
         if (editor)
           editor.removeEventListener(
-            (editor.constructor as unknown as typeof Editor).SelectionChangedEvent,
+            Editor.SelectionChangedEvent,
             this._selectionChangedEvent,
             this,
           );
-        this._updatePageButton();
         this._updateActions();
         this._updateContextTools();
         const manager = designer().getToolManager();
@@ -997,7 +944,7 @@ export class Toolbar {
   }
 
   private _windowEvent(event: WindowEvent): void {
-    const view = (event.window as unknown as ToolbarWindow).getView();
+    const view = event.window.getView();
     switch (event.type) {
       case WindowEvent.Type.Activated:
         if (view) view.addEventListener(SceneWidget.TransformEvent, this._zoomChanged, this);
@@ -1012,14 +959,18 @@ export class Toolbar {
     this._touch.updateActiveWindow();
   }
 
-  /** The view's TransformEvent listener (the event must not count as `force`). */
+  /**
+   * The view's TransformEvent listener. The old code registered
+   * _updateZoomFromWindow itself, so the event object arrived as `force`
+   * and every transform rewrote the caption; this forces as well.
+   */
   private _zoomChanged(): void {
-    this._updateZoomFromWindow();
+    this._updateZoomFromWindow(true);
   }
 
   /** Shows the active view's zoom in percent on the zoom button. */
   _updateZoomFromWindow(force = false): void {
-    const active = designer().getWindows().getActiveWindow() as ToolbarWindow | null;
+    const active = designer().getWindows().getActiveWindow();
     const view = active && active.getView();
     if (!view) return;
     const level = GMath.round(100 * view.getZoom(), false, 0);

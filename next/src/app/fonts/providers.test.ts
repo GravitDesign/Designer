@@ -7,6 +7,7 @@ import { ImportedFontsProvider } from "./imported-fonts-provider.ts";
 import { FontDB } from "./font-db.ts";
 import { LocalFontsProvider } from "./local-font-list.ts";
 import { generateFormattedList, getFontFamily } from "./font-style-naming.ts";
+import { setContainer, setDesigner } from "../shell/globals.ts";
 
 function callbacks(): {
   done: Mock<ResolveCallbacks["done"]>;
@@ -23,6 +24,8 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.unstubAllGlobals();
+  setDesigner(null);
+  setContainer(null);
 });
 
 describe("NotoFontsProvider", () => {
@@ -107,16 +110,17 @@ describe("WebFontsProvider", () => {
   ]);
 
   it("loads the family list once and resolves the requests that waited for it", () => {
-    WebFontsProvider.version = 7;
+    setDesigner({ getVersion: () => "3.15.0" } as never);
+    setContainer({ getRootPath: () => "" } as never);
     const provider = new WebFontsProvider(owner);
     const first = callbacks();
     const second = callbacks();
     provider.resolveFont("Roboto", "N", 400, first);
     provider.resolveFont("Roboto", "N", 400, second);
-    expect(requestedUrls()).toEqual(["/assets/data/googlefonts.json?7"]);
+    expect(requestedUrls()).toEqual(["/assets/data/googlefonts.json?3.15.0"]);
     (FakeRequest.sent[0] as FakeRequest).respond(200, list);
     expect(requestedUrls()).toEqual([
-      "/assets/data/googlefonts.json?7",
+      "/assets/data/googlefonts.json?3.15.0",
       "https://fonts.example/roboto.ttf",
     ]);
     (FakeRequest.sent[1] as FakeRequest).respond(200, new ArrayBuffer(2));
@@ -125,6 +129,12 @@ describe("WebFontsProvider", () => {
     const missing = callbacks();
     provider.resolveFont("Lobster", "N", 400, missing);
     expect(missing.fail).toHaveBeenCalledWith();
+  });
+
+  it("asks for the list under the app's root path, with a random number before the designer", () => {
+    setContainer({ getRootPath: () => "/root" } as never);
+    new WebFontsProvider(owner).initialize();
+    expect(requestedUrls()[0]).toMatch(/^\/root\/assets\/data\/googlefonts\.json\?\d+$/);
   });
 
   it("fails what waited with a connection error when the list can't load", () => {

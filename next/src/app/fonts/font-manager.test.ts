@@ -18,6 +18,8 @@ import {
 } from "./fonts-provider.ts";
 import { MissingFontTracker } from "./missing-font-tracker.ts";
 import { FontAvailabilityTracker } from "./font-availability-tracker.ts";
+import { runFontManagerScenarios, type ScenarioEnv } from "./font-manager-scenarios.testing.ts";
+import oldScenarios from "./font-manager-scenarios.json";
 
 /** Lists and resolves its families synchronously; records what it was asked. */
 abstract class TestProvider extends FontsProvider {
@@ -241,5 +243,54 @@ describe("FontAvailabilityTracker", () => {
     (finish as unknown as () => void)();
     await Promise.resolve();
     expect(done).toBe(true);
+  });
+});
+
+describe("FontsProviderManager listing, against the old module", () => {
+  // font-manager-scenarios.json was recorded by running the same scenarios
+  // on the old module 255 in the old app page.
+  const results = runFontManagerScenarios({
+    Manager: FontsProviderManager,
+    Base: FontsProvider,
+    Errors: FontsProviderErrors,
+  } as unknown as ScenarioEnv);
+  for (const name of Object.keys(oldScenarios))
+    it(name, () => {
+      expect(results[name]).toEqual((oldScenarios as Record<string, unknown>)[name]);
+    });
+});
+
+describe("FontsProviderManager network listener (R7-B-031)", () => {
+  it("resets a provider whose list failed offline once the window is online again", () => {
+    class OfflineProvider extends TestProvider {
+      families = ["Offline Alpha"];
+      override load(_query: string, _start: number, _count: number, callbacks: LoadCallbacks) {
+        callbacks.fail(FontsProviderErrors.ConnectionError);
+      }
+    }
+    registered = [OfflineProvider];
+    FontsProviderManager.registerProvider(OfflineProvider);
+    const provider = FontsProviderManager.getProviderInstance(OfflineProvider) as TestProvider;
+    const resetProvider = vi.spyOn(provider, "resetProvider");
+    const fakeWindow = new EventTarget();
+    vi.stubGlobal("window", fakeWindow);
+    try {
+      const manager = FontsProviderManager.getInstance();
+      manager.init();
+      manager.query(() => {}, "offline%");
+      // The list pass and the previews pass both fail, and each queues it.
+      expect(manager._resetProviders).toEqual([OfflineProvider, OfflineProvider]);
+      // Going offline changes nothing; coming back resets it once per
+      // queued failure and empties the queue.
+      fakeWindow.dispatchEvent(new Event("offline"));
+      expect(resetProvider).not.toHaveBeenCalled();
+      fakeWindow.dispatchEvent(new Event("online"));
+      expect(resetProvider).toHaveBeenCalledTimes(2);
+      expect(manager._resetProviders).toEqual([]);
+      fakeWindow.dispatchEvent(new Event("online"));
+      expect(resetProvider).toHaveBeenCalledTimes(2);
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 });

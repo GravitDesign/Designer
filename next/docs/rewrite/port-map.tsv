@@ -914,7 +914,7 @@ designer.browser.dev.js	279	438		drop:core-js 3.42.0 polyfill (modern targets)		
 designer.browser.dev.js	286	56		drop:webpack external (jQuery/Node built-in)		drop-app-runtime	
 designer.browser.dev.js	288	361		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	290	1351		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
-designer.browser.dev.js	291	344	GNetworkAvailabilityChangedEvent	drop:network availability event (cloud)		app-dialogs-notify	
+designer.browser.dev.js	291	344	GNetworkAvailabilityChangedEvent	drop:network availability event class; the font manager reads the window online/offline events itself (fonts/font-manager.ts init)		app-dialogs-notify	
 designer.browser.dev.js	292	194		drop:user logged-in event		drop-app-cloud	
 designer.browser.dev.js	294	188		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	295	382		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
@@ -1198,7 +1198,7 @@ designer.browser.dev.js	881	60		drop:webpack external (jQuery/Node built-in)		dr
 designer.browser.dev.js	882	6350		drop:collaboration mentions		drop-app-cloud	
 designer.browser.dev.js	883	1515		drop:contact model for mentions		drop-app-cloud	
 designer.browser.dev.js	1036	7971		drop:Google API loader		drop-app-cloud	UI-STORAGE-009
-designer.browser.dev.js	1037	2319		port	next/src/app/locale/language.ts	app-widgets-dialogs	UI-I18N-005
+designer.browser.dev.js	1037	2319		drop:only the dropped language switch used it; the switch never changed anything, the /i18n-url route answers {}		app-widgets-dialogs	UI-I18N-005
 designer.browser.dev.js	1038	227		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	1039	252		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	1040	328		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
@@ -1263,7 +1263,7 @@ designer.browser.dev.js	1151	327	GSwatchesChangedEvent	port	next/src/app/color/s
 designer.browser.dev.js	1152	17621		drop:SharePoint storage		drop-app-cloud	
 designer.browser.dev.js	1153	22967		port	next/src/app/welcome/presets.ts	app-welcome-settings	UI-NEWDOC-005,UI-NEWDOC-006,UI-NEWDOC-007
 designer.browser.dev.js	1154	3678		port	next/src/app/util/download.ts	app-config-document	ADD-IMPORT-001,ADD-EXPORT-001
-designer.browser.dev.js	1155	1511		port	next/src/app/shell/condition.ts	app-shell-storage	
+designer.browser.dev.js	1155	1511		port	next/src/app/shell/designer.ts	app-shell-storage	
 designer.browser.dev.js	1156	284	GMenuCloseEvent	port	next/src/app/menus/menu-close-event.ts	app-menus-toolbar	
 designer.browser.dev.js	1157	4643		port	next/src/app/menus/active-menu-manager.ts	app-menus-toolbar	ADD-MENU-001
 designer.browser.dev.js	1158	1373		drop:purchase pro action		drop-app-cloud	ACT-CLOUD-012
@@ -1281,7 +1281,7 @@ designer.browser.dev.js	1169	1745	GShowGuideLinesAction	port	next/src/app/action
 designer.browser.dev.js	1170	2663	GToggleSidebarAction	port	next/src/app/actions/view/toggle-sidebar-action.ts	app-actions-view	ACT-VIEW-040,ACT-VIEW-041,ACT-VIEW-042
 designer.browser.dev.js	1171	2955	GUndoAction	port	next/src/app/actions/edit/undo-action.ts	app-actions-file-edit	EDT-UNDO-009,ACT-EDIT-001
 designer.browser.dev.js	1172	2025	GInstallToDesktopAction	port	next/src/app/actions/file/install-to-desktop-action.ts	app-dialogs-notify	ACT-FILE-024,UI-STORAGE-007,FMT-PWA-005
-designer.browser.dev.js	1173	803		port	next/src/app/shell/pwa-support.ts	app-shell-storage	
+designer.browser.dev.js	1173	803		port	next/src/app/actions/file/install-to-desktop-action.ts	app-shell-storage	
 designer.browser.dev.js	1174	335		drop:files panel events		drop-app-cloud	
 designer.browser.dev.js	1175	58		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	1176	3088	GAttachToPathAction	port	next/src/app/actions/modify/attach-to-path-action.ts	app-actions-modify	ACT-TEXT-001
@@ -1299,7 +1299,7 @@ designer.browser.dev.js	1187	218		drop:cross-frame dialog base		drop-app-cloud
 designer.browser.dev.js	1188	2742		port	next/src/app/dialogs/software-update-events.ts	app-dialogs-notify	
 designer.browser.dev.js	1189	641		port	next/src/editor/touch/gesture-state.ts	editor-touch	
 designer.browser.dev.js	1190	434		drop:in-app purchase base		drop-app-cloud	
-designer.browser.dev.js	1191	1438		port	next/src/app/shell/children-tracker.ts	app-shell-storage	
+designer.browser.dev.js	1191	1438		drop:children tracker, used only by the annotation sidebar modules a1356, a1357 and a1713		app-shell-storage	
 designer.browser.dev.js	1195	10602		port	next/src/app/storage/file-system-access.ts	app-shell-storage	UI-IMAGE-003,FMT-STORAGE-002,FMT-STORAGE-003
 designer.browser.dev.js	1196	486		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	1197	65		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
@@ -1412,18 +1412,18 @@ designer.browser.dev.js	1339	52779	GPageProperties	port	next/src/app/inspector/p
 designer.browser.dev.js	1340	1165	GRenameLayerAction	port	next/src/app/actions/modify/rename-layer-action.ts	app-actions-modify	ACT-KEY-003
 designer.browser.dev.js	1341	2424	GChangeActivePageAction	port	next/src/app/actions/modify/change-active-page-action.ts	app-actions-modify	ACT-KEY-020,ACT-KEY-021
 designer.browser.dev.js	1342	1517	GEnhancedTooltipsAction	port	next/src/app/actions/view/enhanced-tooltips-action.ts	app-actions-view	EDT-VIEW-035,ACT-HELP-005,UI-TOOLTIP-003
-designer.browser.dev.js	1343	10065		port	next/src/app/locale/translation-manager.ts	app-widgets-dialogs	UI-I18N-008
+designer.browser.dev.js	1343	10065		drop:only the dropped translation tool and language switch used it		app-widgets-dialogs	UI-I18N-008
 designer.browser.dev.js	1344	2971	GCycleThroughLayersAction	port	next/src/app/actions/modify/cycle-through-layers-action.ts	app-actions-modify	EDT-SEL-023,ACT-KEY-017,ACT-KEY-018
 designer.browser.dev.js	1345	1046	GChangeAnchorPointsJointTypeMainAction	port	next/src/app/actions/modify/change-anchor-points-joint-type-main-action.ts	app-actions-modify	ACT-KEY-006
-designer.browser.dev.js	1346	290	GUnloadEvent	port	next/src/app/shell/unload-event.ts	app-shell-storage	
-designer.browser.dev.js	1347	304		port	next/src/app/shell/in-app-link-event.ts	app-shell-storage	
+designer.browser.dev.js	1346	290	GUnloadEvent	drop:unload event, listened to only by the collaborative text panel a1668		app-shell-storage	
+designer.browser.dev.js	1347	304		drop:in-app link event, used only by the sign-in flow		app-shell-storage	
 designer.browser.dev.js	1348	8479		drop:collaborative text editor		drop-app-cloud	
 designer.browser.dev.js	1349	478		port	next/src/app/dialogs/update-event-names.ts	app-dialogs-notify	
 designer.browser.dev.js	1350	1991		drop:licence status poller		drop-app-cloud	
 designer.browser.dev.js	1351	5648		port	next/src/app/sidebars/layer-item.ts	app-sidebars-layers-pages	UI-LAYERS-006,UI-LAYERS-007
 designer.browser.dev.js	1352	58		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	1353	4290		drop:annotation panel collaborators		drop-app-cloud	
-designer.browser.dev.js	1354	593	GInvalidationOptions	port	next/src/app/shell/invalidation-options.ts	app-shell-storage	
+designer.browser.dev.js	1354	593	GInvalidationOptions	drop:invalidation options, used only by the annotation panel a1712 and a1713		app-shell-storage	
 designer.browser.dev.js	1355	7117		drop:annotation list rows		drop-app-cloud	
 designer.browser.dev.js	1356	29544		drop:annotation comment rows		drop-app-cloud	
 designer.browser.dev.js	1357	8879		drop:annotation reply docker		drop-app-cloud	
@@ -1435,7 +1435,7 @@ designer.browser.dev.js	1376	201		drop:core-js 3.42.0 polyfill (modern targets)	
 designer.browser.dev.js	1377	119		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
 designer.browser.dev.js	1378	562	GMarketingFileStorageItem	drop:marketing file storage item		drop-app-cloud	
 designer.browser.dev.js	1379	8125		port	next/src/app/fonts/web-fonts-provider.ts	app-fonts-ui	
-designer.browser.dev.js	1380	18271		port	next/src/app/fonts/native-fonts.ts	app-fonts-ui	FMT-IMPORT-027
+designer.browser.dev.js	1380	18271		drop:native font helper over WebSocket (127.0.0.1:32119, launcher.swf), never registered in the browser		app-fonts-ui	FMT-IMPORT-027
 designer.browser.dev.js	1381	75		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	1382	254		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
 designer.browser.dev.js	1383	84		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
@@ -1454,7 +1454,7 @@ designer.browser.dev.js	1470	706		port	next/src/app/fonts/missing-font-tracker.t
 designer.browser.dev.js	1471	1164		port	next/src/app/fonts/font-availability-tracker.ts	app-fonts-ui	
 designer.browser.dev.js	1472	374		port	next/src/io/import/heic.ts	app-shell-storage	FMT-IMPORT-019
 designer.browser.dev.js	1473	2846		drop:paywall dialog		drop-app-cloud	UI-DIALOG-015
-designer.browser.dev.js	1474	2845		port	next/src/app/dialogs/confirmation-dialog.ts	app-dialogs-notify	UI-DIALOG-016
+designer.browser.dev.js	1474	2845		drop:purchase confirmation, only the dropped paywall opened it		app-dialogs-notify	UI-DIALOG-016
 designer.browser.dev.js	1475	6066		port	next/src/app/export/document-chooser.ts	app-library-symbols-export	UI-DIALOG-017
 designer.browser.dev.js	1476	53163		drop:OAuth/token client		drop-app-cloud	
 designer.browser.dev.js	1477	1293		drop:Microsoft user		drop-app-cloud	
@@ -1473,7 +1473,7 @@ designer.browser.dev.js	1489	23259		drop:Node/browser shim not needed in modern 
 designer.browser.dev.js	1490	491		drop:maintenance check		drop-app-cloud	
 designer.browser.dev.js	1491	146446		port	next/src/app/shell/designer.ts	app-designer-main	EDT-TOOLMGR-007,EDT-TOOLMGR-025,EDT-TOOLMGR-026
 designer.browser.dev.js	1492	542		port	next/src/app/shell/mouse-tracker.ts	app-shell-storage	
-designer.browser.dev.js	1493	411		port	next/src/app/shell/steps.ts	app-shell-storage	
+designer.browser.dev.js	1493	411		drop:steps, used only by the cloud step runner a1249		app-shell-storage	
 designer.browser.dev.js	1494	5444		drop:analytics wrapper		drop-app-cloud	
 designer.browser.dev.js	1495	125473		drop:analytics event-name map		drop-app-cloud	
 designer.browser.dev.js	1496	812		drop:cloud env detection		drop-app-cloud	
@@ -1534,9 +1534,9 @@ designer.browser.dev.js	1550	7341		drop:files panel info/share view		drop-app-cl
 designer.browser.dev.js	1551	416		drop:files panel renderer base		drop-app-cloud	
 designer.browser.dev.js	1552	355		drop:cloud drives		drop-app-cloud	
 designer.browser.dev.js	1553	33881		drop:files panel cloud views		drop-app-cloud	UI-DIALOG-043
-designer.browser.dev.js	1554	2121		port	next/src/app/shell/value-stack.ts	app-shell-storage	
+designer.browser.dev.js	1554	2121		drop:value stack (query builder), used only by the cloud files panel a1553		app-shell-storage	
 designer.browser.dev.js	1555	1571		drop:Google Drive listing		drop-app-cloud	
-designer.browser.dev.js	1556	2672		port	next/src/app/dialogs/new-file-prompt.ts	app-dialogs-notify	UI-DIALOG-018
+designer.browser.dev.js	1556	2672		drop:new file prompt, only the dropped cloud files panel opened it		app-dialogs-notify	UI-DIALOG-018
 designer.browser.dev.js	1557	276		port	next/src/app/util/repeat-action-error.ts	app-config-document	
 designer.browser.dev.js	1558	15706		drop:cloud templates panel		drop-app-cloud	UI-WELCOME-009
 designer.browser.dev.js	1559	360		drop:core-js 3.42.0 polyfill (modern targets)		drop-app-runtime	
@@ -1551,7 +1551,7 @@ designer.browser.dev.js	1567	39013		drop:share dialog sections		drop-app-cloud	U
 designer.browser.dev.js	1568	5107		drop:cloud communication manager		drop-app-cloud	
 designer.browser.dev.js	1569	6383		drop:role/licence app state (keep local defaults: everything enabled)		drop-app-cloud	
 designer.browser.dev.js	1570	1244		drop:application state (roles)		drop-app-cloud	
-designer.browser.dev.js	1571	2879		port	next/src/app/shell/document-event-relay.ts	app-shell-storage	
+designer.browser.dev.js	1571	2879		drop:document event relay of the realtime WebSocket client		app-shell-storage	
 designer.browser.dev.js	1572	645		drop:annotations fetch		drop-app-cloud	
 designer.browser.dev.js	1573	840		drop:promise manager for cloud fetches		drop-app-cloud	
 designer.browser.dev.js	1574	1499		drop:paywall cross-frame builder		drop-app-cloud	
@@ -1650,9 +1650,9 @@ designer.browser.dev.js	1666	8935	GNotificationPanel	port	next/src/app/dialogs/n
 designer.browser.dev.js	1667	647		port	next/src/app/dialogs/notification.ts	app-dialogs-notify	
 designer.browser.dev.js	1668	21473	GCollaborativeTextPanel	drop:collaborative text panel		drop-app-cloud	UI-NOTIFY-004
 designer.browser.dev.js	1669	5312	GDocumentNotificationsPanel	drop:document notifications (cloud)		drop-app-cloud	UI-NOTIFY-003
-designer.browser.dev.js	1670	2246		port	next/src/app/shell/plugin-loader.ts	app-shell-storage	
-designer.browser.dev.js	1671	1007	GModule	port	next/src/app/shell/module.ts	app-shell-storage	
-designer.browser.dev.js	1672	640		port	next/src/app/shell/in-app-link.ts	app-shell-storage	
+designer.browser.dev.js	1670	2246		drop:plugin loader; the browser has no plugins (storage.getPlugins() is [], bootstrap plugins: [])		app-shell-storage	
+designer.browser.dev.js	1671	1007	GModule	drop:GModule, the plugin module base of the plugin loader a1670		app-shell-storage	
+designer.browser.dev.js	1672	640		drop:in-app link reload, used only by the sign-in flow		app-shell-storage	
 designer.browser.dev.js	1673	3122		port	next/src/app/shell/tooltip-position.ts	app-shell-storage	UI-TOOLTIP-004
 designer.browser.dev.js	1674	349		drop:maintenance dialog glue		drop-app-cloud	
 designer.browser.dev.js	1675	523		drop:maintenance dialog		drop-app-cloud	UI-DIALOG-024
@@ -1665,7 +1665,7 @@ designer.browser.dev.js	1681	379		drop:external purchase window		drop-app-cloud
 designer.browser.dev.js	1682	4464		drop:MS Store purchase		drop-app-cloud	
 designer.browser.dev.js	1683	167		drop:in-app purchase stub		drop-app-cloud	
 designer.browser.dev.js	1684	1212		drop:marketing language links		drop-app-cloud	
-designer.browser.dev.js	1685	1194		drop:language-specific marketing links		app-widgets-dialogs	UI-DIALOG-026
+designer.browser.dev.js	1685	1194		drop:Windows Store announcement after login (cloud)		app-widgets-dialogs	UI-DIALOG-026
 designer.browser.dev.js	1686	1380		drop:beta warning dialog		drop-app-cloud	UI-DIALOG-027
 designer.browser.dev.js	1687	3078		port	next/src/app/dialogs/memory-warning-dialog.ts	app-dialogs-notify	UI-DIALOG-028
 designer.browser.dev.js	1688	968		port	next/src/app/util/image-to-canvas.ts	app-config-document	
@@ -1674,7 +1674,7 @@ designer.browser.dev.js	1690	99		port	next/src/app/util/prepare-for-saving.ts	ap
 designer.browser.dev.js	1691	760		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
 designer.browser.dev.js	1692	583		drop:Node/browser shim not needed in modern targets		drop-app-runtime	
 designer.browser.dev.js	1693	7397	GLongPressEvent	port	next/src/editor/touch/long-press-event.ts	editor-touch	UI-TOUCH-018
-designer.browser.dev.js	1694	678		port	next/src/app/widgets/index.ts	app-designer-main	
+designer.browser.dev.js	1694	678		drop:widgets index, a list of side-effect requires; each widget is imported where it is used		app-designer-main	
 designer.browser.dev.js	1695	4313		port	next/src/app/widgets/auto-edit.ts	app-widgets-dialogs	UI-FIELD-171
 designer.browser.dev.js	1696	7940		port	next/src/app/widgets/blend-select.ts	app-inspector-paint	UI-FIELD-158
 designer.browser.dev.js	1697	5487		port	next/src/app/widgets/corner-type-select.ts	app-inspector-shapes	UI-FIELD-142
@@ -1694,8 +1694,8 @@ designer.browser.dev.js	1710	3056		port	next/src/app/sidebars/virtual-tree-dnd.t
 designer.browser.dev.js	1711	6670		port	next/src/app/sidebars/selected-panel.ts	app-sidebars-layers-pages	UI-LAYERS-020
 designer.browser.dev.js	1712	41507		drop:annotation panel (cloud comments)		drop-app-cloud	
 designer.browser.dev.js	1713	3458		drop:annotation panel scroll helper		drop-app-cloud	
-designer.browser.dev.js	1714	2686		port	next/src/app/widgets/input-event.ts	app-widgets-dialogs	UI-FIELD-169
-designer.browser.dev.js	1715	3430		port	next/src/app/widgets/elastic.ts	app-widgets-dialogs	UI-FIELD-170
+designer.browser.dev.js	1714	2686		drop:jQuery input event polyfill, no caller; native oninput everywhere		app-widgets-dialogs	UI-FIELD-169
+designer.browser.dev.js	1715	3430		drop:elastic textarea, only used by the dropped mentions input (1716)		app-widgets-dialogs	UI-FIELD-170
 designer.browser.dev.js	1716	20290		drop:mentions input (cloud comments)		drop-app-cloud	UI-THEME-003
 designer.browser.dev.js	1717	20056		port	next/src/app/sidebars/pages-panel.ts	app-sidebars-layers-pages	UI-PAGES-004,UI-PAGES-005,UI-PAGES-006
 designer.browser.dev.js	1718	11259		port	next/src/app/sidebars/symbols-panel.ts	app-library-symbols-export	EDT-DND-010,UI-LIBRARY-012,UI-LIBRARY-013

@@ -1,0 +1,146 @@
+{
+  "empty": [[], []],
+  "subfamilyAppended": [
+    {
+      "weight": 400,
+      "style": "N",
+      "family": "Fam",
+      "blob": 1,
+      "displayname": "Fam",
+      "subfamily": "Book"
+    },
+    {
+      "weight": 400,
+      "style": "N",
+      "family": "Fam Book",
+      "blob": 1,
+      "displayname": "Fam",
+      "subfamily": "Book"
+    },
+    {
+      "weight": 400,
+      "style": "N",
+      "family": "Fam Book variant 2",
+      "blob": 1,
+      "displayname": "Fam",
+      "subfamily": "variant 2"
+    }
+  ],
+  "variants": [
+    {
+      "weight": 700,
+      "style": "I",
+      "family": "Var",
+      "blob": 1
+    },
+    {
+      "weight": 700,
+      "style": "I",
+      "family": "Var variant 2",
+      "blob": 1,
+      "subfamily": "variant 2"
+    },
+    {
+      "weight": 700,
+      "style": "I",
+      "family": "Var variant 3",
+      "blob": 1,
+      "subfamily": "variant 3"
+    },
+    {
+      "weight": 400,
+      "style": "I",
+      "family": "Var",
+      "blob": 1
+    }
+  ],
+  "subfamilyInName": [
+    {
+      "weight": 300,
+      "style": "N",
+      "family": "Sub Light",
+      "blob": 1,
+      "subfamily": "Light"
+    },
+    {
+      "weight": 300,
+      "style": "N",
+      "family": "Sub Light variant 2",
+      "blob": 1,
+      "subfamily": "variant 2"
+    }
+  ],
+  "formatted": [
+    {
+      "family": "Grp Regular",
+      "displayname": "Grp",
+      "fonts": [
+        {
+          "weight": 700,
+          "style": "N",
+          "family": "Grp Bold",
+          "subfamily": null,
+          "displayname": "Grp"
+        },
+        {
+          "weight": 700,
+          "style": "I",
+          "family": "Grp Bold",
+          "subfamily": null,
+          "displayname": "Grp"
+        },
+        {
+          "weight": 400,
+          "style": "I",
+          "family": "Grp Regular",
+          "subfamily": null,
+          "displayname": "Grp"
+        },
+        {
+          "weight": 400,
+          "style": "N",
+          "family": "Grp",
+          "subfamily": "Regular",
+          "displayname": "Grp"
+        }
+      ],
+      "families": ["Grp Bold", "Grp Regular", "Grp"]
+    },
+    {
+      "family": "Solo",
+      "displayname": "Solo",
+      "fonts": [
+        {
+          "weight": 500,
+          "style": "N",
+          "family": "Solo",
+          "subfamily": null,
+          "displayname": null
+        }
+      ],
+      "families": ["Solo"]
+    },
+    {
+      "family": "",
+      "displayname": "Empty",
+      "fonts": [
+        {
+          "weight": 400,
+          "style": "N",
+          "family": "",
+          "subfamily": null,
+          "displayname": "Empty"
+        },
+        {
+          "weight": 400,
+          "style": "I",
+          "family": "Empty Long",
+          "subfamily": null,
+          "displayname": "Empty"
+        }
+      ],
+      "families": ["", "Empty Long"]
+    }
+  ],
+  "formattedNull": null
+}

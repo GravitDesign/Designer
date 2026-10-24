@@ -28,7 +28,6 @@
  * (MenuButton) add their own classes, and the quick help looks the
  * buttons up by their icon classes.
  */
-import type { EventClass, Event as GEvent } from "../../engine/core/event.ts";
 import { Key, type KeyValue } from "../../engine/core/key.ts";
 import { ModifiersChangedEvent } from "../../engine/core/modifiers-changed-event.ts";
 import { Platform, PlatformType } from "../../engine/core/platform.ts";
@@ -48,8 +47,11 @@ import { Collapsible, Orientation } from "./orientation.ts";
 import { propertyRowElement } from "./property-row-element.ts";
 import { FullscreenEvent } from "../shell/fullscreen-event.ts";
 
-/** The ids of the actions on the bar (the old classes' ID constants). */
-const ID = {
+/**
+ * The ids of the actions on the bar (the old classes' ID constants).
+ * touch.test.ts checks each against the registered actions.
+ */
+export const ID = {
   copy: "edit.copy",
   paste: "paste.paste",
   pasteInPlace: "edit.paste.in-place",
@@ -260,10 +262,7 @@ export class VirtualKeyBar {
       return element;
     };
     const menu = (entries: MenuEntry[], className = ""): Menu => {
-      const result = new Menu(null, "g-assistant-bar-menu");
-      // Old: new GMenu(null, "g-assistant-bar-menu paste-menu"), where
-      // jQuery's addClass took several classes.
-      if (className) result._htmlElement.classList.add(className);
+      const result = new Menu(null, "g-assistant-bar-menu" + (className ? " " + className : ""));
       for (const { icon, action, isEnabled } of entries) {
         const item = result.createAddItem(action);
         if (icon) item.setIcon(icon);
@@ -596,8 +595,7 @@ export class VirtualKeyBar {
     document.addEventListener("keyup", this._keyUpBound, true);
     document.addEventListener("mouseup", this._mouseUpBound, true);
     designer().addEventListener(DocumentEvent, this._documentEvent, this);
-    const fullscreenEvent = this._fullscreenEventClass();
-    if (fullscreenEvent) designer().addEventListener(fullscreenEvent, this._fullScreenEvent, this);
+    designer().addEventListener(FullscreenEvent, this._fullScreenEvent, this);
     Platform.addEventListener(ModifiersChangedEvent, this._modifiersChangedEvent, this);
     this._activateDocument(designer().getActiveDocument() as unknown as BarDocument | null);
     this._touchHandler.activate(this._htmlElement);
@@ -610,9 +608,7 @@ export class VirtualKeyBar {
     document.removeEventListener("keyup", this._keyUpBound, true);
     document.removeEventListener("mouseup", this._mouseUpBound, true);
     designer().removeEventListener(DocumentEvent, this._documentEvent, this);
-    const fullscreenEvent = this._fullscreenEventClass();
-    if (fullscreenEvent)
-      designer().removeEventListener(fullscreenEvent, this._fullScreenEvent, this);
+    designer().removeEventListener(FullscreenEvent, this._fullScreenEvent, this);
     Platform.removeEventListener(ModifiersChangedEvent, this._modifiersChangedEvent, this);
     this._deactivateDocument(designer().getActiveDocument() as unknown as BarDocument | null);
     Platform.releaseKey(C.ALT_LEFT);
@@ -621,11 +617,6 @@ export class VirtualKeyBar {
     Platform.releaseKey(C.CONTROL);
     this._touchHandler.deactivate(this._htmlElement);
     this._heldKeys = null;
-  }
-
-  /** GFullscreenEvent (shell/fullscreen-event.ts). */
-  private _fullscreenEventClass(): EventClass<GEvent> | null {
-    return FullscreenEvent as unknown as EventClass<GEvent>;
   }
 
   _activateDocument(document: BarDocument | null): void {

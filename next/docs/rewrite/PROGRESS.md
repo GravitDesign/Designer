@@ -67,6 +67,11 @@ Decisions taken:
   gravitFontsDB) and the recent files list.
 - Overnight: undecided points are decided closest to the old behaviour,
   logged in QUESTIONS.md, and work carries on.
+- Brand: the app is GravitDesign Next (mark "Gravit planet, red anchor",
+  wordmark with "Next" in a selection box, the old pink accent in the
+  brand magenta) with a one-time introduction that says it is not the
+  Gravit Designer people know. The old look stays as the classic look,
+  which the parity suite uses (CHANGES.md CHG-001).
 
 ## Phases
 

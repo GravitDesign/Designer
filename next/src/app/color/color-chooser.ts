@@ -806,7 +806,9 @@ export class PatternChooser {
         let value = hex.value;
         if ("keydown" === event.type) {
           const keyEvent = event as KeyboardEvent;
-          const typed = /[0-9a-zſK]/i.test(
+          // \u017F (long s) and \u212A (Kelvin sign) come from the old
+          // transpiled /[0-9a-z]/iu class, which matches them case-insensitively.
+          const typed = /[0-9a-z\u017F\u212A]/i.test(
             String.fromCharCode(keyEvent.keyCode || keyEvent.charCode),
           );
           if (value.length >= 7 && typed && hex.selectionStart === hex.selectionEnd) {
@@ -1960,8 +1962,9 @@ export class PatternChooser {
     let part: { type: unknown; idx: number } | null = null;
     if (null !== index && editor)
       part = { type: GradientStyleEditor.STOP_HANDLE_PART_ID, idx: index };
-    // Old: a third argument (true) that the editor doesn't take.
-    if (editor) editor.updatePartSelection(false, part ? [part] : null);
+    // noEvent (true): the editor doesn't report the new active stop back
+    // to the manager, so the open chooser gets no ActivePointChange echo.
+    if (editor) editor.updatePartSelection(false, part ? [part] : null, true);
   }
 
   /** Adds a stop handle; dragging it moves the stop, dragging it off the bar removes it. */
@@ -2312,11 +2315,14 @@ export class PatternChooser {
       const texture = pattern as TexturePattern;
       this._updateTexture(texture);
       const hasTexture = !!texture.getTexture();
+      // Old: SizeMode.Length.concat(SizeMode.Percent).indexOf(mode). Both are
+      // strings, so this is a substring search in "lengthpercent", not an
+      // array lookup (the same result for every real size mode).
       const sizable =
         -1 !==
-        (TexturePattern.SizeMode.Length as unknown as string[])
-          .concat(TexturePattern.SizeMode.Percent as unknown as string[])
-          .indexOf(texture.getSizeMode());
+        (TexturePattern.SizeMode.Length + TexturePattern.SizeMode.Percent).indexOf(
+          texture.getSizeMode(),
+        );
       const select = (property: string, value: string) => {
         for (const element of this._patternEditor.querySelectorAll(
           `[data-property="${property}"]`,
@@ -2845,8 +2851,12 @@ function sceneOfActiveDocument(): Parameters<TexturePattern["setScene"]>[0] {
   >[0];
 }
 
-/** jQuery's slideToggle without the animation (the advanced texture settings). */
-function slideToggle(element: HTMLElement): void {
+/**
+ * jQuery's slideToggle without its 400 ms slide (the advanced texture
+ * settings, desktop and touch): the section snaps open and shut. See
+ * "Advanced texture settings open without the slide" in QUESTIONS.md.
+ */
+export function slideToggle(element: HTMLElement): void {
   if ("none" === cssValue(element, "display")) css(element, "display", "block");
   else css(element, "display", "none");
 }
@@ -3128,9 +3138,16 @@ export class PatternChooserWidget {
     if (dropper) dropper.setActive(true, pageX, pageY);
   }
 
-  /** `gPatternChooser("updateSettings", options)`: merges into the field's options. */
+  /**
+   * `gPatternChooser("updateSettings", options)`: merges into the field's
+   * options in place, like `$.extend`, so undefined values don't overwrite.
+   */
   updateSettings(options: Partial<PatternChooserWidgetOptions>): this {
-    Object.assign(this._data.options, options);
+    const target = this._data.options as Record<string, unknown>;
+    for (const key of Object.keys(options)) {
+      const value = (options as Record<string, unknown>)[key];
+      if (value !== undefined) target[key] = value;
+    }
     return this;
   }
 

@@ -336,8 +336,14 @@ export class TestElement extends TestNode {
   }
 
   /** Only text and the entity arrows the tree writes. */
+  /** Markup is not parsed; the entities the panels use are decoded, as a browser would. */
   set innerHTML(value: string) {
-    this.textContent = value.replace("&#9660;", "▼").replace("&#9658;", "►");
+    this.textContent = value
+      .replace("&#9660;", "▼")
+      .replace("&#9658;", "►")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&amp;/g, "&");
   }
 
   get innerHTML(): string {

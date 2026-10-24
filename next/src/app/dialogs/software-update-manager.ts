@@ -13,14 +13,20 @@
  *   no longer schedules the daily check, records the version or installs
  *   a pending update (see "Software update check without a release
  *   service" in QUESTIONS.md).
- * - The release status is what the old code fell back to when the
- *   release service failed: silent, no forced update, no version. A check
- *   therefore never finds an update; a non-silent check reports "no update
- *   available", as before when the service was unreachable.
+ * - In the desktop app a check goes straight to the Electron updater,
+ *   which compares versions itself and answers with its events; the new
+ *   version comes from its "update-available" data. The desktop app loads
+ *   the browser build, so its container says "browser": the desktop
+ *   update channel being installed (electron-update-client.ts) is what
+ *   makes this the Electron path (updateRuntime).
+ * - In a browser the release status is what the old code fell back to
+ *   when the release service failed: silent, no forced update, no
+ *   version. A check never finds an update; a non-silent one reports "no
+ *   update available", as before when the service was unreachable.
  */
 import { System, OperatingSystem } from "../../engine/core/system.ts";
 import type { Event } from "../../engine/core/event.ts";
-import { Runtime } from "../shell/container.ts";
+import { Runtime, type RuntimeName } from "../shell/container.ts";
 import { container, designer } from "../shell/globals.ts";
 import { sleep } from "../util/designer-util.ts";
 import { electronUpdateClient } from "./electron-update-client.ts";
@@ -46,6 +52,14 @@ const started: { manager: SoftwareUpdateManager | null } = { manager: null };
  */
 export function softwareUpdateManager(): SoftwareUpdateManager | null {
   return started.manager;
+}
+
+/**
+ * The runtime the update code switches on: Electron when the desktop
+ * update channel is installed, else the container's.
+ */
+export function updateRuntime(): RuntimeName {
+  return electronUpdateClient.hasTransport() ? Runtime.Electron : container().getRuntime();
 }
 
 export class SoftwareUpdateManager {
@@ -115,17 +129,20 @@ export class SoftwareUpdateManager {
       const current = this.getCurrentVersion() as string;
       if (silent) await this.initializeReleaseStatus();
       else await this.initializeReleaseStatusWithNotifications();
+      if (this._isElectron()) {
+        // The updater checks the releases itself and answers with events.
+        electronUpdateClient.checkForUpdates();
+        return;
+      }
       if (this._isVersionHigherThan(this._releaseStatus.tagVersion, current)) {
-        if (this._isElectron()) electronUpdateClient.checkForUpdates();
-        else
-          this._trigger(
-            new SoftwareUpdateEvents.UpdateAvailable({
-              currentVersion: this.getCurrentFriendlyVersion(),
-              newVersion: this._releaseStatus.version,
-              forceUpdate: this._releaseStatus.forceUpdate,
-              isSilent: this._releaseStatus.silent,
-            }),
-          );
+        this._trigger(
+          new SoftwareUpdateEvents.UpdateAvailable({
+            currentVersion: this.getCurrentFriendlyVersion(),
+            newVersion: this._releaseStatus.version,
+            forceUpdate: this._releaseStatus.forceUpdate,
+            isSilent: this._releaseStatus.silent,
+          }),
+        );
       } else if (!silent)
         this._trigger(
           new SoftwareUpdateEvents.UpdateNotAvailable({
@@ -154,7 +171,7 @@ export class SoftwareUpdateManager {
   async installUpdate(): Promise<void> {
     console.info(this.toString(), " - Installing update - Start");
     if (!this._releaseStatus.silent) this._trigger(new SoftwareUpdateEvents.BeforeInstallUpdate());
-    switch (container().getRuntime()) {
+    switch (updateRuntime()) {
       case Runtime.Browser:
       case Runtime.PWA:
         location.reload();
@@ -172,11 +189,11 @@ export class SoftwareUpdateManager {
   }
 
   private _isElectron(): boolean {
-    return container().getRuntime() === Runtime.Electron;
+    return updateRuntime() === Runtime.Electron;
   }
 
   async start(): Promise<void> {
-    const runtime = container().getRuntime();
+    const runtime = updateRuntime();
     if (![Runtime.Electron, Runtime.Browser, Runtime.PWA].includes(runtime as never)) {
       console.warn(this.toString() + " Runtime not available for auto update!");
       return;
@@ -235,8 +252,11 @@ export class SoftwareUpdateManager {
     );
   }
 
+  /** `data` is electron-updater's UpdateInfo; its version is the new one. */
   private _handleUpdateAvailable(_event: unknown, data?: unknown): void {
     console.info(this.toString() + " Update available:" + JSON.stringify(data));
+    const version = (data as { version?: unknown } | undefined)?.version;
+    if (typeof version === "string") this._releaseStatus.version = version;
     this._trigger(
       new SoftwareUpdateEvents.UpdateAvailable({
         currentVersion: this.getCurrentFriendlyVersion(),

@@ -354,7 +354,8 @@ export class ExportProperties extends Properties {
       sizeInput.setAttribute("type", "text");
       css(sizeInput, "margin", "0");
       css(sizeInput, "width", "70%");
-      sizeInput.value = row.sz;
+      // Old: .val(row.sz), which writes "" for a hand-written row without sz.
+      sizeInput.value = row.sz ?? "";
       sizeInput.addEventListener("change", () => {
         this._updateExport(index, "sz", sizeInput.value);
       });
@@ -386,7 +387,7 @@ export class ExportProperties extends Properties {
 
       const suffix = make("input");
       suffix.setAttribute("type", "text");
-      suffix.value = row.diff ? "" : row.sf;
+      suffix.value = row.diff ? "" : (row.sf ?? "");
       suffix.setAttribute(
         "placeholder",
         row.diff ? text("GExportProperties", "text.multiple") : text("GCommonNames", "text.none"),

@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 export interface InstallPwaTexts {
   title: string;
   description: string;
-  proLink: string;
   dot: string;
   install: string;
   notNow: string;
@@ -37,11 +36,10 @@ export function InstallPwaDialogView({
         <div className="header" />
         <div className="main-content">
           <div className="title">{texts.title}</div>
+          {/* The old "(subscription required)" link after the description
+              is left out: there are no subscriptions (REMOVED.md). */}
           <div className="description">
             <span>{texts.description}</span>
-            <a href="" target="_blank">
-              {texts.proLink}
-            </a>
             <span>{texts.dot}</span>
           </div>
           {supported ? (

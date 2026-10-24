@@ -26,6 +26,10 @@ function stopEscape(event: ModifiersChangedEvent): void {
 
 let activeMenu: Menu | null = null;
 let activeActivationCallback: ActivationCallback | null = null;
+/**
+ * The last three mouse positions while a menu is active (page coordinates).
+ * The old manager kept them in a field nothing read; kept as it was.
+ */
 let mouseLocations: { x: number; y: number }[] | null = null;
 
 function mouseMoveListener(event: globalThis.MouseEvent): void {
@@ -45,11 +49,6 @@ function keyDownListener(event: KeyboardEvent): void {
 export const ActiveMenuManager = {
   getActiveMenu(): Menu | null {
     return activeMenu;
-  },
-
-  /** The last three mouse positions while a menu is active (page coordinates). */
-  getMouseLocations(): readonly { x: number; y: number }[] | null {
-    return mouseLocations;
   },
 
   triggerGlobalActivation(item: MenuItem): void {
@@ -122,9 +121,9 @@ export const ActiveMenuManager = {
         throw new Error("Number of categories different thant number of groups.");
       let current = menu;
       if (categories)
-        for (let p = 0; p < categories.length; ++p) {
-          const caption = categories[p] as string;
-          group = groupParts ? (groupParts[p] as string) : null;
+        for (let level = 0; level < categories.length; ++level) {
+          const caption = categories[level] as string;
+          group = groupParts ? (groupParts[level] as string) : null;
           let item = current.findItem(caption);
           if (!item) {
             item = menu.createMenuItem(true);

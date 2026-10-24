@@ -6,9 +6,13 @@
 // PUT /user served only code the rewrite drops (the cloud maintenance
 // check, translation downloads, the account locale, a request for "/null"),
 // so the new server has none of them: their removedInNewApp checks expect
-// 404.
+// 404. The old build's bundle files and its start-up online probe are
+// replaced or gone too (REMOVED.md DROP-011 and DROP-012).
+import fs from "node:fs";
+import path from "node:path";
 import type { Page } from "@playwright/test";
 import { openApp, type AppKind } from "../../support/apps.ts";
+import { EXPECTED_ROOT } from "../../support/env.ts";
 import { paritySuite } from "../../support/suite.ts";
 import { defineScenarios } from "../../support/scenario.ts";
 import { base, recordResponse } from "./lib.ts";
@@ -36,6 +40,123 @@ const STATIC_FILES = [
   "/assets/prerendered/icon512.png",
   "/assets/font/gravit-designer.ttf",
 ] as const;
+
+/**
+ * The files of STATIC_FILES the new build still serves under the old
+ * name: the pages, the two theme stylesheets, the icon, the manifest and
+ * the icon font. The rest were the old build's bundles, workers, service
+ * workers and cloud pages, which the Vite build replaces (REMOVED.md
+ * DROP-011).
+ */
+const KEPT_STATIC_FILES: ReadonlySet<string> = new Set([
+  "/",
+  "/index.html",
+  "/designer.browser.light.css",
+  "/designer.browser.dark.css",
+  "/favicon.ico",
+  "/manifest.json",
+  "/assets/prerendered/icon512.png",
+  "/assets/font/gravit-designer.ttf",
+]);
+
+/** The old bundle files the old index.html loaded. */
+const OLD_BUNDLE_FILES = [
+  "/jquery.js",
+  "/chunk.vendor.js",
+  "/designer.browser.js",
+  "/designer.browser.dev.js",
+];
+
+function oldRecording(name: string): Record<string, unknown>[] {
+  return JSON.parse(
+    fs.readFileSync(path.join(EXPECTED_ROOT, "platform", "server", name + ".json"), "utf8"),
+  ) as Record<string, unknown>[];
+}
+
+/**
+ * DROP-011: the kept files answer exactly as the old server did, and the
+ * replaced ones answer 404 (no stale copy of the old build is served).
+ */
+async function assertOldBuildReplaced(page: Page, kind: AppKind): Promise<void> {
+  const old = new Map(oldRecording("static-files").map((r) => [r.request as string, r]));
+  const wrong: string[] = [];
+  for (const file of STATIC_FILES) {
+    for (const method of ["GET", "HEAD"] as const) {
+      const actual = await recordResponse(page, kind, file, { method, body: "none" });
+      if (KEPT_STATIC_FILES.has(file)) {
+        const expected = old.get(`${method} ${file}`);
+        if (JSON.stringify(actual) !== JSON.stringify(expected))
+          wrong.push(
+            `${method} ${file}: ${JSON.stringify(actual)}, old ${JSON.stringify(expected)}`,
+          );
+      } else if (actual.status !== 404) {
+        wrong.push(`${method} ${file} answered ${String(actual.status)}`);
+      }
+    }
+  }
+  if (wrong.length > 0) throw new Error(`static files differ:\n${wrong.join("\n")}`);
+}
+
+/** Same-origin files index.html references, in document order. */
+async function indexReferences(
+  page: Page,
+): Promise<{ tag: string; rel: string | null; path: string }[]> {
+  return page.evaluate(() =>
+    [
+      ...document.querySelectorAll<HTMLElement>(
+        'script[src], link[rel="stylesheet"][href], link[rel="manifest"], link[rel="modulepreload"]',
+      ),
+    ]
+      .map((e) => ({
+        tag: e.tagName.toLowerCase(),
+        rel: e.getAttribute("rel"),
+        url: new URL(e.getAttribute("src") ?? e.getAttribute("href") ?? "", location.href),
+      }))
+      .filter((r) => r.url.origin === location.origin)
+      .map((r) => ({ tag: r.tag, rel: r.rel, path: r.url.pathname })),
+  );
+}
+
+/**
+ * DROP-011: the new index.html loads its own bundles. Every file it
+ * references exists with a fitting content type, none of them is an old
+ * bundle file, and the stylesheet and manifest links of the old index are
+ * still there and served as before.
+ */
+async function assertIndexLoadsOwnBundles(page: Page, kind: AppKind): Promise<void> {
+  const refs = await indexReferences(page);
+  const wrong: string[] = [];
+  const types: Record<string, string> = {
+    script: "text/javascript; charset=utf-8",
+    modulepreload: "text/javascript; charset=utf-8",
+    stylesheet: "text/css; charset=utf-8",
+    manifest: "application/json; charset=utf-8",
+  };
+  for (const ref of refs) {
+    if (OLD_BUNDLE_FILES.includes(ref.path)) wrong.push(`${ref.path} is an old bundle file`);
+    const r = await recordResponse(page, kind, ref.path, { body: "none" });
+    const type = types[ref.tag === "script" ? "script" : (ref.rel ?? "")];
+    if (r.status !== 200 || r["content-type"] !== type)
+      wrong.push(`${ref.path} answered ${String(r.status)} ${String(r["content-type"])}`);
+  }
+  if (!refs.some((r) => r.tag === "script")) wrong.push("no script");
+  for (const old of oldRecording("index-references").filter((r) => r.tag === "link")) {
+    if (!refs.some((r) => r.tag === "link" && r.rel === old.rel && r.path === old.path)) {
+      wrong.push(`no ${String(old.rel)} link to ${String(old.path)}`);
+      continue;
+    }
+    const r = await recordResponse(page, kind, old.path as string, { body: "none" });
+    const actual = {
+      ...old,
+      status: r.status,
+      "content-type": r["content-type"],
+      "cache-control": r["cache-control"] ?? null,
+    };
+    if (JSON.stringify(actual) !== JSON.stringify(old))
+      wrong.push(`${String(old.path)}: ${JSON.stringify(actual)}, old ${JSON.stringify(old)}`);
+  }
+  if (wrong.length > 0) throw new Error(`index.html references:\n${wrong.join("\n")}`);
+}
 
 /** Every locale code the server knows (routes/user.js LANGUAGES), then odd inputs. */
 const PUT_USER_LOCALES: readonly unknown[] = [
@@ -157,6 +278,7 @@ const scenarios = defineScenarios([
       }
       return out;
     },
+    removedInNewApp: async ({ page, kind }) => assertOldBuildReplaced(page, kind),
   },
   {
     id: "platform/server/index-references",
@@ -192,6 +314,7 @@ const scenarios = defineScenarios([
       }
       return out;
     },
+    removedInNewApp: async ({ page, kind }) => assertIndexLoadsOwnBundles(page, kind),
   },
   {
     id: "platform/server/online-probe",
@@ -216,6 +339,19 @@ const scenarios = defineScenarios([
       await probe;
       while (Date.now() - last < 1000) await page.waitForTimeout(100);
       return [...probes].sort();
+    },
+    // DROP-012: the start-up probe only fed the dropped sign-in flow, so
+    // the new app makes none; the route itself stays (connection-test).
+    removedInNewApp: async ({ page, kind }) => {
+      const probes: string[] = [];
+      let last = Date.now();
+      page.on("request", (r) => {
+        last = Date.now();
+        if (r.url().includes("/connection/test")) probes.push(`${r.method()} ${r.url()}`);
+      });
+      await openApp(page, kind, { newDocument: false });
+      while (Date.now() - last < 1000) await page.waitForTimeout(100);
+      if (probes.length > 0) throw new Error(`the app still probes: ${probes.join(", ")}`);
     },
   },
   {

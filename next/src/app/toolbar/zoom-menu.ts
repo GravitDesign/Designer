@@ -9,7 +9,6 @@
  */
 import { GMath } from "../../engine/math/math.ts";
 import { OperatingSystem, System } from "../../engine/core/system.ts";
-import type { SceneWidget } from "../../editor/view/scene-widget.ts";
 import { Overlay } from "../dialogs/dialog-container.ts";
 import { baseConfig } from "../file-formats.ts";
 import { Menu } from "../menus/menu.ts";
@@ -17,6 +16,7 @@ import { MenuItem } from "../menus/menu-item.ts";
 import { Runtime } from "../shell/container.ts";
 import { css } from "../shell/dom.ts";
 import { containerOrNull, designer } from "../shell/globals.ts";
+import type { Window } from "../shell/window.ts";
 import { MenuButton } from "../widgets/menu-button.ts";
 import { setButtonAction, type Toolbar } from "./toolbar.ts";
 
@@ -27,19 +27,25 @@ const SAVE = "file.save";
 const SAVE_AS = "file.save-as";
 const UNDO = "edit.undo";
 const OPEN = "file.open";
-/** GSyncAction (module 1293); not ported in the local app. */
-const SYNC = "file.sync";
+/**
+ * GGravitCloudAction.ID + "." + Actions.SaveAs (module 448) and
+ * GCloudSynchronizationAction.ID (module 1293). Both are dropped with the
+ * cloud, as they were never registered in the old local app either, so
+ * the menu gets an empty row for each: see "The touch save menu has two
+ * empty rows" in QUESTIONS.md.
+ */
+const CLOUD_SAVE_AS = "gravit-cloud.save-as";
+const CLOUD_SYNC = "sync";
 
-/** A window as the touch window button lists it. */
-interface TouchWindow {
-  getTitleWithExtension(): string;
-  getDocument(): {
-    isModified?(): boolean;
-    isCloudFile?(): boolean;
-    isExternalFile?(): boolean;
-    isSynchronizing?(): boolean;
-  } | null;
-  getView(): SceneWidget | null;
+/** The document calls of the window button (GDocument). */
+interface TouchDocument {
+  isModified?(): boolean;
+  isSynchronizing?(): boolean;
+}
+
+/** The window's document with the calls WindowDocument doesn't declare. */
+function touchDocument(window: Window): TouchDocument {
+  return window.getDocument() as unknown as TouchDocument;
 }
 
 function el<K extends keyof HTMLElementTagNameMap>(
@@ -102,7 +108,7 @@ export class TouchToolbar {
       toolbar._touchZoomButton = null;
       this._initTouchZoomButton();
       const snap = toolbar._htmlElement.querySelector(".menu-section > .snap-button");
-      if (snap) snap.before(toolbar._touchZoomButton as unknown as HTMLElement);
+      if (snap && toolbar._touchZoomButton) snap.before(toolbar._touchZoomButton);
     }
   }
 
@@ -143,7 +149,7 @@ export class TouchToolbar {
       },
       getActiveItem: () => {
         const d = designer();
-        const active = d.getWindows().getActiveWindow() as unknown as TouchWindow | null;
+        const active = d.getWindows().getActiveWindow();
         const view = active && active.getView();
         if (!view) return null;
         const zoom = 100 * view.getZoom();
@@ -167,6 +173,7 @@ export class TouchToolbar {
     const toolbar = this._toolbar;
     const d = designer();
     if (!toolbar._touchZoomButton) this._initTouchZoomButton();
+    const zoomButton = toolbar._touchZoomButton as HTMLElement;
     const section = el("div", "section", "menu-section", "g-touch-only");
     const menubar = toolbar._createLabelButton({
       icon: this._menubarIcon(),
@@ -197,23 +204,23 @@ export class TouchToolbar {
       open,
       this._createSaveButtonGroup(),
       undo,
-      toolbar._touchZoomButton as unknown as HTMLElement,
+      zoomButton,
       toolbar._createSnapButton(),
     );
     return section;
   }
 
-  /** Save, with a menu of save as (the default format) and sync. */
+  /** Save, with a menu of save as (the default format) and the two cloud rows. */
   private _createSaveButtonGroup(): HTMLElement {
     const toolbar = this._toolbar;
     const d = designer();
     const save = d.getAction(SAVE);
     const menu = new Menu();
     const format = baseConfig.FILE_FORMATS.find((f) => f.default);
-    // The Gravit Cloud save-as entry is dropped with the cloud.
     for (const action of [
       d.getAction(SAVE_AS + "." + (format ? format.ext : "")),
-      d.getAction(SYNC),
+      d.getAction(CLOUD_SAVE_AS),
+      d.getAction(CLOUD_SYNC),
     ])
       menu.createAddItem(action);
     const button = toolbar._createLabelButton({
@@ -240,7 +247,7 @@ export class TouchToolbar {
         menu.clearItems();
         const windows = designer().getWindows();
         for (const window of windows.getWindows())
-          this._createAndAppendWindowTabToMenu(menu, window as unknown as TouchWindow);
+          this._createAndAppendWindowTabToMenu(menu, window);
         return menu;
       },
       getActiveItem: () => this._findActiveWindowItemInMenu(menu),
@@ -249,21 +256,21 @@ export class TouchToolbar {
     return button;
   }
 
-  private _createAndAppendWindowTabToMenu(menu: Menu, window: TouchWindow): void {
+  private _createAndAppendWindowTabToMenu(menu: Menu, window: Window): void {
     const windows = designer().getWindows();
     const item = menu.createAddItem(this._getWindowTitle(window), () => {
-      windows.activateWindow(window as never, true);
+      windows.activateWindow(window, true);
     });
     item.setDetachable(true);
     item.addEventListener(MenuItem.DetachEvent, () => {
-      windows.removeWindow(window as never);
+      windows.removeWindow(window);
     });
     // Cloud and external files had a cloud icon; there are none locally.
   }
 
   private _findActiveWindowItemInMenu(menu: Menu): MenuItem | null | "" {
     const windows = designer().getWindows();
-    const active = windows && (windows.getActiveWindow() as unknown as TouchWindow | null);
+    const active = windows && windows.getActiveWindow();
     const title = this._getWindowTitle(active);
     return title && menu.findItem(title);
   }
@@ -310,19 +317,16 @@ export class TouchToolbar {
     const button = this._windowButton;
     if (!designer().isTouchEnabled() || !button) return;
     const windows = designer().getWindows();
-    const active = windows && (windows.getActiveWindow() as unknown as TouchWindow | null);
+    const active = windows && windows.getActiveWindow();
     if (!active) {
       css(button, "display", "none");
       return;
     }
-    const document = active.getDocument();
+    const document = touchDocument(active);
     const title = this._getWindowTitle(active);
     const ending = "..." + title.substr(title.length - 3);
     css(button, "display", "");
-    button.classList.toggle(
-      "syncing",
-      !!(document && document.isSynchronizing && document.isSynchronizing()),
-    );
+    button.classList.toggle("syncing", !!(document.isSynchronizing && document.isSynchronizing()));
     const caption = button.querySelector<HTMLElement>(".action-button > .caption");
     if (caption) caption.textContent = title;
     for (const old of button.querySelectorAll(".subicon, .ending")) old.remove();
@@ -336,8 +340,8 @@ export class TouchToolbar {
     }
   }
 
-  private _getWindowTitle(window: TouchWindow | null): string {
-    const document = window && window.getDocument();
+  private _getWindowTitle(window: Window | null): string {
+    const document = window && touchDocument(window);
     return window
       ? ""
           .concat(window.getTitleWithExtension())

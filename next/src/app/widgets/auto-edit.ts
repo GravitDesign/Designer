@@ -82,7 +82,7 @@ export class AutoEdit {
     let input: HTMLInputElement | HTMLTextAreaElement;
     if (options.textarea) {
       input = document.createElement("textarea");
-      if (!options.textareaResizable) input.style.resize = "none";
+      if (!options.textareaResizable) input.style.setProperty("resize", "none");
     } else {
       input = document.createElement("input");
       input.setAttribute("type", "text");
@@ -103,11 +103,11 @@ export class AutoEdit {
       };
       document.addEventListener("click", outside, true);
     }
-    input.style.position = "absolute";
-    input.style.left = position.left + "px";
-    input.style.top = position.top + "px";
-    input.style.width = outerWidth(box) + "px";
-    input.style.height = outerHeight(box) + "px";
+    input.style.setProperty("position", "absolute");
+    input.style.setProperty("left", position.left + "px");
+    input.style.setProperty("top", position.top + "px");
+    input.style.setProperty("width", outerWidth(box) + "px");
+    input.style.setProperty("height", outerHeight(box) + "px");
     input.classList.add("g-auto-edit");
     input.value = this.value;
     input.addEventListener("blur", () => this.submit());
@@ -154,6 +154,13 @@ export class AutoEdit {
     }
   }
 
+  /**
+   * Removes the field. The fields are cleared before the removal: Chromium
+   * fires blur on a focused field as it is removed, and the blur handler's
+   * submit must then find no field. The old code removed first, but
+   * jQuery's remove() unbound the handlers before it detached the field,
+   * so its blur handler never ran there either.
+   */
   close(): void {
     if (this.input) {
       const input = this.input;

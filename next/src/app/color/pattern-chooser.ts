@@ -20,12 +20,12 @@ import { RadialGradient } from "../../engine/style/radial-gradient.ts";
 import { Swatch } from "../../engine/style/swatch.ts";
 import { SystemDialog } from "../dialogs/system-dialog.ts";
 import { Menu } from "../menus/menu.ts";
-import { css } from "../shell/dom.ts";
 import { designer } from "../shell/globals.ts";
 import { InputBox } from "../widgets/input-box.ts";
 import {
   PatternChooser,
   setTouchPatternChooserClass,
+  slideToggle,
   swatchOfElement,
   type ColorModeParams,
   type PatternEditorParams,
@@ -100,8 +100,11 @@ export class TouchPatternChooser extends PatternChooser {
         designer().setSwatches(scope, list);
       }
     };
-    // A gradient swatch is added with the current gradient, its first stop
-    // taking the pressed swatch's color.
+    // Always clones the current paint: for a color or texture the pressed
+    // swatch's pattern is ignored (only its opacity is used); for a gradient
+    // the first stop's color becomes the pressed swatch's whole pattern,
+    // which may itself be a gradient or texture. See "Touch add-to-swatches
+    // adds the current paint" in QUESTIONS.md.
     const withFirstStop = (color: Pattern | null): Pattern => {
       const pattern = (this._pattern as Pattern).clone();
       if (
@@ -123,6 +126,7 @@ export class TouchPatternChooser extends PatternChooser {
         pattern = withFirstStop(pattern);
         addSwatch(scope, pattern, opacity);
       } else if ("INPUT" === target.nodeName)
+        // The hex box: always the document scope, also from the global item.
         addSwatch(this._getSwatchScope("document", this._pattern), this._pattern, this._opacity);
     };
     menu
@@ -212,7 +216,7 @@ export class TouchPatternChooser extends PatternChooser {
     icon.setAttribute("id", "expand-icon");
     option.appendChild(icon);
     option.addEventListener("click", () => {
-      css(advanced, "display", "none" === getComputedStyle(advanced).display ? "block" : "none");
+      slideToggle(advanced);
       this._advancedExpanded = !this._advancedExpanded;
       // Old: $("#expand-icon"), the first in the page.
       const expand = document.getElementById("expand-icon");

@@ -41,8 +41,11 @@ import { designer } from "../shell/globals.ts";
 import { lateExport } from "../shell/late.ts";
 import { propertyRowElement } from "./property-row-element.ts";
 
-/** The ids of the actions on the overlay (the old classes' ID constants). */
-const ID = {
+/**
+ * The ids of the actions on the overlay (the old classes' ID constants).
+ * touch.test.ts checks each against the registered actions.
+ */
+export const ID = {
   transform: "arrange.transform",
   paste: "paste.paste",
   pasteInPlace: "edit.paste.in-place",
@@ -77,7 +80,7 @@ const ID = {
 /** GContextMenu.ID: the component id the Paste Here item passes to isAvailable. */
 const CONTEXT_MENU_ID = "context.menu";
 
-const Transform = {
+export const Transform = {
   FlipHorizontal: "flip-horizontal",
   FlipVertical: "flip-vertical",
   Rotate90Left: "rotate-90-left",
@@ -638,7 +641,11 @@ export class TouchContextMenu {
 
   /**
    * Locks every selected element. Removing the selected flag takes it out
-   * of the editor's live selection array, which ends the loop.
+   * of the editor's live selection array, which ends the loop. The old
+   * loop had no other end; this one also stops after as many rounds as
+   * the selection had elements, so a list the flag removal doesn't shrink
+   * can't hang the tab (whenever the old loop ended, the result is the
+   * same).
    */
   _setAllSelectionsLocked(): void {
     const items = this._getSelectedItems();
@@ -646,7 +653,7 @@ export class TouchContextMenu {
       Editor.tryRunTransaction(
         (designer().getActiveDocument() as unknown as { getScene(): unknown }).getScene(),
         () => {
-          for (; items.length > 0;) {
+          for (let rounds = items.length; items.length > 0 && rounds > 0; rounds--) {
             const item = items[0] as PropertyNode;
             item.setProperty("lkt", Block.LockType.Full);
             item.removeFlag(Node.Flag.Highlighted as number);

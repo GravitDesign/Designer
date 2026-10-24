@@ -72,6 +72,10 @@ export class SelectedPanel {
   /** `$(el).gSelectedPanel(options)`. */
   constructor(element: HTMLElement, options: Partial<SelectedPanelOptions> = {}) {
     this.element = element;
+    // $.extend skipped undefined values, so { renderer: undefined } kept the default.
+    const given = Object.fromEntries(
+      Object.entries(options).filter(([, value]) => value !== undefined),
+    ) as Partial<SelectedPanelOptions>;
     this.options = {
       nodeStyle: "selected-row",
       expandStyle: "selected-arrow gravit-icon-right",
@@ -93,7 +97,7 @@ export class SelectedPanel {
       startDraggingCallback: null,
       patternChooserStatusChangeCallBack: null,
       bottomHeight: 3,
-      ...options,
+      ...given,
     };
     const o = this.options;
     element.classList.add("g-selected-panel");

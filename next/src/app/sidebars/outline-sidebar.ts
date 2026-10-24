@@ -44,11 +44,13 @@ import { DocumentEvent } from "../document/document-event.ts";
 import { DocumentStatus } from "../document/document-status.ts";
 import { DocumentStatusEvent } from "../document/document-status-event.ts";
 import { PageClip } from "../export/page-clip.ts";
+import type { Document } from "../document/document.ts";
+import { ExportProperties } from "../inspector/export-properties.ts";
+import type { InspectedElements } from "../inspector/properties.ts";
 import { ContextMenuContext, type ContextMenuOptions } from "../menus/context-menu.ts";
 import { ApplicationStatusEvent } from "../shell/application-status-event.ts";
 import { css } from "../shell/dom.ts";
 import { container, designer } from "../shell/globals.ts";
-import { lateExport } from "../shell/late.ts";
 import { Sidebars, type SidebarTouchTool } from "../shell/layout.ts";
 import { SettingChangedEvent } from "../shell/setting-changed-event.ts";
 import { Sidebar } from "../shell/sidebar.ts";
@@ -63,12 +65,6 @@ import type { PanelContainerNode, PanelNode } from "./layer-item.ts";
 import { contextMenuOptions, LayerPanel } from "./layers-panel.ts";
 import { PagePanel } from "./pages-panel.ts";
 import type { TreeDropEvent, VirtualTreeNode } from "./virtual-tree.ts";
-
-/** GExportProperties (module 1523, inspector/export-properties.ts of app-inspector-document). */
-interface ExportPropertiesLike {
-  init(panel: HTMLElement, toolbar: HTMLElement): void;
-  update(document: unknown, elements: unknown): void;
-}
 
 /** The view of the active window as the sidebar uses it (GEditorWidget). */
 interface OutlineView {
@@ -108,6 +104,7 @@ type ForwardedDrop = globalThis.Event & { dataTransfer?: DataTransfer | null };
 
 /** GNode.Store's clone (the nodes checked for the mixin first). */
 function cloneNode(node: Node): Node | null {
+  // clone comes from the Store mixin, which Node's typings lack.
   return (node as unknown as { clone(): Node | null }).clone();
 }
 
@@ -161,12 +158,13 @@ export class OutlineSidebar extends Sidebar {
   _layerPanel: LayerPanel | null = null;
   _layerPanelElement: HTMLElement | null = null;
   _exportPanel: HTMLElement | null = null;
-  _exportInstance: ExportPropertiesLike | null = null;
+  _exportInstance: ExportProperties | null = null;
   _pageMenuOptionButton: HTMLElement | null = null;
   _transformMode = false;
   _htmlElement: HTMLElement | null = null;
   /** Cleared on deactivation, never set: the export rows get null elements. */
-  _elements: unknown = null;
+  /** Never set to anything but null (as in the old code): the export rows show the document's slices. */
+  _elements: InspectedElements | null = null;
 
   override getId(): string {
     return OutlineSidebar.ID;
@@ -245,11 +243,11 @@ export class OutlineSidebar extends Sidebar {
         id: "layers",
         sidebar: this.getId(),
         icon: "gravit-icon-touch-layers-panel",
-        // The touch layout takes a list of panels here, as the old code passed.
-        panel: [".layers-container", ".export-panel"] as unknown as string,
+        panel: [".layers-container", ".export-panel"],
         toolbar: ".layer-toolbar",
         panelWidth: "350px",
       }),
+      // TouchTool types its id as string | null; both tools here have one.
     ] as unknown as SidebarTouchTool[];
   }
 
@@ -399,12 +397,8 @@ export class OutlineSidebar extends Sidebar {
     exportPanel.classList.add("export-panel");
     element.appendChild(exportPanel);
     this._exportPanel = exportPanel;
-    const ExportProperties = lateExport<new () => ExportPropertiesLike>(
-      "inspector/export-properties.ts",
-      "ExportProperties",
-    );
-    this._exportInstance = ExportProperties ? new ExportProperties() : null;
-    if (this._exportInstance) this._exportInstance.init(exportPanel, exportToolbar);
+    this._exportInstance = new ExportProperties();
+    this._exportInstance.init(exportPanel, exportToolbar);
 
     designer().addEventListener(DocumentEvent, this._documentEvent, this);
     designer().getToolManager().addEventListener(ToolChangedEvent, this._toolChangedEvent, this);
@@ -477,6 +471,8 @@ export class OutlineSidebar extends Sidebar {
       () => {
         this._changePageMode(!enabled);
       },
+      // The old code passed this hand-made action list so the document saves
+      // the change (a property change); it is not a full TransactionData.
       {
         actions: [{ isPropertyChangeAction: true, node: { hasMixin: () => false } }],
       } as unknown as TransactionData,
@@ -614,7 +610,7 @@ export class OutlineSidebar extends Sidebar {
 
   _documentEvent(event: DocumentEvent): void {
     if (event.type === DocumentEvent.Type.Activated) {
-      const document = event.document as unknown as OutlineDocument;
+      const document = event.document as OutlineDocument;
       this._document = document;
       const scene = document.getScene();
       (this._pagePanel as PagePanel).scene(scene);
@@ -788,8 +784,7 @@ export class OutlineSidebar extends Sidebar {
     document.getEditor();
     const scene = document.getScene();
     const page = scene.getActivePage() as Page;
-    if (((page as unknown as PanelNode).getProperty("plkt") as number) & Block.ProgramLck.NoDelete)
-      return;
+    if ((page.getProperty("plkt") as number) & Block.ProgramLck.NoDelete) return;
     const remove = (): void => {
       Editor.tryRunTransaction(
         scene,
@@ -923,7 +918,7 @@ export class OutlineSidebar extends Sidebar {
       const center = (transform as Transform).mapRect(box as Rect).getSide(Rect.Side.CENTER);
       view.zoomAtCenter(center);
     } else if (document.hasCDR()) {
-      const box = (page as unknown as { getContentBBox(): Rect | null }).getContentBBox();
+      const box = page.getContentBBox();
       if (box && !box.isEmpty()) view.zoomAtCenter(box.getSide(Rect.Side.CENTER));
     }
   }
@@ -965,7 +960,7 @@ export class OutlineSidebar extends Sidebar {
         const front = ordered && ordered[0];
         (
           (front && (front.getParent() as PanelContainerNode)) ||
-          (page as unknown as PanelContainerNode)
+          (page as PanelContainerNode)
         ).insertChild(layer, front);
         scene.setActiveLayer(layer);
         this._moveLayers(layer, null, nodes, false);
@@ -1019,6 +1014,7 @@ export class OutlineSidebar extends Sidebar {
       if (node) {
         target.insertChild(node, reference);
         if (parent instanceof CompoundShape)
+          // assignStyleFrom is the Stylable mixin's, which Node's typings lack.
           (node as unknown as { assignStyleFrom(source: unknown): void }).assignStyleFrom(parent);
       }
     });
@@ -1065,6 +1061,7 @@ export class OutlineSidebar extends Sidebar {
         editor.insertElements(copies, true, true, false, true, target, reference);
         if (parent instanceof CompoundShape) {
           for (let i = 0; i < copies.length; ++i)
+            // assignStyleFrom is the Stylable mixin's, which Node's typings lack.
             (copies[i] as unknown as { assignStyleFrom(source: unknown): void }).assignStyleFrom(
               parent,
             );
@@ -1084,6 +1081,7 @@ export class OutlineSidebar extends Sidebar {
                   null === copyX ||
                   (GMath.isEqualEps(x, copyX) && GMath.isEqualEps(y, copyY))
                 ))
+                  // transform is the Transform mixin's (the copy is an Element), which Node's typings lack.
                   (copy as unknown as Transformable).transform(
                     new Transform(1, 0, 0, 1, x - copyX, y - copyY),
                     true,
@@ -1160,7 +1158,7 @@ export class OutlineSidebar extends Sidebar {
     if (node instanceof Item) kind = Item;
     else if (node instanceof Layer) kind = Layer;
     if (!kind) return;
-    const view = designer().getWindows().getActiveWindow()?.getView() as unknown as OutlineView;
+    const view = designer().getWindows().getActiveWindow()?.getView() as OutlineView;
     for (const child of view.getHtmlElement().children)
       if (child instanceof HTMLDivElement && child.getAttribute("tabindex") === "0") child.focus();
     const layerPanel = this._layerPanel as LayerPanel;
@@ -1269,7 +1267,7 @@ export class OutlineSidebar extends Sidebar {
           if (
             layer &&
             layer === active &&
-            !(layer as unknown as PanelContainerNode).acceptChildren(
+            !(layer as PanelContainerNode).acceptChildren(
               (child) => child instanceof Item,
               false,
               true,
@@ -1290,7 +1288,13 @@ export class OutlineSidebar extends Sidebar {
   }
 
   _updateExport(): void {
-    if (this._exportInstance) this._exportInstance.update(this._document, this._elements);
+    if (this._exportInstance)
+      this._exportInstance.update(
+        // The sidebar types the active document as the parts it calls
+        // (OutlineDocument); it is the app's Document.
+        this._document as unknown as Document | null,
+        this._elements,
+      );
   }
 
   _updateTransformMode(transform: boolean): void {
@@ -1320,7 +1324,7 @@ export class OutlineSidebar extends Sidebar {
 
   _afterInsert(event: AfterInsertEvent): void {
     const node = event.node;
-    if (node instanceof Page && 0 === (node as unknown as PanelNode).getProperty("w"))
+    if (node instanceof Page && 0 === node.getProperty("w"))
       this._refreshPageModeSwitch(this._getMultiPageSwitcher());
   }
 

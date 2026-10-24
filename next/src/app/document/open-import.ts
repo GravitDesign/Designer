@@ -262,8 +262,8 @@ export function openImportedFile(
             context.updateStatus(DocumentStatus.Loaded);
             setNamedScene(scene);
             if (missingFonts instanceof Array && missingFonts.length) {
-              documentDialogs().missingFonts(context.document, missingFonts, (keep) => {
-                if (!keep) {
+              documentDialogs().missingFonts(context.document, missingFonts, (replaced) => {
+                if (!replaced) {
                   scene.acceptChildren((node: Node) => {
                     if (node instanceof Text) node.toFakeText();
                   });

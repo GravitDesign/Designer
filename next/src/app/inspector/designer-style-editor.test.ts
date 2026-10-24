@@ -1,4 +1,7 @@
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { Locale } from "../../engine/core/locale/locale.ts";
+import { LocaleKey } from "../../engine/core/locale/locale-key.ts";
+import { Text } from "../../engine/text/text.ts";
 import { Page } from "../../engine/scene/page.ts";
 import type { ContainerApi } from "../../engine/scene/node-container.ts";
 import { Rectangle } from "../../engine/scene/rectangle.ts";
@@ -313,5 +316,135 @@ describe("the style organizer", () => {
     fire(dialog.querySelector(".creator-toolbar.bottom button"), "click");
     const list = (picker() as FakeElement).children[1] as FakeElement;
     expect(names(list)).toEqual(["A", "B"]);
+  });
+});
+
+describe("unlinking, deleting and editing shared styles", () => {
+  const attribution = () =>
+    Locale.get(new LocaleKey("GDesignerStyleEditor", "text.style-attribution"));
+
+  it("unlinks the selection with the No Shared Style row, in one undo step", () => {
+    const blue = styleNamed("Blue");
+    (selection[0] as Rectangle).setProperty("sref", blue.getReferenceId());
+    const target = field();
+    fire(target, "click");
+    const noStyle = (picker() as FakeElement).querySelector(".no-style .style") as FakeElement;
+    expect(noStyle.getAttribute("data-selected")).toBe("no");
+    fire(noStyle, "click");
+    expect((selection[0] as Rectangle).getProperty("sref")).toBeFalsy();
+    expect(commits).toEqual([attribution()]);
+    expect(updates).toEqual([[false, selection]]);
+    expect(picker()).toBe(null);
+  });
+
+  it("does nothing on the No Shared Style row when nothing is linked", () => {
+    const target = field();
+    fire(target, "click");
+    fire((picker() as FakeElement).querySelector(".no-style .style"), "click");
+    expect(commits).toEqual([]);
+    expect(updates).toEqual([]);
+  });
+
+  function organizer(): FakeElement {
+    const target = field();
+    fire(target, "click");
+    fire((picker() as FakeElement).querySelector(".style-toolbar")?.children[1], "click");
+    return dom.document.querySelector(".g-dialog.g-style-creator.organizer") as FakeElement;
+  }
+
+  const rowNamed = (root: FakeElement, name: string) =>
+    root.querySelectorAll(".style").find((r) => r.querySelector("span")?.textContent === name);
+
+  it("deletes a style with the organizer's trash button, without an undo step", () => {
+    const a = styleNamed("A");
+    styleNamed("B");
+    (selection[0] as Rectangle).setProperty("sref", a.getReferenceId());
+    const dialog = organizer();
+    const [trash] = (rowNamed(dialog, "A") as FakeElement).querySelectorAll(
+      ".styles-buttons button",
+    );
+    fire(trash, "click");
+    const left = (scene.getStyles() as unknown as ContainerApi)
+      .getChildren()
+      .map((style) => (style as Style).getProperty("name"));
+    expect(left).not.toContain("A");
+    expect(left).toContain("B");
+    expect(names(dialog)).toEqual(["B"]);
+    // disconnectStyle unlinks the elements that used it.
+    expect((selection[0] as Rectangle).getProperty("sref")).toBeFalsy();
+    expect(commits).toEqual([]);
+  });
+
+  it("edits a style's name and sets in place: no copy of the selection, no new style", () => {
+    const a = styleNamed("A");
+    a.setProperty("ps", [PropertySet.FillPaintLayers, PropertySet.Text]);
+    const assignFrom = vi.spyOn(a, "assignStyleFrom");
+    const dialog = organizer();
+    const settings = (rowNamed(dialog, "A") as FakeElement).querySelectorAll(
+      ".styles-buttons button",
+    )[1];
+    fire(settings, "click");
+    const editorTitle = Locale.get(new LocaleKey("GDesignerStyleEditor", "text.style-editor"));
+    const isEditor = (c: FakeElement) =>
+      c.children[0]?.querySelector("span")?.textContent === editorTitle;
+    const editor = dom.document.querySelectorAll(".g-style-creator").find(isEditor) as FakeElement;
+    expect(editor).toBeDefined();
+    const boxes = editor.querySelectorAll(".checkboxes input");
+    // Edit mode checks the sets the style has.
+    expect(boxes.map((box) => (box as unknown as { checked: boolean }).checked)).toEqual([
+      false,
+      true,
+      false,
+      false,
+      true,
+    ]);
+    (boxes[2] as unknown as { checked: boolean }).checked = true;
+    (editor.querySelector(".styles input") as FakeElement).value = "Renamed";
+    const before = (scene.getStyles() as unknown as ContainerApi).getChildren().length;
+    fire(editor.querySelector(".creator-toolbar.bottom button"), "click");
+    expect(a.getProperty("name")).toBe("Renamed");
+    expect(a.getProperty("ps")).toEqual([
+      PropertySet.FillPaintLayers,
+      PropertySet.BorderPaintLayers,
+      PropertySet.Text,
+      PropertySet.Paragraph,
+    ]);
+    expect((scene.getStyles() as unknown as ContainerApi).getChildren().length).toBe(before);
+    expect(assignFrom).not.toHaveBeenCalled();
+    expect(commits).toEqual([]);
+    expect(updates).toEqual([]);
+    expect(previews).toEqual([[a, true, false]]);
+    // The organizer's rows are rebuilt with the new name.
+    expect(names(dialog)).toEqual(["Renamed"]);
+    // The editor overlay is closed again.
+    expect(dom.document.querySelectorAll(".g-style-creator").some(isEditor)).toBe(false);
+  });
+
+  it("checks the text sets of a new style only for a text selection", () => {
+    selection = [new Text() as unknown as Rectangle];
+    const target = field();
+    fire(target, "click");
+    fire((picker() as FakeElement).querySelector(".style-toolbar")?.children[0], "click");
+    const creator = dom.document.querySelector(".g-style-creator") as FakeElement;
+    const boxes = creator.querySelectorAll(".checkboxes input");
+    expect(boxes.map((box) => (box as unknown as { checked: boolean }).checked)).toEqual([
+      true,
+      true,
+      true,
+      true,
+      true,
+    ]);
+  });
+
+  it("moves the picker 34px up when the new row pushes it past the window's bottom", () => {
+    dom.document.body.box = { left: 0, top: 0, width: 800, height: 550 };
+    const target = field();
+    fire(target, "click");
+    const wrapper = (picker() as FakeElement).parentElement as FakeElement;
+    wrapper.box = { left: 10, top: 500, width: 250, height: 100 };
+    fire((picker() as FakeElement).querySelector(".style-toolbar")?.children[0], "click");
+    const creator = dom.document.querySelector(".g-style-creator") as FakeElement;
+    fire(creator.querySelector(".creator-toolbar.bottom button"), "click");
+    expect(parseFloat(wrapper.style.getPropertyValue("top"))).toBe(-34);
   });
 });

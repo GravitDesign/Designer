@@ -21,9 +21,9 @@ import { ElementEditor } from "../../editor/element-editors/element-editor.ts";
 import { Overlay } from "../dialogs/dialog-container.ts";
 import { InputBox } from "../widgets/input-box.ts";
 import { initInputLabel } from "../widgets/input-label.ts";
-import { PIVOT_CLICK_STATS, pivotSides } from "../widgets/pivot.ts";
+import { initPivot, pivotValue, setPivotValue } from "../widgets/pivot.ts";
 import { attachRichTooltip } from "../widgets/rich-tooltip.ts";
-import { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
+import { RichTooltipConfig, type RichTooltipFields } from "../widgets/rich-tooltip-config.ts";
 import type { Document } from "../document/document.ts";
 import { designer } from "../shell/globals.ts";
 import { SettingChangedEvent } from "../shell/setting-changed-event.ts";
@@ -50,55 +50,25 @@ interface EditorLike {
   applyTransform(target: unknown, ...rest: unknown[]): void;
 }
 
-const pivots = new WeakMap<HTMLElement, { value: string | null }>();
-
-/** `$(div).gPivot()` (old module 1724) on plain DOM. */
-export function initPivot(element: HTMLElement): HTMLElement {
-  pivots.set(element, { value: null });
-  element.classList.add("g-pivot");
-  element.appendChild(el("div", "borderline"));
-  for (const side of pivotSides()) {
-    const button = el("div", "side");
-    button.setAttribute("data-side", side);
-    button.addEventListener("click", () => {
-      designer().stats(PIVOT_CLICK_STATS);
-      setPivotValue(element, side);
-      element.dispatchEvent(new CustomEvent("pivotchange", { detail: side, bubbles: true }));
-    });
-    element.appendChild(button);
-  }
-  return element;
-}
-
-/** `gPivot("value", side)`. */
-export function setPivotValue(element: HTMLElement, side: string): void {
-  const data = pivots.get(element);
-  if (data) data.value = side;
-  for (const button of element.querySelectorAll("div[data-side]"))
-    button.classList.toggle("g-active", button.getAttribute("data-side") === side);
-}
-
-/** `gPivot("value")`. */
-export function pivotValue(element: HTMLElement | null): string | null {
-  const data = element ? pivots.get(element) : undefined;
-  return data ? data.value : null;
-}
-
-function tooltip(key: string, learnMoreOnly = false): RichTooltipConfig {
-  const fields: Record<string, unknown> = {
+/**
+ * The tooltip of one row: "middle: false" on all but the transform
+ * origin's (keepMiddle), which leaves middle out, as the old configs did.
+ */
+function tooltip(key: string, keepMiddle = false): RichTooltipConfig {
+  const fields: RichTooltipFields = {
     title: text("GTransformProperties", `text.${key}-tooltip-title`),
     description: text("GTransformProperties", `text.${key}-tooltip-description`),
   };
-  if (!learnMoreOnly) fields.middle = false;
+  if (!keepMiddle) fields.middle = false;
   fields.learnMore = "";
-  return RichTooltipConfig.from(fields as unknown as Parameters<typeof RichTooltipConfig.from>[0]);
+  return RichTooltipConfig.from(fields);
 }
 
-/** The value of the box on the panel's element matching `selector`. */
-function boxValue(root: HTMLElement, selector: string): string {
+/** The value of the box on the panel's element matching `selector` (undefined without one). */
+function boxValue(root: HTMLElement, selector: string): string | undefined {
   const input = root.querySelector<HTMLInputElement>(selector);
   const box = input ? InputBox.of(input) : null;
-  return box ? box.value() : (undefined as unknown as string);
+  return box ? box.value() : undefined;
 }
 
 export class TransformProperties extends Properties {
@@ -228,7 +198,9 @@ export class TransformProperties extends Properties {
           const otherBox = InputBox.of(other) as InputBox;
           let otherValue = parseFloat(otherBox.value()) || 100;
           otherValue *= factor;
-          otherBox.value(parseFloat(otherValue as unknown as string).toFixed(1));
+          // The old code ran parseFloat on the number again; parseFloat of a
+          // number is the number (through its string), so this is a no-op kept as written.
+          otherBox.value(parseFloat(String(otherValue)).toFixed(1));
         }
         if (x) this._preserveScaleX = value;
         else this._preserveScaleY = value;
@@ -471,6 +443,8 @@ export class TransformProperties extends Properties {
       const box = input ? InputBox.of(input) : null;
       if (!box) continue;
       let value = parseFloat(box.value());
+      // Negative moves become 0 here, as in the old code; see "Transform
+      // panel Enter turns negative moves into 0" in QUESTIONS.md.
       value = isNaN(value) || value <= 0 || !value ? 0 : value;
       box.value(formatNumber(value, scene.getOptimalDecimalsCount()));
     }
@@ -483,18 +457,21 @@ export class TransformProperties extends Properties {
     const holder = (
       designer().isTouchEnabled() ? this._copiesAndApplyTouch : this._copiesAndApply
     ) as HTMLElement;
-    const copies = parseInt(boxValue(holder, '[data-property="copies"]'));
+    // A missing box reads as undefined, which parses to NaN as before.
+    const read = (root: HTMLElement, property: string) =>
+      boxValue(root, `[data-property="${property}"]`) as string;
+    const copies = parseInt(read(holder, "copies"));
     const side = pivotValue(holder.querySelector<HTMLElement>('[data-property="pivot"]'));
-    const moveX = scene.stringToPoint(boxValue(panel, '[data-property="move-x"]')) || 0;
-    const moveY = scene.stringToPoint(boxValue(panel, '[data-property="move-y"]')) || 0;
-    const scaleX = parseFloat(boxValue(panel, '[data-property="scale-x"]')) / 100 || 1;
-    const scaleY = parseFloat(boxValue(panel, '[data-property="scale-y"]')) / 100 || 1;
-    const rotate = GMath.toRadians(parseFloat(boxValue(panel, '[data-property="rotate"]'))) || 0;
-    const skewX = GMath.toRadians(parseFloat(boxValue(panel, '[data-property="skew-x"]'))) || 0;
-    const skewY = GMath.toRadians(parseFloat(boxValue(panel, '[data-property="skew-y"]'))) || 0;
-    let reflect =
-      parseFloat(parseFloat(boxValue(panel, '[data-property="reflect"]')) as unknown as string) ||
-      0;
+    const moveX = scene.stringToPoint(read(panel, "move-x")) || 0;
+    const moveY = scene.stringToPoint(read(panel, "move-y")) || 0;
+    const scaleX = parseFloat(read(panel, "scale-x")) / 100 || 1;
+    const scaleY = parseFloat(read(panel, "scale-y")) / 100 || 1;
+    const rotate = GMath.toRadians(parseFloat(read(panel, "rotate"))) || 0;
+    const skewX = GMath.toRadians(parseFloat(read(panel, "skew-x"))) || 0;
+    const skewY = GMath.toRadians(parseFloat(read(panel, "skew-y"))) || 0;
+    // The old code parsed the reflect value twice; the second parseFloat of
+    // a number gives the same number (NaN stays NaN and falls back to 0).
+    let reflect = parseFloat(String(parseFloat(read(panel, "reflect")))) || 0;
     reflect = 0 !== reflect ? GMath.toRadians(-reflect) : reflect;
 
     const transformElement = (element: TransformElement, transform: Transform) => {

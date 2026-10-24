@@ -8,6 +8,10 @@
  *
  * in touch mode `.action-button` (gravit-icon-touch-pages-panel, caption)
  * plus a dropdown button the menu opens under.
+ *
+ * Nothing creates it in the local app: the toolbar built it only for the
+ * simple UI of view-only and comment-only shared files, which is dropped
+ * with sharing. It is kept, with its tests, as the port of module 1735.
  */
 import { NodeFlag } from "../../engine/scene/node-change.ts";
 import { AfterFlagChangeEvent } from "../../engine/scene/node-events.ts";

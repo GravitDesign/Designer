@@ -1,0 +1,239 @@
+/*
+ * GravitDesign Next: the parts of the brand that aren't a colour swap
+ * (those are in accent.<theme>.css). Loaded after the old theme
+ * stylesheet, only in the "next" look (index.html; src/app/brand).
+ *
+ * Palette: yellow #FFD81F, magenta #E3136B, lime #C3DB4E, olive #6E9A34,
+ * ink #1B1B24, light ink #F4F3F8.
+ */
+
+@font-face {
+  font-family: "Manrope";
+  /* Manrope, SIL Open Font License 1.1 (fonts/OFL.txt). Latin subset, variable weight. */
+  src: url("fonts/manrope-latin-wght-normal.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: block;
+}
+
+html[data-branding="next"] {
+  --gd-yellow: #ffd81f;
+  --gd-magenta: #e3136b;
+  --gd-lime: #c3db4e;
+  --gd-olive: #6e9a34;
+  --gd-ink: #1b1b24;
+  --gd-light-ink: #f4f3f8;
+  /* What sits behind a wordmark: the selection handles are filled with it. */
+  --gd-tile: #ffffff;
+}
+html[data-branding="next"][data-gd-theme="dark"] {
+  --gd-tile: #3a3a3a;
+}
+
+/* ---- The loading screen: the mark on ink instead of the old pink. ---- */
+
+html[data-branding="next"] body.loading {
+  background-color: var(--gd-ink);
+  background-image: url("mark-on-dark.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 128px;
+}
+
+/* ---- Mark and wordmark (src/app/brand/brand-mark.tsx). ---- */
+
+.gd-lockup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.gd-lockup .gd-mark {
+  flex: none;
+  width: 48px;
+  height: 48px;
+}
+.gd-word {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+  font-family: "Manrope", system-ui, sans-serif;
+  font-size: 19px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.gd-word > b {
+  font-weight: 800;
+}
+.gd-word > span {
+  font-weight: 400;
+}
+.gd-word > .gd-next {
+  position: relative;
+  margin-left: 12px;
+  padding: 0 5px;
+  align-self: center;
+  border: 1.5px solid var(--gd-magenta);
+  color: var(--gd-magenta);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+.gd-word .gd-handle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: var(--gd-tile);
+  border: 1.5px solid var(--gd-magenta);
+}
+.gd-word .gd-tl {
+  left: -5px;
+  top: -5px;
+}
+.gd-word .gd-tr {
+  right: -5px;
+  top: -5px;
+}
+.gd-word .gd-bl {
+  left: -5px;
+  bottom: -5px;
+}
+.gd-word .gd-br {
+  right: -5px;
+  bottom: -5px;
+}
+
+/* ---- Welcome screen: the brand panel instead of the pink gradient. ---- */
+
+html[data-branding="next"] .g-dialog.g-new-document-dialog > .g-dialog-content > .sidebar {
+  --gd-tile: var(--gd-ink);
+  background-color: var(--gd-ink);
+  background-image: none;
+  color: var(--gd-light-ink);
+}
+html[data-branding="next"] .g-new-document-dialog .sidebar > .gd-welcome-lockup {
+  position: absolute;
+  top: 40px;
+  left: 22px;
+  right: 12px;
+  color: var(--gd-light-ink);
+}
+html[data-branding="next"]
+  .g-dialog.g-new-document-dialog
+  > .g-dialog-content
+  > .sidebar
+  > .sidebar-options
+  > .option
+  > .option-text {
+  color: var(--gd-light-ink);
+  text-shadow: none;
+}
+html[data-branding="next"]
+  .g-dialog.g-new-document-dialog
+  > .g-dialog-content
+  > .sidebar
+  > .sidebar-options
+  > .option
+  > .option-text
+  > .option-subtitle {
+  color: rgba(244, 243, 248, 0.62);
+}
+html[data-branding="next"]
+  .g-dialog.g-new-document-dialog
+  > .g-dialog-content
+  > .sidebar
+  > .sidebar-options
+  > .option.active {
+  background: rgba(244, 243, 248, 0.08);
+  box-shadow: inset 4px 0 0 var(--gd-yellow);
+}
+html[data-branding="next"]
+  .g-dialog.g-new-document-dialog
+  > .g-dialog-content
+  > .sidebar
+  > .sidebar-options
+  > .option:hover:not(.active) {
+  background: rgba(244, 243, 248, 0.05);
+}
+html[data-branding="next"]
+  .g-dialog.g-new-document-dialog
+  > .g-dialog-content
+  > .sidebar
+  > .sidebar-options
+  > .option-separator,
+html[data-branding="next"]
+  .g-dialog.g-new-document-dialog
+  > .g-dialog-content
+  > .sidebar
+  > .sidebar-options
+  > .option-separator.active {
+  background: rgba(244, 243, 248, 0.12);
+}
+html[data-branding="next"]
+  .g-dialog.g-new-document-dialog
+  > .g-dialog-content
+  > .sidebar
+  > .footer
+  > .links-container
+  > .links-column
+  > .link {
+  color: var(--gd-light-ink);
+}
+html[data-branding="next"] .g-dialog.g-new-document-dialog > .g-dialog-content > .sidebar > .version {
+  color: rgba(244, 243, 248, 0.6);
+  font-size: 12px;
+}
+
+/* ---- The introduction (src/app/brand/intro-dialog.ts). ---- */
+
+.g-dialog.gd-intro-dialog {
+  width: 540px;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  padding: 28px 32px 24px;
+}
+.gd-intro {
+  font-size: 13px;
+  line-height: 1.55;
+}
+.gd-intro .gd-intro-lockup {
+  margin-bottom: 18px;
+}
+.gd-intro .gd-intro-lockup .gd-mark {
+  width: 44px;
+  height: 44px;
+}
+.gd-intro .gd-intro-title {
+  margin: 0 0 10px;
+  font-family: "Manrope", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+.gd-intro p {
+  margin: 0 0 10px;
+}
+.gd-intro .gd-intro-gone-title {
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.gd-intro .gd-intro-gone {
+  margin: 0 0 10px;
+  padding-left: 20px;
+  list-style: disc;
+}
+.gd-intro .gd-intro-gone li {
+  display: list-item;
+}
+.gd-intro .gd-intro-gone li::marker {
+  color: var(--gd-magenta);
+}
+.g-dialog-container .g-dialog.gd-intro-dialog a:link,
+.g-dialog-container .g-dialog.gd-intro-dialog a:visited {
+  color: var(--gd-magenta);
+}
+.gd-intro .gd-intro-reopen {
+  margin-bottom: 0;
+  opacity: 0.7;
+}

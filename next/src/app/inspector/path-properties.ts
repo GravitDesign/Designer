@@ -19,6 +19,7 @@ import { Node } from "../../engine/scene/node.ts";
 import { AnchorPoint, PathBase } from "../../engine/scene/path-base.ts";
 import { Path } from "../../engine/scene/path.ts";
 import { BorderPaintLayer } from "../../engine/style/border-paint-layer.ts";
+import type { PaintLayers } from "../../engine/style/paint-layers.ts";
 import { BorderAlignment } from "../../engine/style/stylable-sets.ts";
 import { Editor } from "../../editor/editor.ts";
 import { ElementEditor } from "../../editor/element-editors/element-editor.ts";
@@ -28,33 +29,23 @@ import { CornerTypePicker } from "../widgets/corner-type-select.ts";
 import { InputBox } from "../widgets/input-box.ts";
 import { initInputLabel } from "../widgets/input-label.ts";
 import { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
-import type { Scene } from "../../engine/scene/scene.ts";
 import type { Document } from "../document/document.ts";
 import { designer } from "../shell/globals.ts";
 import { SettingChangedEvent } from "../shell/setting-changed-event.ts";
-import type { BorderLayersOwner } from "./ellipse-properties.ts";
-import { el, Properties, propertyRow, text, type InspectedElements } from "./properties.ts";
-
-/** The document's editor and scene (both exist while a panel shows the document). */
-function editorOf(document: Document | null): Editor {
-  return (document as Document).getEditor() as Editor;
-}
-
-function sceneOf(document: Document | null): Scene {
-  return (document as Document).getScene() as Scene;
-}
+import {
+  editorOf,
+  el,
+  Properties,
+  propertyRow,
+  sceneOf,
+  text,
+  type InspectedElements,
+} from "./properties.ts";
 
 /** Old module 357: PATHPROPERTIES.PATH_JOIN_CLASS, an empty class in this build. */
 const PATH_JOIN_CLASS = "";
 
 const PointType = PathBase.AnchorPoint.Type;
-
-/** The scene calls of the panel. */
-interface PanelScene {
-  stringToPoint(text: string): number | null;
-  pointToString(value: number, decimals?: number): string;
-  getOptimalDecimalsCount(): number;
-}
 
 /** What the panel needs of a path's open element editor. */
 interface PathEditorLike {
@@ -169,10 +160,6 @@ export class PathProperties extends Properties {
   _pathes: (Path | CompoundPath)[] = [];
   _points: AnchorPoint[] | null = null;
 
-  private _scene(): PanelScene {
-    return (this._document as Document).getScene() as unknown as PanelScene;
-  }
-
   override init(panel: HTMLElement): void {
     this._panel = panel;
     const nodeTypeEvent = (event: Event) => {
@@ -185,7 +172,7 @@ export class PathProperties extends Properties {
         input.setAttribute("type", "text");
         input.setAttribute("data-point-property", property);
         input.addEventListener("change", () => {
-          const value = this._scene().stringToPoint(input.value);
+          const value = sceneOf(this._document as Document).stringToPoint(input.value);
           if ("x" === property) designer().stats("pathproperties_modify_x");
           else designer().stats("pathproperties_modify_y");
           if (null !== value && "number" == typeof value)
@@ -252,15 +239,15 @@ export class PathProperties extends Properties {
           }),
         });
         slider.addEventListener("mousedown", () => {
-          editorOf(this._document).hideSelection();
+          editorOf(this._document as Document).hideSelection();
           document.addEventListener(
             "mouseup",
-            () => editorOf(this._document).resetHideSelection(),
+            () => editorOf(this._document as Document).resetHideSelection(),
             { once: true },
           );
         });
         slider.addEventListener("input", () => {
-          const scene = this._scene();
+          const scene = sceneOf(this._document as Document);
           const value = scene.stringToPoint(String(handle.value()));
           const points = this._points as AnchorPoint[];
           for (let n = 0; n < points.length; ++n)
@@ -275,7 +262,7 @@ export class PathProperties extends Properties {
           );
         });
         slider.addEventListener("change", () => {
-          const value = this._scene().stringToPoint(String(handle.value()));
+          const value = sceneOf(this._document as Document).stringToPoint(String(handle.value()));
           designer().stats("pathproperties_modify_corner");
           this._assignPointProperty("cl", value);
         });
@@ -287,7 +274,7 @@ export class PathProperties extends Properties {
         input.setAttribute("data-point-property", "cl");
         input.classList.add("corner-radius");
         input.addEventListener("change", () => {
-          const value = this._scene().stringToPoint(input.value);
+          const value = sceneOf(this._document as Document).stringToPoint(input.value);
           if (null !== value && "number" == typeof value && value >= 0) {
             designer().stats("pathproperties_modify_corner");
             this._assignPointProperty("cl", value);
@@ -475,10 +462,10 @@ export class PathProperties extends Properties {
       );
     if (this._document) {
       // The old code removed these listeners without their target, except the editor's.
-      const scene = sceneOf(this._document);
+      const scene = sceneOf(this._document as Document);
       scene.removeEventListener(AfterPropertiesChangeEvent, this._afterPropertiesChange);
       scene.removeEventListener(AfterFlagChangeEvent, this._afterFlagChange);
-      editorOf(this._document).removeEventListener(
+      editorOf(this._document as Document).removeEventListener(
         Editor.EdGeometryChangeEvent,
         this._edGeometryChange,
         this,
@@ -592,6 +579,9 @@ export class PathProperties extends Properties {
       if ((path && pathes.indexOf(path) >= 0) || (compound && pathes.indexOf(compound) >= 0)) {
         const points = this._points as AnchorPoint[];
         if (event.set) points.push(point);
+        // Kept from the old code: a point that isn't in the list gives
+        // indexOf -1, and splice(-1, 1) drops the last point instead (pinned
+        // in path-panel.test.ts).
         else points.splice(points.indexOf(point), 1);
         this._updatePathProperties();
         this._updatePointProperties();
@@ -639,7 +629,7 @@ export class PathProperties extends Properties {
       return;
     }
     each<HTMLElement>(panel, "[point-only]", (e) => e.style.setProperty("display", ""));
-    const scene = this._scene();
+    const scene = sceneOf(this._document as Document);
     const coord = this._getPointCoord(point);
     const format = (value: number) => scene.pointToString(value, scene.getOptimalDecimalsCount());
     each<HTMLInputElement>(panel, 'input[data-point-property="x"]', (input) => {
@@ -705,7 +695,7 @@ export class PathProperties extends Properties {
   }
 
   _assignPathProperties(properties: string[], values: unknown[]): void {
-    const editor = editorOf(this._document);
+    const editor = editorOf(this._document as Document);
     editor.beginTransaction();
     try {
       for (let i = 0; i < this._pathes.length; ++i)
@@ -718,13 +708,13 @@ export class PathProperties extends Properties {
   _setBorderAlignmentCenter(): void {
     const names = ["_ba"];
     const values = [BorderAlignment.Center];
-    const editor = editorOf(this._document);
+    const editor = editorOf(this._document as Document);
     editor.beginTransaction();
     try {
       for (let r = 0, s = this._pathes.length; r < s; ++r) {
-        const layers = (this._pathes[r] as unknown as BorderLayersOwner)
-          .getPaintLayers()
-          .getBorderLayers();
+        const layers = (
+          (this._pathes[r] as Path | CompoundPath).getPaintLayers() as PaintLayers
+        ).getBorderLayers();
         for (let l = 0, c = layers.length; l < c; l++) {
           const layer = layers[l];
           if (layer instanceof BorderPaintLayer) layer.setProperties(names, values);
@@ -736,7 +726,7 @@ export class PathProperties extends Properties {
   }
 
   _assignPointProperty(property: string, value: unknown): void {
-    const editor = editorOf(this._document);
+    const editor = editorOf(this._document as Document);
     editor.beginTransaction();
     try {
       const points = this._points as AnchorPoint[];
@@ -759,7 +749,7 @@ export class PathProperties extends Properties {
 
   _assignPointProperties(properties: string[], values: unknown[]): void {
     designer().stats("pathproperties_modify_point-properties");
-    const editor = editorOf(this._document);
+    const editor = editorOf(this._document as Document);
     editor.beginTransaction();
     try {
       const points = this._points as AnchorPoint[];

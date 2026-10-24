@@ -7,7 +7,10 @@
  * minute countdown. Silent events show nothing.
  *
  * With the release service gone (software-update-manager.ts) only a
- * non-silent "no update available" can still arrive in the browser.
+ * non-silent "no update available" can still arrive in the browser. In
+ * the desktop app the Electron updater's events arrive, and the runtime
+ * switches take the Electron branch (updateRuntime): Update Now downloads
+ * instead of reloading the page.
  */
 import { createElement } from "react";
 import { Locale } from "../../engine/core/locale/locale.ts";
@@ -23,6 +26,7 @@ import { SoftwareUpdateEvents } from "./software-update-events.ts";
 import {
   SHOW_CHANGE_LOG,
   softwareUpdateManager,
+  updateRuntime,
   type SoftwareUpdateManager,
 } from "./software-update-manager.ts";
 import {
@@ -208,7 +212,7 @@ export class SoftwareUpdatePanel extends Panel {
     if (!this._shouldShowMessages(event)) return;
     const force = event.forceUpdate;
     if (event.isSilent && !force) return;
-    const runtime = container().getRuntime();
+    const runtime = updateRuntime();
     if (force && (runtime === Runtime.Browser || runtime === Runtime.PWA))
       this._createForceUpdateMessageDialog();
     const message = text("text.update-available")
@@ -238,7 +242,7 @@ export class SoftwareUpdatePanel extends Panel {
         designer().hasSynchronizingDocuments(),
       )
     )
-      switch (container().getRuntime()) {
+      switch (updateRuntime()) {
         case Runtime.Browser:
         case Runtime.PWA:
           void manager().installUpdate();

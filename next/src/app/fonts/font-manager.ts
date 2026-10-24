@@ -10,10 +10,13 @@
  * listed it already, else by asking every provider in order until one
  * has it. When none has it the request fails and MissingFontEvent fires.
  *
- * Not ported yet (phase 7): the missing-fonts dialog that a failed font
- * opens for the active document (see setMissingFontsHandler), the
- * "feature unavailable offline" dialog for a font whose download failed
- * while offline, and the network listener that init adds.
+ * A font that fails everywhere goes to the missing-fonts dialog
+ * (dialogs/missing-fonts-dialog.ts registers it with
+ * setMissingFontsHandler). Providers whose list failed for lack of a
+ * connection are reset when the browser reports it is online again (init).
+ * The "feature unavailable offline" dialog (old module 256) is dropped
+ * with the cloud, so a font whose own download failed offline is never
+ * retried (see "Q-170").
  */
 import { Event } from "../../engine/core/event.ts";
 import { EventTarget } from "../../engine/core/event-target.ts";
@@ -101,10 +104,16 @@ export class FontsProviderManager extends EventTarget {
 
   /**
    * Called after a font failed in every provider. The old app opened the
-   * missing-fonts dialog for the active document here (app-dialogs-notify
-   * registers it in phase 7).
+   * missing-fonts dialog for the active document here
+   * (dialogs/missing-fonts-dialog.ts registers it).
    */
   private static missingFontsHandler: ((request: FontRequest) => void) | null = null;
+  /**
+   * Forgets the open missing-fonts dialog. The old manager held that
+   * dialog itself and dropped it in reset(); it lives with the dialog
+   * module now, which registers this with its handler.
+   */
+  private static forgetMissingFontsDialog: (() => void) | null = null;
 
   /** Provider classes to reset when the network comes back. */
   _resetProviders: ProviderClass[] | null = null;
@@ -132,8 +141,12 @@ export class FontsProviderManager extends EventTarget {
     return FontsProviderManager._instance || new FontsProviderManager();
   }
 
-  static setMissingFontsHandler(handler: ((request: FontRequest) => void) | null): void {
+  static setMissingFontsHandler(
+    handler: ((request: FontRequest) => void) | null,
+    forgetDialog?: (() => void) | null,
+  ): void {
     FontsProviderManager.missingFontsHandler = handler;
+    FontsProviderManager.forgetMissingFontsDialog = forgetDialog || null;
   }
 
   /** Adds a provider of the class, made with this manager. */
@@ -291,8 +304,18 @@ export class FontsProviderManager extends EventTarget {
     }
   }
 
-  /** The network listener (GDesigner's network event) is added with the app shell. */
-  init(): void {}
+  /**
+   * Listens for the network coming back. The old GDesigner turned the
+   * window's online and offline events into its
+   * GNetworkAvailabilityChangedEvent (module 291, dropped with the rest
+   * of the cloud) and this listened to that; the window events are the
+   * same signal, so they are read here directly.
+   */
+  init(): void {
+    if (typeof window === "undefined") return;
+    window.addEventListener("online", () => this._networkAvailabilityChangedEvent(true));
+    window.addEventListener("offline", () => this._networkAvailabilityChangedEvent(false));
+  }
 
   /** When the network is back, resets the providers whose loads failed for lack of it. */
   _networkAvailabilityChangedEvent(connected: boolean): void {
@@ -564,6 +587,8 @@ export class FontsProviderManager extends EventTarget {
       fullCacheKeys = [];
     }
     if (this._firstCallback) this.query(this._firstCallback, "%");
+    if (FontsProviderManager.forgetMissingFontsDialog)
+      FontsProviderManager.forgetMissingFontsDialog();
     if (this.hasEventListeners(ResetEvent)) this.trigger(new ResetEvent(this));
   }
 

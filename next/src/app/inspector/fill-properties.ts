@@ -74,6 +74,7 @@ import {
   attrs,
   changeArgs,
   el,
+  fadeCopyHint,
   findAll,
   getData,
   parents,
@@ -306,23 +307,17 @@ export class FillProperties extends Properties {
     const panel = this._panel as HTMLElement;
     const previous = panel.querySelector(".copy-info-overlay");
     const selected = panel.querySelector<HTMLElement>(".fill-block.g-selected");
-    const top = (selected && positionTop(selected)) || 0;
+    // Sic: without a selected row the old `.position()` gave undefined and
+    // reading its top threw, so no hint showed (see "Copy hint throws
+    // without a selected row" in QUESTIONS.md).
+    if (!selected) throw new TypeError("Cannot read properties of undefined (reading 'top')");
+    const top = positionTop(selected) || 0;
     const info = el("span", "copy-info-overlay");
     cssAll(info, { top });
     setText(info, str(KEY, "text.copy-fill"));
     if (previous) previous.remove();
     panel.appendChild(info);
-    setTimeout(() => {
-      // Old: .animate({ opacity: 0, top: "+=20" }, 500, remove).
-      const animation = info.animate(
-        [
-          { opacity: 1, top: top + "px" },
-          { opacity: 0, top: top + 20 + "px" },
-        ],
-        { duration: 500, easing: "ease-in-out", fill: "forwards" },
-      );
-      animation.onfinish = () => info.remove();
-    }, 1e3);
+    setTimeout(() => fadeCopyHint(info), 1e3);
   }
 
   private _triggerInspector(
@@ -867,9 +862,9 @@ export class FillProperties extends Properties {
     if (button) button.click();
   }
 
-  override openEyeDropper(event?: unknown, options?: unknown): void {
+  override openEyeDropper(pageX?: number, pageY?: number): void {
     const chooser = chooserOf(this._firstSwatch());
-    if (chooser) chooser.openEyeDropper(event as number | undefined, options as number | undefined);
+    if (chooser) chooser.openEyeDropper(pageX, pageY);
   }
 
   /** `.fill-block:first-child [data-property="_pt"]`. */

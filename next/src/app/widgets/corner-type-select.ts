@@ -19,7 +19,7 @@ import { Locale } from "../../engine/core/locale/locale.ts";
 import { LocaleKey } from "../../engine/core/locale/locale-key.ts";
 import { PathBase } from "../../engine/scene/path-base.ts";
 import { Overlay } from "../dialogs/dialog-container.ts";
-import { propertyRow } from "../inspector/properties.ts";
+import { propertyRow } from "./property-row.ts";
 import { designerOrNull } from "../shell/globals.ts";
 
 export interface CornerTypePickerOptions {

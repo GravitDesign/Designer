@@ -272,7 +272,7 @@ export class MenuItem extends EventTarget {
   /**
    * Sets the caption. Strings and keys are shown as text; the old item
    * inserted them as HTML, which also interpreted markup in file and
-   * layer names (see "Menu captions are text" in the report).
+   * layer names (see "Menu captions and tab titles are text" in QUESTIONS.md).
    */
   setCaption(caption: MenuItemContent): void {
     if (caption === this._caption) return;
@@ -374,9 +374,12 @@ export class MenuItem extends EventTarget {
     return !!this._action && this._action.isCheckable();
   }
 
-  setChecked(checked: boolean): void {
+  setChecked(checked: boolean | undefined): void {
+    // The old code added the class for a truthy value and removed it
+    // otherwise, so an action whose isChecked gives undefined stays
+    // unchecked (a bare toggle(name, undefined) would flip the class).
     if (checked != this.isChecked())
-      this._htmlElement.classList.toggle("g-menu-item-checked", checked);
+      this._htmlElement.classList.toggle("g-menu-item-checked", !!checked);
   }
 
   isEnabled(): boolean {
@@ -568,8 +571,8 @@ export class MenuItem extends EventTarget {
     return this._htmlElement.classList.contains("g-active");
   }
 
-  changeActiveState(active: boolean): void {
-    this._htmlElement.classList.toggle("g-active", active);
+  changeActiveState(active: boolean | undefined): void {
+    this._htmlElement.classList.toggle("g-active", !!active);
   }
 
   private _mouseOut(event: globalThis.MouseEvent | null): void {

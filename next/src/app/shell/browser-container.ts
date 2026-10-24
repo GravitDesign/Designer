@@ -7,13 +7,14 @@
  * Not kept: the service worker registration of /cacher.js (a frozen
  * Workbox precache, dropped in PORT-PLAN) and the start URL parameters,
  * which only named cloud documents, shares and templates (`?d=`,
- * `?token=`, `?storeContent=`, `?directlink=`). openStorageFile is not ported: every branch of it
+ * `?token=`, `?storeContent=`, `?directlink=`). The deep links are found
+ * and taken off the address as before (handleDeepLinking). openStorageFile is not ported: every branch of it
  * opened a cloud or Electron item.
  */
 import { Downloader, type DownloadRequest } from "../storage/downloader.ts";
 import { BrowserFileStorage } from "../storage/file-system-access.ts";
 import type { Storage } from "../storage/storage.ts";
-import { Container, Runtime, type RuntimeName } from "./container.ts";
+import { Container, DeepLinking, Runtime, type DeepLink, type RuntimeName } from "./container.ts";
 import {
   browserSupportsLocalFonts,
   registerBrowserFontProviders,
@@ -33,6 +34,23 @@ export class BrowserContainer extends Container {
   /** Saves a buffer as a file download (the Downloader mixin, module 1482). */
   download(request: DownloadRequest): Promise<void> {
     return new Downloader().download(request);
+  }
+
+  /**
+   * Also takes the query off the address (history.pushState), except for
+   * the links that named a document or a comment: directlink, annot and
+   * create_share.
+   */
+  override handleDeepLinking(url?: string): DeepLink | null {
+    const link = super.handleDeepLinking(url);
+    const kept: string[] = [
+      DeepLinking.DirectLink,
+      DeepLinking.FocusAnnot,
+      DeepLinking.CreateShare,
+    ];
+    if (link && !kept.includes(link.link))
+      window.history.pushState(null, "", window.location.pathname);
+    return link;
   }
 
   override openExternalLink(

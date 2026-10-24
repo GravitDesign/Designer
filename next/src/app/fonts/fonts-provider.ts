@@ -135,8 +135,7 @@ export abstract class FontsProvider {
 
   /**
    * Hangs preview callbacks on listed families for the font panel. The
-   * previews come with the font panel (app-fonts-ui, phase 7); until then
-   * every provider leaves the families as they are.
+   * base class does nothing; every provider overrides it.
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- the old virtual signature
   addPreviews(_families: ListedFamily[], _previews?: boolean): void {}

@@ -4,8 +4,8 @@
  * storage, persistent properties and window-level services. The
  * subclass for the browser and the PWA is BrowserContainer.
  *
- * Dropped with the cloud: deep links into cloud documents and purchases,
- * cookies, the Google/SharePoint helpers, OAuth and magic-link sign-in,
+ * Dropped with the cloud: what the deep links into cloud documents,
+ * accounts and purchases did (handleDeepLinking still finds them), cookies, the Google/SharePoint helpers, OAuth and magic-link sign-in,
  * the client API token update. The recent-documents menu is filled by
  * the open-recent action (app-actions-file-edit) through
  * updateRecentDocumentsAction.
@@ -61,6 +61,37 @@ export class OpenFileRequest {
   }
 }
 
+/**
+ * GContainer.DeepLinking: the start URL parameters the old app reacted
+ * to. All but PWADialog started cloud, account or purchase flows, which
+ * are dropped (REMOVED.md DROP-010).
+ */
+export const DeepLinking = {
+  ProCoupon: "procoupon",
+  PurchaseFlow: "purchase_flow",
+  PurchaseFlowNew: "purchase_flow_new",
+  Purchase: "purchase",
+  ResetPassword: "reset-password",
+  SetPassword: "set-password",
+  PasswordlessToken: "passwordless-token",
+  ConfirmEmail: "confirm_email",
+  Account: "account",
+  Purchases: "purchases",
+  EnterpriseLogIn: "enterprise",
+  DirectLink: "directlink",
+  ResetTrial: "reset_trial",
+  PWADialog: "pwainstall",
+  FocusAnnot: "annot",
+  CreateShare: "create_share",
+  ActivateTrial: "activate_trial",
+} as const;
+
+/** A found deep link: its parameter and all query parameters. */
+export interface DeepLink {
+  link: (typeof DeepLinking)[keyof typeof DeepLinking];
+  options: Record<string, string>;
+}
+
 /** GContainer.Runtime. */
 export const Runtime = {
   Browser: "browser",
@@ -83,6 +114,7 @@ export interface RecentDocument {
 export abstract class Container extends EventTarget {
   static readonly OpenFileRequest = OpenFileRequest;
   static readonly Runtime = Runtime;
+  static readonly DeepLinking = DeepLinking;
 
   /** GContainer.GravitLanguages: every language the engine has a table for. */
   static readonly GravitLanguages: readonly number[] = [...Locale.getAvailableLanguages()];
@@ -129,9 +161,24 @@ export abstract class Container extends EventTarget {
     return getStorageLength();
   }
 
-  /** Deep links were cloud features (purchase, sign-in, shares); none is handled. */
-  handleDeepLinking(): null {
-    return null;
+  protected _deepLinking: DeepLink | null = null;
+
+  /**
+   * The first GContainer.DeepLinking parameter of `url` (default: the
+   * page address), with every query parameter as its options, or null.
+   * Boot ignores the result: only pwainstall still does something, and
+   * boot reads that from the address itself (bootstrap.ts).
+   */
+  handleDeepLinking(url?: string): DeepLink | null {
+    const parameters = new URL(url || window.location.href).searchParams;
+    const key = (Object.keys(DeepLinking) as (keyof typeof DeepLinking)[]).find((name) =>
+      parameters.has(DeepLinking[name]),
+    );
+    if (!key) return null;
+    const options: Record<string, string> = {};
+    for (const [name, value] of parameters.entries()) options[name] = value;
+    this._deepLinking = { link: DeepLinking[key], options };
+    return this._deepLinking;
   }
 
   /**
@@ -178,7 +225,9 @@ export abstract class Container extends EventTarget {
    * The old version first asked the cloud for the user's locale; with the
    * cloud gone it always took the settings branch. The language itself is
    * applied by the locale module (QUESTIONS.md Q-001: the app strings are
-   * English only, so a stored language changes nothing in the app).
+   * English only, so a stored language changes nothing in the app). A
+   * "language" of "de" in the settings of an old profile is read and
+   * ignored the same way.
    */
   initLanguage(done?: () => void): Promise<void> {
     return this.getProperty("designer.settings").then(

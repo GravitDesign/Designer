@@ -5,13 +5,15 @@
  * plain web page (no Node in the page, no application menu). One instance
  * only. Added for the rewrite: the first-start migration from the old
  * releases' profile (migration.ts) and the software update channel to
- * electron-updater (updater.ts, preload.cjs).
+ * electron-updater (updater.ts, preload.cjs), and the GravitDesign Next
+ * name and icon (CHANGES.md).
  */
 import type http from "node:http";
 import path from "node:path";
 import { app, BrowserWindow, Menu, dialog } from "electron";
 import { createServer } from "../server/app.ts";
-import { ASSETS_ROOT } from "../server/paths.ts";
+import { CLIENT_ROOT } from "../server/paths.ts";
+import { brandingArgument, productName } from "./branding.ts";
 import { migrateLegacyProfile } from "./migration.ts";
 import { installUpdater } from "./updater.ts";
 
@@ -41,13 +43,13 @@ function startServer(): Promise<number> {
         // A random port would change the origin and reset the settings, so
         // report the conflict instead.
         dialog.showErrorBox(
-          "Gravit Designer",
+          productName(),
           `Port ${FIXED_PORT} is already in use. Another instance may be ` +
             `running, or another program is using the port. Close it and ` +
-            `relaunch Gravit Designer.`,
+            `relaunch ${productName()}.`,
         );
       } else {
-        dialog.showErrorBox("Gravit Designer", `Server error: ${err.message}`);
+        dialog.showErrorBox(productName(), `Server error: ${err.message}`);
       }
       app.quit();
     });
@@ -64,13 +66,16 @@ function createWindow(port: number): void {
     height: 900,
     minWidth: 800,
     minHeight: 600,
-    title: "Gravit Designer",
-    icon: path.join(ASSETS_ROOT, "prerendered", "icon512.png"),
+    title: productName(),
+    // The GravitDesign Next icon (public/brand/icons, scripts/brand/render-icons.ts).
+    icon: path.join(CLIENT_ROOT, "brand", "icons", "icon-512.png"),
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      // Exposes only the update channel (window.gravitDesktop.updates).
+      // Exposes only the update channel (window.gravitDesktop.updates) and,
+      // with GD_BRANDING set, the look (window.__gdBranding, branding.ts).
       preload: path.join(import.meta.dirname, "..", "electron", "preload.cjs"),
+      additionalArguments: brandingArgument(),
     },
     autoHideMenuBar: true,
   });

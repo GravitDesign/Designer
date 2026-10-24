@@ -125,6 +125,9 @@ function sandboxEnv(
   env.HOME = home;
   env.USERPROFILE = home;
   env.XDG_CONFIG_HOME = path.join(sandbox.root, "config");
+  // The new app in its classic look, like every parity page (support/apps.ts
+  // isolateNetwork); electron/main.ts hands it to the page. The old app ignores it.
+  env.GD_BRANDING = "classic";
   env.GD_ELECTRON_SANDBOX = sandbox.root;
   env.GD_ELECTRON_LOG = logFile;
   const patch = mainProcessPatch(kind);

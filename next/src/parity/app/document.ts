@@ -156,12 +156,15 @@ export const documentHooks = {
 };
 
 // ---------------------------------------------------------------------------
-// Node unit tests load these hooks without a DOM, where the real Designer
-// can't be built. They get a designer with just the document list the
-// hooks and GDocument use: documents are added and activated (with the
-// designer's Activated and Deactivated events), removed
-// (released) and the last one activated again; there are no windows,
-// settings or actions.
+// For unit tests only. Node unit tests load these hooks without a DOM,
+// where the real Designer can't be built. They get a designer with just
+// the document list the hooks and GDocument use: documents are added and
+// activated (with the designer's Activated and Deactivated events),
+// removed (released) and the last one activated again; there are no
+// windows, settings or actions. It is not the app: it activates the last
+// document after a removal where the Designer follows its windows, so a
+// test that passes against it says nothing about the Designer. Test app
+// behaviour on the real Designer (src/app/shell) or with parity scenarios.
 
 class NodeDesigner extends EngineEventTarget {
   private readonly workspace = new EditorWorkspaceClass();

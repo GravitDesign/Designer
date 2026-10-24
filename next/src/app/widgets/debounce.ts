@@ -1,10 +1,13 @@
 // Old: designer.browser.dev.js module 1689 ($.fn.debounce and the
 // :editable and :textSelectable selectors).
 /**
- * A debounced event binding and the two focus tests the shortcuts and
- * the edit actions make. The old module added them to jQuery; here they
- * are plain functions. actions/focus.ts keeps its own copy of the two
- * tests, which must stay the same as these.
+ * The two focus tests the shortcuts, the edit actions and the designer's
+ * key and context menu handlers make. The old module added them to
+ * jQuery as the `:editable` and `:textSelectable` selectors; here they
+ * are plain functions, and the callers import them from here.
+ *
+ * The module also added `$.fn.debounce`, which nothing in the old app
+ * called; it is left out.
  */
 
 /** Input types `:editable` accepts ("" and a missing type count as text). */
@@ -24,39 +27,6 @@ const EDITABLE_INPUT_TYPES = [
   "datetime-local",
   "date",
 ];
-
-/**
- * Wraps `callback` so that it runs `wait` ms after the last call, with that
- * call's arguments and `this`.
- */
-export function debounce<A extends unknown[]>(
-  callback: (...args: A) => void,
-  wait: number,
-): (...args: A) => void {
-  let timer: ReturnType<typeof setTimeout> | 0 | undefined;
-  return function (this: unknown, ...args: A): void {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      callback.apply(this, args);
-      timer = 0;
-    }, wait);
-  };
-}
-
-/**
- * `$(el).debounce(type, callback, wait)`: listens for `type` and calls
- * `callback` debounced. Returns a function that removes the listener.
- */
-export function bindDebounced<E extends Event>(
-  target: EventTarget,
-  type: string,
-  callback: (event: E) => void,
-  wait: number,
-): () => void {
-  const handler = debounce(callback, wait) as (event: Event) => void;
-  target.addEventListener(type, handler);
-  return () => target.removeEventListener(type, handler);
-}
 
 /** `$(el).is(":editable")`: contenteditable, a text-like input or a textarea. */
 export function isEditable(element: Element | null | undefined): boolean {

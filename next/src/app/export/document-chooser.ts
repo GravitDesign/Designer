@@ -139,6 +139,9 @@ export class DocumentChooser {
           image.getStatus() === Image.ImageStatus.Loaded ||
           image.getStatus() === Image.ImageStatus.Error
         ) {
+          // Old: removeEventListener(StatusEvent, this), and `this` wasn't the
+          // listener, so nothing came off; a later status change only re-ran
+          // the (then empty) bookkeeping. Removing it changes nothing visible.
           image.removeEventListener(ImageStatusEvent, listener);
           const index = pending.indexOf(image);
           if (-1 !== index) pending.splice(index, 1);

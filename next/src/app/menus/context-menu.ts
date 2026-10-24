@@ -185,13 +185,18 @@ function escapeHtml(value: string): string {
   return div.innerHTML;
 }
 
-/** The clipboard text for copied nodes, as the old menus built it. */
-function clipboardText(serialized: string, restricted?: unknown): string {
+/**
+ * The clipboard text for copied nodes, as the old menus built it. The page
+ * copy passes the restricted value, which the old code always wrote, even
+ * when it was false or an undefined storage id; the paint layer and effect
+ * copies pass none and get no attribute.
+ */
+function clipboardText(serialized: string, ...restricted: [] | [unknown]): string {
   return (
     '<gravit mimeType="' +
     Node.MIME_TYPE +
     '"' +
-    (restricted !== undefined ? ' restricted="' + String(restricted) + '"' : "") +
+    (restricted.length ? ' restricted="' + String(restricted[0]) + '"' : "") +
     ">" +
     escapeHtml(serialized) +
     "</gravit>"
@@ -443,14 +448,14 @@ export class ContextMenu {
         },
       ).element = element;
     };
-    for (let o = 0; o < (filtered as ContextHit[]).length; o++) {
-      const hit = (filtered as ContextHit[])[o] as ContextHit;
+    for (let index = 0; index < (filtered as ContextHit[]).length; index++) {
+      const hit = (filtered as ContextHit[])[index] as ContextHit;
       const element = hit.element;
       const name = label(element);
       const key = "temp-" + hits.indexOf(hit);
       if ((submenus as Record<string, ContextElement[]>)[key]) {
         const item = new MenuItem(MenuItem.Type.Menu, Menu);
-        item.setCaption((o + 1).toString() + ". " + name);
+        item.setCaption((index + 1).toString() + ". " + name);
         item.setData(key);
         item.addEventListener(MenuItem.UpdateEvent, function (this: MenuItem) {
           const children = (submenus as Record<string, ContextElement[]>)[
@@ -458,13 +463,13 @@ export class ContextMenu {
           ] as ContextElement[];
           const sub = this.getMenu() as Menu;
           sub.clearItems();
-          for (let t = 0; t < children.length; t++) {
-            const child = children[t] as ContextElement;
-            addHit(sub, (t + 1).toString() + ". " + label(child), child);
+          for (let childIndex = 0; childIndex < children.length; childIndex++) {
+            const child = children[childIndex] as ContextElement;
+            addHit(sub, (childIndex + 1).toString() + ". " + label(child), child);
           }
         });
         selectMenu.addItem(item);
-      } else addHit(selectMenu, (o + 1).toString() + ". " + name, element);
+      } else addHit(selectMenu, (index + 1).toString() + ". " + name, element);
     }
   }
 
@@ -521,31 +526,32 @@ export class ContextMenu {
     const filtered: ContextHit[] = [];
     const submenus: Record<string, ContextElement[]> = {};
     if (hits && hits.length > 0)
-      for (let u = 0; u < hits.length; ++u) {
-        const parent = (hits[u] as ContextHit).element.getParent();
+      for (let hitIndex = 0; hitIndex < hits.length; ++hitIndex) {
+        const hit = hits[hitIndex] as ContextHit;
+        const parent = hit.element.getParent();
         let child = false;
-        for (let h = 0; h < hits.length; ++h)
-          if ((hits[h] as ContextHit).element === parent) {
+        for (let parentIndex = 0; parentIndex < hits.length; ++parentIndex)
+          if ((hits[parentIndex] as ContextHit).element === parent) {
             child = true;
-            const list = submenus["temp-" + h];
-            if (list) list.push((hits[u] as ContextHit).element);
-            else submenus["temp-" + h] = [(hits[u] as ContextHit).element];
+            const list = submenus["temp-" + parentIndex];
+            if (list) list.push(hit.element);
+            else submenus["temp-" + parentIndex] = [hit.element];
             break;
           }
-        if (!child) filtered.push(hits[u] as ContextHit);
+        if (!child) filtered.push(hit);
       }
     return { elementHits: hits, filteredElementHits: filtered, submenus };
   }
 
   private _createPageMenu(): Menu {
     const menu = new Menu(null, "g-page-option-menu");
-    const t = {
+    const labels = {
       DUPLICATE: text("GContextMenu", "page-panel.text.duplicate"),
       DELETE: text("GContextMenu", "page-panel.text.delete"),
       COPY: text("GContextMenu", "page-panel.text.copy"),
       EXPORT: text("GContextMenu", "page-panel.text.export"),
     };
-    const duplicate = menu.createAddItem(t.DUPLICATE, () => {
+    const duplicate = menu.createAddItem(labels.DUPLICATE, () => {
       const scene = activeDocument().getScene();
       Editor.tryRunTransaction(
         scene,
@@ -557,10 +563,10 @@ export class ContextMenu {
           const position = clone.getPosition(true, true, true, true);
           clone.setProperty("off", new Transform(1, 0, 0, 1, position.getX(), position.getY()));
         },
-        t.DUPLICATE,
+        labels.DUPLICATE,
       );
     });
-    const remove = menu.createAddItem(t.DELETE, () => {
+    const remove = menu.createAddItem(labels.DELETE, () => {
       const scene = activeDocument().getScene();
       const page = scene.getActivePage();
       const hasSlaves = page.getSlavePages().length > 0;
@@ -583,9 +589,9 @@ export class ContextMenu {
             true,
             true,
           );
-      } else Editor.tryRunTransaction(scene, () => scene.deleteActivePage(), t.DELETE);
+      } else Editor.tryRunTransaction(scene, () => scene.deleteActivePage(), labels.DELETE);
     });
-    const copy = menu.createAddItem(t.COPY, () => {
+    const copy = menu.createAddItem(labels.COPY, () => {
       const document = activeDocument();
       const scene = document.getScene();
       Editor.tryRunTransaction(
@@ -605,10 +611,10 @@ export class ContextMenu {
             ),
           );
         },
-        t.COPY,
+        labels.COPY,
       );
     });
-    const exportItem = menu.createAddItem(t.EXPORT, () => {
+    const exportItem = menu.createAddItem(labels.EXPORT, () => {
       const page = activeDocument().getScene().getActivePage();
       designer().executeAction(ID.export, [{ element: page }], undefined, true);
     });
@@ -638,11 +644,11 @@ export class ContextMenu {
   private _createFillPropertyMenu(): Menu {
     const menu = new Menu(null, "fill-context-menu");
     let layer: unknown = null;
-    const n = {
+    const labels = {
       DELETE: text("GContextMenu", "fill-properties-panel.text.delete-fill"),
       COPY: text("GContextMenu", "fill-properties-panel.text.copy-fill"),
     };
-    const remove = menu.createAddItem(n.DELETE, () => {
+    const remove = menu.createAddItem(labels.DELETE, () => {
       if (layer) {
         const selection = activeDocument().getEditor().getSelection() as StyledNode[];
         Editor.tryRunTransaction(
@@ -657,11 +663,11 @@ export class ContextMenu {
                 }
             }
           },
-          n.DELETE,
+          labels.DELETE,
         );
       }
     });
-    const copy = menu.createAddItem(n.COPY, () => {
+    const copy = menu.createAddItem(labels.COPY, () => {
       if (layer) copyNodes(layer);
     });
     remove.setIcon("gravit-icon-trash");
@@ -679,16 +685,16 @@ export class ContextMenu {
   private _createBorderPropertyMenu(): Menu {
     const menu = new Menu(null, "border-context-menu");
     let layer: unknown = null;
-    const n = {
+    const labels = {
       ADVANCED: text("GContextMenu", "border-properties-panel.text.advanced-settings"),
       DELETE: text("GContextMenu", "border-properties-panel.text.delete-border"),
       COPY: text("GContextMenu", "border-properties-panel.text.copy-border"),
     };
-    const advanced = menu.createAddItem(n.ADVANCED, () => {
+    const advanced = menu.createAddItem(labels.ADVANCED, () => {
       const data = this._optionsData();
       if (data) (data.openAdvancedSettings as () => void)();
     });
-    const remove = menu.createAddItem(n.DELETE, () => {
+    const remove = menu.createAddItem(labels.DELETE, () => {
       if (layer) {
         const selection = activeDocument().getEditor().getSelection() as StyledNode[];
         Editor.tryRunTransaction(
@@ -703,11 +709,11 @@ export class ContextMenu {
                 }
             }
           },
-          n.DELETE,
+          labels.DELETE,
         );
       }
     });
-    const copy = menu.createAddItem(n.COPY, () => {
+    const copy = menu.createAddItem(labels.COPY, () => {
       if (layer) copyNodes(layer);
     });
     advanced.setIcon("gravit-icon-settings");
@@ -729,7 +735,7 @@ export class ContextMenu {
       getProperty(name: string): unknown;
       setProperty(n: string, v: unknown): void;
     } | null = null;
-    const n = {
+    const labels = {
       COPY: text("GContextMenu", "effect-properties-panel.text.copy-effect"),
       APPLY_TO_ELEMENT: text("GContextMenu", "effect-properties-panel.text.apply-to-element"),
       APPLY_TO_FILL: text("GContextMenu", "effect-properties-panel.text.apply-to-fill"),
@@ -742,19 +748,19 @@ export class ContextMenu {
     const apply = new MenuItem(MenuItem.Type.Menu, Menu);
     const applyMenu = apply.getMenu() as Menu;
     applyMenu.addClass("effect-context-menu");
-    const toElement = applyMenu.createAddItem(n.APPLY_TO_ELEMENT, () =>
-      applyTo(null, n.APPLY_TO_ELEMENT),
+    const toElement = applyMenu.createAddItem(labels.APPLY_TO_ELEMENT, () =>
+      applyTo(null, labels.APPLY_TO_ELEMENT),
     );
-    const toFill = applyMenu.createAddItem(n.APPLY_TO_FILL, () =>
-      applyTo(StyleLayer.Fill, n.APPLY_TO_FILL),
+    const toFill = applyMenu.createAddItem(labels.APPLY_TO_FILL, () =>
+      applyTo(StyleLayer.Fill, labels.APPLY_TO_FILL),
     );
-    const toBorder = applyMenu.createAddItem(n.APPLY_TO_BORDER, () =>
-      applyTo(StyleLayer.Border, n.APPLY_TO_BORDER),
+    const toBorder = applyMenu.createAddItem(labels.APPLY_TO_BORDER, () =>
+      applyTo(StyleLayer.Border, labels.APPLY_TO_BORDER),
     );
-    const copy = menu.createAddItem(n.COPY, () => {
+    const copy = menu.createAddItem(labels.COPY, () => {
       if (effect) copyNodes(effect);
     });
-    apply.setCaption(n.APPLY_TO_ELEMENT);
+    apply.setCaption(labels.APPLY_TO_ELEMENT);
     copy.setIcon("gravit-icon-copy");
     toElement.setIcon("gravit-icon-circle");
     toFill.setIcon("gravit-icon-fill");
@@ -770,13 +776,13 @@ export class ContextMenu {
       let caption: string;
       if (layer === StyleLayer.Fill) {
         icon = "gravit-icon-fill";
-        caption = n.APPLY_TO_FILL;
+        caption = labels.APPLY_TO_FILL;
       } else if (layer === StyleLayer.Border) {
         icon = "gravit-icon-stroke";
-        caption = n.APPLY_TO_BORDER;
+        caption = labels.APPLY_TO_BORDER;
       } else {
         icon = "gravit-icon-circle";
-        caption = n.APPLY_TO_ELEMENT;
+        caption = labels.APPLY_TO_ELEMENT;
       }
       apply.setIcon(icon);
       apply.setCaption(caption);

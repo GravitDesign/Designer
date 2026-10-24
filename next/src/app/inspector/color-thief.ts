@@ -13,7 +13,12 @@
  *
  * Left out: forcebw (never called, and it called sort on the queue
  * object, which has none) and the URL and XHR helpers (getColorFromUrl,
- * getImageData, getColorAsync), which nothing used.
+ * getImageData, getColorAsync) and CanvasImage.clear and update, which
+ * nothing used.
+ *
+ * A canvas whose getImageData throws (a tainted or zero-size image) stays
+ * in body, as in the old code: see "Color Thief leaves its canvas in body
+ * when sampling throws" in QUESTIONS.md.
  */
 
 /** An RGB triple. */

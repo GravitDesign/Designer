@@ -85,7 +85,10 @@ import { DocumentEvent } from "../document/document-event.ts";
 import { DocumentStatus } from "../document/document-status.ts";
 import { PageClip } from "../export/page-clip.ts";
 import { initDesignerFonts } from "../fonts/designer-fonts.ts";
+import { SoftwareUpdateEvents } from "../dialogs/software-update-events.ts";
+import { isEditable } from "../widgets/debounce.ts";
 import { baseConfig } from "../file-formats.ts";
+import { isNextBranding, productName } from "../brand/branding.ts";
 import { publishSettings } from "../state/settings-store.ts";
 import { bumpShellVersion, useShellStore } from "../state/shell-store.ts";
 import { setTheme, updateTheme } from "../themes/theme.ts";
@@ -252,6 +255,12 @@ interface KeyHandler {
 /** A shortcut handler: true stops the key event. */
 export type ShortcutHandler = (event: KeyboardEvent) => unknown;
 
+/** A supported tablet browser: the browser on one operating system. */
+export interface SupportedTabletBrowser {
+  operatingSystem: OperatingSystem;
+  platform: WebBrowser;
+}
+
 /** The pieces of the main frame, by part id. */
 export interface ShellElements {
   mainframe: HTMLElement;
@@ -324,6 +333,10 @@ export class Designer extends EventTarget {
   private _buildNum: string | null = null;
   private _isBeta: boolean | null = null;
   private _env: string | null = null;
+  private _reloading = false;
+  private _supportedBrowsers: readonly WebBrowser[] = [];
+  private _supportedTabletBrowsers: readonly SupportedTabletBrowser[] = [];
+  private _isBrowserSupported = true;
   private readonly _readyCallbacks: (() => void)[] = [];
   private readonly _stylesPreview: Record<
     string,
@@ -396,7 +409,7 @@ export class Designer extends EventTarget {
     document.addEventListener(
       "contextmenu",
       (event) => {
-        if (!isEditable(event.target) || this.propertyPanelHasContextMenu(event)) {
+        if (!isEditableTarget(event.target) || this.propertyPanelHasContextMenu(event)) {
           event.preventDefault();
           return false;
         }
@@ -412,6 +425,11 @@ export class Designer extends EventTarget {
     );
     this.addEventListener(DocumentEvent, this._documentEvent, this);
     this.addEventListener(SettingChangedEvent, this._settingChangedEvent, this);
+    this.addEventListener(
+      SoftwareUpdateEvents.BeforeInstallUpdate,
+      this._beforeInstallUpdate,
+      this,
+    );
     this.addEventListener(ApplicationStatusEvent, this._applicationStatusEvent, this);
     const ClipboardBridge = lateExport<new () => unknown>(
       "clipboard/clipboard-bridge.ts",
@@ -1143,9 +1161,8 @@ export class Designer extends EventTarget {
   }
 
   /**
-   * A new GDocument for a scene (or a storage item). Until GDocument
-   * exists (app-config-document) the interim parity documents are made by
-   * src/parity/app/document.ts instead, so this gives null.
+   * A new GDocument for a scene (or a storage item). Null only when the
+   * app modules are not loaded (unit tests without setLateModules).
    */
   createDocument(source: Scene | DesignerStorageItem | null): DesignerDocument | null {
     const DocumentClass = lateExport<new (source: unknown) => DesignerDocument>(
@@ -1308,9 +1325,12 @@ export class Designer extends EventTarget {
       "document/file-types.ts",
       "FileTypeList",
     );
+    // A file without an extension (getExtension() null) throws a TypeError
+    // here, as in the old app: see "Opening a file without an extension
+    // throws" in QUESTIONS.md (a BUGS-FIXED candidate).
     const isImage = !!(FileTypes || []).find(
       (type) =>
-        type.ext.toUpperCase() === (extension || "").toUpperCase() && "image" === type.category,
+        type.ext.toUpperCase() === (extension as string).toUpperCase() && "image" === type.category,
     );
     systemDialog().alert(
       Locale.get(
@@ -1439,31 +1459,26 @@ export class Designer extends EventTarget {
       if (changeActiveDocument && this.getActiveDocument() !== document)
         this.activateDocument(document);
       if (!this.canExecuteAction(SAVE_ACTION_ID, [document])) resolve(true);
-      const dialog = systemDialog() as unknown as {
-        advanced?(options: unknown): void;
-      };
       const cancelled = { documentStatus: DocumentStatus.SaveCancelled };
-      if (!dialog.advanced) {
-        resolve(true);
-        return undefined;
-      }
-      dialog.advanced({
+      // The dialog module is always loaded in the app (boot loads every
+      // module), so there is no fallback that resolves silently.
+      (systemDialog() as unknown as { advanced(options: unknown): void }).advanced({
         title: (
           Locale.get(new LocaleKey("GCommonNames", "text.document-modified")) as string
         ).replace("%title", document.getTitle()),
-        closeCallback: (closed: boolean) => {
+        closeCallback: (closed?: boolean) => {
           if (closed) reject(cancelled);
         },
         buttons: [
           {
-            label: Locale.get(new LocaleKey("GCommonNames", "text.dont-save")),
+            label: Locale.get(new LocaleKey("GCommonNames", "text.dont-save")) as string,
             onclick: () => resolve(true),
             closeOnClick: true,
             position: "left",
             shortcut: "n",
           },
           {
-            label: Locale.get(new LocaleKey("GCommonNames", "text.cancel")),
+            label: Locale.get(new LocaleKey("GCommonNames", "text.cancel")) as string,
             onclick: () => reject(cancelled),
             closeOnClick: true,
             shortcut: "esc",
@@ -1644,7 +1659,8 @@ export class Designer extends EventTarget {
     );
     this._rightSidebars = new Sidebars(right, Sidebars.Orientation.Right, this._frame);
     this._updateStyles(body);
-    // The unsupported-browser notice: Chrome, Firefox and Edge on the desktop are supported.
+    this._initBrowserSupported(Platform.webBrowser);
+    this._showUnsupportedBrowserNotice();
     let resizeTimer: ReturnType<typeof setTimeout> | null = null;
     window.addEventListener("resize", () => {
       if (resizeTimer) clearTimeout(resizeTimer);
@@ -2000,7 +2016,8 @@ export class Designer extends EventTarget {
       "number" === focused.getAttribute("type") &&
       !focused.classList.contains("g-disabled") &&
       "true" !== focused.getAttribute("disabled");
-    if (!window || !window.getView() || (focused && (isEditable(focused) || numberInput))) return;
+    if (!window || !window.getView() || (focused && (isEditableTarget(focused) || numberInput)))
+      return;
     (window.getView() as EditorWidget).focus();
   }
 
@@ -2146,12 +2163,15 @@ export class Designer extends EventTarget {
     updateTheme(this.getWindows(), () => this.relayout());
   }
 
-  /** The window title: "<active window title> - Gravit Designer", or the app name. */
+  /**
+   * The window title: "<active window title> - Gravit Designer", or the app
+   * name; "GravitDesign Next" in the "next" look (brand/branding.ts).
+   */
   async _updateTitle({
     saveToSessionHistory = true,
   }: { saveToSessionHistory?: boolean } = {}): Promise<void> {
     let title = "";
-    const name = baseConfig.DESIGNER.TITLE;
+    const name = isNextBranding() ? productName() : baseConfig.DESIGNER.TITLE;
     const container = containerOrNull();
     const browser =
       !!container &&
@@ -2345,6 +2365,68 @@ export class Designer extends EventTarget {
 
   getEnv(): string | null {
     return this._env;
+  }
+
+  /** The desktop browsers init accepts without the unsupported-browser notice. */
+  setSupportedBrowsers(browsers: readonly WebBrowser[]): void {
+    this._supportedBrowsers = browsers;
+  }
+
+  /** The tablet browsers (browser and operating system) init accepts. */
+  setSupportedTabletBrowsers(browsers: readonly SupportedTabletBrowser[]): void {
+    this._supportedTabletBrowsers = browsers;
+  }
+
+  /**
+   * Checks `browser` against the tablet list on a tablet and the desktop
+   * list on a desktop. A phone is never supported.
+   */
+  _initBrowserSupported(browser: WebBrowser): void {
+    const matches = (list: readonly (WebBrowser | SupportedTabletBrowser)[]): boolean =>
+      list.some((entry) =>
+        entry instanceof Object
+          ? System.operatingSystem === entry.operatingSystem && browser === entry.platform
+          : browser === entry,
+      );
+    if (System.hardware === Hardware.Tablet)
+      this._isBrowserSupported = matches(this._supportedTabletBrowsers);
+    else if (System.hardware === Hardware.Desktop)
+      this._isBrowserSupported = matches(this._supportedBrowsers);
+    else this._isBrowserSupported = false;
+  }
+
+  isBrowserSupported(): boolean {
+    const container = containerOrNull();
+    return (!!container && container.getRuntime() === Runtime.IPad) || this._isBrowserSupported;
+  }
+
+  /** The one-time notice init shows in a browser outside the supported lists. */
+  _showUnsupportedBrowserNotice(): void {
+    if (this.isBrowserSupported()) return;
+    const dialog = systemDialog();
+    if (!dialog.showOneTimeDialog) return;
+    dialog.showOneTimeDialog(
+      (
+        Locale.get(
+          new LocaleKey(
+            "GSystemDialog",
+            System.hardware === Hardware.Tablet
+              ? "text.unsupported-browser-touch"
+              : "text.unsupported-browser",
+          ),
+        ) as string
+      ).replace("%app", baseConfig.DESIGNER.TITLE),
+      "designer.settings.dont_show_unsupported_browser_dialog",
+    );
+  }
+
+  /** Set once a software update is about to install (the page reloads then). */
+  isReloading(): boolean {
+    return this._reloading;
+  }
+
+  _beforeInstallUpdate(): void {
+    this._reloading = true;
   }
 
   getWebURL(): string {
@@ -2591,16 +2673,14 @@ function referenceId(style: Node): string {
   return (style as unknown as { getReferenceId(): string }).getReferenceId();
 }
 
-/** jQuery's `:editable`-ish test of the old handlers: form fields and contenteditable. */
-function isEditable(target: globalThis.EventTarget | null): boolean {
-  const element = target as HTMLElement | null;
-  if (!element || !element.tagName) return false;
-  return (
-    element.isContentEditable ||
-    "INPUT" === element.tagName ||
-    "TEXTAREA" === element.tagName ||
-    "SELECT" === element.tagName
-  );
+/**
+ * The old `:editable` selector (widgets/debounce.ts isEditable) for an
+ * event target: contenteditable, text-like inputs and textareas. A
+ * checkbox or a select is not editable.
+ */
+function isEditableTarget(target: globalThis.EventTarget | null): boolean {
+  const element = target as Element | null;
+  return !!element && typeof element.getAttribute === "function" && isEditable(element);
 }
 
 /** jQuery's `:button`: a button element or an input of type button. */

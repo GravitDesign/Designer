@@ -13,7 +13,7 @@
  * comes alive when its file exports the class under the name given here.
  *
  * Dropped with the cloud, licence and analytics: the user, login and
- * signup flows, deep links, cookies, the UTM and analytics setup, Teams,
+ * signup flows, every deep link but pwainstall, cookies, the UTM and analytics setup, Teams,
  * the beta and maintenance banners, the API error hook, the "new from
  * template" and iOS image actions, the cloud action wrapper (its actions
  * are registered directly), the annotations sidebar and the cloud footer
@@ -29,12 +29,16 @@ import { GuideLinesGuide } from "../../editor/guides/guide-lines-guide.ts";
 import { PageGuide } from "../../editor/guides/page-guide.ts";
 import { PointsGuide } from "../../editor/guides/points-guide.ts";
 import type { Action } from "../actions/action.ts";
+import { installMousetrapBinder } from "../actions/mousetrap-binder.ts";
+import { WebBrowser } from "../../engine/core/platform.ts";
+import { OperatingSystem } from "../../engine/core/system.ts";
+import { brandActions } from "../brand/brand-actions.ts";
 import { baseConfig } from "../file-formats.ts";
 import { setHeicConverterLoader, type HeicConverter } from "../../io/import/heic.ts";
 import { setStorageHost, setStorageMessageDialog, type StorageHost } from "../storage/storage.ts";
 import { ApplicationStatusEvent } from "./application-status-event.ts";
-import type { Container, OpenFileRequest } from "./container.ts";
-import { Designer, type DesignerDocument } from "./designer.ts";
+import { DeepLinking, type Container, type OpenFileRequest } from "./container.ts";
+import { Designer, type DesignerDocument, type SupportedTabletBrowser } from "./designer.ts";
 import { setAppRegistry, setContainer, setDesigner, setDragImageElement } from "./globals.ts";
 import { hasLateModule, lateExport, setLateModules, systemDialog } from "./late.ts";
 import type { SidebarLike } from "./layout.ts";
@@ -54,6 +58,23 @@ type Exports = Record<string, unknown>;
  */
 const NODE_ENV = "production";
 const STORE_VENDOR: string = "";
+
+/**
+ * The browsers that get no unsupported-browser notice, as the old
+ * bootstrap set them for its build (isCorel false): Chrome, Firefox,
+ * Safari and Edge on the desktop, Chrome on Android and Safari on iOS
+ * tablets. A phone is never supported (Designer._initBrowserSupported).
+ */
+export const SUPPORTED_BROWSERS: readonly WebBrowser[] = [
+  WebBrowser.Chrome,
+  WebBrowser.Firefox,
+  WebBrowser.Safari,
+  WebBrowser.Edge,
+];
+export const SUPPORTED_TABLET_BROWSERS: readonly SupportedTabletBrowser[] = [
+  { operatingSystem: OperatingSystem.Unix, platform: WebBrowser.Chrome },
+  { operatingSystem: OperatingSystem.OSX_IOS, platform: WebBrowser.Safari },
+];
 
 /** An action class as the table constructs it, with the statics its arguments use. */
 type ActionClass = (new (...args: unknown[]) => Action) & {
@@ -92,16 +113,8 @@ const type = (cls: ActionClass, name: string): unknown =>
 /** The extensions GSaveAsAction gets for "save as" entries (GDocument.FileTypes with store). */
 function storeFormats(find: typeof lateExport): string[] {
   const list =
-    find<() => { ext: string; store?: boolean }[]>(
-      "document/file-types.ts",
-      "getFileTypesArray",
-    )?.() ??
-    Object.values(
-      find<Record<string, { ext: string; store?: boolean }>>(
-        "document/file-types.ts",
-        "FileTypes",
-      ) ?? {},
-    );
+    find<readonly { ext: string; store?: boolean }[]>("document/file-types.ts", "FileTypeList") ??
+    [];
   return list
     .filter(
       (type) =>
@@ -667,6 +680,7 @@ export async function boot(container: Container): Promise<Designer> {
   startDragDropTouch();
   setContainer(container);
   await loadAppModules();
+  installMousetrapBinder();
   const designer = new Designer();
   setDesigner(designer);
   connectHosts(designer);
@@ -681,11 +695,21 @@ export async function boot(container: Container): Promise<Designer> {
   designer.setEnv(NODE_ENV);
   designer.setVersion("3.15.0");
   designer.setVersionFriendlyName("i015.3");
+  designer.setSupportedBrowsers(SUPPORTED_BROWSERS);
+  designer.setSupportedTabletBrowsers(SUPPORTED_TABLET_BROWSERS);
+  // Read before handleDeepLinking takes the query off the address.
+  const startParameters = new URL(window.location.href).searchParams;
   designer.preInit();
+  // The old app ran the link it found (runDeepLink). Every link but
+  // pwainstall started a cloud, account or purchase flow (REMOVED.md
+  // DROP-010); pwainstall is handled below.
+  container.handleDeepLinking();
   if (designer.hasEventListeners(ApplicationStatusEvent))
     designer.trigger(new ApplicationStatusEvent(ApplicationStatusEvent.Status.Init));
   designer.setIsBeta(false);
   const registry = buildRegistry();
+  // GravitDesign Next adds Help > About GravitDesign Next (none in the classic look).
+  registry.actions.push(...brandActions());
   setAppRegistry(registry);
   Designer.loadsCmykProfile = true;
   designer.init();
@@ -714,18 +738,7 @@ export async function boot(container: Container): Promise<Designer> {
   // The data-title tooltips (module 1673, Fn.init() in the old bootstrap).
   installTooltips();
   document.body.classList.remove("loading");
-  window.onbeforeunload = (event) => {
-    if (
-      !container.canUnload(
-        designer.hasModifiedDocuments(),
-        designer.hasSynchronizingDocuments(),
-        false,
-      )
-    ) {
-      event.preventDefault();
-      event.returnValue = "";
-    }
-  };
+  window.onbeforeunload = (event) => beforeUnload(designer, container, event);
   if (request) {
     // Start URLs only named cloud documents (container.start); nothing opens them.
   } else if (welcomeScreenEnabled(designer)) designer.handleWelcomeScreenOpenWithUserPermissions();
@@ -758,11 +771,43 @@ export async function boot(container: Container): Promise<Designer> {
     "MemoryManager",
   );
   if (MemoryManager) new MemoryManager().start();
+  openStartDialogs(designer, startParameters);
   // The old app loaded the CMYK profile in init and never waited; boot ends
   // once it is there, so a CMYK colour right after start converts the same
   // way every time.
   await designer.whenCmykProfileLoaded();
   return designer;
+}
+
+/**
+ * window.onbeforeunload: asks "leave site?" while documents are modified,
+ * unless the page reloads for a software update.
+ */
+export function beforeUnload(
+  designer: Pick<Designer, "isReloading" | "hasModifiedDocuments" | "hasSynchronizingDocuments">,
+  container: Pick<Container, "canUnload">,
+  event: Pick<BeforeUnloadEvent, "preventDefault" | "returnValue">,
+): void {
+  if (
+    !designer.isReloading() &&
+    !container.canUnload(
+      designer.hasModifiedDocuments(),
+      designer.hasSynchronizingDocuments(),
+      false,
+    )
+  ) {
+    event.preventDefault();
+    event.returnValue = "";
+  }
+}
+
+/** `?pwainstall` in the start URL: the install dialog once the app is ready. */
+export function openStartDialogs(
+  designer: Pick<Designer, "executeWhenReady" | "showInstallPwaDialog">,
+  startParameters: URLSearchParams,
+): void {
+  if (startParameters.has(DeepLinking.PWADialog))
+    designer.executeWhenReady(() => designer.showInstallPwaDialog());
 }
 
 /** The one-time notice on screens narrower than 1024 px. */

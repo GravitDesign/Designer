@@ -122,7 +122,10 @@ export class FontsPanel {
     element.classList.add("g-fonts-panel");
     this._search = this.options.search || null;
     panels.set(element, this);
-    // Never removed, as before: the panel lives as long as the app.
+    // Never removed, as before. The text panel's font field lives as long
+    // as the app, but every replacement field of the missing-fonts dialog
+    // builds its own panel too, and those keep querying and rendering
+    // their detached element on each reset after the dialog has closed.
     this._manager.addEventListener(ResetEvent, () => {
       element.classList.add("g-loading");
       this._manager.query((result) => {

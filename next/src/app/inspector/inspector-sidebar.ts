@@ -29,7 +29,7 @@ import { Page } from "../../engine/scene/page.ts";
 import { Editor } from "../../editor/editor.ts";
 import { ItemTool } from "../../editor/tools/item-tool.ts";
 import { SelectTool } from "../../editor/tools/select-tool.ts";
-import { ToolChangedEvent, ToolManager } from "../../editor/tools/tool-manager.ts";
+import { ToolChangedEvent } from "../../editor/tools/tool-manager.ts";
 import type { Tool } from "../../editor/tools/tool.ts";
 import { initAccordion } from "../widgets/accordion.ts";
 import { DocumentEvent } from "../document/document-event.ts";
@@ -313,24 +313,26 @@ export class InspectorSidebar extends Sidebar implements SidebarLike {
     if (panel) panel.properties.openPatternChooser();
   }
 
-  openFillEyeDropper(event?: unknown, options?: unknown): void {
+  openFillEyeDropper(pageX?: number, pageY?: number): void {
     const panel = this._panelOf("FillProperties");
-    if (panel) panel.properties.openEyeDropper(event, options);
+    if (panel) panel.properties.openEyeDropper(pageX, pageY);
   }
 
-  openBorderEyeDropper(event?: unknown, options?: unknown): void {
+  openBorderEyeDropper(pageX?: number, pageY?: number): void {
     const panel = this._panelOf("BorderProperties");
-    if (panel) panel.properties.openEyeDropper(event, options);
+    if (panel) panel.properties.openEyeDropper(pageX, pageY);
   }
 
-  openTextColorEyeDropper(event?: unknown, options?: unknown): void {
+  openTextColorEyeDropper(pageX?: number, pageY?: number): void {
     const panel = this._panelOf("TextProperties");
-    if (panel) panel.properties.openEyeDropper(event, options);
+    if (panel) panel.properties.openEyeDropper(pageX, pageY);
   }
 
   /** The joint-type actions: GPathProperties.assignNodeType on the selected points. */
   setPathPointsNodeType(type: unknown): void {
     const panel = this._panelOf("PathProperties");
+    // The path panel's class is late-bound (PROPERTIES_TABLE), so the entry
+    // is typed as the base Properties; the old code called it unchecked too.
     if (panel) (panel.properties as unknown as PathPropertiesLike).assignNodeType(type);
   }
 
@@ -444,6 +446,9 @@ export class InspectorSidebar extends Sidebar implements SidebarLike {
     const editor = (this._document as Document).getEditor();
     if (this._document && editor) {
       this._elements = editor.getSelection() as InspectedElements | null;
+      // filterIndividualElements takes and returns the editor's structural
+      // node view (EdNode in editor.ts), which the engine's Node typings
+      // don't fully declare; the elements are the selection's scene nodes.
       if (this._elements && this._elements.length)
         this._elements = editor.filterIndividualElements(
           this._elements.filter((element) => !element.hasMixin(AnnotationMixin)) as never[],
@@ -464,10 +469,12 @@ export class InspectorSidebar extends Sidebar implements SidebarLike {
     const htmlElement = this._htmlElement as HTMLElement;
     let anyVisible = false;
     let previous: Properties | null = null;
-    let textToolbar: HTMLElement | null = null;
+    // The toolbar of the slice panel (old `s instanceof _`, _ = module 1272),
+    // shown again in touch mode after a later appearance panel hid it.
+    let sliceToolbar: HTMLElement | null = null;
     this._touchTools = [];
     const accordions = InspectorSidebar.ACCORDIONS;
-    const textString = tableString("TextProperties");
+    const sliceString = tableString("SliceProperties");
     for (const entry of this._propertyPanels) {
       const properties = entry.properties;
       let visible = properties.isAvailable(this._transformMode);
@@ -484,8 +491,8 @@ export class InspectorSidebar extends Sidebar implements SidebarLike {
       setDisplayed(entry.panel, !!visible);
       if (entry.toolbar) {
         setDisplayed(entry.toolbar, !!visible);
-        if (textString !== null && properties.toString() === textString && visible)
-          textToolbar = entry.toolbar;
+        if (sliceString !== null && properties.toString() === sliceString && visible)
+          sliceToolbar = entry.toolbar;
         if (accordions.includes(entry.properties.toString()) && visible) {
           entry.toolbar.classList.add("appearance-panel-toggle-btn");
           initAccordion(entry.toolbar, { next: ".properties-panel", title: "label" });
@@ -507,7 +514,7 @@ export class InspectorSidebar extends Sidebar implements SidebarLike {
       if (entry.toolbar) entry.toolbar.classList.toggle("g-disabled", false);
       if (entry.panel) entry.panel.classList.toggle("g-disabled", false);
     }
-    if (textToolbar && touch) textToolbar.style.display = "";
+    if (sliceToolbar && touch) sliceToolbar.style.display = "";
 
     const page = htmlElement.ownerDocument;
     if (page.querySelectorAll(".appearance-divider").length === 0) {
@@ -515,7 +522,8 @@ export class InspectorSidebar extends Sidebar implements SidebarLike {
       if (firstToolbar) firstToolbar.before(el("hr", "appearance-divider"));
     }
     const firstToolbar = page.querySelector(".appearance-toolbar");
-    const dividerHidden = !!firstToolbar && getComputedStyle(firstToolbar).display === "none";
+    const dividerHidden =
+      !!firstToolbar && getComputedStyle(firstToolbar).getPropertyValue("display") === "none";
     for (const divider of page.querySelectorAll<HTMLElement>(".appearance-divider"))
       setDisplayed(divider, !dividerHidden);
     const visibleRules = [
@@ -597,6 +605,3 @@ export class InspectorSidebar extends Sidebar implements SidebarLike {
 interface PathPropertiesLike {
   assignNodeType(type: unknown): void;
 }
-
-// Keep the tool manager import a value import for instanceof users of this module.
-void ToolManager;

@@ -322,7 +322,7 @@ export class PagePanel {
     const node = entry.node;
     if (!node) return;
     if (!(node instanceof Page)) throw new Error("item not page");
-    const page = node as unknown as PanelNode & Page;
+    const page = node;
     const lockType = page.getProperty("lkt");
     const isMaster = !!page.getSlavePages().length;
     const isInfinite = 0 === page.getProperty("w") && 0 === page.getProperty("h");
@@ -343,7 +343,7 @@ export class PagePanel {
     if (isMaster && !designer().isTouchEnabled()) name += " (master)";
     const title = span("page-title");
     // The old code inserted the name as HTML; see "Layer and page names
-    // are no longer read as HTML" in BUGS-FIXED.md.
+    // are no longer read as HTML" (BF-119) in bugfix-plan.md.
     title.textContent = name;
     titleGroup.appendChild(title);
     if (!page.hasFlag(Element.Flag.PartialLocked as number)) {
@@ -424,10 +424,10 @@ export class PagePanel {
         () => {
           page.setProperty("lkt", next);
           if (next === Block.LockType.Full) {
-            (scene as unknown as PanelNode).setProperty("edit", false);
+            scene.setProperty("edit", false);
             const active = designer().getActiveDocument();
             if (active) active.getEditor()?.clearSelection();
-          } else (scene as unknown as PanelNode).setProperty("edit", true);
+          } else scene.setProperty("edit", true);
         },
         text("GCommonNames", "action.toggle-lock"),
       );
@@ -553,7 +553,8 @@ export class PagePanel {
       flag === Element.Flag.FullLocked ||
       flag === Node.Flag.Active
     ) {
-      const scene = (node as unknown as { getScene(): Scene | null }).getScene();
+      // getScene's type is the SceneHooks part, without getActivePage.
+      const scene = node.getScene() as unknown as Scene | null;
       const active = scene && scene.getActivePage();
       if (active && active == node && event.set) {
         const treeNode = this._treeNodeOf(node) as VirtualTreeNode;

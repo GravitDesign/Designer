@@ -301,6 +301,23 @@ online (cloud, dropped).
 - Scenarios: platform/server/online-probe checks for the new app that no
   request reaches /connection/test while it starts (`removedInNewApp`).
 
+## DROP-013 No cloud check when opening a synced file
+
+Old code: designer.browser.dev.js module 163 (GDocument.deserializeData,
+around line 6465, and loadFromCloud). A .gvdesign whose scene says it is
+synchronized with Gravit Cloud (`cid` set and `cfs` true) was compared
+with the cloud copy before it was shown (chooseLatestDocument).
+
+- Old: without the cloud the comparison fails: the document shows the
+  file's scene with the status SyncFailed instead of Loaded, and the
+  failure handler sets `cfs` to false when the app is online. Saving it
+  writes neither `cid` nor `cfs` (`cfs` null), as for any file.
+- New: such a file opens like any other (status Loaded, src/app/document/document.ts).
+  Saving it writes the same as the old app: no `cid`, `cfs` null.
+  Checked by opening the corpus file transforms.gvdesign with `cid` and
+  `cfs: true` added in both apps and saving it (no scenario: none of the
+  corpus files carries these properties).
+
 ## Not ported: code nothing calls
 
 - GDesigner.downloadFonts and calculateFontsSize (designer.browser.dev.js

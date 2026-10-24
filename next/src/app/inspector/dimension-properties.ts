@@ -37,7 +37,7 @@ import { InputBox } from "../widgets/input-box.ts";
 import { initInputLabel } from "../widgets/input-label.ts";
 import { InputSelect } from "../widgets/input-select.ts";
 import { attachRichTooltip } from "../widgets/rich-tooltip.ts";
-import { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
+import { RichTooltipConfig, type RichTooltipFields } from "../widgets/rich-tooltip-config.ts";
 import type { Document } from "../document/document.ts";
 import { container, designer } from "../shell/globals.ts";
 import type { SidebarTouchTool } from "../shell/layout.ts";
@@ -53,6 +53,9 @@ import {
 } from "./properties.ts";
 
 const AnchorType = Element.Anchor.AnchorType;
+
+type Element_ = globalThis.Element;
+type Designer = ReturnType<typeof designer>;
 
 /** A transformable element as the panel uses it. */
 interface TransformElement extends Node {
@@ -90,7 +93,7 @@ function actionTitle(id: string): string {
 }
 
 function tooltip(key: string, middle?: boolean): RichTooltipConfig {
-  const fields: Record<string, unknown> = {
+  const fields: RichTooltipFields = {
     title: text("GDimensionProperties", `text.${key}-tooltip-title`),
     description: text("GDimensionProperties", `text.${key}-tooltip-description`),
   };
@@ -98,7 +101,7 @@ function tooltip(key: string, middle?: boolean): RichTooltipConfig {
     fields.middle = middle;
     fields.learnMore = "";
   }
-  return RichTooltipConfig.from(fields as unknown as Parameters<typeof RichTooltipConfig.from>[0]);
+  return RichTooltipConfig.from(fields);
 }
 
 function anchorTooltip(key: string): RichTooltipConfig {
@@ -106,7 +109,7 @@ function anchorTooltip(key: string): RichTooltipConfig {
     title: text("GDimensionProperties", `text.anchor-${key}-tooltip-title`),
     description: text("GDimensionProperties", `text.anchor-${key}-tooltip-description`),
     learnMore: "",
-  } as Parameters<typeof RichTooltipConfig.from>[0]);
+  });
 }
 
 /** `$(els).addClass(cond ? "g-active" : "")` and the matching removeClass. */
@@ -117,7 +120,23 @@ function activeIf(elements: Iterable<Element_>, add: boolean, remove: boolean): 
   }
 }
 
-type Element_ = globalThis.Element;
+/**
+ * Editor.getLinkedElementsInSelection on scene nodes. The editor types its
+ * nodes with its own structural view (EdNode in editor.ts), which the
+ * engine's Node typings don't fully declare; the values are scene nodes.
+ */
+function linkedInSelection(
+  editor: Editor,
+  element: TransformElement,
+  selection: readonly TransformElement[],
+): Node[] {
+  type EdNodes = Parameters<Editor["getLinkedElementsInSelection"]>[1];
+  const nodes = selection as unknown as EdNodes;
+  return editor.getLinkedElementsInSelection(
+    element as unknown as EdNodes[number],
+    nodes,
+  ) as unknown as Node[];
+}
 
 export class DimensionProperties extends Properties {
   static _keepRatioName = "designer.settings.dimension.preserveratio";
@@ -136,22 +155,23 @@ export class DimensionProperties extends Properties {
     this._panel = panel;
     this._toolbar = toolbar;
     panel.classList.add("dimension-panel");
-    // The old touch tools took the panel elements where the type says selector.
+    // The old touch tools took the panel elements themselves (and a mix of
+    // element and selector for the second one).
     this.setTouchTools([
       new TouchTool({
         id: "dimension.align",
         icon: "gravit-icon-align",
         panelWidth: "370px",
-        panel: toolbar as unknown as string,
-      }),
+        panel: toolbar,
+      }) as SidebarTouchTool,
       new TouchTool({
         id: "dimension.dimension",
         icon: "gravit-icon-touch-transform",
         toolbar: ".advanced-transform-toolbar",
         panelWidth: "395px",
-        panel: [panel, ".advanced-transform-properties"] as unknown as string,
-      }),
-    ] as unknown as SidebarTouchTool[]);
+        panel: [panel, ".advanced-transform-properties"],
+      }) as SidebarTouchTool,
+    ]);
 
     const field = (key: string, config: RichTooltipConfig): HTMLElement => {
       if ("keep-ratio" == key) {
@@ -893,12 +913,7 @@ export class DimensionProperties extends Properties {
       let linked: Node[] = [];
       for (let i = 0; i < this._elements.length; ++i) {
         const element = this._elements[i] as TransformElement;
-        linked = linked.concat(
-          editor.getLinkedElementsInSelection(
-            element as never,
-            this._elements as never[],
-          ) as unknown as Node[],
-        );
+        linked = linked.concat(linkedInSelection(editor, element, this._elements));
       }
       if (several) {
         if (this._elementsBBox) {
@@ -1036,5 +1051,3 @@ export class DimensionProperties extends Properties {
     return "[Object GDimensionProperties]";
   }
 }
-
-type Designer = ReturnType<typeof designer>;

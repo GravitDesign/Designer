@@ -125,6 +125,8 @@ function isInnerPath(node: Node): boolean {
 
 /** Whether the node is on a page other than the active one. */
 function isOnInactivePage(node: Node): boolean {
+  // getScene and getPage come from the Element mixin, which Node's
+  // typings lack; the scene is typed as its SceneHooks part there.
   const scene = (node as unknown as { getScene(): Scene | null }).getScene();
   if (scene) {
     const page = (node as unknown as { getPage(): Node | null }).getPage();
@@ -138,7 +140,7 @@ function text(table: string, key: string): string {
   return Locale.get(new LocaleKey(table, key)) as string;
 }
 
-/** `$(el).html(text)` of the old code for names, as text (see BUGS-FIXED.md). */
+/** `$(el).html(text)` of the old code for names, as text (see BF-119 in bugfix-plan.md). */
 function setText(element: HTMLElement, value: string | null | undefined): void {
   element.textContent = value == null ? "" : value;
 }
@@ -760,9 +762,8 @@ export class LayerPanel {
             item.setProperty("cls", pattern);
             (node as PanelContainerNode).acceptChildren((child) => {
               if (child instanceof Layer) {
-                const childColor = (child as unknown as PanelNode).getProperty("cls");
-                if (Util.equals(childColor, previous))
-                  (child as unknown as PanelNode).setProperty("cls", pattern);
+                const childColor = child.getProperty("cls");
+                if (Util.equals(childColor, previous)) child.setProperty("cls", pattern);
               }
               return undefined;
             });
@@ -930,8 +931,9 @@ export class LayerPanel {
         flag === Node.Flag.Selected ||
         flag === Node.Flag.Active
       ) {
-        const page = (node as unknown as { getPage(): Node | null }).getPage();
-        const scene = (node as unknown as { getScene(): Scene | null }).getScene();
+        // getScene's type is the SceneHooks part, without getActivePage.
+        const page = node.getPage();
+        const scene = node.getScene() as unknown as Scene | null;
         const active = scene && scene.getActivePage();
         if (!(active && page && active !== page)) {
           invalidate = true;

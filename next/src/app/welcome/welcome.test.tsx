@@ -171,3 +171,16 @@ describe("welcome screen content (UI-WELCOME-002 to UI-WELCOME-007, UI-NEWDOC-00
     );
   });
 });
+
+describe("welcome screen sidebar in the next look", () => {
+  it("puts the brand head first in the sidebar, and nothing in the classic look", () => {
+    const next = renderToStaticMarkup(
+      <WelcomeScreenView {...props({ brandHead: <div className="gd-welcome-lockup" /> })} />,
+    );
+    expect(next).toContain(
+      '<div class="sidebar"><div class="gd-welcome-lockup"></div><div class="sidebar-options">',
+    );
+    const classic = renderToStaticMarkup(<WelcomeScreenView {...props()} />);
+    expect(classic).toContain('<div class="sidebar"><div class="sidebar-options">');
+  });
+});

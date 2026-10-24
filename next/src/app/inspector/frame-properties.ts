@@ -66,6 +66,10 @@ export class FrameProperties extends Properties {
     this._items = [];
     if (document) {
       const list = elements as InspectedElements;
+      // Added before the check and removed only after a shown update, and
+      // _updateUI mounts the touch slider (one more change listener) each
+      // time; see "Frame and item panels add listeners on every update" in
+      // QUESTIONS.md.
       designer().addEventListener(SettingChangedEvent, this._settingChanged, this);
       for (let i = 0; i < list.length; ++i) {
         const element = list[i];

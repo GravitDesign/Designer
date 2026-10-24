@@ -1,8 +1,7 @@
 /**
- * Modules of other app clusters the modify actions need, looked up late
- * (see shell/late.ts and docs/rewrite/UI.md section 9) while those
- * clusters are ported in parallel. The shared ones (alert, rich tooltips,
- * icons) are in ../deps.ts.
+ * What the modify actions use of other app clusters: the prompt of the
+ * system dialog (looked up late) and the panels below. The shared ones (alert, rich
+ * tooltips, icons) are in ../deps.ts.
  */
 import { lateExport } from "../../shell/late.ts";
 import { SidebarsIds } from "../../shell/sidebar-ids.ts";
@@ -24,9 +23,10 @@ interface PromptingDialog {
 }
 
 /**
- * GSystemDialog.prompt (module 44, dialogs/system-dialog.ts). Until the
- * dialogs cluster exists there is no prompt; the action then does nothing,
- * like a cancelled prompt, and says so on the console.
+ * GSystemDialog.prompt (module 44, dialogs/system-dialog.ts), looked up
+ * late like the other system dialog calls (shell/late.ts). Without the
+ * app modules (Node unit tests) the action does nothing, like a cancelled
+ * prompt, and says so on the console.
  */
 export function promptDialog(message: string, done: PromptCallback, defaultValue?: string): void {
   const dialog = lateExport<Partial<PromptingDialog>>("dialogs/system-dialog.ts", "SystemDialog");
@@ -34,7 +34,7 @@ export function promptDialog(message: string, done: PromptCallback, defaultValue
     dialog.prompt(message, done, defaultValue);
     return;
   }
-  console.warn("[system dialog] prompt is not ported yet:", message);
+  console.warn("[system dialog] no prompt (the app modules are not loaded):", message);
 }
 
 /**
