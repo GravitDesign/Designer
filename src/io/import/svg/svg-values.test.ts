@@ -94,10 +94,13 @@ describe("SvgProperty", () => {
           property.hasValue(),
         ];
       });
+      // The old app threw for em and ex (BUG-079); without an element
+      // they are now relative to 16px.
+      const old = recorded.outputs.lengths[i];
+      const expected =
+        "1em" === l[0] ? [16, 1, "em", true] : "1ex" === l[0] ? [8, 1, "ex", true] : old;
       // JSON turned the recorded NaN into null.
-      expect(JSON.parse(JSON.stringify(result)), JSON.stringify(l)).toEqual(
-        recorded.outputs.lengths[i],
-      );
+      expect(JSON.parse(JSON.stringify(result)), JSON.stringify(l)).toEqual(expected);
     });
   });
 

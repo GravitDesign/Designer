@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-079",
+  "why": "em and ex lengths resolve against the element's font size (16px without one) instead of failing the import with a TypeError. The old app recorded the error and no node; the .fixed file has the rect at x 16, which the old app gives for the fixture with x=\"16\".",
+  "scenarios": ["io-import-svg/units-em-svg"],
+  "pending": []
+}

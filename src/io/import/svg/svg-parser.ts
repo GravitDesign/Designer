@@ -449,7 +449,9 @@ export class SvgElementBase {
     const attributes = node.attributes as ArrayLike<{ nodeName: string; value: string }>;
     for (let i = 0; i < attributes.length; i++) {
       const attribute = attributes[i] as { nodeName: string; value: string };
-      this.attributes[attribute.nodeName] = svg.property(attribute.nodeName, attribute.value);
+      const property = svg.property(attribute.nodeName, attribute.value);
+      property.owner = this;
+      this.attributes[attribute.nodeName] = property;
     }
     const copy = (rules: Record<string, SvgProperty> | undefined) => {
       if (null != rules) for (const name in rules) this.styles[name] = rules[name] as SvgProperty;
@@ -471,7 +473,9 @@ export class SvgElementBase {
           const name = trim(parts[0] as string);
           // A declaration without ":" throws in trim, as before.
           const value = trim(parts[1] as string);
-          this.styles[name] = svg.property(name, value);
+          const property = svg.property(name, value);
+          property.owner = this;
+          this.styles[name] = property;
         }
       }
     }
@@ -2689,7 +2693,9 @@ export class SvgUse extends SvgRenderedElementBase {
           const parts = declaration.split(":");
           const name = trim(parts[0] as string);
           const value = trim(parts[1] as string);
-          definition.styles[name] = this.svg.property(name, value);
+          const property = this.svg.property(name, value);
+          property.owner = definition;
+          definition.styles[name] = property;
         }
       }
     }

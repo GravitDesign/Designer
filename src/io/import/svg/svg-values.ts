@@ -17,6 +17,12 @@ import { Transform } from "../../../engine/math/transform.ts";
 export type PropertyValue = string | number;
 
 /** What a property needs from the parser: the view port stack and the defined elements. */
+/** The element a property was declared on, as far as em lengths need it. */
+export interface PropertyOwner {
+  readonly parent: PropertyOwner | undefined;
+  style(name: string): SvgProperty;
+}
+
 export interface PropertyContext {
   readonly ViewPort: ViewPort;
   readonly Definitions: Record<string, unknown>;
@@ -221,6 +227,8 @@ export function createFont(fontText: string): ParsedFont {
 /** canvg's svg.Property: one attribute or style value of an element. */
 export class SvgProperty {
   declare readonly context: PropertyContext;
+  /** The element the property was declared on; unset for CSS rules, which elements share. */
+  declare owner: PropertyOwner | undefined;
 
   constructor(
     context: PropertyContext,
@@ -233,6 +241,7 @@ export class SvgProperty {
     // CSS rule named __proto__ puts a property on Object.prototype, where
     // every node's default properties are deep-copied with extend).
     Object.defineProperty(this, "context", { value: context });
+    Object.defineProperty(this, "owner", { value: undefined, writable: true });
   }
 
   getValue(): PropertyValue {
@@ -307,12 +316,20 @@ export class SvgProperty {
   }
 
   /**
-   * The font size em and ex units are relative to. canvg read it from the
-   * canvas context's font; the importer never set a context, so any em or
-   * ex length throws (QUESTIONS.md "SVG import em units").
+   * The font size em and ex units are relative to: the computed font size
+   * of the element the property was declared on (of its parent for
+   * font-size itself), 16 without one. canvg read it from a canvas the
+   * importer never set, so every em or ex length threw (BUGS-FIXED.md
+   * "BUG-079 em and ex lengths fail the import").
    */
   getEM(): number {
-    throw new TypeError("Cannot read properties of undefined (reading 'font')");
+    const owner = this.owner;
+    const element = owner && ("font-size" === this.name ? owner.parent : owner);
+    if (element) {
+      const size = element.style("font-size");
+      if (size.hasValue()) return size.toPixels("y");
+    }
+    return 16;
   }
 
   getUnits(): string {

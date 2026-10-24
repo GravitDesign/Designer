@@ -1055,7 +1055,7 @@ What it does: em and ex lengths are relative to the font of canvg's canvas conte
 
 Why it's unclear: em units are valid SVG; files that use them can't be imported at all.
 
-Kept. Pinned by next/src/io/import/svg/svg-parser.test.ts "fails on em lengths, which needed canvg's canvas" and the io-import-svg/units-em-svg parity scenario.
+Fixed: see BUG-079 in BUGS-FIXED.md.
 
 ## Q-087 SVG import matrix order
 

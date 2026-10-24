@@ -2052,3 +2052,27 @@ Old code: chunk.vendor.js module 1391, svg.Rect expand, lines
   old app: with the polyline replaced by a rect of the same box (120, 100,
   80 x 40), the old app gives exactly the new angle. No other io-import-svg
   scenario changes.
+
+## BUG-079 em and ex lengths fail the import
+
+Old code: chunk.vendor.js module 1391, svg.Property getEM (line 245360).
+
+- Reproduce: import an SVG with an em or ex length anywhere, for example
+  `<rect x="1em" .../>` or the common `<text dy="0.35em">`.
+- Old: canvg resolved em against the font of its canvas context, but the
+  importer never sets one, so every em or ex length threw a TypeError and
+  the whole import failed with nothing imported.
+- New: em is the computed font size of the element the length is
+  declared on (for font-size itself, of its parent), 16px when no
+  font size is set, the browser default the importer also uses for texts;
+  ex is half an em, as in canvg. Lengths in CSS rules, which elements
+  share, resolve against 16px.
+- Test: src/io/import/svg/svg-parser.test.ts, "resolves em and ex lengths
+  against the element's font size (BUG-079)" (fails with the old
+  TypeError). src/io/import/svg/svg-values.test.ts keeps the recorded old
+  lengths and now expects 16 and 8 for "1em" and "1ex" where the old ones
+  threw.
+- Parity exceptions: io-import-svg/units-em-svg. The old app recorded the
+  TypeError and no node. Checked against the old app: the fixture with
+  `x="1em"` replaced by `x="16"` gives exactly the `.fixed` output, apart
+  from the random ids.

@@ -268,11 +268,26 @@ describe("SVGImport.import", () => {
     expect(children.map((c) => c.constructor.name)).toEqual(["Rectangle", "Ellipse"]);
   });
 
-  it("fails on em lengths, which needed canvg's canvas", async () => {
+  it("resolves em and ex lengths against the element's font size (BUG-079)", async () => {
     const result = await importTree(
-      el("svg", {}, [el("rect", { x: "1em", width: "4", height: "4" })]),
+      el("svg", { width: "100", height: "100" }, [
+        el("g", { "font-size": "20" }, [
+          el("rect", { x: "1em", y: "2ex", width: "4", height: "4" }),
+          el("rect", { x: "1em", width: "0.5em", height: "4", "font-size": "1.5em" }),
+        ]),
+        el("rect", { x: "1em", width: "4", height: "4" }),
+      ]),
     );
-    expect(result.error).toBeInstanceOf(TypeError);
+    expect(result.error).toBeNull();
+    const group = result.node as unknown as Group;
+    const [inner, outer] = group.getChildren() as unknown as [Group, Rectangle];
+    const [first, second] = inner.getChildren() as unknown as Rectangle[];
+    // x = 1em = 20, y = 2ex = 20; the box is 4 x 4 around its center.
+    expect((first?.getProperty("trf") as Transform).getMatrix()).toEqual([2, 0, 0, 2, 22, 22]);
+    // Its own font size is 1.5em of the group's 20 = 30: x 30, width 15.
+    expect((second?.getProperty("trf") as Transform).getMatrix()).toEqual([7.5, 0, 0, 2, 37.5, 2]);
+    // No font size anywhere: 16.
+    expect((outer.getProperty("trf") as Transform).getMatrix()).toEqual([2, 0, 0, 2, 18, 2]);
   });
 });
 
