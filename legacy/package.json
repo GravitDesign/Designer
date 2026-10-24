@@ -1,0 +1,101 @@
+{
+  "name": "gravit-designer-local",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Locally hosted Gravit Designer with reverse-engineered module system",
+  "main": "electron-main.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "build": "node reverse-engineering/build-bundle.cjs",
+    "icons": "node scripts/generate-icons.cjs",
+    "serve": "npm run build && npm start",
+    "clean": "node -e \"require('fs').rmSync('public/designer.browser.dev.js',{force:true}); console.log('Cleaned');\"",
+    "electron": "electron .",
+    "dist:win": "electron-builder --win",
+    "dist:linux": "electron-builder --linux",
+    "dist:mac": "electron-builder --mac",
+    "dist:all": "electron-builder --win --linux --mac"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "ws": "^8.18.2"
+  },
+  "devDependencies": {
+    "electron": "^33.3.1",
+    "electron-builder": "^25.1.8"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "build": {
+    "appId": "com.gravit.designer.local",
+    "productName": "Gravit Designer",
+    "directories": {
+      "output": "releases"
+    },
+    "files": [
+      "electron-main.js",
+      "server.js",
+      "routes/**/*",
+      "public/**/*",
+      "docs/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "public/assets/prerendered/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "public/assets/prerendered/icon.ico",
+      "uninstallerIcon": "public/assets/prerendered/icon.ico"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "public/assets/prerendered",
+      "category": "Graphics"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "public/assets/prerendered/icon512.png",
+      "category": "public.app-category.graphics-design"
+    }
+  }
+}

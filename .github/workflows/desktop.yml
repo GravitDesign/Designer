@@ -1,10 +1,10 @@
-name: Desktop app (next)
+name: Desktop app
 
-# Builds the desktop app (next/, Electron + electron-builder) for every
+# Builds the desktop app (Electron + electron-builder) for every
 # target the old app shipped: Windows NSIS installer and portable exe,
 # Linux AppImage and deb, macOS dmg for x64 and arm64. Every run uploads
 # the packages as workflow artifacts. A pushed version tag (v<version>,
-# matching next/package.json) also publishes them to a draft GitHub
+# matching package.json) also publishes them to a draft GitHub
 # release of GravitDesign/designer, with the latest*.yml files the app's
 # updater reads; publishing the draft is done by hand, and that also
 # triggers thumbnail-provider.yml, which attaches the Explorer thumbnail
@@ -14,11 +14,11 @@ on:
     tags: ["v*"]
   pull_request:
     paths:
-      - "next/electron/**"
-      - "next/server/**"
-      - "next/package.json"
-      - "next/package-lock.json"
-      - "next/vite.electron.config.ts"
+      - "electron/**"
+      - "server/**"
+      - "package.json"
+      - "package-lock.json"
+      - "vite.electron.config.ts"
       - ".github/workflows/desktop.yml"
   workflow_dispatch:
 
@@ -40,7 +40,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
-        working-directory: next
         shell: bash
     steps:
       - uses: actions/checkout@v4
@@ -48,7 +47,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: next/package-lock.json
+          cache-dependency-path: package-lock.json
       - run: npm ci
       # Client (tsc + vite) and the Electron main process.
       - run: npm run build
@@ -67,9 +66,9 @@ jobs:
           name: gravit-designer-${{ matrix.platform }}
           if-no-files-found: error
           path: |
-            next/release/*.exe
-            next/release/*.AppImage
-            next/release/*.deb
-            next/release/*.dmg
-            next/release/*.blockmap
-            next/release/latest*.yml
+            release/*.exe
+            release/*.AppImage
+            release/*.deb
+            release/*.dmg
+            release/*.blockmap
+            release/latest*.yml

@@ -2,13 +2,7 @@ name: Gravit Designer (next)
 
 on:
   push:
-    paths:
-      - "next/**"
-      - ".github/workflows/next.yml"
   pull_request:
-    paths:
-      - "next/**"
-      - ".github/workflows/next.yml"
   workflow_dispatch:
     inputs:
       record_brand:
@@ -23,16 +17,13 @@ jobs:
   checks:
     if: inputs.record_brand == ''
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: next
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: next/package-lock.json
+          cache-dependency-path: package-lock.json
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
@@ -57,25 +48,21 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: next/package-lock.json
+          cache-dependency-path: package-lock.json
       # The old app, used as the reference, needs only express and ws.
       - name: Install the old app's server dependencies
-        run: |
-          cd "$(node -e "const fs=require('fs');console.log(fs.existsSync('legacy/server.js')?'legacy':'.')")"
-          npm install --no-save --no-package-lock express@5 ws@8
+        working-directory: legacy
+        run: npm install --no-save --no-package-lock express@5 ws@8
       - run: npm ci
-        working-directory: next
       - run: npx playwright install chromium
-        working-directory: next
       - run: npx playwright test --project harness --project parity --shard ${{ matrix.shard }}/4
-        working-directory: next
         env:
           CI: "1"
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: parity-results-${{ matrix.shard }}
-          path: next/test-results/
+          path: test-results/
 
   brand:
     # The brand scenarios run twice in a row, to catch shots that only
@@ -91,24 +78,19 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: next/package-lock.json
+          cache-dependency-path: package-lock.json
       - name: Install the old app's server dependencies
-        run: |
-          cd "$(node -e "const fs=require('fs');console.log(fs.existsSync('legacy/server.js')?'legacy':'.')")"
-          npm install --no-save --no-package-lock express@5 ws@8
+        working-directory: legacy
+        run: npm install --no-save --no-package-lock express@5 ws@8
       - run: npm ci
-        working-directory: next
       - run: npx playwright install chromium
-        working-directory: next
       - name: Brand scenarios, first run
-        run: npx playwright test --project parity parity/scenarios/brand
-        working-directory: next
+        run: npx playwright test --project=parity parity/scenarios/brand
         env:
           CI: "1"
           GD_RUN: brand-1
       - name: Brand scenarios, second run
-        run: npx playwright test --project parity parity/scenarios/brand
-        working-directory: next
+        run: npx playwright test --project=parity parity/scenarios/brand
         env:
           CI: "1"
           GD_RUN: brand-2
@@ -116,7 +98,7 @@ jobs:
         if: failure()
         with:
           name: brand-results
-          path: next/test-results/
+          path: test-results/
 
   record-brand:
     # Recorded on the same runner image as the brand job, so the shots
@@ -132,17 +114,13 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: next/package-lock.json
+          cache-dependency-path: package-lock.json
       - name: Install the old app's server dependencies
-        run: |
-          cd "$(node -e "const fs=require('fs');console.log(fs.existsSync('legacy/server.js')?'legacy':'.')")"
-          npm install --no-save --no-package-lock express@5 ws@8
+        working-directory: legacy
+        run: npm install --no-save --no-package-lock express@5 ws@8
       - run: npm ci
-        working-directory: next
       - run: npx playwright install chromium
-        working-directory: next
-      - run: npx playwright test --project parity parity/scenarios/brand --grep "$PATTERN"
-        working-directory: next
+      - run: npx playwright test --project=parity parity/scenarios/brand --grep "$PATTERN"
         env:
           CI: "1"
           GD_RECORD_BRAND: "1"
@@ -151,4 +129,4 @@ jobs:
         if: always()
         with:
           name: brand-recording
-          path: next/parity/expected/brand/
+          path: parity/expected/brand/

@@ -7,8 +7,8 @@ on:
     types: [published]
   push:
     paths:
-      - 'native/gvthumb/**'
-      - '.github/workflows/thumbnail-provider.yml'
+      - "native/gvthumb/**"
+      - ".github/workflows/thumbnail-provider.yml"
   workflow_dispatch:
 
 permissions:
