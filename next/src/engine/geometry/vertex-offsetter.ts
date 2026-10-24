@@ -1101,11 +1101,21 @@ export class VertexOffsetter extends VertexSource {
           const sourceHits: IntersectionPt[] = [];
           this._calcIntersectionPoints(part, this._polyline, partHits, sourceHits);
           if (0 == partHits.length) insetParts.push(part);
-          // The old code looked for an end segment among the source hits
-          // here too, but looped up to `sourceHits.count`, which an array
-          // doesn't have; so an inset part that touches the source is
-          // always dropped. See QUESTIONS.md "Offsetter: inset-only parts of
-          // an open path that touch the source are dropped".
+          else if (!this._polyline.closed) {
+            // The old code looped up to `sourceHits.count`, which an array
+            // doesn't have, and dropped every such part (BUGS-FIXED.md
+            // "BUG-012 Offset drops inset parts of an open path that come
+            // near the source").
+            let nearEnd = false;
+            for (let j = 0; j < sourceHits.length; ++j) {
+              const hit = sourceHits[j] as IntersectionPt;
+              if (0 == hit.segmIdx || hit.segmIdx == this._polyline.count - 1) {
+                nearEnd = true;
+                break;
+              }
+            }
+            if (nearEnd) this._excludeCircleInside(part, partHits, sourceHits, offset, insetParts);
+          }
         }
       } else insetParts[0] = trimmedInset;
     }
@@ -2163,7 +2173,10 @@ export class VertexOffsetter extends VertexSource {
     // cut can use the line cut point (cutX, cutY) or the arc bulge
     // (firstBulge) of an earlier hit, undefined before there was one.
     // See QUESTIONS.md "Offsetter: the rest of a cut arc starts at an unset
-    // cut point".
+    // cut point". Without an earlier line cut the rest of the arc starts at
+    // the second circle hit instead of (undefined, undefined), which put NaN
+    // into insets (BUGS-FIXED.md "BUG-012 Offset drops inset parts of an
+    // open path that come near the source").
     let cutX: number | undefined;
     let cutY: number | undefined;
     let firstBulge: number | undefined;
@@ -2244,7 +2257,7 @@ export class VertexOffsetter extends VertexSource {
           ) {
             const restBulge = (segment.bulge - secondBulge) / (1 + segment.bulge * secondBulge);
             pending = new PolySegment(
-              new Point(cutX as number, cutY as number),
+              undefined === cutX ? (points[1] as Point) : new Point(cutX, cutY as number),
               restBulge,
               current.center,
               current.radius,

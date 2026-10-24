@@ -380,3 +380,49 @@ separate-canvas choice at 117590); module 122, GGroup._paintStyleContent
   exactly on their rectangles (checked against the gradient stops); the
   old export drew them 2 px to the right. Pending:
   platform/gvthumb/corpus/masks and import-export/corpus/masks.
+
+## BUG-012 Offset drops inset parts of an open path that come near the source
+
+Old code: chunk.vendor.js module 651, GVertexOffsetter.generatePolyOffset
+(87884-87903, the loop `B < w.count` at 87896).
+
+- Reproduce: offset an open path to one side only on the inset side, where
+  the inset crosses itself (a tight curve next to a long line): Modify >
+  Offset with a negative value, Vectorize Border of an inside border, or
+  inside text on a path. For example the path `M 42 94 L 25 13 C ...`
+  of the pinned unit test, offset by 30 or 60.
+- Old: the trimmed inset is split where it crosses itself, and each part
+  that comes near the source again is meant to be clipped around the
+  source's ends, as the outset side does with _excludeCircleInside. The
+  inset loop ran up to `sourceHits.count`, which an array doesn't have, so
+  it never ran and every such part was dropped: the inset lost pieces the
+  outset of the same path keeps, and in the pinned case the result was
+  empty.
+- New: the inset loop runs over the source hits and clips a part near the
+  path's ends with _excludeCircleInside, like the outset loop. Closed paths
+  and two-sided offsets are not affected. The clipped parts have the same
+  quality as the outset's: with an offset much larger than the path's
+  curvature both sides can still cross the source. An inset of 0 on an
+  open path now reaches the same "Cannot read properties of null (reading
+  'point')" as an outset of 0 (QUESTIONS.md "Offsetter: offset 0 on an
+  open path with both sides throws"); no caller offsets by 0. The clipping
+  reached the old slip of QUESTIONS.md "Offsetter: the rest of a cut arc
+  starts at an unset cut point" on the inset side, where it put NaN into
+  the output, so the rest of a cut arc with no earlier line cut now starts
+  at the second circle hit.
+- Test: src/engine/geometry/vertex-offsetter.test.ts, "clips inset-only
+  parts of an open path that touch the source near its ends (BUG-012)"
+  (empty with the old code), and in vertex-offsetter.old-outputs.test.ts
+  "keeps the inset parts of open paths that the old code dropped
+  (BUG-012)". 33 of the 1,214 recorded old outputs change; their new
+  outputs are in test-data/old-offsetter-outputs.fixed.json. Checked
+  numerically: 32 are one-sided insets of open paths (one with a closed
+  and an open sub-path), the 33rd (random snap 167) is a two-sided offset
+  that only changes through the cut-arc start. Each new output has more
+  vertices than the old one, none contains NaN, and every point of the old
+  output lies on the new output (largest distance 0.000 after flattening
+  both curves), so the fix only adds the parts the old code dropped. The
+  one case that now throws is the offset-0 case above (random rr 36).
+- Parity exceptions: none. No parity scenario offsets an open path on the
+  inset side only (engine-geometry/pathops covers closed paths and
+  two-sided offsets; all of them still match).

@@ -7,6 +7,10 @@
 // of them kept because they reach a branch no other case reaches. Every
 // output number is compared with Object.is, thrown errors by type and
 // message.
+//
+// Cases whose old output shows a bug the port fixes are compared with
+// test-data/old-offsetter-outputs.fixed.json instead, which names the
+// BUGS-FIXED.md entry for each of them.
 import fs from "node:fs";
 import { describe, expect, it } from "vitest";
 import { Point } from "../math/point.ts";
@@ -40,6 +44,28 @@ interface HelperCase {
 const fixture = JSON.parse(
   fs.readFileSync(new URL("./test-data/old-offsetter-outputs.json", import.meta.url), "utf8"),
 ) as { cases: OffsetCase[]; helpers: HelperCase[] };
+
+/** The fixed output of cases where the old one shows a fixed bug, by case name. */
+const fixedCases = (
+  JSON.parse(
+    fs.readFileSync(
+      new URL("./test-data/old-offsetter-outputs.fixed.json", import.meta.url),
+      "utf8",
+    ),
+  ) as { cases: Record<string, { bug: string; out?: string; throws?: string }> }
+).cases;
+
+/** The recorded case, with the fixed output where there is one. */
+const expectedFor = (recorded: OffsetCase): OffsetCase => {
+  const fixed = fixedCases[recorded.name];
+  if (!fixed) return recorded;
+  return {
+    name: recorded.name,
+    source: recorded.source,
+    args: recorded.args,
+    ...(fixed.throws !== undefined ? { throws: fixed.throws } : { out: fixed.out }),
+  };
+};
 
 const decode = (value: Stored): unknown => {
   if (value === "undefined") return undefined;
@@ -114,12 +140,49 @@ describe("VertexOffsetter against recorded old outputs", () => {
     it(`matches the old output for ${group} (${cases.length} cases)`, () => {
       const mismatches: string[] = [];
       for (const recorded of cases) {
-        const diff = difference(recorded, runOffsetter(recorded.source, recorded.args));
+        const diff = difference(
+          expectedFor(recorded),
+          runOffsetter(recorded.source, recorded.args),
+        );
         if (diff) mismatches.push(`${recorded.name}: ${diff}`);
       }
       expect(mismatches).toEqual([]);
     });
   }
+
+  it("has fixed outputs only for recorded cases whose old output they change", () => {
+    const byName = new Map(fixture.cases.map((recorded) => [recorded.name, recorded]));
+    for (const [name, fixed] of Object.entries(fixedCases)) {
+      const recorded = byName.get(name);
+      expect(recorded, name).toBeDefined();
+      expect(fixed.bug, name).toMatch(/^BUG-\d+$/);
+      const old = recorded as OffsetCase;
+      const changed =
+        old.throws !== undefined || fixed.throws !== undefined
+          ? old.throws !== fixed.throws
+          : (old.out ?? "") !== (fixed.out ?? "");
+      expect(changed, name).toBe(true);
+    }
+  });
+
+  // BUGS-FIXED.md "BUG-012 Offset drops inset parts of an open path that
+  // come near the source": only insets of open paths change (one-sided but
+  // for the cut arc that no longer starts at an unset point), and each now
+  // has a result where the old code kept less or nothing.
+  it("keeps the inset parts of open paths that the old code dropped (BUG-012)", () => {
+    const byName = new Map(fixture.cases.map((recorded) => [recorded.name, recorded]));
+    const fixedNames = Object.keys(fixedCases).filter((n) => fixedCases[n]?.bug === "BUG-012");
+    expect(fixedNames.length).toBeGreaterThan(20);
+    for (const name of fixedNames) {
+      const recorded = byName.get(name) as OffsetCase;
+      expect(recorded.args[1], name).toBe(true);
+      const fixed = fixedCases[name] as { out?: string };
+      if (fixed.out === undefined) continue; // offset 0, see the entry
+      expect(fixed.out.split(",").length, name).toBeGreaterThan(
+        recorded.out ? recorded.out.split(",").length : 0,
+      );
+    }
+  });
 
   it("matches the old distance helpers", () => {
     const self = Object.create(VertexOffsetter.prototype) as VertexOffsetter;

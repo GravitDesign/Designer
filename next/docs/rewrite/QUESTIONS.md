@@ -365,9 +365,7 @@ Why it's unclear: it looks like a typo (`.count` of the polyline container
 class used on a plain array), but it changes visible output of the Offset
 action with a negative value on open paths.
 
-Kept. Pinned by vertex-offsetter.test.ts "drops inset-only parts of an open
-path that touch the source (old quirk)" and the insetDropped cases of
-vertex-offsetter.old-outputs.test.ts.
+Fixed: see BUG-012 in BUGS-FIXED.md.
 
 ## Q-026 Offsetter: the rest of a cut arc starts at an unset cut point
 
@@ -387,7 +385,11 @@ reaches the output, but nothing guarantees it.
 Why it's unclear: almost certainly meant to be the second circle hit on the
 arc; but changing it changes the outline wherever the branch runs.
 
-Kept. Pinned by vertex-offsetter.test.ts "cuts an arc with no earlier line
+Partly fixed by BUG-012 in BUGS-FIXED.md: once the inset side clipped its
+parts, the unset case put NaN into an inset (random rr 31 of the recorded
+cases), so with no earlier line cut the rest now starts at the second circle
+hit. After an earlier line cut it still starts at that unrelated point
+(kept). Pinned by vertex-offsetter.test.ts "cuts an arc with no earlier line
 cut without putting NaN into the output (old quirk)" and the
 restArcUndefinedCut cases of vertex-offsetter.old-outputs.test.ts.
 

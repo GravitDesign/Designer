@@ -142,11 +142,11 @@ describe("VertexOffsetter", () => {
     ]);
   });
 
-  it("drops inset-only parts of an open path that touch the source (old quirk)", () => {
+  it("clips inset-only parts of an open path that touch the source near its ends (BUG-012)", () => {
     // Found by random search. The trimmed inset crosses itself and splits
-    // into parts; every part that comes near the source again is dropped
-    // instead of clipped (QUESTIONS.md "Offsetter: inset-only parts of an
-    // open path that touch the source are dropped").
+    // into parts; a part that comes near the source at one of its ends is
+    // clipped like on the outset side. The old code dropped every such
+    // part, which left this inset empty.
     const source = [1, 42, 94, 2, 25, 13, 4, 1, 29, 4, 28, 42, 4, 22, 80];
     const offsetter = new VertexOffsetter(VertexContainer.deserialize(source), 30, true, false);
     const split = offsetter._splitForClipping.bind(offsetter);
@@ -156,8 +156,10 @@ describe("VertexOffsetter", () => {
       partCounts.push(parts.length);
       return parts;
     };
-    expect(VertexContainer.serialize(offsetter)).toEqual([]);
+    const inset = VertexContainer.serialize(offsetter);
     expect(partCounts).toEqual([3]);
+    expect(inset.filter((value, i) => i % 3 == 0 && value == Vertex.Command.Move)).toHaveLength(2);
+    expect(inset.every(Number.isFinite)).toBe(true);
     // The outset of the same path, which clips instead, keeps two parts.
     const outset = offset(source, 30, false, true);
     expect(outset.filter((value, i) => i % 3 == 0 && value == Vertex.Command.Move)).toHaveLength(2);
