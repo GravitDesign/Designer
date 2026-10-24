@@ -80,10 +80,22 @@ export const SVGImport = {
         return;
       }
       if (source instanceof Blob) {
-        const reader = new FileReader();
-        reader.onload = () =>
-          SVGImport.import(reader.result as string, options, fontManager, callback);
-        reader.readAsText(source);
+        // The bytes first, so a gzipped file (.svgz) is unpacked; the old
+        // code read every Blob as text and failed on those (BUGS-FIXED.md
+        // "BUG-084 Placing or dropping a .svgz does nothing").
+        const bytesReader = new FileReader();
+        bytesReader.onload = () => {
+          const bytes = new Uint8Array(bytesReader.result as ArrayBuffer);
+          if (31 === bytes[0] && 139 === bytes[1] && 8 === bytes[2]) {
+            SVGImport.import(bytes, options, fontManager, callback);
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = () =>
+            SVGImport.import(reader.result as string, options, fontManager, callback);
+          reader.readAsText(source);
+        };
+        bytesReader.readAsArrayBuffer(source);
         return;
       }
       if (!source || !source.documentElement || "svg" !== source.documentElement.nodeName) {

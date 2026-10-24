@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-084",
+  "why": "Placing or dropping a .svgz unpacks it: the SVG importer reads a Blob as bytes first. A placed SVG that still fails shows a message. The scenario that records the old silent failure is not enabled for the new app yet.",
+  "scenarios": [],
+  "pending": ["import-export/import/place/svg-shapes.svgz"]
+}

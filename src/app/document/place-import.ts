@@ -291,8 +291,15 @@ export function placeOrImport(
           data,
           { fontProvider: importFontProvider as never },
           fontManager(),
-          (_error, node) => {
+          (error, node) => {
             if (node) insert(node as unknown as Node, name);
+            // The old code ignored a failed import (BUGS-FIXED.md "BUG-084
+            // Placing or dropping a .svgz does nothing").
+            else if (error) {
+              documentDialogs().message(
+                "string" === typeof error ? error : text("GCommonNames", "text.file-not-supported"),
+              );
+            }
           },
         );
         break;

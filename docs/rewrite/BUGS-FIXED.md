@@ -2180,3 +2180,27 @@ Old code: designer.browser.dev.js module 1313, the document paste event
 - Parity exceptions: none enabled. Pending, not enabled for the new app
   yet: import-export/clipboard/paste-event-svg-file (the old app records
   a timeout and an unchanged page).
+
+## BUG-084 Placing or dropping a .svgz does nothing
+
+Old code: designer.browser.dev.js module 163 (line 7855, the place
+handler ignoring the import error) and chunk.vendor.js module 1390
+(GSVGImport, line 244963, reading a Blob as text).
+
+- Reproduce: File > Place Image (or drop onto the canvas) a gzipped SVG
+  (.svgz).
+- Old: the importer read every Blob as text, so the gzip check, which
+  only runs on bytes, never saw the gzip header; the text failed to parse
+  as XML and the import ended with an error, which the place handler
+  ignored. Nothing was placed and nothing was said. Opening a .svgz worked,
+  because that path hands the importer bytes.
+- New: a Blob is read as bytes first; gzipped data is unpacked, anything
+  else is read as text as before. When a placed SVG still fails, the place
+  handler shows the error message (or "This file format is not
+  supported!" for an error without one).
+- Test: src/io/import/svg/svg-import.test.ts, "unpacks a gzipped Blob
+  (.svgz) before parsing it" (fails with the old reader) and "still reads
+  a plain Blob as text". The message in src/app/document/place-import.ts
+  has no unit test (the place path needs the whole document host).
+- Parity exceptions: none enabled. Pending, not enabled for the new app
+  yet: import-export/import/place/svg-shapes.svgz.
