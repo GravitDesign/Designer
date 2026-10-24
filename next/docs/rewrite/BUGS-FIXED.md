@@ -563,6 +563,10 @@ Old code: chunk.vendor.js module 530, GSimpleShape constructor
   corpus/shapes-ready/render-light and render-dark: the loaded ready shapes
   are drawn pixel-snapped. Checked that all 9,725 differing pixels lie
   within 2 px of a shape edge in the old render; fills are unchanged.
+  engine-model/nodes/defaults-constructed: a ready shape constructed
+  without a processor now reports the base defaults instead of undefined
+  for its 28 properties; each equals the value of a constructed rectangle
+  (`sref` stays undefined), and the rest of the output is unchanged.
   engine-model/special/ready-shape, the preview, the bitmap and the
   exports of shapes-ready.gvdesign don't snap and still match.
 

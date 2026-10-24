@@ -1,6 +1,10 @@
 {
   "bug": "BUG-016",
-  "why": "A ready shape loaded from a file runs its base constructors, so it has pixel snapping and a reference list like a newly drawn one. In the view renders of shapes-ready.gvdesign the loaded ready shapes are snapped to whole pixels; every differing pixel lies within 2 px of a shape edge of the old render. The preview, bitmap and exports don't snap and need nothing.",
-  "scenarios": ["corpus/shapes-ready/render-light", "corpus/shapes-ready/render-dark"],
+  "why": "A ready shape loaded from a file runs its base constructors, so it has pixel snapping and a reference list like a newly drawn one. In the view renders of shapes-ready.gvdesign the loaded ready shapes are snapped to whole pixels; every differing pixel lies within 2 px of a shape edge of the old render. In engine-model/nodes/defaults-constructed a ready shape built without a processor now has the base defaults (the same values as a constructed rectangle for every shared property) instead of undefined. The preview, bitmap and exports don't snap and need nothing.",
+  "scenarios": [
+    "corpus/shapes-ready/render-light",
+    "corpus/shapes-ready/render-dark",
+    "engine-model/nodes/defaults-constructed"
+  ],
   "pending": []
 }
