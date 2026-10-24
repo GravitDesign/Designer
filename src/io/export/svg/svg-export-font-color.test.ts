@@ -21,9 +21,7 @@ beforeAll(() => {
   uninstall = installFakeCanvas();
   workspace = new Workspace();
   const fonts = workspace.getFontManager() as FontManager;
-  const bytes = readFileSync(
-    resolve(here, "../../../../../public/assets/font/OpenSans-Regular.ttf"),
-  );
+  const bytes = readFileSync(resolve(here, "../../../../assets/font/OpenSans-Regular.ttf"));
   const buffer = new ArrayBuffer(bytes.length);
   new Uint8Array(buffer).set(bytes);
   fonts._fonts.push(OpenTypeFont.create("Open Sans", "N", 400, buffer) as OpenTypeFont);

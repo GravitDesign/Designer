@@ -17,9 +17,7 @@ let uninstall: () => void;
 
 beforeAll(() => {
   uninstall = installFakeCanvas();
-  const bytes = readFileSync(
-    resolve(here, "../../../../../public/assets/font/OpenSans-Regular.ttf"),
-  );
+  const bytes = readFileSync(resolve(here, "../../../../assets/font/OpenSans-Regular.ttf"));
   const buffer = new ArrayBuffer(bytes.length);
   new Uint8Array(buffer).set(bytes);
   fontManager = new FontManager();
