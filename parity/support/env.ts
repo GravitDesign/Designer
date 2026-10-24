@@ -6,7 +6,10 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 /** The new app: the repo root. */
 export const NEXT_ROOT = path.resolve(here, "..", "..");
 
-/** Folder that holds the old app (server.js, routes/, public/). */
+/**
+ * Folder that holds the old app (server.js, routes/, public/): a checkout
+ * of the parity-reference tag, which is not part of the repo.
+ */
 export const LEGACY_ROOT = process.env.GD_LEGACY_ROOT
   ? path.resolve(process.env.GD_LEGACY_ROOT)
   : path.join(NEXT_ROOT, "legacy");

@@ -7,7 +7,7 @@ import { OpenTypeFont, TextDirection, clusterTexts } from "./open-type-font.ts";
 import { OpenTypeUtil } from "./open-type-util.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const fontDir = resolve(here, "../../../../legacy/public/assets/font");
+const fontDir = resolve(here, "../../../../assets/font");
 
 function readFont(name: string): ArrayBuffer {
   const bytes = readFileSync(resolve(fontDir, name));

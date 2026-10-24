@@ -16,7 +16,7 @@ import { TLCanvasContext, type TLCanvasCore } from "./tl-canvas-context.ts";
 import { TLDirectionTextTransformer } from "./tl-direction-text-transformer.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const fontDir = resolve(here, "../../../legacy/public/assets/font");
+const fontDir = resolve(here, "../../../assets/font");
 
 function readFont(name: string): ArrayBuffer {
   const bytes = readFileSync(resolve(fontDir, name));

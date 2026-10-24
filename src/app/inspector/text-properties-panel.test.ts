@@ -127,7 +127,7 @@ function patchSelects(): void {
 
 const fontFile = resolve(
   dirname(fileURLToPath(import.meta.url)),
-  "../../../legacy/public/assets/font/OpenSans-Regular.ttf",
+  "../../../assets/font/OpenSans-Regular.ttf",
 );
 
 /** Registers Open Sans Regular under other family names (the font list knows the rest). */

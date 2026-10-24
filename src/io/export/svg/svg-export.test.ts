@@ -19,7 +19,7 @@ import { SVG_EXPORT_CASES, type SvgExportLib } from "./testing/svg-export-cases.
 import expected from "./testing/svg-export-cases.json" with { type: "json" };
 
 const here = dirname(fileURLToPath(import.meta.url));
-const fontDir = resolve(here, "../../../../legacy/public/assets/font");
+const fontDir = resolve(here, "../../../../assets/font");
 
 const FONTS: [string, string, number, string][] = [
   ["Open Sans", "N", 400, "OpenSans-Regular.ttf"],

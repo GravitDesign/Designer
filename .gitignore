@@ -14,3 +14,7 @@ Thumbs.db
 # LevelDB log files are test fixtures of the profile migration.
 !src/app/migration/fixtures/**/*.log
 !parity/expected/electron/old-userdata/**/*.log
+
+# The old app the parity suite compares against: a checkout of the
+# parity-reference tag (see README.md).
+legacy/

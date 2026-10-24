@@ -50,10 +50,7 @@ function installDefaultFont(): void {
   app.newInfiniteDocument();
   const fontManager = app.scene().getWorkspace()?.getFontManager() as FontManager;
   if (fontManager.getDefaultFont()) return;
-  const file = path.resolve(
-    import.meta.dirname,
-    "../../../legacy/public/assets/font/OpenSans-Regular.ttf",
-  );
+  const file = path.resolve(import.meta.dirname, "../../../assets/font/OpenSans-Regular.ttf");
   const bytes = fs.readFileSync(file);
   const buffer = new ArrayBuffer(bytes.length);
   new Uint8Array(buffer).set(bytes);

@@ -98,7 +98,7 @@ dashed EPS borders rendered solid, BF-119's name escaping regression
 | 6 | Editor | done: editor core, view, guides, all element editors, all tools, touch input; review (phase6-review-A..C) fixed |
 | 7 | UI | done: every app cluster ported on React 19 + Zustand (UI.md), removed features documented (REMOVED.md, DROP-001..013), review (phase7-review-A..C) fixed. Started before the phase 6 review was fixed, at the user's request (2026-10-23). The GravitDesign Next look and introduction were added at the user's request (CHANGES.md). |
 | 8 | Platform | done: shared server, Electron 45 with electron-updater (GitHub Releases of GravitDesign/designer), first-start migration of settings, swatches and fonts from the old releases, desktop packaging for all targets in .github/workflows/desktop.yml; Windows packaged and launch-tested locally |
-| 9 | Cutover | done (2026-10-25): next/ moved to the repo root, the old app to legacy/; main is the rewrite, the old app's history is on the legacy branch |
+| 9 | Cutover | done (2026-10-25): next/ moved to the repo root; the old app's assets and user guide moved to assets/ and guide/, the rest left the repo. main is the rewrite, the old app is on the legacy branch, and the parity reference is the parity-reference tag (a466a410), checked out into legacy/ |
 | 10 | Final check | not started |
 
 ## Log
@@ -377,7 +377,7 @@ passed every check.
   list doesn't live only in conversation logs.
 - Some unit tests read fonts from the old app's assets (e.g.
   src/engine/text/fonts/harfbuzz.test.ts). Since the cutover they read
-  legacy/public/assets by relative path.
+  assets/ by relative path.
 - engine-geometry-boolean deliberately converts big.js values to numbers
   in a dead branch of getCubicRoots (the old code would have concatenated
   strings); unreachable, noted for the record.

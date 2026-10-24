@@ -12,7 +12,7 @@ import { TLCodes } from "./tl-codes.ts";
 import { TLCore } from "./tl-core.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const fontFile = resolve(here, "../../../../legacy/public/assets/font/OpenSans-Regular.ttf");
+const fontFile = resolve(here, "../../../../assets/font/OpenSans-Regular.ttf");
 
 /** Recorded from the old app with gtl-document-probe.ts (old modules 367, 920 and 928). */
 const expected = JSON.parse(

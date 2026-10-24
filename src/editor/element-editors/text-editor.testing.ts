@@ -18,7 +18,7 @@ import type { EditorWidget } from "../view/editor-widget.ts";
 import { TextEditor } from "./text-editor.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const fontDir = resolve(here, "../../../legacy/public/assets/font");
+const fontDir = resolve(here, "../../../assets/font");
 
 function readFont(name: string): ArrayBuffer {
   const bytes = readFileSync(resolve(fontDir, name));

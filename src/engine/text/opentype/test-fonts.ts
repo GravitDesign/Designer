@@ -1,5 +1,5 @@
 // Test support for the opentype unit tests: reads the fonts bundled with
-// the old app (legacy/public/assets/font) and the reference values
+// the old app (assets/font) and the reference values
 // dumped from the old bundle (__fixtures__). Only tests import this file.
 
 import { readFileSync } from "node:fs";
@@ -9,7 +9,7 @@ import type { Font } from "./font.ts";
 import { parse } from "./opentype.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const fontDir = resolve(here, "../../../../legacy/public/assets/font");
+const fontDir = resolve(here, "../../../../assets/font");
 
 /** The bytes of a bundled font, path relative to public/assets/font. */
 export function readTestFont(name: string): ArrayBuffer {

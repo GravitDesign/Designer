@@ -17,7 +17,7 @@ import {
 
 const here = dirname(fileURLToPath(import.meta.url));
 const arabic = readFileSync(
-  resolve(here, "../../../../legacy/public/assets/font/noto/NotoSansArabic-Regular.ttf"),
+  resolve(here, "../../../../assets/font/noto/NotoSansArabic-Regular.ttf"),
 );
 
 function shape(text: string, size: number, stylisticSet?: string) {

@@ -7,6 +7,8 @@ export default tseslint.config(
   {
     ignores: [
       "legacy/",
+      "assets/",
+      "guide/",
       "native/",
       "dist-electron/",
       "public/",

@@ -16,7 +16,7 @@ from fontTools.ttLib import TTFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 NEXT = os.path.abspath(os.path.join(HERE, "..", "..", "..", ".."))
-ASSET_FONTS = os.path.abspath(os.path.join(NEXT, "legacy", "public", "assets", "font"))
+ASSET_FONTS = os.path.abspath(os.path.join(NEXT, "assets", "font"))
 ICONS = os.path.join(NEXT, "parity", "fixtures", "import", "font", "gravit-icons.ttf")
 PHOTO = os.path.join(NEXT, "parity", "fixtures", "import", "raster", "photo.jpg")
 

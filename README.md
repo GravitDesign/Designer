@@ -24,17 +24,23 @@ npm run typecheck
 npx playwright test --project harness --project parity
 ```
 
-The parity suite runs the old app from `legacy/` next to the new one and
-compares them. Before the first run, install the old app's server
-dependencies: `cd legacy && npm install --no-save express@5 ws@8`.
+The parity suite runs the old app next to the new one and compares them.
+It expects the old app in `legacy/` (ignored by git), checked out from the
+`parity-reference` tag, which is what the expected output was recorded
+from. A few unit tests read it too.
+
+```sh
+git worktree add legacy parity-reference
+cd legacy && npm install --no-save --no-package-lock express@5 ws@8
+```
 
 ## Layout
 
 - `src/`, `server/`, `electron/`: the app
 - `parity/`: the parity suite and its expected output
 - `docs/rewrite/`: how the rewrite was planned and what changed
-- `legacy/`: the old app, used as the reference and for its assets and
-  user guide
+- `assets/`, `guide/`: images, fonts and the user guide, taken over from
+  the old app
 - `native/gvthumb/`: the Windows Explorer thumbnail provider
 
-The old app's history up to version 1.0.2 is on the `legacy` branch.
+The old app is on the `legacy` branch.

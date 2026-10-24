@@ -21,7 +21,7 @@ import { TLCore } from "./tl-core.ts";
 import { TLUtil } from "./tl-util.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const fontDir = resolve(here, "../../../../legacy/public/assets/font");
+const fontDir = resolve(here, "../../../../assets/font");
 
 /** The files the old app serves for the probe fonts. */
 const FONT_FILES: Record<string, string> = {
