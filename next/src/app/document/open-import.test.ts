@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Storage, StorageItem } from "../storage/storage.ts";
 import { resetGlobals, setDesigner } from "../shell/globals.ts";
 import { registerDocumentDialogs } from "./document-host.ts";
+import { setHeicConverterLoader } from "../../io/import/heic.ts";
 import { DocumentStatus } from "./document-status.ts";
 import type { OpenImportContext } from "./open-import.ts";
 
@@ -75,5 +76,18 @@ describe("opening a PDF that pdf.js can't open (BUG-102)", () => {
     expect(await open("broken.pdf", "PDF")).toEqual([DocumentStatus.LoadFailed]);
     expect(messages).toHaveLength(1);
     expect(messages[0]).toMatch(/^Can’t open file/);
+  });
+});
+
+describe("opening a HEIC that can't be converted (BUG-108)", () => {
+  it("fails the load with the error-reading-file message", async () => {
+    setHeicConverterLoader(() => Promise.resolve(() => Promise.reject(new Error("bad HEIC"))));
+    try {
+      expect(await open("photo.heic", "HEIC")).toEqual([DocumentStatus.LoadFailed]);
+      expect(messages).toHaveLength(1);
+      expect(messages[0]).toMatch(/^Can’t open file/);
+    } finally {
+      setHeicConverterLoader(null);
+    }
   });
 });

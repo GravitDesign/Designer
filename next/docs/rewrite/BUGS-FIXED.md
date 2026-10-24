@@ -1526,3 +1526,24 @@ Old code: chunk.vendor.js module 439 (sketchelement), line 70841:
   io-import-sketch/primitives-v49: one border with position 0 loses its
   `"_ba": "I"`. Nothing else differs (checked with a diff of the expanded
   JSON).
+
+## BUG-108 A HEIC that fails to convert leaves the tab Loading
+
+Old code: designer.browser.dev.js module 163, the HEIC branch of
+GDocument.load (line 7337) and of placeOrImport (line 7851).
+
+- Reproduce: open a .heic file the converter can't read (a damaged or
+  unsupported HEIC, or any file renamed to .heic), or place, paste or drop
+  one.
+- Old: the conversion's rejection was only logged to the console. Open
+  left the document Loading for good with no message; place did nothing
+  and said nothing.
+- New: open shows "text.error-reading-file" and sets LoadFailed; place
+  shows the same message. HEICs that convert are not affected.
+- Test: src/app/document/open-import.test.ts, "opening a HEIC that can't
+  be converted (BUG-108)" (no status and no message with the old code).
+  The place branch has the same two-line change and no unit test of its
+  own (placeOrImport needs a whole document and editor).
+- Parity exceptions: none (parity/exceptions/BUG-108.json lists no
+  scenarios). The recorded HEIC scenarios (open, place and
+  io-import-pdf-eps bitmap of raster/photo.heic) use a HEIC that converts.

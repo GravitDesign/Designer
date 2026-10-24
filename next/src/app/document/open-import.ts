@@ -363,7 +363,14 @@ export function openImportedFile(
       HeicImport.getInstance()
         .then((converter) => converter.parse(blob))
         .then((png) => BitmapImport.import(png as Blob, imported))
-        .catch((error: unknown) => console.log("Heic conversion error", error));
+        .catch((error: unknown) => {
+          // A HEIC that can't be converted fails the load with a message
+          // ("A HEIC that fails to convert leaves the tab Loading" in
+          // BUGS-FIXED.md).
+          console.log("Heic conversion error", error);
+          documentDialogs().message(text("GDocument", "text.error-reading-file"));
+          context.updateStatus(DocumentStatus.LoadFailed);
+        });
     } else BitmapImport.import(data, imported);
   } else context.updateStatus(DocumentStatus.LoadFailed);
 }

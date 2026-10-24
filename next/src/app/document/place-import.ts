@@ -277,7 +277,12 @@ export function placeOrImport(
           HeicImport.getInstance()
             .then((converter) => converter.parse(data))
             .then((png) => placeBitmap(png as Blob, name))
-            .catch(() => console.log("HEIC conversion failed"));
+            .catch((error: unknown) => {
+              // "A HEIC that fails to convert leaves the tab Loading" in
+              // BUGS-FIXED.md: the old place failed silently.
+              console.log("HEIC conversion failed", error);
+              documentDialogs().message(text("GDocument", "text.error-reading-file"));
+            });
         } else placeBitmap(data, name);
         break;
       case "SVG":
