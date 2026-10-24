@@ -2241,7 +2241,7 @@ What it does: without an element preview the new height is `h * matrix[1]` (the 
 
 Why it's unclear: clearly a typo in the old code, but it changes saved slice sizes.
 
-Kept. slice-editor.ts _applyTransform; slice-editor.test.ts "sets the height to 0 for a scale without a preview (old bug)" pins it.
+Fixed: see BUG-043 in BUGS-FIXED.md.
 
 ## Q-191 The connector editor has a type name the old app never had
 

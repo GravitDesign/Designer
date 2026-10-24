@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-043",
+  "why": "A slice scaled without an element preview keeps its height and is mapped through the transform. No recorded scenario scales a slice through the transform box, so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}

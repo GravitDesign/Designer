@@ -5,7 +5,7 @@
  * applying it writes the slice's `x`, `y`, `w` and `h`.
  */
 import { registerClass } from "../../engine/core/object.ts";
-import type { Rect } from "../../engine/math/rect.ts";
+import { Rect } from "../../engine/math/rect.ts";
 import type { Transform } from "../../engine/math/transform.ts";
 import { ElementFlag } from "../../engine/scene/element-change.ts";
 import { Rectangle } from "../../engine/scene/rectangle.ts";
@@ -44,11 +44,11 @@ export class SliceEditor<E extends EditedItem = EditedItem> extends ItemEditor<E
 
   /**
    * Writes the previewed move (and resize, when the scale changed) to the
-   * slice; a rotated transform is dropped. Without a preview the new
-   * height is `h` times the transform's vertical shear (matrix[1]), not
-   * its vertical scale, so a resize through `_transform` alone sets the
-   * height to 0 (see "A slice scaled without a preview gets height 0" in
-   * QUESTIONS.md; pinned in slice-editor.test.ts).
+   * slice; a rotated transform is dropped. Without a preview the slice's
+   * box is mapped through the transform. The old code added the
+   * translation to x and y and multiplied the height by the vertical
+   * shear, so a scale set it to 0 (BUG-043 Scaling a slice with the
+   * transform box sets its height to 0).
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- the old signature
   override _applyTransform(target: unknown, ...rest: unknown[]): void {
@@ -63,7 +63,21 @@ export class SliceEditor<E extends EditedItem = EditedItem> extends ItemEditor<E
       let x = ((this._element.getProperty("x") as number) || 0) + (matrix[4] as number);
       let y = ((this._element.getProperty("y") as number) || 0) + (matrix[5] as number);
       let width = ((this._element.getProperty("w") as number) || 0) * (matrix[0] as number);
-      let height = ((this._element.getProperty("h") as number) || 0) * (matrix[1] as number);
+      let height = ((this._element.getProperty("h") as number) || 0) * (matrix[3] as number);
+      if (!this._elementPreview) {
+        const box = transform.mapRect(
+          new Rect(
+            (this._element.getProperty("x") as number) || 0,
+            (this._element.getProperty("y") as number) || 0,
+            (this._element.getProperty("w") as number) || 0,
+            (this._element.getProperty("h") as number) || 0,
+          ),
+        );
+        x = box.getX();
+        y = box.getY();
+        width = box.getWidth();
+        height = box.getHeight();
+      }
       if (1 != transform.getScaleFactor()) {
         if (this._elementPreview) {
           const box = this._elementPreview.getGeometryBBox();

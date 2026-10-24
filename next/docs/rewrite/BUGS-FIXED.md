@@ -920,3 +920,25 @@ lines 61192-61201, and GEditor.updateByMousePosition (module 82).
   code: TypeError: Cannot read properties of undefined (reading 'getX')).
 - Parity exceptions: none. freehand/shift-straight-segments runs in the
   single-page view, where nothing changes.
+
+## BUG-043 Scaling a slice with the transform box sets its height to 0
+
+Old code: chunk.vendor.js module 1084 (GSliceEditor._applyTransform),
+lines 237400-237424 (`* o[1]` at 237413).
+
+- Reproduce: select a slice (alone or with other elements) and scale it
+  with the transform box (Q), or apply any scale to it that goes through
+  the editor's transform without an element preview.
+- Old: without a preview the new height was the old height times the
+  transform's vertical shear (matrix[1]) instead of its vertical scale,
+  so a plain scale set the height to 0. x and y became x plus the
+  translation, ignoring the scale around the pivot (Q-190).
+- New: without a preview the slice's box is mapped through the
+  transform, and x, y, w and h come from the mapped box. A rotated
+  transform is still dropped, and the preview path (resize handles) is
+  unchanged.
+- Test: src/editor/element-editors/slice-editor.test.ts, "BUG-043: maps
+  the slice's box through a scale without a preview" (fails with the old
+  code: [110, 70, 160, 0] instead of [210, 170, 160, 120]).
+- Parity exceptions: none. No recorded scenario scales a slice through the
+  transform box.

@@ -74,14 +74,16 @@ describe("GSliceEditor", () => {
     ]).toEqual([107, 47, 80, 40]);
   });
 
-  // Kept old bug: without a preview the height is scaled by the transform's
-  // matrix[1] (vertical shear), which is 0 for a scale (see "A slice scaled
-  // without a preview gets height 0" in QUESTIONS.md).
-  it("sets the height to 0 for a scale without a preview (old bug)", () => {
+  it("BUG-043: maps the slice's box through a scale without a preview", () => {
     const s = slice();
     const editor = editorOf(s);
-    editor.edTransform(new Transform(2, 0, 0, 2, 0, 0));
+    editor.edTransform(new Transform(2, 0, 0, 3, 10, 20));
     editor.applyTransform(s);
-    expect([s.getProperty("w"), s.getProperty("h")]).toEqual([160, 0]);
+    expect([
+      s.getProperty("x"),
+      s.getProperty("y"),
+      s.getProperty("w"),
+      s.getProperty("h"),
+    ]).toEqual([210, 170, 160, 120]);
   });
 });
