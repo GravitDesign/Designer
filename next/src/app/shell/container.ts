@@ -97,11 +97,7 @@ export abstract class Container extends EventTarget {
     return "";
   }
 
-  /**
-   * Registers the font providers of this runtime with the font manager.
-   * The interim src/parity/app/fonts.ts still installs them at load
-   * (app-fonts-ui moves that here).
-   */
+  /** Registers the font providers of this runtime with the font manager. */
   registerFontProviders(): void {}
 
   getSystemFontsProvider(): unknown {

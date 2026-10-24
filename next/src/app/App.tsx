@@ -1,7 +1,9 @@
 /**
- * The shell's DOM: #mainframe > .frame with the parts in the old order
- * (GDesigner.init, designer.browser.dev.js module 1491), and the overlay
- * host for dialogs and menus. The parts render no children and no style:
+ * The shell's DOM inside #mainframe: .frame with the parts in the old
+ * order (GDesigner.init, designer.browser.dev.js module 1491), and the
+ * overlay host for dialogs and menus. #mainframe itself is the React
+ * root's container, the first child of body as in the old app
+ * (shell/mount.tsx). The parts render no children and no style:
  * their controllers fill them and lay them out (docs/rewrite/UI.md,
  * section 5).
  */
@@ -36,12 +38,10 @@ export function App({ onElement }: AppProps): ReactNode {
     };
   return (
     <>
-      <div id="mainframe" ref={ref("mainframe")}>
-        <div className="frame" ref={ref("frame")}>
-          {FRAME_PARTS.map((part) => (
-            <div key={part.id} id={part.id} ref={ref(part.id)} />
-          ))}
-        </div>
+      <div className="frame" ref={ref("frame")}>
+        {FRAME_PARTS.map((part) => (
+          <div key={part.id} id={part.id} ref={ref(part.id)} />
+        ))}
       </div>
       <OverlayHost />
     </>

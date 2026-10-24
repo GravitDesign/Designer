@@ -20,6 +20,7 @@ import {
   type LocalFontData,
   type ParsedNativeFont,
 } from "./font-style-naming.ts";
+import type { PreviewFamily, PreviewReceiver } from "./font-preview.ts";
 
 const PROVIDER_ID = uuid();
 
@@ -42,6 +43,31 @@ export class LocalFontsProvider extends FontsProvider {
   private _cachedParsedFonts: Record<string, ParsedNativeFont> = {};
   private _createLocalFontListPromise: Promise<void> | null = null;
   private _createLocalFontListCallbacks: LoadCallbacks[] | null = null;
+
+  /** A preview is the family's name in the family itself (the browser has the font). */
+  override addPreviews(families: ListedFamily[]): void {
+    if (!families.length) return;
+    for (const family of families as (PreviewFamily & { style?: unknown; weight?: unknown })[]) {
+      if (family.cachedPreview) continue;
+      family.addPreviewCallback = function (receiver) {
+        const entry = this as PreviewFamily & { style?: unknown; weight?: unknown };
+        const preview = document.createElement("div");
+        preview.innerHTML = (entry.displayname as string | undefined) || entry.family;
+        preview.style.fontFamily = entry.family;
+        preview.style.fontStyle = entry.style === Font.Style.Italic ? "italic" : "normal";
+        // A family has no weight, so this sets nothing ("undefined"), as before.
+        preview.style.fontWeight = entry.weight as string;
+        preview.style.fontSize = "13px";
+        preview.style.height = "20px";
+        preview.style.textOverflow = "ellipsis";
+        preview.style.whiteSpace = "nowrap";
+        preview.style.overflow = "hidden";
+        preview.style.display = "flex";
+        preview.style.alignItems = "center";
+        (receiver as PreviewReceiver)(preview);
+      };
+    }
+  }
 
   override load(query: string, start: number, count: number, callbacks: LoadCallbacks): void {
     this._createLocalFontList(query, start, count, callbacks);

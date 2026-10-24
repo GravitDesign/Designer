@@ -10,6 +10,7 @@
  */
 import { lateExport } from "../shell/late.ts";
 import { InputBox, type InputBoxOptions } from "./input-box.ts";
+import { Position } from "../shell/alignment-position.ts";
 
 /** A preset: a value shown as itself, or a title with the value to write. */
 export type InputSelectItem = string | number | { title: string; data: unknown };
@@ -29,8 +30,7 @@ interface MenuLike {
   ): void;
 }
 
-/** Position.Right_Bottom of shell/alignment-position.ts (module 444). */
-const RIGHT_BOTTOM = 2;
+const RIGHT_BOTTOM = Position.Right_Bottom;
 
 const selects = new WeakMap<Element, InputSelect>();
 

@@ -2,20 +2,26 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { FontManager } from "../../engine/text/fonts/font-manager.ts";
 import { OpenTypeFont } from "../../engine/text/fonts/open-type-font.ts";
 import type { Font } from "../../engine/text/fonts/font.ts";
-import { FontsProviderManager } from "../../app/fonts/font-manager.ts";
-import { NotoFontsProvider } from "../../app/fonts/noto-fonts-provider.ts";
-import { ImportedFontsProvider } from "../../app/fonts/imported-fonts-provider.ts";
-import { WebFontsProvider } from "../../app/fonts/web-fonts-provider.ts";
-import { LocalFontsProvider } from "../../app/fonts/local-font-list.ts";
-import { FakeRequest, installFakeXhr, requestedUrls } from "../../app/fonts/fake-xhr.testing.ts";
-import { installAppFonts } from "./fonts.ts";
+import { FontsProviderManager } from "./font-manager.ts";
+import { NotoFontsProvider } from "./noto-fonts-provider.ts";
+import { ImportedFontsProvider } from "./imported-fonts-provider.ts";
+import { WebFontsProvider } from "./web-fonts-provider.ts";
+import { LocalFontsProvider } from "./local-font-list.ts";
+import { FakeRequest, installFakeXhr, requestedUrls } from "./fake-xhr.testing.ts";
+import { initDesignerFonts, registerBrowserFontProviders } from "./designer-fonts.ts";
+
+/** What the browser container and GDesigner.init do at boot. */
+function installAppFonts(fontManager: FontManager): void {
+  registerBrowserFontProviders();
+  initDesignerFonts(fontManager);
+}
 
 afterEach(() => {
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
 });
 
-describe("installAppFonts", () => {
+describe("the boot font setup (registerBrowserFontProviders, initDesignerFonts)", () => {
   it("registers the providers in order and resolves Open Sans as the default font", () => {
     installFakeXhr();
     const resolvedFont = {

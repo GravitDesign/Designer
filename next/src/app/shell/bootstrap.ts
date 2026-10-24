@@ -42,6 +42,8 @@ import type { HostedView } from "./part.ts";
 import { PendingSidebar, type PendingSidebarSpec } from "./pending-sidebar.ts";
 import type { AppRegistry } from "./registry.ts";
 import { buildToolTable } from "./tool-table.ts";
+import { startDragDropTouch } from "./drag-drop.ts";
+import { installTooltips } from "./tooltip-position.ts";
 
 type Exports = Record<string, unknown>;
 
@@ -660,6 +662,9 @@ function welcomeScreenEnabled(designer: Designer): boolean {
  * Ready).
  */
 export async function boot(container: Container): Promise<Designer> {
+  // The old bootstrap required the DragDropTouch polyfill (module 1488)
+  // when it loaded, before the designer added its document listeners.
+  startDragDropTouch();
   setContainer(container);
   await loadAppModules();
   const designer = new Designer();
@@ -706,6 +711,8 @@ export async function boot(container: Container): Promise<Designer> {
     }
   });
   const request: OpenFileRequest | null = container.start();
+  // The data-title tooltips (module 1673, Fn.init() in the old bootstrap).
+  installTooltips();
   document.body.classList.remove("loading");
   window.onbeforeunload = (event) => {
     if (

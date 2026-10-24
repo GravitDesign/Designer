@@ -8,8 +8,7 @@
  *
  * The other hook files still import a few helpers from here; they are
  * one-line views of the designer:
- * - appWorkspace(): the designer's workspace, with the interim app fonts
- *   (./fonts.ts) installed on it once the designer exists;
+ * - appWorkspace(): the designer's workspace;
  * - getDocuments(), getActiveDocument(), removeDocument();
  * - documentStatusName(): the status as corpus.documentStates reports it;
  * - onDocumentsChanged(): a listener for the designer's document events
@@ -28,14 +27,12 @@ import "../../editor/tools/tool-manager.ts";
 import { Node } from "../../engine/scene/node.ts";
 import { Scene as SceneClass, type Scene } from "../../engine/scene/scene.ts";
 import type { SerializeOptions } from "../../engine/serialize/blob.ts";
-import type { FontManager } from "../../engine/text/fonts/font-manager.ts";
 import { Document as DocumentClass, type Document } from "../../app/document/document.ts";
 import { DocumentEvent } from "../../app/document/document-event.ts";
 import { DocumentStatus } from "../../app/document/document-status.ts";
 import { DocumentStatusEvent } from "../../app/document/document-status-event.ts";
 import { FontsProviderManager } from "../../app/fonts/font-manager.ts";
 import { designer, designerOrNull, setDesigner, whenDesigner } from "../../app/shell/globals.ts";
-import { installAppFonts } from "./fonts.ts";
 
 /** The documents as the other hook files type them. */
 export type InterimDocument = Omit<Document, "getScene" | "getStatus"> & {
@@ -44,19 +41,8 @@ export type InterimDocument = Omit<Document, "getScene" | "getStatus"> & {
   getStatus(): number;
 };
 
-/**
- * The interim font setup (./fonts.ts) on the designer's workspace, as soon
- * as the designer exists: GDesigner.init's font part isn't in the
- * designer yet.
- */
-function installFonts(): void {
-  const current = designerOrNull();
-  if (current) installAppFonts(current.getWorkspace().getFontManager() as FontManager);
-}
-
 /** The workspace every scene of the app lives in (the designer's). */
 export function appWorkspace(): EditorWorkspace {
-  installFonts();
   return designer().getWorkspace();
 }
 
@@ -98,10 +84,8 @@ function notify(): void {
   for (const listener of Array.from(listeners)) listener();
 }
 
-// The designer's document events, and the interim fonts on its workspace
-// (installed before it makes its first document).
+// The designer's document events.
 whenDesigner((current) => {
-  installFonts();
   current.addEventListener(DocumentEvent, notify);
 });
 

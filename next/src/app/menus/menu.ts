@@ -23,12 +23,10 @@ import { ActiveMenuManager, type ActivationCallback } from "./active-menu-manage
 import { MenuCloseEvent } from "./menu-close-event.ts";
 import { MenuItem } from "./menu-item.ts";
 import { MenuOpenEvent } from "./menu-open-event.ts";
+import { Position } from "../shell/alignment-position.ts";
 
-/**
- * Where a menu opens relative to its reference, per axis (module 444,
- * shell/alignment-position.ts of app-shell-storage, not there yet).
- */
-export const MenuPosition = { Left_Top: 0, Center: 1, Right_Bottom: 2 } as const;
+/** Where a menu opens relative to its reference, per axis (shell/alignment-position.ts). */
+export const MenuPosition = Position;
 
 export type MenuPosition = (typeof MenuPosition)[keyof typeof MenuPosition];
 
@@ -90,7 +88,9 @@ export class Menu extends EventTarget {
     this._htmlElement.addEventListener("touchstart", touch, options);
     this._htmlElement.addEventListener("touchmove", touch, options);
     this._htmlElement.addEventListener("touchend", touch, options);
-    if (className) this._htmlElement.classList.add(className);
+    // jQuery addClass: several space-separated classes.
+    if (className)
+      for (const name of className.split(/\s+/)) if (name) this._htmlElement.classList.add(name);
   }
 
   getParent(): MenuOwner | null {

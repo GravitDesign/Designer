@@ -16,6 +16,7 @@ import type { LocaleKey } from "../../engine/core/locale/locale-key.ts";
 import { MouseEvent as GMouseEvent } from "../../engine/core/mouse-event.ts";
 import { GMath } from "../../engine/math/math.ts";
 import { PaintCanvas } from "../../engine/paint/paint-canvas.ts";
+import type { TouchToolTarget } from "../../editor/touch/touch-tool.ts";
 import { css, isDisplayed, outerHeight } from "./dom.ts";
 import { appRegistry, designer } from "./globals.ts";
 import { lateExport } from "./late.ts";
@@ -31,8 +32,15 @@ export type SidebarOrientation = (typeof Orientation)[keyof typeof Orientation];
 /** A touch tool a sidebar offers (the touch toolbar, app-touch-ui). */
 export interface SidebarTouchTool {
   id: string;
-  sidebar: string;
+  sidebar: string | null;
   def?: boolean;
+  icon?: string | null;
+  /** The panel(s) the tool shows. */
+  panel?: TouchToolTarget | null;
+  /** The label(s) of the tool in the sidebar. */
+  toolbar?: TouchToolTarget | null;
+  /** The side's width while the tool is active (the sidebar's default width otherwise). */
+  panelWidth?: string | number;
   activate(): void;
   deactivate(): void;
 }
@@ -62,6 +70,7 @@ export interface SidebarLike {
     listener: (event: E) => void,
     target?: object | null,
   ): void;
+  trigger(event: Event): void;
 }
 
 interface SidebarInfo {
@@ -89,9 +98,9 @@ export class Sidebars extends EventTarget {
   private readonly _htmlElement: HTMLElement;
   private readonly _orientation: SidebarOrientation;
   private readonly _frame: HTMLElement;
-  private _sidebars: SidebarInfo[] = [];
+  _sidebars: SidebarInfo[] = [];
   private _activeSidebar: string | null = null;
-  private _activeTouchTool: SidebarTouchTool | null = null;
+  _activeTouchTool: SidebarTouchTool | null = null;
   private readonly _sidebarWidths: Record<string, number> = {};
   private _sidebarsSelector: HTMLElement | null = null;
   private _canResize = false;
@@ -326,12 +335,12 @@ export class Sidebars extends EventTarget {
         this._view.addEventListener(eventClass, handler as (event: never) => void, this, null);
   }
 
-  private _isActiveSidebarDeactivatable(): boolean {
+  _isActiveSidebarDeactivatable(): boolean {
     const active = this.getSidebar(this._activeSidebar);
     return !(active && !active.isDeactivatable());
   }
 
-  private _tryActivateSidebar(sidebar: SidebarLike): boolean {
+  _tryActivateSidebar(sidebar: SidebarLike): boolean {
     if (!this._isActiveSidebarDeactivatable()) return false;
     this.setActiveSidebar(sidebar.getId());
     this.setSidebarEnabled(sidebar.getId(), sidebar.isEnabled());

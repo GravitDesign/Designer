@@ -46,7 +46,17 @@ import { SceneOptions } from "../../engine/scene/scene-options.ts";
 import { Scene } from "../../engine/scene/scene.ts";
 import { Pattern } from "../../engine/style/pattern.ts";
 import { Swatch } from "../../engine/style/swatch.ts";
+import { FillPaintLayer } from "../../engine/style/fill-paint-layer.ts";
+import { PropertySet } from "../../engine/style/stylable-sets.ts";
+import { Bitmap } from "../../engine/paint/bitmap.ts";
+import { Rectangle } from "../../engine/scene/rectangle.ts";
+import type { ContainerNode } from "../../engine/scene/node-container.ts";
+import type { PaintLayers } from "../../engine/style/paint-layers.ts";
+import type { Editor } from "../../editor/editor.ts";
+import { Swatches } from "../../engine/style/swatches.ts";
+import pako from "pako";
 import { Font } from "../../engine/text/fonts/font.ts";
+import type { FontManager } from "../../engine/text/fonts/font-manager.ts";
 import { Text } from "../../engine/text/text.ts";
 import { EditorOptions } from "../../editor/editor-options.ts";
 import { EditorPaintConfiguration } from "../../editor/editor-paint-configuration.ts";
@@ -68,11 +78,13 @@ import { setTouchHost } from "../../editor/touch/touch-host.ts";
 import type { EditorWidget } from "../../editor/view/editor-widget.ts";
 import { SceneWidget } from "../../editor/view/scene-widget.ts";
 import type { Action } from "../actions/action.ts";
+import type { ContextMenu } from "../menus/context-menu.ts";
 import type { Menu } from "../menus/menu.ts";
 import type { MenuItem } from "../menus/menu-item.ts";
 import { DocumentEvent } from "../document/document-event.ts";
 import { DocumentStatus } from "../document/document-status.ts";
 import { PageClip } from "../export/page-clip.ts";
+import { initDesignerFonts } from "../fonts/designer-fonts.ts";
 import { baseConfig } from "../file-formats.ts";
 import { publishSettings } from "../state/settings-store.ts";
 import { bumpShellVersion, useShellStore } from "../state/shell-store.ts";
@@ -81,6 +93,7 @@ import { applyDefaultEditorOptions, applyTouchEditorOptions } from "./handle-opt
 import { Info } from "./info.ts";
 import { ApplicationStatusEvent } from "./application-status-event.ts";
 import type { Container } from "./container.ts";
+import type { StorageItem } from "../storage/storage.ts";
 import { Runtime } from "./container.ts";
 import {
   css,
@@ -151,9 +164,7 @@ interface ToolbarLike extends ShellPart {
 }
 
 /** GContextMenu (app-menus-toolbar). */
-interface ContextMenuLike {
-  close(): void;
-}
+type ContextMenuLike = ContextMenu;
 
 /** The welcome screen / new document dialog (app-welcome-settings). */
 interface NewDocumentDialogLike {
@@ -161,6 +172,13 @@ interface NewDocumentDialogLike {
   close(): void;
   isOpen?(): boolean;
   getDialogElement?(): HTMLElement | null;
+}
+
+/** GVirtualKeyBar, the touch layout's assistant bar (touch/virtual-key-bar.ts). */
+interface AssistantBarLike {
+  activate(): void;
+  deactivate(): void;
+  getHtmlElement(): HTMLElement;
 }
 
 /** GInstallPwaDialog (dialogs/install-pwa-dialog.ts). */
@@ -262,6 +280,7 @@ export class Designer extends EventTarget {
   static loadsCmykProfile = false;
 
   private _cmykProfileLoad: Promise<void> | null = null;
+  private _assistantBar: AssistantBarLike | null = null;
   private _pwaEvent: PwaEvent | null = null;
   private _waitingPwaDialog: boolean | null = null;
   private _waitingPwaDialogDarkBackground: boolean | null = null;
@@ -1039,6 +1058,76 @@ export class Designer extends EventTarget {
     else if (pattern.startsWith("N#")) this._swatches["global-noise-pattern"]?.push(swatch);
   }
 
+  /** Saves the swatches of a scope as a gzipped "Swatches.gvswatch" file. */
+  exportSwatches(scope: string): void {
+    const all = this.getAllSwatches(scope);
+    const swatches = new Swatches();
+    for (let i = 0; i < all.length; ++i) swatches.appendChild((all[i] as Swatch).clone() as Swatch);
+    const data = pako.gzip(Node.serialize(swatches) as string, { level: 9 });
+    const storage = this.getDefaultStorage();
+    const write = (item: StorageItem): void => {
+      item.setSaveCounterMeasureEnabled(true);
+      item.write(data);
+      item.setSaveCounterMeasureEnabled(false);
+    };
+    if (storage.canPromptSave())
+      storage.savePrompt(
+        null as unknown as string,
+        [{ ext: "gvswatch", mime: "application/gzip" }],
+        write,
+        null,
+      );
+    else if (storage.canDownload())
+      storage.download("Swatches.gvswatch", (item) => {
+        if (item) write(item);
+      });
+  }
+
+  /** Adds the swatches of a chosen .gvswatch file that the scope doesn't have yet. */
+  importSwatches(scope: string): void {
+    const storage = this.getDefaultStorage();
+    const isDocument = scope.startsWith("document");
+    storage.openPrompt(
+      [{ ext: "gvswatch", mime: "text/plain" }],
+      (item) => {
+        item.read((data) => {
+          try {
+            let current = this.getAllSwatches(scope);
+            const read = Node.deserialize(
+              pako.ungzip(data as Uint8Array, { to: "string" }),
+            ) as Swatches;
+            const added: Node[] = [];
+            for (
+              let swatch = read.getFirstChild() as Node | null;
+              null !== swatch;
+              swatch = swatch.getNext() as Node | null
+            ) {
+              let fresh = true;
+              for (let i = 0; i < current.length; ++i)
+                if (Util.equals(swatch, current[i])) {
+                  fresh = false;
+                  break;
+                }
+              if (fresh) added.push((swatch as Swatch).clone() as Swatch);
+            }
+            current = current.concat(added);
+            if (isDocument) this.setSwatches(scope, current, true);
+            else {
+              for (let i = 0; i < added.length; ++i) this._addGlobalSwatch(added[i] as Node);
+              this.setSwatches(scope, this._swatches[scope] as Node[]);
+            }
+          } catch (error) {
+            console.warn("error importing swatches: " + String(error));
+            systemDialog().alert(
+              Locale.get(new LocaleKey("GCommonNames", "text.fail-import-swatch")) as string,
+            );
+          }
+        });
+      },
+      false,
+    );
+  }
+
   // -------------------------------------------------------------------------
   // Documents
 
@@ -1481,9 +1570,10 @@ export class Designer extends EventTarget {
 
   /** Builds the shell and its parts, the action table and the menu, the tools' shortcuts. */
   init(): void {
-    // Fonts: the providers and the default font (app-fonts-ui). The interim
-    // src/parity/app/fonts.ts installs them on the shared workspace.
+    // Fonts: the runtime's providers, then the provider manager and the
+    // default font on the workspace's font manager.
     (containerOrNull() as Container).registerFontProviders();
+    initDesignerFonts(this._workspace.getFontManager() as FontManager);
     EditorOptions.selectDoubleClickBehavior = "subselect";
     EditorOptions.coordinatesTooltip = true;
     EditorOptions.bboxPositionTooltip = false;
@@ -1714,10 +1804,34 @@ export class Designer extends EventTarget {
     if (!this.isTouchEnabled()) return;
     this.getLeftSidebars().getHtmlElement().classList.toggle("bring-to-front", left);
     this.getRightSidebars().getHtmlElement().classList.toggle("bring-to-front", right);
-    void assistant;
+    // Sic: the old code assumed the bar exists whenever the touch layout is on.
+    (this._assistantBar as AssistantBarLike)
+      .getHtmlElement()
+      .classList.toggle("bring-to-front", assistant);
     if (undefined !== notifications)
       for (const panel of document.querySelectorAll(".g-notification-panel"))
         panel.classList.toggle("bring-to-front", notifications);
+  }
+
+  /** Creates the assistant bar the first time the touch layout turns on; activates or deactivates it. */
+  private _setActiveAssistantBar(active: boolean): void {
+    if (active) {
+      if (!this._assistantBar) {
+        const VirtualKeyBar = lateExport<new (element: HTMLElement) => AssistantBarLike>(
+          "touch/virtual-key-bar.ts",
+          "VirtualKeyBar",
+        );
+        if (!VirtualKeyBar) return;
+        const element = document.createElement("div");
+        element.setAttribute("id", Layout.AssistantBar.id);
+        element.addEventListener("mousedown", () => {
+          this._toggleSideBarAndAssistBarZIndex(false, false, true, false);
+        });
+        (this._frame as HTMLElement).appendChild(element);
+        this._assistantBar = new VirtualKeyBar(element);
+      }
+      this._assistantBar.activate();
+    } else if (this._assistantBar) this._assistantBar.deactivate();
   }
 
   sendSideBarAndAssistBarToBack(): void {
@@ -2008,6 +2122,8 @@ export class Designer extends EventTarget {
         this._leftSidebars.getHtmlElement().classList.toggle("bring-to-front", false);
       if (this._rightSidebars)
         this._rightSidebars.getHtmlElement().classList.toggle("bring-to-front", false);
+      if (this._assistantBar)
+        this._assistantBar.getHtmlElement().classList.toggle("bring-to-front", false);
     }
     if (this._initialized) {
       if (!this.getLeftSidebars().getActiveSidebar())
@@ -2016,7 +2132,7 @@ export class Designer extends EventTarget {
         this.getRightSidebars().setActiveSidebar(SidebarsIds.GInspectorSidebar);
       this.getLeftSidebars().setActiveTouchTool(null);
       this.getRightSidebars().setActiveTouchTool(null);
-      // The assistant bar (virtual key bar) comes with app-touch-ui.
+      this._setActiveAssistantBar(this.isTouchEnabled());
     }
     this.relayout();
   }
@@ -2402,11 +2518,60 @@ export class Designer extends EventTarget {
   }
 
   /** A style's preview bitmaps, cached by its reference id. */
+  /** The cached preview image of a style (its text variant with `text`), made on first use. */
   getStylePreview(style: Node, text?: boolean): string | null {
-    const cached =
-      this._stylesPreview[(style as unknown as { getReferenceId(): string }).getReferenceId()];
+    const cached = this._stylesPreview[referenceId(style)];
     if (cached) return text ? cached.textBitmap : cached.bitmap;
-    return null;
+    return this.createNewStylePreview(style, true, text);
+  }
+
+  /**
+   * A 50x50 rectangle with the style; for `text` and a style with text
+   * properties, a rectangle holding an "Ab" text with the style. A style
+   * without fills and borders gets a light gray fill so it shows.
+   */
+  createStyleElement(style: Node, text?: boolean): Rectangle {
+    const rectangle = new Rectangle(0, 0, 50, 50);
+    const sets = (propertyOf(style, "ps") as string[] | null) || [];
+    if (text && sets.indexOf(PropertySet.Text) >= 0) {
+      const label = new Text();
+      label.setText("Ab");
+      (label as unknown as { assignStyleFrom(source: Node): void }).assignStyleFrom(style);
+      label.setProperty("_tfi", "20");
+      label.setBounds(7, 10, 50, 50);
+      rectangle.appendChild(label);
+    } else {
+      (rectangle as unknown as { assignStyleFrom(source: Node): void }).assignStyleFrom(style);
+      if (
+        sets.indexOf(PropertySet.FillPaintLayers) < 0 &&
+        sets.indexOf(PropertySet.BorderPaintLayers) < 0
+      )
+        (rectangle.getPaintLayers() as PaintLayers).appendChild(
+          new FillPaintLayer(new RGBColor([235, 235, 235]), 1),
+        );
+    }
+    return rectangle;
+  }
+
+  /**
+   * Renders both previews of a style (the text one while it sits in the
+   * first selected element, as the old code did), caches them with
+   * `store` and returns one. Null without an active document.
+   */
+  createNewStylePreview(style: Node, store?: boolean, text?: boolean): string | null {
+    const preview = this.createStyleElement(style, false);
+    const textPreview = this.createStyleElement(style, true);
+    const document = this.getActiveDocument();
+    if (!document) return null;
+    const editor = document.getEditor() as Editor | null;
+    const selection = (editor ? editor.getSelection() : null) || [];
+    const holder = selection[0] as unknown as ContainerNode | undefined;
+    if (holder) holder.appendChild(textPreview);
+    const bitmap = (preview.toBitmap() as Bitmap).toImageDataUrl(Bitmap.ImageType.PNG);
+    const textBitmap = (textPreview.toBitmap() as Bitmap).toImageDataUrl(Bitmap.ImageType.PNG);
+    if (holder) holder.removeChild(textPreview);
+    if (store) this._stylesPreview[referenceId(style)] = { preview, bitmap, textBitmap };
+    return text ? textBitmap : bitmap;
   }
 
   override toString(): string {
@@ -2420,6 +2585,11 @@ const SAVE_ACTION_ID = "file.save";
 const NEW_WINDOW_ACTION_ID = "view.clone";
 /** GOutlineSidebar's id (module 1260), the left sidebar shown at start. */
 const OUTLINE_SIDEBAR_ID = SidebarsIds.GOutlineSidebar;
+
+/** A style's reference id (GStyle.getReferenceId). */
+function referenceId(style: Node): string {
+  return (style as unknown as { getReferenceId(): string }).getReferenceId();
+}
 
 /** jQuery's `:editable`-ish test of the old handlers: form fields and contenteditable. */
 function isEditable(target: globalThis.EventTarget | null): boolean {

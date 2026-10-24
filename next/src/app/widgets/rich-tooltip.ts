@@ -16,6 +16,7 @@ import { createElement, useCallback, useRef } from "react";
 import { uuid } from "../../engine/core/util.ts";
 import { Overlay } from "../dialogs/dialog-container.ts";
 import { containerOrNull } from "../shell/globals.ts";
+import { markRichTooltip, unmarkRichTooltip } from "../shell/tooltip-position.ts";
 import { renderInto, type Island } from "../state/islands.tsx";
 import { RichTooltipConfig, type RichTooltipConfigValues } from "./rich-tooltip-config.ts";
 import { RichTooltipContent } from "./rich-tooltip-view.tsx";
@@ -199,6 +200,8 @@ export function attachRichTooltip(
   const settings: RichTooltipSettings = { ...tooltipSettings(config), _id: uuid(7) };
   const data: Attached = { settings, containerHovered: false, selfHovered: false };
   attached.set(target, data);
+  // The data-title tooltips skip elements with a rich tooltip.
+  markRichTooltip(target);
   const over = () => {
     clearHide();
     clearShow();
@@ -222,7 +225,10 @@ export function attachRichTooltip(
     target.removeEventListener("mouseover", over);
     target.removeEventListener("mouseout", out);
     target.removeEventListener("mousedown", down);
-    if (attached.get(target) === data) attached.delete(target);
+    if (attached.get(target) === data) {
+      attached.delete(target);
+      unmarkRichTooltip(target);
+    }
   };
 }
 

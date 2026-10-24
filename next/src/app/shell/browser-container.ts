@@ -14,6 +14,10 @@ import { Downloader, type DownloadRequest } from "../storage/downloader.ts";
 import { BrowserFileStorage } from "../storage/file-system-access.ts";
 import type { Storage } from "../storage/storage.ts";
 import { Container, Runtime, type RuntimeName } from "./container.ts";
+import {
+  browserSupportsLocalFonts,
+  registerBrowserFontProviders,
+} from "../fonts/designer-fonts.ts";
 
 export class BrowserContainer extends Container {
   protected _storage: Storage = new BrowserFileStorage();
@@ -62,6 +66,19 @@ export class BrowserContainer extends Container {
     } catch (error) {
       return Promise.reject(error instanceof Error ? error : new Error(String(error)));
     }
+  }
+
+  override registerFontProviders(): void {
+    registerBrowserFontProviders();
+  }
+
+  override supportsLocalFonts(): boolean {
+    return browserSupportsLocalFonts();
+  }
+
+  /** No system fonts in the browser (the Electron container had them). */
+  override getSystemFontsProvider(): unknown {
+    return null;
   }
 
   override toString(): string {

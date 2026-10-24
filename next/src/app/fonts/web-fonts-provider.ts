@@ -15,6 +15,7 @@ import {
   type LoadCallbacks,
   type ResolveCallbacks,
 } from "./fonts-provider.ts";
+import { parsePreviewSvg, type PreviewCallback, type PreviewFamily } from "./font-preview.ts";
 
 const PROVIDER_ID = uuid();
 
@@ -52,6 +53,79 @@ export class WebFontsProvider extends FontsProvider {
       callback(error);
     });
     this._loadCallbacks = [];
+  }
+
+  /**
+   * The previews come in batches of ten families per file
+   * (assets/data/google_previews/previews<n>.json, SVG strings in list
+   * order). A family's callback hands the preview over once both the
+   * panel asked and the batch arrived, whichever comes last.
+   *
+   * Kept from the old code: a batch is fetched only from the first batch
+   * on whose first family has no preview yet; once one is fetched, every
+   * later batch of the call is fetched again, cached or not. A family
+   * the list doesn't have stops the call with a warning.
+   */
+  override addPreviews(faces: ListedFamily[], previews?: boolean): void {
+    const parser = new DOMParser();
+    let fetching = false;
+    const callback: PreviewCallback = function (receiver, preview) {
+      if (receiver) {
+        this.cb = receiver;
+        if (this.svg) receiver(this.svg);
+      } else {
+        this.svg = preview;
+        if (this.cb) this.cb(preview as Element);
+      }
+    };
+    for (const family of faces as PreviewFamily[])
+      if (!family.cachedPreview && !family.addPreviewCallback) family.addPreviewCallback = callback;
+    if (!previews) return;
+    if (!faces.length) return;
+    const batches: number[] = [];
+    for (const family of faces) {
+      let index = 0;
+      for (; index < families.length; index++)
+        if ((families[index] as ListedFamily).family === family.family) {
+          const batch = parseInt(String(index / 10));
+          if (batches.indexOf(batch) < 0) batches.push(batch);
+          break;
+        }
+      if (index === families.length) {
+        console.warn("Error while generating previews: couldn't find font.");
+        return;
+      }
+    }
+    for (const batch of batches) {
+      if (!(families[10 * batch] as PreviewFamily).cachedPreview) fetching = true;
+      if (!fetching) continue;
+      const request = new XMLHttpRequest();
+      request.open(
+        "GET",
+        WebFontsProvider.rootPath + "/assets/data/google_previews/previews" + batch + ".json",
+      );
+      request.onload = function () {
+        if (!(this.status >= 200 && this.status < 300)) return;
+        let svgs: string[];
+        try {
+          svgs = JSON.parse(this.response as string) as string[];
+        } catch {
+          return;
+        }
+        const count = Math.min(families.length, 10 * (batch + 1)) - 10 * batch;
+        for (let o = 0; o < count; o++) {
+          const family = families[10 * batch + o] as PreviewFamily;
+          if (!family.addPreviewCallback) family.addPreviewCallback = callback;
+          try {
+            const svg = parsePreviewSvg(parser, svgs[o] as string);
+            if (svg) family.addPreviewCallback(null, svg);
+          } catch {
+            // The old code warned only in its debug build.
+          }
+        }
+      };
+      request.send();
+    }
   }
 
   initialize(): void {

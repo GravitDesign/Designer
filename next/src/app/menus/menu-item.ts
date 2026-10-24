@@ -34,6 +34,7 @@ import { MenuActivateEvent } from "./menu-activate-event.ts";
 import { MenuCloseEvent } from "./menu-close-event.ts";
 import type { Menu, MenuOwner } from "./menu.ts";
 import { MenuOpenEvent } from "./menu-open-event.ts";
+import { Position } from "../shell/alignment-position.ts";
 
 const Type = { Item: 0, Menu: 1, Divider: 2 } as const;
 
@@ -673,8 +674,8 @@ export interface MenuBarLike {
   isActive(): boolean;
 }
 
-/** MenuPosition from menu.ts, repeated here so the two modules don't need each other at load. */
-const MenuPositionValues = { Left_Top: 0, Center: 1, Right_Bottom: 2 } as const;
+/** Menu positions (shell/alignment-position.ts). */
+const MenuPositionValues = Position;
 
 function stopPropagation(event: globalThis.Event): void {
   event.stopPropagation();

@@ -4,14 +4,20 @@
  * it opens and its icon. The touch UI defines the instances; this module
  * defines the appearance tool, the one every touch layout has.
  */
+/**
+ * A tool's panel or label: a selector inside the sidebar's container, an
+ * element, or several of them (the old code took all of these).
+ */
+export type TouchToolTarget = string | Element | (string | Element)[];
+
 export interface TouchToolConfig {
   def?: boolean;
   id?: string | null;
   sidebar?: string | null;
   icon?: string | null;
-  panel?: string | null;
-  panelWidth?: string;
-  toolbar?: string | null;
+  panel?: TouchToolTarget | null;
+  panelWidth?: string | number;
+  toolbar?: TouchToolTarget | null;
   activate?: () => void;
   deactivate?: () => void;
 }
@@ -23,9 +29,9 @@ export class TouchTool {
   declare id: string | null;
   declare sidebar: string | null;
   declare icon: string | null;
-  declare panel: string | null;
-  declare panelWidth?: string;
-  declare toolbar: string | null;
+  declare panel: TouchToolTarget | null;
+  declare panelWidth?: string | number;
+  declare toolbar: TouchToolTarget | null;
 
   constructor(config: TouchToolConfig) {
     Object.assign(this, config);

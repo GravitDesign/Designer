@@ -1,27 +1,26 @@
 /**
- * Interim font setup for the parity app: what GDesigner.init and the
- * browser container did for fonts, until the app shell exists (phase 7,
- * app-shell-storage and app-fonts-ui).
+ * The font setup of the browser app, as GContainer/GBrowserContainer
+ * (modules 85 and 1374) and GDesigner.init (module 1491) did it:
  *
- * What it ports:
- * - GContainer.registerFontProviders and GBrowserContainer's override:
- *   the bundled fonts, the imported fonts, the Google fonts and (as
- *   LOCAL_FONTS_API_ENABLED is set) the local fonts provider, in that
- *   order;
- * - GDesigner.init's font part: FontsProviderManager.init, the listeners
- *   for the workspace font manager's ResolveFontEvent and
- *   QueryFontFamilyEvent, and the default font: Open Sans Regular with
- *   styles normal and italic and weights 300 to 800
+ * - registerBrowserFontProviders: the browser container's
+ *   registerFontProviders. The bundled fonts (GContainer's part), the
+ *   imported fonts, the Google fonts and, with LOCAL_FONTS_API_ENABLED,
+ *   the local fonts, in that order.
+ * - initDesignerFonts: GDesigner.init's part. FontsProviderManager.init,
+ *   the workspace font manager's ResolveFontEvent and
+ *   QueryFontFamilyEvent handed to the providers, and the default font:
+ *   Open Sans Regular with styles normal and italic and weights 300 to 800
  *   (setOpenSansDefaultFont), or Noto Sans CJK JP for Japanese. For
  *   Chinese the old code checked for "Noto Sans CS", which the bundled
  *   list doesn't have, so Chinese keeps Open Sans too (see "The Chinese
  *   default font checks for a family the app doesn't ship" in
  *   QUESTIONS.md).
  *
- * What it leaves out: window.GSystemFontsProvider (the font launcher of
- * native-fonts.ts, which nothing registers in the browser), the
- * missing-fonts dialog after a failed font or an opened document, and the
- * network listener.
+ * Both run once; a second call does nothing.
+ *
+ * Left out: window.GSystemFontsProvider (the old font launcher of
+ * module 1380, which nothing registers in the browser) and the network
+ * listener.
  */
 import { Locale } from "../../engine/core/locale/locale.ts";
 import { LocaleLanguage } from "../../engine/core/locale/locale-language.ts";
@@ -31,21 +30,29 @@ import {
   type QueryFontFamilyEvent,
   type ResolveFontEvent,
 } from "../../engine/text/fonts/font-manager.ts";
-import { FontsProviderManager, type FontRequest } from "../../app/fonts/font-manager.ts";
-import { ImportedFontsProvider } from "../../app/fonts/imported-fonts-provider.ts";
-import { LocalFontsProvider } from "../../app/fonts/local-font-list.ts";
-import { NotoFontsProvider } from "../../app/fonts/noto-fonts-provider.ts";
-import { WebFontsProvider } from "../../app/fonts/web-fonts-provider.ts";
+import { config } from "../config.ts";
+import { FontsProviderManager, type FontRequest } from "./font-manager.ts";
+import { ImportedFontsProvider } from "./imported-fonts-provider.ts";
+import { LocalFontsProvider } from "./local-font-list.ts";
+import { NotoFontsProvider } from "./noto-fonts-provider.ts";
+import { WebFontsProvider } from "./web-fonts-provider.ts";
 
-/** The browser container's flag (module 10): the local fonts provider is on. */
-const LOCAL_FONTS_API_ENABLED = true;
+let providersRegistered = false;
+let designerFontsInstalled = false;
+
+/** GBrowserContainer.supportsLocalFonts. */
+export function browserSupportsLocalFonts(): boolean {
+  return !!config.LOCAL_FONTS_API_ENABLED;
+}
 
 /** GBrowserContainer.registerFontProviders, with GContainer's part first. */
-function registerFontProviders(): void {
+export function registerBrowserFontProviders(): void {
+  if (providersRegistered) return;
+  providersRegistered = true;
   FontsProviderManager.registerProvider(NotoFontsProvider);
   FontsProviderManager.registerProvider(ImportedFontsProvider);
   FontsProviderManager.registerProvider(WebFontsProvider);
-  if (LOCAL_FONTS_API_ENABLED) {
+  if (browserSupportsLocalFonts()) {
     try {
       FontsProviderManager.registerProvider(LocalFontsProvider);
     } catch {
@@ -99,16 +106,13 @@ function setOpenSansDefaultFont(fontManager: FontManager): void {
   fontManager.setDefaultFontWeights([300, 400, 600, 700, 800]);
 }
 
-let installed = false;
-
-/** Sets up the app's fonts for the workspace's font manager, once. */
-export function installAppFonts(fontManager: FontManager): void {
-  if (installed) return;
-  // Engine unit tests load the parity hooks in Node, which has no
-  // XMLHttpRequest for the providers' downloads; they run without them.
-  if (typeof XMLHttpRequest === "undefined") return;
-  installed = true;
-  registerFontProviders();
+/**
+ * GDesigner.init's font part, right after the container registered its
+ * providers.
+ */
+export function initDesignerFonts(fontManager: FontManager): void {
+  if (designerFontsInstalled) return;
+  designerFontsInstalled = true;
   FontsProviderManager.getInstance().init();
   fontManager.addEventListener(FontManager.ResolveFontEvent, resolveFontEvent);
   fontManager.addEventListener(FontManager.QueryFontFamilyEvent, queryFontFamilyEvent);

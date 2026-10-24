@@ -18,7 +18,7 @@ import { Runtime } from "../shell/container.ts";
 import { css } from "../shell/dom.ts";
 import { containerOrNull, designer } from "../shell/globals.ts";
 import { MenuButton } from "../widgets/menu-button.ts";
-import type { Toolbar } from "./toolbar.ts";
+import { setButtonAction, type Toolbar } from "./toolbar.ts";
 
 const FIT_ALL = "view.zoom.fit.all";
 const FIT_SELECTION = "view.zoom.fit-selection";
@@ -223,9 +223,10 @@ export class TouchToolbar {
       click: () => d.executeAction(SAVE),
     });
     button.classList.add("save-toolbar-button");
-    if (save) button.setAttribute("data-action", save.getId());
-    // The old code also kept the action in the button's data, which
-    // _updateActions reads; this one has none, so its buttons stay enabled.
+    if (save) {
+      button.setAttribute("data-action", save.getId());
+      setButtonAction(button, save);
+    }
     return button;
   }
 

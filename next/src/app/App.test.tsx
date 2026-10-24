@@ -6,7 +6,7 @@ describe("App", () => {
   it("renders the frame parts in the old order, without styles", () => {
     const html = renderToStaticMarkup(<App />);
     expect(html).toBe(
-      '<div id="mainframe"><div class="frame">' +
+      '<div class="frame">' +
         [
           "windows",
           "info",
@@ -21,7 +21,7 @@ describe("App", () => {
         ]
           .map((id) => `<div id="${id}"></div>`)
           .join("") +
-        "</div></div>",
+        "</div>",
     );
   });
 });

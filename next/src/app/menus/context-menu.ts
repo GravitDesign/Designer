@@ -39,20 +39,10 @@ import { lateExport, systemDialog } from "../shell/late.ts";
 import { Menu } from "./menu.ts";
 import { MenuItem } from "./menu-item.ts";
 import { MenuOpenEvent } from "./menu-open-event.ts";
+import { DragSource } from "../shell/drag-source.ts";
 
-/**
- * Where a context menu request comes from (module 450,
- * shell/drag-source.ts of app-shell-storage, not there yet).
- */
-export const ContextMenuContext = {
-  Crop: 1,
-  Canvas: 2,
-  PagePanel: 3,
-  LayerPanel: 4,
-  FillPropertyPanel: 5,
-  BorderPropertyPanel: 6,
-  EffectPropertyPanel: 7,
-} as const;
+/** Where a context menu request comes from (shell/drag-source.ts). */
+export const ContextMenuContext = DragSource;
 
 /** A position as a mouse event carries it. */
 export interface ContextMenuPosition {
@@ -228,8 +218,8 @@ type TouchMenuFactory = (contextMenu: ContextMenu) => HTMLElement | null;
 export class ContextMenu {
   static readonly ID = "context.menu";
 
-  private _contextMenuClientPosition: Point | null = null;
-  private _mouseEvent: ContextMenuPosition | null = null;
+  _contextMenuClientPosition: Point | null = null;
+  _mouseEvent: ContextMenuPosition | null = null;
   private _options: ContextMenuOptions | null = null;
   private _contextMenuTouch: HTMLElement | null = null;
   private _contextMenuDesktop: Menu | null = null;

@@ -4,11 +4,13 @@
  * live in the font database (font-db.ts). Families are grouped by display
  * name, like the font panel shows them.
  *
- * The font panel's previews of these fonts (with their delete button)
- * come with the font panel in phase 7.
+ * The font panel shows each family in its own font (loaded into the page
+ * as an @font-face from the database) with a delete button.
  */
 import { Font, type FontStyle } from "../../engine/text/fonts/font.ts";
 import { uuid } from "../../engine/core/util.ts";
+import { Locale } from "../../engine/core/locale/locale.ts";
+import { LocaleKey } from "../../engine/core/locale/locale-key.ts";
 import { FontDB } from "./font-db.ts";
 import {
   FontsProvider,
@@ -17,6 +19,21 @@ import {
   type ResolveCallbacks,
 } from "./fonts-provider.ts";
 import { generateFormattedList, type NamedFont } from "./font-style-naming.ts";
+import { Text } from "../../engine/text/text.ts";
+import { designer } from "../shell/globals.ts";
+import { lateExport } from "../shell/late.ts";
+import { FontsProviderManager } from "./font-manager.ts";
+import type { PreviewFamily, PreviewReceiver } from "./font-preview.ts";
+
+/** GSystemDialog.confirm (dialogs/system-dialog.ts), looked up when a font is deleted. */
+interface ConfirmDialog {
+  confirm(message: string, done: (ok: boolean) => void): unknown;
+}
+
+/** An imported family as its preview uses it: the deletes queue on the family itself. */
+type ImportedPreviewFamily = PreviewFamily & {
+  _queue?: (() => void)[] | null;
+};
 
 const PROVIDER_ID = uuid();
 
@@ -37,6 +54,176 @@ export class ImportedFontsProvider extends FontsProvider {
   private _initializing = false;
   private _resolveCallbacks: ((failed: boolean) => void)[] = [];
   private _loadCallbacks: (() => void)[] = [];
+
+  /**
+   * A preview is the family's name in its own font, which it loads into
+   * the page from the database; the trash icon deletes every font of the
+   * family after a confirm, replaces it with Open Sans in every open
+   * document and lists the fonts again.
+   */
+  override addPreviews(families: ListedFamily[]): void {
+    for (const family of families as ImportedPreviewFamily[])
+      (family as { preview?: unknown }).preview = document.createElement("image");
+    if (!families.length) return;
+    // eslint-disable-next-line @typescript-eslint/no-this-alias -- the callbacks' `this` is the family
+    const provider = this;
+    for (const family of families as ImportedPreviewFamily[]) {
+      if (family.cachedPreview) continue;
+      family.addPreviewCallback = function (receiver) {
+        const entry = this as ImportedPreviewFamily;
+        const container = document.createElement("div");
+        container.className = "preview-container";
+        const label = document.createElement("div");
+        label.innerHTML = (entry.displayname as string | undefined) || entry.family;
+        label.style.fontFamily = entry.family;
+        label.style.fontSize = designer().isTouchEnabled() ? "20px" : "13px";
+        label.style.height = designer().isTouchEnabled() ? "30px" : "20px";
+        container.appendChild(label);
+        const trash = document.createElement("span");
+        trash.className = "gravit-icon-trash g-font-delete";
+        trash.setAttribute("name", "_SPECIAL_");
+        container.appendChild(trash);
+        label.addEventListener("mouseover", (event) => {
+          event.stopPropagation();
+          event.preventDefault();
+        });
+        trash.addEventListener("mouseup", (event) => {
+          event.stopPropagation();
+          event.preventDefault();
+          provider._confirmDelete(entry);
+        });
+        let listed: ListedFamily | null = null;
+        const formatted = provider._formattedFontList as ListedFamily[];
+        for (let c = 0; c < formatted.length; c++)
+          if ((formatted[c] as ListedFamily).family === entry.family) {
+            listed = formatted[c] as ListedFamily;
+            break;
+          }
+        if (listed)
+          FontDB.getInstance((db) => {
+            if (!db) return;
+            const font = entry.fonts[0];
+            if (!font) return;
+            void db
+              .getItem(String(font.family) + "_" + String(font.weight) + "_" + font.style)
+              .then(({ value }) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                  const style = document.createElement("style");
+                  style.appendChild(
+                    document.createTextNode(
+                      "@font-face {font-family:" +
+                        String(font.family) +
+                        ";font-style:" +
+                        ("N" !== font.style ? "italic" : "normal") +
+                        ";font-weight:" +
+                        String(font.weight) +
+                        ';src: url("' +
+                        String(reader.result) +
+                        '") format("truetype");}',
+                    ),
+                  );
+                  document.head.appendChild(style);
+                };
+                reader.readAsDataURL(
+                  new Blob([value as BlobPart], { type: "application/x-font-ttf" }),
+                );
+              });
+          });
+        else label.innerHTML = "[Unavailable]";
+        (receiver as PreviewReceiver)(container);
+      };
+    }
+  }
+
+  /** Asks, then deletes the family's fonts, one delete after the other. */
+  private _confirmDelete(entry: ImportedPreviewFamily): void {
+    const manager = FontsProviderManager.getInstance();
+    const deleteFrom = (db: FontDB, index: number): void => {
+      const fonts = entry.fonts;
+      if (index >= fonts.length) {
+        const formatted = this._formattedFontList as ListedFamily[];
+        const position = formatted.findIndex((candidate) => candidate.family === entry.family);
+        if (-1 === position) return;
+        formatted.splice(position, 1);
+        const list: ImportedFontRecord[] = [];
+        this._fontList = list;
+        formatted.forEach((family) => {
+          family.fonts.forEach((font) => {
+            list.push({
+              family: font.family as string,
+              weight: String(font.weight),
+              style: font.style,
+              subfamily: font.subfamily,
+              displayname: font.displayname,
+            });
+          });
+        });
+        this._totalFonts--;
+        void db
+          .updateItem(
+            FontDB.FONT_LIST,
+            list.map((font) => ({
+              family: font.family,
+              weight: font.weight,
+              style: font.style,
+              subfamily: font.subfamily,
+              displayname: font.displayname,
+            })),
+          )
+          .then(() => {
+            const names = entry.families as string[];
+            const replacement: Record<string, string> = {};
+            for (let i = 0; i < names.length; i++) replacement[names[i] as string] = "Open Sans";
+            designer()
+              .getDocuments()
+              .forEach((document) => {
+                (
+                  document.getScene() as unknown as {
+                    acceptChildren(visitor: (node: unknown) => void): void;
+                  }
+                ).acceptChildren((node) => {
+                  if (node instanceof Text) node.replaceFonts(replacement, true);
+                });
+              });
+            const workspace = designer().getWorkspace();
+            if (workspace)
+              for (let i = 0; i < names.length; i++)
+                (
+                  workspace.getFontManager() as unknown as { removeFont(family: string): void }
+                ).removeFont(names[i] as string);
+            FontsProviderManager.getInstance().reset();
+            if (manager) manager.setShowMissingFontsDialog(true);
+            console.log("successfully updated font list");
+            if (entry._queue && entry._queue.length) (entry._queue.shift() as () => void)();
+          });
+      } else {
+        const font = fonts[index] as (typeof fonts)[number];
+        const key = String(font.family) + "_" + String(font.weight) + "_" + font.style;
+        void db.deleteItem(key).then(() => {
+          deleteFrom(db, index + 1);
+        });
+      }
+    };
+    const dialog = lateExport<ConfirmDialog>("dialogs/system-dialog.ts", "SystemDialog");
+    if (!dialog) return;
+    dialog.confirm(
+      Locale.get(new LocaleKey("GImportedFontsProvider", "confirm.delete-font")) as string,
+      (ok) => {
+        if (!ok) return;
+        if (!entry._queue) entry._queue = [];
+        entry._queue.push(() => {
+          FontDB.getInstance((db) => {
+            if (db) {
+              if (manager) manager.setShowMissingFontsDialog(false);
+              deleteFrom(db, 0);
+            }
+          });
+        });
+        if (1 === entry._queue.length) (entry._queue.shift() as () => void)();
+      },
+    );
+  }
 
   /**
    * Reads the font list once, then runs `retry` (the call that started

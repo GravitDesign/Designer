@@ -196,6 +196,11 @@ function dataOf(element: Element): ButtonData {
   return data;
 }
 
+/** `$(button).data("action", action)`: the action _updateActions reads for the button. */
+export function setButtonAction(element: Element, action: Action): void {
+  dataOf(element).action = action;
+}
+
 function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
   ...classes: string[]

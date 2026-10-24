@@ -338,3 +338,14 @@ describe("MenuBar", () => {
     expect(ActiveMenuManager.getActiveMenu()).toBe(edit.getMenu());
   });
 });
+
+describe("Menu classes", () => {
+  it("adds several space-separated classes like jQuery addClass", () => {
+    const menu = new Menu(null, "g-assistant-bar-menu paste-menu");
+    expect(Array.from(menu._htmlElement.classList)).toEqual([
+      "g-menu",
+      "g-assistant-bar-menu",
+      "paste-menu",
+    ]);
+  });
+});

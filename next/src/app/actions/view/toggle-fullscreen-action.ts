@@ -1,6 +1,5 @@
 // Old: designer.browser.dev.js module 1335 (GToggleFullscreenAction).
 import { Key } from "../../../engine/core/key.ts";
-import type { Event as GEvent } from "../../../engine/core/event.ts";
 import { Locale } from "../../../engine/core/locale/locale.ts";
 import { LocaleKey } from "../../../engine/core/locale/locale-key.ts";
 import { Layout } from "../../shell/layout-ids.ts";
@@ -10,6 +9,7 @@ import { Action, type Shortcut } from "../action.ts";
 import { Category } from "../category.ts";
 import { FitAllAction } from "./fit-all-action.ts";
 import { viewDesigner } from "./view-host.ts";
+import { FullscreenEvent } from "../../shell/fullscreen-event.ts";
 
 /** The fullscreen banner (module 1588, touch/fullscreen-banner.ts). */
 interface FullscreenBanner {
@@ -17,9 +17,6 @@ interface FullscreenBanner {
   show(): FullscreenBanner;
   hide(): FullscreenBanner;
 }
-
-/** GFullscreenEvent (module 1330, shell/fullscreen-event.ts). */
-type FullscreenEventClass = new (fullscreen: boolean) => GEvent;
 
 /** Which parts were visible before the canvas took the whole window. */
 interface PartStates {
@@ -131,11 +128,7 @@ export class ToggleFullscreenAction extends Action {
     designer.setPartVisible(Layout.LeftSidebars, !!fullscreen && !!this._lastStates.leftSidebar);
     designer.relayout();
     designer.executeAction(FitAllAction.ID, undefined, undefined, true);
-    const FullscreenEvent = lateExport<FullscreenEventClass>(
-      "shell/fullscreen-event.ts",
-      "FullscreenEvent",
-    );
-    if (FullscreenEvent && designer.hasEventListeners(FullscreenEvent))
+    if (designer.hasEventListeners(FullscreenEvent))
       designer.trigger(new FullscreenEvent(fullscreen));
   }
 

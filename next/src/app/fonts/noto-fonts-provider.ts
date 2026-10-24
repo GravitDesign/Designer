@@ -16,6 +16,7 @@ import {
   type LoadCallbacks,
   type ResolveCallbacks,
 } from "./fonts-provider.ts";
+import { parsePreviewSvg, type PreviewFamily, type PreviewReceiver } from "./font-preview.ts";
 import notoFonts from "./noto-fonts.json";
 
 const PROVIDER_ID = uuid();
@@ -129,6 +130,29 @@ export class NotoFontsProvider extends FontsProvider {
       (family) => family.scripts && family.scripts.indexOf(script as string) >= 0,
     );
     return (entry && entry.family) || null;
+  }
+
+  /** Each family's preview is its SVG file (`preview`), fetched when the panel asks. */
+  override addPreviews(families: ListedFamily[]): void {
+    const parser = new DOMParser();
+    for (const family of families as PreviewFamily[]) {
+      if (family.cachedPreview) continue;
+      family.addPreviewCallback = function (receiver) {
+        const request = new XMLHttpRequest();
+        request.open("GET", this.preview as string);
+        request.onload = function () {
+          if (this.status >= 200 && this.status < 300) {
+            try {
+              const svg = parsePreviewSvg(parser, this.response as string);
+              if (svg) (receiver as PreviewReceiver)(svg);
+            } catch {
+              // The old code warned only in its debug build.
+            }
+          }
+        };
+        request.send();
+      };
+    }
   }
 
   init(): void {
