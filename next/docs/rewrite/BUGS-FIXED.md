@@ -1583,3 +1583,40 @@ public/pscore.js (no try/catch anywhere in the run).
   the message "The file can't be loaded." and the group drawn before the
   exception; nothing else differs. Pending:
   import-export/import/open/eps-worker-exception-hangs.
+
+## BUG-110 `x y r 0 360 arc closepath` breaks the EPS import
+
+Old code: public/pscore.js arc, arcn and closepath.
+
+- Reproduce: open, place or drop an EPS or PS file that draws a circle
+  with the usual idiom `newpath x y r 0 360 arc closepath fill`
+  (parity/fixtures/import/eps/arc-closepath.eps, misc/shapes.ps).
+- Old: an arc without a current point started a subpath that had only
+  the arc, with no point of its own. closepath read the first segment's
+  `coord`, which the arc doesn't have, and threw; the worker's run ended
+  there and the import waited for its 300-second timeout (with BUG-109,
+  it ended at once with "The file can't be loaded." and only the shapes
+  before the circle).
+- New: arc and arcn without a current point start the subpath with a
+  moveto to the arc's first point, as PostScript does. closepath then
+  closes back to that point, and the rest of the file imports. Arcs that
+  start a subpath without closepath get the same moveto; the page's path
+  builder already started such a subpath at that point, so their imported
+  shapes don't change (shapes-eps, paths and the other arc scenarios give
+  the same output).
+- Test: src/workers/ps/interpreter.recorded.test.ts. gfx-closepath-arc.ps,
+  fixture-arc-closepath.eps and fixture-shapes-ps.ps now run to their end
+  and fixture-shapes.eps, gfx-arcs.ps and paths.eps post the added
+  moveto; their `.fixed.json` recordings are checked by "%s: the fixed
+  recording differs from the old one only by the moveto before an arc":
+  without the movetos that start an arc's subpath, each recording equals
+  the old one up to where the old run threw, and the runs that threw now
+  end with done and no error. All six fail with the old arc.
+- Parity exceptions: parity/exceptions/BUG-110.json.
+  io-import-pdf-eps/eps/arc-closepath-eps, arc-closepath-eps-text,
+  shapes-ps and shapes-ps-text (whose `.fixed` files came from BUG-109):
+  the import now reads the whole file. Against the old recording only
+  `called`, `error` ("0", no message), `progress` (continues to 100) and
+  the group differ; the group has the shapes of the BUG-109 output
+  followed by the circle and everything after it. Pending:
+  import-export/import/open/eps-worker-exception-hangs.

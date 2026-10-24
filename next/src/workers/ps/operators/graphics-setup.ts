@@ -54,9 +54,9 @@ export const setupOperators = {
   },
 
   /**
-   * Closes the last subpath back to its first point. Sic: a subpath that
-   * starts with an arc has no `coord`, so "x y r a1 a2 arc closepath"
-   * throws (the EPS then never finishes, see FMT-IMPORT-012).
+   * Closes the last subpath back to its first point. Every subpath starts
+   * with a point: an arc without a current point begins with a moveto
+   * ("`x y r 0 360 arc closepath` breaks the EPS import" in BUGS-FIXED.md).
    */
   closepath(this: PSCore) {
     this.fill$error();

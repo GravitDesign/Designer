@@ -1,0 +1,11 @@
+{
+  "bug": "BUG-110",
+  "why": "An arc without a current point starts its subpath with a moveto, so 'x y r 0 360 arc closepath' no longer throws in the PostScript worker and the rest of the file imports. The .fixed files (from BUG-109) now hold the whole import: called true, error 0 without a message, progress to 100 and the group with the circle and everything after it.",
+  "scenarios": [
+    "io-import-pdf-eps/eps/arc-closepath-eps",
+    "io-import-pdf-eps/eps/arc-closepath-eps-text",
+    "io-import-pdf-eps/eps/shapes-ps",
+    "io-import-pdf-eps/eps/shapes-ps-text"
+  ],
+  "pending": ["import-export/import/open/eps-worker-exception-hangs"]
+}

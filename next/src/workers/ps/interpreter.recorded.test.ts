@@ -32,7 +32,10 @@ function normalize(run: RecordedRun): RecordedRun {
   };
 }
 
-/** Programs with a `.fixed.json` recording, and the BUGS-FIXED.md entry that explains it. */
+/**
+ * Programs with a `.fixed.json` recording, and the BUGS-FIXED.md entries
+ * that explain it (space separated, in the order they were fixed).
+ */
 const FIXED: Record<string, string> = {
   // The JPEG handshake asks for the size, then for the RGBA pixels.
   "filter-dct-file.ps": "BUG-008",
@@ -66,10 +69,10 @@ const FIXED: Record<string, string> = {
   "filter-lzw.ps": "BUG-109",
   "filter-reusable-file.ps": "BUG-109",
   "filters.ps": "BUG-109",
-  "fixture-arc-closepath.eps": "BUG-109",
-  "fixture-shapes-ps.ps": "BUG-109",
+  "fixture-arc-closepath.eps": "BUG-109 BUG-110",
+  "fixture-shapes-ps.ps": "BUG-109 BUG-110",
   "font-type1-missing-subr.ps": "BUG-109",
-  "gfx-closepath-arc.ps": "BUG-109",
+  "gfx-closepath-arc.ps": "BUG-109 BUG-110",
   "gfx-curves.ps": "BUG-109",
   "gfx-image-errors.ps": "BUG-109",
   "gfx-image-ps-operands.ps": "BUG-109",
@@ -81,10 +84,30 @@ const FIXED: Record<string, string> = {
   "images.eps": "BUG-109",
   "math-stack.ps": "BUG-109",
   "shadings.eps": "BUG-109",
+
+  // An arc without a current point starts its subpath with a moveto.
+  "fixture-shapes.eps": "BUG-110",
+  "gfx-arcs.ps": "BUG-110",
+  "paths.eps": "BUG-110",
 };
 
-/** The programs whose fixed recording comes from `bug` alone. */
+/** The programs whose fixed recording comes from exactly these entries. */
 const fixedBy = (bug: string): string[] => Object.keys(FIXED).filter((f) => FIXED[f] === bug);
+
+/** `value` with every moveto that starts an arc's subpath taken out (BUG-110). */
+function withoutArcMoveto(value: unknown): unknown {
+  if (Array.isArray(value)) {
+    const items = value.map(withoutArcMoveto);
+    const [first, second] = value as { type?: string }[];
+    return first?.type === "moveto" && (second?.type === "arc" || second?.type === "arcn")
+      ? items.slice(1)
+      : items;
+  }
+  if (value && typeof value == "object") {
+    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, withoutArcMoveto(v)]));
+  }
+  return value;
+}
 
 function recordingFile(file: string, fixed: boolean): string {
   return path.join(RECORDED, file.replace(/\.[^.]+$/, fixed ? ".fixed.json" : ".json"));
@@ -163,6 +186,37 @@ describe("PostScript interpreter against the old worker's recordings", () => {
         expect(fixed[variant]?.finished, variant).toBe(true);
       }
       expect(threw).toBe(true);
+    },
+  );
+
+  it.each([...fixedBy("BUG-110"), ...fixedBy("BUG-109 BUG-110")])(
+    "%s: the fixed recording differs from the old one only by the moveto before an arc",
+    (file) => {
+      const old = JSON.parse(fs.readFileSync(recordingFile(file, false), "utf8")) as Record<
+        string,
+        RecordedRun
+      >;
+      const fixed = JSON.parse(fs.readFileSync(recordingFile(file, true), "utf8")) as Record<
+        string,
+        RecordedRun
+      >;
+      expect(Object.keys(fixed).sort()).toEqual(Object.keys(old).sort());
+      for (const variant of Object.keys(old)) {
+        const before = (old[variant] as RecordedRun).messages;
+        const after = withoutArcMoveto(
+          (fixed[variant] as RecordedRun).messages,
+        ) as RecordedMessage[];
+        expect(after, variant).not.toEqual((fixed[variant] as RecordedRun).messages);
+        const at = before.findIndex((m) => "exception" in m);
+        if (at < 0) {
+          expect(after, variant).toEqual(before);
+          continue;
+        }
+        // The old run threw at the closepath; the fixed one reads on to the end.
+        expect(after.slice(0, at), variant).toEqual(before.slice(0, at));
+        expect(after[after.length - 1], variant).toEqual({ func: "done", data: [] });
+        expect(after.slice(at), variant).not.toContainEqual({ func: "error", data: ["04"] });
+      }
     },
   );
 

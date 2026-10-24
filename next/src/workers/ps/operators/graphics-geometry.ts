@@ -93,7 +93,12 @@ function arcOperator(core: PSCore, name: "arc" | "arcn"): void {
     subpath = gstate.path[gstate.path.length - 1] as PSPathSegment[];
     subpath.push({ type: "lineto", coord: mapped });
   } else {
-    subpath = [];
+    // Without a current point the arc starts a subpath at its first point,
+    // as in PostScript; the old subpath had no point, so a closepath after
+    // it threw ("`x y r 0 360 arc closepath` breaks the EPS import" in
+    // BUGS-FIXED.md).
+    const start = { x: cx + radius * Math.cos(angle1), y: cy + radius * Math.sin(angle1) };
+    subpath = [{ type: "moveto", coord: core.CTM.transform(start.x, start.y) }];
     gstate.path.push(subpath);
   }
   subpath.push({
