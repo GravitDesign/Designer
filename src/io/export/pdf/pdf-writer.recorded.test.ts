@@ -214,7 +214,13 @@ afterAll(() => {
 describe("PDF writer against the old classes", () => {
   it("formats numbers, strings, colors, graphics states and line styles", () => {
     // JSON drops -0 and the like the same way on both sides.
-    expect(JSON.parse(JSON.stringify(objectsProgram(P, G)))).toEqual(fixture.objects);
+    const objects = JSON.parse(JSON.stringify(objectsProgram(P, G))) as Record<string, unknown>;
+    // BUG-089: a page box at 5 7 sized 100 x 50 is [llx lly urx ury]; the
+    // old order was [top left width height], "[7 5 100 50]".
+    const recordedBox = (fixture.objects as Record<string, unknown[]>).mediaBox as unknown[];
+    expect(recordedBox[0]).toBe("[7 5 100 50]");
+    expect(objects.mediaBox).toEqual(["[5 7 105 57]", recordedBox[1]]);
+    expect({ ...objects, mediaBox: recordedBox }).toEqual(fixture.objects);
   });
 
   it("embeds a font with widths and a ToUnicode map and writes text in it", () => {

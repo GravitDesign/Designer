@@ -5,7 +5,7 @@ import { Platform } from "../../../engine/core/platform.ts";
 import { extend } from "../../../engine/core/util.ts";
 import { Length } from "../../../engine/math/length.ts";
 import { Point } from "../../../engine/math/point.ts";
-import type { Rect } from "../../../engine/math/rect.ts";
+import { Rect } from "../../../engine/math/rect.ts";
 import { Transform } from "../../../engine/math/transform.ts";
 import type { PaintStyle } from "../../../engine/paint/paint-canvas.ts";
 import { Anchor } from "../../../engine/scene/anchor.ts";
@@ -461,7 +461,15 @@ export class PDFExport {
       }
       const page = document.newPage(area.getWidth(), area.getHeight());
       if (node instanceof Page && node.$bl) {
-        page.setBleedBox(area.expanded(2 * -node.$bl, 2 * -node.$bl, 0, 0));
+        // The page area includes the bleed, so the bleed box is the whole
+        // page and the trim box the page inside it. The old code set the
+        // trim area as the bleed box and no trim box (BUGS-FIXED.md
+        // "BUG-089 PDF bleed box is written as x y width height").
+        const bleed = node.$bl;
+        page.setBleedBox(new Rect(0, 0, area.getWidth(), area.getHeight()));
+        page.setTrimBox(
+          new Rect(bleed, bleed, area.getWidth() - 2 * bleed, area.getHeight() - 2 * bleed),
+        );
       }
       const width = Math.round(area.getWidth() * scale);
       const height = Math.round(area.getHeight() * scale);

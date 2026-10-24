@@ -1441,7 +1441,7 @@ What it does: every page box is written as `[top left width height]`, so PDF rea
 
 Why it's unclear: the box is wrong, but the files open and print normally; a reader only uses the bleed box when asked to.
 
-Kept. next/src/io/export/pdf/media-box.ts writes the old order; pinned by the io-export-pdf/export/bleed.pdf parity scenario.
+Fixed: see BUG-089 in BUGS-FIXED.md.
 
 <!-- Editor, editor core and guides (phase 6) -->
 

@@ -1,0 +1,10 @@
+{
+  "bug": "BUG-089",
+  "why": "PDF page boxes are written as [llx lly urx ury]; a page with a bleed gets the whole page as its bleed box and the page inside the bleed as its trim box. With the /BleedBox and /TrimBox entries and the cross-reference offsets taken out, the bleed .fixed files equal the old ones byte for byte; pages-settings is recorded as a hash of the corpus page with a bleed.",
+  "scenarios": [
+    "io-export-pdf/export/bleed",
+    "io-export-pdf/corpus/pages-settings",
+    "import-export/export/pdf/bleed"
+  ],
+  "pending": []
+}

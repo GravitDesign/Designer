@@ -5,11 +5,10 @@ import { PDFObject } from "./pdf-object.ts";
 import type { PDFOutput } from "./output.ts";
 
 /**
- * A page box. It is written as `[top left width height]`: the old code
- * put y first and the size where PDF expects the upper right corner.
- * Pages start at 0 0 so the media box comes out right; the bleed box
- * doesn't (kept, see "PDF bleed box is written as x y width height" in
- * QUESTIONS.md).
+ * A page box, in PDF coordinates (from the lower left corner), written as
+ * PDF expects it: `[llx lly urx ury]`. The old code wrote
+ * `[top left width height]`, which only came out right for boxes at 0 0
+ * (BUGS-FIXED.md "BUG-089 PDF bleed box is written as x y width height").
  */
 export class PDFMediaBox extends PDFObject {
   declare left: number;
@@ -32,10 +31,10 @@ export class PDFMediaBox extends PDFObject {
 
   override write(output: PDFOutput): void {
     const array = new PDFArray();
-    array.push(this.top);
     array.push(this.left);
-    array.push(this.width);
-    array.push(this.height);
+    array.push(this.top);
+    array.push(PDFNumber.normalizeNumber(this.left + this.width));
+    array.push(PDFNumber.normalizeNumber(this.top + this.height));
     array.write(output);
   }
 }

@@ -40,6 +40,11 @@ export class PDFPage extends PDFDictionary {
     this.put("/BleedBox", new PDFMediaBox(box.getX(), box.getY(), box.getWidth(), box.getHeight()));
   }
 
+  /** The finished page inside the bleed, in PDF coordinates. */
+  setTrimBox(box: Rect): void {
+    this.put("/TrimBox", new PDFMediaBox(box.getX(), box.getY(), box.getWidth(), box.getHeight()));
+  }
+
   /** Moves the drawing by `origin`: a `cm` in front of everything on the page. */
   setPageOrigin(origin: Point): void {
     this._origin = origin;

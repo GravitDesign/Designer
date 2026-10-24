@@ -1,0 +1,143 @@
+{
+ "assets": [
+  {
+   "element": "rectangle:Icon",
+   "name": "Icon",
+   "size": "1x",
+   "suffix": "",
+   "format": "png",
+   "file": "Icon.png"
+  },
+  {
+   "element": "rectangle:Icon",
+   "name": "Icon",
+   "size": "2x",
+   "suffix": "@2x",
+   "format": "png",
+   "file": "Icon@2x.png"
+  },
+  {
+   "element": "rectangle:Icon",
+   "name": "Icon",
+   "size": "1x",
+   "suffix": "",
+   "format": "svg",
+   "file": "Icon.svg"
+  },
+  {
+   "element": "rectangle:Icon",
+   "name": "Icon",
+   "size": "1x",
+   "suffix": "",
+   "format": "pdf",
+   "file": "Icon.pdf"
+  },
+  {
+   "element": "ellipse:",
+   "name": "Ellipse",
+   "size": "1x",
+   "suffix": "",
+   "format": "png",
+   "file": "Ellipse.png"
+  },
+  {
+   "element": "ellipse:",
+   "name": "Ellipse",
+   "size": "0.5x",
+   "suffix": "@0,5x",
+   "format": "jpg",
+   "file": "Ellipse@0,5x.jpg"
+  },
+  {
+   "element": "ellipse:",
+   "name": "Ellipse_2",
+   "size": "1x",
+   "suffix": "",
+   "format": "png",
+   "file": "Ellipse_2.png"
+  },
+  {
+   "element": "rectangle:Icon",
+   "name": "Icon",
+   "size": "1x",
+   "suffix": "",
+   "format": "png",
+   "file": "Icon.png"
+  },
+  {
+   "element": "rectangle:a&lt;b&gt;:c\"d|e?f*g\\h",
+   "name": "a&lt;b&gt;:c\"d|e?f*g\\h",
+   "size": "1x",
+   "suffix": "",
+   "format": "png",
+   "file": "a_b__c_d_e_f_g_h.png"
+  },
+  {
+   "element": "group:Folder/Sub/Leaf",
+   "name": "Folder/Sub/Leaf",
+   "size": "2x",
+   "suffix": "_big",
+   "format": "png",
+   "file": "Folder_Sub_Leaf_big.png"
+  },
+  {
+   "element": "rectangle:Inner",
+   "name": "Inner",
+   "size": "1x",
+   "suffix": "",
+   "format": "svg",
+   "file": "Inner.svg"
+  },
+  {
+   "element": "slice:",
+   "name": "Slice",
+   "size": "1x",
+   "suffix": "",
+   "format": "png",
+   "file": "Slice.png"
+  }
+ ],
+ "namesWithDuplicates": [
+  "Icon.png",
+  "Icon@2x.png",
+  "Icon.svg",
+  "Icon.pdf",
+  "Ellipse.png",
+  "Ellipse@0,5x.jpg",
+  "Ellipse_2.png",
+  "Icon(2).png",
+  "a_b__c_d_e_f_g_h.png",
+  "Folder_Sub_Leaf_big.png",
+  "Inner.svg",
+  "Slice.png"
+ ],
+ "notRecursive": [],
+ "selectionDefaults": [
+  {
+   "element": "rectangle:Icon",
+   "name": "Icon",
+   "size": "2x",
+   "suffix": "",
+   "format": "jpg",
+   "file": "Icon.jpg"
+  },
+  {
+   "element": "ellipse:",
+   "name": "Ellipse",
+   "size": "2x",
+   "suffix": "",
+   "format": "jpg",
+   "file": "Ellipse.jpg"
+  }
+ ],
+ "selectionSingle": [
+  {
+   "element": "ellipse:",
+   "name": "Given",
+   "size": "1x",
+   "suffix": "",
+   "format": "png",
+   "file": "Given.png"
+  }
+ ]
+}

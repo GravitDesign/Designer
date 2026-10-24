@@ -101,7 +101,30 @@ describe("PDFExport on recorded documents", () => {
       const built = buildPdfTestScene(G, newScene(), testCase.doc);
       const { element, options } = pdfTestExport(G, built, testCase);
       const bytes = await exportPdf(element, options);
-      expect(normalizedBase64(bytes)).toBe(outputs[testCase.id]);
+      if ("shapes-bleed" !== testCase.id) {
+        expect(normalizedBase64(bytes)).toBe(outputs[testCase.id]);
+        return;
+      }
+      // BUG-089: the bleed box is the whole page (it includes the bleed)
+      // and the trim box the page inside it, written as llx lly urx ury.
+      // The old file had the trim area as "/BleedBox [x y w h]". The rest
+      // is the old file; the objects after the page move, so the
+      // cross-reference offsets are left out.
+      const latin = Buffer.from(normalizedBase64(bytes), "base64").toString("latin1");
+      const old = Buffer.from(outputs[testCase.id] as string, "base64").toString("latin1");
+      const oldBox = /\/BleedBox \[(\d+) \d+ (\d+) (\d+)\]/.exec(old) as RegExpExecArray;
+      const [bleed, width, height] = [Number(oldBox[1]), Number(oldBox[2]), Number(oldBox[3])];
+      const media = `[0 0 ${width + 2 * bleed} ${height + 2 * bleed}]`;
+      expect(old).toContain(`/MediaBox ${media}`);
+      expect(latin).toContain(`/BleedBox ${media}`);
+      expect(latin).toContain(`/TrimBox [${bleed} ${bleed} ${width + bleed} ${height + bleed}]`);
+      const rest = (text: string) =>
+        text
+          .replace(/\/BleedBox \[[^\]]*\]/, "")
+          .replace(/\/TrimBox \[[^\]]*\]/, "")
+          .replace(/\n\d{10} 00000 n /g, "\n<offset> 00000 n ")
+          .replace(/startxref\n\d+/, "startxref\n<offset>");
+      expect(rest(latin)).toBe(rest(old));
     });
   }
 

@@ -2324,3 +2324,35 @@ the document promise that abort rejects (module 1428).
   the old loop: no callback; and with the old document alone: an
   unhandled rejection).
 - Parity exceptions: none. No recorded scenario cancels an export.
+
+## BUG-089 PDF bleed box is written as x y width height
+
+Old code: chunk.vendor.js module 1440 (the PDF page box, lines
+253481-253509) and GPDFExport.export's page setup (setBleedBox, line
+251555).
+
+- Reproduce: give a page a bleed (Page settings, Bleed 12) and export it
+  as PDF; look at the page's /BleedBox.
+- Old: every page box was written as `[top left width height]`, where PDF
+  expects the lower left and upper right corners `[llx lly urx ury]`. The
+  media box starts at 0 0 and came out right. The exporter set the page
+  without its bleed as the bleed box, so a 320 x 200 page with bleed 12
+  (media box [0 0 344 224]) got `/BleedBox [12 12 320 200]`, which
+  readers take as a box from 12,12 to 320,200, and no trim box.
+- New: page boxes are written as `[llx lly urx ury]`. The bleed box is
+  the whole media box (the page area includes the bleed) and the trim box
+  is the page inside it: `/BleedBox [0 0 344 224]`,
+  `/TrimBox [12 12 332 212]`.
+- Test: src/io/export/pdf/pdf-export.recorded.test.ts, "shapes-bleed"
+  (the recorded file with the new boxes; the rest equal) and
+  src/io/export/pdf/pdf-writer.recorded.test.ts, "formats numbers,
+  strings, colors, graphics states and line styles" (a box at 5 7 sized
+  100 x 50 is `[5 7 105 57]`, the old one `[7 5 100 50]`). Both fail with
+  the old box.
+- Parity exceptions: io-export-pdf/export/bleed, io-export-pdf/corpus/
+  pages-settings and import-export/export/pdf/bleed. Checked for both
+  bleed PDFs: with the /BleedBox and /TrimBox entries and the
+  cross-reference offsets taken out, the `.fixed` file equals the old one
+  byte for byte. pages-settings is recorded as a hash only; it is the
+  corpus page with a bleed. import-export/export/pdf/bleed.render is
+  unchanged (the boxes don't change what is drawn).
