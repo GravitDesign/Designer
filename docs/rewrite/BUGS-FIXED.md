@@ -2103,3 +2103,34 @@ Old code: chunk.vendor.js module 1391, svg.Transform Type.matrix (line
   the old output differed there for exactly those two. Lists where
   matrix() or the skew stands alone under a uniform scale (structure.svg,
   the roundtrip fixtures) give the same output as before.
+
+## BUG-081 CSS rules and ids named like Object.prototype members fail the import
+
+Old code: chunk.vendor.js module 1391, the parser's Styles (line
+248074), Definitions (245913) and References (245340).
+
+- Reproduce: import an SVG with a CSS rule whose selector is
+  `__proto__` or `constructor`, or an element with `id="constructor"`, or
+  a `<use xlink:href="#toString"/>`.
+- Old: the CSS rules, the elements by id and the text references were
+  plain objects. A `__proto__ { fill: red }` rule wrote its declarations
+  onto Object.prototype, so every element without its own fill turned red
+  and every plain object in the page had a `fill` for the rest of the
+  session; a `constructor` rule wrote onto the Object function. A use of
+  `#toString` or `#constructor` found a built-in function instead of an
+  element and the import failed with a TypeError.
+- New: the three tables have no prototype, so such names are ordinary
+  keys: the rules only match elements of that name (none), the element
+  with id "constructor" is found by its id, and an unknown id gives
+  nothing.
+- Test: src/io/import/svg/svg-parser.test.ts, "BUG-081: CSS selectors and
+  ids named like Object.prototype members" (the three tests fail with the
+  old tables).
+- Parity exceptions: io-import-svg/proto-id-constructor-svg,
+  proto-use-tostring-svg, prototype/style-proto-svg and
+  prototype/style-constructor-svg. Checked against the old app with the
+  names changed to harmless ones (the id to "ctor2", the href to
+  "#nothing", the `__proto__` selector to `zzz`): it gives exactly the
+  `.fixed` nodes, apart from the random ids and the use's name, which is
+  the referenced id. The `.fixed` files of the prototype scenarios record
+  that nothing leaked onto Object.prototype or the Object function.

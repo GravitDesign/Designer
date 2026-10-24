@@ -239,10 +239,22 @@ export class SvgParser {
   jobCallback: (() => void) | null = null;
   readonly fontManager: FontManager;
   readonly fontProvider: FontProviderQueue;
-  Definitions: Record<string, SvgElementBase> = {};
-  Styles: Record<string, Record<string, SvgProperty>> = {};
+  // Without a prototype, so ids and selectors named like Object.prototype
+  // members ("__proto__", "constructor", "toString") are ordinary keys.
+  // The old plain objects let a "__proto__" rule write onto
+  // Object.prototype and a use of "#toString" find a function
+  // (BUGS-FIXED.md "BUG-081 CSS rules and ids named like Object.prototype
+  // members fail the import").
+  Definitions: Record<string, SvgElementBase> = Object.create(null) as Record<
+    string,
+    SvgElementBase
+  >;
+  Styles: Record<string, Record<string, SvgProperty>> = Object.create(null) as Record<
+    string,
+    Record<string, SvgProperty>
+  >;
   Images: SvgImage[] = [];
-  References: Record<string, Text[]> = {};
+  References: Record<string, Text[]> = Object.create(null) as Record<string, Text[]>;
   FontsToResolve = new Map<string, ((font: Font) => void)[]>();
   ViewPort = new ViewPort();
   _hasFontListener = false;
@@ -2594,7 +2606,7 @@ export class SvgStyle extends SvgElementBase {
       for (const selectorText of selectors) {
         const selector = trim(selectorText);
         if ("" == selector) continue;
-        const rules = svg.Styles[selector] || {};
+        const rules = svg.Styles[selector] || (Object.create(null) as Record<string, SvgProperty>);
         for (const declaration of declarations) {
           const colon = declaration.indexOf(":");
           const name = declaration.substr(0, colon);

@@ -3,6 +3,7 @@ import type { Transform } from "../../../engine/math/transform.ts";
 import { Ellipse } from "../../../engine/scene/ellipse.ts";
 import { Pattern } from "../../../engine/style/pattern.ts";
 import { Group } from "../../../engine/scene/group.ts";
+import { Node } from "../../../engine/scene/node.ts";
 import { Path } from "../../../engine/scene/path.ts";
 import { Rectangle } from "../../../engine/scene/rectangle.ts";
 import { FontManager } from "../../../engine/text/fonts/font-manager.ts";
@@ -455,11 +456,10 @@ describe("BUG-071: a font query asked again from the last answer", () => {
   });
 });
 
-describe("R5-E-401: CSS selectors and ids named like Object.prototype members (old behaviour)", () => {
+describe("BUG-081: CSS selectors and ids named like Object.prototype members", () => {
   // canvg kept CSS rules, definitions and references in plain objects
-  // (old chunk.vendor.js 248074, 245913, 245340). The port keeps that;
-  // these pin it until it is fixed as a bug.
-  it("writes a __proto__ rule onto Object.prototype and still imports", async () => {
+  // (old chunk.vendor.js 248074, 245913, 245340).
+  it("keeps a __proto__ rule to itself and still imports", async () => {
     const proto = Object.prototype as unknown as Record<string, unknown>;
     try {
       const result = await importTree(
@@ -469,8 +469,8 @@ describe("R5-E-401: CSS selectors and ids named like Object.prototype members (o
           el("circle", { cx: "70", cy: "25", r: "15", fill: "#0a0" }),
         ]),
       );
-      expect(Object.prototype.hasOwnProperty.call(proto, "fill")).toBe(true);
-      expect(Object.prototype.hasOwnProperty.call(proto, "stroke-width")).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(proto, "fill")).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(proto, "stroke-width")).toBe(false);
       expect(result.error).toBeNull();
       expect(result.node).toBeTruthy();
     } finally {
@@ -479,7 +479,7 @@ describe("R5-E-401: CSS selectors and ids named like Object.prototype members (o
     }
   });
 
-  it("writes a constructor rule onto the Object function", async () => {
+  it("keeps a constructor rule off the Object function", async () => {
     const object = Object as unknown as Record<string, unknown>;
     try {
       const result = await importTree(
@@ -488,22 +488,27 @@ describe("R5-E-401: CSS selectors and ids named like Object.prototype members (o
           el("rect", { width: "30", height: "30" }),
         ]),
       );
-      expect(Object.prototype.hasOwnProperty.call(object, "fill")).toBe(true);
+      expect(Object.prototype.hasOwnProperty.call(object, "fill")).toBe(false);
       expect(result.error).toBeNull();
     } finally {
       Reflect.deleteProperty(object, "fill");
     }
   });
 
-  it("fails the import for a use of #toString or of an element with id constructor", async () => {
+  it("imports a use of #toString (nothing) and of an element with id constructor", async () => {
+    const results: Record<string, unknown> = {};
     for (const id of ["toString", "constructor"]) {
       const result = await importTree(
         el("svg", { width: "100", height: "100" }, [
           el("defs", {}, [el("rect", { id: "constructor", width: "30", height: "30" })]),
           el("use", { "xlink:href": "#" + id }),
+          el("circle", { cx: "70", cy: "25", r: "15" }),
         ]),
       );
-      expect(result.error, id).toBeInstanceOf(TypeError);
+      expect(result.error, id).toBeNull();
+      const blob = Node.serialize(result.node as never) as string;
+      results[id] = ["rectangle", "ellipse"].filter((kind) => blob.includes(`"@":"${kind}"`));
     }
+    expect(results).toEqual({ toString: ["ellipse"], constructor: ["rectangle", "ellipse"] });
   });
 });

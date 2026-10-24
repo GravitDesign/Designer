@@ -1,0 +1,11 @@
+{
+  "bug": "BUG-081",
+  "why": "The importer's CSS rules, elements by id and text references have no prototype, so selectors and ids named like Object.prototype members are ordinary names: nothing leaks onto Object.prototype or the Object function, and a use of #constructor or #toString imports. The old app gives the same nodes with those names changed to harmless ones.",
+  "scenarios": [
+    "io-import-svg/proto-id-constructor-svg",
+    "io-import-svg/proto-use-tostring-svg",
+    "io-import-svg/prototype/style-proto-svg",
+    "io-import-svg/prototype/style-constructor-svg"
+  ],
+  "pending": []
+}

@@ -237,9 +237,11 @@ export class SvgProperty {
   ) {
     // canvg's svg.Property had only `name` and `value` as own keys. The
     // parser it reads definitions from is kept out of for-in and
-    // GUtil.extend, so copying a property copies what the old one had (a
-    // CSS rule named __proto__ puts a property on Object.prototype, where
-    // every node's default properties are deep-copied with extend).
+    // GUtil.extend, so copying a property copies what the old one had
+    // (the old CSS rule table let a rule named __proto__ put a property on
+    // Object.prototype, where every node's default properties are
+    // deep-copied with extend; see BUGS-FIXED.md "BUG-081 CSS rules and
+    // ids named like Object.prototype members fail the import").
     Object.defineProperty(this, "context", { value: context });
     Object.defineProperty(this, "owner", { value: undefined, writable: true });
   }
