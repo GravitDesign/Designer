@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-095",
+  "why": "Exports wait for the document's pending fonts, so auto-sized texts are exported with their fitted box instead of the default 142 x 27. The parity scenarios wait for fonts in the page before exporting, so none records the race.",
+  "scenarios": [],
+  "pending": []
+}

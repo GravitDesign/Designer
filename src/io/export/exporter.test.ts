@@ -11,6 +11,7 @@ import { Rectangle } from "../../engine/scene/rectangle.ts";
 import { Scene } from "../../engine/scene/scene.ts";
 import { Slice } from "../../engine/scene/slice.ts";
 import { Workspace } from "../../engine/scene/workspace.ts";
+import { FontManager, type ResolveFontEvent } from "../../engine/text/fonts/font-manager.ts";
 import { FS, type ZipFileEntry } from "../zip/zip-fs.ts";
 import {
   Exporter,
@@ -393,6 +394,30 @@ function storage(options: {
   };
   return { target, calls };
 }
+
+describe("Exporter.exportExportable and fonts (BUG-095)", () => {
+  it("waits for the document's pending fonts before it exports", async () => {
+    const scene = new Scene(new Workspace());
+    const fonts = (scene.getWorkspace() as Workspace).getFontManager() as FontManager;
+    let fail: (() => void) | null = null;
+    fonts.addEventListener(FontManager.ResolveFontEvent, (event: ResolveFontEvent) => {
+      fail = () => event.failed();
+    });
+    fonts.getFont("Not Here", "N", 400);
+    expect(fonts.hasPendingFonts()).toBe(true);
+    const blobs: unknown[] = [];
+    const exportable = item("A");
+    (scene.getActivePage() as Page).appendChild(exportable.element as Node);
+    Exporter.exportExportable(exportable, (blob) => blobs.push(blob));
+    await settle();
+    expect(exported).toHaveLength(0);
+    // The font arrives (here: fails, which settles it too).
+    (fail as unknown as () => void)();
+    await settle();
+    expect(exported).toHaveLength(1);
+    expect(blobs).toHaveLength(1);
+  });
+});
 
 describe("Exporter.exportToDirectory", () => {
   it('makes subdirectories for "/" (reused case-insensitively) and numbers names per directory (BUG-093)', async () => {

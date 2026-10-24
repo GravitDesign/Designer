@@ -2476,3 +2476,25 @@ Old code: designer.browser.dev.js module 1253, GExporter.exportToDirectory
   onDone never runs and the file is missing).
 - Parity exceptions: none. No recorded scenario exports an item without a
   name.
+
+## BUG-095 An export right after opening clips auto-sized text to the default 142x27 box
+
+Old code: designer.browser.dev.js module 1253, GExporter.exportExportable
+(around line 80606).
+
+- Reproduce: open a document with auto-sized texts in a font that still
+  has to load (a library font), and export it at once (or export a page
+  right after inserting a text in a new font).
+- Old: an auto-sized text gets its size when its font arrives; until then
+  it keeps the default 142 x 27.2 box. The export painted whatever box the
+  text had at that moment, so a text exported before its font arrived came
+  out clipped ("Gravit Ex" for "Gravit Export").
+- New: when the document's font manager still has fonts pending, the
+  export waits until none is (or 10 seconds at most, for a font that never
+  answers), then exports a tick later so the texts are laid out with the
+  arrived fonts.
+- Test: src/io/export/exporter.test.ts, "waits for the document's
+  pending fonts before it exports" (fails with the old exporter: it
+  exports while the font is pending).
+- Parity exceptions: none. The import-export scenarios wait for fonts in
+  the page before they export (page-lib.ts), so they never hit the race.

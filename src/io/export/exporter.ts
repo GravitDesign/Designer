@@ -27,6 +27,7 @@ import { hasContainer } from "../../engine/scene/node-container.ts";
 import { hasProperties } from "../../engine/scene/node-properties.ts";
 import { Page } from "../../engine/scene/page.ts";
 import { Scene } from "../../engine/scene/scene.ts";
+import { FontManager } from "../../engine/text/fonts/font-manager.ts";
 import { FS, type ZipDirectoryEntry } from "../zip/zip-fs.ts";
 import type { BitmapExportNode } from "./bitmap-export.ts";
 import { exporters, type PdfExportJob } from "./index.ts";
@@ -158,6 +159,42 @@ function fallbackName(exportable: Exportable): string {
  * names as is, "a&lt;b&gt;.png" (BUGS-FIXED.md "BUG-091 Export file names
  * keep HTML escaping").
  */
+/** The font manager of the element's document, if it has one. */
+function fontManagerOf(element: unknown): FontManager | null {
+  const node = (Array.isArray(element) ? element[0] : element) as {
+    getScene?(): { getWorkspace?(): { getFontManager?(): unknown } | null } | null;
+  } | null;
+  const scene = node && node.getScene ? node.getScene() : null;
+  const workspace = scene && scene.getWorkspace ? scene.getWorkspace() : null;
+  const fonts = workspace && workspace.getFontManager ? workspace.getFontManager() : null;
+  return fonts instanceof FontManager ? fonts : null;
+}
+
+/** How long an export waits for fonts that never answer. */
+const FONT_WAIT_LIMIT = 10_000;
+
+/**
+ * Calls `go` once no font is pending any more (or after FONT_WAIT_LIMIT),
+ * a tick after the last font event so the texts are laid out with it.
+ */
+function whenFontsSettled(fonts: FontManager, go: () => void): void {
+  let finished = false;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    clearTimeout(limit);
+    fonts.removeEventListener(FontManager.FontAvailableEvent, check);
+    fonts.removeEventListener(FontManager.FontUnavailableEvent, check);
+    setTimeout(go, 0);
+  };
+  const check = () => {
+    if (!fonts.hasPendingFonts()) finish();
+  };
+  const limit = setTimeout(finish, FONT_WAIT_LIMIT);
+  fonts.addEventListener(FontManager.FontAvailableEvent, check);
+  fonts.addEventListener(FontManager.FontUnavailableEvent, check);
+}
+
 function fileNameOf(name: string): string {
   return name.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 }
@@ -310,7 +347,11 @@ export class Exporter {
    * Runs one export and calls `callback` with the Blob: PNG/JPEG through
    * BitmapExport at 72 dpi (JPEG quality jpegQuality/100, default 1),
    * SVG and PDF through their exporters. Throws "Unknown format." for
-   * anything else (formats are lower case).
+   * anything else (formats are lower case). While the document still
+   * loads fonts it waits for them first: auto-sized texts get their size
+   * only when their font arrives, and the old export painted them in their
+   * default 142 x 27 box (BUGS-FIXED.md "BUG-095 An export right after
+   * opening clips auto-sized text to the default 142x27 box").
    */
   static exportExportable(
     exportable: Exportable,
@@ -318,6 +359,13 @@ export class Exporter {
     progress?: unknown,
     messenger?: ExportMessenger | null,
   ): void {
+    const fonts = fontManagerOf(exportable.element);
+    if (fonts && fonts.hasPendingFonts()) {
+      whenFontsSettled(fonts, () =>
+        Exporter.exportExportable(exportable, callback, progress, messenger),
+      );
+      return;
+    }
     const element = exportable.element;
     const format = exportable.format;
     if ("png" === format || "jpg" === format) {
