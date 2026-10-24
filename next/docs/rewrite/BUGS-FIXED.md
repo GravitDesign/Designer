@@ -339,3 +339,44 @@ Old code: chunk.vendor.js module 70, GText.setText (16684-16690).
   1).
 - Parity exceptions: none. No recorded scenario restores a text with a
   missing font and then reads the lock or edits the text.
+
+## BUG-011 A mask in a plain group erases everything painted before it
+
+Old code: chunk.vendor.js module 911, GElement.Stylable _paintStyle (the
+separate-canvas choice at 117590); module 122, GGroup._paintStyleContent
+(28134).
+
+- Reproduce: group a shape with another shape on top, give the top shape
+  the blend mode Mask or Inverse mask in the inspector (appearance blend
+  select), and leave the group at 100% opacity with normal blend and no
+  effect. Or open parity/corpus/files/masks.gvdesign.
+- Old: a group paints into its own canvas only when its opacity or blend
+  mode needs one. A plain group painted its children straight onto the
+  canvas below, so the masking child's destination-in (Mask) or
+  destination-out (Inverse mask) composite hit that whole canvas: the page
+  background and every element painted before the group were erased
+  outside the mask (Mask) or inside it (Inverse mask), and in the view the
+  page showed the transparency checkerboard. Only groups with an effect,
+  an opacity below 100% or a blend mode masked just their own children. A
+  masking child directly in a layer erased the page the same way.
+- New: a group, layer or symbol with a direct child whose blend is Mask or
+  Inverse mask paints through its own canvas (the same path a group with
+  opacity takes), so the mask cuts only the siblings painted before it in
+  that container. Saved files are unchanged.
+- Test: src/engine/scene/group.test.ts, "with a masking child (BUG-011)":
+  a plain group and a layer with an "m" or "!m" child paint through their
+  own canvas, and a mask in a nested group isolates only that group. All
+  four fail with the old code.
+- Parity exceptions: parity/exceptions/BUG-011.json. Checked against the
+  old app: with every masking group of masks.gvdesign set to an opacity of
+  0.999999 (which isolates it there without changing a pixel), the old
+  app's PNG and JPEG exports equal the new app's byte for byte, so
+  io-export-bitmap/corpus/masks and the corpus preview, bitmap and view
+  renders differ only by the isolation. The PDF export ignores mask blends
+  in both apps (it draws the mask shapes as plain black shapes); its
+  `.fixed` output differs from the old one only in a q/Q pair around each
+  masking group and the gradient pattern matrices of the shapes inside
+  them, which move by (-2, +18) in PDF space. That puts the gradients
+  exactly on their rectangles (checked against the gradient stops); the
+  old export drew them 2 px to the right. Pending:
+  platform/gvthumb/corpus/masks and import-export/corpus/masks.

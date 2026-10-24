@@ -163,7 +163,11 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
             }
           }
         }
-        if (1 !== this.$_stop || this.$_sbl !== Canvas2DPaintCanvas.BlendMode.Normal) {
+        if (
+          1 !== this.$_stop ||
+          this.$_sbl !== Canvas2DPaintCanvas.BlendMode.Normal ||
+          this._hasMaskingChild()
+        ) {
           this._paintStyleSeparate(context, bbox, layers, effects, effectCanvas, hasEffects);
         } else {
           this._paintStyleFillLayer(context, bbox, layers, effects, effectCanvas, hasEffects);
@@ -173,6 +177,22 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
     }
 
     _isStyleSeparate(): boolean {
+      return false;
+    }
+
+    /**
+     * Whether a direct child masks ("m") or inverse-masks ("!m") what is
+     * painted below it. Such a container paints into its own canvas, so the
+     * mask only reaches its siblings (BUGS-FIXED.md "BUG-011 A mask in a
+     * plain group erases everything painted before it").
+     */
+    _hasMaskingChild(): boolean {
+      type Child = { getNext(): Child | null; $_sbl?: unknown };
+      const container = this as unknown as { getFirstChild?: () => Child | null };
+      if (typeof container.getFirstChild != "function") return false;
+      for (let child = container.getFirstChild(); null != child; child = child.getNext()) {
+        if ("m" === child.$_sbl || "!m" === child.$_sbl) return true;
+      }
       return false;
     }
 

@@ -1,0 +1,13 @@
+{
+  "bug": "BUG-011",
+  "why": "A group or layer with a masking child (blend Mask or Inverse mask) paints into its own canvas, so the mask only cuts its siblings instead of erasing the page and everything painted before it. The bitmap and JPEG exports of masks.gvdesign equal the old app's exports byte for byte when every masking group is isolated by an opacity of 0.999999. The view renders, the preview and the bitmap differ only by that. In the PDF, which ignores mask blends in both apps, each masking group gets its own q/Q block and the gradients inside it move 2 px left onto their rectangles. The document, resave, compat and SVG scenarios don't paint and need nothing.",
+  "scenarios": [
+    "corpus/masks/render-light",
+    "corpus/masks/render-dark",
+    "corpus/masks/preview",
+    "corpus/masks/bitmap",
+    "io-export-bitmap/corpus/masks",
+    "io-export-pdf/corpus/masks"
+  ],
+  "pending": ["platform/gvthumb/corpus/masks", "import-export/corpus/masks"]
+}

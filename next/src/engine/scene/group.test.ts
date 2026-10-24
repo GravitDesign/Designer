@@ -1,11 +1,15 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { Rect } from "../math/rect.ts";
 import { Transform } from "../math/transform.ts";
+import type { PaintCanvas } from "../paint/paint-canvas.ts";
+import { PaintContext } from "../paint/paint-context.ts";
+import { ScenePaintConfiguration } from "../paint/scene-paint-configuration.ts";
 import { PropertySet } from "../style/stylable-sets.ts";
 import { Anchor } from "./element-anchor.ts";
 import { ElementChange } from "./element-change.ts";
 import { Ellipse } from "./ellipse.ts";
 import { Group } from "./group.ts";
+import { Layer } from "./layer.ts";
 import { Node } from "./node.ts";
 import { Rectangle } from "./rectangle.ts";
 
@@ -77,5 +81,57 @@ describe("GGroup", () => {
     const back = Node.deserialize(JSON.stringify(blob)) as Group;
     expect(box(back.getProperty("frm") as Rect)).toEqual([0, 0, 340, 160]);
     expect(back.getChildren()).toHaveLength(2);
+  });
+
+  describe("with a masking child (BUG-011)", () => {
+    function paintPath(container: Group | Layer): string {
+      const context = new PaintContext();
+      const configuration = new ScenePaintConfiguration();
+      configuration.ignoreEffects = true;
+      context.configuration = configuration;
+      context.canvas = { getScale: () => 1 } as unknown as PaintCanvas;
+      let path = "";
+      vi.spyOn(container, "_paintStyleSeparate").mockImplementation(() => {
+        path = "separate";
+      });
+      vi.spyOn(container, "_paintStyleFillLayer").mockImplementation(() => {
+        path = "shared";
+      });
+      container._paintStyle(context as never, container.getPaintBBox() as Rect);
+      return path;
+    }
+
+    for (const blend of ["m", "!m"]) {
+      it(`paints a plain group into its own canvas when a child has blend ${blend}`, () => {
+        const g = group();
+        expect(paintPath(g)).toBe("shared");
+        const mask = new Ellipse();
+        mask.setProperty("trf", new Transform(30, 0, 0, 30, 50, 25));
+        mask.setProperty("_sbl", blend);
+        g.appendChild(mask);
+        expect(paintPath(g)).toBe("separate");
+      });
+    }
+
+    it("paints a layer into its own canvas when a child masks", () => {
+      const layer = new Layer();
+      layer.appendChild(rect(0, 0, 100, 50));
+      expect(paintPath(layer)).toBe("shared");
+      const mask = rect(10, 10, 20, 20);
+      mask.setProperty("_sbl", "m");
+      layer.appendChild(mask);
+      expect(paintPath(layer)).toBe("separate");
+    });
+
+    it("leaves a mask in a nested group to that group", () => {
+      const outer = new Group();
+      const inner = group();
+      const mask = rect(10, 10, 20, 20);
+      mask.setProperty("_sbl", "m");
+      inner.appendChild(mask);
+      outer.appendChild(inner);
+      expect(paintPath(outer)).toBe("shared");
+      expect(paintPath(inner)).toBe("separate");
+    });
   });
 });
