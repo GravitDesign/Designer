@@ -3891,3 +3891,25 @@ flag.
 
 Kept. src/app/fonts/web-fonts-provider.ts addPreviews; pinned in
 previews.test.ts.
+
+<!-- App integration (phase 7) -->
+
+## Q-328 The settings are written once at startup
+
+Old location: designer.browser.dev.js module 1325 (GReminderManager.start and checkReminders), started by the bootstrap (module 1483) after the screen size check.
+
+What it does: with the always-pro licence of this build, checkReminders ended in `reset("proExpired")` and `reset("proExpireToday")`, which call `gDesigner.setSetting(key, undefined)`. The keys didn't exist, so setSetting counted that as a change and wrote the whole settings object, defaults included, to localStorage ("designer.settings"). That is the only write at startup; GDesigner.start itself writes nothing.
+
+Why it's unclear: the reminder manager is dropped with the licence, but the write it caused is visible (platform scenarios wait for it, corpus/view/*-state read eps_outline_fonts from storage). Keeping the two reminder keys would add two undefined settings and two SettingChangedEvents nobody listens to.
+
+Kept, without the reminder keys: boot calls Designer.writeSettings() at the point where the reminder manager started (src/app/shell/bootstrap.ts). Pinned by corpus/view/outline-view-state and corpus/view/fast-view-state (app-designer-main.json) and platform/storage's waitForStartupWrites.
+
+## Q-329 Boot waits for the CMYK profile
+
+Old location: designer.browser.dev.js module 1491 (GDesigner.init), `GColor.setCMYKProfile("USWebCoatedSWOPv2", "assets/data/icc/")`.
+
+What it does: init starts loading the profile and nobody waits for it. CMYK colours convert with the naive formula until it has arrived, with the profile after.
+
+Why it's unclear: whether a CMYK colour right after start uses the profile depends on load timing (engine-model/colors/gradients raced under load).
+
+Changed in timing only: Designer.init keeps the call (loadsCmykProfile, set by boot) and boot resolves after the request finished (Designer.whenCmykProfileLoaded). No second request.
