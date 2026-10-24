@@ -1720,3 +1720,35 @@ and designer.browser.dev.js module 163 (the EPS branch of GDocument.load).
   cancels arc-closepath.eps while it hangs, which it no longer does after
   BUG-110; it will need a new way to keep an import running before it can
   record the cancel.
+
+## BUG-114 Text set with xshow, yshow, xyshow and charpath stacks at the start point; stroked fonts are filled
+
+Old code: public/pscore.js, PSCore.prototype._show (the outlined-glyph
+loop).
+
+- Reproduce: open an EPS or PS file with outlined text (a Type 1 font
+  defined in the file, or "Outline fonts" on) that uses charpath for more
+  than one glyph, or a font with PaintType 2 (stroked outlines).
+- Old: in the outlined path only show, ashow, widthshow and awidthshow
+  moved to the next glyph, so charpath put every glyph at the start
+  point, on top of each other, and left the current point there. The
+  paint type was read as `paintType` (lowercase), which fonts don't have,
+  so a PaintType 2 font was filled instead of stroked.
+- New: charpath advances by each glyph's width like show and leaves the
+  current point after the text; a PaintType 2 font is stroked with its
+  StrokeWidth. xshow, yshow and xyshow already advanced by their widths in
+  the outlined path (the corpus recordings show-outlined-xshow, -yshow and
+  -xyshow have each glyph at its own position) and are unchanged; with
+  plain text the whole string still goes to the page as one show call, so
+  their widths are not applied there (QUESTIONS.md Q-110 keeps that).
+- Test: src/workers/ps/show.test.ts, "outlined text (BUG-114)": a
+  PaintType 2 font without the lowercase key is stroked, and charpath of
+  "AB" starts the second glyph right of the first and leaves the current
+  point after it (both fail with the old code). The corpus programs
+  show-outlined-charpath-false.ps and -true.ps get `.fixed.json`
+  recordings that differ from the old ones only in the second glyph's
+  coordinates. font-type1-stroked.ps doesn't change: its font also
+  defines the lowercase key.
+- Parity exceptions: none (parity/exceptions/BUG-114.json lists no
+  scenarios). No EPS fixture of the parity suites uses charpath or a
+  PaintType 2 font; the io-import-pdf-eps suite gives the same output.

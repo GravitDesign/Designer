@@ -12,11 +12,13 @@
 //   xshow/yshow/xyshow when the widths are a number string.
 // - ashow/awidthshow pop the string before checking the numbers, so a
 //   typecheck leaves the stack changed.
-// - charpath and xyshow/xshow/yshow draw every outlined glyph at the start
-//   position (only show, ashow, widthshow and awidthshow advance), and
-//   stringwidth of an outlined font pushes 0 0.
-// - The paint type is read as `paintType` (lowercase), which fonts don't
-//   have, so outlined text is always filled.
+// - stringwidth of an outlined font pushes 0 0.
+//
+// charpath advances from glyph to glyph and leaves the current point after
+// the text, and an outlined font with PaintType 2 is stroked; the old code
+// put every charpath glyph at the start and read a lowercase `paintType`
+// that fonts don't have ("Text set with xshow, yshow, xyshow and charpath
+// stacks at the start point; stroked fonts are filled" in BUGS-FIXED.md).
 import type { PSPoint } from "./ctm.ts";
 import { compileType2Glyph, type GlyphCommand } from "./charstrings.ts";
 import type { PSCore } from "./core.ts";
@@ -351,7 +353,8 @@ export function show(core: PSCore, showMode: ShowMode): void {
           mode == ShowMode.Show ||
           mode == ShowMode.AShow ||
           mode == ShowMode.WidthShow ||
-          mode == ShowMode.AWidthShow
+          mode == ShowMode.AWidthShow ||
+          mode == ShowMode.CharPath
         ) {
           matrix = core.CTM.multiply(
             core.CTM.multiply([1, 0, 0, 1, glyph.width as number, 0], fontMatrix),
@@ -384,10 +387,11 @@ export function show(core: PSCore, showMode: ShowMode): void {
           core.stack.push(position.y);
         } else if (mode == ShowMode.CharPath) {
           gstate.path.push(path);
+          gstate.position = { x: position.x, y: position.y };
         } else {
-          if (font.paintType != 2) {
+          if (font.PaintType != 2) {
             core.toGravit("fill", [[path], color, gstate.clippingPath, false]);
-          } else if (font.paintType == 2) {
+          } else if (font.PaintType == 2) {
             const strokeWidth =
               (font.StrokeWidth as number) * (fontMatrix[0] as number) * (gstate.CTM[0] as number);
             core.toGravit("stroke", [

@@ -215,6 +215,9 @@ const FIXED: Record<string, string> = {
   "show-outlined-typecheck.ps": "BUG-112",
   "show-outlined-underflow.ps": "BUG-112",
   "show-outlined-xshow-range.ps": "BUG-112",
+  // charpath advances from glyph to glyph (show.test.ts checks it).
+  "show-outlined-charpath-false.ps": "BUG-114",
+  "show-outlined-charpath-true.ps": "BUG-114",
 };
 
 /**

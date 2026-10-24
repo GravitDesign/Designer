@@ -1311,7 +1311,7 @@ What it does:
 
 Why it's unclear: text set with these operators lands in the wrong place, and stroked fonts are filled. Each is a small fix.
 
-Kept. Pinned by the corpus programs show-builtin-*.ps, show-outlined-*.ps and font-type1-stroked.ps (interpreter.recorded.test.ts).
+Kept, except that charpath now advances and PaintType 2 fonts are stroked (see BUG-114 in BUGS-FIXED.md; xshow, yshow and xyshow already advanced with outlined fonts). Pinned by the corpus programs show-builtin-*.ps, show-outlined-*.ps and font-type1-stroked.ps (interpreter.recorded.test.ts).
 
 ## Q-111 PS worker: comparison and control operator quirks
 
