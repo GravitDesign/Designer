@@ -94,32 +94,20 @@ export class TLDocument extends TLNode implements EditFilterTarget {
   }
 
   /**
-   * An edit command that splices words. Its inverse is made with the
-   * document passed as the first argument (the old method kept carota's
-   * free-function signature for the recursive call), so undoing a splice
-   * splices at 0 instead. Undo isn't used by the editor, but a failed
-   * layout rolls back through it (QUESTIONS: "GTL undo splices at the
-   * start and rolls back in a cascade").
+   * An edit command that splices words; it logs its inverse (the removed
+   * words back in at the same place). The old code made the inverse with
+   * the document as the first argument (carota's free-function signature),
+   * so undoing spliced at 0; a failed layout rolls back through it
+   * (BUGS-FIXED.md "BUG-025 Text core undo splices at the start and rolls
+   * back in a cascade").
    */
-  makeEditCommand(start: unknown, count: unknown, words: unknown): EditCommand {
+  makeEditCommand(start: number, count: number, words: Word[]): EditCommand {
     const selectionStart = this.selection.start;
     const selectionEnd = this.selection.end;
     return (log) => {
       this._wordOrdinals = [];
-      // The arguments stay as dynamic as in the old code: the inverse
-      // command passes the document as `start` and a number as `words`.
-      const removed = Array.prototype.splice.apply(
-        this.words,
-        ([start, count] as unknown[]).concat(words) as [number, number, ...Word[]],
-      ) as Word[];
-      log(
-        (this.makeEditCommand as (...args: unknown[]) => EditCommand)(
-          this,
-          start,
-          (words as Word[]).length,
-          removed,
-        ),
-      );
+      const removed = this.words.splice(start, count, ...words);
+      log(this.makeEditCommand(start, words.length, removed));
       this._nextSelection = { start: selectionStart, end: selectionEnd };
     };
   }

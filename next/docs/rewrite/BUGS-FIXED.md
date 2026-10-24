@@ -775,3 +775,34 @@ Old code: chunk.vendor.js module 587, GOpenTypeFont.stringToGlyphs
   engine-model/fonts/browser-probe: only the text field of the HarfBuzz
   glyphs differs (519 values, checked field by field). The io-export-svg,
   io-export-pdf and engine-model/text scenarios still match.
+
+## BUG-025 Text core undo splices at the start and rolls back in a cascade
+
+Old code: chunk.vendor.js module 652, makeEditCommand (89677-89688) and
+the rollback in the layout (around 89759).
+
+- Reproduce: in the text core, edit a text (setText on a range, toggle a
+  list) and undo it, or let a layout fail after an edit so the document
+  rolls back through its undo log ("A bug somewhere has produced an
+  invalid state - rolling back").
+- Old: an edit command logged its inverse as
+  `makeEditCommand(document, start, words.length, removed)`, the
+  signature of carota's free function, so the inverse got the document as
+  its start and spliced the removed words in at index 0 with a wrong
+  count. Undo broke the word list (stray words, `"word:undef"`), the
+  layout failed, and each failure rolled back once more until the undo
+  log was empty; afterwards the text had no frame and plainText and saving
+  threw. The editor doesn't call undo, so in the app this only follows
+  another layout failure.
+- New: the inverse is `makeEditCommand(start, words.length, removed)`: it
+  puts the removed words back where they were. Undo restores the text
+  before the edit, redo the edited text, and no rollback happens.
+- Test: src/engine/text/gtl/document.test.ts, "undoes and redoes <case>
+  (BUG-025)" for setText, setTextAtStart, twoEdits, toggleList and
+  toggleListOff, compared with __fixtures__/old-gtl-document.fixed.json:
+  every step keeps a frame and needs no rollback, where the old recording
+  breaks; and "undoes a setText back to the text before it (BUG-025)".
+  All fail with the old code. The "fails to load, splice or lay out" cases
+  don't change.
+- Parity exceptions: none. No recorded scenario undoes inside the text
+  core.

@@ -689,7 +689,7 @@ What it does: the inverse command of a word splice is built as `this.makeEditCom
 
 Why it's unclear: the editor never calls TLCore.undo (it has its own undo), so the only reachable path is the rollback after a failed layout, which then corrupts the document instead of restoring it. Passing the right arguments (`start, words.length, removed`) would make undo and the rollback work, but it changes what a failed layout leaves behind.
 
-Kept. Pinned by next/src/engine/text/gtl/document.test.ts, "undoes and redoes setText", "setTextAtStart", "twoEdits", "toggleList", "toggleListOff" (recorded from the old app in __fixtures__/old-gtl-document.json). BUGS-FIXED candidate.
+Fixed: see BUG-025 in BUGS-FIXED.md.
 
 ## Q-051 GTL blocks never have a next block
 
