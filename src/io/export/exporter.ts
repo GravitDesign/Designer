@@ -146,6 +146,16 @@ const DOCUMENT_FILE_TYPES: readonly ExportFileType[] = [
 
 const PDF_TYPE: ExportFileType = { ext: "pdf", mime: "application/pdf" };
 
+/**
+ * A layer name as the user typed it: names are stored with "<" and ">"
+ * escaped (Block's name filter), which the old exporter put into file
+ * names as is, "a&lt;b&gt;.png" (BUGS-FIXED.md "BUG-091 Export file names
+ * keep HTML escaping").
+ */
+function fileNameOf(name: string): string {
+  return name.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+}
+
 let host: ExportHost = {
   getUserFullName: () => Promise.resolve(null),
   getActiveWindowTitle: () => null,
@@ -399,7 +409,7 @@ export class Exporter {
     used?: { name: string; format: string }[] | null,
   ): string {
     let fileName =
-      sanitizeFilename((name || exportable.name) as string) + (exportable.suffix || "");
+      sanitizeFilename(fileNameOf((name || exportable.name) as string)) + (exportable.suffix || "");
     if (used) {
       const same = used.filter(
         (entry) => entry.name === fileName && entry.format === exportable.format,
@@ -455,7 +465,7 @@ export class Exporter {
       if (name) {
         if (name.indexOf("/") >= 0) {
           const parts: string[] = [];
-          for (const part of name.split("/")) {
+          for (const part of fileNameOf(name).split("/")) {
             const cleaned = sanitizeFilename(part.trim());
             if (cleaned) parts.push(cleaned);
           }
@@ -477,7 +487,7 @@ export class Exporter {
               }
             }
           } else if (parts.length) name = parts[0] as string;
-        } else name = sanitizeFilename(name.trim());
+        } else name = sanitizeFilename(fileNameOf(name).trim());
         if (name && target) {
           Exporter.exportExportable(
             exportable,

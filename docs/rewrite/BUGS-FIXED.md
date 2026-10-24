@@ -2379,3 +2379,25 @@ Old code: chunk.vendor.js module 1431, the CID font's `_updateUnicode`
   (fails with the old map).
 - Parity exceptions: none. No recorded scenario exports a character above
   U+FFFF (the PDF parity runs with the fix give the old outputs).
+
+## BUG-091 Export file names keep HTML escaping
+
+Old code: designer.browser.dev.js module 1253, GExporter (the file name
+from the layer name), with the layer name filter of GBlock
+(chunk.vendor.js), which escapes "<" and ">" when a name is set.
+
+- Reproduce: name a layer `a<b>` and export it (Export panel, Make
+  Exportable, or the export dialog) as PNG.
+- Old: names are stored with "<" and ">" escaped as `&lt;` and `&gt;`
+  (against markup in labels), and the exporter put the stored name into
+  the file name as is: `a&lt;b&gt;.png`.
+- New: the file name is built from the name as typed; "<" and ">" then
+  become "_" like the other characters a file name can't hold
+  (`a_b_.png`). The stored name and the labels are unchanged.
+- Test: src/io/export/exporter.test.ts, "matches
+  import-export/meta/exportables-assets", which now compares with the
+  scenario's `.fixed` recording and checks the name `a_b__c_d_e_f_g_h.png`
+  (fails with the old names).
+- Parity exceptions: import-export/meta/exportables-assets. The `.fixed`
+  file differs from the old recording only in that file name, in the item
+  list and in the list of names with duplicates.

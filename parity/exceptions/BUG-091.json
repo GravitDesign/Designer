@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-091",
+  "why": "Export file names are built from layer names as typed, without the &lt; / &gt; escaping the names are stored with. The .fixed file differs from the old recording only in the file name a_b__c_d_e_f_g_h.png (old a&lt;b&gt;_c_d_e_f_g_h.png), in the item list and in the names with duplicates.",
+  "scenarios": ["import-export/meta/exportables-assets"],
+  "pending": []
+}

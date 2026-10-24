@@ -168,7 +168,10 @@ describe("Exporter.generateExportables", () => {
         ),
       ),
     };
-    expect(out).toEqual(expected("exportables-assets"));
+    // BUG-091: the file names drop the "<" and ">" escaping of layer
+    // names; the .fixed recording is the old one with that changed.
+    expect(out).toEqual(expected("exportables-assets.fixed"));
+    expect(out.namesWithDuplicates).toContain("a_b__c_d_e_f_g_h.png");
   });
 
   it("matches import-export/meta/exportables-canvas", () => {
