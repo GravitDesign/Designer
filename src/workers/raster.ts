@@ -38,10 +38,10 @@ export class Raster {
    * The request names the colour space by its key in the PDF exporter's
    * table (RGB, RGBA, GRAY, CMYK).
    *
-   * The last worker gets the remainder pixels in its range, but they are
-   * never copied into its buffer, so they come out as transparent black
-   * and give an opaque image a mask (old behaviour, kept; see "Concurrent
-   * PDF raster drops the last pixels" in QUESTIONS.md).
+   * The last worker gets the remainder pixels in its range and its
+   * buffer. The old code put them in the range only, so they came out as
+   * transparent black and gave an opaque image a mask (BUGS-FIXED.md
+   * "BUG-087 Concurrent raster drops the last pixels of PDF images").
    */
   concurrencyRaster(
     factory: PromiseFactory,
@@ -69,7 +69,7 @@ export class Raster {
               if (index === workers.length - 1 && remainder > 0) {
                 const padding = remainder + 10 - ((remainder + 10) % 4);
                 const padded = new Uint32Array(range.end - range.start + padding);
-                padded.set(pixels.slice(range.start, range.end), 0);
+                padded.set(pixels.slice(range.start, range.end + remainder), 0);
                 range.end += remainder;
                 slice = padded.buffer;
               } else slice = pixels.slice(range.start, range.end).buffer;

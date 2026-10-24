@@ -96,12 +96,11 @@ describe("Raster.concurrencyRaster", () => {
     ]);
     expect(log.map((m) => m.colorspace)).toEqual(["RGB", "RGB"]);
     const expected = new Uint8ClampedArray(width * height * 3);
-    // The remainder pixels are never copied into the last slice: they stay 0.
-    new Raster().raster(pixels.slice(0, 16).buffer, ColorSpaces.RGB, expected);
+    // Every pixel, the remainder too (BUG-087).
+    new Raster().raster(pixels.slice().buffer, ColorSpaces.RGB, expected);
     expect(Array.from(image)).toEqual(Array.from(expected));
     expect(mask).not.toBeNull();
-    expect(Array.from((mask as Uint8ClampedArray).slice(0, 16))).toEqual(new Array(16).fill(128));
-    expect(Array.from((mask as Uint8ClampedArray).slice(16))).toEqual([0, 0, 0, 0, 0]);
+    expect(Array.from(mask as Uint8ClampedArray)).toEqual(new Array(21).fill(128));
   });
 
   it("returns no mask when every pixel is opaque", async () => {
@@ -174,9 +173,8 @@ class HandlerWorker {
 
 const asWorker = (worker: HandlerWorker): MessageWorker => worker as unknown as MessageWorker;
 
-describe("Raster.concurrencyRaster remainder (kept old bug)", () => {
-  // See "Concurrent PDF raster drops the last pixels" in QUESTIONS.md.
-  it("leaves the last pixels of an opaque 101x101 image transparent black on 4 workers", async () => {
+describe("Raster.concurrencyRaster remainder (BUG-087)", () => {
+  it("rasters the last pixels of an opaque 101x101 image on 4 workers", async () => {
     const width = 101;
     const height = 101;
     const pixels = new Uint32Array(width * height).fill(0xff336699);
@@ -197,17 +195,11 @@ describe("Raster.concurrencyRaster remainder (kept old bug)", () => {
       { start: 5096, end: 7644 },
       { start: 7644, end: 10201 },
     ]);
-    const kept = 10192;
-    const rgb = Array.from(image);
-    expect(rgb.slice(0, kept * 3)).toEqual(
-      Array.from({ length: kept }, () => [0x99, 0x66, 0x33]).flat(),
+    expect(Array.from(image)).toEqual(
+      Array.from({ length: width * height }, () => [0x99, 0x66, 0x33]).flat(),
     );
-    expect(rgb.slice(kept * 3)).toEqual(new Array(27).fill(0));
-    // Their alpha 0 makes the image count as transparent, so a mask comes back.
-    expect(mask).not.toBeNull();
-    const alpha = Array.from(mask as Uint8ClampedArray);
-    expect(alpha.slice(0, kept).every((a) => a === 255)).toBe(true);
-    expect(alpha.slice(kept)).toEqual(new Array(9).fill(0));
+    // Opaque everywhere, so no mask.
+    expect(mask).toBeNull();
   });
 
   it("returns no mask for the same opaque image when the pixels divide evenly", async () => {

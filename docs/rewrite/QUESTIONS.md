@@ -1111,7 +1111,7 @@ What it does: the pixels are split into one slice per worker, each a multiple of
 
 Why it's unclear: it is plainly wrong output, but fixing it changes PDF bytes against the old app.
 
-Kept. Pinned by next/src/workers/workers.test.ts "Raster.concurrencyRaster remainder (kept old bug)" (and the 7x3 case in "splits into slices of 4 pixels per worker..."). The fix would copy `pixels.slice(range.start, range.end + remainder)`.
+Fixed: see BUG-087 in BUGS-FIXED.md.
 
 ## Q-092 A PDF export never finishes when a node's paint throws
 

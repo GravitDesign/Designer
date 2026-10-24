@@ -6,6 +6,7 @@
 // with soft masks, JPEG, CMYK) and the split of image work over workers.
 import fs from "node:fs";
 import path from "node:path";
+import { inflateSync } from "node:zlib";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { ASSETS_ROOT } from "../../../../server/paths.ts";
 import { Color } from "../../../engine/color/color.ts";
@@ -105,6 +106,26 @@ interface RecordedImageCase {
   jpegQuality?: number;
   images: { jpeg: boolean; source: RecordedPixels; mask: RecordedPixels | null }[];
   expected: string;
+}
+
+/** The image XObjects of a document: size, soft mask or not, and pixels (inflated). */
+function images(document: string): { size: string; mask: boolean; data: string }[] {
+  const out: { size: string; mask: boolean; data: string }[] = [];
+  const header =
+    /<<\/Type \/XObject\/Subtype \/Image([^>]*)\/Length (\d+)\/Filter \/(\w+)>>stream\n/g;
+  let match: RegExpExecArray | null;
+  while ((match = header.exec(document))) {
+    const start = match.index + match[0].length;
+    const body = Buffer.from(document.slice(start, start + Number(match[2])), "latin1");
+    const dict = match[1] as string;
+    out.push({
+      size: (/\/Width \d+\/Height \d+\/ColorSpace \/\w+/.exec(dict) as RegExpExecArray)[0],
+      mask: dict.includes("/SMask"),
+      // JPEG data is compared by size only: the encoder runs elsewhere.
+      data: "FlateDecode" === match[3] ? inflateSync(body).toString("base64") : "jpeg",
+    });
+  }
+  return out;
 }
 
 const fixture = recorded as unknown as {
@@ -236,24 +257,39 @@ describe("PDF writer against the old classes", () => {
       const workers = testCase.workers
         ? Array.from({ length: testCase.workers }, () => new InThreadWorker())
         : undefined;
-      const document = await imageProgram(
-        P,
-        G,
-        {
-          colorSpace: testCase.colorSpace,
-          jpegQuality: testCase.jpegQuality,
-          images: testCase.images.map((image) => ({
-            jpeg: image.jpeg,
-            source: pixelData(image.source),
-            mask: image.mask ? pixelData(image.mask) : null,
-          })),
-        },
-        (data) => pixelSource(data),
-        workers,
-      );
-      expect(pdfSkeleton(Buffer.from(document, "base64").toString("latin1"))).toBe(
-        testCase.expected,
-      );
+      const run = (using: InThreadWorker[] | undefined) =>
+        imageProgram(
+          P,
+          G,
+          {
+            colorSpace: testCase.colorSpace,
+            jpegQuality: testCase.jpegQuality,
+            images: testCase.images.map((image) => ({
+              jpeg: image.jpeg,
+              source: pixelData(image.source),
+              mask: image.mask ? pixelData(image.mask) : null,
+            })),
+          },
+          (data) => pixelSource(data),
+          using,
+        );
+      const document = await run(workers);
+      const written = pdfSkeleton(Buffer.from(document, "base64").toString("latin1"));
+      if (workers) {
+        // BUG-087: the old workers dropped the last pixels of every image
+        // whose pixel count doesn't divide into slices of 4 per worker, so
+        // the recording has transparent pixels and extra soft masks. The
+        // workers now give the images that rastering without them gives
+        // (the soft masks are written in another order).
+        expect(written).not.toBe(testCase.expected);
+        const alone = await run(undefined);
+        const latin = (data: string) => Buffer.from(data, "base64").toString("latin1");
+        const sorted = (data: string) =>
+          images(latin(data)).sort((a, b) => (a.size + a.data).localeCompare(b.size + b.data));
+        expect(sorted(document)).toEqual(sorted(alone));
+        // Only the two images that have transparent pixels get a mask.
+        expect(images(latin(document)).filter((image) => image.mask)).toHaveLength(2);
+      } else expect(written).toBe(testCase.expected);
       // The document stops its workers when it is done.
       if (workers) expect(workers.every((worker) => worker.terminated)).toBe(true);
     });

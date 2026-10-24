@@ -1,0 +1,17 @@
+{
+  "bug": "BUG-087",
+  "why": "The PDF exporter's concurrent raster copies the leftover pixels into the last worker's slice, so rasterized elements keep their last pixels and opaque ones get no soft mask. On a build with only this fix reverted, every scenario listed matches the old recording again. The outputs depend on the worker count (navigator.hardwareConcurrency).",
+  "scenarios": [
+    "io-export-pdf/export/effects-150dpi",
+    "io-export-pdf/export/sharp-shadows-150dpi",
+    "io-export-pdf/corpus/effects-color",
+    "io-export-pdf/corpus/effects-shadows",
+    "io-export-pdf/corpus/effects-webgl-2",
+    "io-export-pdf/corpus/effects-webgl-3",
+    "io-export-pdf/corpus/effects-webgl-4",
+    "io-export-pdf/corpus/fills-textures",
+    "import-export/export/pdf/effects-150dpi",
+    "import-export/export/pdf/effects-150dpi.render"
+  ],
+  "pending": []
+}

@@ -2261,3 +2261,38 @@ module 1253, GExporter.exportExportable (the SVG branch drops the error).
   (TypeError reading getMatrix of null, an engine bug of its own) out of
   the exporter, recorded as `called: false`; the `.fixed` file has the same
   error, now delivered through the callback (`called: true`).
+
+## BUG-087 Concurrent raster drops the last pixels of PDF images
+
+Old code: chunk.vendor.js module 1113, Raster.concurrencyRaster (lines
+239343-239349).
+
+- Reproduce: export to PDF an element the PDF exporter rasterizes
+  (shadows, blurs, WebGL effects, textures) whose bitmap is larger than
+  100 x 100, in a browser with more than one CPU core (the export splits
+  the pixels over workers).
+- Old: the pixels were split into one slice per worker, each a multiple
+  of 4 pixels. The last worker's range included the leftover pixels, but
+  only `pixels.slice(start, end)` was copied into its buffer before `end`
+  grew, so the leftovers reached the worker as 0: black with alpha 0. An
+  opaque image then got a soft mask and its last pixels were transparent
+  (in the bottom right corner of the rasterized element, visible on a
+  colored background).
+- New: the last slice copies the leftover pixels too.
+- Test: src/workers/workers.test.ts, "splits into slices of 4 pixels per
+  worker and joins the answers in order" and "rasters the last pixels of
+  an opaque 101x101 image on 4 workers (BUG-087)"; and
+  src/io/export/pdf/pdf-writer.recorded.test.ts, "writes image XObjects:
+  rgb-workers", which now expects the images (pixels and masks) that
+  rastering without workers gives. All three fail with the old copy.
+- Parity exceptions: io-export-pdf/export/effects-150dpi and
+  sharp-shadows-150dpi, io-export-pdf/corpus/effects-color,
+  effects-shadows, effects-webgl-2, effects-webgl-3, effects-webgl-4 and
+  fills-textures, and import-export/export/pdf/effects-150dpi and its
+  render. Checked by running the same scenarios on a build with only this
+  fix reverted: all of them match the old recordings again, so the
+  `.fixed` files differ only by this fix. The render's diff against the
+  old one is a short run of pixels at the bottom edge of one rasterized
+  element. These outputs depend on the worker count
+  (navigator.hardwareConcurrency); the `.fixed` files were made on the
+  same machine as the old recordings.
