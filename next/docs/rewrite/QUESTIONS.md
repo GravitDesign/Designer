@@ -2057,3 +2057,1837 @@ What it does: for Chinese and traditional Chinese the app wants "Noto Sans CS" a
 Why it's unclear: the Chinese branch is dead code; the intent was probably a CJK default font for Chinese too.
 
 Kept. parity/app/fonts.ts installAppFonts; the bundled list check is pinned by "lists Open Sans first, then the CJK and Noto families" (hasFont("Noto Sans CS") is false) in app/fonts/providers.test.ts.
+
+<!-- Editor, touch input (phase 6 review and phase 7) -->
+
+## Q-172 Pinch zoom centre from a touch without a client position
+
+Old location: designer.browser.dev.js module 1585 (pinch gesture, move).
+
+What it does: to find the point to zoom around, the pinch gesture builds a `new Touch({ identifier: GUtil.uuid(), pageX, pageY, target })` at the middle of the two fingers and passes it to the view's `_convertClientPositionFromMousePosition`. The touch has no clientX/clientY (they default to 0), and the uuid string becomes identifier 0. The view reads clientX when the touch's target is its own element and it isn't absolutely positioned, and pageX otherwise.
+
+Why it's unclear: whether the zoom centre is right depends on which element the first finger touched. When the widget's own element is the target, the centre is taken from client position 0 and not from the fingers.
+
+Kept. next/src/editor/touch/pinch-gesture.ts builds the same touch; editor-tools/touch/pinch-zoom pins the result.
+
+## Q-173 Dropped delayed touch start stays around
+
+Old location: designer.browser.dev.js module 1582 (GGestureHelper, _dropDelayedTouchEvent).
+
+What it does: dropping the held-back single-finger touch start clears its timeout but sets a misspelled field (`_delayedTouch`) to null, not `_delayedTouchEvent`. The held-back event stays referenced until the next touch start replaces it.
+
+Why it's unclear: it looks like a typo. It has no visible effect, because the event is only delivered while its timeout is set.
+
+Kept. next/src/editor/touch/gesture-helper.ts clears only the timeout; gesture-helper.test.ts ("drops the held-back start when a second finger comes down") pins that the event isn't delivered.
+
+## Q-174 Deactivating a touch target drops click suppression for good
+
+Old location: designer.browser.dev.js module 878 (touch target, deactivate).
+
+What it does: deactivate always removes the document scroll listener that click suppression added, and activate doesn't add it back. A target with click suppression that is deactivated and activated again no longer counts page scrolls as swipes.
+
+Why it's unclear: only the document touch target uses click suppression, and GDesigner never deactivates it, so it doesn't show. It could matter if the touch targets get reused.
+
+Kept. next/src/editor/touch/touch-target.ts; touch-target.test.ts ("listens to page scrolls only with click suppression").
+
+<!-- Editor core, view, guides (phase 6 review) (phase 6 review and phase 7) -->
+
+## Q-175 Annotation exceptions stick to the first annotation list
+
+Old location: public/chunk.vendor.js module 82 (GEditor.getAnnotationsExceptions), lines 20425-20435.
+
+What it does: the annotation list variable is a hoisted `var` that is never reset. After the first node that is a page with annotations (or an AnnotationsList), every later node in the list adds that same list's annotations again and skips its own check. A later annotation or comment of another user is then not excluded from the clone.
+
+Why it's unclear: it looks like a scoping slip, not intent. With a selection mixing a page with annotations and a later annotation or comment, cloneSelection and applySelectionTransform(clone) copy another user's annotation.
+
+Kept. next/src/editor/editor.ts getAnnotationsExceptions declares `list` before the loop; pinned by the scenario "annotation-exceptions/list-sticks" in editor-edit-ops.scenarios.ts (run by editor-edit-ops.test.ts). Also a BUGS-FIXED candidate.
+
+## Q-176 Long press inside an SVG doesn't swallow the release
+
+Old location: designer.browser.dev.js module 1693 (GLongPressEvent._fireLongPressEvent), lines 165722-165730.
+
+What it does: after dispatching "long-press", the old code swallowed the next trusted touchend/mouseup only when `target.parentElement.className.indexOf("g-scene-widget") === -1`. For an element inside an SVG (an svg icon, a path) the parent's className is an SVGAnimatedString: truthy but without indexOf, so the call threw inside the animation-frame callback after the event was dispatched, and no swallower was installed. The release and its click still reached their handlers.
+
+Why it's unclear: the throw looks accidental (a TypeError in the console on every long press of an SVG icon). The intent was probably to swallow the release outside the scene widget for SVG elements too. That would change what a long press on an icon does next.
+
+Kept. next/src/editor/touch/long-press-event.ts treats a non-string className as "no swallow" (without throwing); pinned by "doesn't swallow the release when the parent's className isn't a string (SVG)" in long-press-event.test.ts. Also a BUGS-FIXED candidate.
+
+## Q-177 Style editor switch never fires EditorChangedEvent
+
+Old location: chunk.vendor.js module 779 (GStyleEdManager), updateEditor 107685-107711 and _activateEditor 107752-107776.
+
+What it does: _activateEditor triggers EditorChangedEvent(previous, new) only when an editor was already active. Its only caller, updateEditor, first calls deactivateEditor, and the editor's deactivate calls notifyDeactivated, which sets _activeEditor to null. So when a fill switches from a linear to a radial gradient, "previous" is null and no EditorChangedEvent fires. The isDeactivatable early return and the same-editor validateAlreadyActive check are also unreachable through updateEditor.
+
+Why it's unclear: the event looks meant for panels that follow the active gradient editor. Either the old code never relied on it, or the deactivate-first ordering broke it.
+
+Kept. next/src/editor/style-ed-manager.ts _activateEditor (comment points here); pinned by "switches to the radial editor without an EditorChangedEvent (updateEditor deactivates first)" and, for the direct call, "fires EditorChangedEvent(previous, new) when called with an editor still active" in style-ed-manager.test.ts.
+
+## Q-178 Icon handle setIcon load race
+
+Old location: chunk.vendor.js module 383 (icon handle base), setIcon 67741-67771 and _statusEvent 67784-67792.
+
+What it does: setIcon starts an XHR and, on load, a FileReader, then assigns a new GImage to this._icon. Loads are never cancelled, so the one that finishes last wins, even when an older call finishes after a newer one or after setIcon(null). _statusEvent removes the listener from this._icon rather than from the event's image. A status event from an older image therefore unhooks the current icon and sets its bounds. If setIcon(null) ran in between, the status event throws a TypeError on the null _icon. A 404 or an Error status leaves an icon that counts as visible but has no canvas, so only the handle paints.
+
+Why it's unclear: in the old app the touch handle icons are set once at startup, so the race may never happen there. A fix would track the pending request and unhook event.image.
+
+Kept. next/src/editor/handles/icon-annotation.ts setIcon and _statusEvent (comments point here); pinned by "keeps the load that finishes last, and the other image's status unhooks the wrong one" and "overwrites a setIcon(null) made during a load, and a later status then throws" in icon-annotation.test.ts.
+
+## Q-179 limitScrollingToView measures the unscaled page in output mode
+
+Old location: chunk.vendor.js module 363 (GSceneWidget._correctScrollPosition), lines 63126-63150.
+
+What it does: in output paint mode the old code assigns the active page's geometry box to the variable that held the zoom-scaled scene box, and the later "is the content bigger than the view" checks use it. That box is in world units, not scaled by the zoom, so at 400% a 400 x 300 page still counts as smaller than an 800 x 600 view and every scroll snaps back to centered.
+
+Why it's unclear: it looks like an accidental reuse of the hoisted variable, but limitScrollingToView is never turned on, so nobody sees it.
+
+Kept. SceneWidget._limitScrollPosition in next/src/editor/view/scene-widget.ts; pinned by "keeps the content within reach with limitScrollingToView" (output mode case) in scene-widget.test.ts, with values recorded from the old app.
+
+## Q-180 limitScrollingToView and the view watermark are unused
+
+Old location: chunk.vendor.js module 363 (GSceneWidget): _correctScrollPosition lines 63020-63150, the watermark parts of _finishPaint and _repaint, and _paintWatermark lines 63189-63208.
+
+What it does: GSceneWidget.options.limitScrollingToView (default false) keeps the scroll within reach of the content. ScenePaintConfiguration.watermark paints a texture over the whole view after each repaint and keeps a copy of the screen without it. Nothing in the old app turns either on; the app shell only sets watermark to null.
+
+Why it's unclear: both look like dead features that could be dropped.
+
+Kept. Both are ported in next/src/editor/view/scene-widget.ts; pinned by the limitScrollingToView tests and "keeps the watermark over the composited screen" in scene-widget.test.ts.
+
+## Q-181 A deferred resize drops the done callback of the one it replaces
+
+Old location: chunk.vendor.js module 363 (GSceneWidget.resize), lines 62744-62753.
+
+What it does: while a repaint or pan finish is pending, resize applies on the next frame. A second resize before that frame cancels the first one, including its done callback. GWindow.relayout passes a done that re-centres the view by half the size change, and it measures the "previous" size after the first resize already changed it. So with two relayouts in one frame, the first re-centring is lost and the view drifts during a window drag-resize.
+
+Why it's unclear: it may be intended (only the last size matters), but the lost callback changes the scroll.
+
+Kept. SceneWidget.resize in next/src/editor/view/scene-widget.ts; pinned by "resizes after a pending repaint has run, once, with the last size asked for" in scene-widget.test.ts.
+
+## Q-182 Symbol labels never show the "●" prefix
+
+Old location: chunk.vendor.js module 1077 (GSymbolLabelGuide._gatherLabels), lines 235640-235690.
+
+What it does: the label text is `(isMaster() ? "○ " : "● ") + name`, but the symbol list was already filtered to `isMaster() && getScene()`, so the "● " prefix can never be painted.
+
+Why it's unclear: either instance labels were dropped on purpose and the ternary is left over, or the filter was meant to let instances through.
+
+Kept. next/src/editor/guides/symbol-label-guide.ts keeps both the filter and the ternary; pinned by "labels master symbols in the scene with a ○ prefix and the third outline colour" in label-guides.test.ts.
+
+## Q-183 mapPoint keeps page-local values of another page
+
+Old location: chunk.vendor.js module 742 (GPageGuide.map, 101660-101708) and module 210 (GGuides.mapPoint, 40626-40690).
+
+What it does: in the multi-page view GPageGuide.map converts the point into the coordinates of the page under it and returns snap values in that page's own space, with that page as `page`. GGuides.mapRect converts its pivots into the same space (40733-40742) before taking the delta. GGuides.mapPoint takes `hit.x.value` / `hit.y.value` as they are, so a point near another page's edge comes back in that page's local coordinates: active-page (498,100) near page B's left edge comes back as (0,100).
+
+Why it's unclear: the other guides answer in active-page space, and mapRect handles the page guide correctly, so this looks like a slip in mapPoint. It would make a mapped point jump when snapping to another page's edge in the multi-page view. Not checked in the old app UI.
+
+Kept. next/src/editor/guides/guides.ts mapPoint; pinned by "mapPoint passes the other page's local value through unchanged" in guides-multipage.test.ts.
+
+## Q-184 Snap scope stays on the other page
+
+Old location: chunk.vendor.js module 153 (GBBoxGuide.map 32340-32343, checkDistanceGuidesMapping 32484-32485, setScope 32759-32790) and module 741 (GPointsGuide.map 101545-101546, setScope 101618-101640).
+
+What it does: with a scope set, mapping over a page other than the scope's main page calls _setEffectiveScope(thatPage), which replaces the snap elements with that page's top-level elements. Nothing resets _eSnapElems when the point comes back to the main page; only setScope (beginMap/finishMap) does. For the rest of that pass, snapping on the main page only considers the other page's elements, so the scoped children no longer snap.
+
+Why it's unclear: the switch only makes sense while the point is over the other page. Keeping it afterwards looks unintended, but it only shows in multi-page documents while editing inside a group and dragging across pages.
+
+Kept. next/src/editor/guides/bbox-guide.ts and points-guide.ts map; pinned by "keeps the other page's elements as scope after the point comes back" in snap-scope.test.ts.
+
+<!-- Element editors (phase 6 review) (phase 6 review and phase 7) -->
+
+## Q-185 Inline text editing ignores editing keys after a session ends mid-composition
+
+Old location: chunk.vendor.js module 752 (GInlineTextEditor), deactivate and _compEnd at 102880-102899 and 103425-103435; GTextEditor.beginInlineEdit reuses the instance.
+
+What it does: when inline editing ends while an IME composition is open, deactivate removes the input box listeners (endCaptureInput) before compositionend arrives, so _compositionOn stays true. The text editor keeps the same GInlineTextEditor, so in the next inline session _handleKey treats every key as a composition key: Backspace, Enter, Delete, Up/Down and Tab return undefined and do nothing until a new composition starts and ends. Left/Right/Home/End use the stale composition counters.
+
+Why it's unclear: probably an oversight (deactivate never resets the composition state), but changing it alters what keys do after an interrupted IME session.
+
+Kept. inline-text-editor.ts keeps deactivate as it was; "composition state survives deactivation" in inline-text-editor.test.ts (recorded from the old app) pins it.
+
+## Q-186 Scene editor rotation zone shows the plain rotate cursor
+
+Old location: chunk.vendor.js module 545 (GSceneEditor.getCursor, around line 79331).
+
+What it does: in getCursor, case OUTSIDE looks up the segment cursor (Cursor.SelectRotate[rotationSegment]) but has no break, so it falls through to case ROTATE and the cursor becomes SelectRotateRound. The rotation zone around the transform box never shows the segment's rotate cursor, and the lookup throws without part data.
+
+Why it's unclear: it looks like a missing break, but the round cursor is what users of the old app saw, and nothing else reads the segment cursor.
+
+Kept. scene-editor.ts getCursor spells out the fall-through; scene-editor.test.ts "shows the round rotate cursor outside the box (old missing break)" pins it.
+
+## Q-187 Page SWITCH_ORDER compares page boxes in page coordinates
+
+Old location: chunk.vendor.js module 331 (GPageEditor._applyPartMove, around line 57850).
+
+What it does: with SWITCH_ORDER on, a label drop looks for the page whose geometry box centre is nearest the moved page's centre. Page geometry boxes are in each page's own coordinates (all start at 0,0), so the nearest page depends only on page sizes, not on where the pages sit. With equal sizes the moved page itself (or the first page) wins and nothing is reordered.
+
+Why it's unclear: probably a bug, but SWITCH_ORDER is off in the app, so users never reach it.
+
+Kept. page-editor.ts _applyPartMove; page-editor.test.ts "swaps places with the nearest page when SWITCH_ORDER is on" uses pages of different sizes to reach the swap.
+
+## Q-188 Segment drag at slope 0 or 1 builds a part id without a type
+
+Old location: chunk.vendor.js module 127 (GPathEditor.selectToolDragStartAction), lines 28715-28740.
+
+What it does: a drag that starts on a segment near one of its ends (hit slope within 0.001 of 0 or 1) returns a PartInfo for the end point whose id is {type, point} with `type` read from a hoisted `var` that is never set on this path, so the type is undefined instead of PartType.Point.
+
+Why it's unclear: looks like a bug (the id should be a point id), but code comparing part types then treats the drag as neither a point nor a segment.
+
+Kept. path-editor.ts selectToolDragStartAction; path-editor.test.ts pins the undefined type.
+
+## Q-189 Shift on a corner shoulder drag reads cl for cr, or nothing outside detail mode
+
+Old location: chunk.vendor.js module 127 (GPathEditor._movePreviewPointShoulders), lines 30005-30045.
+
+What it does: with Shift in detail mode, the right shoulder's start value is read from `cl` whenever `cr` is set, so both shoulders start from the left one. Outside detail mode the Shift branch uses the two `var`s that only the detail branch sets, so the returned translation is NaN.
+
+Why it's unclear: both look like bugs, but they decide where the shoulders end up after a Shift drag.
+
+Kept. path-editor.ts _movePreviewPointShoulders keeps both.
+
+## Q-190 A slice scaled without a preview gets height 0
+
+Old location: chunk.vendor.js module 1084 (GSliceEditor._applyTransform), line 237413.
+
+What it does: without an element preview the new height is `h * matrix[1]` (the vertical shear) instead of `h * matrix[3]`, so a pure scale applied through `_transform` sets the slice height to 0.
+
+Why it's unclear: clearly a typo in the old code, but it changes saved slice sizes.
+
+Kept. slice-editor.ts _applyTransform; slice-editor.test.ts "sets the height to 0 for a scale without a preview (old bug)" pins it.
+
+## Q-191 The connector editor has a type name the old app never had
+
+Old location: chunk.vendor.js, the connector editor module (around line 235700).
+
+What it does: the old connector editor class had no G name; it was only registered as the editor of GConnector, and its toString is the inherited "[Object GPathEditor]". The port registers it as "GConnectorEditor" so it gets a type id.
+
+Why it's unclear: anything that looks editors up by type name now finds a name that didn't exist in the old app; toString is unchanged.
+
+Kept. connector-editor.ts registerClass(this, "GConnectorEditor"); parity/g/editor-path-editors.ts doesn't expose it under a G name.
+
+<!-- Tools (phase 6 review) (phase 6 review and phase 7) -->
+
+## Q-192 Collab text nodes have no element editor
+
+Old location: chunk.vendor.js module 1087 (GCollabTextEditor, 237927-238042) and module 1089 (GCollaborativeTextAnnotationEditor, 238063-238093), registered by the editor barrel (module 53) at 10552 and 10579.
+
+What it does: in the old app a GCollabText (a text block from Gravit Cloud collaboration, shown as an image until edited) got a rectangle editor without rotate and resize handles, plus an inline text editor once it switched to text mode, so it could be selected, moved, deleted and double-clicked to edit its text. A GCollaborativeTextAnnotation got an editor without rotate and resize whose _showEditor returns false.
+
+The new app drops both editors with cloud collaboration, but keeps the two node classes so such files still load and save. Checked in the old app with both editors unregistered: nothing throws (no page error on select, click, drag, hover, double click, openInlineEditor, store or delete), but updateSelection leaves the selection empty, so the collab text can't be selected, moved, deleted or edited, and a double click doesn't switch it to text mode. It stays in the file and is saved unchanged. That is what a user of the new app gets when a file holds such a node: it shows and saves, but is read-only and can only be removed by deleting its layer or parent.
+
+Why it's unclear: the drop reason ("cloud collaboration") covers the sync, not old files that still hold these nodes. Porting the two editors is about 30 lines each if someone needs to edit such files.
+
+Kept as dropped. No editor is registered for CollabText or CollaborativeTextAnnotation; the CollabText branch in next/src/editor/editor.ts openInlineEditor stays (dead until an editor exists).
+
+## Q-193 Magic tool crashes on a selection with open sub-paths
+
+Old location: chunk.vendor.js module 764 (GMagicTool._doTheClip), lines 106893-106898.
+
+What it does: after uniting or subtracting the stroke, the old code removes the touched elements and then loops over the open sub-paths and calls `.item.getParent()` on them. They are raw vertex sources without an `item`, so any selection with an open sub-path (an open path, or a compound path with an open part) throws a TypeError from the mouse handler. The closed shapes are already removed by then. The freehand tool's transaction is still committed as "Create freehand path", so the document keeps the raw stroke and loses the shape; one undo restores it (checked in the old app).
+
+Why it's unclear: the loop clearly meant to remove the elements the open parts came from, or nothing, not to throw. Users hit it by selecting a closed shape and an open path and drawing a magic stroke. BUGS-FIXED candidate.
+
+Kept. magic-tool.ts _doTheClip keeps the throwing loop; view-tools.test.ts "MagicTool with open sub-paths" pins the throw, the page afterwards, the undo name and the undo.
+
+## Q-194 Moving a whole paths graph throws
+
+Old location: chunk.vendor.js module 275, GPathsGraphEditor.edTransform (51955-52104), which falls back to GPathBaseEditor.prototype.edTransform at 52104.
+
+What it does: without a part selection, or with the resize box (pointer tool), the paths graph editor runs GPathBaseEditor's edTransform on itself. That reads path-base state a graph editor doesn't have and throws a TypeError on every move; the graph stays where it was.
+
+Why it's unclear: a user hits it by dragging a selected live paint graph with the pointer tool. Looks like a plain bug (BUGS-FIXED candidate).
+
+Kept. next/src/editor/paths-graph/paths-graph-editor.ts, edTransform; pinned by "throws on a whole-graph preview transform, as GPathBaseEditor's did" in paths-graph-editor.test.ts.
+
+## Q-195 Paths graph edge delete removes only the first edge
+
+Old location: chunk.vendor.js module 275, GPathsGraphEditor.deletePartsSelected (53366-53380).
+
+What it does: in edge mode the loop removes the edge of the first Segment or Point part and then breaks, so with several edges selected only the first is deleted.
+
+Why it's unclear: Delete with two edges selected deletes one. Probably a bug (BUGS-FIXED candidate).
+
+Kept. next/src/editor/paths-graph/paths-graph-editor.ts, deletePartsSelected; pinned by "deletes only the first edge of an edge selection (old bug, kept)" in paths-graph-editor.test.ts.
+
+## Q-196 Shift while hovering with the paths graph tool throws
+
+Old location: chunk.vendor.js module 753, GPathsGraphTool._mouseMove (104076-104083) and _constrainIfNeeded (104478-104490).
+
+What it does: after the first click, the hover move constrains against the graph itself, which has no getAnchorPoints, so every move with Shift held throws a TypeError.
+
+Why it's unclear: holding Shift while drawing a live paint line is normal use. Probably a bug (BUGS-FIXED candidate).
+
+Kept. next/src/editor/paths-graph/paths-graph-tool.ts, _constrainIfNeeded; pinned by "throws on a Shift move right after the first click (old bug, kept)" in paths-graph-tool.test.ts.
+
+## Q-197 Paths graph edits leave no undo step
+
+Old location: chunk.vendor.js module 753 (GPathsGraphTool transactions) and module 275 (editor applies); the old app's extra/paths-graph-editing expected output.
+
+What it does: only creating a paths graph ("Insert Element(s)") becomes an undo step. Adding lines from anchors, splitting edges ("Insert Point") and moving anchors commit transactions that record no actions, so they can't be undone on their own.
+
+Why it's unclear: the transactions are named as if they were meant to be undoable. The old scenario still shows "Insert Element(s)" after an anchor move.
+
+Kept. Pinned by "starts a new line at an anchor or an edge pressed in Edit mode" in paths-graph-tool.test.ts and by the extra/paths-graph-editing scenario.
+
+## Q-198 Paths graph tool double click drops the line
+
+Old location: chunk.vendor.js module 753, GPathsGraphTool._mouseDblClick (104322-104330) and the double-click check in _mouseDown.
+
+What it does: a second press within DBLCLICKTM clears the part selection and releases the preview without inserting the line being drawn, so it is lost; only its start anchor stays. With selectDoubleClickBehavior "edit" it reports the job done instead.
+
+Why it's unclear: Esc ends the line and keeps it; a double click throws it away.
+
+Kept. next/src/editor/paths-graph/paths-graph-tool.ts, _mouseDown and _mouseDblClick; pinned by "ends the line on a double click" in paths-graph-tool.test.ts.
+
+## Q-199 Switching from the subselect tool to the pen drops the selected end point
+
+Old location: chunk.vendor.js module 539/541 (GPenTool, GPathTool._checkMode).
+
+What it does: after picking an end point of an open path with the subselect tool, activating the pen loses the point selection (probe "ready" in pen/continue-open-path shows no anchors), so the next click starts a new path instead of continuing. Continuing works only by clicking the end point with the pen itself (Edit mode switches to Append or Prepend).
+
+Why it's unclear: INVENTORY EDT-TOOL-038 describes continuing from the selected end point; the old app never reaches that through the subselect tool.
+
+Kept. The pen/continue-open-path and pen/continue-from-first-point scenarios pin it; pen-tool.test.ts "PenTool from the first point (Prepend)".
+
+## Q-200 Pen Alt-press on the end point just dragged only drops its handle
+
+Old location: chunk.vendor.js module 539 (GPenTool._closeOrChangePreviewIfNeeded and _updateHandles).
+
+What it does: after dragging out a curve point, holding Alt and pressing on that point (then dragging) gives the same result as a plain click on it: its outgoing handle is removed and the Alt drag changes nothing. The "handle plus drag delta" branch only runs for a press on an existing point in Edit mode.
+
+Why it's unclear: EDT-TOOL-041 says Alt pressed before the drag edits the existing point's handle; for the end point just placed it doesn't.
+
+Kept. pen-tool.ts _closeOrChangePreviewIfNeeded; pinned by the pen/alt-press-on-end-point scenario and "on the end point just dragged" in pen-tool.test.ts.
+
+## Q-201 Fill tool opacity getter returns 1 without a paths graph
+
+Old location: chunk.vendor.js module 758 (GFillTool.getSelectionFillOpacity).
+
+What it does: returns the first fill opacity of the first selected paths graph, null when that graph has no fill, and 1 when no paths graph is selected. getSelectionFillPattern returns null in both of the latter cases.
+
+Why it's unclear: the two getters disagree for the same selection, and 1 looks like a default that was meant for both.
+
+Kept. fill-tool.ts getSelectionFillOpacity; pinned by "the selection fill getters read the first selected paths graph" in fill-tool.test.ts.
+
+## Q-202 Pages dropped on pages are removed
+
+Old location: chunk.vendor.js module 334, GSelectTool._mouseDragEnd (59318-59400).
+
+What it does: when the dropped items are pages (only possible with GEditorOptions.pageCollisionTransform on), each source page is removed from the scene, and it is put back next to the target only when GPageEditor.SWITCH_ORDER is on. SWITCH_ORDER is always false, so the page just disappears, with the undo name "... & Switch Pages".
+
+Why it's unclear: the branch looks unfinished. The old app can't reach it, because pageCollisionTransform is !pagesCanOverlap and pagesCanOverlap is never set false.
+
+Kept. select/drop-apply.ts movePagesOrElements; pinned by "removes the dropped page without SWITCH_ORDER (the old default)" in select-tool-drop.test.ts.
+
+## Q-203 Page drop targets lose their highlight at once
+
+Old location: chunk.vendor.js module 334, GSelectTool._updateSelectionTransform (60236-60282).
+
+What it does: after the page drop targets are gathered (and highlighted), the image-mask cleanup runs over the whole scene with an empty target list and clears the Highlighted flag of the target page in the same step. A page drop target is never shown highlighted. Image mask targets keep their highlight.
+
+Why it's unclear: the page highlight is set on purpose and then wiped; probably the second cleanup was meant to skip pages.
+
+Kept. select/move-transform.ts collectDropTargets; pinned by "moves the element into the page under the pointer ..." in select-tool-drop.test.ts.
+
+<!-- App shell (phase 6 review and phase 7) -->
+
+## Q-204 The window overlay keeps its close-on-click handler
+
+Old location: designer.browser.dev.js module 1503 (GWindow._setOverlayContent).
+
+What it does: a progress overlay opened with a cancel handler holder
+binds a click handler that closes the overlay and then tries to unbind
+itself with `n._overlay.unbind("click", this)`, where `this` is the
+overlay element, not the handler. jQuery treats the element as a
+selector, removes nothing, and the handler stays on the reused overlay
+element. Every later overlay of that window (also ones opened without
+a cancel holder) then closes on a click.
+
+Why it's unclear: it looks like the author meant a one-shot handler,
+but the visible behaviour (a click closes later overlays too) is what
+users got.
+
+Kept. src/app/shell/window.ts `_setOverlayContent` adds the listener and
+never removes it. Not pinned by a test yet (needs a DOM environment).
+
+## Q-205 The save button of the close prompt has no shortcut
+
+Old location: designer.browser.dev.js module 1491 (GDesigner.canUnloadDocument).
+
+What it does: the "Save..." button of the "document modified" prompt
+gets `shortcut: this._shortcutToMouseTrapShortcut(GKey.Constant.ENTER)`.
+The function expects a list of keys; given a number, its loop runs zero
+times and it returns "", so the button has an empty shortcut and Enter
+does nothing special.
+
+Why it's unclear: Enter was clearly meant to save; but the old app
+never did that.
+
+Kept. src/app/shell/designer.ts `canUnloadDocument` passes "" with a
+comment. Not pinned yet (needs the system dialog cluster).
+
+## Q-206 Root dividers in the main menu build
+
+Old location: designer.browser.dev.js module 1491 (GDesigner._createMainMenu).
+
+What it does: the menu table puts a divider between two top-level
+entries whose group differs, and the final loop passes every root entry,
+dividers included, to the menu builder, which reads `items.length` of the
+divider and throws. With the complete action table no root divider is
+ever made (every action's category chain starts with a top-level
+category whose group part is ""), so the old app never hit it.
+
+Why it's unclear: it is dead in the old app; it only matters while
+actions are missing.
+
+Kept the table logic; the new root loop skips non-menu entries
+(src/app/shell/designer.ts, comment at the loop), which changes nothing
+once all actions are registered.
+
+## Q-207 Wrapped cloud actions are registered directly
+
+Old location: designer.browser.dev.js module 1483 (gravit.actions) and
+module 1626 (the cloud action wrapper).
+
+What it does: four actions were wrapped (GImportFontsAction, the 300 dpi
+PDF save as, GToggleTouchAction and, in Corel builds, export). The wrapper
+answered `isPro()` true and did not pass `isVisible`, `noHover` and
+`getStyleClass` through (so they took the GAction defaults), and its
+`isEnabled` dropped the arguments.
+
+Why it's unclear: the wrapper is dropped with the cloud (port-map), but
+the menu items of those actions may have shown a Pro marker or lost
+their style class in the old app.
+
+Kept the inner actions in the same table positions (src/app/shell/bootstrap.ts).
+The menus cluster should compare the four menu items in the ui/menus
+DOM snapshots; if they differ, the table can wrap them again.
+
+## Q-208 The theme callback waits for the stylesheet
+
+Old location: designer.browser.dev.js module 1491 (GDesigner._setTheme).
+
+What it does: the old code set the new href and ran its callback (guide
+colours, rulers recreated, label colour) when `$(link).load(url)` had
+fetched the CSS text, which races with the stylesheet itself being
+applied; the rulers read their colours from the stylesheet.
+
+Why it's unclear: in the old app the rulers could, in principle, keep
+the previous theme's colours when the fetch won.
+
+Kept the fetch; src/app/themes/theme.ts also waits for the link's load
+before the callback, which removes the race.
+
+## Q-209 Memory estimate counts only the last document
+
+Old location: designer.browser.dev.js module 85 (GContainer._estimatingMemoryUsage).
+
+What it does: `documents.reduce((e, t) => e + (t && t.getStorageItem()) ? t.getStorageItem().documentRealFileSize : 0, 0)`
+parses as `(e + (...)) ? size : 0`, so the "sum" is the size of the last
+document with a storage item (and throws, caught by the caller, when a
+later document has none). The low-memory warning before a save uses it.
+
+Why it's unclear: the intent was the total size of all open documents;
+the effect is a warning that rarely shows.
+
+Kept. src/app/shell/container.ts `_estimatingMemoryUsage`.
+
+<!-- Documents and config (phase 6 review and phase 7) -->
+
+## Q-210 Import font matching wraps long edit distances
+
+Old location: designer.browser.dev.js module 163 (the font provider J, its edit distance `n`).
+
+What it does: the distance between an imported font name and a listed family is computed in an Int8Array row, so distances above 127 wrap to negative numbers. When the first string is the longer one, the code swaps the strings but keeps the lengths it read first, so it compares the shorter name padded with undefined characters to a prefix of the longer one ("abcd" against "bcd" gives 3, the other way round 1).
+
+Why it's unclear: the result is only a ranking for the closest family. Both quirks can pick another family than a true edit distance would, but nothing crashes and names are short.
+
+Kept. src/app/document/import-font-provider.ts (editDistance); pinned in src/app/document/import.test.ts ("keeps the old lengths ...", "wraps distances above 127 ...").
+
+## Q-211 clearActiveStylesList throws
+
+Old location: designer.browser.dev.js module 163 (GDocument.clearActiveStylesList).
+
+What it does: it clears `this._selectedStylesList`, a field nothing sets, so `Object.keys(undefined)` throws a TypeError. The list the document keeps is `_activeStylesList`.
+
+Why it's unclear: probably a rename that missed this method. No caller in the old app was found, so the throw is never reached; fixing it would change nothing users see.
+
+Kept. src/app/document/document.ts (clearActiveStylesList); pinned in src/app/document/document.test.ts ("throws in clearActiveStylesList like the old code").
+
+## Q-212 Placing a PDF reports pages as percent
+
+Old location: designer.browser.dev.js module 163 (GDocument.placeOrImport, the PDF branch `u`).
+
+What it does: File > Import > Place and drop of a PDF hand the importer's progress callback `(done, total)` straight to the overlay's progress bar, so the bar shows the number of pages done (1 for the one page placed) on a 0-100 scale. Opening a PDF as a document computes the percentage.
+
+Why it's unclear: cosmetic, the overlay is up for a moment only.
+
+Kept. src/app/document/place-import.ts (placePdf).
+
+## Q-213 The annotations lists come from the annotations sidebar
+
+Old location: designer.browser.dev.js module 567 (GAnnotationsSidebar._documentEvent) and module 1712 (GAnnotationPanel, function `j`).
+
+What it does: on every document activation the annotations sidebar called scene.getAnnotations(), which gives every page an annotations list; saved files carry these "annlst" nodes. The annotation panel it shows then writes `$plkt` straight onto each annotation (no change event): null when the signed-in user owns the annotation (its "uid"), else NoSizeChanges | NoMove | NoDelete. That undoes the NoLock (0) that GDocument._updateState set just before, so files keep `"plkt": null` on their annotations. Both UIs are dropped with the cloud.
+
+Why it's unclear: the effects are part of every saved file with annotations, so they must stay, but their owners are gone, and without users there is no owner check: the port treats every annotation as the user's own (null), which is what the old app did for the stub user's annotations in the corpus.
+
+Kept. src/app/document/document.ts (Document.activate, after _updateState); pinned by corpus/annotations/document and resave and compat/annotations/roundtrip.
+
+<!-- Storage (phase 6 review and phase 7) -->
+
+## Q-214 Save picker JPG MIME type
+
+Old location: designer.browser.dev.js module 1195 (_prepareDialogTypes).
+
+What it does: when the save picker is built for a JPG (ext "jpg"), the MIME type in the picker's accept map is replaced with "x-really-an-image/jpeg". "jpeg" and other extensions keep their real MIME type.
+
+Why it's unclear: probably a workaround for Chromium merging or renaming the .jpg entry under image/jpeg, but nothing in the code says so, and the made-up type ends up in the picker options.
+
+Kept. src/app/storage/file-system-access.ts (_prepareDialogTypes); pinned by "rewrites the JPG MIME type when saving and lists repeated MIME types" in file-system-access.test.ts.
+
+## Q-215 Save prompt sends the suggested name only together with file types
+
+Old location: designer.browser.dev.js module 1195 (savePrompt).
+
+What it does: showSaveFilePicker gets suggestedName only when at least one file type is passed; with an empty type list the picker opens without a name. Without the File System Access API savePrompt does nothing at all (no callback, no download), so callers have to check canPromptSave first.
+
+Why it's unclear: the name has nothing to do with the types; it looks like it was put in the wrong branch.
+
+Kept. src/app/storage/file-system-access.ts (savePrompt); pinned by "sends no suggested name without types" and "does nothing without the API".
+
+## Q-216 A failing done callback makes a handle write download the file too
+
+Old location: designer.browser.dev.js module 1195 (GBrowserFileStorage.Item.write).
+
+What it does: the write chain is createWritable, truncate(0), write, close, then done(). The catch at the end of the chain also catches an exception thrown by done(), treats it like a failed write, downloads the bytes with FileSaver and calls done() a second time.
+
+Why it's unclear: only a bug in the caller triggers it, and then the user gets an unexpected download plus a second done. Not data loss (the file was written), so it stays.
+
+Kept. src/app/storage/file-system-access.ts (BrowserFileItem.write); pinned by "downloads too and calls done twice when done throws after a write".
+
+## Q-217 The file input keeps the multiple flag of its first use
+
+Old location: designer.browser.dev.js module 1195 (openPrompt, file input branch).
+
+What it does: the hidden input#file-input is created on the first openPrompt without the API, and multiple is set only then. Later prompts change the accept list but not multiple, so after a single-file prompt (an image import) every later prompt is single-file too, and the other way round.
+
+Why it's unclear: looks unintended, but it is how the old app behaved and scenarios record the input's attributes (platform/files/input-fallback-open).
+
+Kept. src/app/storage/file-system-access.ts (openPrompt); pinned by "creates the input once: multiple stays as first set, accept follows each call".
+
+## Q-218 Save checks instanceof a storage class nobody creates
+
+Old location: designer.browser.dev.js module 447 (GSaveAction, `n instanceof v.Item` with v = module 1512).
+
+What it does: GSaveAction applies updateSaveOptions (module 1247) only when the document's item is an Item of module 1512, a second copy of the local storage that the app never instantiates (the container uses module 1195). So that branch never runs.
+
+Why it's unclear: the copy differs slightly from 1195 (its _isFileAPIAvailable always returns false), so it may be a leftover of an older storage; the save options it would have set are never applied.
+
+Kept: module 1512 is not ported (port-map: drop). The file actions cluster should keep the branch dead (never call updateSaveOptions from Save) and point at this entry.
+
+<!-- File and edit actions (phase 6 review and phase 7) -->
+
+## Q-219 Copy keeps children of copied groups
+
+Old location: designer.browser.dev.js module 1331 (GCutCopyAction._filterOutSelectionWithSameParent).
+
+What it does: meant to drop selected nodes whose ancestor is also copied. Its findParent predicate assigns `n = parent === kept` and returns nothing, so findParent walks every ancestor and only the topmost one (the scene) decides, and only against the last kept node. In practice nothing is filtered.
+
+Why it's unclear: the name says it should filter; the editor's selection rarely holds a parent and its child at once, so it may never have mattered.
+
+Kept. src/app/actions/edit/cut-copy-action.ts keeps the loop as it was.
+
+## Q-220 Deselect All selects the text of a focused field
+
+Old location: designer.browser.dev.js module 1334 (GDeselectAllAction.execute).
+
+What it does: with an editable element focused, Shift+Ctrl+A runs `document.execCommand("selectAll")`, the same as Select All, instead of collapsing the text selection.
+
+Why it's unclear: looks copied from Select All; a deselect would be expected.
+
+Kept. src/app/actions/edit/deselect-all-action.ts; pinned by "select the text of a focused field instead" in src/app/actions/edit/edit-actions.test.ts.
+
+## Q-221 Cut names its undo step with a key that has no class
+
+Old location: designer.browser.dev.js module 1331 (GCutCopyAction._deleteCutSelection).
+
+What it does: the undo name is `GLocale.get(new GLocaleKey("text.cut-selection"))`: the key text is passed as the class and the key is undefined, so the lookup misses (logs "No value found") and the transaction gets that result as its name. Only cutting a style layer from a properties panel uses the action title instead.
+
+Why it's unclear: it reads like `new GLocaleKey("GCutCopyAction", "text.cut-selection")` was meant.
+
+Kept. src/app/actions/edit/cut-copy-action.ts; the editor-actions/exec edit.cut case records the undo state name.
+
+## Q-222 Save of a new document skips the cloud chooser
+
+Old location: designer.browser.dev.js module 447 (GSaveAction._save, _saveDesktop).
+
+What it does: in the old app, saving a new document opened a chooser between a local file and Gravit Cloud (module 1510), and in browsers that cannot write files (no File System Access API) every save of a document without a cloud file went to Gravit Cloud's Save As. With the cloud dropped, the port sends a new document straight to Save As (file.save-as.gvdesign: the save prompt, or a download where the browser can't write files), and an existing local file without File System Access is downloaded through Save As too.
+
+Why it's unclear: the dropped chooser leaves only one choice, so asking makes no sense, but this is a visible change in the flow.
+
+Kept as described (a consequence of the drop). src/app/actions/file/save-action.ts.
+
+## Q-223 Print waits one timer turn before printing the SVG pages
+
+Old location: designer.browser.dev.js module 1609 (GPrintAction, the SVG fallback).
+
+What it does: after writing the page images into the hidden iframe, the old code ran `$(iframe.contentWindow.document).ready(fn)`. jQuery 3 ignores the document argument and, as the main page is loaded, runs the handler on a later timer turn.
+
+Why it's unclear: the code looks like it waits for the iframe's images, which it does not.
+
+Kept. src/app/actions/file/print-action.ts runs focus and print in a setTimeout.
+
+## Q-224 Paste Here has two getIcon definitions
+
+Old location: designer.browser.dev.js module 1182 (GPasteHereAction).
+
+What it does: the prototype defines getIcon twice; the second (the touch icon "gravit-icon-paste-here", else null) wins.
+
+Why it's unclear: dead first definition.
+
+Kept the effective one. src/app/actions/edit/paste-here-action.ts.
+
+## Q-225 Change Opacity writes null when run without a digit
+
+Old location: designer.browser.dev.js module 1647 (GChangeOpacityAction.execute).
+
+What it does: execute sets `_stop` of every selected stylable element to the pending opacity level and then clears it. Run from the menu or `executeAction` (no digit typed), the level is null and the elements get `_stop = null`.
+
+Why it's unclear: the action is shortcut-only (invisible in menus), so only scripted calls reach it that way.
+
+Kept. src/app/actions/edit/change-opacity-action.ts.
+
+<!-- Widgets and dialogs (phase 6 review and phase 7) -->
+
+## Q-226 Closing a lower overlay pops the top one
+
+Old location: designer.browser.dev.js module 1722 ($.fn.gOverlay, `close`).
+
+What it does: an outside mousedown or Escape walks the open overlays from the top and closes each one it happened outside of, passing the overlay's index. `close` checks the overlay is at that index, but then removes the last entry of the stack (`i.pop()`), not the one at the index. When the top overlay keeps itself open (a close listener calls the veto function) and one below it closes, the stack loses the top entry and keeps the closed one.
+
+Why it's unclear: it only matters when an overlay vetoes its close while another one below it closes in the same event, which no flow seems to do on purpose. It looks like `splice(index, 1)` was meant.
+
+Kept. dialogs/dialog-container.ts `Overlay.close` pops the last entry like the old code.
+
+## Q-227 Prompt dialogs get an undefined class
+
+Old location: designer.browser.dev.js module 44 (GSystemDialog.prompt).
+
+What it does: the dialog class is `"g-system-dialog g-prompt-dialog " + className`, and most callers pass no class name, so the dialog gets the class `undefined` and its container `undefined-container`. The DOM snapshots of the expand/shrink and symbol name prompts record it.
+
+Why it's unclear: looks like a missing default, but no stylesheet rule matches either class, so it changes nothing visible.
+
+Kept. dialogs/system-dialog.ts `SystemDialog.prompt`; ui/dialog/expand-shrink.dom and ui/dialog/symbol-name-prompt.dom pin it.
+
+## Q-228 fixedIncrement is never read
+
+Old location: designer.browser.dev.js module 1702 ($.fn.gInputBox, `increment` and `mousemoveIncrement`).
+
+What it does: in inch and centimetre documents a unit box steps by a tenth of the step size, unless `fixedIncrement` is set. The check reads `fixedIncrement` from the box's data object instead of its options, where it is never set, so the option has no effect and every unit box steps by tenths there.
+
+Why it's unclear: the option exists and is documented by its default, so some caller may have expected whole steps.
+
+Kept. widgets/input-box.ts `InputBoxValue._step`; widgets/input-box.test.ts "ignores fixedIncrement, as the old plugin did".
+
+## Q-229 Scrubbing without decimals always steps up
+
+Old location: designer.browser.dev.js module 1702 ($.fn.gInputBox, `mousemoveIncrement`).
+
+What it does: a scrub move changes the value by the pixels moved (times the modifier factor). When the document shows no decimals, a change below 1 is raised to 1, and that includes zero and negative moves, so the first move event (which has no delta) and every downward move add 1.
+
+Why it's unclear: the rule is meant for small fractional steps; applying it to negative steps reverses the drag direction.
+
+Kept. widgets/input-box.ts `InputBoxValue._step`; widgets/input-box.test.ts "takes at least one whole step per move without decimals, even down or still".
+
+## Q-230 Checkbox slider class lags behind
+
+Old location: designer.browser.dev.js module 1704 ($.fn.gCheckboxSlider).
+
+What it does: the `checked` class is set from the box when the slider is mounted and on user changes. Setting the box from code (`.prop("checked")` or the plugin's `value`) leaves the class as it was, and the class (and the change listener) stay after `unmount`. The stylesheet draws `.g-checkbox-slider.checked` and `:checked` alike, so the look only differs where the two disagree.
+
+Why it's unclear: the class looks redundant next to `:checked`, and letting it go stale may not be intended.
+
+Kept. widgets/checkbox-slider.ts and widgets/checkbox-slider-view.tsx track the class the same way.
+
+## Q-231 One-time radio options
+
+Old location: designer.browser.dev.js module 44 (GSystemDialog._dialogV1, the options list).
+
+What it does: each option radio is created with `.prop("checked", fn)`. jQuery calls the function with the element's index in its own one-element set (always 0), so every radio is checked when the stored option is 0, and none otherwise. The browser then keeps only the last checked radio of the group.
+
+Why it's unclear: the code was clearly meant to check the radio of the stored option. Only the CDR import dialogs use options, and those can't be reached in the local app.
+
+Kept. dialogs/system-dialog.ts `_dialogV1` passes the same "all or none" state to the view.
+
+## Q-232 Renaming submits unchanged names
+
+Old location: designer.browser.dev.js module 1695 ($.fn.gAutoEdit, `submit`).
+
+What it does: submit reads the field, closes it (which clears the remembered original text), and then compares the field's value with the cleared original. The comparison is always true, so any non-empty value is submitted, also when it didn't change.
+
+Why it's unclear: the check was meant to skip unchanged names; submitting them only renames to the same name.
+
+Kept. widgets/auto-edit.ts `AutoEdit.submit` compares after close like the old code.
+
+## Q-233 Input select change fires twice on its container
+
+Old location: designer.browser.dev.js module 1703 ($.fn.gInputSelect).
+
+What it does: the input's change is passed on as a change of the `.g-input-select` container, which also receives the input's own change event by bubbling. A listener on the container runs twice per change.
+
+Why it's unclear: the forwarding looks redundant, and a listener that writes the document does it twice (the canvas DPI field does).
+
+Kept. widgets/input-select.ts forwards the change the same way; `<InputSelectView onChange>` runs per container event.
+
+## Q-234 A rich tooltip under another overlay stays open
+
+Old location: designer.browser.dev.js module 1728 ($.fn.gRichTooltip, `close`).
+
+What it does: closing the tooltip asks its overlay to close and forgets it. The overlay only closes when it is the top one, so a tooltip that opened under a menu or chooser stays on screen until an outside click closes it.
+
+Why it's unclear: probably never intended, but it needs another overlay to open while the tooltip is up.
+
+Kept. widgets/rich-tooltip.ts `closeRichTooltip`.
+
+<!-- Menus and toolbar (phase 6 review and phase 7) -->
+
+## Q-235 A menu item's info hides the item
+
+Old location: designer.browser.dev.js module 339 (GMenuItem.setInfo).
+
+What it does: setInfo writes `display` on the whole `li` (shown when there is an info text, hidden when there is none) instead of on the info span. An item whose info goes from a text back to none disappears.
+
+Why it's unclear: it looks like the info span was meant. No action of this build has an info text, so nothing visible depends on it.
+
+Kept. menus/menu-item.ts setInfo; menu.test.ts "hides the whole item when its info goes from set to empty, as before".
+
+## Q-236 Inline SVG action icons become class names
+
+Old location: designer.browser.dev.js module 339 (GMenuItem.setIcon) with the icon table, module 844.
+
+What it does: a string icon goes on an `<i>` with jQuery's addClass, so the align actions' inline SVG icons end up as a pile of class names (`<svg`, `class="align-svg"`, ...) and no icon shows.
+
+Why it's unclear: the table has SVGs for these actions, so someone meant them to show, but the menu never rendered them. The recorded context menu DOM has the class names.
+
+Kept. menus/menu-item.ts setIcon; menu.test.ts "shows captions as text and icons as an <i> with the class names".
+
+## Q-237 The tab menu keeps a disabled Share entry
+
+Old location: designer.browser.dev.js module 1500 (GHeader tab context menu table).
+
+What it does: the tab menu has a Share entry that is enabled only for cloud files with sharing allowed. Sharing and the cloud are dropped, so the entry is always disabled.
+
+Why it's unclear: it's a dead entry of a dropped feature, but removing it changes the tab menu the tabs/context-menu scenarios record.
+
+Kept, always disabled. menus/header.ts TAB_MENU.
+
+## Q-238 Toolbar.isVisible returns nothing
+
+Old location: designer.browser.dev.js module 1541, GToolbar.prototype.isVisible.
+
+What it does: the function evaluates `this._htmlElement.is(":visible")` but has no return, so it always gives undefined. setVisible compares that with the new value, so it always calls gDesigner.relayout().
+
+Why it's unclear: it looks like a missing `return`, but the only effect is an extra relayout.
+
+Kept. toolbar/toolbar.ts Toolbar.isVisible returns undefined; setVisible relays out every time.
+
+## Q-239 Tool menus start with a divider unless the first tool of the table is in them
+
+Old location: designer.browser.dev.js module 1541, GToolbar.prototype._createToolItems.
+
+What it does: a divider is added when the category changes from the previous entry (starting from null). The check uses the index in the whole tool table, so a group whose first tool isn't table entry 0 (path, knife, shape, view) gets a divider before its first item.
+
+Why it's unclear: it looks unintended, but the recorded dropdown screenshots show it.
+
+Kept. toolbar/toolbar.ts _createToolItems; toolbar.test.ts "puts a divider before a tool group menu unless it starts the table".
+
+## Q-240 The zoom input's keydown flag lives on the toolbar
+
+Old location: designer.browser.dev.js module 1541, _initZoomButton (arrow functions using $(this).data("keydown")).
+
+What it does: the arrow functions' `this` is the toolbar, so the "keydown" flag is shared by the whole toolbar, not kept per input.
+
+Why it's unclear: harmless with one zoom input, but clearly not what was meant.
+
+Kept. toolbar/toolbar.ts _initZoomButton keeps one flag per zoom button build.
+
+## Q-241 The Select hit list checks hits for pages
+
+Old location: designer.browser.dev.js module 1303, _getHitsElments and the Select item's UpdateEvent.
+
+What it does: checks `hits[0] instanceof GPage`, but the hits are { element } records, so the check is always false. Pages are already filtered out by the hitTest acceptor.
+
+Why it's unclear: it looks like it meant hits[0].element.
+
+Kept. menus/context-menu.ts _updateSelectMenu / _getHitsElments.
+
+## Q-242 Copy Effect comes before Apply To in the effect row menu
+
+Old location: designer.browser.dev.js module 1303, _createEffectPropertyMenu.
+
+What it does: adds Copy Effect first and the "Apply to" submenu after it. INVENTORY ACT-CTX-008 lists them the other way round.
+
+Why it's unclear: the code and the inventory disagree.
+
+Kept (code order). menus/context-menu.test.ts "names the effect's Apply To entry".
+
+## Q-243 Page Copy writes its clipboard inside a transaction
+
+Old location: designer.browser.dev.js module 1303, _createPageMenu COPY.
+
+What it does: runs the serialize and copyToClipboard inside Editor.tryRunTransaction named "Copy Page", which may add an empty undo step.
+
+Why it's unclear: nothing in the scene changes.
+
+Kept. menus/context-menu.ts _createPageMenu.
+
+<!-- Modify actions (phase 6 review and phase 7) -->
+
+## Q-244 Vertical distribute compares the new top with x
+
+Old location: designer.browser.dev.js module 867 (GDistributeAction.execute, the vertical branch where the elements don't fit).
+
+What it does: when the elements are taller together than the area, their centres are spaced evenly. Before moving an element the code checks whether its new top differs from its current position, but it compares the new top with the box's x instead of its y. The horizontal branch compares x with x.
+
+Why it's unclear: looks like a copy-paste slip. The effect is only a skipped no-op move when the new top happens to equal the old x, so the result is nearly always the same.
+
+Kept. distribute-action.ts execute, vertical branch.
+
+## Q-245 Clip Selection and Create Nested Compound share Ctrl+Alt+M
+
+Old location: designer.browser.dev.js modules 809 (GClipAction.getShortcut, [OPTION, META, "M"]) and 1316 (GCreateNestedCompoundAction.getShortcut, [META, ALT_LEFT, "M"]).
+
+What it does: both actions bind the same key. The recorded shortcuts scenario (editor-actions/shortcuts nested-compound-keys) shows Ctrl+Alt+M on two compounds running Clip Selection, so the nested compound shortcut never fires.
+
+Why it's unclear: the nested compound action has a shortcut nobody can use, but its menu hint still shows it.
+
+Kept. clip-action.ts and create-nested-compound-action.ts keep both shortcuts; which binding wins is up to the shortcut binder's order, pinned by editor-actions/shortcuts once that area is enabled.
+
+## Q-246 Expand/Shrink shows the outline action's invalid-value text
+
+Old location: designer.browser.dev.js modules 1185 (GOutlineAction.execute) and 1317 (GOffsetAction._dialogAlertMessage).
+
+What it does: GOffsetAction defines _dialogAlertMessage ("Entered invalid number for offset value."), but the shared execute in GOutlineAction always alerts GOutlineAction's "Entered invalid number for outline value.", so Expand/Shrink shows the outline text and the offset string is never used.
+
+Why it's unclear: looks like a missed override, but it is only a wording difference.
+
+Kept. outline-action.ts execute uses the outline key; offset-action.ts keeps the unused _dialogAlertMessage. Pinned by path-actions.test.ts "shows the outline action's alert for an invalid offset".
+
+## Q-247 Split Path is enabled in review mode
+
+Old location: designer.browser.dev.js module 873 (GSplitPathAction).
+
+What it does: isEnabled doesn't call GElementAction.isEnabled, so the menu item is enabled while the annotations sidebar is active. execute then checks it and returns false without doing anything.
+
+Why it's unclear: every other element action is disabled in review mode.
+
+Kept. split-path-action.ts isEnabled and execute.
+
+## Q-248 Simplify ignores the typed tolerance
+
+Old location: designer.browser.dev.js module 1318 (GSimplifyAction.execute).
+
+What it does: the text field's change handler looks for the slider with $(this).parent().find(".g-input-slider"), but the slider is outside the field's span. Typed values never reach the slider, and OK uses the slider value (default 10).
+
+Why it's unclear: the field is meant to set the tolerance, but the path-dialogs scenarios (simplify-typed-40, simplify-typed-0) record this behaviour.
+
+Kept. simplify-action.ts reads only the slider value; pinned by editor-actions/path-dialogs/simplify-typed-* once the dialog exists.
+
+## Q-249 Split Line gives a lone line its source's fill
+
+Old location: designer.browser.dev.js module 1319 (GSplitLineAction.execute).
+
+What it does: a piece that is a single line and has no border gets a black border if the source path has fill layers, and otherwise the source's first fill layer, which is undefined when there are no fills.
+
+Why it's unclear: the condition looks inverted. With no fill layers it appends undefined, which probably throws.
+
+Kept. split-line-action.ts, the isLine branch.
+
+## Q-250 Detach Symbol's undo name has a stray "s" slot
+
+Old location: designer.browser.dev.js module 874 (GDetachSymbolAction.execute).
+
+What it does: the undo step is named from "Detach symbol %number" with %number replaced by "s" when more than one instance was detached, otherwise by "". One instance gives "Detach symbol " with a trailing space; the count itself never appears.
+
+Why it's unclear: the placeholder is called %number but is used as a plural suffix.
+
+Kept. detach-symbol-action.ts execute; pinned by symbol-layer-actions.test.ts "detaches an instance and names the undo step".
+
+## Q-251 Joint type titles don't match the engine types
+
+Old location: designer.browser.dev.js module 1648 (GChangeAnchorPointsJointTypeSubAction._getNodeType).
+
+What it does: "Disconnected" (sub key D) sets the engine's Asymmetric type (TA), and "Asymmetric" (sub key A) sets Symmetric (TS). Straight sets "-".
+
+Why it's unclear: the names look swapped, but they follow the inspector's point-type menu wording.
+
+Kept. change-anchor-points-joint-type-sub-action.ts; pinned by symbol-layer-actions.test.ts "passes the engine type of each menu type to the inspector".
+
+## Q-252 Enter layer group ignores which sidebar is active
+
+Old location: designer.browser.dev.js module 1605 (GEnterLayerGroupAction.execute).
+
+What it does: Enter and Shift+Enter move the layers panel focus into or out of a group even when the outline sidebar isn't the active left sidebar. Rename, lock, hide and cycle all check that it is.
+
+Why it's unclear: probably an oversight, but the hidden panel's focus has no visible effect.
+
+Kept. enter-layer-group-action.ts execute.
+
+## Q-253 Page Down/Up are bare keys in the additional shortcuts
+
+Old location: designer.browser.dev.js module 1341 (GChangeActivePageAction.getAdditionalShortcuts).
+
+What it does: returns [PAGE_DOWN] instead of [[PAGE_DOWN]], a key where a shortcut (key list) is expected. The shortcut code treats it as a one-key shortcut.
+
+Why it's unclear: inconsistent with every other getAdditionalShortcuts.
+
+Kept. change-active-page-action.ts, cast with a comment.
+
+<!-- View and help actions (phase 6 review and phase 7) -->
+
+## Q-254 Fast view ignores the page clip setting
+
+Old location: designer.browser.dev.js module 1603 (the fast view action, execute).
+
+What it does: turning fast view off picks the paint mode from the page's clip setting, like Outline does. But it reads GPageProperties.CLIP_PROPERTY_NAME and GPageProperties.CLIP_CONTENT_ENABLED, which GPageProperties never defines (the real names are PAGE_CLIP_PROPERTY_NAME and PAGE_CLIP_CONTENT_ENABLED in module 442). Both are undefined, so the comparison is always true and a fixed-size page always goes back to Output (clipped), even when its "cce" setting says not to clip. Outline view reads the right names and goes back to Full on such a page.
+
+Why it's unclear: almost certainly the wrong constant names, but the result only shows on a page whose clip content button is off, and the page properties panel re-applies the clip mode when the page is activated again.
+
+Kept. fast-view-action.ts keeps the two undefined names; view-actions.test.ts ("fast view ignores the page clip setting on a fixed page") pins it next to Outline view's behaviour.
+
+## Q-255 Snap to Half Pixel grows the size
+
+Old location: designer.browser.dev.js module 1295 (GSnapUnitAction.execute).
+
+What it does: Snap to Full Pixel rounds the geometry box's x, y, width and height. Snap to Half Pixel does the same and then adds 0.5 to all four, so a 30x40 box at (10, 21) becomes 30.5x40.5 at (10.5, 21.5). Its edges land on .5 on the left and top but on whole units on the right and bottom.
+
+Why it's unclear: "half pixel" usually means moving the box by half a pixel (crisp 1px borders), not making it half a pixel larger. Adding 0.5 to the size may be intended (both edges at .5 would need the size kept), or a slip.
+
+Kept. snap-unit-action.ts; view-actions.test.ts ("rounds the geometry box; half adds .5 to position and size") and editor-actions/exec/arrange.snap-unit.half pin it.
+
+## Q-256 Fill and border visibility toggle is never registered
+
+Old location: designer.browser.dev.js module 1642 (GTogglePaintLayersVisibilityAction) and the bootstrap's action list (module 1483, which imports the module but never instantiates the class).
+
+What it does: the class handles F (fills) and Shift+B (borders): it hides or shows the paint layers of the selection and everything inside it. Since no instance is registered, the keys never reach it. Its transaction name is GLocale.get(TITLE), and TITLE is never set, so the undo entry would have no name.
+
+Why it's unclear: a finished feature with shortcuts that is switched off, maybe on purpose (F and Shift+B clash with tool keys), maybe by accident.
+
+Kept. toggle-paint-layers-visibility-action.ts exports the class; bootstrap's ACTION_TABLE has no entry for it, as before. editor-tools/view/toggle-fill-and-border-visibility pins that the keys do nothing.
+
+## Q-257 Zoom Out's id has no "view." prefix
+
+Old location: designer.browser.dev.js module 1291 (GZoomOutAction.ID = "zoom.out").
+
+What it does: every other zoom action is "view.zoom.*" or "view.magnification.*"; Zoom Out is "zoom.out".
+
+Why it's unclear: looks like an oversight, but the id is what menus, toolbar buttons and saved shortcuts refer to.
+
+Kept. zoom-out-action.ts; editor-actions/exec/zoom.out pins the id.
+
+<!-- Notify dialogs, welcome, settings (phase 6 review and phase 7) -->
+
+## Q-258 Software update check without a release service
+
+Old location: designer.browser.dev.js module 1676 (GSoftwareUpdateManager.start, initializeReleaseStatus, installUpdate).
+
+What it does: start() scheduled a daily check against the cloud release service (gApi.software.getRelease), stored "last_update_check" and "old_version", and in Electron installed an update flagged with "install_update_on_start". A silent Electron install stored that flag instead of installing.
+
+Why it's unclear: the release service is dropped with the cloud, and the three keys must not be written (platform/dropped). The new Electron window has no IPC channel to an updater either. Whether the desktop build should get a real updater (and what decides "silent") is open.
+
+Kept: the class and its events. The release status is the old failure fallback (silent, no version), so a check never finds an update and a check the user asked for reports "no update available"; start() only connects the Electron updater channel (none is installed yet); the silent Electron install waits instead of writing the key. src/app/dialogs/software-update-manager.ts, pinned by "writes none of the dropped update keys when it starts" in src/app/dialogs/dialogs-notify.test.tsx.
+
+## Q-259 Linked-image warning opens before it is built
+
+Old location: designer.browser.dev.js module 1511 (GWarnLinkedImageDialog), called from module 447 (GSaveAction._save).
+
+What it does: the constructor reads "designer.settings.warn-linked-image-dialog.never-remind" (a promise) and only builds the dialog when that resolves, but the save action calls open() right after `new`. open() then throws a TypeError, and the dialog that gets built later is never shown. With "never remind" stored, the save goes ahead.
+
+Why it's unclear: it only happens when the default storage can save (desktop storage) and the document has linked images, which the browser build never reaches. It looks like a crash, but nothing a user of the web app can hit.
+
+Kept: open() and close() throw the old TypeError while the dialog isn't built. src/app/dialogs/warn-linked-image-dialog.ts.
+
+## Q-260 Keep Fonts adds duplicates to cst
+
+Old location: designer.browser.dev.js module 841 (GMissingFontsDialog._keepFonts).
+
+What it does: `!t.indexOf(e) >= 0 && t.push(e)` compares a boolean with 0, which is always true, so every missing family is pushed onto the scene's "cst" list again on each Keep Fonts, duplicates included.
+
+Why it's unclear: the intent was clearly "add if missing", but the duplicates do no harm (the list is only searched with indexOf) and they are saved in the file.
+
+Kept: src/app/dialogs/missing-fonts-dialog.ts `_keepFonts`. No test yet (the dialog needs a DOM).
+
+## Q-261 Custom page size in pt is stored as text
+
+Old location: designer.browser.dev.js module 1544 (GNewDocumentDialog._newDocumentCustomSize, _newDocument).
+
+What it does: the typed width and height go into `new GLength(text, unit).toPoint()` as strings. For every unit but pt the conversion multiplies and gives a number; for pt, toPoint returns the value itself, so the page's "w" and "h" are strings ("210").
+
+Why it's unclear: probably unintended, but the engine coerces the strings where it computes with them, and the saved file carries the string.
+
+Kept: src/app/welcome/welcome-screen.ts `_newDocument` passes the texts through.
+
+## Q-262 Notification panel content strings are HTML
+
+Old location: designer.browser.dev.js module 1666 (GNotificationPanel._notificationEvent, _updateContent).
+
+What it does: `$("<div>").addClass("message").append(message)` parses a string message as HTML, so a notification text with markup (or a file name with "<") is rendered as markup.
+
+Why it's unclear: the callers pass string-table text and error messages; some error messages include user data such as file names.
+
+Kept: strings are inserted as HTML (src/app/dialogs/notification-panel-view.tsx `useAppended`).
+
+## Q-263 The settings dialog's developer rows depend on the build env
+
+Old location: designer.browser.dev.js module 1275 (GSettingsDialog._buildDialog) and module 1483 (gDesigner.setEnv(nodeEnv)).
+
+What it does: outside "production", "lts", "rc" and beta builds the dialog shows "Allow steps import/export" and "Enable cached rendering". The old build set env "production"; the new boot never calls setEnv, so getEnv() is null and the rows appear.
+
+Why it's unclear: not a question about the old code, but a gap: the rows' settings have no effect in the new engine (no command recorder, no transaction debugging).
+
+Kept: the dialog tests getEnv() as before (src/app/settings/settings-dialog.ts). The boot needs `designer.setEnv("production")` for editor-actions/dialogs/edit.settings and the settings scenarios to match.
+
+<!-- Inspector geometry and shapes (phase 6 review and phase 7) -->
+
+## Q-264 The appearance panel stays shown once any panel was shown
+
+Old location: designer.browser.dev.js module 864 (GInspectorSidebar._updatePropertyPanels).
+
+What it does: every visible panel sets the shared `.appearance-properties-panel`
+to `display: ""`, but nothing ever hides it again. After the first update
+with any visible panel (the page panel, on the first document), the
+container stays shown even when none of its appearance panels is, for
+example with nothing selected.
+
+Why it's unclear: the container then holds only hidden panels, which looks
+like a missing else branch, but it has no height and nothing shows.
+
+Kept. src/app/inspector/inspector-sidebar.ts `_updatePropertyPanels`;
+pinned by parity/expected/ui/inspector/nothing.dom.json (the container has
+`style=""` there).
+
+## Q-265 Inspector panels remove their listeners without the target
+
+Old location: designer.browser.dev.js modules 1264, 1265, 1269, 1270, 1271,
+1274, 1294, 1654-1656, 1660 (update()).
+
+What it does: `removeEventListener(Event, this._handler)` without the
+target argument removes every registration of that prototype method, not
+just this panel's. Each panel exists once, so the effect is the same as
+removing its own.
+
+Why it's unclear: looks accidental; with two instances of a panel one
+would unhook the other.
+
+Kept. Every panel's update() passes no target, as before.
+
+## Q-266 The align settings overlay is one row element with four sets of columns
+
+Old location: designer.browser.dev.js module 1294 (GDimensionProperties.init, `.alignSettings`).
+
+What it does: gPropertyRow is called four times on the same element
+(same height, same width, full unit, half unit), so `.alignSettings` is a
+single `g-property-row no-label` with four `.columns` children instead of
+four rows.
+
+Why it's unclear: it reads like four rows were meant, but the stylesheet
+lays the columns out one under the other, so it looks like a list.
+
+Kept. src/app/inspector/dimension-properties.ts init; visible in the
+settings overlay of the align toolbar.
+
+## Q-267 Moving by the X and Y boxes has an untranslated undo title
+
+Old location: designer.browser.dev.js module 1294 (GDimensionProperties._assignDimension).
+
+What it does: the transaction of a typed X or Y is named "Move" as a
+literal string, while size and rotation use the string tables
+("action.change-size", GCommonNames "action.rotate").
+
+Why it's unclear: probably a missed translation; the undo menu shows
+"Undo Move" in every language.
+
+Kept. src/app/inspector/dimension-properties.ts `_assignDimension`.
+
+## Q-268 Transform panel transforms an element by itself
+
+Old location: designer.browser.dev.js module 1660 (GTransformProperties._applyTransformation, the helper `h`).
+
+What it does: when no element editor can be opened for an element, the
+helper calls `element.transform(element, true)`, passing the element where
+the transform belongs, instead of the transform it built.
+
+Why it's unclear: this is a bug (the transform is lost or the call throws),
+but every element type the panel accepts has an element editor, so the
+branch doesn't run in practice.
+
+Kept. src/app/inspector/transform-properties.ts `_applyTransformation`.
+BUGS-FIXED candidate if a case without an editor turns up.
+
+## Q-269 Path panel _mainPath never set
+
+Old location: designer.browser.dev.js module 1269 (GPathProperties.update).
+
+What it does: while collecting the selected anchor points it checks
+`1 == this._points.legth` (a typo for length), so `_mainPath` is never
+assigned. Nothing reads `_mainPath`.
+
+Why it's unclear: dead code because of a typo; harmless.
+
+Kept. src/app/inspector/path-properties.ts drops the dead assignment and
+leaves a comment where it was.
+
+## Q-270 Path panel updates fields it never builds
+
+Old location: designer.browser.dev.js module 1269 (GPathProperties._updatePointProperties).
+
+What it does: it writes `input[data-point-property="cr"]` and
+`button[data-point-property="cu"]`, but init never builds a "cr" input and
+never calls the "cu" factory, so those queries match nothing. jQuery's
+`prop("disabled")` on the `div[data-point-property="cl"]` slider only sets
+a JavaScript property on the div, with no visible effect.
+
+Why it's unclear: leftovers of an older corner UI.
+
+Kept. src/app/inspector/path-properties.ts keeps the empty queries and the
+property on the div.
+
+## Q-271 Corner row column width "3x"
+
+Old location: designer.browser.dev.js module 1269 (the path corner row).
+
+What it does: one spacer column gets the CSS width "3x". The browser
+rejects it, so the column has no width style. The polygon panel's copy of
+the row uses "3px".
+
+Why it's unclear: a typo for 3px, but the old DOM has the column without a
+width.
+
+Kept. src/app/inspector/path-properties.ts passes "3x"; pinned by
+parity/expected/ui/inspector/path-point.dom.json.
+
+## Q-272 Swapped corner titles in the rectangle advanced panel
+
+Old location: designer.browser.dev.js module 1271 (GRectangleProperties.init).
+
+What it does: the per-corner type buttons (tl_ct and so on) get the
+tooltip "uniform corner smoothness", and the per-corner lock buttons (tl_uf
+and so on) get "corner type".
+
+Why it's unclear: the two tooltips look swapped.
+
+Kept. src/app/inspector/rectangle-properties.ts init; visible in
+parity/expected/ui/editor/rectangle-corners.dom.json.
+
+## Q-273 Image panel ignores other elements
+
+Old location: designer.browser.dev.js module 1266 (GImageProperties.update).
+
+What it does: the panel shows when exactly one inspected element is an
+image, even when other non-image elements are selected too. Two images
+hide it.
+
+Why it's unclear: every other shape panel requires all elements to be of
+its type.
+
+Kept. src/app/inspector/image-properties.ts update, pinned by the "shows
+for exactly one image, ignoring other elements" test in
+rectangle-properties.test.ts.
+
+## Q-274 Color Thief bounding box uses else-if for the maxima
+
+Old location: designer.browser.dev.js module 1267 (vboxFromPixels).
+
+What it does: a sample that lowers a channel's minimum never raises its
+maximum. With a single sample colour the box is empty, and the palette
+shows the box centre (for example [104,104,104] for a pure [200,200,200]
+image) instead of the colour.
+
+Why it's unclear: a known bug of the third-party library; it changes the
+extracted palette, which is wrong output.
+
+Kept. src/app/inspector/color-thief.ts, pinned by the "keeps the else-if
+bounding box" test. BUGS-FIXED candidate.
+
+<!-- Text panel and styles (phase 6 review and phase 7) -->
+
+## Q-275 Line height unit switch converts pt at 96 dpi
+
+Old location: designer.browser.dev.js module 1273 (GTextProperties), the click handlers of the `_plh_unit` and `_pas_unit` buttons.
+
+What it does: switching the line height (or the paragraph spacing in the advanced settings) between "%" and the document unit converts with the font size times 4/3: 150 % of a 20 pt font becomes a line height of 40, and 40 becomes 150 % again. The line height factor is kept at 0.01 or more; the paragraph spacing has no minimum.
+
+Why it's unclear: 4/3 is the pt to px factor at 96 dpi, but everywhere else the app treats pt and px as equal (GLength uses 72 dpi). Typing a percentage into the line height box doesn't use the factor, so switching units changes the line height on screen.
+
+Kept. text-properties.ts (percentToLength, lineHeightPercent, paragraphSpacingPercent); pinned in text-properties.test.ts ("the line height and paragraph spacing unit switch").
+
+## Q-276 Bold toggle writes Infinity when no weights are known
+
+Old location: designer.browser.dev.js module 1273 (GTextProperties._toggleFormatting).
+
+What it does: turning bold off picks Regular when the font has it, else `Math.min` of the weights the last update found, then falls back to `GFont.Style.Regular`. That constant doesn't exist, so the fallback is undefined, and with an empty weight list `Math.min()` is Infinity, which is written as the text's `_tfw`.
+
+Why it's unclear: the weight list is only empty before the first update or for a font the font list doesn't know; the fallback names a style constant for a weight, which looks like a slip.
+
+Kept. text-properties.ts `_toggleFormatting`; pinned in text-properties.test.ts ("writes Infinity for bold text when no weights are known").
+
+## Q-277 Font size box keeps the unit of its first init
+
+Old location: designer.browser.dev.js module 1273 (GTextProperties.init and _updateProperties), module 1705 ($.fn.gUnitBox).
+
+What it does: the size box is created with `gUnitBox({ source: "text" })` (unit px), and every update calls `gUnitBox({ unit, list, source })` again with pt (or px in px documents). The second call doesn't reach the input box, which keeps px as its unit and postfix; only the size list's click handler, rebound on every update, used the new unit for its item labels ("12 pt").
+
+Why it's unclear: in a document that isn't in px the size field shows a px postfix while its list says pt. pt and px are the same size here (72 dpi), so the values agree.
+
+Kept, apart from the list labels: text-properties.ts `_updateSizeBox` hands the list to the box once and lets the unit box's own list handler show it, so the items say px like the field (the ported UnitBox reads its options, not those of a later init). No parity scenario opens the size list.
+
+<!-- Paint and effects panels (phase 6 review and phase 7) -->
+
+## Q-278 Appearance opacity undo name is hard-coded English
+
+Old location: designer.browser.dev.js module 1160 (GAppearanceProperties), the opacity slider and box change handlers.
+
+What it does: both commit their transaction as "Change opacity", a literal string, while every other appearance change uses a string table key (GCommonNames action.change-blending-mode, ...).
+
+Why it's unclear: the undo list shows English in every language. It may be an oversight or a missing key.
+
+Kept. appearance-properties.ts, `_createField` ("opacity-slider", "opacity-input").
+
+## Q-279 Fill rule buttons of the touch toolbar
+
+Old location: designer.browser.dev.js module 1261 (fill panel), init.
+
+What it does: the two touch fill rule buttons (completely fill, winding fill) carry the title of the advanced settings button ("Advanced Settings"), and a click toggles `g-active` on every `.completely-fill` / `.winding-fill` in the whole document, not only in this panel's toolbar.
+
+Why it's unclear: the titles look copied from the settings button, and the document-wide toggle only works because there is one fill panel.
+
+Kept. fill-properties.ts, `ruleButton` in `init`.
+
+## Q-280 Appearance keeps an unused fill rule field
+
+Old location: designer.browser.dev.js module 1160, the field factory in init.
+
+What it does: the factory can build an "evenodd" select (with the key GCommonNames evenodd.non-odd, where the fill panel uses evenodd.even-odd), but init never asks for it.
+
+Why it's unclear: dead code with a different string key than the fill panel's select.
+
+Kept. appearance-properties.ts, `_createField("evenodd")`.
+
+## Q-281 Add Border on an open path aligns it inside
+
+Old location: designer.browser.dev.js module 1162 (border panel), the Add Border handler.
+
+What it does: a new border gets Outside on texts, Center on open arcs and Inside on every other shape. The branch that gives open paths Center comes after the shape check, and paths are shapes, so it never runs: open paths get Inside, although the advanced settings disable Inside for open paths.
+
+Why it's unclear: the open-path branch is clearly meant to run.
+
+Kept. border-properties.ts `newBorderAlignment`, pinned in border-properties.test.ts.
+
+## Q-282 Border panel takes elements by their fill property set
+
+Old location: designer.browser.dev.js module 1162, `update`.
+
+What it does: the panel keeps the inspected elements whose style property sets include FillPaintLayers, not BorderPaintLayers.
+
+Why it's unclear: every element with borders also has fills today, so it doesn't show, but it reads like a copy from the fill panel.
+
+Kept. border-properties.ts `update`, pinned in border-properties.test.ts.
+
+## Q-283 Dropping a border outside the list is named after fills
+
+Old location: designer.browser.dev.js module 1162, the row's dragend handler.
+
+What it does: a move or Shift-duplicate finished by dragend is committed as GFillPaintLayerProperties "action.move" / "action.duplicate", while the drop handler uses the border panel's own names.
+
+Why it's unclear: copied from the fill panel; the undo list names a border move "Move Fill".
+
+Kept. border-properties.ts, dragend handler in `_insertPaintLayer`.
+
+## Q-284 Border width box ignores the document unit
+
+Old location: designer.browser.dev.js module 1162, `_updatePaintLayer`.
+
+What it does: it calls gUnitBox again with the unit (px for px documents, else pt) on a box that is already set up; the plugin keeps its first options, so the width always shows in px.
+
+Why it's unclear: the code clearly wants the unit to follow the document.
+
+Kept. border-properties.ts `_updatePaintLayer`.
+
+## Q-285 Shadow blur ranges are never read
+
+Old location: designer.browser.dev.js module 1262, the drop/inner shadow and contact shadow forms.
+
+What it does: the forms read `RANGES` from the effect instance, but RANGES is a static of the effect class, so the blur box always uses the defaults ([0, 200]; [5, 200] for the contact shadow).
+
+Why it's unclear: the effect classes define ranges the form means to use.
+
+Kept. effect-forms.ts `shadowForm`, `contactShadowForm`.
+
+## Q-286 Effect categories sort
+
+Old location: designer.browser.dev.js module 1262, `_createAddEffectMenu`.
+
+What it does: the comparator was meant to put "Other" last, but it is inconsistent and the result is alphabetical: Adjust, Artistic, Blur, Distortion, Other, Shadow.
+
+Why it's unclear: the code says one order, the menu shows another.
+
+Kept. effect-forms.ts `compareCategories`, pinned in effect-properties.test.ts.
+
+## Q-287 One range variable in the WebGL effect form
+
+Old location: designer.browser.dev.js module 1262, the generic WebGL effect form.
+
+What it does: one `var` holds the range across the loop over the effect's parameters, so the color rows' handlers use the range of the last row that set it. Each effect's color rows share one range, so it never shows.
+
+Why it's unclear: looks like a closure bug that happens to be harmless.
+
+Kept. effect-forms.ts, `lastRange()`.
+
+## Q-288 Brannan preset value and caption swapped
+
+Old location: designer.browser.dev.js module 1262, the color grading form.
+
+What it does: the Brannan option's value is the localized string and its caption the literal "Brannan"; every other preset is the other way round.
+
+Why it's unclear: in English both are "Brannan", so it only shows in other languages.
+
+Kept. effect-forms.ts `gradingPresets`.
+
+## Q-289 WebGL effect without RANGES throws
+
+Old location: designer.browser.dev.js module 1262, the generic WebGL effect form.
+
+What it does: for an effect class without RANGES the form reads `fxRanges`, an undefined global, and throws a ReferenceError. Every effect in the table has RANGES.
+
+Why it's unclear: unreachable today; a fallback was probably intended.
+
+Kept. effect-forms.ts, the form throws the same ReferenceError.
+
+## Q-290 Effect row updates write to elements that don't exist
+
+Old location: designer.browser.dev.js module 1262, `_updateEffect`.
+
+What it does: it sets the visibility on `.effect-title input[type=checkbox]` and writes `.effect-layer`, but no row has either element.
+
+Why it's unclear: left over from an older row layout.
+
+Kept as comments in effect-properties.ts `_updateEffect`; nothing is written.
+
+## Q-291 Border undo with an open chooser throws
+
+Old location: designer.browser.dev.js module 1162, `_updatePaintLayer`.
+
+What it does: on undo or redo of a change made in the chooser, the old code meant to reopen the chooser at the border's row, but it referenced `$element`, a variable that doesn't exist, so it threw a ReferenceError there (the fill and effect panels do reopen it).
+
+Why it's unclear: a crash in an event handler after undo; a BUGS-FIXED candidate.
+
+Kept (ported faithfully first). border-properties.ts `_updatePaintLayer`, pinned in border-properties.test.ts ("throws on undo").
+
+<!-- Color UI (phase 6 review and phase 7) -->
+
+## Q-292 The touch chooser module changes the desktop chooser's relayout
+
+Old location: designer.browser.dev.js module 1657 (touch GPatternChooser), last statement; module 1150 `_relayout`.
+
+What it does: the desktop chooser defines `_relayout()` as
+`gOverlay("relayout", { preserveTop: false })`. The touch chooser's
+module then assigns `GPatternChooser.prototype._relayout` (the desktop
+class, not its own) to a version with a `preserveTop` argument that
+defaults to true. Both modules load at boot, so every chooser keeps its
+top on relayout, except when `_updatePattern` shows the background fill
+(it calls `_relayout(!isBackground)`). The desktop version is dead code.
+
+Why it's unclear: it looks like the touch override was meant for the
+touch class only. The visible result (the chooser doesn't jump when it
+gets shorter or taller after opening) is what users got.
+
+Kept. src/app/color/color-chooser.ts `PatternChooser._relayout` has the
+touch module's behaviour for both choosers; pinned by "relayouts keep the
+top unless the pattern is the background fill" in color-chooser.test.ts.
+
+## Q-293 Eye dropper on a tool change
+
+Old location: designer.browser.dev.js module 1698 (`$.fn.gEyeDropper` setActive).
+
+What it does: starting the eye dropper adds a ToolChangedEvent listener
+that removes every `.g-eye-dropper-picker` element and then itself.
+Ending it tries to remove "the" listener, but the function is created
+anew on every setActive call, so the removal finds nothing. On a tool
+change while picking, the loupe disappears but the dropper stays active:
+its document listeners still run, the next mouse down still picks the
+last pixel, and a later end calls `picker.remove()` on the detached
+loupe.
+
+Why it's unclear: it is probably a leftover, but it neither crashes nor
+loses data; a tool change while picking only hides the loupe.
+
+Kept. src/app/color/eye-dropper.ts `setActive`; pinned by "removes the
+loupe on a tool change but stays active (the old quirk)" in
+eye-dropper.test.ts.
+
+## Q-294 The noise type select doesn't follow the pattern
+
+Old location: designer.browser.dev.js module 1150 (`_updatePattern`, noise branch).
+
+What it does: showing a noise pattern sets the intensity slider and box,
+then looks for `[data-property="noise_type"]` in the texture editor
+(`this._patternEditor`). The select is in the noise editor, so it keeps
+its first option (or whatever the user picked last) whatever type the
+pattern has.
+
+Why it's unclear: looks like a typo for `_noiseEditor`, but fixing it
+would change what the noise editor shows.
+
+Kept. src/app/color/color-chooser.ts `_updatePattern`; pinned by "never
+selects the noise type of the pattern in the type select" in
+color-chooser.test.ts.
+
+## Q-295 The swatches palette never stops listening
+
+Old location: designer.browser.dev.js module 1150 (`_activatePalette`).
+
+What it does: switching palettes should remove the SwatchesChangedEvent
+listener when leaving the swatches palette, but the switch tests
+`this._activatePalette` (the method) instead of `this._activePalette`,
+so it never matches. Once the swatches palette was shown, the chooser
+updates its swatch lists on every swatches change, also while another
+palette shows, and each new visit adds the listener again (the engine's
+event target decides whether it is added twice).
+
+Why it's unclear: harmless extra work rather than wrong output.
+
+Kept. src/app/color/color-chooser.ts `_activatePalette`; pinned by
+"keeps listening to swatch changes after leaving the swatches palette"
+in color-chooser.test.ts.
+
+## Q-296 The touch chooser's CMYK boxes have no width
+
+Old location: designer.browser.dev.js module 1657 (`__getColorModeParams`).
+
+What it does: the desktop chooser's params name the CMYK box width
+`cmykWidth` (18%); the touch chooser spells it `cymkWidth` (12%), so
+`setColorMode` reads `undefined` and `.css("width", undefined)` writes
+nothing: the four touch CMYK boxes take their width from the stylesheet.
+
+Why it's unclear: a typo, but the touch layout may depend on it.
+
+Kept. src/app/color/pattern-chooser.ts `__getColorModeParams` and
+color-chooser.ts `setColorMode`; pinned by "switches to CMYK boxes and
+hides the map; the touch chooser's boxes get no width" in
+color-chooser.test.ts.
+
+## Q-297 The used colors palette adds rows at fixed indexes
+
+Old location: designer.browser.dev.js module 1150 (`_updateUsedPalette`).
+
+What it does: the palette starts with one row of 12 swatches and fills
+them with the document's colors. At every index divisible by 11 that
+has a color (0, 11, 22, ...) it raises the limit by 12 and appends
+another row. So one color in use already gives two rows (24 swatches,
+23 of them hidden), and the rows are added before they are needed.
+
+Why it's unclear: the intent was probably "a new row when this one is
+full", but the hidden swatches don't show.
+
+Kept. src/app/color/color-chooser.ts `_updateUsedPalette`, as before.
+Covered by the ui/color/palette-used scenarios (DOM snapshot).
+
+## Q-298 The texture tile box is disabled with the slider
+
+Old location: designer.browser.dev.js module 1150 (`_updatePattern`, texture branch).
+
+What it does: `find('[data-property="texture_tile"]').gInputSlider("disabled", ...)`
+matches both the tile slider and its text box; the plugin method sets
+the `disabled` attribute on the whole set, so the box is disabled too
+when the scale mode isn't Tile.
+
+Why it's unclear: it matches what users would expect, but only by
+accident of the selector.
+
+Kept. src/app/color/color-chooser.ts `_updatePattern` sets the attribute
+on both elements.
+
+## Q-299 A press on the slider track moves the thumb twice
+
+Old location: designer.browser.dev.js module 857 (`$.fn.gInputSlider` init).
+
+What it does: the track and the slider element (its parent) both have a
+mousedown handler that moves the thumb to the pointer, so one press on
+the track fires two "input" events with the same value. Each slider also
+adds a window mousemove and mouseup handler that is never removed.
+
+Why it's unclear: no visible effect besides the doubled event.
+
+Kept. src/app/color/opacity-slider.ts; pinned by "fires input while
+dragging and change on mouse up, reading the pointer" in
+opacity-slider.test.ts.
+
+<!-- Layers and pages (phase 6 review and phase 7) -->
+
+## Q-300 New page marks the pages header open without showing the list
+
+Old location: designer.browser.dev.js module 1260 (GOutlineSidebar.init, the create-page button).
+
+What it does: after inserting a page, the button calls
+`gAccordion("toggleOpen", true)` on the pages toolbar and then
+`gAccordion("init", $(pagePanel))`. toggleOpen only switches the header's
+classes to `expanded` and the arrow to down. The init call is meant to
+show the list again, but the element after the toolbar is the
+`.pages-container`, not the `.pages` list it is given, so it finds nothing
+and shows nothing.
+
+Why it's unclear: with the pages section folded, a new page leaves the
+header looking open (arrow down) while the list stays hidden. It looks
+like the button was meant to unfold the section.
+
+Kept. outline-sidebar.ts (create-page button) only calls
+toggleAccordionOpen; the comment there points here.
+
+## Q-301 Dragging several layer rows leaves the last name on the row
+
+Old location: designer.browser.dev.js module 1706 (row renderer, the
+title group's dragstart handler); module 1717 does it right for pages.
+
+What it does: while a drag starts, the row's title shows the names of all
+dragged nodes joined with ", ". A timer then puts back the name held in
+the loop variable, which by then is the name of the last dragged node,
+not the row's own name. The pages panel restores the row's own name.
+
+Why it's unclear: with several selected layers dragged from a row that
+isn't the last of them, that row shows another layer's name until the
+list renders again (which a drop or any change does right away).
+
+Kept. layers-panel.ts restores the loop's last name (comment in the
+dragstart handler).
+
+## Q-302 Alt-drag in the layers panel selects the originals
+
+Old location: designer.browser.dev.js module 1260 (GOutlineSidebar._moveLayers).
+
+What it does: with Alt held, a moved node that has the Store mixin is
+cloned and the clone inserted at the drop place, the original stays.
+Afterwards the selection is set to the nodes that were dragged, i.e. the
+originals, not the copies.
+
+Why it's unclear: after duplicating by Alt-drag, the copies are where the
+user dropped them but the originals are selected. The separate duplicate
+path (`_duplicateLayerTreeNodeCallback`) selects the copies.
+
+Kept. outline-sidebar.ts `_moveLayers` (comment before updateSelection).
+
+## Q-303 Duplicating rows doesn't block the panel's own handlers
+
+Old location: designer.browser.dev.js module 1260 (GOutlineSidebar._duplicateLayerTreeNodeCallback).
+
+What it does: the move callbacks call `gLayerPanel("blockHandlers", true)`
+before changing the scene so the panel doesn't add rows for its own
+inserts, and false afterwards. The duplicate callback calls it with
+false only, at the start.
+
+Why it's unclear: probably meant true/false like the others; as it is the
+panel adds the copies' rows through its insert handler, which also works.
+
+Kept. outline-sidebar.ts `_duplicateLayerTreeNodeCallback` (comment).
+
+## Q-304 Drop tests never collect the accepted nodes
+
+Old location: designer.browser.dev.js modules 1706 and 1717 (the default canDropCallback of the layers and pages panels).
+
+What it does: the test is meant to add the index of every accepted node
+to the output list (`o.push(l)`), but the code reads `o.push[l]`, a
+property lookup that does nothing. The tree then falls back to all
+dragged nodes, which is the same set whenever the test passes.
+
+Why it's unclear: harmless today; looks like a typo.
+
+Kept. layers-panel.ts `_canDrop`, pages-panel.ts `_canDrop` (comments).
+
+## Q-305 The layers and pages lists keep their row height as a string
+
+Old location: designer.browser.dev.js module 1260 (GOutlineSidebar._touchInterfaceUpdate) and module 451 (GVirtualTree.resetRowHeight).
+
+What it does: on boot and on every touch switch the sidebar sets the row
+height of both lists to "34" or "48", strings, which the tree stores as
+they are. Every use multiplies or subtracts it, so the arithmetic works,
+and it overrides the height measured from the stylesheet.
+
+Why it's unclear: looks accidental, but a number would behave the same
+in every use the tree has.
+
+Kept. virtual-tree.ts `resetRowHeight`, pinned by "keeps a row height set
+as a string" in virtual-tree.test.ts.
+
+## Q-306 Layer rows scroll into view on the next tick, not after 50 ms
+
+Old location: designer.browser.dev.js module 451 (GVirtualTree.expandAndFocus).
+
+What it does: the scroll to the focused row runs in
+`setTimeout(fn.bind(this, 50))`: the 50 is bound as an argument of the
+callback instead of being the delay, so the scroll runs on the next tick.
+
+Why it's unclear: the 50 ms delay was clearly intended; the visible
+difference is small.
+
+Kept. virtual-tree.ts `expandAndFocus` (comment).
+
+<!-- Document panels, library, export (phase 6 review and phase 7) -->
+
+## Q-307 Page presets excluded for templates
+
+Old location: designer.browser.dev.js module 1339 (GPageProperties: `_excludedPresets = [u.TYPE.MERCH]` and updatePropertiesAvailability).
+
+What it does: the page panel disables the preset select of a document made from a template when the selected preset's id is in `_excludedPresets`. That list holds `TYPE.MERCH`, which the preset table (module 1153) no longer has, so the list is `[undefined]`. Options without a preset id (Infinite Canvas, or no matching option) then count as excluded: for a template document on an infinite or custom-size page the preset select is disabled and gets no "can't be changed" tooltip.
+
+Why it's unclear: the merch presets went with the Corel marketplace. The rule now hits the wrong options, but it may also be meant to keep template sizes fixed.
+
+Kept. src/app/inspector/page-properties.ts (`_excludedPresets`, updatePropertiesAvailability).
+
+## Q-308 Second window of a document stops the page clip sync
+
+Old location: designer.browser.dev.js module 1339 (GPageProperties._windowEvent).
+
+What it does: on window activation the panel adds its page-activation and page-size listeners to the active document's scene, then removes them from the scene of the previously active window. When both windows show the same document (View > New Window), that is the same scene, so the remove takes away the listeners it just added. From then on page activation and page size changes no longer switch the clip (Output/Full) paint mode until a window of another document is activated.
+
+Why it's unclear: it looks like an ordering slip, but it only matters with two windows of one document.
+
+Kept. src/app/inspector/page-properties.ts `_windowEvent` (comment "Sic").
+
+## Q-309 Page size button tooltips never attach
+
+Old location: designer.browser.dev.js module 1339 (GPageProperties.init).
+
+What it does: init attaches rich tooltips to the parents of the rotate, trim, clip content and bleed fields, but those rows are built by `_updateUI` at the end of init (and again on every update), so the lookups find nothing. The buttons only have their plain `data-title` tooltips.
+
+Why it's unclear: the tooltip texts exist in the string table, so they were meant to show.
+
+Kept. src/app/inspector/page-properties.ts init (`buttonTip` runs before `_updateUI`, as before); the ui/inspector DOM snapshots show no rich tooltip markup either way.
+
+## Q-310 Slice background preview writes a custom property
+
+Old location: designer.browser.dev.js module 1272 (GSliceProperties._assignProperties).
+
+What it does: while the color chooser of a slice's background is dragged (temporary changes), the panel calls `setProperties(names, values, true)`. The third argument is `custom`, not `temporary`, so the preview goes into the custom property `@cls` and the slice doesn't show the color until the chooser commits.
+
+Why it's unclear: probably meant as the temporary flag, but the committed value is right.
+
+Kept. src/app/inspector/slice-properties.ts `_assignProperties`, pinned by document-panels.test.ts ("writes temporary changes to the custom property").
+
+## Q-311 Symbol panel adds a settings listener on every update
+
+Old location: designer.browser.dev.js module 1658 (GSymbolProperties.update).
+
+What it does: with a document, update adds its SettingChangedEvent listener before it checks the selection, but removes it only when it showed instances the last time. Every update that ends without instances leaves one more listener, so a later touch-mode switch runs `_updateUI` many times (it only mounts or unmounts checkbox sliders, of which the panel has none).
+
+Why it's unclear: harmless, but it grows with every selection change.
+
+Kept. src/app/inspector/symbol-properties.ts update.
+
+## Q-312 Typing a non-number into the isometric grid angles
+
+Old location: designer.browser.dev.js module 1659 (GSceneProperties, the ga1/ga2 change handler).
+
+What it does: the handler parses the box with `parseFloat` and checks `null !== t && "number" == typeof t`, which NaN passes. Typing text that isn't a number stores NaN as the grid angle.
+
+Why it's unclear: the check was meant to reject bad input, like the other fields' `_updateProperties()` fallback.
+
+Kept. src/app/inspector/scene-properties.ts (comment "Sic: parseFloat never gives null").
+
+## Q-313 Export dialog never closes its color chooser
+
+Old location: designer.browser.dev.js module 1513, init (the chooseropen/chooserclose handlers of .export-background-pattern-chooser) and close().
+
+What it does: the handlers are plain functions, so `this._chooserElem = $(this)` writes to the chooser element, not the dialog. The dialog's `_chooserElem` stays null, and close() never closes an open color chooser.
+
+Why it's unclear: it looks like a missing bind, but nothing visible breaks in the recorded flows.
+
+Kept. src/app/export/export-dialog.ts: the listeners do nothing and close() only closes a chooser when `_chooserElem` is set, which never happens.
+
+## Q-314 Export dialog has no output format in Assets mode
+
+Old location: designer.browser.dev.js module 1513, `_getFormat`.
+
+What it does: the "assets → zip" branch sits inside `if (this._hasFormat())`, which is false in Assets mode. So `_getFormat()` returns null there, and the storage destination list is always empty for assets.
+
+Why it's unclear: it only matters with more than one storage destination, which the browser container doesn't have.
+
+Kept. src/app/export/export-dialog.ts `_getFormat`, pinned by export-dialog.test.ts ("names the output format").
+
+## Q-315 Export dialog's settings options object is mutated
+
+Old location: designer.browser.dev.js module 1513, init (`Object.assign(a, {pro: true, ...})` for layer-as-id and preserve-editing).
+
+What it does: the shared options object is changed in place, so the later "do-not-downsample-images" row also gets the Pro badge.
+
+Why it's unclear: it only decided where Pro badges went; the licence is gone.
+
+Kept as a no-op (badges dropped). It explains the `.pro` markup in parity/expected/ui/dialog/export-pdf-advanced.dom.json, which needs a DROP exception.
+
+## Q-316 The export dialog remembers settings by reference
+
+Old location: designer.browser.dev.js module 1513, constructor and `_export` (`f = this._settings`).
+
+What it does: a dialog without options stores its settings object after an export. The next dialog copies it shallowly, so they share the same `configuration` object. Toggling "With effects" in a later dialog changes the remembered value even if that dialog is cancelled.
+
+Why it's unclear: probably unintended, but not visibly wrong in the recorded flows.
+
+Kept. src/app/export/export-dialog.ts (rememberedSettings), covered by import-export/ui/dialog-remembers-settings.
+
+## Q-317 The library panel can't load assets any more
+
+Old location: designer.browser.dev.js modules 1662 (GLibrarySidebar) and 1663 (library panel, `_doLoadAssets`/`_addAsset`).
+
+What it does: the Libraries sidebar shows the category tiles and a search box, but every asset list came from the cloud marketplace (gApi.listMarket) and Unsplash (gApi.searchUnsplashPhotos, getUnsplashPhotos, getUnsplashPhotoUrl). In the old local app those calls fail at once (no API object), so a category or a search opens an empty box. The sidebar was enabled only while the cloud API was configured (isOnline) and showed an offline overlay without network.
+
+Why it's unclear: the sidebar is now a shell with nothing to insert. Removing it changes the left sidebar tabs every UI scenario records; keeping it shows a feature that can't work. A local asset source could fill it later.
+
+Kept. src/app/sidebars/library-sidebar.ts is always enabled and never offline; library-panel.ts keeps the layout, search and category code, and its market calls fail like the old ones (marketApi()). The asset tiles, drag and insert code is ported except the Unsplash photo download. Pinned by ui/library/category-open, ui/library/search-typed, ui/shell/left-libraries and library-panel.test.ts.
+
+## Q-318 Library categories still point at the old asset CDN
+
+Old location: chunk.vendor.js module 832 (config ELEMENTS), used by designer.browser.dev.js module 1664.
+
+What it does: each category tile's icon is an `<img>` with a URL on dkqeh8b5t3gxm.cloudfront.net. In the parity runs the host doesn't resolve, so the icons show as broken images in both apps. Unsplash Photos is listed because ENABLE_UNSPLASH_INTEGRATION was true.
+
+Why it's unclear: the new app makes requests to a third-party CDN that no longer serves anything useful, and the DOM snapshots record those URLs. Local icons would change the recordings.
+
+Kept. src/app/sidebars/library-elements.ts holds the table byte for byte, Unsplash included. Pinned by the ui/library/* and ui/shell/left-libraries DOM snapshots and library-panel.test.ts.
+
+<!-- Touch UI and font panels (phase 6 review and phase 7) -->
+
+## Q-319 The assistant bar stores its right side as "left-side"
+
+Old location: designer.browser.dev.js module 1587 (the assistant bar's init).
+
+What it does: the arrow keys sit on the bar's right side, which folds
+away. Its state is stored under `designer.assistant-bar.left-side.expanded`
+and restored from there when the bar is built.
+
+Why it's unclear: the key names the other side. Renaming it would lose
+the state users already have stored.
+
+Kept. src/app/touch/virtual-key-bar.ts (EXPANDED_PROPERTY); pinned in
+touch.test.ts ("stores the arrow side's state and restores it") and by
+ui/touch/assistant-toggle-state.
+
+## Q-320 A tap on a virtual key sends keyup twice
+
+Old location: designer.browser.dev.js module 1587 (the virtual key's mouseup and click handlers).
+
+What it does: mousedown sends keydown, then both the wrapper's mouseup
+and the button's click send keyup (and release the modifier) for the
+same key, so the view gets keydown, keyup, keyup.
+
+Why it's unclear: one release per press looks intended; the second
+keyup does nothing visible since the key is already up.
+
+Kept. src/app/touch/virtual-key-bar.ts (`release` from both handlers);
+pinned by ui/touch/virtual-keys.
+
+## Q-321 Both touch sidebars fall back to the right sidebar's width
+
+Old location: designer.browser.dev.js module 1540 (GSidebars._setDefaultRightSidebarWidthForTouch).
+
+What it does: when a touch toolbar update finds no active touch tool,
+it sets the side's width to 300px, on the left sidebars as well as the
+right ones, although the value and method are named for the right side.
+
+Why it's unclear: probably written for the right side only; the left
+side's width doesn't show in the touch layout until a tool opens, which
+sets the width again.
+
+Kept. src/app/touch/touch-toolbar.ts (DEFAULT_WIDTH_FOR_TOUCH); pinned in
+touch.test.ts ("puts a button per tool first, ...").
+
+## Q-322 The touch menu's action buttons have no label from the action
+
+Old location: designer.browser.dev.js module 1563 (GContextMenu._createActionButton).
+
+What it does: for a button backed by an action it computes the label
+from the action's title when none was given, but then only adds a label
+when the caller passed one, so the computed title is never shown.
+
+Why it's unclear: looks like the label was meant to fall back to the
+title. The icon-only buttons (flip, rotate, clip, ...) are what the old
+app showed.
+
+Kept. src/app/touch/touch-context-menu.ts `_createActionButton`; pinned by
+ui/touch/context-menu.dom.
+
+## Q-323 Enter in the font list picks the font once per loaded page
+
+Old location: designer.browser.dev.js module 1701, function `l` (the row builder).
+
+What it does: every time a batch of rows is added (the first list and
+each page loaded while scrolling or selecting), it binds another keydown
+handler on the panel. The font button's Enter triggers keydown on every
+`.g-fonts-panel`, so the hovered font is picked, and assignFontCallback
+runs, once per batch added since the panel was made.
+
+Why it's unclear: looks like a handler meant to be bound once; picking
+the same family repeatedly has no visible effect except repeated
+property writes.
+
+Kept. src/app/fonts/fonts-panel.ts `_append` adds a handler per batch.
+
+## Q-324 The web fonts tab adds a missing system fonts provider
+
+Old location: designer.browser.dev.js module 1700, the tab click handler in `g`.
+
+What it does: outside the desktop runtimes it reads
+`gContainer.getSystemFontsProvider()` and pushes it to the providers to
+disable only when it is falsy (`d || c.push(d)`), so it either pushes
+nothing or a null that would make disableProviders throw. The browser
+container always returned the native fonts module, so nothing was ever
+pushed.
+
+Why it's unclear: the condition looks inverted; the intent was probably
+to disable the system provider when there is one.
+
+Kept as the browser behaved: src/app/fonts/fonts-button.ts pushes nothing
+there (the new browser container has no system fonts provider, so the
+literal code would throw). Pinned by fonts-button.test.ts ("builds the
+tabs...": only the imported and local providers are disabled).
+
+## Q-325 The weights of a family the font cache doesn't have throw
+
+Old location: designer.browser.dev.js module 1701, `weightsForFont`.
+
+What it does: reads `isLocalFont` from the cache lookup before checking
+that the lookup found anything, so for an unknown family the promise
+rejects with a TypeError instead of answering null like the other
+lookups.
+
+Why it's unclear: the null check right after shows null was expected;
+the text panel awaits the result.
+
+Kept. src/app/fonts/fonts-panel.ts `weightsForFont`; pinned in
+fonts-panel.test.ts ("reads names, styles and weights from the cache").
+
+## Q-326 Weights of the family itself count twice with `exact`
+
+Old location: designer.browser.dev.js module 1701, `weightsForFont`.
+
+What it does: with the third argument set, a font whose own family
+equals the asked family pushes its weight twice (once for the match,
+once unconditionally).
+
+Why it's unclear: probably meant `else`; the text panel dedupes with
+GUtil.unique, so it doesn't show.
+
+Kept. src/app/fonts/fonts-panel.ts; pinned in fonts-panel.test.ts.
+
+## Q-327 Google font previews refetch every later batch
+
+Old location: designer.browser.dev.js module 1379, addPreviews.
+
+What it does: a batch file (ten families) is fetched only from the first
+batch whose first family has no cached preview; the flag is never
+reset, so every later batch in the same call is fetched again even when
+cached. A family missing from the list stops the call with a console
+warning.
+
+Why it's unclear: looks like a per-batch check written with a shared
+flag.
+
+Kept. src/app/fonts/web-fonts-provider.ts addPreviews; pinned in
+previews.test.ts.

@@ -63,8 +63,9 @@ The old order is kept exactly (bootstrap a1483, GDesigner a1491):
    sidebars, windows, banner, overlay. Then the default sidebars, the
    tool and the menu, `#mainframe` shown, `_initialized = true`.
 
-The React root is created once in `main.tsx` on `#root`; `installShell`
-renders `<App designer={designer} />` into it. Code that needs the DOM
+The React root is `#mainframe` itself: `installShell` (shell/mount.tsx)
+prepends `#mainframe` to body when Designer.init asks for the shell, as
+GDesigner.init did, creates the root on it and renders `<App />` into it. Code that needs the DOM
 right after a state change (old code measuring `outerHeight` after
 `.css(...)`) runs after a synchronous render or writes the DOM itself
 (section 5).
@@ -178,7 +179,7 @@ Keep class order as the old code added it; the DOM snapshots record
 
 ### Who owns which element: parts, containers and islands
 
-- App.tsx renders only `#mainframe > .frame` and the empty part
+- App.tsx renders only `.frame` (inside `#mainframe`) and the empty part
   elements (`#windows`, `#info`, `#header`, `#toolbar`, `#banner`,
   `#overlay`, `#panels`, `#footer`, `#left-sidebars`,
   `#right-sidebars`, in the old order) plus `<OverlayHost/>`. It never
@@ -250,12 +251,11 @@ folder, see server/paths.ts).
 
 ### Where elements live
 
-- The shell renders into `#root`: `body > #root > #mainframe > .frame >
-  parts`. `#root` has `style="display: contents"` in index.html, so it
-  makes no box and `#mainframe { height: 100% }` resolves against body as
-  before. No old selector depends on `#mainframe` being a direct child of
-  body (checked in both stylesheets; `body > form` is the only `body >`
-  rule).
+- `body > #mainframe > .frame > parts`, with `#mainframe` the first
+  child of body as before. The old stylesheets depend on it: rules such
+  as `body.g-quick-help > #mainframe > div > #left-sidebars` select
+  direct children, so no wrapper element may sit between body and
+  `#mainframe` or between `#mainframe` and `.frame`.
 - There is no `<StrictMode>`: its double effects and refs would change
   the order of G event subscriptions.
 - Everything the old app appended to `body` (dialogs, menus, tooltips,

@@ -47,6 +47,27 @@ Decisions taken:
   intersection code, the Sly selector engine and zip.js v1 are modified
   forks in the old bundle, so they are ported, not taken from npm.
 
+## Decisions by the user (2026-10-24)
+
+- The annotations (comments) sidebar's tab row above the inspector is
+  removed with the sidebar; scenarios that differ only by it get a DROP
+  exception (REMOVED.md).
+- Bug-fix pass: fix every clear old bug (crash, data loss, wrong output,
+  broken UI) with a BUGS-FIXED entry, a test for the correct behaviour, a
+  parity exception and its own `fix:` commit. Odd but harmless quirks stay.
+- Cutover: next/ moves to the repo root; the old app moves to legacy/.
+- Desktop updates: electron-builder publishes to and checks GitHub
+  Releases of GravitDesign/designer (the repo moved there from
+  rathlinus/gravit-designer). Nothing is published or pushed by the agent.
+- Packaging: every target (Windows nsis + portable, Linux AppImage + deb,
+  macOS dmg x64 + arm64) is built in GitHub Actions; Windows is also built
+  and launch-tested locally.
+- First start after the old desktop app: take over settings, swatches and
+  the other kept localStorage keys, the imported fonts (IndexedDB
+  gravitFontsDB) and the recent files list.
+- Overnight: undecided points are decided closest to the old behaviour,
+  logged in QUESTIONS.md, and work carries on.
+
 ## Phases
 
 | # | Phase | State |
@@ -346,6 +367,25 @@ passed every check.
 
 ## Pending harness work
 
+- Removed-features pass (after the last UI clusters): add DROP entries
+  with `.fixed` files for the scenarios that differ only because of a
+  removed feature: Pro classes and badges (`.pro`, `select.pro`,
+  `span.pro`, `legacy-feature`), the login/persona area of the header
+  (remove the empty `.g-persona-bar`/`.g-persona-container` the menus
+  port keeps; editor-actions/registry/cloud-ui requires them gone, decided
+  2026-10-24), the share/collaborator toolbar elements, File > Open from
+  template, the annotations (comments) sidebar with its 32 px tab row
+  above the inspector and its View menu entry, the iOS import actions.
+  Each .fixed must differ from the old expected file only in the removed
+  part.
+- Removed-feature exceptions (decided 2026-10-23): editor-actions/exec
+  font.import, file.export, file.save-as.pdf.300 and file.export.pdf record
+  `pro: true`, which came from the old bootstrap Pro wrapper (license). The
+  new app has no Pro actions. Extend parity/support/exceptions.ts with
+  DROP-NNN files documented in a new docs/rewrite/REMOVED.md (same
+  `.fixed` mechanism, each entry naming what was removed and why), add
+  DROP-001 "No Pro actions" with `.fixed` files that equal the old output
+  except `pro: false`, when the actions cluster is committed.
 - Touch screenshots flaked twice in about 110 runs under load
   (annotations/touch-transform-box-icon-handles: the preserve-aspect-ratio
   icon missing, 27 px; touch/handles-overlay): probably the handle icon
