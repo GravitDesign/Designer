@@ -1,6 +1,6 @@
 // Old: designer.browser.dev.js module 1500 (GHeader).
 /**
- * The #header part: the menu bar, the (empty) persona bar, the document
+ * The #header part: the menu bar, an empty spacer section, the document
  * tabs, the busy indicator. A tab shows its window's title (with a "*"
  * while modified) and a close button; a click activates the window, a
  * right click opens the tab menu (rename, save, export, duplicate, close
@@ -32,6 +32,7 @@ import { SettingChangedEvent } from "../shell/setting-changed-event.ts";
 import type { Window } from "../shell/window.ts";
 import { WindowEvent } from "../shell/windows.ts";
 import type { Action } from "../actions/action.ts";
+import { applicationManager } from "../actions/host.ts";
 import { Key, type KeyValue } from "../../engine/core/key.ts";
 import { Menu } from "./menu.ts";
 import { MenuBar } from "./menu-bar.ts";
@@ -129,7 +130,7 @@ const TAB_MENU: readonly TabMenuEntry[] = [
       this._renameTab(window, tab);
       return true;
     },
-    isEnabled: () => true,
+    isEnabled: () => applicationManager().isEditingEnabled(),
     isVisible: () => true,
   },
   { separator: true, isVisible: () => true },
@@ -199,7 +200,8 @@ const TAB_MENU: readonly TabMenuEntry[] = [
       copy.setTitle(newTitle);
       designer().addDocument(copy, index + 1);
     },
-    isEnabled: () => true,
+    // GExternalStorage files couldn't be duplicated; that storage is dropped.
+    isEnabled: () => applicationManager().isSavingAsEnabled(),
     icon: "gravit-icon-duplicate",
   },
   { separator: true },
@@ -295,13 +297,10 @@ export class Header {
     const menu = div("section", "menu");
     menu.append(this._menuBar._htmlElement);
     this._htmlElement.append(menu);
-    // The persona bar (module 1502) is dropped; with a single persona it
-    // was these two empty elements, which the header layout keeps.
-    const persona = div("section", "persona");
-    const personaBar = div("g-persona-bar");
-    personaBar.append(div("g-persona-container"));
-    persona.append(personaBar);
-    this._htmlElement.append(persona);
+    // The persona bar (module 1502) is dropped with the account UI
+    // (REMOVED.md DROP-003). Its empty section stays: the stylesheet gives
+    // it flex-grow, which keeps the document tabs at the right end.
+    this._htmlElement.append(div("section", "persona"));
     this._windows = div("section", "windows");
     this._windows.append(this._createWindows());
     this._htmlElement.append(this._windows);
@@ -384,6 +383,8 @@ export class Header {
           if (tabWindows.get(element) !== window) continue;
           const modified = eventDocument.isModified() ? "*" : "";
           const cover = element.querySelector<HTMLElement>(".title > .cover");
+          // Text, where the old code set it as HTML: see "Menu captions
+          // and tab titles are text" in QUESTIONS.md.
           if (cover) cover.textContent = window.getTitleWithExtension() + modified;
           const input = element.querySelector<HTMLInputElement>(".title > input");
           if (input) input.value = window.getTitle() + modified;
@@ -438,6 +439,8 @@ export class Header {
     const title = div("title");
     const cover = document.createElement("span");
     cover.classList.add("cover");
+    // Text, where the old code set it as HTML: see "Menu captions and tab
+    // titles are text" in QUESTIONS.md.
     cover.textContent = window.getTitleWithExtension();
     const input = document.createElement("input");
     input.setAttribute("type", "text");
