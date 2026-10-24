@@ -2190,7 +2190,7 @@ What it does: when inline editing ends while an IME composition is open, deactiv
 
 Why it's unclear: probably an oversight (deactivate never resets the composition state), but changing it alters what keys do after an interrupted IME session.
 
-Kept. inline-text-editor.ts keeps deactivate as it was; "composition state survives deactivation" in inline-text-editor.test.ts (recorded from the old app) pins it.
+Fixed: see BUG-056 in BUGS-FIXED.md.
 
 ## Q-186 Scene editor rotation zone shows the plain rotate cursor
 

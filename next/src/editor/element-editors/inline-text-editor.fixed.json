@@ -1,0 +1,111 @@
+{
+  "_comment": "Cases of inline-text-editor.fixture.json whose old behaviour is a fixed bug: the steps the new app gives. See BUG-056 in docs/rewrite/BUGS-FIXED.md.",
+  "cases": [
+    {
+      "name": "composition state survives deactivation",
+      "bug": "BUG-056",
+      "content": "Hello world",
+      "steps": [
+        {
+          "op": ["select", 3, 3],
+          "result": "<undefined>",
+          "plain": "Hello world",
+          "sel": [3, 3],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["compStart"],
+          "result": "<undefined>",
+          "plain": "Hello world",
+          "sel": [3, 3],
+          "focus": null,
+          "delta": 0,
+          "last": 0,
+          "comp": true,
+          "tx": []
+        },
+        {
+          "op": ["input", "a"],
+          "result": false,
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 1,
+          "comp": true,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["deactivate"],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [0, 0],
+          "focus": 4,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["activate"],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [4, 4],
+          "focus": 4,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["select", 3, 3],
+          "result": "<undefined>",
+          "plain": "Helalo world",
+          "sel": [3, 3],
+          "focus": 4,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        },
+        {
+          "op": ["key", "BACKSPACE"],
+          "result": true,
+          "plain": "Healo world",
+          "sel": [2, 2],
+          "focus": 2,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["key", "ENTER"],
+          "result": true,
+          "plain": "He\nalo world",
+          "sel": [3, 3],
+          "focus": 2,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": [["begin"], ["commit", "Edit text"]]
+        },
+        {
+          "op": ["key", "LEFT"],
+          "result": true,
+          "plain": "He\nalo world",
+          "sel": [2, 2],
+          "focus": 2,
+          "delta": 0,
+          "last": 0,
+          "comp": false,
+          "tx": []
+        }
+      ]
+    }
+  ]
+}

@@ -12,6 +12,7 @@ import type { InlineTextEditor } from "./inline-text-editor.ts";
 import { type DomKeyEvent } from "./inline-text-editor.ts";
 import { FakeView, textSetup, type TextSetup } from "./text-editor.testing.ts";
 import recorded from "./inline-text-editor.fixture.json";
+import fixed from "./inline-text-editor.fixed.json";
 
 let uninstall: () => void;
 beforeAll(() => {
@@ -369,10 +370,16 @@ describe("GInlineTextEditor", () => {
       variants?: { style: string; weight: number }[];
       steps: Step[];
     }[]) {
-      it(recordedCase.name, () => {
+      // A recorded case whose old behaviour is a fixed bug is compared with
+      // the steps in inline-text-editor.fixed.json instead.
+      const fixedCase = (fixed.cases as { name: string; bug: string; steps: Step[] }[]).find(
+        (c) => c.name === recordedCase.name,
+      );
+      const title = fixedCase ? `${fixedCase.bug}: ${recordedCase.name}` : recordedCase.name;
+      it(title, () => {
         const setup = inlineSetup(recordedCase.content, recordedCase.variants);
         setup.host.calls.splice(0);
-        for (const step of recordedCase.steps) {
+        for (const step of fixedCase ? fixedCase.steps : recordedCase.steps) {
           const result = run(setup, step.op);
           const { op, result: expectedResult, ...expected } = step;
           expect({

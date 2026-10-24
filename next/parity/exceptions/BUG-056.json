@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-056",
+  "why": "Ending an inline editing session ends an open IME composition, so editing keys work in the next session. extra/ime-composition commits its composition before the session ends and gives the same output, so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}

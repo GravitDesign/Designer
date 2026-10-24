@@ -1219,3 +1219,30 @@ Old code: chunk.vendor.js module 39 (GBaseEditor.getOutlineColor), lines
 - Parity exceptions: none. editor-tools/eledit/adaptive-outline-white and
   adaptive-outline-dark give the same screenshots in the new app (re-run
   against the fixed build).
+
+## BUG-056 After an editing session ends mid-composition, editing keys do nothing
+
+Old code: chunk.vendor.js module 752 (GInlineTextEditor deactivate 102926,
+_compStart 103462, _compEnd 103470).
+
+- Reproduce: start an IME composition in an inline text editing session
+  and end the session (click outside, Escape) before committing it, then
+  edit the same text again.
+- Old: deactivate released the input box before compositionend arrived,
+  so the composition stayed on. The text editor reuses the same inline
+  editor, and in the next session every key went through the composition
+  branch: Backspace, Enter, Delete, Up/Down and Tab did nothing until a
+  new composition started and ended; Left/Right/Home/End used the stale
+  composition counters (Q-185).
+- New: deactivate ends the composition state (composition off, counters
+  0), so the next session starts like a fresh one.
+- Test: src/editor/element-editors/inline-text-editor.test.ts, "BUG-056:
+  composition state survives deactivation". It replays the old app's
+  recording of that name against the steps in
+  inline-text-editor.fixed.json, which equal the recording up to the
+  deactivate step; from there the composition is off and its counters 0,
+  Backspace deletes the character before the caret, Enter inserts a line
+  break and Left moves the caret by one. Fails with the old code (comp
+  true after deactivate).
+- Parity exceptions: none. editor-tools/extra/ime-composition commits its
+  composition before the session ends and gives the same output.

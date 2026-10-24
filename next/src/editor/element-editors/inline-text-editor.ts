@@ -200,6 +200,13 @@ export class InlineTextEditor extends GObject {
     view.removeEventListener(KeyEvent.Down, this._keyDown, this);
     view.removeEventListener(KeyEvent.Release, this._keyUp, this);
     this._view = null;
+    // A composition still open ends with the session: its compositionend
+    // never arrives once the input box is released. The old code kept it
+    // on, and the next session ignored the editing keys (BUG-056 After an
+    // editing session ends mid-composition, editing keys do nothing).
+    this._compositionOn = false;
+    this._lastCompositedTextLength = 0;
+    this._compositionSelectionDelta = 0;
   }
 
   /**
