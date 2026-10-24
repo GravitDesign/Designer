@@ -117,11 +117,12 @@ export function optimizeImport(container: Node): void {
       }
       parent.removeChild(next);
       (node as unknown as OptimizedNode)._blockUpdateChanges();
-      // Sic: the loop reads getNext() of a child it just moved, so only
-      // the first child of `next` moves and the others are dropped with it.
-      // An old bug (data loss), kept until its fix: a BUGS-FIXED candidate.
+      // Moves every child of `next`; the old loop read getNext() of a child
+      // it had just moved and dropped all but the first ("Merging equal clip
+      // paths on import keeps only the first child of the second" in
+      // BUGS-FIXED.md).
       const merged = next as OptimizedNode;
-      for (let child = merged.getFirstChild(); null !== child; child = child.getNext()) {
+      for (let child = merged.getFirstChild(); null !== child; child = merged.getFirstChild()) {
         merged.removeChild(child);
         node.appendChild(child);
       }

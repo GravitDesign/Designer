@@ -117,12 +117,16 @@ describe("import optimiser", () => {
     expect(group.getChildren()).toHaveLength(2);
   });
 
-  it("moves only the first child of the merged path, like the old loop", () => {
+  it("moves every child of the merged path, in order (BUG-101)", () => {
     const group = new Group();
-    group.appendChild(clipPath(1));
-    group.appendChild(clipPath(3));
+    const first = clipPath(1);
+    const second = clipPath(3);
+    const moved = second.getChildren();
+    group.appendChild(first);
+    group.appendChild(second);
     optimizeImport(group);
-    expect(group.getChildren()).toHaveLength(1);
-    expect((group.getFirstChild() as Path).getChildren()).toHaveLength(2);
+    expect(group.getChildren()).toEqual([first]);
+    expect(first.getChildren().slice(1)).toEqual(moved);
+    expect(first.getChildren()).toHaveLength(4);
   });
 });

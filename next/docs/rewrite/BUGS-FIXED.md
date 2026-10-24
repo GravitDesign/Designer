@@ -1304,3 +1304,38 @@ Old code: designer.browser.dev.js module 163, GDocument.deserializeData
   corpus/edge/invalid-json/state records the old behaviour (status
   "loading"); its suite doesn't run against the new app yet, so it is
   pending.
+
+## BUG-101 Merging equal clip paths on import keeps only the first child of the second
+
+Old code: designer.browser.dev.js module 163, the import optimiser
+(function Q, lines 8374-8398; the loop at 8393).
+
+- Reproduce: open, place or drop a PDF, AI or EPS file in which two
+  sibling paths with the same geometry and style follow each other and
+  both have children (clip paths, whose clipped content is their
+  children), the second one with more than one child. The optimiser that
+  runs after every PDF, AI and EPS import merges the second path into the
+  first.
+- Old: the loop that moves the second path's children reads getNext() of
+  the child it has just appended to the first path, which is then the
+  last child and has no next. Only the first child moves; the second path
+  is removed with all its other children, and that content is gone from
+  the document.
+- New: every child of the second path moves into the first, in order.
+  Paths without children, and merges where the second path has one
+  child, give the same result as before.
+- Test: src/app/document/import.test.ts, "moves every child of the merged
+  path, in order (BUG-101)" (fails with the old loop: the first path has
+  2 children instead of 4).
+- Parity exceptions: none (parity/exceptions/BUG-101.json lists no
+  scenarios). Checked by running every import-export/import open, place and drop
+  scenario for PDF, AI, EPS and PS files against the new app with the
+  fix, including the ones not enabled yet: the documents equal the old
+  recordings (drop/pdf-plain.pdf, drop/eps-gradient.eps and their .doc
+  scenarios, open/pdf-plain.pdf, pdf-images.pdf, pdf-vector-2pages.pdf,
+  eps-gradient.eps, eps-shapes.eps, eps-image-hex.eps, place/eps-shapes.eps,
+  place/pdf-vector-2pages.pdf and the rest), so no fixture has such a
+  merge. The scenarios that failed did so on dialogs the new app doesn't
+  show yet (the missing-fonts and error dialogs), not on the document;
+  open/ai-saved-as-pdf and its .state timed out waiting for the
+  missing-fonts dialog before the document was read.

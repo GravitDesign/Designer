@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-101",
+  "why": "Merging two equal sibling paths on import moves every child of the second into the first, not only the first child. Every PDF, AI, EPS and PS scenario of import-export/import (open, place and drop, enabled or not) gives the same document with the fix, so no fixture has such a merge and no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}
