@@ -1,10 +1,11 @@
 {
   "bug": "BUG-026",
-  "why": "Undo, Save, Redo of an inserted image keeps the image's data: an entry a save dropped because nothing referred to it comes back when a node with its url is inserted again. In the two Flatten scenarios the document after Redo serializes like the document after Flatten (\"same as after\") instead of failing with \"Missing entry value for dictionary://...\"; the rest of the output is unchanged. The pending scenarios record the same failure for the modify shortcuts, Paste Image and dropped PNG files.",
-  "scenarios": ["editor-actions/exec/modify.path2bmp", "editor-actions/exec/modify.path2bmp--two"],
-  "pending": [
+  "why": "Undo, Save, Redo of an inserted image keeps the image's data: an entry a save dropped because nothing referred to it comes back when a node with its url is inserted again. In the Flatten scenarios, the modify shortcuts and the dropped PNG files the document after Redo serializes like the document after Flatten (\"same as after\") instead of failing with \"Missing entry value for dictionary://...\"; the rest of the output is unchanged. The pending scenarios record the same failure for the modify shortcuts, Paste Image and dropped PNG files.",
+  "scenarios": [
+    "editor-actions/exec/modify.path2bmp",
+    "editor-actions/exec/modify.path2bmp--two",
     "editor-actions/shortcuts/modify",
-    "editor-actions/clipboard/paste-events",
     "editor-actions/dnd/drops"
-  ]
+  ],
+  "pending": ["editor-actions/clipboard/paste-events"]
 }

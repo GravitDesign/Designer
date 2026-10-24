@@ -282,6 +282,7 @@ license WebSocket server attached to the same HTTP server).
 - Parity exceptions: electron/port-in-use. The .fixed file is the new
   app's recorded output; the old expected file records the uncaught
   exception box, a process that has to be killed and no will-quit.
+
 ## BUG-009 A painting error leaves the render phase on and the view stops repainting
 
 Old code: chunk.vendor.js module 663, _paintAndRenderInternal (93530-93568,
@@ -843,10 +844,13 @@ at 92322).
   editor-actions/exec/modify.path2bmp and modify.path2bmp--two: the
   document after Redo is "same as after" (it serializes like the
   document right after Flatten) instead of the serialize error; nothing
-  else in the output changes. Pending, not enabled for the new app yet:
-  editor-actions/shortcuts/modify (modify.path2bmp case),
-  editor-actions/clipboard/paste-events (paste.paste) and
-  editor-actions/dnd/drops (png-file, two-files).
+  else in the output changes. The same holds for
+  editor-actions/shortcuts/modify (the flatten case) and
+  editor-actions/dnd/drops (png-file, two-files): their .fixed files
+  differ from the old ones only in those afterRedo.doc values (checked
+  with a structural diff). Pending, not enabled for the new app yet:
+  editor-actions/clipboard/paste-events (paste.paste).
+
 ## BUG-040 Toggle marquee over a highlighted selected node throws
 
 Old code: chunk.vendor.js module 82 (GEditor
@@ -1268,6 +1272,7 @@ lines 60238-60254, cleanups at 60277 and 60281.
   dragging" (fails with the old code: the page isn't highlighted).
 - Parity exceptions: none. No recorded scenario drags an element onto
   another page.
+
 ## BUG-100 A .gvdesign without a scene, or with cut-off JSON, stays Loading forever
 
 Old code: designer.browser.dev.js module 163, GDocument.deserializeData
