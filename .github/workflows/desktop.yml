@@ -1,0 +1,75 @@
+name: Desktop app (next)
+
+# Builds the desktop app (next/, Electron + electron-builder) for every
+# target the old app shipped: Windows NSIS installer and portable exe,
+# Linux AppImage and deb, macOS dmg for x64 and arm64. Every run uploads
+# the packages as workflow artifacts. A pushed version tag (v<version>,
+# matching next/package.json) also publishes them to a draft GitHub
+# release of GravitDesign/designer, with the latest*.yml files the app's
+# updater reads; publishing the draft is done by hand, and that also
+# triggers thumbnail-provider.yml, which attaches the Explorer thumbnail
+# DLL to the same release.
+on:
+  push:
+    tags: ["v*"]
+  pull_request:
+    paths:
+      - "next/electron/**"
+      - "next/server/**"
+      - "next/package.json"
+      - "next/package-lock.json"
+      - "next/vite.electron.config.ts"
+      - ".github/workflows/desktop.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: win
+          - os: ubuntu-latest
+            platform: linux
+          - os: macos-latest
+            platform: mac
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: next
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: next/package-lock.json
+      - run: npm ci
+      # Client (tsc + vite) and the Electron main process.
+      - run: npm run build
+      - name: Package
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then publish=always; else publish=never; fi
+          npx electron-builder --${{ matrix.platform }} --publish "$publish"
+        env:
+          # Only used when publishing (tags).
+          GH_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
+          # No signing certificates: build unsigned (arm64 gets an ad-hoc
+          # signature from electron-builder).
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gravit-designer-${{ matrix.platform }}
+          if-no-files-found: error
+          path: |
+            next/release/*.exe
+            next/release/*.AppImage
+            next/release/*.deb
+            next/release/*.dmg
+            next/release/*.blockmap
+            next/release/latest*.yml

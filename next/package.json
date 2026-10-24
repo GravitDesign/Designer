@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "private": true,
   "description": "Gravit Designer, rewritten in TypeScript",
+  "homepage": "https://github.com/GravitDesign/designer",
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
@@ -21,8 +22,8 @@
     "@types/ua-parser-js": "^0.7.39",
     "@vitejs/plugin-react": "^6.1.2",
     "cross-env": "^10.1.0",
-    "electron": "^45.0.0",
-    "electron-builder": "^26.15.3",
+    "electron": "45.0.0",
+    "electron-builder": "26.15.3",
     "eslint": "^10.13.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.13.0",
@@ -37,6 +38,7 @@
   "dependencies": {
     "big.js": "6.2.2",
     "comlink": "^4.4.2",
+    "electron-updater": "6.8.11",
     "express": "^5.3.0",
     "heic2any": "0.0.3",
     "mousetrap": "1.6.5",
@@ -62,7 +64,99 @@
     "parity:record": "cross-env GD_RECORD=1 playwright test --project parity",
     "parity:prove": "node scripts/prove-failing.ts",
     "inventory:check": "node scripts/inventory-check.ts",
-    "parity:mutations": "node scripts/prove-mutations.ts"
+    "parity:mutations": "node scripts/prove-mutations.ts",
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:linux": "npm run build && electron-builder --linux",
+    "dist:mac": "npm run build && electron-builder --mac"
   },
-  "main": "dist-electron/main.js"
+  "main": "dist-electron/main.js",
+  "build": {
+    "appId": "com.gravit.designer.local",
+    "productName": "Gravit Designer",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "!dist/**/*.map",
+      "dist-electron/main.js",
+      "electron/preload.cjs",
+      "package.json",
+      "!node_modules/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "../public/assets",
+        "to": "assets"
+      },
+      {
+        "from": "../docs",
+        "to": "docs"
+      }
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "GravitDesign",
+        "repo": "designer"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "../public/assets/prerendered/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "../public/assets/prerendered/icon.ico",
+      "uninstallerIcon": "../public/assets/prerendered/icon.ico"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "../public/assets/prerendered",
+      "category": "Graphics",
+      "maintainer": "GravitDesign <https://github.com/GravitDesign/designer>"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "../public/assets/prerendered/icon512.png",
+      "category": "public.app-category.graphics-design"
+    }
+  }
 }
