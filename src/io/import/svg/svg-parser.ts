@@ -180,11 +180,11 @@ function fontKey(a: unknown, b?: unknown, c?: unknown): string {
 
 /**
  * svg.fontProvider: queues the queries to the options' font provider by
- * key and answers every waiting query with the first answer. The key is
- * fontKey(query), and a query is an object, so every query has the same
- * key "[object Object]_undefined_undefined": while one is out, later
- * ones wait for its answer and get the same one (QUESTIONS.md "SVG
- * import font provider queue").
+ * family, style and weight and answers every waiting query of the same
+ * font with the first answer. The old code built the key from the query
+ * object itself, so every query waited for the first one and got its
+ * answer (BUGS-FIXED.md "BUG-072 Font queries are keyed "[object
+ * Object]", so families get each other's answer").
  */
 class FontProviderQueue {
   fontsToResolve = 0;
@@ -197,11 +197,12 @@ class FontProviderQueue {
 
   queryFirst(query: FontQuery, callback: FontAnswerCallback): void {
     if (0 == this.fontsToResolve) this.parser.beginJob();
-    let callbacks = this.fontCallbackMap.get(fontKey(query));
+    const key = fontKey(query.fontFamily, query.fontStyle, query.fontWeight);
+    let callbacks = this.fontCallbackMap.get(key);
     if (!callbacks) {
       this.fontsToResolve++;
       callbacks = [];
-      this.fontCallbackMap.set(fontKey(query), callbacks);
+      this.fontCallbackMap.set(key, callbacks);
     }
     callbacks.push(callback);
     if (1 === callbacks.length) {
@@ -214,8 +215,8 @@ class FontProviderQueue {
       // is asked for after another resolved").
       (this.fontProvider as FontProvider).queryFirst(query, (...answer) => {
         const last = --this.fontsToResolve === 0;
-        const waiting = this.fontCallbackMap.get(fontKey(query));
-        this.fontCallbackMap.delete(fontKey(query));
+        const waiting = this.fontCallbackMap.get(key);
+        this.fontCallbackMap.delete(key);
         try {
           if (waiting) waiting.forEach((fn) => fn(...answer));
         } finally {

@@ -965,7 +965,7 @@ What it does: queries to the font provider are queued by a key built from the qu
 
 Why it's unclear: the key was meant to tell families apart. With a provider that answers synchronously nothing waits, so whether two families get mixed up depends on the provider.
 
-Kept. Pinned by the io-import-svg/font-fallback-svg parity scenario (the recorded provider queries) and next/src/io/import/svg/svg-parser.test.ts "passes every argument of the provider's answer to every waiting query".
+Fixed: see BUG-072 in BUGS-FIXED.md.
 
 ## Q-078 SVG import nested svg
 

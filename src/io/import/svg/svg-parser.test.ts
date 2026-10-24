@@ -260,6 +260,35 @@ describe("the font provider queue (old chunk.vendor.js 245127-245131)", () => {
       [{ family: "A" }, "extra", 3],
     ]);
   });
+
+  it("asks for each family on its own and answers it with its own answer (BUG-072)", () => {
+    const asked: string[] = [];
+    const answers: ((...args: unknown[]) => void)[] = [];
+    const svg = new SvgParser(
+      {
+        fontProvider: {
+          queryFirst(query: { fontFamily: string }, done: (...args: unknown[]) => void) {
+            asked.push(query.fontFamily);
+            answers.push(done);
+          },
+        },
+      } as unknown as ConstructorParameters<typeof SvgParser>[0],
+      null as unknown as FontManager,
+    );
+    type Query = Parameters<SvgParser["fontProvider"]["queryFirst"]>[0];
+    const query = (fontFamily: string, fontWeight = 400) =>
+      ({ fontFamily, fontWeight, fontStyle: "N" }) as unknown as Query;
+    const got: Record<string, unknown> = {};
+    svg.fontProvider.queryFirst(query("A"), (answer) => (got.A = answer));
+    svg.fontProvider.queryFirst(query("B"), (answer) => (got.B = answer));
+    svg.fontProvider.queryFirst(query("A", 700), (answer) => (got.A700 = answer));
+    expect(asked).toEqual(["A", "B", "A"]);
+    answers[1]?.({ family: "B" });
+    answers[0]?.(null);
+    answers[2]?.({ family: "A", weight: 700 });
+    expect(got).toEqual({ A: null, B: { family: "B" }, A700: { family: "A", weight: 700 } });
+    expect(svg.jobs).toBe(0);
+  });
 });
 
 describe("BUG-071: fonts asked for after another font resolved", () => {

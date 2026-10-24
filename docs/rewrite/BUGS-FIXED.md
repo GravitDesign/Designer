@@ -1859,3 +1859,36 @@ listeners (_resolvedFont and addFontToResolve, 245165-245185 and
   takes the same path without the fallback query) give exactly the
   `.fixed` node, apart from the random ids; only the recorded provider
   queries differ, by the query for the unknown family.
+
+## BUG-072 Font queries are keyed "[object Object]", so families get each other's answer
+
+Old code: chunk.vendor.js module 1391, svg.fontProvider.queryFirst,
+lines 245110-245135.
+
+- Reproduce: import an SVG with two texts in different font families (or
+  weights or styles), with a font provider that answers asynchronously,
+  as the app's font library search does. For example a text in an
+  unknown family next to one in "Robotto", which the provider maps to a
+  library family.
+- Old: the queue that collects the queries to the font provider keyed
+  them by `family_style_weight`, but built the key from the query object
+  itself, so every key was "[object Object]_undefined_undefined". While
+  one query was out, every later one waited for it and got its answer:
+  the second family was never asked for, and bold or italic texts got the
+  weight and style of the first query.
+- New: queries are keyed by family, style and weight. Queries for the
+  same font still share one request and one answer.
+- Test: src/io/import/svg/svg-parser.test.ts, "asks for each family on
+  its own and answers it with its own answer (BUG-072)" (fails with the
+  old key: the provider is asked only once).
+- Parity exceptions: io-import-svg/font-fallback-svg, text-svg,
+  text-encodings-svg, text-layout-svg and text-unknown-family-svg. The
+  `.fixed` files ask the provider for each family, weight and style, and
+  the texts get their own answer: "Robotto" becomes Parity Serif, bold
+  and italic texts keep `_tfw`/`_tfs`. Checked against the old app: with
+  the scenario's provider made synchronous (so nothing waits in the old
+  queue) the old app gives exactly the `.fixed` nodes, apart from the
+  random ids; only the recorded query lists differ, because the old app
+  then asks again for queries the new queue shares. Pending, not enabled
+  for the new app yet: import-export/import/open/svg-font-fallback.svg
+  (and its render).

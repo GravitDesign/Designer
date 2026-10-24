@@ -1,0 +1,15 @@
+{
+  "bug": "BUG-072",
+  "why": "SVG import asks the font provider for each family, weight and style on its own, so texts get their own answer instead of the first query's. The .fixed files list every query and the texts keep their family, _tfw and _tfs; the old app gives the same nodes with the scenario's provider made synchronous. text-unknown-family-svg also has BUG-071 (the import finishes); its .fixed file has both fixes.",
+  "scenarios": [
+    "io-import-svg/font-fallback-svg",
+    "io-import-svg/text-svg",
+    "io-import-svg/text-encodings-svg",
+    "io-import-svg/text-layout-svg",
+    "io-import-svg/text-unknown-family-svg"
+  ],
+  "pending": [
+    "import-export/import/open/svg-font-fallback.svg",
+    "import-export/import/open/svg-font-fallback.svg.render"
+  ]
+}
