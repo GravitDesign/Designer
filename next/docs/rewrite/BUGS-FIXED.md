@@ -1145,3 +1145,31 @@ _closeIfNeeded 61325-61328).
   the old code: one point, closed).
 - Parity exceptions: none. No recorded freehand scenario is a plain
   click.
+
+## BUG-053 A blocked arrange shortcut nudges the selection by 1 px
+
+Old code: chunk.vendor.js module 334 (GSelectTool arrow key handling
+around 59623, _applyKeyTransformation 59916).
+
+- Reproduce: select an element that can't move further back (above an
+  AlwaysBack element, or already at the back) and press Ctrl+Down (Cmd on
+  macOS) with the pointer tool.
+- Old: the select tool handles every arrow key as a nudge, also with
+  Cmd/Ctrl, while the same key runs the arrange action. When the arrange
+  changed the order, the reorder dropped the nudge preview. When it moved
+  nothing, the preview stayed and was applied on key release as its own
+  "Transform Selection" step: the element moved 1 px down (10 px with
+  Shift).
+- New: the select tool leaves Cmd/Ctrl with Up or Down to the arrange
+  shortcuts (bring forward, send backward, and with Shift to front and to
+  back) and doesn't nudge. Cmd/Ctrl with Left or Right still nudges, which
+  moves a page without pushing others in the multi-page view.
+- Test: src/editor/tools/select-tool.test.ts, "BUG-053: leaves Cmd/Ctrl
+  with Up or Down to the arrange shortcut" (fails with the old code: the
+  rect moves to y 150).
+- Parity exceptions: editor-tools/editor/arrange-order-always-back is not
+  enabled for the new app yet and goes to `pending`. Its probe
+  blue-backward-blocked records the old 1 px move (blue at y 101, undo
+  "Transform Selection"); the `.fixed` output should keep blue at y 100 with
+  "Arrange Order" as the last undo step, and the following probe
+  two-forward then has blue at y 100 too.

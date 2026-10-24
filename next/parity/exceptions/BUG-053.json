@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-053",
+  "why": "Cmd/Ctrl with Up or Down is left to the arrange shortcuts and no longer nudges the selection. No enabled scenario records it. editor/arrange-order-always-back (not enabled for the new app yet) records the old 1 px move in its blue-backward-blocked probe and will need a .fixed file.",
+  "scenarios": [],
+  "pending": ["editor-tools/editor/arrange-order-always-back"]
+}

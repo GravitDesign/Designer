@@ -1169,7 +1169,12 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
     if (event.key === Key.Constant.X && !modifiers.metaKey) this._disableBackgroundSelect();
     if (isArrowKey(event.key)) {
       if (modifiers.spaceKey) return;
-      handleArrowKey(this, event.key);
+      // Cmd/Ctrl with Up or Down is the arrange shortcut. The old code
+      // nudged as well; a successful arrange dropped that preview, a
+      // blocked one applied it as its own 1 px step (BUG-053 A blocked
+      // arrange shortcut nudges the selection by 1 px).
+      const vertical = event.key === Key.Constant.UP || event.key === Key.Constant.DOWN;
+      if (!(modifiers.metaKey && vertical)) handleArrowKey(this, event.key);
     } else if (
       event.key === Key.Constant.ENTER &&
       this._editor.hasSelection() &&

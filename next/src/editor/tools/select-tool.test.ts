@@ -251,6 +251,27 @@ describe("SelectTool keys", () => {
     expect(moved[5]).toBe(150);
   });
 
+  it("BUG-053: leaves Cmd/Ctrl with Up or Down to the arrange shortcut", () => {
+    const { page, editor, input } = setup();
+    const a = rect(page, 100, 100, 200, 120);
+    editor.updateSelection(false, [a]);
+    setModifiers({ metaKey: true });
+    input.keyDown(Key.Constant.DOWN);
+    input.keyUp(Key.Constant.DOWN);
+    setModifiers({ metaKey: true, shiftKey: true });
+    input.keyDown(Key.Constant.UP);
+    input.keyUp(Key.Constant.UP);
+    // The old code moved the rect down by 1, then up by 10.
+    expect(trf(a)).toEqual([100, 0, 0, 60, 200, 160]);
+    expect(editor.hasUndoState()).toBe(false);
+    // Left and right still nudge (collisionless for pages).
+    clearModifiers();
+    setModifiers({ metaKey: true });
+    input.keyDown(Key.Constant.RIGHT);
+    input.keyUp(Key.Constant.RIGHT);
+    expect(trf(a)).toEqual([100, 0, 0, 60, 201, 160]);
+  });
+
   it("ignores the arrows while Space is held", () => {
     const { page, editor, input } = setup();
     const a = rect(page, 100, 100, 200, 120);
