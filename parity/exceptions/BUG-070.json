@@ -1,0 +1,16 @@
+{
+  "bug": "BUG-070",
+  "why": "Rotated SVG arcs keep their rotation (the old arc helper converted the radians to radians again). The .fixed files differ from the old output only in the points of paths with a rotated arc; the old app gives the same output when each rotation r in the fixture is replaced by r * 180 / pi.",
+  "scenarios": [
+    "io-import-svg/paths-svg",
+    "io-import-svg/shapes-svg",
+    "io-import-svg/shapes-svgz",
+    "io-import-svg/shapes-svg-base-size"
+  ],
+  "pending": [
+    "import-export/import/open/svg-shapes.svg",
+    "import-export/import/open/svg-shapes.svg.render",
+    "import-export/import/place/svg-shapes.svg",
+    "import-export/import/place/svg-shapes.svgz"
+  ]
+}

@@ -1795,3 +1795,29 @@ LZWDecode entries of the Filter resource dict, and readstring.
 - Parity exceptions: none (parity/exceptions/BUG-115.json lists no
   scenarios). The EPS fixtures of the parity suites don't use these
   filters; the io-import-pdf-eps suite gives the same output.
+
+## BUG-070 Rotated arcs come out almost unrotated
+
+Old code: chunk.vendor.js module 1392, arcToBezier, lines 248961-248962.
+
+- Reproduce: import (open, place or paste) an SVG with a rotated
+  elliptical arc, for example `<path d="M20 170 a20 10 45 0 1 40 0"/>`.
+- Old: the path parser turns the arc's x-axis rotation from degrees into
+  radians, and arcToBezier converted it again (`* 2π / 360`), so the
+  rotation came out about 57 times too small and the arc was drawn almost
+  unrotated.
+- New: arcToBezier takes the rotation as radians, so the arc has the
+  rotation the SVG asks for. Unrotated arcs are unchanged.
+- Test: src/io/import/svg/helpers.test.ts, "takes the rotation in radians
+  (BUG-070)" (the recorded old segments of the arcs given in degrees now
+  come out for the same rotation in radians) and "draws a quarter-turned
+  ellipse upright (BUG-070)". Both fail with the old conversion.
+- Parity exceptions: io-import-svg/paths-svg, shapes-svg, shapes-svgz and
+  shapes-svg-base-size, the fixtures with rotated arcs. Each `.fixed` file
+  differs from the old output only in the points of the paths with a
+  rotated arc. Checked against the old app: importing the same fixtures
+  with each rotation r replaced by r * 180 / π (so the old double
+  conversion lands on the right angle) gives exactly the `.fixed` output,
+  apart from the random ids. Pending, not enabled for the new app yet:
+  import-export/import/open/svg-shapes.svg (and its render) and
+  import-export/import/place/svg-shapes.svg and svg-shapes.svgz.

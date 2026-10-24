@@ -945,7 +945,7 @@ What it does: the arc helper turns `xAxisRotation` into radians as if it were de
 
 Why it's unclear: clearly a units slip, but every rotated arc in an imported SVG has always looked this way in Gravit, and fixing it changes the geometry of imported files.
 
-Kept. Pinned by next/src/io/import/svg/helpers.test.ts "matches the old importer's arc segments exactly" and the io-import-svg/paths-svg parity scenario.
+Fixed: see BUG-070 in BUGS-FIXED.md.
 
 ## Q-076 SVG import font listeners
 

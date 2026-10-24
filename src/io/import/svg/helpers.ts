@@ -119,10 +119,9 @@ function getArcCenter(
 /**
  * The cubic segments of an SVG elliptical arc, at most a quarter turn
  * each. Empty when a radius is 0 or the end point is the start point.
- * `xAxisRotation` is turned into radians as if it were degrees
- * (`* 2π / 360`); the path parser already passes radians, so the
- * rotation of rotated arcs comes out 57 times too small, as in the old
- * app (QUESTIONS.md "SVG import arc rotation").
+ * `xAxisRotation` is in radians, as the path parser passes it. The old
+ * helper converted it again as if it were degrees (BUGS-FIXED.md
+ * "BUG-070 Rotated arcs come out almost unrotated").
  */
 export function arcToBezier(params: ArcParameters): CubicSegment[] {
   const px = params.px;
@@ -136,8 +135,8 @@ export function arcToBezier(params: ArcParameters): CubicSegment[] {
   const sweepFlag = params.sweepFlag === undefined ? 0 : params.sweepFlag;
   const curves: [ArcPoint, ArcPoint, ArcPoint][] = [];
   if (0 === rx || 0 === ry) return [];
-  const sinPhi = Math.sin((xAxisRotation * GMath.PI2) / 360);
-  const cosPhi = Math.cos((xAxisRotation * GMath.PI2) / 360);
+  const sinPhi = Math.sin(xAxisRotation);
+  const cosPhi = Math.cos(xAxisRotation);
   const pxp = (cosPhi * (px - cx)) / 2 + (sinPhi * (py - cy)) / 2;
   const pyp = (-sinPhi * (px - cx)) / 2 + (cosPhi * (py - cy)) / 2;
   if (0 === pxp && 0 === pyp) return [];
