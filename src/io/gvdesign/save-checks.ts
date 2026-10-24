@@ -30,11 +30,15 @@ export interface EmptyInfiniteCanvasError {
 
 /**
  * GDocument.hasPagesWithInfiniteEmptyCanvas: some page has no geometry
- * box, i.e. it is unbounded (w = h = 0) and holds nothing with geometry.
+ * box, i.e. it is unbounded (w = h = 0) and holds nothing with geometry,
+ * hidden or not. The old check asked for the visible box, which a hidden
+ * page never has, so any hidden page blocked every export and Save As
+ * (BUGS-FIXED.md "BUG-092 A hidden page blocks every export and Save
+ * As").
  */
 export function hasPagesWithInfiniteEmptyCanvas(scene: Scene): boolean {
   for (let child = scene.getFirstChild(); null !== child; child = child.getNext()) {
-    if (child instanceof Page && !child.getGeometryBBox()) return true;
+    if (child instanceof Page && !child.getGeometryBBox(true)) return true;
   }
   return false;
 }

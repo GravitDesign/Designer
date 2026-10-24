@@ -43,6 +43,19 @@ describe("save checks", () => {
     expect(hasPagesWithInfiniteEmptyCanvas(scene)).toBe(false);
   });
 
+  it("does not refuse a hidden page, but a hidden empty infinite one (BUG-092)", () => {
+    const scene = new Scene(new Workspace());
+    const page = scene.getActivePage() as NonNullable<ReturnType<Scene["getActivePage"]>>;
+    page.setProperties(["w", "h", "vis"], [100, 100, false]);
+    expect(hasPagesWithInfiniteEmptyCanvas(scene)).toBe(false);
+    page.setProperties(["w", "h"], [0, 0]);
+    expect(hasPagesWithInfiniteEmptyCanvas(scene)).toBe(true);
+    const rect = new Rectangle();
+    rect.setProperty("trf", new Transform(10, 0, 0, 10, 20, 20));
+    page.appendChild(rect);
+    expect(hasPagesWithInfiniteEmptyCanvas(scene)).toBe(false);
+  });
+
   it("warns about linked files only when the scene links one", () => {
     expect(needsLinkedFilesWarning(infiniteScene())).toBe(false);
   });

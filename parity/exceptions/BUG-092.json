@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-092",
+  "why": "A hidden page no longer counts as an empty infinite canvas, so exports and Save As go ahead. The old app refused both the Advanced Export and the PNG quick export; the .fixed file has the save prompt and the export dialog, and no dialog for the quick export. The driver closes the export dialog when it opens; the old app's run is unchanged.",
+  "scenarios": ["import-export/ui/hidden-page-blocks-export"],
+  "pending": []
+}

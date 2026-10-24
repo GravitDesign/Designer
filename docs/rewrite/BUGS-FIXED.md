@@ -2401,3 +2401,30 @@ from the layer name), with the layer name filter of GBlock
 - Parity exceptions: import-export/meta/exportables-assets. The `.fixed`
   file differs from the old recording only in that file name, in the item
   list and in the list of names with duplicates.
+
+## BUG-092 A hidden page blocks every export and Save As
+
+Old code: designer.browser.dev.js module 163,
+GDocument.hasPagesWithInfiniteEmptyCanvas (lines 8321-8325).
+
+- Reproduce: in a document with several pages, hide one page (the eye in
+  the Pages panel), then use File > Export (Advanced Export or a quick
+  export) or Save As.
+- Old: the check for an empty infinite canvas asked each page for its
+  visible geometry box, which a hidden page never has, so any hidden page
+  counted as an empty infinite canvas: "Saving and exporting designs with
+  an empty infinite canvas is not allowed." and nothing was exported or
+  saved.
+- New: the check asks for the box including hidden content, so only an
+  unbounded page (w = h = 0) without content is refused, visible or not.
+- Test: src/io/gvdesign/save-checks.test.ts, "does not refuse a hidden
+  page, but a hidden empty infinite one (BUG-092)" (fails with the old
+  check).
+- Parity exceptions: import-export/ui/hidden-page-blocks-export. The old
+  app shows the refusal for Advanced Export and for the PNG quick export;
+  the `.fixed` file has the save prompt and then the export dialog for
+  Advanced Export, and no dialog for the quick export. The scenario's
+  driver closes the export dialog when it opens instead of the refusal;
+  the old app's run takes the same path as before and still matches its
+  recording. import-export/ui/empty-infinite-canvas (a visible empty
+  infinite page) is unchanged.

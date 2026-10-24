@@ -574,7 +574,18 @@ const scenarios = defineScenarios<unknown>([
       await runInPage(page, build, { doc: "multipage", title: "Hidden Doc" });
       await clickMenu(page, ["File", "Export", "Advanced Export..."]);
       const advanced = await visibleDialogs(page);
-      await clickDialogButton(page, "OK");
+      // The old app refuses with a message. With BUG-092 fixed the export
+      // goes ahead: the save prompt, then the export dialog, closed again.
+      if (JSON.stringify(advanced).includes("not allowed")) {
+        await clickDialogButton(page, "OK");
+      } else {
+        if (advanced.some((t) => /save this file before exporting/.test(t)))
+          await clickDialogButton(page, "No");
+        await page.locator(".g-export-dialog").waitFor({ state: "visible" });
+        advanced.push("<export dialog>");
+        await page.keyboard.press("Escape");
+        await page.locator(".g-export-dialog").waitFor({ state: "hidden" });
+      }
       await clickMenu(page, ["File", "Export", "PNG Image (.png)"]);
       return { advanced, quickPng: await visibleDialogs(page) };
     },
