@@ -43,7 +43,8 @@ What the next look changes, all in new files plus small hooks:
     no pixel differs).
   - next.css: the loading screen (the mark on ink instead of the pink
     gradient), the welcome screen's left panel (mark and wordmark on ink,
-    a yellow marker on the active item), the wordmark and the
+    a yellow marker on the active item, line icons on quiet tiles
+    instead of the colour tiles), the wordmark and the
     introduction. Manrope (SIL OFL 1.1, public/brand/fonts) for the
     wordmark.
   - editor.css: the rest of the editor in the same look (CHG-002).
