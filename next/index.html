@@ -54,9 +54,11 @@
           if (id) l.id = id;
           head.appendChild(l);
         };
-        // The accent first: next.css overrides some of the rules it restates.
+        // The accent first: next.css overrides some of the rules it restates,
+        // and editor.css restyles the editor on top of both.
         link("stylesheet", "/brand/accent." + theme + ".css", "brand-accent");
         link("stylesheet", "/brand/next.css");
+        link("stylesheet", "/brand/editor.css");
         link("icon", "/brand/icons/favicon.ico");
         var manifest = d.querySelector('link[rel="manifest"]');
         if (manifest) manifest.setAttribute("href", "/brand/manifest.json");

@@ -89,6 +89,7 @@ import { SoftwareUpdateEvents } from "../dialogs/software-update-events.ts";
 import { isEditable } from "../widgets/debounce.ts";
 import { baseConfig } from "../file-formats.ts";
 import { isNextBranding, productName } from "../brand/branding.ts";
+import { currentPageShadowColor } from "../brand/brand-theme.ts";
 import { publishSettings } from "../state/settings-store.ts";
 import { bumpShellVersion, useShellStore } from "../state/shell-store.ts";
 import { setTheme, updateTheme } from "../themes/theme.ts";
@@ -1616,7 +1617,9 @@ export class Designer extends EventTarget {
     SceneOptions.defaultBorderPositionForLines = true;
     EditorPaintConfiguration.prototype.pageDecoration.shadow = 4;
     EditorPaintConfiguration.prototype.pageDecoration.shadowOffsetY = 2;
-    EditorPaintConfiguration.prototype.pageDecoration.shadowBackground = "rgba(0,0,0,0.25)";
+    EditorPaintConfiguration.prototype.pageDecoration.shadowBackground = isNextBranding()
+      ? currentPageShadowColor()
+      : "rgba(0,0,0,0.25)";
     void (containerOrNull() as Container)
       .getProperty("designer.settings.outline-view.enabled")
       .then((value) => {

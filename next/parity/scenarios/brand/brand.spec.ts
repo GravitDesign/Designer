@@ -18,13 +18,20 @@ import {
 } from "../../support/runner.ts";
 import type { Scenario } from "../../support/scenario.ts";
 import { sabotage } from "../../support/suite.ts";
+import * as S from "../ui/states.ts";
 import {
+  NEUTRAL,
   clickMenu,
+  hoverMenuItem,
   insertShapes,
   openMenu,
   prepare,
+  rerender,
+  rightClick,
   settle,
   shoot,
+  stableShot,
+  tool,
   type Theme,
 } from "../ui/lib.ts";
 
@@ -33,7 +40,10 @@ const RECORDING = process.env.GD_RECORD_BRAND === "1";
 const SABOTAGE = process.env.GD_PARITY_SABOTAGE === "1";
 
 /** The brand stylesheets; blocking them must change every brand shot. */
-const BRAND_CSS = /\/brand\/(next|accent\.(light|dark))\.css$/;
+const BRAND_CSS = /\/brand\/(next|editor|accent\.(light|dark))\.css$/;
+
+/** The editor restyle alone (public/brand/editor.css). */
+const EDITOR_CSS = /\/brand\/editor\.css$/;
 
 interface BrandOpen {
   theme: Theme;
@@ -41,13 +51,17 @@ interface BrandOpen {
   intro?: boolean;
   /** Block the brand stylesheets (the "needs the brand stylesheets" checks). */
   withoutBrandCss?: boolean;
+  /** Block only editor.css (the "needs editor.css" checks). */
+  withoutEditorCss?: boolean;
 }
 
 interface BrandScenario {
   id: string;
   kind: "png" | "json";
   open: BrandOpen;
-  /** `unstyled`: the brand stylesheets are blocked (a surface may then reach past the window). */
+  /** The shot shows editor.css's work, so it must also differ with only editor.css blocked. */
+  editor?: boolean;
+  /** `unstyled`: brand stylesheets are blocked (a surface may then reach past the window). */
   run: (page: Page, unstyled: boolean) => Promise<unknown>;
 }
 
@@ -76,6 +90,7 @@ async function openBrand(browser: Browser, open: BrandOpen): Promise<Page> {
   });
   await isolateNetwork(context);
   if (open.withoutBrandCss) await context.route(BRAND_CSS, (route) => route.abort());
+  if (open.withoutEditorCss) await context.route(EDITOR_CSS, (route) => route.abort());
   await context.addInitScript(
     ({ theme, intro }) => {
       if (sessionStorage.getItem("__brand_settings_done")) return;
@@ -87,7 +102,8 @@ async function openBrand(browser: Browser, open: BrandOpen): Promise<Page> {
   );
   const page = await context.newPage();
   const url = NEW_URL + "?branding=next";
-  const css = !open.withoutBrandCss;
+  // A blocked stylesheet never gets a sheet, so only wait when all of them load.
+  const css = !open.withoutBrandCss && !open.withoutEditorCss;
   await page.goto(url);
   await waitForBrand(page, css);
   if (open.theme === "dark") {
@@ -104,65 +120,194 @@ async function closeWelcome(page: Page): Promise<void> {
   await settle(page);
 }
 
+/** A selected card and a dot beside it, both on the visible canvas. */
 async function editorWithSelection(page: Page): Promise<void> {
   await closeWelcome(page);
   await insertShapes(page, [
-    { type: "GRectangle", x: 100, y: 80, w: 220, h: 140, name: "Card" },
-    { type: "GEllipse", x: 380, y: 120, w: 120, h: 120, name: "Dot", select: false },
+    { type: "GRectangle", x: 420, y: 200, w: 220, h: 140, name: "Card" },
+    { type: "GEllipse", x: 700, y: 240, w: 120, h: 120, name: "Dot", select: false },
   ]);
-  await page.mouse.move(1590, 66);
+  await page.mouse.move(NEUTRAL.x, NEUTRAL.y);
   await settle(page, 300);
 }
 
+/** The editor with the rectangle tool active (the shapes button and the snap toggle are on). */
+async function activeTool(page: Page): Promise<void> {
+  await editorWithSelection(page);
+  await tool(page, "GRectangleTool");
+  await page.mouse.move(NEUTRAL.x, NEUTRAL.y);
+  await settle(page);
+}
+
+/** A selected text: the text inspector (font, weight, alignment, pivots, checkbox). */
+async function textSelected(page: Page): Promise<void> {
+  await closeWelcome(page);
+  await S.text(page);
+  await page.mouse.move(NEUTRAL.x, NEUTRAL.y);
+  await settle(page, 300);
+}
+
+/** A selected rectangle with a border: the fill and border rows of the inspector. */
+async function withBorder(page: Page): Promise<void> {
+  await closeWelcome(page);
+  await S.rect(page);
+  await S.addBorder(page);
+  await page.mouse.move(NEUTRAL.x, NEUTRAL.y);
+  await settle(page, 300);
+}
+
+/** An 800 x 600 px page from the welcome screen: the canvas around it and its shadow. */
+async function pageDocument(page: Page): Promise<void> {
+  const inputs = page.locator(".g-new-document-dialog .custom-size input");
+  await inputs.nth(0).click();
+  await page.keyboard.type("800");
+  await inputs.nth(1).click();
+  await page.keyboard.type("600");
+  await page.click(".g-new-document-dialog .cloud-button");
+  await page.locator(".g-new-document-dialog-container").waitFor({ state: "detached" });
+  await page.mouse.move(NEUTRAL.x, NEUTRAL.y);
+  await settle(page, 500);
+}
+
+/** The canvas between the sidebars, below the toolbar. */
+const CANVAS = { x: 250, y: 73, width: 1050, height: 927 };
+
+const THEMES = ["light", "dark"] as const;
+
+/** One editor scenario per theme. */
+function inBothThemes(
+  name: string,
+  run: (page: Page, unstyled: boolean) => Promise<unknown>,
+): BrandScenario[] {
+  return THEMES.map((theme) => ({
+    id: `brand/${name}-${theme}`,
+    kind: "png",
+    open: { theme },
+    editor: true,
+    run,
+  }));
+}
+
 const scenarios: BrandScenario[] = [
-  ...(["light", "dark"] as const).map((theme): BrandScenario => ({
+  ...THEMES.map((theme): BrandScenario => ({
     id: `brand/welcome-${theme}`,
     kind: "png",
     open: { theme },
+    // The size fields and the checkbox take the editor's control frames.
+    editor: true,
     run: (page) => shoot(page, [".g-new-document-dialog"]),
   })),
-  ...(["light", "dark"] as const).map((theme): BrandScenario => ({
+  ...THEMES.map((theme): BrandScenario => ({
     id: `brand/intro-${theme}`,
     kind: "png",
     open: { theme, intro: true },
+    // The dialog surface (outline and shadow) and the scrim around it.
+    editor: true,
     run: async (page, unstyled) => {
       await page.locator(".gd-intro-dialog-container.visible").waitFor();
       return shoot(page, [".g-dialog.gd-intro-dialog"], 8, unstyled);
     },
   })),
-  ...(["light", "dark"] as const).map((theme): BrandScenario => ({
-    id: `brand/editor-selection-${theme}`,
-    kind: "png",
-    open: { theme },
-    // The whole window: the selected layer, the tabs, the toolbar and the
-    // inspector with the accent colours.
-    run: async (page) => {
-      await editorWithSelection(page);
-      return shoot(page, ["#mainframe"]);
-    },
-  })),
-  ...(["light", "dark"] as const).map((theme): BrandScenario => ({
-    id: `brand/inspector-${theme}`,
-    kind: "png",
-    open: { theme },
-    // The inspector of the selection: the opacity slider and the fill row.
-    run: async (page) => {
-      await editorWithSelection(page);
-      return shoot(page, ["#right-sidebars"]);
-    },
-  })),
+  // The whole window: the mark and menu bar, the document tab, the toolbar
+  // with the active tool, the sidebar tabs, the selected layer, the
+  // inspector and the canvas.
+  ...inBothThemes("editor-selection", async (page) => {
+    await editorWithSelection(page);
+    return shoot(page, ["#mainframe"]);
+  }),
+  // The inspector of the selection: section headers, fields, the slider,
+  // the selects and the selected fill row.
+  ...inBothThemes("inspector", async (page) => {
+    await editorWithSelection(page);
+    return shoot(page, ["#right-sidebars"]);
+  }),
+  // The sidebar tabs, the pages and the layers with the selected row.
   {
     id: "brand/layers",
     kind: "png",
     open: { theme: "light" },
-    // The active sidebar tab and the layers of the selection. (The desktop
-    // toolbar has no accent colour in the old stylesheets, so it looks the
-    // same in both looks; see README.md.)
+    editor: true,
     run: async (page) => {
       await editorWithSelection(page);
       return shoot(page, ["#left-sidebars"]);
     },
   },
+  {
+    id: "brand/layers-dark",
+    kind: "png",
+    open: { theme: "dark" },
+    editor: true,
+    run: async (page) => {
+      await editorWithSelection(page);
+      return shoot(page, ["#left-sidebars"]);
+    },
+  },
+  // The toolbar: the active tool and the snap toggle in the accent, the
+  // group dividers, the disabled buttons.
+  ...inBothThemes("toolbar", async (page) => {
+    await activeTool(page);
+    return shoot(page, ["#toolbar"]);
+  }),
+  // The text inspector: font selects, pivots (Auto/Fix), segmented
+  // alignment buttons and the checkbox.
+  ...inBothThemes("inspector-text", async (page) => {
+    await textSelected(page);
+    return shoot(page, ["#right-sidebars"]);
+  }),
+  // The fill and border rows with their swatches, selects and fields.
+  ...inBothThemes("inspector-border", async (page) => {
+    await withBorder(page);
+    return shoot(page, ["#right-sidebars"]);
+  }),
+  // A focused field: the focus ring and the yellow selection hint.
+  ...inBothThemes("focus", async (page) => {
+    await editorWithSelection(page);
+    await page.click('.sidebar-inspector input[data-dimension="x"]');
+    await settle(page);
+    return shoot(page, [".sidebar-inspector .dimension-panel"], 4);
+  }),
+  // The color chooser: the popover surface, its header, fields and the
+  // palette tabs.
+  ...inBothThemes("color-chooser", async (page) => {
+    await closeWelcome(page);
+    await S.rect(page);
+    await S.openChooser(page, ".sidebar-inspector .fill-block .g-pattern-chooser .preview");
+    return shoot(page, [".g-overlay"], 10);
+  }),
+  // The File menu under the menu bar with the mark, one item hovered.
+  ...inBothThemes("menu", async (page) => {
+    await editorWithSelection(page);
+    await openMenu(page, ["File"]);
+    await hoverMenuItem(page, "Open Local File...");
+    await settle(page);
+    return shoot(page, ["#header > .section.menu", "ul.g-menu:not(.g-menu-root)"], 10);
+  }),
+  // The canvas context menu of a selected rectangle.
+  ...inBothThemes("context-menu", async (page) => {
+    await closeWelcome(page);
+    await S.rect(page);
+    await rightClick(page, 600, 360);
+    return shoot(page, ["ul.g-menu:not(.g-menu-root)"], 10);
+  }),
+  // A confirm dialog: the surface, the quiet buttons and the primary one.
+  ...inBothThemes("dialog", async (page) => {
+    await closeWelcome(page);
+    await S.rect(page);
+    await page.mouse.move(NEUTRAL.x, NEUTRAL.y);
+    await page.click("#header .tabs .tab .close");
+    await page.locator(".g-dialog-container.visible .g-dialog-footer").waitFor();
+    await page.mouse.move(NEUTRAL.x, NEUTRAL.y);
+    await settle(page, 300);
+    return shoot(page, [".g-dialog-container.visible > .g-dialog"], 24);
+  }),
+  // The canvas around a page and the page shadow (tinted in code,
+  // brand-theme.ts pageShadowColor).
+  ...inBothThemes("canvas", async (page) => {
+    await pageDocument(page);
+    await settle(page);
+    await rerender(page, true);
+    return stableShot(page, CANVAS);
+  }),
   {
     id: "brand/loading",
     kind: "png",
@@ -266,6 +411,28 @@ test.describe("brand (new app only)", () => {
         expect(
           () => assertSameOutput(scenario, expected as StoredOutput, actual, "without-brand-css"),
           `${s.id} looks the same without the brand stylesheets`,
+        ).toThrow(/pixels differ/);
+      } finally {
+        await page.context().close();
+      }
+    });
+  }
+
+  // The editor shots must show editor.css's work in particular: with only
+  // that stylesheet blocked (accent and next.css still load) each one
+  // differs from its recording too.
+  for (const s of RECORDING ? [] : scenarios.filter((x) => x.kind === "png" && x.editor)) {
+    test(`${s.id} needs editor.css`, async ({ browser }) => {
+      test.setTimeout(180_000);
+      const scenario = asScenario(s);
+      const page = await openBrand(browser, { ...s.open, withoutEditorCss: true });
+      try {
+        const actual = storeOutput(scenario, await s.run(page, true));
+        const expected = readExpected(scenario);
+        expect(expected, `no recording for ${s.id}`).toBeDefined();
+        expect(
+          () => assertSameOutput(scenario, expected as StoredOutput, actual, "without-editor-css"),
+          `${s.id} looks the same without editor.css`,
         ).toThrow(/pixels differ/);
       } finally {
         await page.context().close();

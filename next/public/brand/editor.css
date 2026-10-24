@@ -1,0 +1,980 @@
+/*
+ * GravitDesign Next: the editor in the brand look (CHANGES.md CHG-002).
+ * Loaded after accent.<theme>.css and next.css, only in the "next" look
+ * (index.html; src/app/brand). The classic look never loads it.
+ *
+ * Only colour, type, borders, radius, shadows and focus rings change:
+ * every part, row and control keeps the size and position the old
+ * stylesheets give it (toolbar 37 px, header 36 px, sidebar widths,
+ * inspector rows), so nothing moves. The one exception is the mark at
+ * the left of the menu bar, which takes the header's own left padding.
+ * Borders keep their widths and only change colour; where the next look
+ * adds an outline (dialogs, popovers, focus) it is a box-shadow ring or
+ * an outline, which take no space.
+ *
+ * Every rule starts with html[data-branding="next"], which also lifts it
+ * over the old rule it restyles (one attribute and one type more).
+ *
+ * Palette roles (contrast checked in both themes, CHANGES.md):
+ * - magenta: the one accent. Active tool and toggles, the selected row,
+ *   the active sidebar tab, primary buttons, checked boxes, sliders,
+ *   focus rings.
+ * - yellow: a small marker only: the active document tab (as on the
+ *   welcome screen) and the menu bar item that is open.
+ * - ink: text, icons and, tinted, the neutral greys of both themes.
+ * - lime and olive: not used in the editor (they stay in the mark).
+ */
+
+/* ---- Tokens ---- */
+
+html[data-branding="next"] {
+  --rd-font-ui: "Manrope", "Lato", sans-serif;
+
+  --rd-bg: #ffffff;
+  --rd-bg-sunken: #f6f5f9;
+  --rd-bg-hover: #efeef4;
+  --rd-bg-pressed: #e4e2eb;
+  --rd-bg-input: #ffffff;
+  --rd-canvas: #eeedf2;
+  --rd-divider: #e6e4ec;
+  --rd-divider-strong: #d6d3df;
+  --rd-control-border: #8c889a;
+  --rd-control-border-hover: #625f70;
+  --rd-switch-track: #a5a2b1;
+  --rd-swatch-border: #d6d3df;
+
+  --rd-text: #2b2a35;
+  --rd-text-muted: #625f70;
+  --rd-text-placeholder: #767384;
+  --rd-icon: #5d5a6b;
+
+  --rd-accent: #e3136b;
+  --rd-accent-fg: #e3136b;
+  --rd-accent-hover: #c90f5e;
+  --rd-accent-pressed: #ad0c50;
+  --rd-accent-tint: #fce7f0;
+  --rd-accent-tint-hover: #f9d6e5;
+  --rd-accent-text: #b30d55;
+  --rd-focus: #e3136b;
+  --rd-marker: #ffd81f;
+
+  --rd-surface: #ffffff;
+  --rd-surface-border: rgba(27, 27, 36, 0.12);
+  --rd-shadow-popover: 0 1px 2px rgba(27, 27, 36, 0.08), 0 6px 18px rgba(27, 27, 36, 0.14);
+  --rd-shadow-dialog: 0 2px 6px rgba(27, 27, 36, 0.1), 0 18px 48px rgba(27, 27, 36, 0.22);
+  --rd-scrim: rgba(27, 27, 36, 0.28);
+  --rd-panel-shadow: rgba(27, 27, 36, 0.06);
+  --rd-tooltip: #1b1b24;
+
+  --rd-ruler: #6e6b7c;
+  --rd-ruler-bg: rgba(255, 255, 255, 0.7);
+
+  --rd-radius-control: 4px;
+  --rd-radius-button: 6px;
+  --rd-radius-popover: 8px;
+  --rd-radius-dialog: 10px;
+
+  /* The select arrow, in --rd-text-muted (data URIs can't read a variable). */
+  --rd-select-arrow: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 4' width='10' height='4'%3E%3Cpolygon points='0,0 8,0 4,4' fill='%23625F70'/%3E%3C/svg%3E");
+  --rd-mark: url("mark-on-light.svg");
+}
+
+html[data-branding="next"][data-gd-theme="dark"] {
+  --rd-bg: #2a2933;
+  --rd-bg-sunken: #22212a;
+  --rd-bg-hover: #35343f;
+  --rd-bg-pressed: #3f3e4a;
+  --rd-bg-input: #1f1e26;
+  --rd-canvas: #3c3b45;
+  --rd-divider: #393843;
+  --rd-divider-strong: #46454f;
+  --rd-control-border: #7a778a;
+  --rd-control-border-hover: #a3a0b2;
+  --rd-switch-track: #5c5a69;
+  --rd-swatch-border: #302f3a;
+
+  --rd-text: #ebeaf0;
+  --rd-text-muted: #aeabbb;
+  --rd-text-placeholder: #8e8b9c;
+  --rd-icon: #c9c7d3;
+
+  --rd-accent-fg: #f0478b;
+  --rd-accent-tint: #4d2338;
+  --rd-accent-tint-hover: #5a2843;
+  --rd-accent-text: #ff7fb0;
+  --rd-focus: #f0478b;
+
+  --rd-surface: #302f3a;
+  --rd-surface-border: rgba(255, 255, 255, 0.1);
+  --rd-shadow-popover: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 22px rgba(0, 0, 0, 0.45);
+  --rd-shadow-dialog: 0 2px 6px rgba(0, 0, 0, 0.3), 0 20px 52px rgba(0, 0, 0, 0.55);
+  --rd-scrim: rgba(12, 12, 16, 0.55);
+  --rd-panel-shadow: rgba(0, 0, 0, 0.25);
+  --rd-tooltip: #111117;
+
+  --rd-ruler: #aeabbb;
+  --rd-ruler-bg: rgba(42, 41, 51, 0.7);
+
+  --rd-select-arrow: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 4' width='10' height='4'%3E%3Cpolygon points='0,0 8,0 4,4' fill='%23AEABBB'/%3E%3C/svg%3E");
+  --rd-mark: url("mark-on-dark.svg");
+}
+
+/* ---- Header and menu bar ---- */
+
+html[data-branding="next"] #header {
+  background: var(--rd-bg);
+  color: var(--rd-text);
+}
+/* The mark sits in the menu section's own left padding; the header keeps its 36 px. */
+html[data-branding="next"] #header > .section.menu {
+  padding-left: 40px;
+  background-image: var(--rd-mark);
+  background-repeat: no-repeat;
+  background-position: 13px center;
+  background-size: 20px 20px;
+}
+html[data-branding="next"] .g-menu-bar > .g-menu > .g-menu-item {
+  font-family: var(--rd-font-ui);
+  font-weight: 600;
+  color: var(--rd-text-muted);
+  border-color: transparent;
+  border-radius: var(--rd-radius-button);
+}
+html[data-branding="next"] .g-menu-bar > .g-menu > .g-menu-item:hover,
+html[data-branding="next"] .g-menu-root > .g-menu-item:active:not(.g-disabled),
+html[data-branding="next"] .g-menu-root > .g-menu-item:active:not(.g-disabled) > span {
+  background-color: var(--rd-bg-hover);
+  color: var(--rd-text);
+}
+/* The open menu: the item stays lit, with the yellow marker under it. */
+html[data-branding="next"] .g-menu-bar > .g-menu > .g-menu-item.g-active:not(.g-disabled),
+html[data-branding="next"] .g-menu-bar > .g-menu > .g-menu-item.g-active:not(.g-disabled) > span {
+  background-color: var(--rd-bg-hover);
+  color: var(--rd-text);
+}
+html[data-branding="next"] .g-menu-bar > .g-menu > .g-menu-item.g-active:not(.g-disabled) {
+  box-shadow: inset 0 -2px 0 var(--rd-marker);
+}
+
+/* Document tabs: like the welcome screen's items, a quiet row with a
+   yellow marker on the active one. */
+html[data-branding="next"] #header > .section.windows > .tabs > .tab {
+  font-family: var(--rd-font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--rd-text-muted);
+  border-color: transparent;
+  border-radius: 0 var(--rd-radius-button) var(--rd-radius-button) 0;
+  background: transparent;
+}
+html[data-branding="next"] #header > .section.windows > .tabs > .tab:hover:not(.g-active) {
+  background: var(--rd-bg-hover);
+  color: var(--rd-text);
+}
+html[data-branding="next"] #header > .section.windows > .tabs > .tab.g-active {
+  background: var(--rd-bg-sunken);
+  color: var(--rd-text);
+  box-shadow: inset 3px 0 0 var(--rd-marker);
+}
+html[data-branding="next"] #header > .section.windows > .tabs > .tab > .close {
+  color: var(--rd-text-muted);
+  border-radius: var(--rd-radius-control);
+}
+html[data-branding="next"] #header > .section.windows > .tabs > .tab > .close:hover,
+html[data-branding="next"] #header > .section.windows > .tabs > .tab:not(.g-active) > .close:hover {
+  background: var(--rd-bg-pressed);
+  color: var(--rd-text);
+}
+html[data-branding="next"] #header > .more-button {
+  color: var(--rd-text-muted);
+}
+html[data-branding="next"] #header > .more-button:hover {
+  background: var(--rd-bg-hover);
+}
+html[data-branding="next"] #header > .more-button > .moreTab {
+  background: var(--rd-surface);
+  color: var(--rd-text);
+  border-radius: var(--rd-radius-popover);
+  box-shadow:
+    0 0 0 1px var(--rd-surface-border),
+    var(--rd-shadow-popover);
+}
+
+/* ---- Toolbar ---- */
+
+html[data-branding="next"] #toolbar {
+  background: var(--rd-bg);
+  border-top-color: var(--rd-divider);
+  border-bottom-color: var(--rd-divider);
+  box-shadow: 0 1px 3px var(--rd-panel-shadow);
+}
+/* Group dividers: a short hairline in the middle instead of a full-height line. */
+html[data-branding="next"] #toolbar > div.section:not(:last-child) {
+  border-right-color: transparent;
+  background-image: linear-gradient(var(--rd-divider-strong), var(--rd-divider-strong));
+  background-repeat: no-repeat;
+  background-size: 1px 19px;
+  background-position: right center;
+}
+html[data-branding="next"] #toolbar > div.section > .toolbar-button > button {
+  border-radius: var(--rd-radius-button);
+  color: var(--rd-icon);
+}
+html[data-branding="next"] #toolbar > div.section.compound-section > .toolbar-button > button {
+  border-radius: var(--rd-radius-button) !important;
+}
+html[data-branding="next"] #toolbar > div.section > .toolbar-button > .action-button,
+html[data-branding="next"] #toolbar > div.section > .toolbar-button > .action-button > span,
+html[data-branding="next"] #toolbar > div.section > .toolbar-button > .dropdown-button > span {
+  color: var(--rd-icon);
+}
+html[data-branding="next"] #toolbar > div.section > .toolbar-button > .attached-button {
+  color: var(--rd-icon);
+}
+/* A split button (tool and its menu) reads as one control: square inner edges. */
+html[data-branding="next"]
+  #toolbar
+  > div.section.compound-section
+  > .toolbar-button.dropdown
+  > .action-button {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+html[data-branding="next"]
+  #toolbar
+  > div.section.compound-section
+  > .toolbar-button.dropdown
+  > .dropdown-button {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+html[data-branding="next"]
+  #toolbar
+  > div.section.compound-section
+  > .toolbar-button.zoom-button
+  > .left-attached.right-attached {
+  border-radius: 0 !important;
+}
+html[data-branding="next"]
+  #toolbar
+  > div.section.compound-section
+  > .toolbar-button.zoom-button
+  > .attached-button.left-attached {
+  border-radius: var(--rd-radius-button) 0 0 var(--rd-radius-button) !important;
+}
+html[data-branding="next"]
+  #toolbar
+  > div.section.compound-section
+  > .toolbar-button.zoom-button
+  > .attached-button.right-attached {
+  border-radius: 0 var(--rd-radius-button) var(--rd-radius-button) 0 !important;
+}
+html[data-branding="next"]
+  #toolbar
+  > div.section
+  > .toolbar-button
+  > .action-button:not(.g-disabled):hover,
+html[data-branding="next"] #toolbar > div.section > .toolbar-button > .attached-button:hover,
+html[data-branding="next"]
+  #toolbar
+  > div.section
+  > .toolbar-button.dropdown
+  > .dropdown-button:not(.g-disabled):hover {
+  background: var(--rd-bg-hover);
+}
+html[data-branding="next"]
+  #toolbar
+  > div.section
+  > .toolbar-button
+  > .action-button:not(.g-disabled):active,
+html[data-branding="next"] #toolbar > div.section > .toolbar-button > .attached-button:active,
+html[data-branding="next"]
+  #toolbar
+  > div.section
+  > .toolbar-button.dropdown
+  > .dropdown-button:not(.g-disabled):active,
+html[data-branding="next"]
+  #toolbar
+  > div.section
+  > .toolbar-button.dropdown
+  > .dropdown-button.g-active {
+  background: var(--rd-bg-pressed) !important;
+}
+/* The active tool (and a toggle that is on) in the brand accent. */
+html[data-branding="next"]
+  #toolbar
+  > div.section
+  > .toolbar-button
+  > .action-button:not(.g-disabled).g-active {
+  background: var(--rd-accent-tint);
+  color: var(--rd-accent-fg);
+}
+html[data-branding="next"]
+  #toolbar
+  > div.section
+  > .toolbar-button
+  > .action-button:not(.g-disabled).g-active:hover {
+  background: var(--rd-accent-tint-hover);
+}
+html[data-branding="next"]
+  #toolbar
+  > div.section
+  > .toolbar-button
+  > .action-button:not(.g-disabled).g-active
+  > span {
+  color: var(--rd-accent-fg);
+  text-shadow: none;
+}
+html[data-branding="next"]
+  #toolbar
+  > div.section
+  > .toolbar-button.dropdown:has(> .action-button.g-active:not(.g-disabled))
+  > .dropdown-button {
+  background: var(--rd-accent-tint);
+}
+html[data-branding="next"]
+  #toolbar
+  > div.section
+  > .toolbar-button.dropdown:has(> .action-button.g-active:not(.g-disabled))
+  > .dropdown-button
+  > span {
+  color: var(--rd-accent-fg);
+}
+html[data-branding="next"] #toolbar > div.section > .toolbar-button .gravit-zoom-manual-input {
+  background: var(--rd-bg-sunken);
+  color: var(--rd-text);
+  border-radius: var(--rd-radius-button);
+}
+
+/* ---- Sidebars ---- */
+
+html[data-branding="next"] #left-sidebars,
+html[data-branding="next"] #right-sidebars {
+  background: var(--rd-bg);
+  color: var(--rd-text);
+}
+html[data-branding="next"] #left-sidebars {
+  box-shadow:
+    1px 0 0 var(--rd-divider),
+    3px 0 8px -4px var(--rd-panel-shadow);
+}
+html[data-branding="next"] #right-sidebars {
+  box-shadow:
+    -1px 0 0 var(--rd-divider),
+    -3px 0 8px -4px var(--rd-panel-shadow);
+}
+
+/* The sidebar tabs (Layers, Libraries, Symbols): an underline, not a block. */
+html[data-branding="next"] #left-sidebars > .sidebar-selector,
+html[data-branding="next"] #right-sidebars > .sidebar-selector {
+  border-bottom-color: var(--rd-divider);
+}
+html[data-branding="next"] #left-sidebars > .sidebar-selector > .sidebar-option,
+html[data-branding="next"] #right-sidebars > .sidebar-selector > .sidebar-option {
+  background: var(--rd-bg);
+  color: var(--rd-text-muted);
+  font-family: var(--rd-font-ui);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+html[data-branding="next"] #left-sidebars > .sidebar-selector > .sidebar-option:hover:not(.active),
+html[data-branding="next"] #right-sidebars > .sidebar-selector > .sidebar-option:hover:not(.active) {
+  background: var(--rd-bg-hover);
+  color: var(--rd-text);
+}
+html[data-branding="next"] #left-sidebars > .sidebar-selector > .sidebar-option.active,
+html[data-branding="next"] #right-sidebars > .sidebar-selector > .sidebar-option.active {
+  background: var(--rd-bg);
+  color: var(--rd-accent-text);
+  box-shadow: inset 0 -2px 0 var(--rd-accent-fg);
+}
+html[data-branding="next"] #left-sidebars > .sidebar-selector > .sidebar-option > .sidebar-title,
+html[data-branding="next"] #right-sidebars > .sidebar-selector > .sidebar-option > .sidebar-title {
+  font-family: var(--rd-font-ui);
+}
+
+/* Section headers (Pages, Layers, Appearance, Fills, ...). */
+html[data-branding="next"] #left-sidebars .sidebar-container .toolbar,
+html[data-branding="next"] #right-sidebars .sidebar-container .toolbar,
+html[data-branding="next"] .sidebar-outline > .toolbar,
+html[data-branding="next"] .sidebar-inspector .panels .toolbar {
+  background: var(--rd-bg-sunken);
+  color: var(--rd-text);
+}
+html[data-branding="next"] #left-sidebars .sidebar-container .toolbar:not(.empty-list):not(.collapsed),
+html[data-branding="next"] #right-sidebars .sidebar-container .toolbar:not(.empty-list):not(.collapsed),
+html[data-branding="next"] #left-sidebars .sidebar-container .toolbar.last-toolbar,
+html[data-branding="next"] #right-sidebars .sidebar-container .toolbar.last-toolbar,
+html[data-branding="next"] .sidebar-outline > .toolbar:not(.empty-list):not(.collapsed),
+html[data-branding="next"] .sidebar-outline > .toolbar.last-toolbar,
+html[data-branding="next"] .sidebar-inspector .panels .toolbar:not(.empty-list):not(.collapsed),
+html[data-branding="next"] .sidebar-inspector .panels .toolbar.last-toolbar {
+  border-bottom-color: var(--rd-divider);
+}
+html[data-branding="next"] #left-sidebars .sidebar-container .toolbar > label,
+html[data-branding="next"] #right-sidebars .sidebar-container .toolbar > label,
+html[data-branding="next"] .sidebar-inspector .panels .toolbar > label {
+  font-family: var(--rd-font-ui);
+  font-weight: 700;
+  color: var(--rd-text);
+}
+html[data-branding="next"] #left-sidebars .sidebar-container .toolbar > button,
+html[data-branding="next"] #right-sidebars .sidebar-container .toolbar > button {
+  background: transparent;
+  border-color: transparent;
+}
+html[data-branding="next"] #left-sidebars .sidebar-container .toolbar > button:hover,
+html[data-branding="next"] #right-sidebars .sidebar-container .toolbar > button:hover {
+  background: var(--rd-bg-pressed);
+}
+html[data-branding="next"] #left-sidebars [class^="gravit-icon-"],
+html[data-branding="next"] #left-sidebars [class*=" gravit-icon-"],
+html[data-branding="next"] #right-sidebars [class^="gravit-icon-"],
+html[data-branding="next"] #right-sidebars [class*=" gravit-icon-"] {
+  color: var(--rd-icon);
+}
+html[data-branding="next"] #left-sidebars hr,
+html[data-branding="next"] #right-sidebars hr {
+  background-color: var(--rd-divider);
+  border-color: var(--rd-divider);
+  color: var(--rd-divider);
+}
+html[data-branding="next"] #page-layer-divider > div {
+  background: var(--rd-bg-sunken);
+}
+
+/* Layer and page rows: same 34 px, softer lines, the selection in the accent. */
+html[data-branding="next"] .g-layer-panel > div.vscroller,
+html[data-branding="next"] .g-selected-panel > div.vscroller,
+html[data-branding="next"] .g-page-panel > div.vscroller {
+  border-right-color: var(--rd-divider);
+}
+html[data-branding="next"] .g-layer-panel > div.layer-row,
+html[data-branding="next"] .g-layer-panel > div.selected-row,
+html[data-branding="next"] .g-selected-panel > div.layer-row,
+html[data-branding="next"] .g-selected-panel > div.selected-row,
+html[data-branding="next"] .g-page-panel > div.page-row {
+  border-bottom-color: var(--rd-divider);
+  background: var(--rd-bg);
+  color: var(--rd-text);
+}
+html[data-branding="next"] .g-layer-panel > div.layer-row:hover,
+html[data-branding="next"] .g-selected-panel > div.layer-row:hover,
+html[data-branding="next"] .g-page-panel > div.page-row:hover {
+  background: var(--rd-bg-hover);
+}
+html[data-branding="next"] .g-layer-panel > div.layer-row.g-selected,
+html[data-branding="next"] .g-selected-panel > div.layer-row.g-selected,
+html[data-branding="next"] .g-page-panel > div.page-row.g-active {
+  background: var(--rd-accent-tint);
+  box-shadow: inset 3px 0 0 var(--rd-accent-fg);
+}
+html[data-branding="next"] .g-layer-panel > div.layer-row.g-selected:hover,
+html[data-branding="next"] .g-selected-panel > div.layer-row.g-selected:hover,
+html[data-branding="next"] .g-page-panel > div.page-row.g-active:hover {
+  background: var(--rd-accent-tint-hover);
+}
+html[data-branding="next"] .g-layer-panel > div.layer-row > .layer-title-group > .layer-icon,
+html[data-branding="next"] .g-selected-panel > div.layer-row > .layer-title-group > .layer-icon,
+html[data-branding="next"] .g-page-panel > div.page-row > .page-title-group > .page-icon,
+html[data-branding="next"] .g-layer-panel > div.layer-row > .layer-action,
+html[data-branding="next"] .g-page-panel > div.page-row > .page-action {
+  color: var(--rd-icon);
+}
+html[data-branding="next"] .g-layer-panel > div.layer-row > .layer-title-group > .layer-title,
+html[data-branding="next"] .g-selected-panel > div.layer-row > .layer-title-group > .layer-title,
+html[data-branding="next"] .g-page-panel > div.page-row > .page-title-group > .page-title {
+  color: var(--rd-text);
+}
+html[data-branding="next"] .g-layer-panel > div.layer-row.g-selected > .layer-title-group > .layer-icon,
+html[data-branding="next"] .g-selected-panel > div.layer-row.g-selected > .layer-title-group > .layer-icon,
+html[data-branding="next"] .g-page-panel > div.page-row.g-active > .page-title-group > .page-icon {
+  color: var(--rd-accent-text);
+}
+/* Symbols keep their own purple. */
+html[data-branding="next"] .g-layer-panel > div.layer-row.g-symbol-row > .layer-title-group > .layer-icon,
+html[data-branding="next"] .g-layer-panel > div.layer-row.g-symbol-row > .layer-title-group > .layer-title {
+  color: #ab66cd;
+}
+
+/* ---- Inspector ---- */
+
+html[data-branding="next"] .g-property-row > label,
+html[data-branding="next"] .g-property-row > .labels > label {
+  color: var(--rd-text-muted);
+}
+/* The X, Y, W, H prefixes: muted in both themes (the old dark theme had them in the accent). */
+html[data-branding="next"] .g-input-label,
+html[data-branding="next"] #left-sidebars .sidebar-container .g-input-label,
+html[data-branding="next"] #right-sidebars .sidebar-container .g-input-label {
+  color: var(--rd-text-muted);
+}
+/* Fill and border rows: the selected one in the accent tint, its marker stays. */
+html[data-branding="next"] .fill-properties-panel > .fill-block,
+html[data-branding="next"] .border-properties-panel > .border-block {
+  border-bottom-color: var(--rd-divider);
+}
+html[data-branding="next"] .fill-properties-panel > .fill-block.g-selected,
+html[data-branding="next"] .border-properties-panel > .border-block.g-selected {
+  background-color: var(--rd-accent-tint);
+}
+html[data-branding="next"] .fill-properties-panel > .fill-block.g-selected:before,
+html[data-branding="next"] .border-properties-panel > .border-block.g-selected:before {
+  background: var(--rd-accent-fg);
+}
+/* The effect list (Blur, Color Adjust, ...). */
+html[data-branding="next"] .effects-properties-panel > .effects-default {
+  background: var(--rd-bg);
+  border-bottom-color: var(--rd-divider);
+  color: var(--rd-text);
+}
+html[data-branding="next"] .effects-properties-panel > .effects-default:hover {
+  background: var(--rd-bg-hover);
+}
+/* The opacity slider's frame and the eyedropper badge on a colour preview. */
+html[data-branding="next"] .g-input-slider.custom {
+  border-color: var(--rd-bg);
+}
+html[data-branding="next"] .g-pattern-chooser > .preview > .eyedropper {
+  background-color: var(--rd-bg-sunken);
+  border-color: var(--rd-bg);
+  color: var(--rd-icon);
+}
+html[data-branding="next"] .sidebar-inspector .main-toolbar .divider,
+html[data-branding="next"] #right-sidebars .sidebar-container .toolbar .divider {
+  background: var(--rd-divider-strong);
+}
+
+/* ---- Controls: inputs, selects, buttons, checkboxes, switches, sliders ---- */
+
+html[data-branding="next"] input[type="number"],
+html[data-branding="next"] input[type="text"],
+html[data-branding="next"] input[type="password"],
+html[data-branding="next"] input[type="date"],
+html[data-branding="next"] input:not([type]),
+html[data-branding="next"] textarea,
+html[data-branding="next"] select,
+html[data-branding="next"] .g-input-select,
+html[data-branding="next"] .g-select {
+  background-color: var(--rd-bg-input);
+  border-color: var(--rd-control-border);
+  color: var(--rd-text);
+}
+html[data-branding="next"] input[type="number"]:hover:not(:disabled):not(:focus),
+html[data-branding="next"] input[type="text"]:hover:not(:disabled):not(:focus),
+html[data-branding="next"] input:not([type]):hover:not(:disabled):not(:focus),
+html[data-branding="next"] textarea:hover:not(:disabled):not(:focus),
+html[data-branding="next"] select:hover:not(:disabled),
+html[data-branding="next"] .g-input-select:hover,
+html[data-branding="next"] .g-select:hover {
+  border-color: var(--rd-control-border-hover);
+}
+html[data-branding="next"] input[type="number"]:active:not(.g-disabled),
+html[data-branding="next"] input[type="number"]:focus:not(.g-disabled),
+html[data-branding="next"] input[type="text"]:active:not(.g-disabled),
+html[data-branding="next"] input[type="text"]:focus:not(.g-disabled),
+html[data-branding="next"] input[type="password"]:focus:not(.g-disabled),
+html[data-branding="next"] input[type="date"]:focus:not(.g-disabled),
+html[data-branding="next"] textarea:focus:not(.g-disabled) {
+  background-color: var(--rd-bg-input);
+  color: var(--rd-text);
+}
+html[data-branding="next"] input::placeholder,
+html[data-branding="next"] textarea::placeholder {
+  color: var(--rd-text-placeholder);
+}
+/* Inputs inside a composite control (unit select, input select) have no frame of their own. */
+html[data-branding="next"] .g-input-select > input,
+html[data-branding="next"] .g-input-select > input:hover {
+  border-color: transparent;
+  background: transparent;
+}
+html[data-branding="next"] select,
+html[data-branding="next"] .g-select,
+html[data-branding="next"] .g-input-select > button {
+  background-image: var(--rd-select-arrow);
+}
+html[data-branding="next"] select:active:not(.g-disabled),
+html[data-branding="next"] .g-input-select:active:not(.g-disabled),
+html[data-branding="next"] .g-select:active:not(.g-disabled) {
+  background-color: var(--rd-bg-hover) !important;
+}
+html[data-branding="next"] option,
+html[data-branding="next"] optgroup {
+  background-color: var(--rd-surface);
+  color: var(--rd-text);
+}
+
+/* Buttons: quiet by default, the accent when on. */
+html[data-branding="next"] .g-button,
+html[data-branding="next"] button,
+html[data-branding="next"] input[type="button"],
+html[data-branding="next"] input[type="submit"] {
+  background-color: var(--rd-bg);
+  border-color: var(--rd-control-border);
+  color: var(--rd-text);
+}
+html[data-branding="next"] .g-button svg,
+html[data-branding="next"] button svg {
+  fill: var(--rd-icon);
+  stroke: var(--rd-icon);
+}
+html[data-branding="next"] .g-button svg.align-svg,
+html[data-branding="next"] button svg.align-svg {
+  stroke: transparent;
+}
+html[data-branding="next"] .g-button:hover,
+html[data-branding="next"] button:hover,
+html[data-branding="next"] input[type="button"]:hover,
+html[data-branding="next"] input[type="submit"]:hover {
+  background-color: var(--rd-bg-hover);
+}
+html[data-branding="next"] .g-button:hover.g-disabled,
+html[data-branding="next"] .g-button:hover:disabled,
+html[data-branding="next"] button:hover.g-disabled,
+html[data-branding="next"] button:hover:disabled {
+  background-color: var(--rd-bg);
+}
+html[data-branding="next"] .g-button:active:not(.g-disabled),
+html[data-branding="next"] button:active:not(.g-disabled),
+html[data-branding="next"] input[type="button"]:active:not(.g-disabled),
+html[data-branding="next"] input[type="submit"]:active:not(.g-disabled) {
+  background-color: var(--rd-bg-pressed) !important;
+}
+html[data-branding="next"] .g-button.g-active:not(.g-disabled),
+html[data-branding="next"] button.g-active:not(.g-disabled),
+html[data-branding="next"] input[type="button"].g-active:not(.g-disabled) {
+  background-color: var(--rd-accent-tint);
+  color: var(--rd-accent-text);
+}
+html[data-branding="next"] .g-button.g-active:not(.g-disabled) > span,
+html[data-branding="next"] button.g-active:not(.g-disabled) > span {
+  color: var(--rd-accent-text);
+}
+html[data-branding="next"] .g-button.g-flat,
+html[data-branding="next"] button.g-flat {
+  border-color: transparent;
+}
+html[data-branding="next"] .g-button.g-flat:active:not(.g-disabled),
+html[data-branding="next"] .g-button.g-flat.g-active:not(.g-disabled),
+html[data-branding="next"] button.g-flat:active:not(.g-disabled),
+html[data-branding="next"] button.g-flat.g-active:not(.g-disabled),
+html[data-branding="next"] .g-button.g-flat:active:not(.g-disabled) > span,
+html[data-branding="next"] .g-button.g-flat.g-active:not(.g-disabled) > span,
+html[data-branding="next"] button.g-flat:active:not(.g-disabled) > span,
+html[data-branding="next"] button.g-flat.g-active:not(.g-disabled) > span {
+  color: var(--rd-accent-text);
+}
+/* Icon buttons in section headers and rows have no frame. */
+html[data-branding="next"] #toolbar button,
+html[data-branding="next"] .sidebar-container .toolbar > button,
+html[data-branding="next"] .sidebar-inspector .main-toolbar > button,
+html[data-branding="next"] button.g-accordion {
+  border-color: transparent;
+  background-color: transparent;
+}
+html[data-branding="next"] .sidebar-inspector .main-toolbar > button:hover,
+html[data-branding="next"] button.g-accordion:hover {
+  background-color: var(--rd-bg-pressed);
+}
+
+/* Checkboxes and radios: the old 13 px box with a 3:1 frame. */
+html[data-branding="next"] input[type="checkbox"],
+html[data-branding="next"] input[type="radio"] {
+  background-color: var(--rd-bg-input);
+  border-color: var(--rd-control-border);
+}
+html[data-branding="next"] input[type="checkbox"] {
+  border-radius: 3px;
+}
+html[data-branding="next"] input[type="checkbox"]:checked,
+html[data-branding="next"] input[type="radio"]:checked {
+  background-color: var(--rd-accent);
+  border-color: var(--rd-accent);
+}
+html[data-branding="next"] input[type="checkbox"]:active:not(.g-disabled):not(:checked),
+html[data-branding="next"] input[type="radio"]:active:not(.g-disabled):not(:checked) {
+  background-color: var(--rd-bg-pressed);
+}
+html[data-branding="next"] input[type="checkbox"]:checked:active:not(.g-disabled),
+html[data-branding="next"] input[type="radio"]:checked:active:not(.g-disabled) {
+  background-color: var(--rd-accent-pressed);
+}
+html[data-branding="next"] input[type="radio"]:checked {
+  box-shadow: inset 0 0 0 2px var(--rd-bg-input);
+}
+
+/* Switches and sliders. */
+html[data-branding="next"] .g-switch > div,
+html[data-branding="next"] #left-sidebars .sidebar-container .toolbar .g-switch > div,
+html[data-branding="next"] #right-sidebars .sidebar-container .toolbar .g-switch > div {
+  background-color: var(--rd-switch-track);
+}
+html[data-branding="next"] .g-switch > div:after,
+html[data-branding="next"] .g-input-slider-thumb {
+  box-shadow:
+    0 0 0 1px var(--rd-control-border),
+    0 1px 2px rgba(27, 27, 36, 0.15);
+}
+html[data-branding="next"] .g-switch > div:after,
+html[data-branding="next"] .g-input-slider-thumb.generic {
+  background-color: #ffffff;
+}
+html[data-branding="next"] .g-switch input:checked + div:before,
+html[data-branding="next"] .g-input-slider-track.generic > .g-input-slider-background {
+  background-color: var(--rd-accent);
+}
+html[data-branding="next"] .g-input-slider.generic {
+  background: var(--rd-divider-strong);
+}
+html[data-branding="next"] .g-input-slider-thumb.generic.active {
+  background: var(--rd-bg-pressed);
+}
+
+/* ---- Focus: a visible ring on every control (the old sheet removed it). ---- */
+
+html[data-branding="next"] input[type="number"]:focus,
+html[data-branding="next"] input[type="text"]:focus,
+html[data-branding="next"] input[type="password"]:focus,
+html[data-branding="next"] input[type="date"]:focus,
+html[data-branding="next"] input:not([type]):focus,
+html[data-branding="next"] textarea:focus {
+  border-color: var(--rd-focus);
+  box-shadow: 0 0 0 1px var(--rd-focus);
+}
+html[data-branding="next"] .g-input-select:focus-within {
+  border-color: var(--rd-focus);
+  box-shadow: 0 0 0 1px var(--rd-focus);
+}
+html[data-branding="next"] .g-input-select > input:focus {
+  box-shadow: none;
+}
+/* Selected text in a field: the yellow selection hint (ink on yellow, 13:1). */
+html[data-branding="next"] input::selection,
+html[data-branding="next"] textarea::selection,
+html[data-branding="next"] #toolbar > div.section > .toolbar-button .gravit-zoom-manual-input ::selection {
+  background: var(--rd-marker);
+  color: #1b1b24;
+}
+html[data-branding="next"] button:focus-visible,
+html[data-branding="next"] .g-button:focus-visible,
+html[data-branding="next"] select:focus-visible,
+html[data-branding="next"] input[type="checkbox"]:focus-visible,
+html[data-branding="next"] input[type="radio"]:focus-visible,
+html[data-branding="next"] input[type="button"]:focus-visible,
+html[data-branding="next"] input[type="submit"]:focus-visible,
+html[data-branding="next"] a:focus-visible {
+  outline: 2px solid var(--rd-focus) !important;
+  outline-offset: 1px;
+}
+
+/* ---- Menus and context menus ---- */
+
+html[data-branding="next"] .g-menu:not(.g-menu-root) {
+  background: var(--rd-surface);
+  color: var(--rd-text);
+  border-color: var(--rd-surface);
+  border-radius: var(--rd-radius-popover);
+  box-shadow:
+    0 0 0 1px var(--rd-surface-border),
+    var(--rd-shadow-popover);
+}
+html[data-branding="next"] .g-menu:not(.g-menu-root).g-menu-top,
+html[data-branding="next"] .g-menu:not(.g-menu-root).g-menu-bottom,
+html[data-branding="next"] .g-menu:not(.g-menu-root).g-menu-left,
+html[data-branding="next"] .g-menu:not(.g-menu-root).g-menu-right {
+  border-radius: var(--rd-radius-popover);
+}
+html[data-branding="next"] .g-menu:not(.g-menu-root) > .g-menu-item {
+  color: var(--rd-text);
+}
+html[data-branding="next"] .g-menu-item > span.g-menu-item-shortcut {
+  color: var(--rd-text-muted);
+}
+html[data-branding="next"] .g-menu:not(.g-menu-root) > .g-menu-item [class^="gravit-icon-"],
+html[data-branding="next"] .g-menu:not(.g-menu-root) > .g-menu-item [class*=" gravit-icon-"],
+html[data-branding="next"] .g-menu:not(.g-menu-root) > .g-menu-item > span.g-menu-item-tail {
+  color: var(--rd-icon);
+}
+html[data-branding="next"] .g-menu-item-divider {
+  background: var(--rd-divider);
+}
+html[data-branding="next"] .g-menu > .g-menu-item.g-active:not(.g-disabled),
+html[data-branding="next"] .g-menu > .g-menu-item.g-active:not(.g-disabled) > span,
+html[data-branding="next"] .g-menu:not(.g-menu-root) > .g-menu-item.g-hover:not(.g-disabled),
+html[data-branding="next"] .g-menu:not(.g-menu-root) > .g-menu-item.g-hover:not(.g-disabled) > span {
+  background: var(--rd-bg-hover);
+  color: var(--rd-text);
+}
+html[data-branding="next"] .g-menu:not(.g-menu-root) > .g-menu-item.g-hover:not(.g-disabled),
+html[data-branding="next"] .g-menu:not(.g-menu-root) > .g-menu-item.g-active:not(.g-disabled) {
+  box-shadow: inset 2px 0 0 var(--rd-accent-fg);
+}
+html[data-branding="next"] .g-menu:not(.g-menu-root) > .g-menu-item.g-hover:not(.g-disabled) > span.g-menu-item-shortcut {
+  color: var(--rd-text-muted);
+}
+
+/* ---- Tooltips ---- */
+
+html[data-branding="next"] .g-tooltip {
+  background: var(--rd-tooltip);
+  color: #ffffff;
+  font-family: var(--rd-font-ui);
+  font-weight: 600;
+  border-radius: var(--rd-radius-popover);
+  box-shadow: var(--rd-shadow-popover);
+}
+html[data-branding="next"] .g-overlay.g-tooltip-content-overlay {
+  border-radius: var(--rd-radius-popover);
+  box-shadow: var(--rd-shadow-popover);
+}
+
+/* ---- Dropdown panels and the color chooser (.g-overlay) ---- */
+
+html[data-branding="next"] .g-overlay:not(.g-tooltip-content-overlay) {
+  background: var(--rd-surface);
+  color: var(--rd-text);
+  border-color: var(--rd-surface-border);
+  border-radius: var(--rd-radius-popover);
+  box-shadow: var(--rd-shadow-popover);
+}
+
+/* The color chooser: its header and palette tabs follow the sidebars. */
+html[data-branding="next"] .pattern-chooser > .toolbar {
+  background: var(--rd-bg-sunken);
+  border-bottom-color: var(--rd-divider);
+  border-radius: calc(var(--rd-radius-popover) - 1px) calc(var(--rd-radius-popover) - 1px) 0 0;
+}
+html[data-branding="next"] .pattern-chooser > .palettes {
+  border-top-color: var(--rd-divider);
+}
+html[data-branding="next"] .pattern-chooser > .color-editor > .color-details > .color-eyedropper > span {
+  color: var(--rd-icon);
+}
+html[data-branding="next"] .pattern-chooser > .color-editor > .color-details > .color-eyedropper.g-active > span {
+  color: var(--rd-accent-fg);
+}
+html[data-branding="next"]
+  .pattern-chooser
+  > .color-editor
+  > .color-details
+  > .color-preview-container
+  > .color-preview
+  > .color-preview-old,
+html[data-branding="next"]
+  .pattern-chooser
+  > .color-editor
+  > .color-details
+  > .color-preview-container
+  > .color-preview
+  > .color-preview-new,
+html[data-branding="next"] .pattern-chooser > .palettes > .palette .swatches > .swatch {
+  border-color: var(--rd-swatch-border);
+}
+html[data-branding="next"] .pattern-chooser > .palettes > .chooser button {
+  font-family: var(--rd-font-ui);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--rd-text-muted);
+  background: transparent;
+}
+html[data-branding="next"] .pattern-chooser > .palettes > .chooser button:hover {
+  background: transparent;
+  color: var(--rd-text);
+}
+html[data-branding="next"] .pattern-chooser > .palettes > .chooser button.g-active {
+  background: transparent;
+  color: var(--rd-accent-text);
+  box-shadow: inset 0 -2px 0 var(--rd-accent-fg);
+}
+
+/* ---- Dialogs ---- */
+
+html[data-branding="next"] .g-dialog-container:not(.g-new-document-dialog-container) {
+  background-color: var(--rd-scrim);
+}
+html[data-branding="next"]
+  .g-dialog-container:not(.g-new-document-dialog-container)
+  .g-dialog:not(.g-new-document-dialog) {
+  background: var(--rd-surface);
+  color: var(--rd-text);
+  border-radius: var(--rd-radius-dialog);
+  box-shadow:
+    0 0 0 1px var(--rd-surface-border),
+    var(--rd-shadow-dialog);
+}
+/* The wordmark's selection handles are filled with what sits behind them (next.css). */
+html[data-branding="next"] .g-dialog.gd-intro-dialog {
+  --gd-tile: var(--rd-surface);
+}
+html[data-branding="next"] .g-dialog-container .g-dialog-footer button,
+html[data-branding="next"] .g-dialog-container .g-dialog-footer .g-button {
+  border-radius: var(--rd-radius-button);
+  background-color: transparent;
+  border-color: var(--rd-control-border);
+  color: var(--rd-text);
+}
+html[data-branding="next"] .g-dialog-container .g-dialog-footer button:hover,
+html[data-branding="next"] .g-dialog-container .g-dialog-footer .g-button:hover {
+  background-color: var(--rd-bg-hover);
+}
+html[data-branding="next"] .g-dialog-container .g-dialog-footer button.primary,
+html[data-branding="next"] .g-dialog-container .g-dialog-footer .g-button.primary {
+  background: var(--rd-accent);
+  border-color: var(--rd-accent);
+  color: #ffffff;
+}
+html[data-branding="next"] .g-dialog-container .g-dialog-footer button.primary > span,
+html[data-branding="next"] .g-dialog-container .g-dialog-footer .g-button.primary > span {
+  color: #ffffff;
+}
+html[data-branding="next"] .g-dialog-container .g-dialog-footer button.primary:hover,
+html[data-branding="next"] .g-dialog-container .g-dialog-footer .g-button.primary:hover {
+  background: var(--rd-accent-hover);
+  border-color: var(--rd-accent-hover);
+}
+html[data-branding="next"] .g-dialog-container .g-dialog-footer button.primary:active,
+html[data-branding="next"] .g-dialog-container .g-dialog-footer .g-button.primary:active {
+  background: var(--rd-accent-pressed) !important;
+  border-color: var(--rd-accent-pressed);
+}
+html[data-branding="next"] .g-dialog-container .g-dialog a:link,
+html[data-branding="next"] .g-dialog-container .g-dialog a:visited {
+  color: var(--rd-accent-text);
+}
+
+/* ---- Scrollbars: the old 15 px bar in the panel colours ---- */
+
+html[data-branding="next"] ::-webkit-scrollbar,
+html[data-branding="next"] ::-webkit-scrollbar-track {
+  background-color: var(--rd-bg);
+}
+html[data-branding="next"] ::-webkit-scrollbar-thumb {
+  background-color: var(--rd-divider-strong);
+  border-color: var(--rd-bg);
+}
+html[data-branding="next"] ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--rd-control-border);
+}
+
+/* ---- The canvas area ---- */
+
+html[data-branding="next"] #windows {
+  background: var(--rd-canvas);
+}
+html[data-branding="next"] #windows .window .g-ruler-widget {
+  color: var(--rd-ruler) !important;
+}
+html[data-branding="next"] #windows .window .g-ruler-widget canvas,
+html[data-branding="next"] #windows .window .g-ruler-widget:not(.horizontal):not(.vertical) {
+  background: var(--rd-ruler-bg);
+}
+html[data-branding="next"] #windows .window .g-ruler-widget .mouse-marker {
+  background: var(--rd-accent-fg) !important;
+}
+html[data-branding="next"] #windows .window .g-ruler-widget.horizontal {
+  border-bottom-color: var(--rd-divider);
+}
+html[data-branding="next"] #windows .window .g-ruler-widget.vertical {
+  border-right-color: var(--rd-divider);
+}

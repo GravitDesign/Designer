@@ -1,11 +1,16 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { EditorPaintConfiguration } from "../../editor/editor-paint-configuration.ts";
 import {
   ACCENT_LINK_ID,
   THEME_ATTRIBUTE,
   accentHref,
+  currentPageShadowColor,
   themeOfHref,
   watchBrandTheme,
 } from "./brand-theme.ts";
+
+const decoration = EditorPaintConfiguration.prototype.pageDecoration;
+const classicShadow = decoration.shadowBackground;
 
 class FakeLink {
   private readonly attributes = new Map<string, string>();
@@ -53,6 +58,7 @@ function fakeDocument(themeHref: string) {
 afterEach(() => {
   observers.splice(0);
   vi.unstubAllGlobals();
+  decoration.shadowBackground = classicShadow;
 });
 
 describe("brand theme", () => {
@@ -82,5 +88,19 @@ describe("brand theme", () => {
     watchBrandTheme(doc);
     theme.setAttribute("href", "/designer.browser.dark.css");
     expect(observers).toEqual([]);
+    expect(decoration.shadowBackground).toBe(classicShadow);
+  });
+
+  it("tints the page shadow on the canvas with the theme", () => {
+    const { doc, theme, root } = fakeDocument("/designer.browser.dark.css");
+    const stop = watchBrandTheme(doc);
+    expect(decoration.shadowBackground).toBe("rgba(0,0,0,0.5)");
+    expect(currentPageShadowColor(doc)).toBe("rgba(0,0,0,0.5)");
+    theme.setAttribute("href", "/designer.browser.light.css");
+    expect(decoration.shadowBackground).toBe("rgba(27,27,36,0.25)");
+    stop();
+    // What designer.ts reads at boot, before any switch: the attribute index.html set.
+    root.setAttribute(THEME_ATTRIBUTE, "dark");
+    expect(currentPageShadowColor(doc)).toBe("rgba(0,0,0,0.5)");
   });
 });

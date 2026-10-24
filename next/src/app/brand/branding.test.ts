@@ -174,6 +174,7 @@ describe("index.html's script", () => {
     expect(run.links.map((l) => [l.rel, l.href, l.id])).toEqual([
       ["stylesheet", "/brand/accent.dark.css", "brand-accent"],
       ["stylesheet", "/brand/next.css", ""],
+      ["stylesheet", "/brand/editor.css", ""],
       ["icon", "/brand/icons/favicon.ico", ""],
     ]);
     expect(run.manifest).toBe("/brand/manifest.json");
