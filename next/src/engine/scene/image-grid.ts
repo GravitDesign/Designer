@@ -156,7 +156,8 @@ export class ImageGrid extends Shape {
   declare $grid: ImageGridLayout | null | undefined;
   declare $im: (Image | null | undefined)[] | null;
   declare $mg: number;
-  declare $off: number[][] | null;
+  /** Two numbers per cell (x, y); files of the old app can hold one [x, y] pair per cell. */
+  declare $off: (number | number[] | null)[] | null;
 
   declare _images: ImageGridImages | null;
   /** The grid's size in grid units, margins included. */
@@ -187,6 +188,10 @@ export class ImageGrid extends Shape {
     const outline = new VertexContainer();
     const images = this.$im || [];
     const offsets = this.$off || [];
+    // The old addImage stored an [x, y] pair per cell, which this flat
+    // reading turned into a NaN itrf (BUGS-FIXED.md "BUG-017 An image
+    // dropped into an image grid gets a NaN itrf"); such files still load.
+    const nested = offsets.some((entry) => Array.isArray(entry));
     if (!this.$grid) return null;
     this._gridMeasure = this._iterateGrid((x, y, width, height) => {
       outline.addVertex(Vertex.Command.Move, x, y);
@@ -216,9 +221,13 @@ export class ImageGrid extends Shape {
       if (source && !source.isEmpty()) {
         let offsetX: number;
         let offsetY: number;
-        if (offsets.length > 2 * index) {
-          offsetX = offsets[2 * index] as unknown as number;
-          offsetY = offsets[2 * index + 1] as unknown as number;
+        if (nested) {
+          const pair = offsets[index];
+          offsetX = Array.isArray(pair) ? Number(pair[0]) || 0 : 0;
+          offsetY = Array.isArray(pair) ? Number(pair[1]) || 0 : 0;
+        } else if (offsets.length > 2 * index) {
+          offsetX = offsets[2 * index] as number;
+          offsetY = offsets[2 * index + 1] as number;
         } else {
           offsetX = 0;
           offsetY = 0;
@@ -322,9 +331,23 @@ export class ImageGrid extends Shape {
     });
     if (bestIndex < 0) return;
     const images = (this.$im || []).slice();
-    const offsets = (this.$off || []).slice();
+    let offsets = (this.$off || []).slice();
+    // Two numbers per cell, as _prepareVertices reads them (the old code
+    // stored [offset, offset] at bestIndex, BUG-017).
+    if (offsets.some((entry) => Array.isArray(entry))) {
+      const flat: (number | null)[] = [];
+      offsets.forEach((pair, i) => {
+        if (Array.isArray(pair)) {
+          flat[2 * i] = Number(pair[0]) || 0;
+          flat[2 * i + 1] = Number(pair[1]) || 0;
+        }
+      });
+      offsets = flat;
+    }
+    for (let i = 0; i < 2 * bestIndex; i++) if (typeof offsets[i] != "number") offsets[i] = 0;
     images[bestIndex] = image;
-    offsets[bestIndex] = [offset, offset];
+    offsets[2 * bestIndex] = offset;
+    offsets[2 * bestIndex + 1] = offset;
     this.setProperties(["im", "off"], [images, offsets]);
   }
 

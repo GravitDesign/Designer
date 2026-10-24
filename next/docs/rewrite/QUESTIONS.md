@@ -867,7 +867,7 @@ An image added to a grid with addImage before its bitmap loads ends up, once loa
 
 Unclear because a NaN itrf looks wrong and would serialize as null; it may affect how such an image paints or saves.
 
-Kept. Pinned by parity engine-model/image/grid-images (attached.props.itrf) and engine-model/image/paint-grid.
+Fixed: see BUG-017 in BUGS-FIXED.md.
 
 ## Q-068 Scene dictionary flush keeps the memory of dropped canvases
 

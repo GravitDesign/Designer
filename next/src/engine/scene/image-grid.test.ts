@@ -61,9 +61,40 @@ describe("GImageGrid", () => {
     grid.addImage(image, new Rect(0, 0, 5, 5));
     const images = grid.getProperty("im") as Image[];
     expect(images[0]).toBe(image);
-    const offsets = grid.getProperty("off") as number[][];
-    expect((offsets[0] as number[])[0]).toBe((offsets[0] as number[])[1]);
+    const offsets = grid.getProperty("off") as number[];
+    expect(offsets).toHaveLength(2);
+    expect(offsets[0]).toBe(offsets[1]);
     expect((grid._images as ImageGridImages).getChildren()).toEqual([image]);
+  });
+
+  it("fits a dropped image with a finite itrf, two offset numbers per cell (BUG-017)", () => {
+    const grid = new ImageGrid(true);
+    grid.setProperty("trf", new Transform(100, 0, 0, 100, 0, 0));
+    vertices(grid);
+    const image = new Image();
+    grid.addImage(image, new Rect(2, 3, 10, 10));
+    const offsets = grid.getProperty("off") as number[];
+    expect(offsets).toHaveLength(2);
+    // The cells are cached; a geometry update fits the images again.
+    grid._invalidateGeometryForChildUpdate();
+    vertices(grid);
+    const itrf = Transform.serialize(image.getProperty("itrf") as Transform);
+    expect(itrf).toHaveLength(6);
+    expect(itrf.every(Number.isFinite)).toBe(true);
+    // A later cell pads the earlier ones with 0.
+    grid.addImage(new Image(), new Rect(45, 45, 10, 10));
+    const padded = grid.getProperty("off") as number[];
+    expect(padded).toHaveLength(10);
+    expect(padded.slice(0, 2)).toEqual(offsets);
+    expect(padded.slice(2, 8)).toEqual([0, 0, 0, 0, 0, 0]);
+    // The old app wrote an [x, y] pair per cell; files with it still fit.
+    const old = new ImageGrid(true);
+    old.setProperty("trf", new Transform(100, 0, 0, 100, 0, 0));
+    const oldImage = new Image();
+    old.setProperties(["im", "off"], [[oldImage], [[offsets[0], offsets[1]]]]);
+    old._invalidateGeometryForChildUpdate();
+    vertices(old);
+    expect(Transform.serialize(oldImage.getProperty("itrf") as Transform)).toEqual(itrf);
   });
 
   it("saves its images as serialized nodes", () => {

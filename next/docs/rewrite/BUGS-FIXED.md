@@ -565,3 +565,35 @@ Old code: chunk.vendor.js module 530, GSimpleShape constructor
   within 2 px of a shape edge in the old render; fills are unchanged.
   engine-model/special/ready-shape, the preview, the bitmap and the
   exports of shapes-ready.gvdesign don't snap and still match.
+
+## BUG-017 An image dropped into an image grid gets a NaN itrf
+
+Old code: chunk.vendor.js module 534, GImageGrid addImage (75697-75722)
+and _prepareVertices (75588-75630).
+
+- Reproduce: open a file that holds an image grid and drop an image onto
+  one of its cells with the select tool (or call addImage), then let the
+  image load.
+- Old: addImage stored the offset as an [x, y] pair at the cell's index
+  (`off[i] = [o, o]`), but _prepareVertices reads two plain numbers per
+  cell (`off[2i]`, `off[2i + 1]`). For the first cell it added the pair to
+  a number, so the image's itrf got a NaN translation, the image wasn't
+  painted and the file saved `null` for it; for later cells it read the
+  wrong slots or none.
+- New: addImage stores two numbers per cell and fills the slots of earlier
+  cells with 0. Files from the old app that hold [x, y] pairs are still
+  read pair by pair, and the next addImage turns them into the flat form.
+  The offset keeps the old value (the x distance to the cell center for
+  both coordinates).
+- Test: src/engine/scene/image-grid.test.ts, "fits a dropped image with a
+  finite itrf, two offset numbers per cell (BUG-017)" (fails with the old
+  addImage) and "puts an image into the nearest cell, saving the x offset
+  for both coordinates", now with the flat offsets.
+- Parity exceptions: parity/exceptions/BUG-017.json.
+  engine-model/special/image-grid stores `off` as `[o, o]` instead of
+  `[[o, o]]` (same value). engine-model/image/grid-images has the itrf
+  translation 1.5714285714285705 instead of NaN; checked in the old app:
+  the same grid with its offsets rewritten flat before the image loads
+  gives exactly this itrf. engine-model/image/paint-grid now paints that
+  image (29 pixels in the cell's corner). Nothing else in the three
+  outputs changes.

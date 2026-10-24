@@ -1,0 +1,10 @@
+{
+  "bug": "BUG-017",
+  "why": "An image dropped into an image grid gets a finite itrf: addImage stores two numbers per cell, which is how the grid reads them. The .fixed outputs differ from the old ones only there: special/image-grid stores off as [o, o] instead of [[o, o]], image/grid-images has the itrf translation 1.5714285714285705 instead of NaN (the old app computes the same value when its offsets are written flat), and image/paint-grid draws the image that the NaN transform left out.",
+  "scenarios": [
+    "engine-model/special/image-grid",
+    "engine-model/image/grid-images",
+    "engine-model/image/paint-grid"
+  ],
+  "pending": []
+}
