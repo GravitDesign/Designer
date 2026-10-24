@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-045",
+  "why": "A transform box pivot at x = 0 or y = 0 is kept instead of falling back to the box centre. No recorded scenario puts the pivot at 0, so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}

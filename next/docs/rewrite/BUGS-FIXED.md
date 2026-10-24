@@ -964,3 +964,21 @@ lines 29993-30045 (the bug at 30019).
   15).
 - Parity exceptions: none. No recorded scenario Shift-drags a shoulder of
   a corner with different shoulder lengths.
+
+## BUG-045 A transform box pivot at x = 0 or y = 0 counts as no pivot
+
+Old code: chunk.vendor.js module 546 (GTransformBox constructor), lines
+79587-79588.
+
+- Reproduce: with the transform box (Q) active, move its pivot onto the
+  page's left or top edge (x = 0 or y = 0, where it snaps), then
+  transform the selection.
+- Old: the constructor took the pivot with `cx || centre`, so a pivot at
+  0 was replaced by the box centre on that axis. The box is rebuilt after
+  each transform keeping its pivot, so the pivot jumped back to the centre
+  after the first transform (Q-137).
+- New: only a missing pivot (null) falls back to the centre.
+- Test: src/editor/element-editors/transform-box.test.ts, "BUG-045:
+  rotates around the centre unless one is given, also at 0" (fails with
+  the old code: [100, 50] instead of [0, 0]).
+- Parity exceptions: none. No recorded scenario puts the pivot at 0.

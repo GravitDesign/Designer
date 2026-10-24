@@ -135,8 +135,10 @@ export class TransformBox implements VertexReader {
   declare _centerOnly: boolean | undefined;
 
   /**
-   * A box around `rect`, rotating around (cx, cy) (the centre of the rect
-   * when not given, or given as 0: the old code tested with ||).
+   * A box around `rect`, rotating around (cx, cy), or the centre of the
+   * rect on an axis without one. The old code tested with ||, so 0 counted
+   * as none (BUG-045 A transform box pivot at x = 0 or y = 0 counts as no
+   * pivot).
    */
   constructor(
     rect: Rect,
@@ -158,8 +160,8 @@ export class TransformBox implements VertexReader {
     this.blx = bottomLeft.getX();
     this.bly = bottomLeft.getY();
     this._vertices = new VertexContainer();
-    this.cx = cx || (this.tlx + this.brx) / 2;
-    this.cy = cy || (this.tly + this.bry) / 2;
+    this.cx = cx != null ? cx : (this.tlx + this.brx) / 2;
+    this.cy = cy != null ? cy : (this.tly + this.bry) / 2;
     this._tBoxFlags = flags || TBoxFlag.Rotate | TBoxFlag.Skew | TBoxFlag.Move | TBoxFlag.Resize;
     this._scene = scene;
   }

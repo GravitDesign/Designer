@@ -67,11 +67,12 @@ function partData(data: unknown): unknown {
 }
 
 describe("GTransformBox", () => {
-  it("rotates around the centre unless one is given; 0 counts as none", () => {
+  it("BUG-045: rotates around the centre unless one is given, also at 0", () => {
     expect([box().cx, box().cy]).toEqual([100, 50]);
     expect([box(undefined, 10, 20).cx, box(undefined, 10, 20).cy]).toEqual([10, 20]);
-    // The old constructor tested the centre with ||.
-    expect([box(undefined, 0, 0).cx, box(undefined, 0, 0).cy]).toEqual([100, 50]);
+    // The old constructor tested the centre with ||, so 0 gave the centre.
+    expect([box(undefined, 0, 0).cx, box(undefined, 0, 0).cy]).toEqual([0, 0]);
+    expect([box(undefined, 0, 20).cx, box(undefined, 0, 20).cy]).toEqual([0, 20]);
   });
 
   it("has the four corners as vertices, mapped by its transform", () => {

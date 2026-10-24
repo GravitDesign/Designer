@@ -1628,7 +1628,7 @@ What it does: `this.cx = t || (tlx + brx) / 2`. A pivot passed as x = 0 or y = 0
 
 Why it's unclear: it only shows when the pivot sits exactly on the scene axis. It looks like a truthiness slip rather than intent.
 
-Kept. transform-box.ts constructor; pinned by "rotates around the centre unless one is given; 0 counts as none".
+Fixed: see BUG-045 in BUGS-FIXED.md.
 
 ## Q-138 Transform box handle under the mouse always counts as new
 
