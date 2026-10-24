@@ -25,10 +25,10 @@ const FillType = {
 };
 
 /**
- * Sketch's border position (0 center, 1 inside, 2 outside) as alignments.
- * Sic: the importer looks the position up on the style, which has none
- * (Sketch keeps it on each border), so every border imports as Inside
- * (QUESTIONS.md "Sketch borders always import as inside").
+ * Sketch's border position (0 center, 1 inside, 2 outside) as alignments,
+ * read from each border; a border without one is Inside. The old importer
+ * read the style's position, which Sketch never writes, so every border
+ * was Inside ("Sketch borders always import as Inside" in BUGS-FIXED.md).
  */
 const BORDER_ALIGNMENTS = [
   Stylable.BorderAlignment.Center,
@@ -56,8 +56,8 @@ export class SketchElement extends SketchShape {
           const layer = sceneNode(new Stylable.BorderPaintLayer());
           layer.setProperty("_bw", border.thickness);
           layer.setProperty("_bml", style.miterLimit);
-          // Sic: style.position is always undefined (see BORDER_ALIGNMENTS).
-          layer.setProperty("_ba", BORDER_ALIGNMENTS[style.position || 1]);
+          const position = undefined !== border.position ? border.position : 1;
+          layer.setProperty("_ba", BORDER_ALIGNMENTS[position] ?? Stylable.BorderAlignment.Inside);
           this._parsePaintLayer(border, layer);
           (node.getPaintLayers() as SceneNodeLike).appendChild(layer);
         });

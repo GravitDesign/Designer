@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-107",
+  "why": "Sketch borders keep their position: centred borders import as Center (the default, not written) and outside borders as Outside instead of all as Inside. styles-v49's .fixed file (BUG-103) and primitives-v49's differ from the earlier output only in those _ba values.",
+  "scenarios": ["io-import-sketch/styles-v49", "io-import-sketch/primitives-v49"],
+  "pending": []
+}

@@ -1499,3 +1499,30 @@ Old code: chunk.vendor.js module 1136 (sketchtext), composeQuery (lines
   for the same Open Sans normal 400, is no longer a query of its own
   because the font search asks once per family, style and weight. Checked
   with a diff of the expanded JSON.
+
+## BUG-107 Sketch borders always import as Inside
+
+Old code: chunk.vendor.js module 439 (sketchelement), line 70841:
+`t.setProperty("_ba", _[o.position || 1])` with `o` the layer's style.
+
+- Reproduce: open a Sketch file with centred or outside borders
+  (parity/fixtures/import/sketch/styles-v49.sketch, layer "borders").
+- Old: the alignment was read from the style's `position`, which Sketch
+  never writes (it keeps the position on each border), so every border
+  imported as Inside; a centre position (0) would have become Inside
+  through `|| 1` as well (QUESTIONS.md Q-103). Centred and outside
+  strokes moved inwards.
+- New: each border's own position gives its alignment (0 Center, 1
+  Inside, 2 Outside); a border without a position, or with an unknown
+  one, is Inside as before.
+- Test: src/io/import/sketch/sketch-import.test.ts, "Sketch border
+  positions (BUG-107)" (the old code gives four Insides); "imports
+  primitives-v49 as recorded" now reads its `.fixed` recording.
+- Parity exceptions: parity/exceptions/BUG-107.json.
+  io-import-sketch/styles-v49 (its `.fixed` file from BUG-103 changed
+  further): the borders layer's first border (position 0) loses its `"_ba": "I"`
+  (Center is the default and isn't written) and the third (position 2)
+  and the oval-styled border (position 2) get `"_ba": "O"`.
+  io-import-sketch/primitives-v49: one border with position 0 loses its
+  `"_ba": "I"`. Nothing else differs (checked with a diff of the expanded
+  JSON).

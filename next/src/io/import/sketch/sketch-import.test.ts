@@ -151,3 +151,23 @@ describe("Sketch layer effects (BUG-103)", () => {
     });
   });
 });
+
+describe("Sketch border positions (BUG-107)", () => {
+  it("imports each border's position, Inside when it has none", async () => {
+    const result = (await importFile("styles-v49.sketch", {
+      workspace: new Workspace(),
+    })) as SketchImportResult;
+    const alignments: unknown[] = [];
+    for (const page of result.pages as unknown as ReadNode[]) {
+      page.acceptChildren((node) => {
+        if (node.getProperty("name") !== "borders") return;
+        const layers = (
+          node as unknown as { getPaintLayers(): { getChildren(): ReadNode[] } }
+        ).getPaintLayers();
+        for (const layer of layers.getChildren()) alignments.push(layer.getProperty("_ba"));
+      });
+    }
+    // Center, inside, outside, and a border without a position.
+    expect(alignments).toEqual(["C", "I", "O", "I"]);
+  });
+});

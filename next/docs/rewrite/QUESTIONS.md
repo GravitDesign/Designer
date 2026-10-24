@@ -1233,7 +1233,7 @@ What it does: the border alignment is looked up from `style.position`, but Sketc
 
 Why it's unclear: centred and outside borders move inwards, so strokes look thinner or shifted after the import. A fix would read `border.position` and test for undefined instead of using `||`.
 
-Kept. next/src/io/import/sketch/sketch-element.ts (BORDER_ALIGNMENTS). Pinned by the parity scenario io-import-sketch/styles-v49 (layer "borders" with positions 0, 1, 2 and none).
+Fixed: see BUG-107 in BUGS-FIXED.md.
 
 ## Q-104 PDF import never calls back for a document pdf.js can't open
 
