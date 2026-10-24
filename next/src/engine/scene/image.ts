@@ -788,25 +788,13 @@ export class Image extends Rectangle implements Destroyable {
         Image.NO_IMAGE_BACKGROUND,
       );
       if (this._status === ImageStatus.Error) {
-        // The cross ends at (pw, ph) and (px, ph), not at px + pw and
-        // py + ph, so it is off for a crop box that doesn't start at 0
-        // (kept, see QUESTIONS "Image error cross ignores the crop origin").
-        canvas.strokeLine(
-          this.$px,
-          this.$py,
-          this.$pw ? this.$pw : this.getWidth(),
-          this.$ph ? this.$ph : this.getHeight(),
-          2,
-          Image.NO_IMAGE_ERROR_STROKE,
-        );
-        canvas.strokeLine(
-          this.$pw ? this.$pw : this.getWidth(),
-          this.$py,
-          this.$px,
-          this.$ph ? this.$ph : this.getHeight(),
-          2,
-          Image.NO_IMAGE_ERROR_STROKE,
-        );
+        // Corner to corner of the crop box. The old cross ended at (pw, ph)
+        // and (px, ph), off the box when it doesn't start at 0 (BUGS-FIXED.md
+        // "BUG-018 The broken-image cross ignores the crop origin").
+        const right = this.$px + (this.$pw ? this.$pw : this.getWidth());
+        const bottom = this.$py + (this.$ph ? this.$ph : this.getHeight());
+        canvas.strokeLine(this.$px, this.$py, right, bottom, 2, Image.NO_IMAGE_ERROR_STROKE);
+        canvas.strokeLine(right, this.$py, this.$px, bottom, 2, Image.NO_IMAGE_ERROR_STROKE);
       }
       canvas.setTransform(saved);
     }

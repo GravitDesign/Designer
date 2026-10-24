@@ -827,7 +827,7 @@ An image whose bitmap failed to load paints the grey placeholder box (px, py, pw
 
 Unclear because it looks like a slip (end coordinates passed as sizes), but it is what users see for broken images in files with a crop.
 
-Kept. Pinned by parity engine-model/image/paint-error (px 4, py 2, pw 30, ph 20).
+Fixed: see BUG-018 in BUGS-FIXED.md.
 
 ## Q-064 Image hit test throws on a degenerate transform
 

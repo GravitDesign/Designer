@@ -65,8 +65,9 @@ const paint = (name: PaintCase): Scenario => ({
         H.add(img);
         break;
       case "error": {
-        // A url that doesn't decode: the grey crop box crossed out. The
-        // second line ends at (px, ph), not (px, py + ph) (kept).
+        // A url that doesn't decode: the grey crop box crossed out. In the
+        // old app the lines end at (pw, ph) and (px, ph), not at the box's
+        // corners (BUG-018 in the new app).
         img.setProperties(["iw", "ih", "px", "py", "pw", "ph"], [40, 30, 4, 2, 30, 20]);
         H.add(img);
         img.setProperty("url", "data:image/png;base64,AAAA");

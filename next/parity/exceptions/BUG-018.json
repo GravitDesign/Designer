@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-018",
+  "why": "The red cross of a broken image runs corner to corner of its crop box. In engine-model/image/paint-error (px 4, py 2, pw 30, ph 20) the old lines ended at (30, 20) and (4, 20), so only the top-left corner of the 30 x 20 bitmap was reached; the .fixed bitmap has the lines through all four corners. Every differing pixel lies on the old or the new lines; the grey box is unchanged.",
+  "scenarios": ["engine-model/image/paint-error"],
+  "pending": []
+}

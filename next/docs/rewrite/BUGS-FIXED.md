@@ -597,3 +597,26 @@ and _prepareVertices (75588-75630).
   gives exactly this itrf. engine-model/image/paint-grid now paints that
   image (29 pixels in the cell's corner). Nothing else in the three
   outputs changes.
+
+## BUG-018 The broken-image cross ignores the crop origin
+
+Old code: chunk.vendor.js module 95, GImage._paintImageCanvas
+(24921-24936).
+
+- Reproduce: crop an image (so its crop box doesn't start at 0, 0), then
+  make its source fail to load, for example by opening a file whose image
+  url no longer resolves.
+- Old: the grey placeholder box was drawn at (px, py, pw, ph), but the red
+  cross went from (px, py) to (pw, ph) and from (pw, py) to (px, ph): the
+  sizes were used as end coordinates, so for a crop box away from 0 the
+  cross ended inside the box and didn't reach its other corners.
+- New: the lines go from (px, py) to (px + pw, py + ph) and from
+  (px + pw, py) to (px, py + ph). With a crop box at 0, 0 nothing changes.
+- Test: src/engine/scene/image.test.ts, "draws the error cross corner to
+  corner of a crop box that doesn't start at 0 (BUG-018)" (fails with the
+  old end points).
+- Parity exceptions: parity/exceptions/BUG-018.json,
+  engine-model/image/paint-error (px 4, py 2, pw 30, ph 20): the cross now
+  reaches all four corners of the 30 x 20 bitmap, the old one only the top
+  left. Every differing pixel lies on the old or the new lines (checked
+  pixel by pixel); the grey box is unchanged.

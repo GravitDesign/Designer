@@ -536,6 +536,29 @@ describe("GImage", () => {
   });
 });
 
+describe("GImage broken-image box", () => {
+  it("draws the error cross corner to corner of a crop box that doesn't start at 0 (BUG-018)", () => {
+    const image = new Image();
+    image.setProperties(["px", "py", "pw", "ph"], [10, 5, 20, 30]);
+    image._status = Image.ImageStatus.Error;
+    const lines: number[][] = [];
+    const canvas = {
+      getTransform: () => new Transform(),
+      setTransform: () => {},
+      fillRect: () => {},
+      strokeLine: (x1: number, y1: number, x2: number, y2: number) => {
+        lines.push([x1, y1, x2, y2]);
+      },
+    };
+    image._paintImageCanvas({} as never, canvas as never, null, null);
+    // The old cross ran from (10, 5) to (20, 30) and from (20, 5) to (10, 30).
+    expect(lines).toEqual([
+      [10, 5, 30, 35],
+      [30, 5, 10, 35],
+    ]);
+  });
+});
+
 describe("GImageGrid with images", () => {
   const PNG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAC";
 
