@@ -676,3 +676,24 @@ hasVertexForRead (around 16915-16921).
   All four fail with the old reader.
 - Parity exceptions: none. No parity scenario reads the vertices of a fake
   text with more than one run (engine-model/text still matches).
+
+## BUG-021 replaceFonts writes the style twice and never the weight
+
+Old code: chunk.vendor.js module 70, GText.replaceFonts (17982-17986).
+
+- Reproduce: open a file whose text uses a missing font and replace it
+  with a font of another weight, through the missing fonts dialog
+  (Replace), the text inspector's font replacement or an imported font
+  that takes over a missing one. Save the file.
+- Old: with a font as the replacement and the content updated, replaceFonts
+  assigned `$_tfs = font.getWeight()` and then `$_tfs = font.getStyle()`.
+  The second write won and `_tfw` was never set, so the text's own weight
+  in `content` and in the file stayed stale (or missing) while the runs
+  had the new weight.
+- New: the weight goes to `_tfw` and the style to `_tfs`.
+- Test: src/engine/text/text.test.ts, "replaces fonts (fontSetterContent)"
+  and "replaces fonts (fontContent)": the stored blob now has `_tfw: 700`
+  for the bold replacement, where old-text.json has no `_tfw`; everything
+  else equals the old recording. Both fail with the old code.
+- Parity exceptions: none. No recorded scenario replaces a font
+  (ui/dialog/missing-fonts only shows the dialog).

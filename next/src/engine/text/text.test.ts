@@ -243,11 +243,21 @@ describe("GText against the old engine", () => {
     });
   }
 
+  // A replacement font's weight reaches `_tfw` (BUGS-FIXED.md "BUG-021
+  // replaceFonts writes the style twice and never the weight"); the old
+  // app stored no _tfw in the cases that store the content.
+  const replacedWeight: Record<string, number> = { fontSetterContent: 700, fontContent: 700 };
   for (const name of Object.keys(expected.replaceFonts as object)) {
     it(`replaces fonts (${name})`, () => {
-      expect((actual.replaceFonts as Record<string, unknown>)[name]).toEqual(
-        (expected.replaceFonts as Record<string, unknown>)[name],
-      );
+      const old = (expected.replaceFonts as Record<string, { state: { blob: { _tfw: unknown } } }>)[
+        name
+      ];
+      const want = JSON.parse(JSON.stringify(old)) as NonNullable<typeof old>;
+      if (replacedWeight[name]) {
+        expect(old?.state.blob._tfw).toBeUndefined();
+        want.state.blob._tfw = replacedWeight[name];
+      }
+      expect((actual.replaceFonts as Record<string, unknown>)[name]).toEqual(want);
     });
   }
 

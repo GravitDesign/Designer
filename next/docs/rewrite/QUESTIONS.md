@@ -562,7 +562,7 @@ With a Font as replacement and `updateContent`, the old code assigns `$_tfs = fo
 
 Unclear: the first line was probably meant to set `$_tfw`. Fixing it would change `_tfw` in files after the missing-fonts dialog.
 
-Kept. Pinned by text.test.ts "replaces fonts (fontSetterContent)" and "(fontContent)" (old-text.json replaceFonts).
+Fixed: see BUG-021 in BUGS-FIXED.md.
 
 ## Q-038 GText: the font listener stays after the text leaves the workspace
 

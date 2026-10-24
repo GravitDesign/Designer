@@ -298,6 +298,7 @@ export class Text extends TextBase {
   declare $_ed: boolean;
   declare $_tff: unknown;
   declare $_tfs: unknown;
+  declare $_tfw: unknown;
 
   /** The text set before the core could be initialized. */
   declare _tempText: unknown;
@@ -2278,9 +2279,10 @@ export class Text extends TextBase {
         });
         if (replacement instanceof Font) {
           this.$_tff = replacement.getFamily();
-          // The old code set `$_tfs` twice (weight, then style); kept
-          // (QUESTIONS.md "GText: replaceFonts sets _tfs twice").
-          this.$_tfs = replacement.getWeight();
+          // The old code set `$_tfs` twice (weight, then style) and never
+          // `$_tfw` (BUGS-FIXED.md "BUG-021 replaceFonts writes the style
+          // twice and never the weight").
+          this.$_tfw = replacement.getWeight();
           this.$_tfs = replacement.getStyle();
         } else if (replacement[this.$_tff as string]) {
           this.$_tff = replacement[this.$_tff as string];
