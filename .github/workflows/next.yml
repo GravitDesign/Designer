@@ -9,9 +9,19 @@ on:
     paths:
       - "next/**"
       - ".github/workflows/next.yml"
+  workflow_dispatch:
+    inputs:
+      record_brand:
+        description: >-
+          Record the brand shots whose names match this pattern
+          (e.g. "brand/(intro|dialog)-(light|dark)$") and upload them,
+          instead of testing
+        required: false
+        default: ""
 
 jobs:
   checks:
+    if: inputs.record_brand == ''
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -37,6 +47,10 @@ jobs:
       run:
         shell: bash
     needs: checks
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -53,12 +67,88 @@ jobs:
         working-directory: next
       - run: npx playwright install chromium
         working-directory: next
-      - run: npx playwright test --project harness --project parity
+      - run: npx playwright test --project harness --project parity --shard ${{ matrix.shard }}/4
         working-directory: next
         env:
           CI: "1"
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: parity-results
+          name: parity-results-${{ matrix.shard }}
           path: next/test-results/
+
+  brand:
+    # The brand scenarios run twice in a row, to catch shots that only
+    # match some of the time.
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    needs: checks
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: next/package-lock.json
+      - name: Install the old app's server dependencies
+        run: |
+          cd "$(node -e "const fs=require('fs');console.log(fs.existsSync('legacy/server.js')?'legacy':'.')")"
+          npm install --no-save --no-package-lock express@5 ws@8
+      - run: npm ci
+        working-directory: next
+      - run: npx playwright install chromium
+        working-directory: next
+      - name: Brand scenarios, first run
+        run: npx playwright test --project parity parity/scenarios/brand
+        working-directory: next
+        env:
+          CI: "1"
+          GD_RUN: brand-1
+      - name: Brand scenarios, second run
+        run: npx playwright test --project parity parity/scenarios/brand
+        working-directory: next
+        env:
+          CI: "1"
+          GD_RUN: brand-2
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: brand-results
+          path: next/test-results/
+
+  record-brand:
+    # Recorded on the same runner image as the brand job, so the shots
+    # match what CI renders.
+    if: inputs.record_brand != ''
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: next/package-lock.json
+      - name: Install the old app's server dependencies
+        run: |
+          cd "$(node -e "const fs=require('fs');console.log(fs.existsSync('legacy/server.js')?'legacy':'.')")"
+          npm install --no-save --no-package-lock express@5 ws@8
+      - run: npm ci
+        working-directory: next
+      - run: npx playwright install chromium
+        working-directory: next
+      - run: npx playwright test --project parity parity/scenarios/brand --grep "$PATTERN"
+        working-directory: next
+        env:
+          CI: "1"
+          GD_RECORD_BRAND: "1"
+          PATTERN: ${{ inputs.record_brand }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: brand-recording
+          path: next/parity/expected/brand/
