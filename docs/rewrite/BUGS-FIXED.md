@@ -2356,3 +2356,26 @@ Old code: chunk.vendor.js module 1440 (the PDF page box, lines
   byte for byte. pages-settings is recorded as a hash only; it is the
   corpus page with a bleed. import-export/export/pdf/bleed.render is
   unchanged (the boxes don't change what is drawn).
+
+## BUG-090 ToUnicode of astral characters is not valid hex
+
+Old code: chunk.vendor.js module 1431, the CID font's `_updateUnicode`
+(lines 252964-252968).
+
+- Reproduce: export to PDF a text with characters above U+FFFF (emoji,
+  mathematical letters, enclosed alphanumerics like U+1F100) in an
+  embedded CID font, then copy the text out of the PDF.
+- Old: the ToUnicode CMap writes such a code point as a UTF-16 surrogate
+  pair, but the lead surrogate was not rounded down, so U+1F100 came out
+  as `[<d83c.4dd00>]`. That isn't hex, and readers copied nothing or
+  garbage for those glyphs.
+- New: the lead surrogate is rounded down: `[<d83cdd00>]`. The other
+  quirks of the PDF writer (/Length1, the compress and version options)
+  stay as they were.
+- Test: src/io/export/pdf/pdf-writer.recorded.test.ts, "embeds fonts like
+  the old classes: cid-cff": the ToUnicode map is the recorded one with
+  each fraction removed (`<0025><0025>[<d83cdd00>]`), and the rest of the
+  document is the recorded one apart from the cross-reference offsets
+  (fails with the old map).
+- Parity exceptions: none. No recorded scenario exports a character above
+  U+FFFF (the PDF parity runs with the fix give the old outputs).

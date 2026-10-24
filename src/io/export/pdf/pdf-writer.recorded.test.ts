@@ -108,6 +108,41 @@ interface RecordedImageCase {
   expected: string;
 }
 
+/**
+ * The document with its ToUnicode stream taken out (a placeholder in its
+ * place, its length left out) and that stream's inflated text.
+ */
+function splitToUnicode(document: string): [string, string] {
+  const header = /(\d+ 0 obj\n<<\/Length )(\d+)(\/Filter \/FlateDecode>>stream\n)/g;
+  let match: RegExpExecArray | null;
+  while ((match = header.exec(document))) {
+    const start = match.index + match[0].length;
+    const end = start + Number(match[2]);
+    const body = Buffer.from(document.slice(start, end), "latin1");
+    let text: string;
+    try {
+      text = inflateSync(body).toString("latin1");
+    } catch {
+      continue;
+    }
+    if (!text.includes("beginbfrange")) continue;
+    // The objects after it move, so the cross-reference offsets are left
+    // out too.
+    const rest = (
+      document.slice(0, match.index) +
+      match[1] +
+      "?" +
+      match[3] +
+      "<ToUnicode>" +
+      document.slice(end)
+    )
+      .replace(/\n\d{10} 00000 n /g, "\n<offset> 00000 n ")
+      .replace(/startxref\n\d+/, "startxref\n<offset>");
+    return [rest, text];
+  }
+  throw new Error("no ToUnicode stream");
+}
+
 /** The image XObjects of a document: size, soft mask or not, and pixels (inflated). */
 function images(document: string): { size: string; mask: boolean; data: string }[] {
   const out: { size: string; mask: boolean; data: string }[] = [];
@@ -254,7 +289,22 @@ describe("PDF writer against the old classes", () => {
         pdfSkeleton,
       );
       expect(result.encoded).toEqual(testCase.expected.encoded);
-      expect(result.document).toBe(testCase.expected.document);
+      if ("cid-cff" !== testCase.id) {
+        expect(result.document).toBe(testCase.expected.document);
+        return;
+      }
+      // BUG-090: the old ToUnicode wrote the lead surrogate of astral
+      // characters with a fraction ("<d83c.4dd00>"); now it is the pair
+      // ("<d83cdd00>"). The rest of the document is the old one.
+      const [oldDocument, oldCMap] = splitToUnicode(testCase.expected.document);
+      const [document, cmap] = splitToUnicode(result.document);
+      expect(oldCMap).toContain("[<d83c.4dd00>]");
+      expect(cmap).toBe(
+        oldCMap.replace(/<([0-9a-f]{4})\.[0-9a-f]*?(d[c-f][0-9a-f]{2})>/g, "<$1$2>"),
+      );
+      expect(cmap).toContain("<0025><0025>[<d83cdd00>]");
+      expect(cmap).not.toMatch(/<[0-9a-f]*\.[0-9a-f]*>/);
+      expect(document).toBe(oldDocument);
     });
   }
 

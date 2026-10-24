@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-090",
+  "why": "The ToUnicode map of a PDF writes characters above U+FFFF as a valid surrogate pair instead of hex with a fraction. No recorded scenario exports such a character.",
+  "scenarios": [],
+  "pending": []
+}

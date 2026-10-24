@@ -1091,7 +1091,7 @@ What it does:
 
 Why it's unclear: the first two are wrong output that readers mostly tolerate; the last two make options do nothing. Fixing any of them changes PDF bytes against the old app.
 
-Kept. next/src/io/export/pdf/cid-font-type.ts, font-stream.ts, object-store.ts, header.ts. Pinned by next/src/io/export/pdf/pdf-writer.recorded.test.ts "embeds fonts like the old classes: cid-cff" (the astral ToUnicode entries and /Length1 in the recorded file) and pdf-document.test.ts "deflates page contents even without compress (kept old quirk)", "writes version 1.7 whatever version it is given (kept old quirk)" and "gives an embedded font file the compressed length as /Length1 (kept old quirk)".
+The ToUnicode part is fixed: see BUG-090 in BUGS-FIXED.md. The others are kept: next/src/io/export/pdf/font-stream.ts, object-store.ts, header.ts. Pinned by next/src/io/export/pdf/pdf-writer.recorded.test.ts "embeds fonts like the old classes: cid-cff" (/Length1 in the recorded file) and pdf-document.test.ts "deflates page contents even without compress (kept old quirk)", "writes version 1.7 whatever version it is given (kept old quirk)" and "gives an embedded font file the compressed length as /Length1 (kept old quirk)".
 
 ## Q-090 PDF author is the signed-in user's name
 

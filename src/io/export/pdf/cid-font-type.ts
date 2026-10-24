@@ -127,9 +127,10 @@ export class PDFCIDFontType extends PDFFont {
 
   /**
    * The ToUnicode CMap, in bfrange blocks of 100 glyphs. Code points above
-   * U+FFFF were meant as a surrogate pair, but the old code didn't round
-   * the lead surrogate, so they come out as hex with a fraction (see
-   * "PDF writer quirks kept from the old code" in QUESTIONS.md).
+   * U+FFFF are written as a UTF-16 surrogate pair. The old code didn't
+   * round the lead surrogate, so they came out as hex with a fraction
+   * (BUGS-FIXED.md "BUG-090 ToUnicode of astral characters is not valid
+   * hex").
    */
   _updateUnicode(): void {
     let cmap = TO_UNICODE_HEADER;
@@ -139,7 +140,7 @@ export class PDFCIDFontType extends PDFFont {
       .filter((glyph) => !!glyph.unicode);
     const hex = (code: number) => {
       if (code < 65536) return "<" + PDFNumber.toHex(code, 4) + ">";
-      const lead = (code -= 65536) / 1024 + PDFUnicode.Surrogate.Lead.FirstChar;
+      const lead = Math.floor((code -= 65536) / 1024) + PDFUnicode.Surrogate.Lead.FirstChar;
       const trail = (code % 1024) + PDFUnicode.Surrogate.Trail.FirstChar;
       return "[<" + PDFNumber.toHex(lead, 4) + PDFNumber.toHex(trail, 4) + ">]";
     };
