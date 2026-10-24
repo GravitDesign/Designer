@@ -1173,3 +1173,24 @@ around 59623, _applyKeyTransformation 59916).
   "Transform Selection"); the `.fixed` output should keep blue at y 100 with
   "Arrange Order" as the last undo step, and the following probe
   two-forward then has blue at y 100 too.
+
+## BUG-054 Alt-drag duplicate shows the plain select cursor
+
+Old code: chunk.vendor.js module 334 (GSelectTool.getCursor 58437-58443,
+drag start 59090-59135).
+
+- Reproduce: with the pointer tool, hold Alt and drag a selected element
+  to duplicate it.
+- Old: the duplicate cursor (select plus) needs the Moving mode. The drag
+  start updated the cursor right away, but Moving is set in a 33 ms
+  timeout after it, so the cursor stayed the plain select cursor for the
+  whole drag.
+- New: the cursor is updated again once the timeout sets Moving, so the
+  drag shows the select plus cursor.
+- Test: src/editor/tools/select-tool.test.ts, "BUG-054: shows the
+  duplicate cursor once an Alt drag moves" (fails with the old code: the
+  last cursor shown is the select cursor).
+- Parity exceptions: editor-tools/pointer/alt-drag-duplicates. The
+  `.fixed` file is the new app's output; compared with the old expected
+  file (JSON diff) only the "dragging" probe's cursor differs:
+  g-cursor-select-plus with select-plus.cur instead of g-cursor-select.

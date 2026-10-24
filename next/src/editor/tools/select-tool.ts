@@ -828,6 +828,10 @@ export class SelectTool extends Panning(EventTargetMixin(Tool)) {
         // The move starts a frame later, so a click with a tiny jitter stays a click.
         this._clickToDragTimeout = setTimeout(() => {
           this._updateMode(Mode.Moving);
+          // The duplicate cursor needs Moving. The old code only updated the
+          // cursor before (BUG-054 Alt-drag duplicate shows the plain select
+          // cursor).
+          if (modifiers.optionKey) this.updateCursor();
         }, 33);
         if (this._editorMovePartInfo) this._dragStartPartAction(event);
       }

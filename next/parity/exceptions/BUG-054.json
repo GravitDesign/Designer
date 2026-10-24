@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-054",
+  "why": "An Alt drag of the selection shows the duplicate (select plus) cursor once the move starts. The .fixed file equals the old output except for the cursor of the dragging probe.",
+  "scenarios": ["editor-tools/pointer/alt-drag-duplicates"],
+  "pending": []
+}

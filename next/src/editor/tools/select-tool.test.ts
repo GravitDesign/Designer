@@ -232,6 +232,22 @@ describe("SelectTool moving", () => {
     expect(trf(page.getChildren()[1] as Node)).toEqual([100, 0, 0, 60, 300, 260]);
     expect(editor.getUndoStateName()).toBe("Transform & Clone Selection");
   });
+
+  it("BUG-054: shows the duplicate cursor once an Alt drag moves", async () => {
+    const { page, tool, manager, input } = setup();
+    rect(page, 100, 100, 200, 120);
+    await input.click(200, 160);
+    const shown: string[] = [];
+    manager._updateActiveToolCursor = () => shown.push(tool.getCursor());
+    setModifiers({ optionKey: true });
+    input.down(200, 160);
+    input.drag(201, 160);
+    vi.advanceTimersByTime(40);
+    // The old code showed the cursor only before the move started, while
+    // it was still the plain select cursor.
+    expect(shown[shown.length - 1]).toBe(Cursor.SelectPlus);
+    await input.up(201, 160);
+  });
 });
 
 describe("SelectTool keys", () => {
