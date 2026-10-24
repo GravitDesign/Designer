@@ -1,0 +1,319 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "no-padding"
+  ],
+  "attrs": {
+   "style": "position: absolute; top: 550px; left: 1263px;"
+  },
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-effects-panel"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-effects-selector"
+      ],
+      "children": [
+       {
+        "tag": "select",
+        "cls": [
+         "g-effects-select",
+         "active"
+        ],
+        "props": {
+         "value": "Artistic"
+        },
+        "children": [
+         {
+          "tag": "option",
+          "text": "Most Used"
+         },
+         {
+          "tag": "option",
+          "text": "Adjust"
+         },
+         {
+          "tag": "option",
+          "props": {
+           "selected": true
+          },
+          "text": "Artistic"
+         },
+         {
+          "tag": "option",
+          "text": "Blur"
+         },
+         {
+          "tag": "option",
+          "text": "Distortion"
+         },
+         {
+          "tag": "option",
+          "text": "Other"
+         },
+         {
+          "tag": "option",
+          "text": "Shadow"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-effects-content"
+      ],
+      "children": [
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-vignette-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Vignette"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-dotscreen-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Dot screen"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-edge-work-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Edge work"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-hexagonal-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Hexagonal"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-ink-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Ink"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-alcohol-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Alcohol"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-sketch-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Sketch"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-icon"
+          ],
+          "children": [
+           {
+            "tag": "i",
+            "cls": [
+             "gravit-icon-toon-effect"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "g-effects-button-caption"
+          ],
+          "text": "Toon"
+         }
+        ]
+       },
+       {
+        "tag": "li",
+        "cls": [
+         "g-effects-button"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

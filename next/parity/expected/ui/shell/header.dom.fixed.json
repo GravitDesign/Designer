@@ -1,0 +1,437 @@
+[
+ {
+  "tag": "div",
+  "id": "header",
+  "attrs": {
+   "style": "top: 0px;"
+  },
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "section",
+     "menu"
+    ],
+    "children": [
+     {
+      "tag": "nav",
+      "cls": [
+       "g-menu-bar"
+      ],
+      "children": [
+       {
+        "tag": "ul",
+        "cls": [
+         "g-menu",
+         "g-menu-root"
+        ],
+        "children": [
+         {
+          "tag": "li",
+          "cls": [
+           "g-menu-item",
+           "g-menu-item-menu"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-icon"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-caption"
+            ],
+            "text": "File"
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-info"
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-shortcut"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-detach",
+             "gravit-icon-detach"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-tail"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "li",
+          "cls": [
+           "g-menu-item",
+           "g-menu-item-menu"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-icon"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-caption"
+            ],
+            "text": "Edit"
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-info"
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-shortcut"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-detach",
+             "gravit-icon-detach"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-tail"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "li",
+          "cls": [
+           "g-menu-item",
+           "g-menu-item-menu"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-icon"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-caption"
+            ],
+            "text": "Modify"
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-info"
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-shortcut"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-detach",
+             "gravit-icon-detach"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-tail"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "li",
+          "cls": [
+           "g-menu-item",
+           "g-menu-item-menu"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-icon"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-caption"
+            ],
+            "text": "View"
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-info"
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-shortcut"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-detach",
+             "gravit-icon-detach"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-tail"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "li",
+          "cls": [
+           "g-menu-item",
+           "g-menu-item-menu"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-icon"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-caption"
+            ],
+            "text": "Help"
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-info"
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-shortcut"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-detach",
+             "gravit-icon-detach"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "g-menu-item-tail"
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "section",
+     "persona"
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "section",
+     "windows"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "tabs",
+       "ui-sortable"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "tab",
+         "g-active"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "title"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "cover"
+            ],
+            "text": "Untitled-1"
+           },
+           {
+            "tag": "input",
+            "attrs": {
+             "type": "text",
+             "style": "display: none;"
+            },
+            "props": {
+             "value": "Untitled-1"
+            },
+            "hidden": true
+           }
+          ]
+         },
+         {
+          "tag": "span",
+          "cls": [
+           "close"
+          ],
+          "attrs": {
+           "style": "pointer-events: auto;"
+          },
+          "text": "✕"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "more-button"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "more-symbol"
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "moreTab"
+      ],
+      "attrs": {
+       "style": "left: -104.266px; max-height: 950px;"
+      },
+      "hidden": true
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "section",
+     "busy"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   }
+  ]
+ }
+]

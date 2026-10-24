@@ -212,6 +212,13 @@ const list: SurfaceSpec[] = [
       await clickMenu(page, ["File", "Save"]);
     },
     shot: DIALOG,
+    // The chooser offered Save to File or Save to Cloud; with the cloud
+    // dropped (REMOVED.md DROP-008) the new app saves to a file directly.
+    removedInNewApp: async (page) => {
+      if (await page.locator(".g-save-chooser-dialog").count()) {
+        throw new Error("the cloud save chooser is still shown");
+      }
+    },
   },
   {
     id: "dialog/close-modified-confirm",

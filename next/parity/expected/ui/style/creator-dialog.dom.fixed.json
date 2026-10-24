@@ -1,0 +1,287 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "no-padding"
+  ],
+  "attrs": {
+   "style": "position: absolute; top: 410px; left: 1282.23px;"
+  },
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-style-editor"
+    ],
+    "attrs": {
+     "style": "width: 250px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "styles",
+       "no-style"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "style",
+         "g-selected"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "style-selector"
+          ]
+         },
+         {
+          "tag": "span",
+          "attrs": {
+           "style": "align-self: center; width: 165px; margin-left: 10px;"
+          },
+          "text": "No Shared Style"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div"
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "style-toolbar"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "children": [
+         {
+          "tag": "button",
+          "cls": [
+           "g-flat"
+          ],
+          "text": "Create New Shared Style"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "children": [
+         {
+          "tag": "button",
+          "cls": [
+           "g-flat"
+          ],
+          "text": "Organize Shared Styles..."
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "no-padding"
+  ],
+  "attrs": {
+   "style": "position: absolute; top: 446px; left: 1183.22px;"
+  },
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-style-creator"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "creator-toolbar"
+      ],
+      "children": [
+       {
+        "tag": "span",
+        "text": "Style Creator"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "styles"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "style"
+        ],
+        "children": [
+         {
+          "tag": "img",
+          "attrs": {
+           "src": "data:(338 chars)",
+           "style": "align-self: center; margin-left: 10px;"
+          }
+         },
+         {
+          "tag": "input",
+          "attrs": {
+           "type": "text",
+           "style": "align-self: center; width: 100%;"
+          },
+          "props": {
+           "value": "New Style"
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "checkboxes"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "checkbox"
+        ],
+        "children": [
+         {
+          "tag": "input",
+          "attrs": {
+           "data-property": "style",
+           "type": "checkbox"
+          },
+          "props": {
+           "checked": true
+          }
+         },
+         {
+          "tag": "span",
+          "text": "Style"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "checkbox"
+        ],
+        "children": [
+         {
+          "tag": "input",
+          "attrs": {
+           "data-property": "fill",
+           "type": "checkbox"
+          },
+          "props": {
+           "checked": true
+          }
+         },
+         {
+          "tag": "span",
+          "text": "Fill"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "checkbox"
+        ],
+        "children": [
+         {
+          "tag": "input",
+          "attrs": {
+           "data-property": "border",
+           "type": "checkbox"
+          },
+          "props": {
+           "checked": true
+          }
+         },
+         {
+          "tag": "span",
+          "text": "Border"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "checkbox"
+        ],
+        "children": [
+         {
+          "tag": "input",
+          "attrs": {
+           "data-property": "effects",
+           "type": "checkbox"
+          },
+          "props": {
+           "checked": true
+          }
+         },
+         {
+          "tag": "span",
+          "text": "Effects"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "checkbox"
+        ],
+        "children": [
+         {
+          "tag": "input",
+          "attrs": {
+           "data-property": "text",
+           "type": "checkbox"
+          },
+          "props": {
+           "checked": false
+          }
+         },
+         {
+          "tag": "span",
+          "text": "Text"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "creator-toolbar",
+       "bottom"
+      ],
+      "children": [
+       {
+        "tag": "button",
+        "text": "Create"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

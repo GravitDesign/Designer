@@ -4,7 +4,10 @@ import { PARITY_CONTEXT, isolateNetwork, openApp, type AppKind } from "./apps.ts
 import fs from "node:fs";
 import path from "node:path";
 import { NEXT_ROOT, RECORDING } from "./env.ts";
-import { exceptionFor, assertExceptionIsDocumented } from "./exceptions.ts";
+import { exceptionFor, assertExceptionIsDocumented, entriesFor } from "./exceptions.ts";
+import { installOldVariant, OLD_VARIANTS } from "./old-variants.ts";
+import { applyRemoval, checkPngRemoval, rulesFor, storedJson } from "./removed.ts";
+import { comparePng } from "./compare.ts";
 import {
   assertSameOutput,
   readExpected,
@@ -145,7 +148,8 @@ function defineSide(kind: AppKind, scenarios: readonly Scenario[]): void {
           if (exception) {
             // The new app deliberately differs here. It must match the
             // recorded correct behaviour, and that must differ from the old.
-            assertExceptionIsDocumented(exception);
+            for (const entry of entriesFor(scenario.id))
+              assertExceptionIsDocumented({ scenario: scenario.id, bug: entry.bug });
             const fixed = readExpected(scenario, ".fixed");
             expect(
               fixed,
@@ -168,6 +172,82 @@ function defineSide(kind: AppKind, scenarios: readonly Scenario[]): void {
         } finally {
           if (owned) await page.context().close();
           await ownBrowser?.close();
+        }
+      });
+    }
+  });
+}
+
+/** The old app variant a scenario's DROP entries name, if any (at most one). */
+function oldVariantOf(scenarioId: string): string | undefined {
+  const names = new Set(
+    entriesFor(scenarioId).flatMap((e) => (e.removed?.oldVariant ? [e.removed.oldVariant] : [])),
+  );
+  if (names.size > 1) throw new Error(`${scenarioId}: more than one old app variant`);
+  return [...names][0];
+}
+
+/**
+ * "old app without <feature>" tests: for a removed feature the old code
+ * could switch off itself (old-variants.ts), the old app with the switch
+ * off must produce the scenario's `.fixed` output, apart from the
+ * removals of the scenario's other DROP entries (their rules and png
+ * specs, applied to the variant's output).
+ */
+function defineVariantSide(scenarios: readonly Scenario[]): void {
+  const list = scenarios.filter((s) => oldVariantOf(s.id) !== undefined);
+  if (list.length === 0) return;
+  test.describe("old app variants", () => {
+    for (const scenario of list) {
+      const name = oldVariantOf(scenario.id) as string;
+      test(`${scenario.id} (${OLD_VARIANTS[name]?.title ?? name})`, async ({ browser }) => {
+        if (scenario.timeout) test.setTimeout(scenario.timeout);
+        const context = await browser.newContext({
+          ...PARITY_CONTEXT,
+          viewport: { width: 1600, height: 1000 },
+          acceptDownloads: true,
+          hasTouch: scenario.open?.hasTouch === true,
+        });
+        try {
+          await isolateNetwork(context);
+          const page = await context.newPage();
+          await installOldVariant(page, name);
+          await openApp(page, "old", { newDocument: true, ...scenario.open });
+          let actual = await runScenario(page, "old", scenario);
+          if (SABOTAGE) actual = sabotage(actual, scenario);
+          const fixed = readExpected(scenario, ".fixed");
+          expect(fixed, `missing ${scenario.id}.fixed expected file`).toBeDefined();
+          const others = entriesFor(scenario.id).filter((e) => e.removed?.oldVariant !== name);
+          if (scenario.kind === "png") {
+            const specs = others.flatMap((e) => {
+              const spec = e.removed?.png?.[scenario.id];
+              return spec ? [spec] : [];
+            });
+            if (specs.length === 0) {
+              assertSameOutput(scenario, fixed as StoredOutput, actual, `old-${name}`);
+            } else {
+              expect(specs, `${scenario.id}: one png removal`).toHaveLength(1);
+              const why = checkPngRemoval(actual, fixed as StoredOutput, specs[0] ?? {});
+              const same = comparePng(actual, fixed as StoredOutput).differentPixels === 0;
+              // Identical is fine too: the other removal left no pixel.
+              expect(same ? null : why, `${scenario.id} (old app ${name})`).toBeNull();
+            }
+            return;
+          }
+          const rules = rulesFor(
+            scenario.id,
+            others.flatMap((e) => e.removed?.rules ?? []),
+          );
+          const expected =
+            rules.length === 0
+              ? actual
+              : Buffer.from(
+                  storedJson(applyRemoval(JSON.parse(actual.toString("utf8")), rules)),
+                  "utf8",
+                );
+          assertSameOutput(scenario, fixed as StoredOutput, expected, `old-${name}`);
+        } finally {
+          await context.close();
         }
       });
     }
@@ -206,6 +286,7 @@ export function paritySuite(
         enabled === true || (Array.isArray(enabled) && enabled.includes(s.id)) || ported.has(s.id),
     );
     if (list.length > 0) defineSide("new", list);
+    defineVariantSide(scenarios);
   });
 }
 

@@ -1,0 +1,220 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "no-padding"
+  ],
+  "attrs": {
+   "style": "position: absolute; top: 410px; left: 1282.23px;"
+  },
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-style-editor"
+    ],
+    "attrs": {
+     "style": "width: 250px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "styles",
+       "no-style"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "style"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "style-selector"
+          ]
+         },
+         {
+          "tag": "span",
+          "attrs": {
+           "style": "align-self: center; width: 165px; margin-left: 10px;"
+          },
+          "text": "No Shared Style"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "styles"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "style",
+         "g-selected"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "style-selector"
+          ]
+         },
+         {
+          "tag": "img",
+          "attrs": {
+           "src": "data:(338 chars)",
+           "style": "align-self: center;"
+          }
+         },
+         {
+          "tag": "span",
+          "attrs": {
+           "style": "align-self: center; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; width: 200px;"
+          },
+          "text": "New Style"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "style-toolbar"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "children": [
+         {
+          "tag": "button",
+          "cls": [
+           "g-flat"
+          ],
+          "text": "Create New Shared Style"
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "children": [
+         {
+          "tag": "button",
+          "cls": [
+           "g-flat"
+          ],
+          "text": "Organize Shared Styles..."
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "tag": "div",
+  "cls": [
+   "g-property-row",
+   "appearance-style-property"
+  ],
+  "children": [
+   {
+    "tag": "label",
+    "cls": [
+     "property-label"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "vertical-align"
+      ],
+      "text": "Style"
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "style-selector-container"
+    ],
+    "attrs": {
+     "style": "display: flex;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "style-selector-inner-wrapper"
+      ],
+      "attrs": {
+       "style": "display: flex; width: 100%; overflow: hidden;"
+      },
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-styles-preview"
+        ],
+        "attrs": {
+         "style": "margin-right: 5px; align-self: center;"
+        },
+        "children": [
+         {
+          "tag": "img",
+          "attrs": {
+           "src": "data:(338 chars)",
+           "style": "height: 20px; width: 20px; border-radius: 3px;"
+          }
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-select",
+         "g-styles-field-container"
+        ],
+        "attrs": {
+         "style": "overflow: hidden; margin-right: 5px;"
+        },
+        "children": [
+         {
+          "tag": "span",
+          "cls": [
+           "g-styles-field"
+          ],
+          "attrs": {
+           "data-property": "_styles",
+           "type": "text",
+           "style": "width: 95%; align-self: center; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"
+          },
+          "text": "New Style"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "button",
+      "cls": [
+       "g-style-sync",
+       "g-disabled"
+      ],
+      "text": "Sync"
+     }
+    ]
+   }
+  ]
+ }
+]

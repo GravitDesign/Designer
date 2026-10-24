@@ -1,0 +1,1815 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "panels",
+   "scrolling-panels"
+  ],
+  "children": [
+   {
+    "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "main-toolbar"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "dimension-panel"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "advanced-transform-toolbar"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "advanced-transform-properties"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "filled",
+     "page-toolbar",
+     "page-properties-toolbar"
+    ],
+    "attrs": {
+     "style": ""
+    },
+    "children": [
+     {
+      "tag": "label",
+      "text": "Page (Page 1)"
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "page-properties-panel"
+    ],
+    "attrs": {
+     "style": ""
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "canvas-properties-normal",
+       "g-property-row",
+       "no-label"
+      ],
+      "attrs": {
+       "data-property-row": "canvas-size"
+      },
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "attrs": {
+           "style": "width: 25%;"
+          },
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "g-pattern-chooser"
+              ],
+              "attrs": {
+               "data-property": "bck"
+              },
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "preview",
+                 "g-button"
+                ],
+                "attrs": {
+                 "data-drag-mode": "1",
+                 "draggable": "true",
+                 "style": "background: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255)), url(data:(309 chars));"
+                },
+                "children": [
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "eyedropper",
+                   "eye-drop"
+                  ],
+                  "attrs": {
+                   "data-title": "Pick a color from anywhere on the canvas"
+                  },
+                  "children": [
+                   {
+                    "tag": "span",
+                    "cls": [
+                     "gravit-icon-picker"
+                    ]
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "attrs": {
+           "style": "width: 25%;"
+          },
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "W"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "w",
+                 "type": "text",
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
+                },
+                "props": {
+                 "value": "210"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "attrs": {
+           "style": "width: 25%;"
+          },
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "g-input-label"
+                ],
+                "text": "H"
+               },
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "h",
+                 "type": "text",
+                 "draggable": "false",
+                 "style": "padding-left: 20px; width: 100%;"
+                },
+                "props": {
+                 "value": "297"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column"
+          ],
+          "attrs": {
+           "style": "width: 25%;"
+          },
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-property": "bop",
+               "type": "text",
+               "draggable": "false"
+              },
+              "props": {
+               "value": "100%"
+              }
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "labels"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "attrs": {
+           "style": "width: 25%;"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "text": "Color"
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "attrs": {
+           "style": "width: 25%;"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "text": "Width"
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "attrs": {
+           "style": "width: 25%;"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "text": "Height"
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "attrs": {
+           "style": "width: 25%;"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "text": "Opacity"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "hr"
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "page-size-properties-normal",
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "attrs": {
+           "style": "width: 25%;"
+          },
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "text": "Page Size"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column"
+          ],
+          "attrs": {
+           "style": "width: 30%;"
+          },
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "select",
+              "attrs": {
+               "data-property": "preset-size",
+               "style": "width: 100%;"
+              },
+              "props": {
+               "value": ""
+              },
+              "children": [
+               {
+                "tag": "optgroup",
+                "attrs": {
+                 "label": "Custom Size"
+                },
+                "children": [
+                 {
+                  "tag": "option",
+                  "text": "Infinite Canvas"
+                 }
+                ]
+               },
+               {
+                "tag": "optgroup",
+                "attrs": {
+                 "label": "Print"
+                },
+                "children": [
+                 {
+                  "tag": "option",
+                  "text": "A3"
+                 },
+                 {
+                  "tag": "option",
+                  "text": "A4"
+                 },
+                 {
+                  "tag": "option",
+                  "text": "A5"
+                 },
+                 {
+                  "tag": "option",
+                  "text": "Business Card"
+                 }
+                ]
+               },
+               {
+                "tag": "optgroup",
+                "attrs": {
+                 "label": "Presentation"
+                },
+                "children": [
+                 {
+                  "tag": "option",
+                  "text": "A4 Landscape"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column"
+          ],
+          "attrs": {
+           "style": "width: 15%;"
+          },
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "button",
+              "attrs": {
+               "data-title": "Rotate Canvas",
+               "data-property": "rotate-canvas"
+              },
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "gravit-icon-flip-canvas"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column"
+          ],
+          "attrs": {
+           "style": "width: 15%;"
+          },
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "button",
+              "attrs": {
+               "data-title": "Trim Canvas",
+               "data-property": "trim-canvas"
+              },
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "gravit-icon-trim-canvas"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column"
+          ],
+          "attrs": {
+           "style": "width: 15%;"
+          },
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "button",
+              "cls": [
+               "g-active"
+              ],
+              "attrs": {
+               "data-title": "Clip content",
+               "data-property": "clip-content"
+              },
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "gravit-icon-clip-content"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "hr",
+      "attrs": {
+       "data-property-row": "fixed-size"
+      }
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "bleed-properties-normal",
+       "g-property-row",
+       "no-label"
+      ],
+      "attrs": {
+       "data-property-row": "fixed-size"
+      },
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column"
+          ],
+          "attrs": {
+           "style": "width: 25%;"
+          },
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "text": "Bleed"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column"
+          ],
+          "attrs": {
+           "style": "width: 20%;"
+          },
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-property": "bl",
+               "type": "text",
+               "draggable": "false"
+              },
+              "props": {
+               "value": "0"
+              }
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "hr",
+      "attrs": {
+       "data-property-row": "fixed-size"
+      }
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "page-margin-properties",
+       "g-property-row",
+       "no-label"
+      ],
+      "attrs": {
+       "data-property-row": "fixed-size"
+      },
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "margin-title-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "margin-title"
+              ],
+              "text": "Margin"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column",
+           "margin-input-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-property": "ml",
+               "type": "text",
+               "draggable": "false"
+              },
+              "props": {
+               "value": "0"
+              }
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column",
+           "margin-input-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-property": "mt",
+               "type": "text",
+               "draggable": "false"
+              },
+              "props": {
+               "value": "0"
+              }
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column",
+           "margin-input-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-property": "mr",
+               "type": "text",
+               "draggable": "false"
+              },
+              "props": {
+               "value": "0"
+              }
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column",
+           "margin-input-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "input",
+              "attrs": {
+               "data-property": "mb",
+               "type": "text",
+               "draggable": "false"
+              },
+              "props": {
+               "value": "0"
+              }
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "margin-btn-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "g-button",
+               "g-flat",
+               "valign-middle"
+              ],
+              "attrs": {
+               "data-title": "Equal Margins"
+              },
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "gravit-icon-linked"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "labels"
+        ],
+        "children": [
+         {
+          "tag": "label"
+         },
+         {
+          "tag": "label",
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "margin-input-labels"
+            ],
+            "text": "Left"
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "margin-input-labels"
+            ],
+            "text": "Top"
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "margin-input-labels"
+            ],
+            "text": "Right"
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "margin-input-labels"
+            ],
+            "text": "Bottom"
+           }
+          ]
+         },
+         {
+          "tag": "label"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "hr",
+      "attrs": {
+       "data-property-row": "fixed-size"
+      }
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "master-property-row",
+       "g-property-row",
+       "no-label"
+      ],
+      "attrs": {
+       "data-property-row": "fixed-size"
+      },
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "master-property-title"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "text": "Master"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "master-property-selector"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "select",
+                "attrs": {
+                 "data-property": "master-page",
+                 "style": "width: 100%;"
+                },
+                "props": {
+                 "value": ""
+                },
+                "children": [
+                 {
+                  "tag": "option",
+                  "props": {
+                   "selected": true
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "hr",
+    "attrs": {
+     "style": ""
+    }
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "scene-properties-toolbar",
+     "last-toolbar"
+    ],
+    "attrs": {
+     "style": ""
+    },
+    "children": [
+     {
+      "tag": "label",
+      "text": "Document"
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "scene-properties-panel"
+    ],
+    "attrs": {
+     "style": ""
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "unit-row",
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "unit-title-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "text": "Unit"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column",
+           "unit-selector-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "select",
+              "attrs": {
+               "data-property": "ut"
+              },
+              "props": {
+               "value": "mm"
+              },
+              "children": [
+               {
+                "tag": "option",
+                "text": "Pixels"
+               },
+               {
+                "tag": "option",
+                "props": {
+                 "selected": true
+                },
+                "text": "Millimeters"
+               },
+               {
+                "tag": "option",
+                "text": "Centimeters"
+               },
+               {
+                "tag": "option",
+                "text": "Inches"
+               },
+               {
+                "tag": "option",
+                "text": "Picas"
+               },
+               {
+                "tag": "option",
+                "text": "Points"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "hr"
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "color-mode-row",
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "color-mode-title-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "text": "Color Mode"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "cls": [
+           "column",
+           "color-mode-selector-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "select",
+              "attrs": {
+               "data-property": "cm"
+              },
+              "props": {
+               "value": "RGB"
+              },
+              "children": [
+               {
+                "tag": "option",
+                "props": {
+                 "selected": true
+                },
+                "text": "RGB"
+               },
+               {
+                "tag": "option",
+                "text": "HSB"
+               },
+               {
+                "tag": "option",
+                "text": "CMYK"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "hr"
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "dpi-row",
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "dpi-title-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "text": "DPI"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "dpi-selector-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "g-input-select"
+                ],
+                "attrs": {
+                 "data-title": "",
+                 "data-property": "dpi"
+                },
+                "children": [
+                 {
+                  "tag": "input",
+                  "attrs": {
+                   "type": "text",
+                   "draggable": "false"
+                  },
+                  "props": {
+                   "value": "72"
+                  }
+                 },
+                 {
+                  "tag": "button"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "hr"
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "grid-mode",
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "grid-mode-title-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "text": "Grid"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "grid-mode-off-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "label",
+              "children": [
+               {
+                "tag": "input",
+                "cls": [
+                 "grid-mode-radio"
+                ],
+                "attrs": {
+                 "data-property": "gm-",
+                 "type": "radio"
+                },
+                "props": {
+                 "checked": true
+                }
+               },
+               {
+                "tag": "span",
+                "text": "Off"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "grid-mode-box-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "label",
+              "children": [
+               {
+                "tag": "input",
+                "cls": [
+                 "grid-mode-radio"
+                ],
+                "attrs": {
+                 "data-property": "gm-box",
+                 "type": "radio"
+                },
+                "props": {
+                 "checked": false
+                }
+               },
+               {
+                "tag": "span",
+                "text": "On"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "grid-mode-axo-column"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "label",
+              "children": [
+               {
+                "tag": "input",
+                "cls": [
+                 "grid-mode-radio"
+                ],
+                "attrs": {
+                 "data-property": "gm-axo",
+                 "type": "radio"
+                },
+                "props": {
+                 "checked": false
+                }
+               },
+               {
+                "tag": "span",
+                "text": "Isometric"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "grid-mode-type",
+       "g-property-row"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "grid-mode-type",
+       "g-property-row"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "hr"
+     }
+    ]
+   },
+   {
+    "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "group-frame-property-panel"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "frame-property-panel"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "item-property-panel"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "filled",
+     "page-toolbar",
+     "symbol-instance-toolbar"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "symbol-instance-panel"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "cls": [
+     "appearance-divider"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "appearance-toolbar"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "appearance-properties-panel"
+    ],
+    "attrs": {
+     "style": ""
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel",
+       "text-properties-panel"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel",
+       "slice-property-panel"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "appearance-property-panel"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     }
+    ]
+   },
+   {
+    "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "list-toolbar",
+     "fill-toolbar"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "fill-properties-panel"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "list-toolbar",
+     "border-toolbar"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "border-properties-panel"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "hr",
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "toolbar",
+     "list-toolbar",
+     "effects-toolbar"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "properties-panel",
+     "effects-properties-panel"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   }
+  ]
+ }
+]

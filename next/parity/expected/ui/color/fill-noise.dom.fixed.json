@@ -1,0 +1,710 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "no-padding"
+  ],
+  "attrs": {
+   "style": "position: absolute; top: 486px; left: 1315px;"
+  },
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "pattern-chooser"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "toolbar"
+      ],
+      "children": [
+       {
+        "tag": "select",
+        "cls": [
+         "pattern-type-select"
+        ],
+        "props": {
+         "value": "Noise"
+        },
+        "children": [
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Color Fill"
+          },
+          "text": "Color Fill"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Linear Gradient"
+          },
+          "text": "Linear Gradient"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Radial Gradient"
+          },
+          "text": "Radial Gradient"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Angular Gradient"
+          },
+          "text": "Angular Gradient"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Texture Fill"
+          },
+          "text": "Texture Fill"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Noise"
+          },
+          "props": {
+           "selected": true
+          },
+          "text": "Noise"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Background Fill"
+          },
+          "text": "Background Fill"
+         }
+        ]
+       },
+       {
+        "tag": "select",
+        "cls": [
+         "colormode-selector"
+        ],
+        "props": {
+         "value": "RGB"
+        },
+        "children": [
+         {
+          "tag": "option",
+          "cls": [
+           "color-mode"
+          ],
+          "props": {
+           "selected": true
+          },
+          "text": "RGB"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "color-mode"
+          ],
+          "text": "HSB"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "color-mode"
+          ],
+          "text": "CMYK"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "gradient-editor"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "pattern-editor"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "noise-editor"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-property-row"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "cls": [
+           "property-label"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "vertical-align"
+            ],
+            "text": "Intensity"
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "column",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "g-input-slider",
+                 "generic"
+                ],
+                "attrs": {
+                 "data-property": "noise_amount",
+                 "min": "0",
+                 "max": "100"
+                },
+                "children": [
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "g-input-slider-track",
+                   "generic"
+                  ],
+                  "children": [
+                   {
+                    "tag": "div",
+                    "cls": [
+                     "g-input-slider-thumb",
+                     "generic"
+                    ],
+                    "attrs": {
+                     "style": "left: 100%;"
+                    }
+                   },
+                   {
+                    "tag": "div",
+                    "cls": [
+                     "g-input-slider-background"
+                    ],
+                    "attrs": {
+                     "style": "width: 100%;"
+                    }
+                   }
+                  ]
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "attrs": {
+             "style": "width: 40px;"
+            },
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "noise_amount",
+                 "type": "text",
+                 "draggable": "false"
+                },
+                "props": {
+                 "value": "100"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "g-property-row"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "cls": [
+           "property-label"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "vertical-align"
+            ],
+            "text": "Type"
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "column",
+             "auto-grow"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "select",
+                "attrs": {
+                 "data-property": "noise_type"
+                },
+                "props": {
+                 "value": "original"
+                },
+                "children": [
+                 {
+                  "tag": "option",
+                  "props": {
+                   "selected": true
+                  },
+                  "text": "Original"
+                 },
+                 {
+                  "tag": "option",
+                  "text": "Black"
+                 },
+                 {
+                  "tag": "option",
+                  "text": "White"
+                 },
+                 {
+                  "tag": "option",
+                  "text": "Color"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "color-editor"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "gradient-actions"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "palettes"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "chooser"
+        ],
+        "children": [
+         {
+          "tag": "button",
+          "attrs": {
+           "data-palette": "colors",
+           "style": "display: none;"
+          },
+          "hidden": true
+         },
+         {
+          "tag": "button",
+          "cls": [
+           "g-active"
+          ],
+          "attrs": {
+           "data-palette": "swatches"
+          },
+          "text": "Swatches"
+         },
+         {
+          "tag": "button",
+          "attrs": {
+           "data-palette": "used",
+           "style": "display: none;"
+          },
+          "hidden": true
+         },
+         {
+          "tag": "button",
+          "attrs": {
+           "data-palette": "mixer",
+           "style": "display: none;"
+          },
+          "hidden": true
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "palette",
+         "colors-palette"
+        ],
+        "attrs": {
+         "data-palette": "colors",
+         "style": "display: none;"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "palette",
+         "mixer-palette"
+        ],
+        "attrs": {
+         "data-palette": "mixer",
+         "style": "display: none;"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "palette",
+         "used-palette"
+        ],
+        "attrs": {
+         "data-palette": "used",
+         "style": "display: none;"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "palette",
+         "swatches-palette",
+         "global"
+        ],
+        "attrs": {
+         "data-palette": "swatches",
+         "style": ""
+        },
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "toolbar",
+           "global",
+           "accordion"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "text": "Global"
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "g-accordion"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "gravit-icon-down"
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "g-accordion-ghost"
+            ]
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "swatch-icon",
+             "gravit-icon-swatches-import"
+            ],
+            "attrs": {
+             "data-title": "Import Swatches"
+            },
+            "children": [
+             {
+              "tag": "span"
+             }
+            ]
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "swatch-icon",
+             "gravit-icon-swatches-export"
+            ],
+            "attrs": {
+             "data-title": "Export Swatches"
+            },
+            "children": [
+             {
+              "tag": "span"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "swatches-wrapper",
+           "global"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "swatches"
+            ],
+            "children": [
+             {
+              "tag": "button",
+              "cls": [
+               "swatch-button",
+               "g-flat"
+              ],
+              "attrs": {
+               "data-title": "Add swatch"
+              },
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "gravit-icon-plus"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "palette",
+         "swatches-palette",
+         "document"
+        ],
+        "attrs": {
+         "data-palette": "swatches",
+         "style": ""
+        },
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "toolbar",
+           "document",
+           "accordion"
+          ],
+          "children": [
+           {
+            "tag": "span",
+            "text": "Document"
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "g-accordion"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "cls": [
+               "gravit-icon-down"
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "g-accordion-ghost"
+            ]
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "swatch-icon",
+             "gravit-icon-swatches-import"
+            ],
+            "attrs": {
+             "data-title": "Import Swatches"
+            },
+            "children": [
+             {
+              "tag": "span"
+             }
+            ]
+           },
+           {
+            "tag": "button",
+            "cls": [
+             "swatch-icon",
+             "gravit-icon-swatches-export"
+            ],
+            "attrs": {
+             "data-title": "Export Swatches"
+            },
+            "children": [
+             {
+              "tag": "span"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "cls": [
+           "swatches-wrapper",
+           "document"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "swatches"
+            ],
+            "children": [
+             {
+              "tag": "button",
+              "cls": [
+               "swatch-button",
+               "g-flat"
+              ],
+              "attrs": {
+               "data-title": "Add swatch"
+              },
+              "children": [
+               {
+                "tag": "span",
+                "cls": [
+                 "gravit-icon-plus"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

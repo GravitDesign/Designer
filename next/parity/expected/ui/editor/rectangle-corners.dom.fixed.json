@@ -1,0 +1,311 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "advanced-overlay"
+  ],
+  "attrs": {
+   "style": "position: absolute; top: 309px; left: 1368px;"
+  },
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "advanced-panel-wrapper",
+     "rectangle-properties"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "corner-type"
+      ],
+      "attrs": {
+       "data-property": "corners-type",
+       "style": "margin-bottom: 10px;"
+      },
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "g-property-row",
+         "no-label"
+        ],
+        "attrs": {
+         "style": "width: 100%;"
+        },
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "columns"
+          ],
+          "children": [
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "attrs": {
+             "style": "width: 20%;"
+            },
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "cls": [
+                 "g-flat",
+                 "g-active"
+                ],
+                "attrs": {
+                 "data-title": "Round"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-corner-rounded"
+                  ],
+                  "attrs": {
+                   "style": "transform: rotate(0deg);"
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "attrs": {
+             "style": "width: 20%;"
+            },
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "cls": [
+                 "g-flat"
+                ],
+                "attrs": {
+                 "data-title": "Round2"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-corner-inverse-rounded"
+                  ],
+                  "attrs": {
+                   "style": "transform: rotate(0deg);"
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "attrs": {
+             "style": "width: 20%;"
+            },
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "cls": [
+                 "g-flat"
+                ],
+                "attrs": {
+                 "data-title": "Bevel"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-corner-bevel"
+                  ],
+                  "attrs": {
+                   "style": "transform: rotate(0deg);"
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "attrs": {
+             "style": "width: 20%;"
+            },
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "cls": [
+                 "g-flat"
+                ],
+                "attrs": {
+                 "data-title": "Inset"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-corner-inset"
+                  ],
+                  "attrs": {
+                   "style": "transform: rotate(0deg);"
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "label",
+            "cls": [
+             "column"
+            ],
+            "attrs": {
+             "style": "width: 20%;"
+            },
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "content"
+              ],
+              "children": [
+               {
+                "tag": "button",
+                "cls": [
+                 "g-flat"
+                ],
+                "attrs": {
+                 "data-title": "Fancy"
+                },
+                "children": [
+                 {
+                  "tag": "span",
+                  "cls": [
+                   "gravit-icon-corner-fancy"
+                  ],
+                  "attrs": {
+                   "style": "transform: rotate(0deg);"
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "label",
+      "cls": [
+       "g-checkbox-label"
+      ],
+      "children": [
+       {
+        "tag": "input",
+        "cls": [
+         "csc-checkbox"
+        ],
+        "attrs": {
+         "data-property": "csc",
+         "type": "checkbox"
+        },
+        "props": {
+         "checked": true
+        }
+       },
+       {
+        "tag": "span",
+        "text": "Autoscale Corners"
+       }
+      ]
+     },
+     {
+      "tag": "label",
+      "cls": [
+       "g-checkbox-label"
+      ],
+      "children": [
+       {
+        "tag": "input",
+        "cls": [
+         "uf-checkbox"
+        ],
+        "attrs": {
+         "data-property": "uf",
+         "type": "checkbox"
+        },
+        "props": {
+         "checked": true
+        }
+       },
+       {
+        "tag": "span",
+        "text": "Uniform Corners"
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "corners-panel"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     }
+    ]
+   }
+  ]
+ }
+]

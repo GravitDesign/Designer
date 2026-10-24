@@ -382,7 +382,11 @@ const EDITORS: { id: string; covers: string[]; setup: (page: Page) => Promise<vo
     ],
     setup: async (page) => {
       await S.text(page);
-      await page.click(".sidebar-inspector .appearance-toolbar button.pro");
+      // The text settings button; the old app also gave it the licence class
+      // "pro", which the new app drops (REMOVED.md DROP-002).
+      await page.click(
+        '.sidebar-inspector .appearance-toolbar button[data-action="text-settings"]',
+      );
     },
   },
 ];

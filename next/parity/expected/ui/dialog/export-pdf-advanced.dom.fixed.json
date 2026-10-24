@@ -1,0 +1,618 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-dialog",
+   "g-export-dialog"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-content"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "setup-container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "mode-container"
+        ],
+        "children": [
+         {
+          "tag": "label",
+          "cls": [
+           "g-active"
+          ],
+          "attrs": {
+           "data-mode": "canvas"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "icon",
+             "gravit-icon-display"
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "name"
+            ],
+            "text": "Canvas"
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "attrs": {
+           "data-mode": "selection"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "icon",
+             "gravit-icon-cursor-filled"
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "name"
+            ],
+            "text": "Selection"
+           }
+          ]
+         },
+         {
+          "tag": "label",
+          "attrs": {
+           "data-mode": "assets"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "icon",
+             "gravit-icon-layers"
+            ]
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "name"
+            ],
+            "text": "Assets"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "settings-container"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "attrs": {
+           "data-setting": "format"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "label"
+            ],
+            "text": "Format"
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "control"
+            ],
+            "children": [
+             {
+              "tag": "select",
+              "props": {
+               "value": "pdf"
+              },
+              "children": [
+               {
+                "tag": "option",
+                "text": "PNG"
+               },
+               {
+                "tag": "option",
+                "text": "JPEG"
+               },
+               {
+                "tag": "option",
+                "text": "SVG"
+               },
+               {
+                "tag": "option",
+                "props": {
+                 "selected": true
+                },
+                "text": "PDF"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "attrs": {
+           "data-setting": "size"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "label"
+            ],
+            "text": "Size"
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "control"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "g-input-select"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "props": {
+                 "value": "72dpi"
+                }
+               },
+               {
+                "tag": "button"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "attrs": {
+           "data-setting": "jpeg-quality"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "label"
+            ],
+            "text": "JPEG Quality"
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "control"
+            ],
+            "attrs": {
+             "style": "width: 55%; height: 100%; display: flex; justify-content: center;"
+            },
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "jpeg-quality"
+              ],
+              "children": [
+               {
+                "tag": "div",
+                "cls": [
+                 "g-input-slider",
+                 "generic"
+                ],
+                "attrs": {
+                 "min": "25",
+                 "max": "100",
+                 "style": "align-self: center;"
+                },
+                "children": [
+                 {
+                  "tag": "div",
+                  "cls": [
+                   "g-input-slider-track",
+                   "generic"
+                  ],
+                  "children": [
+                   {
+                    "tag": "div",
+                    "cls": [
+                     "g-input-slider-thumb",
+                     "generic"
+                    ],
+                    "attrs": {
+                     "style": "left: 89.3333%;"
+                    }
+                   },
+                   {
+                    "tag": "div",
+                    "cls": [
+                     "g-input-slider-background"
+                    ],
+                    "attrs": {
+                     "style": "width: 89.3333%;"
+                    }
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "label",
+                "children": [
+                 {
+                  "tag": "input",
+                  "attrs": {
+                   "type": "text",
+                   "draggable": "false"
+                  },
+                  "props": {
+                   "value": "92%"
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "attrs": {
+           "data-setting": "background-color"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "label"
+            ],
+            "text": "Background"
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "control"
+            ],
+            "children": [
+             {
+              "tag": "div",
+              "cls": [
+               "export-background-selector"
+              ],
+              "children": [
+               {
+                "tag": "select",
+                "props": {
+                 "value": "page-background"
+                },
+                "children": [
+                 {
+                  "tag": "option",
+                  "props": {
+                   "selected": true
+                  },
+                  "text": "Use page color"
+                 },
+                 {
+                  "tag": "option",
+                  "text": "Use custom color"
+                 },
+                 {
+                  "tag": "option",
+                  "attrs": {
+                   "style": "display: none;"
+                  },
+                  "hidden": true
+                 }
+                ]
+               },
+               {
+                "tag": "span",
+                "cls": [
+                 "export-background-pattern-chooser",
+                 "g-pattern-chooser",
+                 "only-picker"
+                ],
+                "attrs": {
+                 "style": "display: none;"
+                },
+                "hidden": true
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "attrs": {
+           "data-setting": "color-space"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "label"
+            ],
+            "text": "Color Mode"
+           },
+           {
+            "tag": "span",
+            "cls": [
+             "control"
+            ],
+            "children": [
+             {
+              "tag": "select",
+              "props": {
+               "value": "rgb"
+              },
+              "children": [
+               {
+                "tag": "option",
+                "props": {
+                 "selected": true
+                },
+                "text": "RGB"
+               },
+               {
+                "tag": "option",
+                "text": "CMYK"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "attrs": {
+           "data-setting": "ignore-effects"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "control",
+             "control-left"
+            ],
+            "children": [
+             {
+              "tag": "label",
+              "cls": [
+               "label"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "attrs": {
+                 "type": "checkbox"
+                },
+                "props": {
+                 "checked": true
+                }
+               },
+               {
+                "tag": "span",
+                "text": "With effects"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "attrs": {
+           "data-setting": "decimal-places-precision",
+           "style": "display: none;"
+          },
+          "hidden": true
+         },
+         {
+          "tag": "div",
+          "attrs": {
+           "data-setting": "convert-text-to-path"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "control",
+             "control-left"
+            ],
+            "children": [
+             {
+              "tag": "label",
+              "cls": [
+               "label"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "attrs": {
+                 "type": "checkbox"
+                },
+                "props": {
+                 "checked": false
+                }
+               },
+               {
+                "tag": "span",
+                "text": "Export text as curves"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "attrs": {
+           "data-setting": "export-all",
+           "style": "display: none;"
+          },
+          "hidden": true
+         },
+         {
+          "tag": "div",
+          "attrs": {
+           "data-setting": "layer-as-id",
+           "style": "display: none;"
+          },
+          "hidden": true
+         },
+         {
+          "tag": "div",
+          "attrs": {
+           "data-setting": "export-preserve-editing-capabilities",
+           "style": "display: none;"
+          },
+          "hidden": true
+         },
+         {
+          "tag": "div",
+          "attrs": {
+           "data-setting": "do-not-downsample-images"
+          },
+          "children": [
+           {
+            "tag": "span",
+            "cls": [
+             "control",
+             "control-left"
+            ],
+            "children": [
+             {
+              "tag": "label",
+              "cls": [
+               "label"
+              ],
+              "children": [
+               {
+                "tag": "input",
+                "attrs": {
+                 "type": "checkbox"
+                },
+                "props": {
+                 "checked": true
+                }
+               },
+               {
+                "tag": "span",
+                "text": "Don’t downsample bitmap images"
+               },
+               {
+                "tag": "div",
+                "cls": [
+                 "description"
+                ],
+                "text": "Downsampling will reduce image quality but create a smaller PDF document."
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "div",
+          "attrs": {
+           "data-setting": "storage-destination",
+           "style": "display: none;"
+          },
+          "hidden": true
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "preview-container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "preview-image",
+         "content"
+        ],
+        "attrs": {
+         "style": "background: url(data:(309 chars));"
+        },
+        "children": [
+         {
+          "tag": "img",
+          "attrs": {
+           "src": "data:(1398 chars)"
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "g-dialog-footer"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "buttons"
+      ],
+      "children": [
+       {
+        "tag": "button",
+        "text": "Cancel"
+       },
+       {
+        "tag": "button",
+        "cls": [
+         "primary"
+        ],
+        "text": "Export"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

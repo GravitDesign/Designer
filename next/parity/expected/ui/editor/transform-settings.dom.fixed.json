@@ -1,0 +1,128 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "g-overlay-advanced-transform"
+  ],
+  "attrs": {
+   "style": "position: absolute; top: 271px; left: 1393px;"
+  },
+  "children": [
+   {
+    "tag": "div",
+    "attrs": {
+     "style": "width: 180px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "auto-grow"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "label",
+              "children": [
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "_bs",
+                 "type": "checkbox"
+                },
+                "props": {
+                 "checked": true
+                }
+               },
+               {
+                "tag": "span",
+                "text": "Autoscale Borders"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "g-property-row",
+       "no-label"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "columns"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "column",
+           "auto-grow"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "label",
+              "children": [
+               {
+                "tag": "input",
+                "attrs": {
+                 "data-property": "esc",
+                 "type": "checkbox"
+                },
+                "props": {
+                 "checked": true
+                }
+               },
+               {
+                "tag": "span",
+                "text": "Autoscale Corners"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

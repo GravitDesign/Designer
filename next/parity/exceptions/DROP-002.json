@@ -1,0 +1,127 @@
+{
+  "bug": "DROP-002",
+  "why": "No Pro classes and badges. The old app marked licence features with the pro, legacy-feature, trial, has-pro-option, has-trial-option and g-pro classes and an empty span.pro badge; the new app has no licence, so the classes and badges are gone.",
+  "scenarios": [
+    "editor-actions/context-menu/tab",
+    "editor-actions/main-menu/tree",
+    "import-export/menu/file-import-and-export",
+    "ui/color/border-chooser.dom",
+    "ui/color/fill-angular-gradient.dom",
+    "ui/color/fill-background-fill.dom",
+    "ui/color/fill-color-fill.dom",
+    "ui/color/fill-linear-gradient.dom",
+    "ui/color/fill-noise.dom",
+    "ui/color/fill-radial-gradient.dom",
+    "ui/color/fill-texture-fill.dom",
+    "ui/color/gradient-stop-added.dom",
+    "ui/color/hex-typed.dom",
+    "ui/color/map-dragged.dom",
+    "ui/color/mode-cmyk.dom",
+    "ui/color/mode-hsb.dom",
+    "ui/color/page-background-chooser.dom",
+    "ui/color/palette-mixer.dom",
+    "ui/color/palette-swatches.dom",
+    "ui/color/palette-used.dom",
+    "ui/color/picked-red.dom",
+    "ui/color/swatch-added.dom",
+    "ui/color/text-color-chooser.dom",
+    "ui/dialog/export-pdf-advanced.dom",
+    "ui/editor/font-list.dom",
+    "ui/editor/text-advanced.dom",
+    "ui/effects/panel-adjust.dom",
+    "ui/effects/panel-artistic.dom",
+    "ui/effects/panel-blur.dom",
+    "ui/effects/panel-distortion.dom",
+    "ui/effects/panel-other.dom",
+    "ui/effects/panel-shadow.dom",
+    "ui/font/system-fonts-warning.dom",
+    "ui/inspector/compound.dom",
+    "ui/inspector/ellipse.dom",
+    "ui/inspector/grid-isometric.dom",
+    "ui/inspector/grid-on.dom",
+    "ui/inspector/group.dom",
+    "ui/inspector/image.dom",
+    "ui/inspector/layer.dom",
+    "ui/inspector/line.dom",
+    "ui/inspector/multi.dom",
+    "ui/inspector/nothing.dom",
+    "ui/inspector/page-a4-mm.dom",
+    "ui/inspector/path-point.dom",
+    "ui/inspector/path.dom",
+    "ui/inspector/polygon.dom",
+    "ui/inspector/rect-accordions-collapsed.dom",
+    "ui/inspector/rect-border.dom",
+    "ui/inspector/rect-fill-hidden.dom",
+    "ui/inspector/rect-two-fills.dom",
+    "ui/inspector/rectangle.dom",
+    "ui/inspector/star.dom",
+    "ui/inspector/symbol-master.dom",
+    "ui/inspector/text-editing.dom",
+    "ui/inspector/text.dom",
+    "ui/inspector/touch-path-switches.dom",
+    "ui/inspector/triangle.dom",
+    "ui/menu/empty/file-export-pdf-document-pdf.dom",
+    "ui/menu/empty/file-export.dom",
+    "ui/menu/empty/file-import.dom",
+    "ui/menu/empty/view-canvas.dom",
+    "ui/menu/empty/view-magnification.dom",
+    "ui/menu/empty/view-snap-to.dom",
+    "ui/menu/empty/view.dom",
+    "ui/menu/empty/view.locale-de-DE.dom",
+    "ui/menu/empty/view.locale-ja-JP.dom",
+    "ui/menu/empty/view.locale-zh-CN.dom",
+    "ui/menu/rect/file-export-pdf-document-pdf.dom",
+    "ui/menu/rect/file-export.dom",
+    "ui/menu/rect/file-import.dom",
+    "ui/menu/rect/view-canvas.dom",
+    "ui/menu/rect/view-magnification.dom",
+    "ui/menu/rect/view-snap-to.dom",
+    "ui/menu/rect/view.dom",
+    "ui/menu/refresh/view-canvas-after-toggles.dom",
+    "ui/shell/toolbar.dom",
+    "ui/shell/window-rect.dom",
+    "ui/shell/window.dom",
+    "ui/shell/window.lang-de-DE.dom",
+    "ui/shell/window.lang-en.dom",
+    "ui/shell/window.lang-ja-JP.dom",
+    "ui/shell/window.lang-zh-CN.dom",
+    "ui/shell/window.locale-de-DE.dom",
+    "ui/shell/window.locale-ja-JP.dom",
+    "ui/shell/window.locale-zh-CN.dom",
+    "ui/style/picker-with-style.dom",
+    "ui/tabs/context-menu-two.dom",
+    "ui/tabs/context-menu.dom",
+    "ui/toolbar/dropdown-path.dom",
+    "ui/touch/fill-chooser.dom",
+    "ui/touch/window.dom"
+  ],
+  "removed": {
+    "rules": [
+      {
+        "dropNode": {
+          "tag": "span",
+          "cls": "pro",
+          "empty": true
+        }
+      },
+      {
+        "dropClass": "pro"
+      },
+      {
+        "dropClass": "legacy-feature"
+      },
+      {
+        "dropClass": "has-pro-option"
+      },
+      {
+        "dropClass": "has-trial-option"
+      },
+      {
+        "dropClass": "trial"
+      },
+      {
+        "dropClass": "g-pro"
+      }
+    ]
+  }
+}

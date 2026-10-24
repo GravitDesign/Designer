@@ -1,0 +1,209 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-overlay",
+   "no-padding"
+  ],
+  "attrs": {
+   "style": "position: absolute; top: 486px; left: 1315px;"
+  },
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "pattern-chooser"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "toolbar"
+      ],
+      "children": [
+       {
+        "tag": "select",
+        "cls": [
+         "pattern-type-select"
+        ],
+        "props": {
+         "value": "Background Fill"
+        },
+        "children": [
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Color Fill"
+          },
+          "text": "Color Fill"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Linear Gradient"
+          },
+          "text": "Linear Gradient"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Radial Gradient"
+          },
+          "text": "Radial Gradient"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Angular Gradient"
+          },
+          "text": "Angular Gradient"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Texture Fill"
+          },
+          "text": "Texture Fill"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Noise"
+          },
+          "text": "Noise"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "pattern-type"
+          ],
+          "attrs": {
+           "data-title": "Background Fill"
+          },
+          "props": {
+           "selected": true
+          },
+          "text": "Background Fill"
+         }
+        ]
+       },
+       {
+        "tag": "select",
+        "cls": [
+         "colormode-selector"
+        ],
+        "props": {
+         "value": "RGB"
+        },
+        "children": [
+         {
+          "tag": "option",
+          "cls": [
+           "color-mode"
+          ],
+          "props": {
+           "selected": true
+          },
+          "text": "RGB"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "color-mode"
+          ],
+          "text": "HSB"
+         },
+         {
+          "tag": "option",
+          "cls": [
+           "color-mode"
+          ],
+          "text": "CMYK"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "gradient-editor"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "pattern-editor"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "noise-editor"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "color-editor"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "gradient-actions"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "palettes"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     }
+    ]
+   }
+  ]
+ }
+]

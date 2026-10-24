@@ -1,0 +1,21 @@
+{
+  "bug": "DROP-007",
+  "why": "No iOS image import. The old app registered the From Photos and From Files image import actions for iOS; the new app doesn't.",
+  "scenarios": ["editor-actions/registry/registered", "ui/menu/action-ids"],
+  "removed": {
+    "rules": [
+      {
+        "dropWhere": {
+          "key": "id",
+          "values": ["file.import-image-from-ios-photos", "file.import-image-from-ios-files"]
+        }
+      },
+      {
+        "dropValue": "file.import-image-from-ios-photos"
+      },
+      {
+        "dropValue": "file.import-image-from-ios-files"
+      }
+    ]
+  }
+}

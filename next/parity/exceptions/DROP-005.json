@@ -1,0 +1,497 @@
+{
+  "bug": "DROP-005",
+  "why": "No Open from template. The old app had the New Design from Template... action and File menu item; the new app has neither, so the File menu is one item (26 px) shorter.",
+  "scenarios": [
+    "editor-actions/main-menu/tree",
+    "editor-actions/registry/registered",
+    "ui/menu/action-ids",
+    "ui/menu/empty/file-export-pdf-document-pdf.dark",
+    "ui/menu/empty/file-export-pdf-document-pdf.dom",
+    "ui/menu/empty/file-export-pdf-document-pdf.light",
+    "ui/menu/empty/file-export.dark",
+    "ui/menu/empty/file-export.dom",
+    "ui/menu/empty/file-export.light",
+    "ui/menu/empty/file-import.dark",
+    "ui/menu/empty/file-import.dom",
+    "ui/menu/empty/file-import.light",
+    "ui/menu/empty/file-open-recent.dark",
+    "ui/menu/empty/file-open-recent.dom",
+    "ui/menu/empty/file-open-recent.light",
+    "ui/menu/empty/file.dark",
+    "ui/menu/empty/file.dom",
+    "ui/menu/empty/file.light",
+    "ui/menu/empty/file.locale-de-DE",
+    "ui/menu/empty/file.locale-de-DE.dom",
+    "ui/menu/empty/file.locale-ja-JP",
+    "ui/menu/empty/file.locale-ja-JP.dom",
+    "ui/menu/empty/file.locale-zh-CN",
+    "ui/menu/empty/file.locale-zh-CN.dom",
+    "ui/menu/fsa/file.dom",
+    "ui/menu/fsa/file.light",
+    "ui/menu/hover/file-print-disabled.dark",
+    "ui/menu/hover/file-print-disabled.light",
+    "ui/menu/hover/file-save.dark",
+    "ui/menu/hover/file-save.light",
+    "ui/menu/rect/file-export-pdf-document-pdf.dom",
+    "ui/menu/rect/file-export.dom",
+    "ui/menu/rect/file-export.light",
+    "ui/menu/rect/file-import.dom",
+    "ui/menu/rect/file-import.light",
+    "ui/menu/rect/file-open-recent.dom",
+    "ui/menu/rect/file-open-recent.light",
+    "ui/menu/rect/file.dom",
+    "ui/menu/rect/file.light"
+  ],
+  "removed": {
+    "rules": [
+      {
+        "dropWhere": {
+          "key": "id",
+          "values": ["file.open-from-template"]
+        }
+      },
+      {
+        "dropValue": "file.open-from-template"
+      },
+      {
+        "dropWhere": {
+          "key": "caption",
+          "values": ["New Design from Template..."]
+        }
+      },
+      {
+        "dropNode": {
+          "tag": "li",
+          "child": {
+            "cls": "g-menu-item-caption",
+            "text": "New Design from Template..."
+          }
+        }
+      },
+      {
+        "moveStyle": {
+          "node": {
+            "tag": "ul",
+            "cls": "g-menu-right"
+          },
+          "property": "top",
+          "by": -26
+        },
+        "only": ["ui/menu/empty/file", "ui/menu/rect/file", "ui/menu/fsa/file"]
+      }
+    ],
+    "png": {
+      "ui/menu/empty/file-export-pdf-document-pdf.dark": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 377,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 636,
+            "h": 462,
+            "dy": 26
+          }
+        ],
+        "height": 528
+      },
+      "ui/menu/empty/file-export-pdf-document-pdf.light": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 377,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 636,
+            "h": 462,
+            "dy": 26
+          }
+        ],
+        "height": 528
+      },
+      "ui/menu/empty/file-export.dark": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 228,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 487,
+            "h": 345,
+            "dy": 26
+          }
+        ],
+        "height": 411
+      },
+      "ui/menu/empty/file-export.light": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 228,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 487,
+            "h": 345,
+            "dy": 26
+          }
+        ],
+        "height": 411
+      },
+      "ui/menu/empty/file-import.dark": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 193,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 452,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/empty/file-import.light": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 193,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 452,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/empty/file-open-recent.dark": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 144,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 403,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/empty/file-open-recent.light": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 144,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 403,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/empty/file.dark": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 1,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 260,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/empty/file.light": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 67,
+            "w": 1,
+            "h": 7,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 260,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/empty/file.locale-de-DE": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 67,
+            "w": 1,
+            "h": 7,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 260,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/empty/file.locale-ja-JP": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 67,
+            "w": 1,
+            "h": 7,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 260,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/empty/file.locale-zh-CN": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 67,
+            "w": 1,
+            "h": 7,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 260,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/fsa/file.light": {
+        "moved": [
+          {
+            "x": 0,
+            "y": 66,
+            "w": 264,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/hover/file-print-disabled.dark": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 1,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 260,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/hover/file-print-disabled.light": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 67,
+            "w": 1,
+            "h": 7,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 260,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/hover/file-save.dark": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 1,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 260,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/hover/file-save.light": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 67,
+            "w": 1,
+            "h": 7,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 260,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/rect/file-export.light": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 228,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 487,
+            "h": 345,
+            "dy": 26
+          }
+        ],
+        "height": 411
+      },
+      "ui/menu/rect/file-import.light": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 193,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 452,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/rect/file-open-recent.light": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 66,
+            "w": 144,
+            "h": 8,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 403,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      },
+      "ui/menu/rect/file.light": {
+        "moved": [
+          {
+            "x": 259,
+            "y": 67,
+            "w": 1,
+            "h": 7,
+            "dy": 0
+          },
+          {
+            "x": 0,
+            "y": 66,
+            "w": 260,
+            "h": 299,
+            "dy": 26
+          }
+        ],
+        "height": 365
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "bug": "DROP-004",
+  "why": "No share and collaborators UI. The old toolbar's share section held the (hidden) collaborators bar and Share button; the new app keeps the empty section only.",
+  "scenarios": [
+    "ui/shell/toolbar.dom",
+    "ui/shell/window-rect.dom",
+    "ui/shell/window.dom",
+    "ui/shell/window.lang-de-DE.dom",
+    "ui/shell/window.lang-en.dom",
+    "ui/shell/window.lang-ja-JP.dom",
+    "ui/shell/window.lang-zh-CN.dom",
+    "ui/shell/window.locale-de-DE.dom",
+    "ui/shell/window.locale-ja-JP.dom",
+    "ui/shell/window.locale-zh-CN.dom",
+    "ui/touch/window.dom"
+  ],
+  "removed": {
+    "rules": [
+      {
+        "dropNode": {
+          "cls": "g-collaborators"
+        }
+      },
+      {
+        "dropNode": {
+          "cls": "share-button"
+        }
+      }
+    ]
+  }
+}

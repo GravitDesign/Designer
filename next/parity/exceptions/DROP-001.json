@@ -10,11 +10,20 @@
     "editor-actions/dialogs/file.export--empty",
     "editor-actions/dialogs/file.export--keys",
     "editor-actions/dialogs/file.export.pdf",
-    "editor-actions/dialogs/file.save-as.pdf.300"
-  ],
-  "pending": [
-    "editor-actions/dialogs/font.import",
+    "editor-actions/dialogs/file.save-as.pdf.300",
     "editor-actions/exec/view.toggle-touch",
     "editor-actions/registry/registered"
-  ]
+  ],
+  "removed": {
+    "rules": [
+      {
+        "replace": {
+          "key": "pro",
+          "from": true,
+          "to": false
+        }
+      }
+    ]
+  },
+  "pending": ["editor-actions/dialogs/font.import"]
 }

@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { NEXT_ROOT } from "./env.ts";
+import type { PngRemoval, RemovalRule } from "./removed.ts";
 
 /**
  * A parity scenario where the new app deliberately differs from the old
@@ -21,11 +22,22 @@ export interface ParityException {
  * file once they are enabled for the new app (not compared yet, so no
  * exception applies).
  */
-interface EntryExceptions {
+export interface EntryExceptions {
   bug: string;
   why: string;
   scenarios: string[];
   pending?: string[];
+  /**
+   * DROP entries: how each `.fixed` file differs from the old output
+   * (parity/support/removed.ts, checked by removed.test.ts), and the old
+   * app variant (old-variants.ts) that must produce the `.fixed` output
+   * itself (checked by the "old app without ..." tests of suite.ts).
+   */
+  removed?: {
+    rules?: RemovalRule[];
+    png?: Record<string, PngRemoval>;
+    oldVariant?: string;
+  };
 }
 
 const EXCEPTIONS_DIR = path.join(NEXT_ROOT, "parity", "exceptions");
@@ -37,9 +49,9 @@ export function documentFor(id: string): "BUGS-FIXED.md" | "REMOVED.md" {
   throw new Error(`parity exception id ${id} is neither BUG-NNN nor DROP-NNN`);
 }
 
-function loadExceptions(): ParityException[] {
+function loadEntries(): EntryExceptions[] {
   if (!fs.existsSync(EXCEPTIONS_DIR)) return [];
-  const out: ParityException[] = [];
+  const out: EntryExceptions[] = [];
   const files = fs
     .readdirSync(EXCEPTIONS_DIR)
     .filter((f) => f.endsWith(".json"))
@@ -52,9 +64,23 @@ function loadExceptions(): ParityException[] {
       throw new Error(`parity/exceptions/${file} names ${entry.bug}`);
     }
     documentFor(entry.bug);
-    for (const scenario of entry.scenarios) out.push({ scenario, bug: entry.bug });
+    out.push(entry);
   }
   return out;
+}
+
+/** Every BUGS-FIXED.md and REMOVED.md entry with its scenarios. */
+export const ENTRIES: readonly EntryExceptions[] = loadEntries();
+
+/** The entries that list a scenario (a scenario can show several removed features). */
+export function entriesFor(scenarioId: string): EntryExceptions[] {
+  return ENTRIES.filter((e) => e.scenarios.includes(scenarioId));
+}
+
+function loadExceptions(): ParityException[] {
+  return ENTRIES.flatMap((entry) =>
+    entry.scenarios.map((scenario) => ({ scenario, bug: entry.bug })),
+  );
 }
 
 /**

@@ -17,7 +17,12 @@ produces exactly the same output.
   - `normalize.ts` renames random ids in serialized documents, `compare.ts`
     diffs JSON and PNGs with zero tolerance.
   - `exceptions.ts` lists the scenarios where the new app deliberately
-    differs because it fixes a bug (BUGS-FIXED.md).
+    differs because it fixes a bug (BUGS-FIXED.md) or a feature was
+    removed (REMOVED.md).
+  - `removed.ts` checks that a removed feature's `.fixed` file differs
+    from the old output only in the removed part (removed.test.ts runs
+    it over every DROP entry); `old-variants.ts` serves the old app with
+    one of its own switches off, for the "old app variants" tests.
 - `scenarios/<area>/`: one folder per area. Each `*.spec.ts` calls
   `paritySuite(name, scenarios, { newApp })`.
 - `scenarios/<area>/old-hooks.js` (optional): plain JavaScript injected

@@ -1,0 +1,449 @@
+{
+  "bug": "DROP-003",
+  "why": "No account area in the header. The old header had the persona bar and the login section with the user avatar; the new app has neither, so the document tabs sit 40 px further right.",
+  "scenarios": [
+    "editor-tools/editor/fullscreen-toggle",
+    "ui/color/eyedropper.light",
+    "ui/context/select-hit-list-hover.light",
+    "ui/layers/hover-row.light",
+    "ui/pages/multipage.dark",
+    "ui/pages/multipage.light",
+    "ui/shell/header.dark",
+    "ui/shell/header.dom",
+    "ui/shell/header.light",
+    "ui/shell/inspector-hidden.light",
+    "ui/shell/layers-hidden.dark",
+    "ui/shell/layers-hidden.light",
+    "ui/shell/marquee.light",
+    "ui/shell/rulers.dark",
+    "ui/shell/rulers.light",
+    "ui/shell/sidebar-resized.dark",
+    "ui/shell/sidebar-resized.light",
+    "ui/shell/small.dark",
+    "ui/shell/small.light",
+    "ui/shell/wide.dark",
+    "ui/shell/wide.light",
+    "ui/shell/window-rect.dark",
+    "ui/shell/window-rect.light",
+    "ui/shell/window.dark",
+    "ui/shell/window.dom",
+    "ui/shell/window.lang-de-DE",
+    "ui/shell/window.lang-de-DE.dom",
+    "ui/shell/window.lang-en",
+    "ui/shell/window.lang-en.dom",
+    "ui/shell/window.lang-ja-JP",
+    "ui/shell/window.lang-ja-JP.dom",
+    "ui/shell/window.lang-zh-CN",
+    "ui/shell/window.lang-zh-CN.dom",
+    "ui/shell/window.light",
+    "ui/shell/window.locale-de-DE",
+    "ui/shell/window.locale-de-DE.dom",
+    "ui/shell/window.locale-ja-JP",
+    "ui/shell/window.locale-ja-JP.dom",
+    "ui/shell/window.locale-zh-CN",
+    "ui/shell/window.locale-zh-CN.dom",
+    "ui/tabs/two-documents.dark",
+    "ui/tabs/two-documents.dom",
+    "ui/tabs/two-documents.light",
+    "ui/welcome/window.dark",
+    "ui/welcome/window.light"
+  ],
+  "removed": {
+    "rules": [
+      {
+        "dropNode": {
+          "cls": "g-persona-bar"
+        }
+      },
+      {
+        "dropNode": {
+          "cls": ["section", "login"]
+        }
+      },
+      {
+        "replace": {
+          "key": "text",
+          "from": "File\t\t\nEdit\t\t\nModify\t\t\nView\t\t\nHelp\t\t\nUntitled-1*\n✕\nT",
+          "to": "File\t\t\nEdit\t\t\nModify\t\t\nView\t\t\nHelp\t\t\nUntitled-1*\n✕"
+        },
+        "only": ["editor-tools/editor/fullscreen-toggle"]
+      }
+    ],
+    "png": {
+      "ui/color/eyedropper.light": {
+        "moved": [
+          {
+            "x": 1455,
+            "y": 0,
+            "w": 140,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/context/select-hit-list-hover.light": {
+        "moved": [
+          {
+            "x": 1455,
+            "y": 0,
+            "w": 140,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/layers/hover-row.light": {
+        "moved": [
+          {
+            "x": 1455,
+            "y": 0,
+            "w": 140,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/pages/multipage.dark": {
+        "moved": [
+          {
+            "x": 1366,
+            "y": 0,
+            "w": 229,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/pages/multipage.light": {
+        "moved": [
+          {
+            "x": 1366,
+            "y": 0,
+            "w": 229,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/header.dark": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/header.light": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/inspector-hidden.light": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/layers-hidden.dark": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/layers-hidden.light": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/marquee.light": {
+        "moved": [
+          {
+            "x": 1455,
+            "y": 0,
+            "w": 140,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/rulers.dark": {
+        "moved": [
+          {
+            "x": 1455,
+            "y": 0,
+            "w": 140,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/rulers.light": {
+        "moved": [
+          {
+            "x": 1455,
+            "y": 0,
+            "w": 140,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/sidebar-resized.dark": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/sidebar-resized.light": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/small.dark": {
+        "moved": [
+          {
+            "x": 659,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/small.light": {
+        "moved": [
+          {
+            "x": 659,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/wide.dark": {
+        "moved": [
+          {
+            "x": 2059,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/wide.light": {
+        "moved": [
+          {
+            "x": 2059,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/window-rect.dark": {
+        "moved": [
+          {
+            "x": 1455,
+            "y": 0,
+            "w": 140,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/window-rect.light": {
+        "moved": [
+          {
+            "x": 1455,
+            "y": 0,
+            "w": 140,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/window.dark": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/window.lang-de-DE": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/window.lang-en": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/window.lang-ja-JP": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/window.lang-zh-CN": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/window.light": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/window.locale-de-DE": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/window.locale-ja-JP": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/shell/window.locale-zh-CN": {
+        "moved": [
+          {
+            "x": 1459,
+            "y": 0,
+            "w": 136,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/tabs/two-documents.dark": {
+        "moved": [
+          {
+            "x": 1366,
+            "y": 0,
+            "w": 229,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/tabs/two-documents.light": {
+        "moved": [
+          {
+            "x": 1366,
+            "y": 0,
+            "w": 229,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/welcome/window.dark": {
+        "moved": [
+          {
+            "x": 1549,
+            "y": 0,
+            "w": 46,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      },
+      "ui/welcome/window.light": {
+        "moved": [
+          {
+            "x": 1549,
+            "y": 0,
+            "w": 46,
+            "h": 36,
+            "dx": -40
+          }
+        ]
+      }
+    }
+  }
+}

@@ -445,6 +445,31 @@ const cases: Case[] = [
   { id: "help.shortcuts", args: { run: false } },
 ];
 
+/**
+ * Actions of features the new app removes (REMOVED.md): Open from template
+ * (DROP-005), the comments sidebar (DROP-006) and the iOS image import
+ * (DROP-007). The old app is still recorded; the new app must not register
+ * or run them.
+ */
+const REMOVED_ACTIONS = [
+  "file.open-from-template",
+  "view.toggle-sidebar.annotations",
+  "file.import-image-from-ios-photos",
+  "file.import-image-from-ios-files",
+];
+
+async function assertActionRemoved(page: Page, id: string): Promise<void> {
+  const left = await page.evaluate((actionId) => {
+    const { app } = (
+      window as unknown as {
+        __parity: { app: { actionIds(): string[]; canExecute(id: string): unknown } };
+      }
+    ).__parity;
+    return app.actionIds().includes(actionId) || !!app.canExecute(actionId);
+  }, id);
+  if (left) throw new Error(`removed action ${id} is still registered`);
+}
+
 function writesSettings(id: string): boolean {
   return /^(view.canvas.|view.toggle-|help.tooltip-visibility$)/.test(id);
 }
@@ -463,6 +488,9 @@ const scenarios: Scenario<ProbeArgs>[] = cases.map((c) => {
     // boot to undefined instead of its default, which breaks the next
     // scenario that reads it (see the editor-actions report).
     ...(writesSettings(c.id) ? { open: { newDocument: true, settings: {} } } : {}),
+    ...(REMOVED_ACTIONS.includes(c.id)
+      ? { removedInNewApp: ({ page }: { page: Page }) => assertActionRemoved(page, c.id) }
+      : {}),
   };
 });
 

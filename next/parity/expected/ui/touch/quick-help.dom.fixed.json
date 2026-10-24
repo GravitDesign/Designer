@@ -1,0 +1,1581 @@
+[
+ {
+  "tag": "div",
+  "cls": [
+   "g-quick-help-screen",
+   "en"
+  ],
+  "children": [
+   {
+    "tag": "div",
+    "cls": [
+     "static-tooltips"
+    ],
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "img",
+        "attrs": {
+         "src": "assets/help/pinch-to-zoom.svg"
+        }
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "tooltip",
+         "side-bc"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "container"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "connector"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "text": "Pinch to Zoom"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "img",
+        "attrs": {
+         "src": "assets/help/drag-with-2-fingers.svg"
+        }
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "tooltip",
+         "side-bc"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "container"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "connector"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "text": "Drag with 2 fingers to Pan"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "img",
+        "attrs": {
+         "src": "assets/help/tap-and-holder.svg"
+        }
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "tooltip",
+         "side-bc"
+        ],
+        "children": [
+         {
+          "tag": "div",
+          "cls": [
+           "container"
+          ],
+          "children": [
+           {
+            "tag": "div",
+            "cls": [
+             "connector"
+            ],
+            "attrs": {
+             "style": "display: none;"
+            },
+            "hidden": true
+           },
+           {
+            "tag": "div",
+            "cls": [
+             "content"
+            ],
+            "children": [
+             {
+              "tag": "span",
+              "text": "Tap and Hold for Contextual menu"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 45px; left: 21px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Menu"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 45px; left: 68px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Open"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 45px; left: 140px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Save"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 45px; left: 198.914px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Undo/Redo"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 43.5px; left: 284px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Zoom"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 45px; left: 348.859px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Snapping"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 45px; left: 686.5px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Select"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 45px; left: 756.391px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Shapes"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 45px; left: 830.5px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Path"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 45px; left: 902.5px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Knife"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 45px; left: 974.5px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Text"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 45px; left: 1026.5px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Image"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 45px; left: 1418px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Files"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 45px; left: 1522.91px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Export"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 190px; left: 66px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Pages"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 190px; left: 111.406px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Layers"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 190px; left: 152.477px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Libraries"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 190px; left: 198.922px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Symbols"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "align-distribute",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 190px; left: 1183px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Align and Distribute"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 190px; left: 1244.73px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Transform"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 190px; left: 1289.61px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Document"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 190px; left: 1332.23px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Appearance"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 190px; left: 1392px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Fills"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 190px; left: 1434.12px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Borders"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 190px; left: 1482.48px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Effects"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "assistant-bar",
+     "side-lc"
+    ],
+    "attrs": {
+     "style": "top: 844.5px; left: 435.344px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ],
+        "attrs": {
+         "style": "display: none;"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Modifier Keys"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "assistant-bar",
+     "side-rc"
+    ],
+    "attrs": {
+     "style": "top: 844.5px; left: 1078px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ],
+        "attrs": {
+         "style": "display: none;"
+        },
+        "hidden": true
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Nudge"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "assistant-bar",
+     "side-tc"
+    ],
+    "attrs": {
+     "style": "top: 766px; left: 627px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Copy"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "assistant-bar",
+     "side-tc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 726px; left: 673px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Paste"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "assistant-bar",
+     "side-tc"
+    ],
+    "attrs": {
+     "style": "top: 766px; left: 739.906px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Delete"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "assistant-bar",
+     "side-tc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 718px; left: 762px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Select/Deselect All"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "assistant-bar",
+     "side-tc"
+    ],
+    "attrs": {
+     "style": "top: 766px; left: 828.117px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Arrange"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "assistant-bar",
+     "side-tc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 726px; left: 885.656px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Fullscreen"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "assistant-bar",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 903px; left: 740.867px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Group"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "assistant-bar",
+     "side-bc",
+     "further-away"
+    ],
+    "attrs": {
+     "style": "top: 903px; left: 780.945px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Ungroup"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "div",
+    "cls": [
+     "tooltip",
+     "assistant-bar",
+     "side-bc"
+    ],
+    "attrs": {
+     "style": "top: 903px; left: 817.727px;"
+    },
+    "children": [
+     {
+      "tag": "div",
+      "cls": [
+       "container"
+      ],
+      "children": [
+       {
+        "tag": "div",
+        "cls": [
+         "connector"
+        ]
+       },
+       {
+        "tag": "div",
+        "cls": [
+         "content"
+        ],
+        "children": [
+         {
+          "tag": "span",
+          "text": "Convert to Path"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

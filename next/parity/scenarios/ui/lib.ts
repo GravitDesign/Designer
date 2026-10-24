@@ -630,6 +630,12 @@ export interface SurfaceSpec {
   /** Keep the scrollbars (FREEZE_CSS hides them by default). */
   scrollbars?: boolean;
   timeout?: number;
+  /**
+   * The surface belongs to a feature the new app removes (REMOVED.md):
+   * for the new app, every variant runs the setup and then this check,
+   * which throws if the surface is still there.
+   */
+  removedInNewApp?: (page: Page) => Promise<void>;
 }
 
 /**
@@ -701,6 +707,26 @@ function runner(
   };
 }
 
+/** The removedInNewApp check of a surface's variant: its setup, then the spec's check. */
+function removed(
+  spec: SurfaceSpec,
+  open: OpenOptions,
+  locale?: string,
+): Pick<Scenario, "removedInNewApp"> {
+  const check = spec.removedInNewApp;
+  if (!check) return {};
+  return {
+    removedInNewApp: async (ctx) => {
+      if (spec.viewport) await ctx.page.setViewportSize(spec.viewport);
+      const reload = !!spec.viewport || open.theme === "dark" || !!open.language;
+      await start(ctx, open, locale, { reload, scrollbars: spec.scrollbars });
+      if (spec.setup) await spec.setup(ctx.page);
+      await settle(ctx.page);
+      await check(ctx.page);
+    },
+  };
+}
+
 /**
  * Expands surface specs into scenarios: a png per theme, a DOM snapshot,
  * and png + DOM per browser locale (`locales`) and per language setting
@@ -724,6 +750,7 @@ export function surfaces(list: readonly SurfaceSpec[]): Scenario[] {
           kind: "png",
           open: full,
           driver: runner(spec, "png", full, locale),
+          ...removed(spec, full, locale),
         });
       }
     };
@@ -737,6 +764,7 @@ export function surfaces(list: readonly SurfaceSpec[]): Scenario[] {
         kind: "json",
         open: full,
         driver: runner(spec, "dom", full, locale),
+        ...removed(spec, full, locale),
       });
     };
     domVariant("dom", { theme: "light" });
