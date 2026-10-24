@@ -1015,7 +1015,7 @@ What it does: the image's status listener sizes the image to the element's width
 
 Why it's unclear: the remove call shows the intent; the effect only shows when the image loads more than once.
 
-Kept. Pinned by the io-import-svg/images-svg-placed parity scenario.
+Fixed: see BUG-082 in BUGS-FIXED.md.
 
 ## Q-083 SVG import use
 

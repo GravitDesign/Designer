@@ -2134,3 +2134,29 @@ Old code: chunk.vendor.js module 1391, the parser's Styles (line
   `.fixed` nodes, apart from the random ids and the use's name, which is
   the referenced id. The `.fixed` files of the prototype scenarios record
   that nothing leaked onto Object.prototype or the Object function.
+
+## BUG-082 The image size listener of an imported image is never removed
+
+Old code: chunk.vendor.js module 1391, svg.Element.image, lines
+247930-247945 (`i.image.removeEventListener(x.StatusEvent, this)`).
+
+- Reproduce: import an SVG with an `<image>` (for example
+  `<image x="10" y="20" width="100" height="50" href="a.png"/>`), let it
+  load, then load another picture into the same image node (Inspector >
+  Replace Image, or setting its url).
+- Old: the importer sizes the image to the element's width and height
+  with a status listener once it has loaded, then tried to remove the
+  listener with `this` instead of the listener function, which removed
+  nothing. Every later load ran it again and multiplied the transform
+  once more: in the old app a 10 x 10 picture fitted to 100 x 50 had
+  `trf` [10, 0, 0, 5, 10, 20]; after loading a 40 x 20 picture into it,
+  [25, 0, 0, 12.5, 110, 120] (reproduced in the old app).
+- New: the listener comes off after the first Loaded or Error, so later
+  loads leave the transform to whoever loads them (the same new app run
+  keeps [10, 0, 0, 5, 10, 20]).
+- Test: src/io/import/svg/svg-parser.test.ts, "sizes the image once it
+  has loaded and then stops listening (BUG-082)" (fails with the old
+  listener with exactly the old app's numbers).
+- Parity exceptions: none. The recorded scenarios load each image once:
+  io-import-svg/images-svg-placed and the other image, marker and pattern
+  scenarios give the same output as before.

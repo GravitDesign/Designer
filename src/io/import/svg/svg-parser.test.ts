@@ -3,6 +3,7 @@ import type { Transform } from "../../../engine/math/transform.ts";
 import { Ellipse } from "../../../engine/scene/ellipse.ts";
 import { Pattern } from "../../../engine/style/pattern.ts";
 import { Group } from "../../../engine/scene/group.ts";
+import { Image } from "../../../engine/scene/image.ts";
 import { Node } from "../../../engine/scene/node.ts";
 import { Path } from "../../../engine/scene/path.ts";
 import { Rectangle } from "../../../engine/scene/rectangle.ts";
@@ -306,6 +307,26 @@ describe("BUG-006: element names that are built-in object members", () => {
 
   it("creates the unknown-element placeholder for a name found on Object.prototype", () => {
     expect(parser().CreateElement(el("toString"))).toBeInstanceOf(SvgMissing);
+  });
+});
+
+describe("SvgImage", () => {
+  it("sizes the image once it has loaded and then stops listening (BUG-082)", () => {
+    const element = parser().CreateElement(
+      el("image", { "xlink:href": "a.png", x: "10", y: "20", width: "100", height: "50" }),
+    );
+    const image = element.createSceneNode() as unknown as Image;
+    const load = (width: number, height: number) => {
+      image.setProperties(["iw", "ih"], [width, height]);
+      (image as unknown as { _status: number })._status = Image.ImageStatus.Loaded;
+      image.trigger(new Image.StatusEvent(image, Image.ImageStatus.Loaded));
+    };
+    load(10, 10);
+    expect((image.getProperty("trf") as Transform).getMatrix()).toEqual([10, 0, 0, 5, 10, 20]);
+    // A later load (Replace Image) leaves the transform to whoever loads it.
+    load(40, 20);
+    expect((image.getProperty("trf") as Transform).getMatrix()).toEqual([10, 0, 0, 5, 10, 20]);
+    expect(image.hasEventListeners(Image.StatusEvent)).toBe(false);
   });
 });
 

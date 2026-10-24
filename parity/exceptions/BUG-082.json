@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-082",
+  "why": "An imported SVG image's size listener comes off after the first load, so a later load (Replace Image) no longer scales it again. Every recorded scenario loads each image once (io-import-svg/images-svg-placed and the other image scenarios are unchanged), so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}

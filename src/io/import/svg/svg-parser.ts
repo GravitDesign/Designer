@@ -2457,9 +2457,11 @@ export class SvgAnchor extends SvgTextElementBase {
 
 /**
  * svg.Element.image: a Gravit image of the href, sized to width and
- * height once it has loaded. The status listener is never removed (the
- * old code removed `this`, not the listener), so a later reload scales
- * the image again (QUESTIONS.md "SVG import image listener").
+ * height once it has loaded (or failed); then its status listener comes
+ * off. The old code removed `this` instead of the listener, so every
+ * later load, such as Replace Image, scaled the image again (BUGS-FIXED.md
+ * "BUG-082 The image size listener of an imported image is never
+ * removed").
  */
 export class SvgImage extends SvgRect {
   loaded: boolean | undefined;
@@ -2504,6 +2506,7 @@ export class SvgImage extends SvgRect {
       if (event) {
         const status = (event.image as Image).getStatus();
         if (status !== Image.ImageStatus.Loaded && status !== Image.ImageStatus.Error) return;
+        image.removeEventListener(Image.StatusEvent, fit);
       }
       const transform = (
         (image.getProperty("trf") as Transform | null) || new Transform()
