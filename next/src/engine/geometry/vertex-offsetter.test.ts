@@ -177,8 +177,8 @@ describe("VertexOffsetter", () => {
     expect(out.every(Number.isFinite)).toBe(true);
   });
 
-  it("uses dx for y in the tangent point of the segment-to-arc distance (old quirk)", () => {
-    // QUESTIONS.md "Offsetter: the tangent point of a line uses dx for y".
+  it("puts the tangent point of the segment-to-arc distance on the line (BUG-013)", () => {
+    // The old code used dx for y too.
     const offsetter = Object.create(VertexOffsetter.prototype) as VertexOffsetter;
     const quarter = Math.tan(Math.PI / 8);
     const distance = (p1: Point, p2: Point): number =>
@@ -192,10 +192,10 @@ describe("VertexOffsetter", () => {
         p2,
         400,
       );
-    // The horizontal line touches the arc at its end (0, 10), but the
-    // touch point is computed as (0, 30), so the end-point distance wins.
-    expect(distance(new Point(-20, 10), new Point(20, 10))).toBe(200);
-    // A vertical tangent has dx = 0 and lands on p1, inside the segment.
+    // The horizontal line touches the arc at its end (0, 10). The old code
+    // computed the touch point as (0, 30), off the line, and got 200.
+    expect(distance(new Point(-20, 10), new Point(20, 10))).toBe(0);
+    // A vertical tangent touches the arc at its start (10, 0).
     expect(distance(new Point(10, -20), new Point(10, 20))).toBe(0);
   });
 

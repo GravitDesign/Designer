@@ -45,15 +45,15 @@ const fixture = JSON.parse(
   fs.readFileSync(new URL("./test-data/old-offsetter-outputs.json", import.meta.url), "utf8"),
 ) as { cases: OffsetCase[]; helpers: HelperCase[] };
 
-/** The fixed output of cases where the old one shows a fixed bug, by case name. */
-const fixedCases = (
-  JSON.parse(
-    fs.readFileSync(
-      new URL("./test-data/old-offsetter-outputs.fixed.json", import.meta.url),
-      "utf8",
-    ),
-  ) as { cases: Record<string, { bug: string; out?: string; throws?: string }> }
-).cases;
+/** The fixed outputs of cases and helpers where the old one shows a fixed bug, by name. */
+const fixedOutputs = JSON.parse(
+  fs.readFileSync(new URL("./test-data/old-offsetter-outputs.fixed.json", import.meta.url), "utf8"),
+) as {
+  cases: Record<string, { bug: string; out?: string; throws?: string }>;
+  helpers: Record<string, { bug: string; out: Stored }>;
+};
+const fixedCases = fixedOutputs.cases;
+const fixedHelpers = fixedOutputs.helpers;
 
 /** The recorded case, with the fixed output where there is one. */
 const expectedFor = (recorded: OffsetCase): OffsetCase => {
@@ -201,8 +201,12 @@ describe("VertexOffsetter against recorded old outputs", () => {
       } catch (error) {
         result = { throws: errorText(error) };
       }
-      const expected =
-        helper.throws !== undefined ? { throws: helper.throws } : decode(helper.out as Stored);
+      const fixed = fixedHelpers[helper.name];
+      const expected = fixed
+        ? decode(fixed.out)
+        : helper.throws !== undefined
+          ? { throws: helper.throws }
+          : decode(helper.out as Stored);
       const same =
         typeof expected == "number"
           ? Object.is(result, expected)
@@ -210,5 +214,25 @@ describe("VertexOffsetter against recorded old outputs", () => {
       if (!same) mismatches.push(`${helper.name}: ${String(result)}, expected ${String(expected)}`);
     }
     expect(mismatches).toEqual([]);
+  });
+
+  // BUGS-FIXED.md "BUG-013 Offset tangent point uses dx for y": only the
+  // tangent cases change, each to 0, where the line touches the arc or
+  // passes through its end; no recorded offset output changes.
+  it("has fixed helper outputs only where the tangent point moved (BUG-013)", () => {
+    const byName = new Map(fixture.helpers.map((helper) => [helper.name, helper]));
+    expect(Object.keys(fixedHelpers).sort()).toEqual([
+      "line vs arc",
+      "tangent over the arc",
+      "tangent, off the arc",
+      "tangent, reversed bulge",
+      "tangent, touch point off the arc, reversed",
+      "tangent, touch point off the arc, start nearer",
+    ]);
+    for (const [name, fixed] of Object.entries(fixedHelpers)) {
+      expect(fixed.bug, name).toBe("BUG-013");
+      expect(fixed.out, name).toBe(0);
+      expect(byName.get(name)?.out, name).not.toBe(0);
+    }
   });
 });

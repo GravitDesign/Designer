@@ -2447,10 +2447,10 @@ export class VertexOffsetter extends VertexSource {
       params as number[],
     );
     if (null != params[0] && null == params[1]) {
-      // The line touches the circle. (The old code used dx for y too, see
-      // QUESTIONS.md "Offsetter: the tangent point of a line uses dx for y".)
+      // The line touches the circle. (The old code used dx for y too,
+      // BUGS-FIXED.md "BUG-013 Offset tangent point uses dx for y".)
       const touchX = params[0] * dx + p1.getX();
-      const touchY = params[0] * dx + p1.getY();
+      const touchY = params[0] * dy + p1.getY();
       const touchBulge = this._calculateBulge(
         start.getX(),
         start.getY(),

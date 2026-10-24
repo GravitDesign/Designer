@@ -426,3 +426,31 @@ Old code: chunk.vendor.js module 651, GVertexOffsetter.generatePolyOffset
 - Parity exceptions: none. No parity scenario offsets an open path on the
   inset side only (engine-geometry/pathops covers closed paths and
   two-sided offsets; all of them still match).
+
+## BUG-013 Offset tangent point uses dx for y
+
+Old code: chunk.vendor.js module 651, GVertexOffsetter._getSegmToArcSqrDist
+(89212-89213, `g = c[0] * p + o.getY()` with p = dx).
+
+- Reproduce: offset a path where a straight segment of the offset outline
+  is exactly tangent to the circle of an arc of the source (rare; it
+  decides which parts _gcppFilter keeps). Directly: the squared distance
+  between the line (-20, 10)-(20, 10) and the quarter arc from (10, 0) to
+  (0, 10) around (0, 0).
+- Old: when the line touched the circle, the touch point was computed as
+  (p1.x + t * dx, p1.y + t * dx) instead of p1.y + t * dy, so for any line
+  that isn't at 45 degrees it landed off the line, the "touch point inside
+  the segment" test failed and the distance fell back to the end points
+  (200 instead of 0 in the example). An offset part that touches the
+  source could then be kept although it should be dropped.
+- New: the touch point uses dy for y.
+- Test: src/engine/geometry/vertex-offsetter.test.ts, "puts the tangent
+  point of the segment-to-arc distance on the line (BUG-013)" (200 with
+  the old code). In vertex-offsetter.old-outputs.test.ts six of the
+  recorded helper cases change, all to 0, listed in
+  test-data/old-offsetter-outputs.fixed.json. Checked for each: the line
+  touches the circle at a point of the arc that start, center and bulge
+  define, or passes through the arc's given end point, so 0 is the right
+  distance. None of the 1,214 recorded offset outputs changes.
+- Parity exceptions: none. engine-geometry/pathops/offsetter still matches
+  the old app.

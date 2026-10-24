@@ -410,9 +410,7 @@ which offset parts _gcppFilter keeps.
 Why it's unclear: a copy-paste slip, but it decides which parts of an offset
 survive, so a fix can change offsets of real shapes.
 
-Kept. Pinned by vertex-offsetter.test.ts "uses dx for y in the tangent point
-of the segment-to-arc distance (old quirk)" and the helper cases of
-vertex-offsetter.old-outputs.test.ts.
+Fixed: see BUG-013 in BUGS-FIXED.md.
 
 ## Q-028 GVertexFitter degenerate fit puts the control points on the end points
 
