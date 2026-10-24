@@ -148,8 +148,13 @@ export const fileOperators: PSPlainRecord = {
     if (capacity !== 0) {
       let text = "";
       if ("init" in (source as object)) (source as { init(length: number): void }).init(capacity);
+      // Bytes, so the end of a filter (null) adds nothing; the old getChar
+      // turned it into a trailing NUL ("PostScript filters lose or corrupt
+      // data (LZWDecode never works)" in BUGS-FIXED.md).
       for (let i = 0; i < capacity; ++i) {
-        text += source.getChar();
+        const byte = source.getUint8();
+        if (byte === null || byte === undefined) break;
+        text += String.fromCharCode(byte);
         if (source.isEOF()) break;
       }
       target.value = text;

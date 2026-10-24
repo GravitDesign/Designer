@@ -9,15 +9,15 @@
 // There is no ASCIIHexDecode (or any encoding filter): `filter` raises
 // nodecoder for those.
 //
+// SubFileDecode reads only the bytes it needs to match the EOD string,
+// ASCII85Decode keeps its tuple across calls, ends at `~>` and reads
+// strings too, and LZWDecode decodes; the old filters lost or corrupted
+// data or threw ("PostScript filters lose or corrupt data (LZWDecode never
+// works)" in BUGS-FIXED.md).
+//
 // Kept (QUESTIONS.md "PS worker: filter quirks"):
-// - SubFileDecode reads one more source byte on every call, even while
-//   bytes from an earlier partial EOD match are still queued.
-// - ASCII85Decode passes the `>` of `~>` through the tuple check too, and
-//   starts a new tuple on every call that needs more data.
 // - ReusableStreamDecode checks a variable that isn't assigned yet for its
 //   parameter dict, so a dict operand is never taken.
-// - LZWDecode reads an undeclared global (`currentValue`) on its first
-//   byte, which throws a ReferenceError; the decoder below never runs.
 //
 // DCTDecode decodes through the page (waitForResponse "jpeg", see
 // ./jpeg.ts). The old filter asked for as many bytes as its reader guessed
@@ -45,9 +45,13 @@ function isEmpty(value: string | false): boolean {
   return value === "" || value === false;
 }
 
-/** The old LZW filter read this undeclared global, which throws. */
-function undeclaredCurrentValue(): number | null {
-  throw new ReferenceError("currentValue is not defined");
+/**
+ * One character of `source`, or "" at its end. Strings have no getChar of
+ * their own, so the bytes are read.
+ */
+function readChar(source: DataSource): string {
+  const byte = source.getUint8();
+  return byte === null || byte === undefined ? "" : String.fromCharCode(byte);
 }
 
 export function createFilters(core: PSCore): PSPlainRecord {
@@ -62,25 +66,39 @@ export function createFilters(core: PSCore): PSPlainRecord {
       let eodCount = this.stack.pop() as number;
       const source = this.stack.pop() as DataSource;
       const file = this.classes.newObject("file", source as unknown as PSFile);
+      const eod = eodString.value;
+      // Bytes read ahead while matching the EOD string, and how many of them
+      // belong to a counted EOD occurrence that passes through unmatched.
       let queue: (number | null)[] = [];
+      let passThrough = 0;
       file.filter = function (this: PSFile) {
-        let matched = true;
-        queue.push(source.getUint8());
-        if (String.fromCharCode(queue[0] as number) == eodString.value[0]) {
-          for (let i = 1; i < eodString.value.length; i++) {
-            queue.push(source.getUint8());
-            if (eodString.value[i] != String.fromCharCode(queue[i] as number)) {
-              matched = false;
-              break;
-            }
-          }
-          if (matched && eodCount == 0) this.EOF = true;
-          if (matched && eodCount > 0) eodCount--;
+        if (this.EOF) return null;
+        if (!queue.length) queue.push(source.getUint8());
+        if (passThrough > 0) {
+          passThrough--;
+          return queue.shift() as number | null;
         }
-        return this.EOF ? null : (queue.shift() as number | null);
+        if (queue[0] === null) return null;
+        if (eod.length && String.fromCharCode(queue[0] as number) == eod[0]) {
+          while (queue.length < eod.length && queue[queue.length - 1] !== null)
+            queue.push(source.getUint8());
+          let matched = true;
+          for (let i = 1; matched && i < eod.length; i++)
+            matched = queue[i] !== null && eod[i] == String.fromCharCode(queue[i] as number);
+          if (matched) {
+            if (eodCount == 0) {
+              this.EOF = true;
+              return null;
+            }
+            eodCount--;
+            passThrough = eod.length - 1;
+          }
+        }
+        return queue.shift() as number | null;
       };
       file.resetSelf = function () {
         queue = [];
+        passThrough = 0;
       };
       this.stack.push(file);
     },
@@ -96,13 +114,15 @@ export function createFilters(core: PSCore): PSPlainRecord {
       file.filter = function (this: PSFile) {
         this.EOF = this.EOF || source.isEOF();
         if (isEmpty(decoded) && !this.EOF) {
-          for (tuple = ""; isEmpty(decoded) && !this.EOF;) {
-            let char = source.getChar();
+          // The tuple carries over between calls, and the `>` of `~>` ends
+          // the data instead of going into a tuple.
+          while (isEmpty(decoded) && !this.EOF) {
+            let char = readChar(source);
             this.EOF = this.EOF || source.isEOF();
             if (!char) continue;
             if (char == "~") {
               this.EOF = true;
-              char = source.getChar();
+              char = readChar(source);
               if (tuple.length == 1) {
                 tuple = "";
                 return null;
@@ -116,6 +136,7 @@ export function createFilters(core: PSCore): PSPlainRecord {
                 tuple = "";
                 return null;
               }
+              break;
             }
             if (char == "z" && tuple == "") decoded = "\0\0\0\0";
             if (char.charCodeAt(0) >= 33 && char.charCodeAt(0) <= 118) {
@@ -135,7 +156,6 @@ export function createFilters(core: PSCore): PSPlainRecord {
         const text = decoded as string;
         const code = text.charCodeAt(0);
         decoded = text.slice(1);
-        tuple = "";
         return code;
       };
       file.resetSelf = function () {
@@ -200,7 +220,6 @@ export function createFilters(core: PSCore): PSPlainRecord {
       };
       file.filter = function (this: PSFile) {
         if (pending.length > 0) return pending.shift() as number;
-        if (undeclaredCurrentValue() === null) source.getUint8();
         let code: number | null;
         do {
           code = reader.readBits(codeLength + 1);

@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-115",
+  "why": "LZWDecode decodes, ASCII85Decode reads strings and keeps its tuple, SubFileDecode reads no extra byte and readstring adds no NUL at the end of a filter. No parity fixture uses these filters.",
+  "scenarios": [],
+  "pending": []
+}

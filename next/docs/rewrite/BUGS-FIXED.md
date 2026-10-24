@@ -1753,3 +1753,40 @@ loop).
 - Parity exceptions: none (parity/exceptions/BUG-114.json lists no
   scenarios). No EPS fixture of the parity suites uses charpath or a
   PaintType 2 font; the io-import-pdf-eps suite gives the same output.
+
+## BUG-115 PostScript filters lose or corrupt data (LZWDecode never works)
+
+Old code: public/pscore.js, the SubFileDecode, ASCII85Decode and
+LZWDecode entries of the Filter resource dict, and readstring.
+
+- Reproduce: open an EPS or PS file whose data goes through LZWDecode
+  (LZW-compressed images), an ASCII85Decode filter on a string, or a
+  SubFileDecode or ASCII85Decode filter read with readstring
+  (src/workers/ps/__fixtures__/corpus/filter-lzw.ps, filter-ascii85*.ps,
+  filter-subfile-*.ps).
+- Old: LZWDecode read an undeclared global (`currentValue`) on its first
+  byte and threw, so no LZW data ever decoded. ASCII85Decode called
+  `getChar` on its source, which strings don't have, so a string source
+  threw; it also put the `>` of `~>` through its tuple check and reset
+  its tuple on every call. SubFileDecode read a new source byte on every
+  call, even while bytes from an earlier partial EOD match were queued.
+  readstring appended `getChar()` of the end of a filter, so every filter
+  read to its end gave one NUL byte too many (filter-ascii85.ps read
+  "Hello World!\0", filter-subfile-eod.ps "\nabcEN xyz\0").
+- New: LZWDecode decodes (the PDF specification's example
+  `<800B6050220C0C8501>` gives "-----A---B"). ASCII85Decode reads bytes,
+  so strings work, keeps its tuple across calls and ends at `~>`.
+  SubFileDecode reads ahead only as far as it needs to match the EOD
+  string and passes a counted occurrence through unchanged. readstring
+  stops at the end of its source without adding a byte. ReusableStreamDecode
+  still ignores a parameter dict (QUESTIONS.md Q-109 keeps that).
+- Test: src/workers/ps/filters.test.ts, "PostScript filters (BUG-115)",
+  reads what five corpus programs decode (all five fail with the old
+  code). The `.fixed.json` recordings of filter-lzw, filter-ascii85,
+  -ascii85-string, -ascii85-onechar, -ascii85-badeod, filter-subfile-eod,
+  -subfile-count and filter-reusable-dict differ from the earlier ones
+  only in the decoded bytes: the trailing NUL is gone, the LZW and the
+  string data are decoded, and after a broken `~x` nothing more is read.
+- Parity exceptions: none (parity/exceptions/BUG-115.json lists no
+  scenarios). The EPS fixtures of the parity suites don't use these
+  filters; the io-import-pdf-eps suite gives the same output.

@@ -1297,7 +1297,7 @@ What it does:
 
 Why it's unclear: these lose or corrupt data, and LZW images never import. Fixes are local to each filter.
 
-Kept. Pinned by the corpus programs filter-subfile-*.ps, filter-ascii85-*.ps, filter-reusable-*.ps and filter-lzw.ps (interpreter.recorded.test.ts).
+Kept for ReusableStreamDecode only; SubFileDecode, ASCII85Decode and LZWDecode are fixed (see BUG-115 in BUGS-FIXED.md). Pinned by the corpus programs filter-subfile-*.ps, filter-ascii85-*.ps, filter-reusable-*.ps and filter-lzw.ps (interpreter.recorded.test.ts).
 
 ## Q-110 PS worker: show operator quirks
 
