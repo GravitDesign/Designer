@@ -53,10 +53,13 @@ function importFile(file: string, options: Record<string, unknown> = {}): Promis
 
 /**
  * The parity recording of a fixture without fonts or images (those need
- * a browser): the pages and the progress the old app reported.
+ * a browser): the pages and the progress the old app reported, or the
+ * `.fixed` recording where the new app fixes an old bug (BUGS-FIXED.md).
  */
 function expectedFor(name: string): { progress: number[]; pages: string[]; error: unknown } {
-  return JSON.parse(fs.readFileSync(path.join(EXPECTED, name + ".json"), "utf8")) as {
+  const fixed = path.join(EXPECTED, name + ".fixed.json");
+  const file = fs.existsSync(fixed) ? fixed : path.join(EXPECTED, name + ".json");
+  return JSON.parse(fs.readFileSync(file, "utf8")) as {
     progress: number[];
     pages: string[];
     error: unknown;
@@ -65,7 +68,7 @@ function expectedFor(name: string): { progress: number[]; pages: string[]; error
 
 describe("SketchImport", () => {
   for (const name of ["shapes-v49", "primitives-v49", "groups-v49", "booleans-v49"]) {
-    it(`imports ${name} as the old app did`, async () => {
+    it(`imports ${name} as recorded`, async () => {
       const progress: number[] = [];
       const result = (await importFile(name + ".sketch", {
         progress: (value: number) => progress.push(value),

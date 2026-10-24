@@ -1213,7 +1213,7 @@ What it does: to see whether a boolean group mixes operations, the importer keep
 
 Why it's unclear: users get a different shape than in Sketch for groups that start with a union and continue with another operation. A fix would test `first !== null`.
 
-Kept. next/src/io/import/sketch/sketch-shape-group.ts. Pinned by the parity scenario io-import-sketch/booleans-v49 (group "B-union-sub").
+Fixed: see BUG-105 in BUGS-FIXED.md.
 
 ## Q-102 Sketch font names with Regular import as italic
 

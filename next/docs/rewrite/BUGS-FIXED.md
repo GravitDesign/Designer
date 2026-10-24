@@ -1442,3 +1442,29 @@ Old code: chunk.vendor.js module 796 (sketchbase), replaceChild (lines
   the renumbered ids after them), where they hold the layers described
   above; checked with a layer tree (class, name, fill kind) of old and new
   output. symbols-edge-v49 does not change.
+
+## BUG-105 Sketch boolean groups that start with a union are merged with one operation
+
+Old code: chunk.vendor.js module 1213 (sketchshapegroup), appendTo, the
+mixed-operation check at lines 242909-242912.
+
+- Reproduce: open a Sketch file with a boolean group whose first layer
+  is a union and a later one another operation, for example union then
+  subtract (parity/fixtures/import/sketch/booleans-v49.sketch, group
+  B-union-sub).
+- Old: the first operation was kept in a variable and tested with
+  `if (first)`. Union is 0, which is falsy, so the next operation became
+  "the first" instead of being compared; union then subtract counted as
+  uniform and the group was merged with the first layer's union
+  (QUESTIONS.md Q-101).
+- New: the check compares with null, so such a group counts as mixed and
+  is merged step by step like the other mixed groups: union then subtract
+  gives the first shape minus the second.
+- Test: src/io/import/sketch/sketch-import.test.ts, "imports booleans-v49
+  as recorded", which now reads its `.fixed`
+  recording (fails with the old check: the two paths of B-union-sub have
+  no `bool`).
+- Parity exceptions: parity/exceptions/BUG-105.json,
+  io-import-sketch/booleans-v49. The `.fixed` file equals the old
+  recording except that the two paths of B-union-sub have `"bool": 4`
+  (subtract), like the paths of B-sub; checked with diff.

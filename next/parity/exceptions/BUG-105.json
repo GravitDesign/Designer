@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-105",
+  "why": "A Sketch boolean group that starts with a union and goes on with another operation is merged step by step. The .fixed file equals the old output except that the two paths of B-union-sub have bool 4 (subtract).",
+  "scenarios": ["io-import-sketch/booleans-v49"],
+  "pending": []
+}
