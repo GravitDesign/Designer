@@ -867,3 +867,31 @@ highlightSelectablesUnderCollision), line 20723.
 - Parity exceptions: none. No recorded scenario toggles a marquee over a
   highlighted selected element (the pointer/marquee-* scenarios release
   the marquee without changing Shift mid-drag).
+
+## BUG-041 Magic tool throws on a selection with open sub-paths
+
+Old code: chunk.vendor.js module 764 (GMagicTool._doTheClip), lines
+106867-106930 (the throw at 106924).
+
+- Reproduce: select a closed shape together with an open path (or a
+  compound path with an open part) and draw a magic stroke across the
+  shape.
+- Old: after uniting or subtracting the stroke, the old code removed the
+  touched elements and then called `.item.getParent()` on the open
+  sub-paths. Those are raw vertex sources without an `item`, so the mouse
+  handler threw a TypeError. The closed shapes were already removed and the
+  result never inserted, but the transaction was still committed as
+  "Create freehand path": the document kept the raw stroke and lost the
+  shape until Undo (Q-193).
+- New: the tool remembers which element each open part comes from and
+  removes those elements, as the loop meant. The open parts are already
+  part of the result (the old code concatenated them before the throw), so
+  the result holds the clipped shape and the open parts, and it is
+  selected.
+- Test: src/editor/tools/view-tools.test.ts, "BUG-041: unites a compound
+  path that has an open sub-path and keeps the open part" and "BUG-041:
+  removes a selected open path whose part went into the result" (both fail
+  with the old code: TypeError: Cannot read properties of undefined
+  (reading 'getParent')).
+- Parity exceptions: none. The magic/* scenarios select only closed
+  shapes.

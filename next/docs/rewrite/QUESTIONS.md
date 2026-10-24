@@ -2276,7 +2276,7 @@ What it does: after uniting or subtracting the stroke, the old code removes the 
 
 Why it's unclear: the loop clearly meant to remove the elements the open parts came from, or nothing, not to throw. Users hit it by selecting a closed shape and an open path and drawing a magic stroke. BUGS-FIXED candidate.
 
-Kept. magic-tool.ts _doTheClip keeps the throwing loop; view-tools.test.ts "MagicTool with open sub-paths" pins the throw, the page afterwards, the undo name and the undo.
+Fixed: see BUG-041 in BUGS-FIXED.md.
 
 ## Q-194 Moving a whole paths graph throws
 

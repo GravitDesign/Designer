@@ -97,8 +97,10 @@ export class MagicTool extends FreehandTool {
     const selection = this._startingSelection;
     if (selection) {
       const touched: { item: SourceNode; sub: boolean; splitted: Source[] }[] = [];
-      // The open sub-paths, kept as they are.
+      // The open sub-paths, kept as they are, and the elements they come
+      // from.
       const open: Source[] = [];
+      const openItems: SourceNode[] = [];
       const intersector = new PolyIntersector();
       let crosses = false;
       for (let itemIndex = 0; itemIndex < selection.length; itemIndex++)
@@ -138,7 +140,10 @@ export class MagicTool extends FreehandTool {
                     crosses = true;
                 }
               }
-              if (!isClosed) open.push(part);
+              if (!isClosed) {
+                open.push(part);
+                if (openItems.indexOf(item) < 0) openItems.push(item);
+              }
             }
           if (closed.length) touched.push({ item, sub: false, splitted: closed });
         }
@@ -165,14 +170,11 @@ export class MagicTool extends FreehandTool {
           const parent = entry.item.getParent() as ContainerNode | null;
           if (parent) parent.removeChild(entry.item);
         }
-        // The open sub-paths are vertex sources, not entries with an item:
-        // with any of them this throws a TypeError, as in the old code. See
-        // "Magic tool crashes on a selection with open sub-paths" in
-        // QUESTIONS.md, pinned by view-tools.test.ts "MagicTool with open
-        // sub-paths". The cast reads the missing item the way the old code
-        // did.
-        for (let openIndex = 0; openIndex < open.length; openIndex++) {
-          const item = (open[openIndex] as unknown as { item: Node }).item;
+        // The open sub-paths went into the result, so their elements go
+        // too. The old code read `.item` of the raw vertex sources here and
+        // threw (BUG-041 Magic tool throws on a selection with open
+        // sub-paths).
+        for (const item of openItems) {
           const parent = item.getParent() as ContainerNode | null;
           if (parent) parent.removeChild(item);
         }

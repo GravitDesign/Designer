@@ -180,9 +180,17 @@ describe("MagicTool", () => {
 });
 
 describe("MagicTool with open sub-paths", () => {
-  it("throws when the shaped selection also has an open sub-path (old crash, kept)", () => {
-    const { manager, editor, page, input } = setupTools();
-    const compound = new CompoundPath();
+  function line(x0: number, x1: number): Path {
+    const open = new Path(false);
+    for (const x of [x0, x1]) {
+      const point = new AnchorPoint();
+      point.setProperties(["x", "y"], [x, 0]);
+      open.getAnchorPoints().appendChild(point);
+    }
+    return open;
+  }
+
+  function square(): Path {
     const closed = new Path(true);
     for (const [x, y] of [
       [0, 0],
@@ -194,20 +202,10 @@ describe("MagicTool with open sub-paths", () => {
       point.setProperties(["x", "y"], [x, y]);
       closed.getAnchorPoints().appendChild(point);
     }
-    const open = new Path(false);
-    for (const [x, y] of [
-      [200, 0],
-      [300, 0],
-    ] as const) {
-      const point = new AnchorPoint();
-      point.setProperties(["x", "y"], [x, y]);
-      open.getAnchorPoints().appendChild(point);
-    }
-    compound.getPaths().appendChild(closed);
-    compound.getPaths().appendChild(open);
-    (page as unknown as { appendChild(node: Node): void }).appendChild(compound);
-    editor.updateSelection(false, [compound]);
-    manager.activateTool(MagicTool);
+    return closed;
+  }
+
+  function stroke(input: ReturnType<typeof setupTools>["input"]): void {
     input.down(50, 50);
     for (const [x, y] of [
       [150, 50],
@@ -216,18 +214,48 @@ describe("MagicTool with open sub-paths", () => {
       [51, 51],
     ] as const)
       input.drag(x, y);
-    // See "Magic tool crashes on a selection with open sub-paths" in
-    // QUESTIONS.md. Recorded in the old app: the compound path is removed
-    // before the throw, the raw stroke stays and the transaction is still
-    // committed, so one undo brings the compound path back.
-    expect(() => input.up(51, 51)).toThrow(TypeError);
-    const names = () =>
-      (page as unknown as { getChildren(): Node[] })
-        .getChildren()
-        .map((child) => child.getNodeName());
-    expect(names()).toEqual(["path"]);
+    input.up(51, 51);
+  }
+
+  const children = (page: Node): Node[] =>
+    (page as unknown as { getChildren(): Node[] }).getChildren();
+
+  it("BUG-041: unites a compound path that has an open sub-path and keeps the open part", () => {
+    const { manager, editor, page, input } = setupTools();
+    const compound = new CompoundPath();
+    compound.getPaths().appendChild(square());
+    compound.getPaths().appendChild(line(200, 300));
+    (page as unknown as { appendChild(node: Node): void }).appendChild(compound);
+    editor.updateSelection(false, [compound]);
+    manager.activateTool(MagicTool);
+    // The old code threw a TypeError here, after removing the compound path
+    // and before inserting the result.
+    stroke(input);
+    const result = children(page);
+    expect(result.length).toBe(1);
+    expect(editor.getSelection()).toEqual(result);
+    const box = (result[0] as Path).getGeometryBBox();
+    // The square united with the stroke, plus the open part out to 300.
+    expect([box?.getX(), box?.getY(), box?.getWidth()]).toEqual([0, 0, 300]);
+    expect(box?.getHeight()).toBeGreaterThan(100);
     expect(editor.getUndoStateName()).toBe("Create freehand path");
     editor.undoState();
-    expect(names()).toEqual(["compoundpath"]);
+    expect(children(page).map((child) => child.getNodeName())).toEqual(["compoundpath"]);
+  });
+
+  it("BUG-041: removes a selected open path whose part went into the result", () => {
+    const { manager, editor, page, input } = setupTools();
+    const closed = square();
+    const open = line(200, 300);
+    (page as unknown as { appendChild(node: Node): void }).appendChild(closed);
+    (page as unknown as { appendChild(node: Node): void }).appendChild(open);
+    editor.updateSelection(false, [closed, open]);
+    manager.activateTool(MagicTool);
+    stroke(input);
+    const result = children(page);
+    expect(result.length).toBe(1);
+    expect(result).not.toContain(open);
+    expect(result).not.toContain(closed);
+    expect((result[0] as Path).getGeometryBBox()?.getWidth()).toBe(300);
   });
 });
