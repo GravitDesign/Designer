@@ -248,7 +248,13 @@ export class PointsGuide extends GuideMap(GuideDetailMap(Guide)) {
     };
     const snapPage = page as Page | null;
     if (snapPage) {
-      if (this._scoped && snapPage != this._snapMainPage) this._setEffectiveScope(snapPage);
+      // Back over the main page, the scope applies again. The old code kept
+      // the other page's elements (BUG-050 Snap scope stays on the other
+      // page after the pointer comes back).
+      if (this._scoped) {
+        if (snapPage != this._snapMainPage) this._setEffectiveScope(snapPage);
+        else this._eSnapElems = null;
+      }
       if (box) {
         const column = new Rect(
           pagePoint.getX() - snapDistance,

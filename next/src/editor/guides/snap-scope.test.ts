@@ -117,19 +117,19 @@ describe("BBoxGuide scope", () => {
     expect(guide._eSnapElems?.length).toBe(1);
   });
 
-  it("keeps the other page's elements as scope after the point comes back", () => {
-    // See "Snap scope stays on the other page" in QUESTIONS.md.
+  it("BUG-050: goes back to the scope when the point comes back to the main page", () => {
     const { scene, page, group, guides } = groupScene(true);
     addSecondPage(scene, page);
     const guide = new BBoxGuide(guides);
     guide.setScope([group]);
-    // Back on the active page, 2 from the first child's right edge.
+    // On the active page, 2 from the first child's right edge.
     expect(guide.map(22, 200, false, 5, 1)?.x?.value).toBe(20);
     guide.map(522, 92, false, 5, 1);
-    expect(guide.map(22, 200, false, 5, 1)).toBeNull();
-    // A new scope (beginMap) resets it.
-    guide.setScope([group]);
+    expect(guide._eSnapElems?.length).toBe(1);
+    // Back on the active page the scope's children snap again (the old
+    // code kept the other page's elements: no snap).
     expect(guide.map(22, 200, false, 5, 1)?.x?.value).toBe(20);
+    expect(guide._eSnapElems).toBeNull();
   });
 });
 
@@ -162,5 +162,15 @@ describe("PointsGuide scope", () => {
     // B's rect corner (20, 30) is (520, 80) in active-page space.
     expect(guide.map(522, 82, false, 5, 1)?.x?.value).toBe(520);
     expect(guide._eSnapElems?.length).toBe(1);
+  });
+
+  it("BUG-050: goes back to the scope's items when the point comes back", () => {
+    const { scene, page, group, guides } = groupScene(true);
+    addSecondPage(scene, page);
+    const guide = new PointsGuide(guides);
+    guide.setScope([group]);
+    guide.map(522, 82, false, 5, 1);
+    // The old code kept B's items: no snap on the active page.
+    expect(guide.map(22, 200, false, 5, 1)?.x?.value).toBe(20);
   });
 });

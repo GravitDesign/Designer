@@ -2179,7 +2179,7 @@ What it does: with a scope set, mapping over a page other than the scope's main 
 
 Why it's unclear: the switch only makes sense while the point is over the other page. Keeping it afterwards looks unintended, but it only shows in multi-page documents while editing inside a group and dragging across pages.
 
-Kept. next/src/editor/guides/bbox-guide.ts and points-guide.ts map; pinned by "keeps the other page's elements as scope after the point comes back" in snap-scope.test.ts.
+Fixed: see BUG-050 in BUGS-FIXED.md.
 
 <!-- Element editors (phase 6 review) (phase 6 review and phase 7) -->
 

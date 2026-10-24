@@ -279,7 +279,13 @@ export class BBoxGuide extends GuideMap(Guide) {
     };
     const snapPage = page as Page | null;
     if (snapPage) {
-      if (this._scoped && snapPage != this._snapMainPage) this._setEffectiveScope(snapPage);
+      // Back over the main page, the scope applies again. The old code kept
+      // the other page's elements (BUG-050 Snap scope stays on the other
+      // page after the pointer comes back).
+      if (this._scoped) {
+        if (snapPage != this._snapMainPage) this._setEffectiveScope(snapPage);
+        else this._eSnapElems = null;
+      }
       let pivot = point.subtract(pagePosition as Point);
       if (activePosition) pivot = pivot.add(activePosition);
       this._applySnappingToPivots([pivot], snapDistance, snapPage, visit);
@@ -417,7 +423,13 @@ export class BBoxGuide extends GuideMap(Guide) {
         if (bestY) candidatesY.push(bestY);
       }
     };
-    if (this._scoped && snapPage != this._snapMainPage) this._setEffectiveScope(snapPage);
+    // Back over the main page, the scope applies again. The old code kept
+    // the other page's elements (BUG-050 Snap scope stays on the other
+    // page after the pointer comes back).
+    if (this._scoped) {
+      if (snapPage != this._snapMainPage) this._setEffectiveScope(snapPage);
+      else this._eSnapElems = null;
+    }
     this._applySnappingToPivots(pivots, snapDistance, snapPage, visit);
     // The candidates with the smallest distance, split by its sign; none
     // when one of them overlaps the moving rect.

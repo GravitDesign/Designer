@@ -1081,3 +1081,26 @@ Old code: chunk.vendor.js module 210 (GGuides.mapPoint), lines
   old code: (0, 100) instead of (500, 100)).
 - Parity exceptions: none. No recorded scenario maps a point near another
   page's edge in the multi-page view.
+
+## BUG-050 Snap scope stays on the other page after the pointer comes back
+
+Old code: chunk.vendor.js module 153 (GBBoxGuide.map 32343,
+checkDistanceGuidesMapping 32485) and module 741 (GPointsGuide.map
+101546).
+
+- Reproduce: in the multi-page view, edit inside a group (so snapping is
+  scoped to the group's children) and drag across to another page and
+  back.
+- Old: over another page the bbox and points guides switch their snap
+  elements to that page's top-level elements. Nothing switched them back
+  when the pointer returned to the main page, so for the rest of the drag
+  only the other page's elements were snap targets and the group's
+  children stopped snapping (Q-184).
+- New: over the main page the guides go back to the scope's own elements.
+- Test: src/editor/guides/snap-scope.test.ts, "BUG-050: goes back to the
+  scope when the point comes back to the main page" (bbox guide) and
+  "BUG-050: goes back to the scope's items when the point comes back"
+  (points guide); both fail with the old code (no snap after coming
+  back).
+- Parity exceptions: none. No recorded scenario drags a scoped selection
+  across pages.
