@@ -208,12 +208,19 @@ class FontProviderQueue {
       // No provider in the options throws here, as before.
       // Every waiting query gets all the arguments the provider answered
       // with (the old code applied `arguments`).
+      // The job ends with the last answer even when a waiting query asks
+      // again (a fallback family), since that query begins a job of its
+      // own (BUGS-FIXED.md "BUG-071 SVG import never finishes when a font
+      // is asked for after another resolved").
       (this.fontProvider as FontProvider).queryFirst(query, (...answer) => {
-        this.fontsToResolve--;
+        const last = --this.fontsToResolve === 0;
         const waiting = this.fontCallbackMap.get(fontKey(query));
         this.fontCallbackMap.delete(fontKey(query));
-        if (waiting) waiting.forEach((fn) => fn(...answer));
-        if (!this.fontsToResolve) this.parser.endJob();
+        try {
+          if (waiting) waiting.forEach((fn) => fn(...answer));
+        } finally {
+          if (last) this.parser.endJob();
+        }
       });
     }
   }
@@ -297,9 +304,9 @@ export class SvgParser {
   /**
    * Calls back once the font manager reports the font available (with
    * it) or unavailable (with the default font). The listeners go on with
-   * the first font and come off when none is left; they are never put
-   * back, so a font asked for after that never calls back and the import
-   * waits forever (QUESTIONS.md "SVG import font listeners").
+   * the first font and come off when none is left, and go on again for a
+   * font asked for after that (BUGS-FIXED.md "BUG-071 SVG import never
+   * finishes when a font is asked for after another resolved").
    */
   addFontToResolve(font: Font, callback: (font: Font) => void): void {
     if (!this._hasFontListener) {
@@ -342,7 +349,7 @@ export class SvgParser {
       this.FontsToResolve.delete(key);
     }
     if (!this.hasFontsToResolve()) {
-      this.endJob();
+      // Off before the job ends, since ending it can finish the import.
       this.fontManager.removeEventListener(
         FontManager.FontAvailableEvent,
         this._fontAvailableEvent,
@@ -353,6 +360,8 @@ export class SvgParser {
         this._fontUnavailableEvent,
         this,
       );
+      this._hasFontListener = false;
+      this.endJob();
     }
   }
 

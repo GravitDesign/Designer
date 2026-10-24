@@ -955,7 +955,7 @@ What it does: the importer adds its font listeners with the first font it waits 
 
 Why it's unclear: a text whose font is only asked for after another font has resolved (fonts that resolve at different times, an unknown family whose fallback is looked up later) hangs the import; whether that happens in practice depends on the font provider's timing.
 
-Kept. Pinned by the io-import-svg/text-unknown-family-svg parity scenario (the callback never runs, `called: false`).
+Fixed: see BUG-071 in BUGS-FIXED.md.
 
 ## Q-077 SVG import font provider queue
 

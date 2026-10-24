@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-071",
+  "why": "An SVG import whose font provider gets no answer for a family (or where a font is only asked for after another resolved) finishes instead of waiting forever. The old app recorded called: false and no node; the .fixed files hold the finished import. The old app gives the same node when every family in the fixture is replaced by Open Sans; only the recorded provider queries differ.",
+  "scenarios": ["io-import-svg/text-unknown-family-svg", "io-import-svg/font-face-svg-svg"],
+  "pending": []
+}

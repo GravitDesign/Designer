@@ -1821,3 +1821,41 @@ Old code: chunk.vendor.js module 1392, arcToBezier, lines 248961-248962.
   apart from the random ids. Pending, not enabled for the new app yet:
   import-export/import/open/svg-shapes.svg (and its render) and
   import-export/import/place/svg-shapes.svg and svg-shapes.svgz.
+
+## BUG-071 SVG import never finishes when a font is asked for after another resolved
+
+Old code: chunk.vendor.js module 1391, the font provider queue
+(svg.fontProvider.queryFirst, lines 245110-245135) and the font
+listeners (_resolvedFont and addFontToResolve, 245165-245185 and
+245258-245264).
+
+- Reproduce: import an SVG with a text whose font family the font
+  provider doesn't know, for example
+  `<text font-family="Qwxzv Unknown">No such family</text>`, or one with
+  an @font-face icon font the app can't load. Or import texts whose fonts
+  resolve at different times, so that one font is only asked for after
+  another has loaded.
+- Old: the import never called back and the tab stayed Loading. Two
+  slips caused it. The provider queue began a job with the first query
+  and ended it only when no query was left after the answer was handed
+  out; a text whose family got no answer asks again for the default
+  family from inside that answer, which began a second job and left the
+  first one open for good. And the font listeners went on with the first
+  font and came off once none was left, but the flag that says they are
+  on was never reset, so a font asked for after that was never answered.
+- New: the queue ends its job with the last answer even when an answer
+  asks again (the new query has its own job), and the listeners go on
+  again for a font asked for after they came off. Such texts import with
+  the default font, as the old code intended.
+- Test: src/io/import/svg/svg-parser.test.ts, "BUG-071: a font query
+  asked again from the last answer" and "BUG-071: fonts asked for after
+  another font resolved". Both fail with the old code (the job count
+  stays at 1; the later font is never answered and the wait ends too
+  early).
+- Parity exceptions: io-import-svg/text-unknown-family-svg and
+  font-face-svg-svg. The old app recorded `called: false` and no node;
+  the `.fixed` files have the finished import. Checked against the old
+  app: the same fixtures with every family replaced by Open Sans (which
+  takes the same path without the fallback query) give exactly the
+  `.fixed` node, apart from the random ids; only the recorded provider
+  queries differ, by the query for the unknown family.

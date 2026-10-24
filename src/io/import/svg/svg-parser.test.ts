@@ -262,6 +262,82 @@ describe("the font provider queue (old chunk.vendor.js 245127-245131)", () => {
   });
 });
 
+describe("BUG-071: fonts asked for after another font resolved", () => {
+  /** A font manager with just the listener parts the parser uses. */
+  function fakeFontManager() {
+    const listeners = new Map<unknown, { fn: (e: unknown) => void; target: unknown }[]>();
+    return {
+      addEventListener(type: unknown, fn: (e: unknown) => void, target: unknown) {
+        listeners.set(type, [...(listeners.get(type) ?? []), { fn, target }]);
+      },
+      removeEventListener(type: unknown, fn: (e: unknown) => void) {
+        listeners.set(
+          type,
+          (listeners.get(type) ?? []).filter((l) => l.fn !== fn),
+        );
+      },
+      fire(type: unknown, event: unknown) {
+        for (const l of listeners.get(type) ?? []) l.fn.call(l.target, event);
+      },
+      getDefaultFont: () => null,
+    };
+  }
+  const font = (family: string) =>
+    ({
+      getFamily: () => family,
+      getStyle: () => "N",
+      getWeight: () => 400,
+    }) as unknown as Parameters<SvgParser["addFontToResolve"]>[0];
+
+  it("answers the later font and ends the import's wait", () => {
+    const fm = fakeFontManager();
+    const svg = new SvgParser({}, null as unknown as FontManager);
+    (svg as unknown as { fontManager: unknown }).fontManager = fm;
+    const resolved: string[] = [];
+    svg.beginJob(); // the rest of the import
+    svg.addFontToResolve(font("A"), (f) => resolved.push(f.getFamily()));
+    fm.fire(FontManager.FontAvailableEvent, { font: font("A") });
+    svg.addFontToResolve(font("B"), (f) => resolved.push(f.getFamily()));
+    let done = false;
+    svg.waitFor(() => (done = true));
+    svg.endJob();
+    expect(done).toBe(false);
+    fm.fire(FontManager.FontAvailableEvent, { font: font("B") });
+    expect(resolved).toEqual(["A", "B"]);
+    expect(done).toBe(true);
+  });
+});
+
+describe("BUG-071: a font query asked again from the last answer", () => {
+  it("ends the provider's job once the fallback query is answered", () => {
+    const answers: ((...args: unknown[]) => void)[] = [];
+    const svg = new SvgParser(
+      {
+        fontProvider: {
+          queryFirst(_query: unknown, done: (...args: unknown[]) => void) {
+            answers.push(done);
+          },
+        },
+      } as unknown as ConstructorParameters<typeof SvgParser>[0],
+      null as unknown as FontManager,
+    );
+    type Query = Parameters<SvgParser["fontProvider"]["queryFirst"]>[0];
+    const unknown = { fontFamily: "Unknown" } as unknown as Query;
+    const fallback = { fontFamily: "Open Sans" } as unknown as Query;
+    let done = false;
+    svg.fontProvider.queryFirst(unknown, () => {
+      // No answer for the family: ask for the fallback, as text does.
+      svg.fontProvider.queryFirst(fallback, () => {});
+    });
+    svg.waitFor(() => (done = true));
+    answers[0]?.(null);
+    expect(done).toBe(false);
+    answers[1]?.({ family: "Open Sans" });
+    expect(svg.jobs).toBe(0);
+    expect(done).toBe(true);
+  });
+});
+
 describe("R5-E-401: CSS selectors and ids named like Object.prototype members (old behaviour)", () => {
   // canvg kept CSS rules, definitions and references in plain objects
   // (old chunk.vendor.js 248074, 245913, 245340). The port keeps that;
