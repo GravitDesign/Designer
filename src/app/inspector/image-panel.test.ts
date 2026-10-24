@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, onTestFinished, vi } from "vitest";
 import { RGBColor } from "../../engine/color/rgb-color.ts";
 import { Platform } from "../../engine/core/platform.ts";
 import { Transform } from "../../engine/math/transform.ts";
@@ -165,6 +165,15 @@ describe("replaceImage", () => {
   });
 
   it("refuses too big files, data URLs and bitmaps", () => {
+    // The real limits depend on the machine and can exceed the longest
+    // string V8 allows, so the test sets small ones.
+    const limits = { png: Platform.maxPngDataSize, url: Platform.maxImgDataUrlLength };
+    onTestFinished(() => {
+      Platform.maxPngDataSize = limits.png;
+      Platform.maxImgDataUrlLength = limits.url;
+    });
+    Platform.maxPngDataSize = 1000;
+    Platform.maxImgDataUrlLength = 1000;
     const tooBig = (expectNothing: () => void) => {
       expectNothing();
       expect(messages).toHaveLength(1);
