@@ -74,25 +74,23 @@ interface AttributedStringRoot {
 export class SketchText extends SketchElement {
   /**
    * Family, weight and style from a PostScript-ish font name
-   * ("OpenSans-Bold" -> "Open Sans", 700, normal). Any name that contains
-   * "regular" (or "oblique") counts as italic (QUESTIONS.md "Sketch font
-   * names with Regular import as italic").
+   * ("OpenSans-Bold" -> "Open Sans", 700, normal). A name with "italic"
+   * or "oblique" anywhere in it is italic, any other upright; the old code
+   * took the first of normal, italic, oblique or regular and made all but
+   * normal italic ("Sketch \"Regular\" fonts import as italic" in
+   * BUGS-FIXED.md).
    */
   static composeQuery(name: string): SketchFontQuery & { fontName: string } {
-    const styleExpression = /normal|italic|oblique|regular/i;
     const weightExpression = /normal|bold|bolder|lighter|100|200|300|400|500|600|700|800|900/i;
     name = name.replace(/[\s\r\t\n]+/gm, " ").replace(/^\s+|\s+$/g, "");
-    let style = "normal";
     let weight: string | number = Font.Weight.Regular;
-    if (styleExpression.test(name))
-      style = ((styleExpression.exec(name) as RegExpExecArray).pop() as string).toLowerCase();
     if (weightExpression.test(name))
       weight = ((weightExpression.exec(name) as RegExpExecArray).pop() as string).toLowerCase();
     return {
       fontName: name,
       fontFamily: SketchText._familyOf(name),
       fontWeight: SketchText._weightOf(weight),
-      fontStyle: "normal" === style ? Font.Style.Normal : Font.Style.Italic,
+      fontStyle: /italic|oblique/i.test(name) ? Font.Style.Italic : Font.Style.Normal,
     };
   }
 

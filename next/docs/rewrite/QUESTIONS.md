@@ -1223,7 +1223,7 @@ What it does: the style is read with `/normal|italic|oblique|regular/i`, then `"
 
 Why it's unclear: almost every Sketch text uses a Regular face, and these import in italic or fall back to another font. A fix would map "regular" to Normal.
 
-Kept. next/src/io/import/sketch/sketch-text.ts composeQuery. Pinned by sketch-patterns.test.ts "reads \"OpenSans-Regular\" like the old importer" (recorded from the old module) and the font queries of the parity scenarios io-import-sketch/text-v49 and symbols-edge-v49.
+Fixed: see BUG-106 in BUGS-FIXED.md.
 
 ## Q-103 Sketch borders always import as inside
 

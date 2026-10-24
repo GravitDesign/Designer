@@ -1,0 +1,15 @@
+{
+  "bug": "BUG-106",
+  "why": "Sketch font names with Regular (OpenSans-Regular) are queried and set upright; only italic and oblique names are italic. The .fixed files differ from the old output (for the symbols-v49 ones, from the BUG-104 output) only in fontStyle normal instead of italic for those runs and in the font queries; in the late-fonts scenarios the OpenSans-Light query merges into the now equal Open Sans normal 400 query.",
+  "scenarios": [
+    "io-import-sketch/text-v49",
+    "io-import-sketch/text-v49-late-fonts",
+    "io-import-sketch/text-valid-v49",
+    "io-import-sketch/text-valid-v49-late-fonts",
+    "io-import-sketch/symbols-edge-v49",
+    "io-import-sketch/symbols-v49",
+    "io-import-sketch/symbols-v49-ignore-symbol-page",
+    "io-import-sketch/symbols-v49-late-fonts"
+  ],
+  "pending": []
+}

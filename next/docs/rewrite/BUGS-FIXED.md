@@ -1468,3 +1468,34 @@ mixed-operation check at lines 242909-242912.
   io-import-sketch/booleans-v49. The `.fixed` file equals the old
   recording except that the two paths of B-union-sub have `"bool": 4`
   (subtract), like the paths of B-sub; checked with diff.
+
+## BUG-106 Sketch "Regular" fonts import as italic
+
+Old code: chunk.vendor.js module 1136 (sketchtext), composeQuery (lines
+240408-240409).
+
+- Reproduce: open a Sketch file with text in a Regular face, such as
+  OpenSans-Regular (parity/fixtures/import/sketch/text-v49.sketch).
+- Old: the style was read with `/normal|italic|oblique|regular/i` and
+  everything but "normal" became italic, so "OpenSans-Regular" was looked
+  up and set as Open Sans italic. Almost every Sketch text uses a Regular
+  face (QUESTIONS.md Q-102).
+- New: a name that contains "italic" or "oblique" anywhere is italic,
+  every other name is upright. "OpenSans-Regular" is Open Sans normal 400,
+  "Lato-RegularItalic" stays italic. Weights are read as before.
+- Test: src/io/import/sketch/sketch-patterns.test.ts, "reads
+  \"OpenSans-Regular\" upright (BUG-106)" (the other recorded names still
+  give the old module's answer) and "reads the style of %s as %s
+  (BUG-106)". Both fail with the old code.
+- Parity exceptions: parity/exceptions/BUG-106.json. In
+  io-import-sketch/text-v49, text-valid-v49, symbols-edge-v49,
+  symbols-v49, symbols-v49-ignore-symbol-page and symbols-v49-late-fonts
+  the `.fixed` files differ from the old recordings (for the symbols ones,
+  from the BUG-104 output) only in "fontStyle": "normal" instead of
+  "italic" for the OpenSans-Regular runs and the font query
+  "OpenSans-Regular/Open Sans/400/N" instead of ".../I". In
+  text-v49-late-fonts and text-valid-v49-late-fonts only the query list
+  changes: the Regular query is upright, and OpenSans-Light, which asks
+  for the same Open Sans normal 400, is no longer a query of its own
+  because the font search asks once per family, style and weight. Checked
+  with a diff of the expanded JSON.
