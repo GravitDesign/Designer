@@ -1034,3 +1034,28 @@ branch), lines 40798-40822.
 - Parity exceptions: none. editor-tools/snap/equal-spacing and
   snap/equal-spacing-overlay have the spacing win and give the same output
   in the new app (re-run against the fixed build).
+
+## BUG-048 Full pixels guide also rounds the bottom-right corner
+
+Old code: chunk.vendor.js module 544 (GFullPixelsGuide constructor),
+lines 79044-79050.
+
+- Reproduce: in a px document with snapping to full pixels on, drag an
+  element with a fractional width or height (20.5 px, say).
+- Old: the constructor removed every snap zone except top-left with
+  forEach over the zone list while disallowSnapZone spliced that list, so
+  bottom-right was skipped and stayed. The guide then counted as a
+  zonable guide, and mapRect rounded whichever of the top-left and
+  bottom-right corners was nearer a full pixel, so the element's x or y
+  could land off-pixel (Q-122).
+- New: the constructor iterates a copy and keeps only top-left, so the
+  top-left corner is always the one rounded.
+- Test: src/editor/guides/guides.test.ts, "BUG-048: keeps only top-left on
+  the full pixels guide" and "BUG-048: full pixels round the top-left
+  corner of a rect, not the bottom-right" (both fail with the old code:
+  zones ["tl", "br"], and x 10.5 instead of 10).
+- Parity exceptions: none. editor-tools/snap/snap-zones and
+  snap/snap-zones-overlay give the same output in the new app (re-run
+  against the fixed build): their scenes don't snap to full pixels with a
+  fractional size, and the zone marks they show come from the other
+  guides.

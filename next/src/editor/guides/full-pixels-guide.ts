@@ -26,11 +26,14 @@ export class FullPixelsGuide extends GuideMap(GuideDetailMap(Guide)) {
 
   constructor(guides: GuidesHost) {
     super(guides);
-    // Splicing while iterating skips bottom-right (see "Full pixels guide
-    // keeps the bottom-right zone" in QUESTIONS.md).
-    this.getAllowedSnapZones().forEach((zone) => {
-      if (zone !== Rect.Side.TOP_LEFT) this.disallowSnapZone(zone);
-    });
+    // Over a copy: the old code spliced the list it iterated and kept
+    // bottom-right (BUG-048 Full pixels guide also rounds the bottom-right
+    // corner).
+    this.getAllowedSnapZones()
+      .slice()
+      .forEach((zone) => {
+        if (zone !== Rect.Side.TOP_LEFT) this.disallowSnapZone(zone);
+      });
   }
 
   override getId(): string {

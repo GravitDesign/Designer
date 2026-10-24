@@ -1473,7 +1473,7 @@ What it does: the constructor removes every allowed snap zone except top-left wi
 
 Why it's unclear: the code clearly means "top-left only"; the result differs because of the mutation during iteration.
 
-Kept. editor/guides/full-pixels-guide.ts; pinned by "keeps bottom-right on the full pixels guide" in guides.test.ts.
+Fixed: see BUG-048 in BUGS-FIXED.md.
 
 ## Q-123 Guide lines snap to the first line in reach, not the nearest
 

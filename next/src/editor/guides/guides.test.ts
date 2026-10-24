@@ -71,10 +71,25 @@ describe("Guide zones and mapping rules", () => {
     expect(new GridGuide(guides).getAllowedSnapZones()).toEqual(["tl", "br"]);
   });
 
-  it("keeps bottom-right on the full pixels guide (the constructor skips it while splicing)", () => {
+  it("BUG-048: keeps only top-left on the full pixels guide", () => {
     const guide = new FullPixelsGuide(new Guides(newScene()));
-    expect(guide.getAllowedSnapZones()).toEqual(["tl", "br"]);
-    expect(guide.mapTopLeftOnly()).toBe(false);
+    expect(guide.getAllowedSnapZones()).toEqual(["tl"]);
+    expect(guide.mapTopLeftOnly()).toBe(true);
+  });
+
+  it("BUG-048: full pixels round the top-left corner of a rect, not the bottom-right", () => {
+    const scene = newScene();
+    scene.setProperty("ut", "px");
+    const guides = editorGuides(scene);
+    guides._view = fakeView(scene);
+    Guides.options.guides = [FullPixelsGuide.ID];
+    guides.beginMap();
+    // The bottom-right corner (30.9, 30.9) is nearer a full pixel than the
+    // top-left one; the old code moved the rect by 0.1 to put it there.
+    const mapped = guides.mapRect(new Rect(10.4, 10.4, 20.5, 20.5));
+    guides.finishMap();
+    expect(mapped.getX()).toBeCloseTo(10, 10);
+    expect(mapped.getY()).toBeCloseTo(10, 10);
   });
 
   it("inverts mapping while Cmd/Ctrl is held", () => {
