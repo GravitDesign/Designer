@@ -17,6 +17,18 @@ vi.mock("../../io/import/pdf/pdf-import.ts", async (importOriginal) => ({
   },
 }));
 
+vi.mock("../../io/import/eps/eps-import.ts", () => ({
+  EPSImport: {
+    // Never draws: the import only offers its cancel, which reports the
+    // "File loading is canceled." message like the real one.
+    import: (...args: unknown[]) => {
+      const errorCallback = args[4] as (message: string) => void;
+      const cancelHandler = args[6] as (cancel: () => void) => void;
+      cancelHandler(() => errorCallback("File loading is canceled."));
+    },
+  },
+}));
+
 vi.mock("../fonts/font-manager.ts", () => ({
   FontsProviderManager: {
     getInstance: () => ({ query: (answer: (r: { faces: [] }) => void) => answer({ faces: [] }) }),
@@ -89,5 +101,32 @@ describe("opening a HEIC that can't be converted (BUG-108)", () => {
     } finally {
       setHeicConverterLoader(null);
     }
+  });
+});
+
+describe("cancelling an EPS import (BUG-113)", () => {
+  it("fails the load after the cancel message", () => {
+    const statuses: number[] = [];
+    const calls: string[] = [];
+    let cancel: (() => void) | null = null;
+    const context: OpenImportContext = {
+      document: {},
+      updateStatus: (status) => statuses.push(status),
+      setTitle: () => {},
+      setScene: () => {},
+      preProcessFonts: () => calls.push("pre"),
+      postProcessFonts: () => calls.push("post"),
+      initCancelHandler: (handler) => {
+        cancel = handler;
+      },
+    };
+    openImportedFile(context, new NamedItem("shapes.eps"), "EPS", new Uint8Array(4), {
+      progress: null,
+    });
+    expect(statuses).toEqual([]);
+    (cancel as unknown as () => void)();
+    expect(messages).toEqual(["File loading is canceled."]);
+    expect(statuses).toEqual([DocumentStatus.LoadFailed]);
+    expect(calls).toEqual(["pre", "post"]);
   });
 });

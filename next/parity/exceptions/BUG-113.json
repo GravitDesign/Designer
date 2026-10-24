@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-113",
+  "why": "Cancelling an EPS open sets LoadFailed instead of leaving the document Loading. The only recording of a cancel, eps-worker-exception-hangs, isn't run against the new app yet (and its file no longer hangs after BUG-110).",
+  "scenarios": [],
+  "pending": ["import-export/import/open/eps-worker-exception-hangs"]
+}

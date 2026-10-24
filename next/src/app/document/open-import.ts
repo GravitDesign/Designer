@@ -232,7 +232,15 @@ export function openImportedFile(
       (percent) => {
         if (options && options.progress) options.progress(percent);
       },
-      (cancel) => context.initCancelHandler(cancel),
+      // A cancelled import fails the load; the old document stayed Loading
+      // ("Cancelling an EPS import leaves the document Loading" in
+      // BUGS-FIXED.md).
+      (cancel) =>
+        context.initCancelHandler(() => {
+          cancel();
+          context.postProcessFonts();
+          context.updateStatus(DocumentStatus.LoadFailed);
+        }),
     );
   } else if ("PDF" === extension || "AI" === extension) {
     context.preProcessFonts();

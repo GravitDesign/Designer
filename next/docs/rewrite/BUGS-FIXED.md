@@ -1695,3 +1695,28 @@ rectfill handler in chunk.vendor.js module 1404 (GEPSParser).
   shapes-eps: the rectangle becomes a filled path and the rectstroke adds
   a stroked one with the file's line width). Pending: the import-export
   open and place scenarios of eps-shapes.eps.
+
+## BUG-113 Cancelling an EPS import leaves the document Loading
+
+Old code: chunk.vendor.js module 1403 (GEPSImport, the cancel handler)
+and designer.browser.dev.js module 163 (the EPS branch of GDocument.load).
+
+- Reproduce: open an EPS file that takes long (or, before BUG-109 and
+  BUG-110, one that made the worker hang, such as
+  parity/fixtures/import/eps/arc-closepath.eps) and press Cancel on the
+  loading overlay.
+- Old: the cancel stopped the worker and showed "File loading is
+  canceled.", but the import's draw callback never came, so nothing set
+  a status: the tab stayed Loading behind the dialog
+  (import-export/import/open/eps-worker-exception-hangs records
+  afterCancel Ready, Loading), and the fonts stayed in their import mode.
+- New: the open's cancel also undoes the import's font handling and sets
+  LoadFailed, so the tab shows that the file wasn't loaded. Place already
+  ended its progress on the cancel message and is unchanged.
+- Test: src/app/document/open-import.test.ts, "cancelling an EPS import
+  (BUG-113)" (no status and no font post-processing with the old code).
+- Parity exceptions: parity/exceptions/BUG-113.json, pending:
+  import-export/import/open/eps-worker-exception-hangs. That scenario
+  cancels arc-closepath.eps while it hangs, which it no longer does after
+  BUG-110; it will need a new way to keep an import running before it can
+  record the cancel.
