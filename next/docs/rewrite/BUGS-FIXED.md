@@ -982,3 +982,31 @@ Old code: chunk.vendor.js module 546 (GTransformBox constructor), lines
   rotates around the centre unless one is given, also at 0" (fails with
   the old code: [100, 50] instead of [0, 0]).
 - Parity exceptions: none. No recorded scenario puts the pivot at 0.
+
+## BUG-046 Pen: Space during a handle drag throws the anchor off by the scroll
+
+Old code: chunk.vendor.js module 539 (GPenTool._updatePointProperties),
+lines 76805-76820.
+
+- Reproduce: with the pen tool, press to place a point, drag out its
+  handles and hold Space while dragging to move the point itself. The app
+  view is always scrolled (the page is centred), so this happens on every
+  move.
+- Old: the point's own coordinates plus the pointer delta were passed to
+  _updatePoint, which reads its argument as a view position. In a
+  scrolled view the point flew off by the scroll; zoom and path
+  transforms broke it as well.
+- New: the point is mapped to view space first (through the path editor's
+  transform from native coordinates), the pointer delta is added there,
+  and the returned view position is compared with that same view point.
+- Test: src/editor/tools/pen-tool.test.ts, "BUG-046: moves the anchor by
+  the pointer delta in a scrolled view too" (fails with the old code:
+  [-130, -50] instead of [270, 150]).
+- Parity exceptions: editor-tools/pen/space-moves-anchor. The `.fixed`
+  file is the new app's output; compared with the old expected file
+  (JSON diff of the normalized outputs) only the second anchor point's
+  position and left handle differ: the anchor ends at (270, 150), the
+  press point (250, 120) moved by the Space drag's (20, 30), and the left
+  handle mirrors the right one at (220, 150), where the old app put the
+  anchor at (-1730, -850) and the handle at (-3780, -1850). The right
+  handle and everything else are the same.

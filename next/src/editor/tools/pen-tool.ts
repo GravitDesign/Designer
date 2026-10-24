@@ -761,20 +761,24 @@ export class PenTool extends Panning(PathTool) {
       this._updateShoulders(position);
     } else if (Platform.modifiers.spaceKey) {
       if (this._lastMouseEvent && this._lastMouseEvent.clientDelta && this._editPt) {
-        // The point's own coordinates plus the pointer delta go to
-        // _updatePoint as a view position, so in a scrolled or zoomed
-        // view the point jumps. An old bug, kept; it is listed under "Bug
-        // candidates" in PROGRESS.md ("Pen: Space during a handle drag in
-        // a scrolled or zoomed view").
-        const x = this._editPt.getProperty("x") as number;
-        const y = this._editPt.getProperty("y") as number;
-        let moved = new Point(
-          x + this._lastMouseEvent.clientDelta.getX(),
-          y + this._lastMouseEvent.clientDelta.getY(),
-        );
-        moved = this._updatePoint(moved);
-        (this._pathEditor as ToolPathEditor).requestInvalidation();
-        result = result.add(new Point(moved.getX() - x, moved.getY() - y));
+        // The point moves by the pointer delta in view space. The old code
+        // added the delta to the point's own coordinates and read that as
+        // a view position (BUG-046 Pen: Space during a handle drag throws
+        // the anchor off by the scroll).
+        const editor = this._pathEditor as ToolPathEditor;
+        const from = editor
+          .getTransformFromNative(
+            this._view.getWorldTransform(this._view.getScene().getActivePage()),
+          )
+          .mapPoint(
+            new Point(
+              this._editPt.getProperty("x") as number,
+              this._editPt.getProperty("y") as number,
+            ),
+          );
+        const moved = this._updatePoint(from.add(this._lastMouseEvent.clientDelta));
+        editor.requestInvalidation();
+        result = result.add(new Point(moved.getX() - from.getX(), moved.getY() - from.getY()));
       }
     } else {
       result = this._constrainIfNeeded(

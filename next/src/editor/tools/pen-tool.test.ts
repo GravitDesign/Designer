@@ -191,11 +191,10 @@ describe("PenTool Space", () => {
     expect(spaceDrag(0, 0)).toEqual([270, 150]);
   });
 
-  it("in a scrolled view throws the anchor off by the scroll (old bug, kept)", () => {
-    // The point's scene position plus the delta is read as a view
-    // position. Listed under "Bug candidates" in PROGRESS.md ("Pen: Space
-    // during a handle drag in a scrolled or zoomed view").
-    expect(spaceDrag(400, 200)).toEqual([270 - 400, 150 - 200]);
+  it("BUG-046: moves the anchor by the pointer delta in a scrolled view too", () => {
+    // The old code read the point's scene position plus the delta as a
+    // view position: [270 - 400, 150 - 200].
+    expect(spaceDrag(400, 200)).toEqual([270, 150]);
   });
 });
 

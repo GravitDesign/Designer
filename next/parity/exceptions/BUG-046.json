@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-046",
+  "why": "Space during a pen handle drag moves the anchor by the pointer delta in view space. The .fixed file equals the old output except for the second anchor point's position and left handle: the anchor ends at the press point moved by the Space drag instead of flying off by the view's scroll.",
+  "scenarios": ["editor-tools/pen/space-moves-anchor"],
+  "pending": []
+}
