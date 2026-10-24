@@ -236,8 +236,15 @@ describe("GText against the old engine", () => {
     expect(actual.maxLength).toEqual(expected.maxLength);
   });
 
-  it("keeps the old slips (events left locked, raw trf array throws)", () => {
-    expect(actual.quirks).toEqual(expected.quirks);
+  it("keeps the old slip of a raw trf array throwing", () => {
+    expect(actual.quirks?.rawTrf).toEqual(expected.quirks?.rawTrf);
+    expect(actual.quirks?.lockAfterResolved).toEqual(expected.quirks?.lockAfterResolved);
+  });
+
+  it("unlocks the change events when setText waits for a missing font (BUG-010)", () => {
+    // The old app left them locked (old-text.json quirks.lockAfterMissing = 1).
+    expect(expected.quirks?.lockAfterMissing).toBe(1);
+    expect(actual.quirks?.lockAfterMissing).toBe(0);
   });
 });
 

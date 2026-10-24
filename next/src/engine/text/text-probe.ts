@@ -1055,8 +1055,8 @@ export function probeText(api: TextProbeApi): Record<string, unknown> {
       ),
     };
   }
-  // -- Kept slips: setText with locked events returns still locked when a
-  // font is missing; a legacy blob with a raw `trf` array throws.
+  // -- setText with locked events and a missing font (the old app returned
+  // still locked, BUG-010); a legacy blob with a raw `trf` array throws.
   {
     const t = new api.Text();
     t._setWorkspace(ownFonts(["Gone"]).workspace);

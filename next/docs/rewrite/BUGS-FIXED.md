@@ -318,3 +318,24 @@ render (the job registered at 25683 and only removed at 26022).
   the phase stays on).
 - Parity exceptions: none. No recorded scenario paints an element that
   throws.
+
+## BUG-010 setText leaves the text core's change events locked while a font is missing
+
+Old code: chunk.vendor.js module 70, GText.setText (16684-16690).
+
+- Reproduce: open a file whose text uses a font that isn't available yet
+  (a Google font still loading, a local font that is gone). Restoring the
+  text calls setText(content, true, true) with locked change events.
+- Old: setText locked the text core's change events, found a run whose font
+  wasn't resolved, marked the text to be set later and returned without
+  unlocking. The core stayed locked until some later locked setText got
+  through, so inline edits in that time sent no change events and never
+  reached the text's content, and a save could write the stale text.
+- New: setText unlocks the change events before it returns to wait for the
+  font. The deferred setText once the font arrives is unchanged.
+- Test: src/engine/text/text.test.ts, "unlocks the change events when
+  setText waits for a missing font (BUG-010)" (the core's lock is 1 after
+  the call with the old code, 0 now; old-text.json still records the old
+  1).
+- Parity exceptions: none. No recorded scenario restores a text with a
+  missing font and then reads the lock or edits the text.

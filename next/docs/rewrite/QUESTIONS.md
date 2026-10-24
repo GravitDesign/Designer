@@ -529,13 +529,13 @@ Kept. Pinned by text.test.ts "lays out crlf" (old-text.json layout.crlf).
 
 ## Q-034 GText: setText leaves change events locked while fonts are missing
 
-Old: public/chunk.vendor.js 16687. New: next/src/engine/text/text.ts, setText ("Returns with the change events still locked").
+Old: public/chunk.vendor.js 16687. New: next/src/engine/text/text.ts, setText.
 
 With `lockEvents`, setText calls `core.lockChangeEvents(1)` and then returns early when a run's font isn't resolved yet, without unlocking. The core stays locked until some later setText with `lockEvents` that gets through.
 
 Unclear: looks like a slip. Until the next locked setText, the GTL core sends no change events, so the text editor can stop reacting after a font goes missing. Candidate for a BUGS-FIXED entry.
 
-Kept. Pinned by text.test.ts "keeps the old slips (events left locked, raw trf array throws)" (old-text.json quirks.lockAfterMissing = 1).
+Fixed: see BUG-010 in BUGS-FIXED.md.
 
 ## Q-035 GText: the pending content property is never found
 
@@ -595,7 +595,7 @@ Restoring a pre-2 text blob (corner coordinates `tlx`/`trx`/`blx`/...) that has 
 
 Unclear: probably `Transform.deserialize(blob.trf)` was meant. No such file is known to exist; old files with corner coordinates store `ttrf`.
 
-Kept. Pinned by text.test.ts "keeps the old slips (events left locked, raw trf array throws)" (old-text.json quirks.rawTrf).
+Kept. Pinned by text.test.ts "keeps the old slip of a raw trf array throwing" (old-text.json quirks.rawTrf).
 
 ## Q-041 GText: fake text reads only the first backup outline
 

@@ -797,10 +797,11 @@ export class Text extends TextBase {
               allResolved = false;
             }
           }
-          // Returns with the change events still locked (QUESTIONS.md
-          // "GText: setText leaves change events locked while fonts are missing").
+          // Unlocks before it waits (BUGS-FIXED.md "BUG-010 setText leaves
+          // the text core's change events locked while a font is missing").
           if (!allResolved) {
             this._setTextWhenAvailable = true;
+            if (lockEvents) core.lockChangeEvents(0);
             return;
           }
         }
