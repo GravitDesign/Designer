@@ -212,7 +212,8 @@ export function targetedCases(impl: BooleanImpl): Record<string, unknown> {
   }
 
   // A quad against a nearly equal cubic crosses its flattened pieces 8
-  // times; quad-vs-curve pairs add every hit (the constant 6 is truthy).
+  // times; the old code added every quad-vs-curve hit (the constant 6 is
+  // truthy), the port stops at 6 like cubic-vs-quad (BUG-014).
   record("block.quadCubicNear", () =>
     hits(
       new PI(true, true, false, 1, true).intersect(
@@ -225,7 +226,8 @@ export function targetedCases(impl: BooleanImpl): Record<string, unknown> {
     ),
   );
 
-  // R4-B-023: collinear pairs mark 666 and splice(P) drops later hits too.
+  // R4-B-023: collinear pairs mark 666; the old splice(P) dropped later
+  // hits too (BUG-014).
   record("collinear.sameEllipse", () =>
     hits(
       new PI(true, true, false, 4).intersect(

@@ -263,9 +263,7 @@ with overlapping edges (an ellipse and a copy of itself, squares sharing an
 edge with the block intersector) can lose intersections and then clip
 differently.
 
-Kept. Pinned by the seeded fuzz in
-next/src/engine/geometry/boolean/fixture-cases.test.ts (seed 11 fails with
-`splice(P, 1)`) and the collinear.* cases there.
+Fixed: see BUG-014 in BUGS-FIXED.md.
 
 ## Q-021 Block intersector adds every quadratic-vs-curve hit
 
@@ -283,8 +281,7 @@ Why it's unclear: the pattern of the other branches suggests `w < 6` and
 `w < 4` were meant. It only matters on the block intersector path (compound
 shapes with many children, or after the 10 s timeout).
 
-Kept. Pinned by next/src/engine/geometry/boolean/fixture-cases.test.ts
-"block.quadCubicNear" (fails with `count < 6`).
+Fixed: see BUG-014 in BUGS-FIXED.md.
 
 ## Q-022 Image tracer throws on zero colors or zero quantization cycles
 

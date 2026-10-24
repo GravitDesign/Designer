@@ -1043,11 +1043,13 @@ export class PolyIntersector {
               seen[pair] = 666;
               for (let foundIndex = found.length - 1; foundIndex >= 0; foundIndex--) {
                 const earlier = found[foundIndex] as IntersectionPoint<PolyLine>;
-                // splice(foundIndex) drops every later hit too, also those
-                // of other pairs, as the old code did (QUESTIONS.md: "A
-                // collinear segment pair drops every later intersection too").
+                // Removes only this pair's hit. The old splice(foundIndex)
+                // dropped every later hit too, also those of other pairs
+                // (BUGS-FIXED.md "BUG-014 Boolean intersections: one
+                // collinear pair drops every later hit, quadratic-vs-curve
+                // hits unlimited").
                 if ((lastSeg + 1) * earlier.polySeg0.seg + earlier.polySeg1.seg === pair)
-                  found.splice(foundIndex);
+                  found.splice(foundIndex, 1);
               }
               continue;
             }
@@ -1056,16 +1058,15 @@ export class PolyIntersector {
                 if (other.currCurve) {
                   const curve = poly.currCurve;
                   const otherCurve = other.currCurve;
-                  // A quadratic first gives the truthy constants 6 or 4
-                  // (QUESTIONS.md: "Block intersector adds every
-                  // quadratic-vs-curve hit").
+                  // A quadratic first is limited like the other way round;
+                  // the old code gave the truthy constants 6 or 4 (BUG-014).
                   add = curve.cp2
                     ? otherCurve.cp2
                       ? count < 9
                       : count < 6
                     : otherCurve.cp2
-                      ? 6
-                      : 4;
+                      ? count < 6
+                      : count < 4;
                 } else {
                   add = poly.currCurve.cp2 ? count < 3 : count < 2;
                 }

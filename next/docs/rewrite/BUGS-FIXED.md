@@ -454,3 +454,42 @@ Old code: chunk.vendor.js module 651, GVertexOffsetter._getSegmToArcSqrDist
   distance. None of the 1,214 recorded offset outputs changes.
 - Parity exceptions: none. engine-geometry/pathops/offsetter still matches
   the old app.
+
+## BUG-014 Boolean intersections: one collinear pair drops every later hit, quadratic-vs-curve hits unlimited
+
+Old code: chunk.vendor.js module 187, _treeIntersect (38653-38662,
+`f.splice(P)`, and 38669, `T.cp2 ? (I.cp2 ? w < 9 : w < 6) : I.cp2 ? 6 : 4`).
+
+- Reproduce: path operations (Union, Subtract, Intersect, Difference) and
+  compound shapes on the intersector path that keeps Béziers (compound
+  shapes with many children, or after the 10 s timeout), with two paths
+  that share a straight edge piece next to curves, or with a quadratic
+  curve (from an import) against another curve.
+- Old: when a segment pair turned out to be collinear, the hits already
+  found for that pair were removed with `splice(index)`, which also removed
+  every hit found after it, of any other pair, so the boolean worked with
+  intersections missing. And the number of hits kept per curve pair was
+  limited (cubic-cubic 9, cubic-quadratic 6, curve-line 3 or 2) except
+  when the first curve was a quadratic and the other one a curve: there
+  the expression gave the constants 6 or 4, which are always true, so every
+  hit of the flattened curves was added. The result depended on the
+  argument order: a quadratic against a nearly equal cubic gave 8 hits,
+  the same cubic against the quadratic 6.
+- New: only the collinear pair's own hits are removed
+  (`splice(index, 1)`), and a quadratic against a cubic or a quadratic is
+  limited to 6 or 4 hits, like the other way round.
+- Test: src/engine/geometry/boolean/fixture-cases.test.ts, the targeted
+  case "block.quadCubicNear" and "matches the seeded differential fuzz,
+  seed 11", which now compare with old-fixtures.fixed.json (both fail with
+  the old code), and "has fixed outputs only for recorded cases they change
+  (BUG-014)". Three of the 2,045 recorded outputs change, checked against
+  full (unhashed) outputs of the old and the new code:
+  - block.quadCubicNear: the first 6 of the old 8 hits, the same 6 hits
+    the old code already gave with the arguments swapped.
+  - fuzz 11.23.bool0 and 11.23.bool5 (the same shapes, two settings): the
+    same 7 intersections; the result of clipOp(2) keeps one more
+    vertex, (78.429, 54.411), which lies on the straight edge from
+    (86.635, 70) to (69.108, 36.701). The shape is the same.
+  The collinear.* cases don't change.
+- Parity exceptions: none. The engine-geometry/boolean and pathops
+  scenarios still match the old app.
