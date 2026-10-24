@@ -20,7 +20,7 @@
  *   the active sidebar tab, primary buttons, checked boxes, sliders,
  *   focus rings.
  * - yellow: a small marker only: the active document tab (as on the
- *   welcome screen) and the menu bar item that is open.
+ *   welcome screen).
  * - ink: text, icons and, tinted, the neutral greys of both themes.
  * - lime and olive: not used in the editor (they stay in the mark).
  */
@@ -146,14 +146,11 @@ html[data-branding="next"] .g-menu-root > .g-menu-item:active:not(.g-disabled) >
   background-color: var(--rd-bg-hover);
   color: var(--rd-text);
 }
-/* The open menu: the item stays lit, with the yellow marker under it. */
+/* The open menu: the item stays lit. */
 html[data-branding="next"] .g-menu-bar > .g-menu > .g-menu-item.g-active:not(.g-disabled),
 html[data-branding="next"] .g-menu-bar > .g-menu > .g-menu-item.g-active:not(.g-disabled) > span {
   background-color: var(--rd-bg-hover);
   color: var(--rd-text);
-}
-html[data-branding="next"] .g-menu-bar > .g-menu > .g-menu-item.g-active:not(.g-disabled) {
-  box-shadow: inset 0 -2px 0 var(--rd-marker);
 }
 
 /* Document tabs: like the welcome screen's items, a quiet row with a
@@ -300,21 +297,21 @@ html[data-branding="next"]
   > .dropdown-button.g-active {
   background: var(--rd-bg-pressed) !important;
 }
-/* The active tool (and a toggle that is on) in the brand accent. */
+/* The active tool (and a toggle that is on) filled with the brand accent. */
 html[data-branding="next"]
   #toolbar
   > div.section
   > .toolbar-button
   > .action-button:not(.g-disabled).g-active {
-  background: var(--rd-accent-tint);
-  color: var(--rd-accent-fg);
+  background: var(--rd-accent);
+  color: #ffffff;
 }
 html[data-branding="next"]
   #toolbar
   > div.section
   > .toolbar-button
   > .action-button:not(.g-disabled).g-active:hover {
-  background: var(--rd-accent-tint-hover);
+  background: var(--rd-accent-hover);
 }
 html[data-branding="next"]
   #toolbar
@@ -322,7 +319,7 @@ html[data-branding="next"]
   > .toolbar-button
   > .action-button:not(.g-disabled).g-active
   > span {
-  color: var(--rd-accent-fg);
+  color: #ffffff;
   text-shadow: none;
 }
 html[data-branding="next"]
@@ -330,7 +327,7 @@ html[data-branding="next"]
   > div.section
   > .toolbar-button.dropdown:has(> .action-button.g-active:not(.g-disabled))
   > .dropdown-button {
-  background: var(--rd-accent-tint);
+  background: var(--rd-accent);
 }
 html[data-branding="next"]
   #toolbar
@@ -338,7 +335,7 @@ html[data-branding="next"]
   > .toolbar-button.dropdown:has(> .action-button.g-active:not(.g-disabled))
   > .dropdown-button
   > span {
-  color: var(--rd-accent-fg);
+  color: #ffffff;
 }
 html[data-branding="next"] #toolbar > div.section > .toolbar-button .gravit-zoom-manual-input {
   background: var(--rd-bg-sunken);

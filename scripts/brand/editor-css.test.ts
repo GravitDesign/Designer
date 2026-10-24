@@ -84,12 +84,6 @@ const REQUIRED: [string, string, string, string][] = [
     "var(--rd-font-ui)",
   ],
   [
-    "the open menu's yellow marker",
-    ".g-menu-item.g-active:not(.g-disabled)",
-    "box-shadow",
-    "var(--rd-marker)",
-  ],
-  [
     "the active document tab's yellow marker",
     ".tabs > .tab.g-active",
     "box-shadow",
@@ -108,16 +102,16 @@ const REQUIRED: [string, string, string, string][] = [
     "var(--rd-bg-hover)",
   ],
   [
-    "the active tool in the accent",
+    "the active tool filled with the accent",
     ".action-button:not(.g-disabled).g-active",
     "background",
-    "var(--rd-accent-tint)",
+    "var(--rd-accent)",
   ],
   [
-    "the active tool's icon in the accent",
+    "the active tool's icon in white on the accent",
     ".action-button:not(.g-disabled).g-active > span",
     "color",
-    "var(--rd-accent-fg)",
+    "#ffffff",
   ],
   [
     "the active sidebar tab underline",
@@ -288,6 +282,15 @@ describe("public/brand/editor.css", () => {
         );
         expect(allowed, `${clean(rule.selector)} { ${d.prop}: ${d.value} }`).toBe(true);
       }
+  });
+
+  it("leaves the open menu without the yellow marker", () => {
+    const marked = rules.filter(
+      (rule) =>
+        splitSelectors(rule.selector).some((s) => clean(s).includes(".g-menu-item.g-active")) &&
+        rule.declarations.some((d) => d.value.includes("var(--rd-marker)")),
+    );
+    expect(marked.map((rule) => clean(rule.selector))).toEqual([]);
   });
 
   it.each(REQUIRED)("keeps %s", (_what, part, prop, value) => {

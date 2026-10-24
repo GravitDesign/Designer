@@ -121,12 +121,12 @@ What changed:
 - Header: the mark at the left of the menu bar (in the menu section's own
   left padding; the header keeps its height, the captions move 30 px
   right), menu captions in Manrope at a calmer weight and muted ink, a
-  rounded hover, a yellow marker under the open menu. Document tabs look
+  rounded hover; the open menu stays lit. Document tabs look
   like the welcome screen's items: no frame, a quiet hover, the active
   one on a light panel with a yellow marker at its left.
 - Toolbar: one hover and one pressed colour for every button, rounded
-  6 px; the active tool (and a toggle that is on, such as snapping) on a
-  magenta tint with a magenta icon, its menu arrow included; short
+  6 px; the active tool (and a toggle that is on, such as snapping)
+  filled magenta with a white icon, its menu arrow included; short
   hairline group dividers instead of full-height lines.
 - Sidebars and inspector: the sidebar tabs are an underline instead of a
   magenta block; section headers on a light panel colour with Manrope
@@ -155,10 +155,10 @@ Palette roles:
 
 | Role | Light | Dark | Used for |
 | --- | --- | --- | --- |
-| Magenta (accent) | #E3136B | #E3136B | fills: primary buttons, checked boxes, switches, sliders |
+| Magenta (accent) | #E3136B | #E3136B | fills: primary buttons, the active tool, checked boxes, switches, sliders |
 | Magenta as a mark | #E3136B | #F0478B | active tool icon, underlines, row markers, focus ring |
-| Magenta tint | #FCE7F0 | #4D2338 | selected rows, the active tool, pressed segments |
-| Yellow | #FFD81F | #FFD81F | small markers only: active document tab, open menu, text selection |
+| Magenta tint | #FCE7F0 | #4D2338 | selected rows, pressed segments |
+| Yellow | #FFD81F | #FFD81F | small markers only: active document tab, text selection |
 | Ink text / muted | #2B2A35 / #625F70 | #EBEAF0 / #AEABBB | text, labels |
 | Panels | #FFFFFF, #F6F5F9 | #2A2933, #22212A | panels, section headers |
 | Control frame | #8C889A | #7A778A | fields, selects, buttons, checkboxes |
