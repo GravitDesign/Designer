@@ -242,11 +242,15 @@ export function probeFonts(api: ProbeApi, lists: ProbeLists): Record<string, unk
     listed: attempt(() =>
       U.getFont("", null, null, reversed, true, true).map((e: any) => [e.family, e.weight]),
     ),
+    // Asks for the weight the reader reports for the light font (400 in
+    // the old app, 300 since BUG-015), so the tables are compared either way.
     light: attempt(() =>
-      U.getFont("Open Sans Light", "N", 400, reversed).map((e: any) => [
-        e.family,
-        tables(e.buffer),
-      ]),
+      U.getFont(
+        "Open Sans Light",
+        "N",
+        U.getFont("", null, null, reversed, true, true)[0].weight,
+        reversed,
+      ).map((e: any) => [e.family, tables(e.buffer)]),
     ),
   };
 

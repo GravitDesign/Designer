@@ -732,45 +732,22 @@ export const OpenTypeUtil = {
   /**
    * Family, weight and style from the name table. `offset` is where the
    * font starts in the file its table offsets point into (collections).
-   * The weight and style come from the subfamily name (id 2) alone; the
-   * STAT values _getOpenTypeInfo reads are ignored.
+   * The weight and style come from the typographic subfamily name (id 17)
+   * when it names them, else from the subfamily name (id 2); the old code
+   * read id 2 alone, which gives "Regular" or "Italic" for the extra
+   * weights of a family (BUGS-FIXED.md "BUG-015 Fonts whose weight is only
+   * in the typographic subfamily get weight 400"). The STAT values
+   * _getOpenTypeInfo reads are ignored.
    */
   getOpenTypeInfo(data: ArrayBuffer | ArrayBufferView, offset?: number): OpenTypeInfo | null {
     const raw = OpenTypeUtil._getOpenTypeInfo(data, offset || 0) as RawOpenTypeInfo | undefined;
     const names = raw ? raw[0] : null;
     let family: string | 0 | undefined;
     if (names && (family = names[NAME_ID.FAMILY] || names[NAME_ID.NAME])) {
-      let weight: number | null = null;
-      let style: string | null = null;
-      let subfamily = names[NAME_ID.SUBFAMILY];
-      if (subfamily) {
-        subfamily = subfamily.toLowerCase();
-        if (
-          subfamily.indexOf("italic") >= 0 ||
-          subfamily.indexOf("oblique") >= 0 ||
-          subfamily.indexOf("italique") >= 0
-        ) {
-          style = Font.Style.Italic;
-        }
-        if (subfamily.indexOf("bold") >= 0 || subfamily.indexOf("gras") >= 0) {
-          weight =
-            subfamily.indexOf("extra") >= 0 || subfamily.indexOf("ultra") >= 0
-              ? 800
-              : subfamily.indexOf("semi") >= 0 || subfamily.indexOf("demi") >= 0
-                ? 600
-                : 700;
-        } else if (subfamily.indexOf("black") >= 0 || subfamily.indexOf("heavy") >= 0) {
-          weight = 900;
-        } else if (subfamily.indexOf("medium") >= 0) {
-          weight = 500;
-        } else if (subfamily.indexOf("regular") >= 0 || subfamily.indexOf("normal") >= 0) {
-          weight = 400;
-        } else if (subfamily.indexOf("light") >= 0) {
-          weight = subfamily.indexOf("extra") >= 0 || subfamily.indexOf("ultra") >= 0 ? 200 : 300;
-        } else if (subfamily.indexOf("thin") >= 0) {
-          weight = 100;
-        }
-      }
+      const typographic = OpenTypeUtil._weightAndStyle(names[NAME_ID.TYPO_SUBFAMILY]);
+      const plain = OpenTypeUtil._weightAndStyle(names[NAME_ID.SUBFAMILY]);
+      const weight = typographic.weight || plain.weight;
+      const style = typographic.style || plain.style;
       return {
         name: family,
         weight: weight || 400,
@@ -780,6 +757,44 @@ export const OpenTypeUtil = {
       };
     }
     return null;
+  },
+
+  /** Weight and style named by a subfamily name, null where it names none. */
+  _weightAndStyle(subfamily: string | 0 | undefined | null): {
+    weight: number | null;
+    style: string | null;
+  } {
+    let weight: number | null = null;
+    let style: string | null = null;
+    if (subfamily) {
+      subfamily = subfamily.toLowerCase();
+      if (
+        subfamily.indexOf("italic") >= 0 ||
+        subfamily.indexOf("oblique") >= 0 ||
+        subfamily.indexOf("italique") >= 0
+      ) {
+        style = Font.Style.Italic;
+      }
+      if (subfamily.indexOf("bold") >= 0 || subfamily.indexOf("gras") >= 0) {
+        weight =
+          subfamily.indexOf("extra") >= 0 || subfamily.indexOf("ultra") >= 0
+            ? 800
+            : subfamily.indexOf("semi") >= 0 || subfamily.indexOf("demi") >= 0
+              ? 600
+              : 700;
+      } else if (subfamily.indexOf("black") >= 0 || subfamily.indexOf("heavy") >= 0) {
+        weight = 900;
+      } else if (subfamily.indexOf("medium") >= 0) {
+        weight = 500;
+      } else if (subfamily.indexOf("regular") >= 0 || subfamily.indexOf("normal") >= 0) {
+        weight = 400;
+      } else if (subfamily.indexOf("light") >= 0) {
+        weight = subfamily.indexOf("extra") >= 0 || subfamily.indexOf("ultra") >= 0 ? 200 : 300;
+      } else if (subfamily.indexOf("thin") >= 0) {
+        weight = 100;
+      }
+    }
+    return { weight, style };
   },
 
   /** A table tag at `offset`, lowercased. */

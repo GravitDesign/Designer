@@ -28,18 +28,63 @@ const actual = JSON.parse(
   ),
 ) as Record<string, Record<string, unknown>>;
 
+/**
+ * The weights the old reader got wrong: it read them from the subfamily
+ * name (id 2) alone, which is "Regular" or "Italic" for these fonts
+ * (BUGS-FIXED.md "BUG-015 Fonts whose weight is only in the typographic
+ * subfamily get weight 400"). The test collection's first font is
+ * OpenSans-Light.
+ */
+const FIXED_WEIGHTS: Record<string, number> = {
+  "OpenSans-Light.ttf": 300,
+  "OpenSans-LightItalic.ttf": 300,
+  "OpenSans-SemiBold.ttf": 600,
+  "OpenSans-SemiBoldItalic.ttf": 600,
+  "OpenSans-ExtraBold.ttf": 800,
+  "OpenSans-ExtraBoldItalic.ttf": 800,
+  "noto/NotoSansCJKkr-Bold.otf": 700,
+};
+
+/** The old recording with the fixed weights. */
+function fixedExpected(): Record<string, Record<string, unknown>> {
+  type Listed = [string, number, ...unknown[]][];
+  const out = JSON.parse(JSON.stringify(expected)) as {
+    info: Record<string, { info: { weight: number }; listed: Listed }>;
+    collection: { listed: Listed };
+    collectionReversed: { listed: Listed };
+    collectionTables: Listed;
+  };
+  for (const [file, weight] of Object.entries(FIXED_WEIGHTS)) {
+    const entry = out.info[file] as { info: { weight: number }; listed: Listed };
+    expect(entry.info.weight, file).toBe(400);
+    entry.info.weight = weight;
+    (entry.listed[0] as Listed[number])[1] = weight;
+  }
+  for (const listed of [
+    out.collection.listed,
+    out.collectionReversed.listed,
+    out.collectionTables,
+  ]) {
+    expect(listed[0]?.[1]).toBe(400);
+    (listed[0] as Listed[number])[1] = 300;
+  }
+  return out as unknown as Record<string, Record<string, unknown>>;
+}
+
 describe("OpenTypeUtil", () => {
-  it("reads names, weights and styles like the old reader", () => {
-    expect(actual.info).toEqual(expected.info);
+  const fixed = fixedExpected();
+
+  it("reads names and styles like the old reader, weights also from the typographic subfamily (BUG-015)", () => {
+    expect(actual.info).toEqual(fixed.info);
   });
 
   it("finds the fonts of a collection and patches their offsets", () => {
-    expect(actual.collection).toEqual(expected.collection);
+    expect(actual.collection).toEqual(fixed.collection);
   });
 
   it("cuts collection fonts out with table offsets relative to the font", () => {
-    expect(actual.collectionTables).toEqual(expected.collectionTables);
-    expect(actual.collectionReversed).toEqual(expected.collectionReversed);
+    expect(actual.collectionTables).toEqual(fixed.collectionTables);
+    expect(actual.collectionReversed).toEqual(fixed.collectionReversed);
   });
 
   it("reads the sfnt resources and their names from a Mac resource fork", () => {
@@ -54,9 +99,16 @@ describe("OpenTypeUtil", () => {
     expect(actual.odd).toEqual(expected.odd);
   });
 
-  it("reports weight 400 for OpenSans SemiBoldItalic (subfamily only)", () => {
+  it("reports weight 600 for OpenSans SemiBoldItalic from its typographic subfamily (BUG-015)", () => {
     const info = OpenTypeUtil.getOpenTypeInfo(readFont("OpenSans-SemiBoldItalic.ttf"));
-    expect(info).toMatchObject({ name: "Open Sans Semibold", weight: 400, style: "I" });
+    expect(info).toMatchObject({ name: "Open Sans Semibold", weight: 600, style: "I" });
+    expect(OpenTypeUtil.getOpenTypeInfo(readFont("OpenSans-Light.ttf"))).toMatchObject({
+      weight: 300,
+      style: "N",
+    });
+    expect(OpenTypeUtil.getOpenTypeInfo(readFont("OpenSans-ExtraBold.ttf"))).toMatchObject({
+      weight: 800,
+    });
   });
 });
 

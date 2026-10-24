@@ -493,3 +493,44 @@ Old code: chunk.vendor.js module 187, _treeIntersect (38653-38662,
   The collinear.* cases don't change.
 - Parity exceptions: none. The engine-geometry/boolean and pathops
   scenarios still match the old app.
+
+## BUG-015 Fonts whose weight is only in the typographic subfamily get weight 400
+
+Old code: chunk.vendor.js module 726, GOpenTypeUtil.getOpenTypeInfo
+(100134-100180).
+
+- Reproduce: import OpenSans-Light.ttf, OpenSans-SemiBoldItalic.ttf or
+  OpenSans-ExtraBold.ttf (Fonts > Import, or a local font in the desktop
+  app), or any font family that keeps its extra weights in the
+  typographic subfamily name.
+- Old: weight and style were read from the subfamily name (name id 2)
+  alone. Fonts with more than the four classic styles name only "Regular",
+  "Italic", "Bold" or "Bold Italic" there and put the real weight into the
+  typographic subfamily (id 17), so Open Sans Light, SemiBold and
+  ExtraBold (and their italics) all came out as weight 400. They showed up
+  as Regular or Italic duplicates, and a text asking for weight 600 never
+  found the SemiBold file. Noto Sans CJK KR Bold got 400 too.
+- New: the weight and the style come from the typographic subfamily when
+  it names them, and from the subfamily otherwise, with the same keyword
+  rules as before. Open Sans Light is 300, SemiBold 600, ExtraBold 800
+  (italics keep their style), Noto Sans CJK KR Bold 700. Fonts without a
+  typographic subfamily are read as before; the family name is unchanged.
+- Test: src/engine/text/fonts/open-type-font.test.ts, "reports weight 600
+  for OpenSans SemiBoldItalic from its typographic subfamily (BUG-015)"
+  and "reads names and styles like the old reader, weights also from the
+  typographic subfamily (BUG-015)", which compares the old recording
+  (__fixtures__/old-fonts.json) with these seven weights changed and
+  nothing else; the collection tests do the same for the collection's
+  first font, OpenSans-Light. All fail with the old reader. font-probe.ts
+  now asks for the light font of the test collection by the weight the
+  reader reports (400 in the old app, 300 now), so its table offsets are
+  still compared.
+- Parity exceptions: parity/exceptions/BUG-015.json.
+  engine-model/extras/opentype-helpers (Light 300, SemiBoldItalic 600,
+  ExtraBold 800) and engine-model/fonts/browser-probe (the collection's
+  first font 300); each `.fixed` file differs from the old output only in
+  those weights (checked with a field by field diff). Pending, not
+  enabled for the new app yet: electron/settings-persist,
+  electron/migration-old-userdata and platform/storage/old-session-profile
+  import an ExtraBold font (OpenSans-ExtraBold renamed to "Mig Fonts") and
+  record it as weight 400; once enabled they should get 800.

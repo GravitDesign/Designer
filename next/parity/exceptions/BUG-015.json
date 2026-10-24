@@ -1,0 +1,10 @@
+{
+  "bug": "BUG-015",
+  "why": "Fonts whose weight is only in the typographic subfamily name (id 17) get their real weight instead of 400: Open Sans Light 300, SemiBold 600, ExtraBold 800, Noto Sans CJK KR Bold 700. The .fixed files equal the old output except for those weights. The pending scenarios import OpenSans-ExtraBold renamed to Mig Fonts and record weight 400; they should record 800.",
+  "scenarios": ["engine-model/extras/opentype-helpers", "engine-model/fonts/browser-probe"],
+  "pending": [
+    "electron/settings-persist",
+    "electron/migration-old-userdata",
+    "platform/storage/old-session-profile"
+  ]
+}
