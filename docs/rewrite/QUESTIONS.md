@@ -1005,7 +1005,7 @@ What it does: every tspan (and every text node, which becomes a tspan) gives one
 
 Why it's unclear: the index pairing only lines up when the children are all tspans; mixed content gets shifted positions or styles.
 
-Kept. Pinned by the io-import-svg/text-layout-svg and io-import-svg/use-text-svg parity scenarios.
+Fixed: see BUG-074 in BUGS-FIXED.md.
 
 ## Q-082 SVG import image listener
 

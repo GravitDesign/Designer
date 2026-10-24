@@ -1923,3 +1923,28 @@ onwards.
   Pending, not enabled for the new app yet: import-export/import/open/
   svg-structure.svg (and its render) and import-export/import/place/
   svg-structure.svg.
+
+## BUG-074 Text children take the position and style of another child
+
+Old code: chunk.vendor.js module 1391, svg.Element.text, line 247583
+onwards.
+
+- Reproduce: import an SVG with a `<text>` that mixes its children, for
+  example `<text x="10" y="20">A<tref/><tspan x="50" y="60"
+  fill="#f00">B</tspan></text>`, or a `<textPath>` followed by a tspan.
+- Old: every tspan (and every text node) became one Gravit text, but the
+  texts then took the settings (position, fill, stroke) of the text
+  element's child at the same index. A tref or an `<a>` skipped as a text
+  still counted, so the following texts got the settings of the wrong
+  child (B above got the tref's: black and wrongly placed). A textPath was
+  spliced out of the children and its spans appended at the end, so the
+  child right after it was skipped and the path's spans got a second
+  text.
+- New: each text keeps the tspan it came from and gets its settings; the
+  children list is left alone, so a textPath's spans give one text each
+  and the children after it are imported.
+- Test: src/io/import/svg/svg-text-import.test.ts, "BUG-074: text
+  children with mixed content" (both tests fail with the old pairing).
+- Parity exceptions: none. No recorded scenario mixes tspans with a tref,
+  an `<a>` or a textPath followed by more children: io-import-svg
+  text-layout-svg and use-text-svg give the same output as before.

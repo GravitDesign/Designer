@@ -2129,11 +2129,15 @@ function fontQuery(fields: FontQuery): FontQuery {
  * tspans). The texts are positioned at the tspan's x and y once their
  * font is known, shifted by the font's ascent and the text anchor.
  * Children of a textPath are attached to the path's id; tref and a
- * inside a text are skipped. The texts get the settings of the child at
- * the same index, which is not always the tspan they came from
- * (QUESTIONS.md "SVG import text children").
+ * inside a text are skipped. Each text gets the settings of the tspan it
+ * came from. The old code gave it those of the child at the same index
+ * and spliced the textPath out of the children (BUGS-FIXED.md "BUG-074
+ * Text children take the position and style of another child").
  */
 export class SvgText extends SvgTextElementBase {
+  /** The tspan each created text came from, in the order of the texts. */
+  spans: SvgTextElementBase[] = [];
+
   override toScene(stack: SceneContext[]): SceneResult {
     const texts = this.createSceneNode();
     if (texts) {
@@ -2144,7 +2148,7 @@ export class SvgText extends SvgTextElementBase {
             : new Transform(),
         };
         stack.push(context);
-        const child = this.children[index as number] as SvgTextElementBase;
+        const child = this.spans[index as number] as SvgTextElementBase;
         child.attributes = extend({}, this.attributes, child.attributes) as Record<
           string,
           SvgProperty
@@ -2159,9 +2163,9 @@ export class SvgText extends SvgTextElementBase {
   }
 
   override getBoundingBox(): SvgBounds | null {
-    if (this.children) {
+    if (this.spans.length) {
       let united: Rect | null = null;
-      for (const child of this.children) {
+      for (const child of this.spans) {
         const bbox = (child as SvgTextElementBase).bbox;
         if (bbox && !bbox.isEmpty()) united = united ? united.united(bbox) : bbox;
       }
@@ -2175,6 +2179,7 @@ export class SvgText extends SvgTextElementBase {
   override createSceneNode(): ImportNode[] {
     const svg = this.svg;
     const texts: ImportNode[] = [];
+    this.spans = [];
     const createText = (span: SvgTextElementBase): Text => {
       let fontSize = span.attribute("font-size").hasValue()
         ? span.attribute("font-size").toPixels()
@@ -2318,6 +2323,7 @@ export class SvgText extends SvgTextElementBase {
       }
       if (family) setFont(text, family, weight, style, span);
       texts.push(importNode(text));
+      this.spans.push(span);
       return text;
     };
     for (let i = 0; i < this.children.length; i++) {
@@ -2325,14 +2331,10 @@ export class SvgText extends SvgTextElementBase {
       if (child instanceof SvgTspan) {
         createText(child);
       } else if (child instanceof SvgTextPath) {
-        // The textPath leaves the list and its children are appended, so
-        // the child after it is skipped and the appended ones get a
-        // second text when the loop reaches them.
-        const textPath = this.children.splice(i, 1).pop() as SvgTextPath;
+        const textPath = child;
         if (textPath.getHrefAttribute().hasValue()) {
           const path = textPath.getHrefAttribute().getDefinition() as SvgElementBase;
           each(textPath.children, (_index, span) => {
-            this.children.push(span);
             const startOffset = textPath.attribute("startOffset").toPixels("x");
             const text = createText(span as SvgTextElementBase);
             text.setProperties(["tpths", "tpthl"], [TLPathTextTransformer.OUTSIDE, startOffset]);

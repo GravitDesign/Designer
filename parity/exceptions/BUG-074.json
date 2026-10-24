@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-074",
+  "why": "Each text made from a <text> gets the position and style of the tspan it came from, and a textPath no longer pushes the following child out. No recorded scenario mixes tspans with tref, a or a textPath followed by more children, so no scenario differs (io-import-svg text-layout-svg and use-text-svg give the same output).",
+  "scenarios": [],
+  "pending": []
+}
