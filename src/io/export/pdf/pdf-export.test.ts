@@ -60,6 +60,20 @@ afterEach(() => {
 
 const wait = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
+/**
+ * How long the asynchronous export paths may take: the export runs on
+ * timers, which a loaded machine delays well past a fixed wait.
+ */
+const SETTLE = { timeout: 10_000, interval: 10 };
+
+/**
+ * Pages begun on `document` only: an export of an earlier test can still
+ * be running on a loaded machine and start pages through the same spy.
+ */
+function pagesOf(spy: { mock: { contexts: unknown[] } }, document: unknown): number {
+  return spy.mock.contexts.filter((context) => context === document).length;
+}
+
 /** A fixed-size white page added to the scene. */
 function addPage(scene: Scene, width: number, height: number): Page {
   const page = new Page();
@@ -161,8 +175,7 @@ describe("PDFExport.export error and abort paths", () => {
     layer.appendChild(rectangle(10, 10, 50, 50, new AngularGradient()));
     const calls: unknown[][] = [];
     PDFExport.export(page, { dpi: 72, disableWorker: true }, (...args) => calls.push(args));
-    // Wait for the callback rather than a fixed time: under load 100 ms isn't enough.
-    await vi.waitFor(() => expect(calls.length).toBeGreaterThan(0), { timeout: 10_000 });
+    await vi.waitFor(() => expect(calls).toHaveLength(1), SETTLE);
     expect(calls).toEqual([[failure]]);
     expect(finish).toHaveBeenCalled();
   });
@@ -187,11 +200,11 @@ describe("PDFExport.export error and abort paths", () => {
       },
       (...args) => calls.push(args),
     );
-    await vi.waitFor(() => expect(calls.length).toBeGreaterThan(0), { timeout: 10_000 });
+    await vi.waitFor(() => expect(calls).toHaveLength(1), SETTLE);
     // The rejected document promise reaches the callback as an undefined
     // error, which the exporter takes as "aborted" (old GExporter).
     expect(calls).toEqual([[undefined]]);
-    expect(newPages).toHaveBeenCalledTimes(1);
+    expect(pagesOf(newPages, document)).toBe(1);
     expect(progress).toEqual([0, 25]);
   });
 
@@ -208,14 +221,12 @@ describe("PDFExport.export error and abort paths", () => {
     const newPages = vi.spyOn(PDFDocument.prototype, "newPage");
     const callback = vi.fn();
     running.document = PDFExport.export([page, second], { dpi: 72, disableWorker: true }, callback);
-    // Wait until the raster step ran (slow under load), then give a wrong
-    // callback the same 100 ms it had before.
-    await vi.waitFor(() => expect(raster).toHaveBeenCalled(), { timeout: 10_000 });
+    await vi.waitFor(() => expect(raster).toHaveBeenCalled(), SETTLE);
     await wait(100);
     expect(callback).not.toHaveBeenCalled();
     // The raster loop stopped after the first node; no second page.
     expect(raster).toHaveBeenCalledTimes(1);
-    expect(newPages).toHaveBeenCalledTimes(1);
+    expect(pagesOf(newPages, running.document)).toBe(1);
   });
 
   it("never calls back when a node's paint throws (kept hang)", () => {
