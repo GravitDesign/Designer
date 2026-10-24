@@ -2633,9 +2633,11 @@ const USE_PARAMETERS = ["href", "xlink:href", "x", "y", "transform", "width", "h
 /**
  * svg.Element.use: a fresh copy of the referenced element (built from
  * its DOM node again, without parent or type) with the use's style and
- * other attributes, then moved by the use's transform, x and y. Classes
- * on the use are copied as an attribute only, after the copy picked its
- * CSS rules, so they don't style it (QUESTIONS.md "SVG import use").
+ * other attributes, then moved by the use's transform, x and y. The CSS
+ * rules of the use's classes style the copy where it sets nothing itself,
+ * as if it inherited them from the use. The old code copied the class
+ * only as an attribute, after the copy had picked its rules
+ * (BUGS-FIXED.md "BUG-075 class on <use> doesn't style the instance").
  */
 export class SvgUse extends SvgRenderedElementBase {
   element: SvgElementBase | undefined;
@@ -2662,6 +2664,24 @@ export class SvgUse extends SvgRenderedElementBase {
     let definition = this.getHrefAttribute().getDefinition<SvgElementBase>();
     if (!definition) return null;
     definition = definition.clone();
+    if (this.attribute("class").hasValue()) {
+      const instance = definition;
+      const inherit = (rules: Record<string, SvgProperty> | undefined) => {
+        if (null == rules) return;
+        for (const name of Object.keys(rules)) {
+          if (null == instance.styles[name] && !instance.attribute(name).hasValue()) {
+            instance.styles[name] = rules[name] as SvgProperty;
+          }
+        }
+      };
+      const classes = compressSpaces(this.attribute("class").value as string).split(" ");
+      // Later rules win, as in parseNode: collect them first, newest last.
+      const rules: Record<string, SvgProperty> = {};
+      for (const name of classes) {
+        Object.assign(rules, this.svg.Styles["." + name], this.svg.Styles["use." + name]);
+      }
+      inherit(rules);
+    }
     if (this.attribute("style").hasValue()) {
       const declarations = (this.attribute("style").value as string).split(";");
       for (const declaration of declarations) {

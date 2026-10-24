@@ -1025,7 +1025,7 @@ What it does: a `<use>` builds a fresh copy of the referenced element from its D
 
 Why it's unclear: in browsers the instance inherits from the use element, so class rules on the use apply. Imported files that style `<use>` by class lose that style.
 
-Kept. Pinned by the io-import-svg/use-symbol-svg, io-import-svg/use-text-svg and io-import-svg/structure-svg parity scenarios.
+Fixed: see BUG-075 in BUGS-FIXED.md.
 
 ## Q-084 SVG import feColorMatrix
 

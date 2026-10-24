@@ -1,0 +1,15 @@
+{
+  "bug": "BUG-075",
+  "why": "CSS rules of a <use>'s classes style the instance where it sets nothing itself. In structure.svg the tile used with class=\"red\" is now filled #d22 instead of black; the old app gives the same output with the class replaced by fill=\"#d22\" on the use. These .fixed files also carry BUG-073 (the switch). use-symbol.svg's class=\"blue\" use is unchanged, since its group sets its own fill.",
+  "scenarios": [
+    "io-import-svg/structure-svg",
+    "io-import-svg/structure-svg-into-group",
+    "import-export/import/drop/svg-structure.svg",
+    "import-export/import/drop/svg-structure.svg.doc"
+  ],
+  "pending": [
+    "import-export/import/open/svg-structure.svg",
+    "import-export/import/open/svg-structure.svg.render",
+    "import-export/import/place/svg-structure.svg"
+  ]
+}

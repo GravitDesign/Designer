@@ -1948,3 +1948,35 @@ onwards.
 - Parity exceptions: none. No recorded scenario mixes tspans with a tref,
   an `<a>` or a textPath followed by more children: io-import-svg
   text-layout-svg and use-text-svg give the same output as before.
+
+## BUG-075 class on `<use>` doesn't style the instance
+
+Old code: chunk.vendor.js module 1391, svg.Element.use, line 248111
+onwards.
+
+- Reproduce: import an SVG that styles a `<use>` by class, as icon
+  sprites do, for example `<style>.red { fill: #d22 }</style>`,
+  `<rect id="tile" .../>` and `<use href="#tile" class="red"/>`.
+- Old: the use builds a fresh copy of the referenced element, which picks
+  its CSS rules from its own classes. The use's class was copied onto the
+  copy only as an attribute afterwards, so the rules for the use's
+  classes never applied and the tile stayed black.
+- New: the rules of the use's classes (`.name` and `use.name`) style the
+  copy for every property the copy doesn't set itself, the way the
+  instance inherits from the use in a browser. The copy's own fill or
+  style still wins, and the use's style and presentation attributes work
+  as before.
+- Test: src/io/import/svg/svg-parser.test.ts, "styles a use's instance by
+  the use's class where it sets nothing itself (BUG-075)" (fails with the
+  old use: black fill, no stroke).
+- Parity exceptions: io-import-svg/structure-svg and
+  structure-svg-into-group, and import-export/import/drop/svg-structure.svg
+  and its .doc. The `.fixed` files differ from the BUG-073 ones only in
+  the fill of the tile used with `class="red"` (#d22 instead of black).
+  Checked against the old app: structure.svg with that class replaced by
+  `fill="#d22"` on the use (and the switch replaced as for BUG-073) gives
+  exactly the new node, apart from the random ids and the class kept in
+  `@svgattrs`. io-import-svg/use-symbol-svg is unchanged: its use with
+  `class="blue"` points at a group that sets its own fill. Pending, not
+  enabled for the new app yet: import-export/import/open/svg-structure.svg
+  (and its render) and import-export/import/place/svg-structure.svg.

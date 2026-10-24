@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Transform } from "../../../engine/math/transform.ts";
 import { Ellipse } from "../../../engine/scene/ellipse.ts";
+import { Pattern } from "../../../engine/style/pattern.ts";
 import { Group } from "../../../engine/scene/group.ts";
 import { Path } from "../../../engine/scene/path.ts";
 import { Rectangle } from "../../../engine/scene/rectangle.ts";
@@ -224,6 +225,34 @@ describe("SVGImport.import", () => {
     expect(rect.getNext()).toBeNull();
     expect(rect.getFirstChild?.() ?? null).toBeNull();
     expect((rect.getProperty("trf") as Transform).getMatrix()).toEqual([5, 0, 0, 3, 30, 23]);
+  });
+
+  it("styles a use's instance by the use's class where it sets nothing itself (BUG-075)", async () => {
+    const result = await importTree(
+      el("svg", { width: "100", height: "100" }, [
+        el("style", {}, [text(".blue { fill: #00c; stroke: #0c0 } use.wide { stroke-width: 3 }")]),
+        el("defs", {}, [
+          el("rect", { id: "plain", width: "10", height: "10" }),
+          el("rect", { id: "red", width: "10", height: "10", fill: "#f00" }),
+        ]),
+        el("use", { "xlink:href": "#plain", class: "blue wide" }),
+        el("use", { "xlink:href": "#red", class: "blue", x: "20" }),
+      ]),
+    );
+    expect(result.error).toBeNull();
+    const [plain, red] = (result.node as unknown as Group).getChildren() as unknown as Rectangle[];
+    const layers = (rect: Rectangle | undefined) =>
+      (rect?.getPaintLayers()?.getChildren() ?? []).map((l) => [
+        Pattern.serialize((l as unknown as ImportNode).getProperty("_pt") as Pattern | null),
+        (l as unknown as ImportNode).getProperty("_bw"),
+      ]);
+    expect(layers(plain)).toEqual([
+      ["C#[0,0,204]", undefined],
+      ["C#[0,204,0]", 3],
+    ]);
+    // Its own fill wins over the class, as with inheritance.
+    expect(layers(red)[0]).toEqual(["C#[255,0,0]", undefined]);
+    expect(layers(red)[1]?.[0]).toBe("C#[0,204,0]");
   });
 
   it("fails on em lengths, which needed canvg's canvas", async () => {
