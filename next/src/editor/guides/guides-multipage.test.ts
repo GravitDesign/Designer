@@ -251,13 +251,15 @@ describe("PageGuide in the multi-page view", () => {
     expect(guide.map(598, 140, false, 5, 1, true)).toEqual(hit);
   });
 
-  it("mapPoint passes the other page's local value through unchanged", () => {
-    // See "mapPoint keeps page-local values of another page" in QUESTIONS.md.
+  it("BUG-049: mapPoint converts the other page's value into the point's space", () => {
     const { scene } = twoPages();
     const guides = guidesFor(scene);
     pipeline(guides, new PageGuide(guides));
     guides.beginMap();
-    expect(guides.mapPoint(new Point(498, 100))).toEqual(new Point(0, 100));
+    // B's left edge, 0 on B, is 500 in active-page space and 600 on the
+    // scene. The old code returned B's local 0.
+    expect(guides.mapPoint(new Point(498, 100))).toEqual(new Point(500, 100));
+    expect(guides.mapPoint(new Point(598, 140), null, null, true)).toEqual(new Point(600, 140));
     guides.finishMap();
   });
 

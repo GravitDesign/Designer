@@ -2169,7 +2169,7 @@ What it does: in the multi-page view GPageGuide.map converts the point into the 
 
 Why it's unclear: the other guides answer in active-page space, and mapRect handles the page guide correctly, so this looks like a slip in mapPoint. It would make a mapped point jump when snapping to another page's edge in the multi-page view. Not checked in the old app UI.
 
-Kept. next/src/editor/guides/guides.ts mapPoint; pinned by "mapPoint passes the other page's local value through unchanged" in guides-multipage.test.ts.
+Fixed: see BUG-049 in BUGS-FIXED.md.
 
 ## Q-184 Snap scope stays on the other page
 

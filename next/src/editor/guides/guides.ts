@@ -312,6 +312,25 @@ export class Guides extends EventTarget {
     const pointPages: (Page | null)[] = [];
     const activePage = (this._view as GuidesView).getScene().getActivePage();
     const fullPixels = this._isGuideEnabled(this._fullPixelsGuide as Guide);
+    const multiPage = this.isMultiPageEnabled();
+    // A value another page answered in its own coordinates, in the
+    // point's space, as mapRect converts its pivots the other way. The
+    // old code kept the other page's local value (BUG-049 mapPoint
+    // returns another page's local coordinates (multi-page view)).
+    const toPointSpace = (
+      value: number,
+      page: Page | null | undefined,
+      axis: "x" | "y",
+    ): number => {
+      if (!(multiPage && page && page != activePage)) return value;
+      const origin = page.getPosition(true);
+      let out = value + (axis === "x" ? origin.getX() : origin.getY());
+      if (!pageRelative) {
+        const active = (activePage as Page).getPosition(multiPage);
+        out -= axis === "x" ? active.getX() : active.getY();
+      }
+      return out;
+    };
     for (let i = 0; i < this._guides.length && (null === x || null === y); ++i) {
       const guide = this._guides[i] as Guide;
       if (this.canMapGuide(guide, ids, mode, fullPixels)) {
@@ -326,7 +345,7 @@ export class Guides extends EventTarget {
         );
         if (hit) {
           if (hit.x && null === x) {
-            x = hit.x.value;
+            x = toPointSpace(hit.x.value, hit.x.page, "x");
             if (this._visuals && hit.x.guide) {
               const page = relative ? (hit.x.page ? hit.x.page : activePage) : null;
               if (hit.x.guide instanceof Point) {
@@ -336,7 +355,7 @@ export class Guides extends EventTarget {
             }
           }
           if (hit.y && null === y) {
-            y = hit.y.value;
+            y = toPointSpace(hit.y.value, hit.y.page, "y");
             if (this._visuals && hit.y.guide) {
               const page = relative ? (hit.y.page ? hit.y.page : activePage) : null;
               if (hit.y.guide instanceof Point) {

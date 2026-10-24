@@ -1059,3 +1059,25 @@ lines 79044-79050.
   against the fixed build): their scenes don't snap to full pixels with a
   fractional size, and the zone marks they show come from the other
   guides.
+
+## BUG-049 mapPoint returns another page's local coordinates (multi-page view)
+
+Old code: chunk.vendor.js module 210 (GGuides.mapPoint), lines
+40626-40687; module 742 (GPageGuide.map).
+
+- Reproduce: in the multi-page view, drag a point (a path point, a pen
+  point) near the edge of a page other than the active one.
+- Old: GPageGuide answers in the coordinates of the page under the point
+  and names that page. mapRect converts its pivots into that space, but
+  mapPoint took the value as it was, so the point came back in the other
+  page's local coordinates: active-page (498, 100) near page B's left edge
+  became (0, 100) and the point jumped (Q-183).
+- New: mapPoint converts a value another page answered with into the
+  point's space (active-page space, or scene space for a page-relative
+  point), the inverse of mapRect's pivot conversion. Values of the active
+  page and of the guides that answer in active-page space are unchanged.
+- Test: src/editor/guides/guides-multipage.test.ts, "BUG-049: mapPoint
+  converts the other page's value into the point's space" (fails with the
+  old code: (0, 100) instead of (500, 100)).
+- Parity exceptions: none. No recorded scenario maps a point near another
+  page's edge in the multi-page view.
