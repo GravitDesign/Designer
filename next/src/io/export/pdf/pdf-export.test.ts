@@ -208,6 +208,9 @@ describe("PDFExport.export error and abort paths", () => {
     const newPages = vi.spyOn(PDFDocument.prototype, "newPage");
     const callback = vi.fn();
     running.document = PDFExport.export([page, second], { dpi: 72, disableWorker: true }, callback);
+    // Wait until the raster step ran (slow under load), then give a wrong
+    // callback the same 100 ms it had before.
+    await vi.waitFor(() => expect(raster).toHaveBeenCalled(), { timeout: 10_000 });
     await wait(100);
     expect(callback).not.toHaveBeenCalled();
     // The raster loop stopped after the first node; no second page.
