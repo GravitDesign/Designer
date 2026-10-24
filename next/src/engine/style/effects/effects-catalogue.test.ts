@@ -133,7 +133,7 @@ describe("canvas effects catalogue", () => {
     expect(mirror.getEffectPadding()).toEqual([0, -31, 0, 31]);
   });
 
-  it("the contact shadow keeps the box grown by the other effects", () => {
+  it("the contact shadow keeps the box grown by the other effects, once (BUG-019)", () => {
     const effects = new Effects();
     const contact = new ContactShadowEffect();
     const shadow = new DropShadowEffect();
@@ -147,8 +147,11 @@ describe("canvas effects catalogue", () => {
     const squashed = 74 * Math.cos(((90 - 5) * Math.PI) / 180);
     expect(padding[1]).toBeCloseTo(5 - squashed - 5, 10);
     expect(padding[3]).toBeCloseTo(5 + squashed + 5, 10);
-    // Each call grows the kept box again.
+    // A later call (the overlay paint calls it on every paint) keeps the
+    // same box; the old code grew it again, to 88 high.
     const again = contact.getEffectPadding() as number[];
-    expect(again[3]).toBeCloseTo(5 + 88 * Math.cos((85 * Math.PI) / 180) + 5, 10);
+    expect(again[3]).toBeCloseTo(padding[3] as number, 10);
+    expect(again).toEqual(padding);
+    expect((contact.getEffectPadding() as number[])[1]).toBeCloseTo(padding[1] as number, 10);
   });
 });

@@ -68,7 +68,9 @@ export class ContactShadowEffect extends Effect {
   declare $o: number;
   declare $pat: Pattern | null;
   declare $opc: number;
-  /** The element box (grown by the other effects) from the last getEffectPadding with a box. */
+  /** The element box from the last getEffectPadding with a box. */
+  declare _elementBBox: Rect | null;
+  /** That box grown by the other effects' padding, as render uses it. */
   declare _savedBBox: Rect | null;
   /** The bottom padding of the other effects. */
   declare _padding: number | null;
@@ -97,8 +99,11 @@ export class ContactShadowEffect extends Effect {
 
   /**
    * The radius around the squashed shadow below the box. The argument the
-   * effects container passes as "scale" is the element's box. Quirk: the
-   * kept box grows by the other effects' padding on every call.
+   * effects container passes as "scale" is the element's box; the box
+   * render uses is that box grown by the other effects' padding, computed
+   * from the element box on every call. The old code grew the kept box
+   * again on every call (BUGS-FIXED.md "BUG-019 Contact shadow grows its
+   * kept box on every padding call").
    */
   override getEffectPadding(box?: number | Rect): EffectPadding {
     const others = (this.getParent() as unknown as Effects).getEffectsPadding(
@@ -106,7 +111,8 @@ export class ContactShadowEffect extends Effect {
       null,
       (effect) => effect !== this,
     );
-    if (box) this._savedBBox = box as Rect;
+    if (box) this._elementBBox = box as Rect;
+    this._savedBBox = this._elementBBox;
     if (others) {
       if (this._savedBBox) {
         this._savedBBox = this._savedBBox.expanded(others[0], others[1], others[2], others[3]);
@@ -217,11 +223,13 @@ export class ContactShadowEffect extends Effect {
 
   override destroy(): void {
     if (this._blur) this._blur.destroy();
+    this._elementBBox = null;
     this._savedBBox = null;
     this._padding = null;
   }
 }
 
+ContactShadowEffect.prototype._elementBBox = null;
 ContactShadowEffect.prototype._savedBBox = null;
 ContactShadowEffect.prototype._padding = null;
 ContactShadowEffect.prototype._blur = null;

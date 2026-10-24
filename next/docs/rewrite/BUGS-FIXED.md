@@ -620,3 +620,28 @@ Old code: chunk.vendor.js module 95, GImage._paintImageCanvas
   reaches all four corners of the 30 x 20 bitmap, the old one only the top
   left. Every differing pixel lies on the old or the new lines (checked
   pixel by pixel); the grey box is unchanged.
+
+## BUG-019 Contact shadow grows its kept box on every padding call
+
+Old code: chunk.vendor.js module 1028, GContactShadowEffect
+getEffectPadding (234828-234852, `_savedBBox = _savedBBox.expanded(...)`).
+
+- Reproduce: give an element a contact shadow together with another
+  effect that has a padding (a drop shadow, a blur) and let the view paint
+  it several times, for example by moving another element nearby.
+- Old: getEffectPadding kept the element box and grew it by the other
+  effects' padding in place. Every later call without a new box (the
+  overlay paint calls it on every paint) grew the kept box again, so the
+  padding and the box the shadow is drawn from got larger with each paint
+  until the paint box was computed again.
+- New: the element box is kept as it is, and the grown box is computed
+  from it on each call. Repeated calls give the same padding and the same
+  box.
+- Test: src/engine/style/effects/effects-catalogue.test.ts, "the contact
+  shadow keeps the box grown by the other effects, once (BUG-019)": a
+  second and a third call return the first call's padding (with the old
+  code the second call's bottom padding grows from a 74 to an 88 high
+  box).
+- Parity exceptions: none. The recorded renders and exports with contact
+  shadows (engine-model/render effect cases, corpus effects-extra-shadows)
+  compute the padding with a new box each time and still match.
