@@ -1372,7 +1372,7 @@ What it does:
 
 Why it's unclear: atan in any file ends the import, and the rounding moves coordinates slightly.
 
-Kept. Pinned by the corpus programs basic-arith.ps, basic-arith-errors.ps, basic-trig.ps, basic-atan.ps, basic-cos-typecheck.ps, basic-cvi.ps, basic-cvr.ps, basic-cvr-bool.ps and basic-cvs.ps (interpreter.recorded.test.ts).
+Kept, except atan, which now returns degrees (see BUG-111 in BUGS-FIXED.md). Pinned by the corpus programs basic-arith.ps, basic-arith-errors.ps, basic-trig.ps, basic-atan.ps, basic-cos-typecheck.ps, basic-cvi.ps, basic-cvr.ps, basic-cvr-bool.ps and basic-cvs.ps (interpreter.recorded.test.ts).
 
 ## Q-115 PS worker: matrix and device operator quirks
 

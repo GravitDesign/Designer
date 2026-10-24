@@ -1620,3 +1620,24 @@ Old code: public/pscore.js arc, arcn and closepath.
   the group differ; the group has the shapes of the BUG-109 output
   followed by the circle and everything after it. Pending:
   import-export/import/open/eps-worker-exception-hangs.
+
+## BUG-111 atan throws in the PostScript worker
+
+Old code: public/pscore.js atan, which calls `this.radianToDegree` on the
+core (only the CTM helper has it).
+
+- Reproduce: open, place or drop an EPS or PS file that uses `atan`
+  (src/workers/ps/__fixtures__/corpus/basic-atan.ps: `1 1 atan`).
+- Old: the call threw a TypeError, the worker's run ended and the import
+  waited for its timeout (since BUG-109 it ends at once with "The file
+  can't be loaded." and what was drawn before).
+- New: atan returns the angle in degrees, 0 to 360, as PostScript
+  defines it: `1 1 atan` is 45, `0 1 atan` is 0, `-1 0 atan` is 270.
+- Test: src/workers/ps/interpreter.recorded.test.ts with the `.fixed.json`
+  recordings of basic-atan.ps and math-stack.ps, checked by "%s: the
+  fixed recording equals the old one up to the atan, then runs to the
+  end": each equals the old recording up to where the old run threw and
+  then reports the angles (45 for `1 1 atan`, 0 for `0 1 atan`) and the
+  rest of the program. Both fail with the old atan.
+- Parity exceptions: none (parity/exceptions/BUG-111.json lists no
+  scenarios). No EPS or PS fixture of the parity suites uses atan.

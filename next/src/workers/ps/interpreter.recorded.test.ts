@@ -41,7 +41,7 @@ const FIXED: Record<string, string> = {
   "filter-dct-file.ps": "BUG-008",
   "fixture-image-dct.eps": "BUG-008",
   // An exception ends the run with error "04" and done.
-  "basic-atan.ps": "BUG-109",
+  "basic-atan.ps": "BUG-109 BUG-111",
   "basic-cos-typecheck.ps": "BUG-109",
   "basic-cvr-bool.ps": "BUG-109",
   "basic-cvrs-radix0.ps": "BUG-109",
@@ -82,7 +82,7 @@ const FIXED: Record<string, string> = {
   "gfx-resourceforall-typecheck.ps": "BUG-109",
   "gfx-rlineto-nopath.ps": "BUG-109",
   "images.eps": "BUG-109",
-  "math-stack.ps": "BUG-109",
+  "math-stack.ps": "BUG-109 BUG-111",
   "shadings.eps": "BUG-109",
 
   // An arc without a current point starts its subpath with a moveto.
@@ -216,6 +216,32 @@ describe("PostScript interpreter against the old worker's recordings", () => {
         expect(after.slice(0, at), variant).toEqual(before.slice(0, at));
         expect(after[after.length - 1], variant).toEqual({ func: "done", data: [] });
         expect(after.slice(at), variant).not.toContainEqual({ func: "error", data: ["04"] });
+      }
+    },
+  );
+
+  it.each(fixedBy("BUG-109 BUG-111"))(
+    "%s: the fixed recording equals the old one up to the atan, then runs to the end",
+    (file) => {
+      const old = JSON.parse(fs.readFileSync(recordingFile(file, false), "utf8")) as Record<
+        string,
+        RecordedRun
+      >;
+      const fixed = JSON.parse(fs.readFileSync(recordingFile(file, true), "utf8")) as Record<
+        string,
+        RecordedRun
+      >;
+      for (const variant of Object.keys(old)) {
+        const before = (old[variant] as RecordedRun).messages;
+        const after = (fixed[variant] as RecordedRun).messages;
+        const at = before.findIndex((m) => "exception" in m);
+        // The old run threw at its first atan.
+        expect(before[at], variant).toEqual({ exception: "this.radianToDegree is not a function" });
+        expect(after.slice(0, at), variant).toEqual(before.slice(0, at));
+        // The run goes on with the atan's result instead of error "04".
+        expect(after.length, variant).toBeGreaterThan(at + 2);
+        expect(after[at], variant).not.toEqual({ func: "error", data: ["04"] });
+        expect(after[after.length - 1], variant).toEqual({ func: "done", data: [] });
       }
     },
   );

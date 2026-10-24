@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-111",
+  "why": "atan returns degrees (0 to 360) instead of throwing in the PostScript worker. No EPS or PS fixture of the parity suites uses atan, so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}

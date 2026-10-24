@@ -128,8 +128,10 @@ export const mathOperators: PSPlainRecord = {
     const denominator = top(this) as number;
     let angle = Math.atan2(numerator, denominator);
     if (angle < 0) angle += 2 * Math.PI;
-    // Sic: PSCore has no radianToDegree (PSCTM has), so this throws.
-    angle = (this as unknown as { radianToDegree(radians: number): number }).radianToDegree(angle);
+    // In degrees, 0 to 360; the old code called a radianToDegree that
+    // PSCore doesn't have and threw ("atan throws in the PostScript
+    // worker" in BUGS-FIXED.md).
+    angle = (angle * 180) / Math.PI;
     this.stack.pop();
     this.stack.pop();
     this.stack.push(angle);
