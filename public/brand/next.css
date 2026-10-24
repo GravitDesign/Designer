@@ -30,15 +30,8 @@ html[data-branding="next"][data-gd-theme="dark"] {
   --gd-tile: #3a3a3a;
 }
 
-/* ---- The loading screen: the mark on ink instead of the old pink. ---- */
-
-html[data-branding="next"] body.loading {
-  background-color: var(--gd-ink);
-  background-image: url("mark-on-dark.svg");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 128px;
-}
+/* The loading screen (the mark on ink instead of the old pink) is inline
+   in index.html, so it's there for the first paint. */
 
 /* ---- Mark and wordmark (src/app/brand/brand-mark.tsx). ---- */
 

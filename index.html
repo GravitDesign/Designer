@@ -46,6 +46,12 @@
         var theme = settings && settings.theme;
         theme = !theme || theme === "default" ? "light" : String(theme);
         d.documentElement.setAttribute("data-gd-theme", theme);
+        // The stored theme's stylesheet from the start, so the switch when
+        // the settings are restored changes nothing (the page went unstyled
+        // for a moment while the light sheet was swapped out).
+        var themeSheet = d.querySelector("#theme-stylesheet");
+        if (themeSheet && theme !== "light")
+          themeSheet.setAttribute("href", "/designer.browser." + theme + ".css");
         var head = d.head;
         var link = function (rel, href, id) {
           var l = d.createElement("link");
@@ -65,6 +71,14 @@
         d.title = "GravitDesign Next";
       })();
     </script>
+    <!-- The next look's loading screen. Inline, because the brand
+         stylesheets the script adds don't hold back the first paint and
+         the old stylesheet's pink would show until they arrive. -->
+    <style>
+      html[data-branding="next"] body.loading {
+        background: #1b1b24 url("/brand/mark-on-dark.svg") no-repeat center / 128px;
+      }
+    </style>
   </head>
   <body class="loading">
     <script type="module" src="/src/main.tsx"></script>

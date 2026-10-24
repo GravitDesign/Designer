@@ -108,6 +108,7 @@ interface ScriptRun {
   attributes: Record<string, string>;
   links: { rel: string; href: string; id: string }[];
   manifest: string;
+  themeSheet: string;
   title: string;
   stored: Map<string, string>;
 }
@@ -125,6 +126,12 @@ function runIndexScript(
       if (name === "href") this.href = value;
     },
   };
+  const themeSheet = {
+    href: "/designer.browser.light.css",
+    setAttribute(name: string, value: string) {
+      if (name === "href") this.href = value;
+    },
+  };
   const doc = {
     title: "Gravit Designer",
     documentElement: {
@@ -132,7 +139,12 @@ function runIndexScript(
     },
     head: { appendChild: (link: { rel: string; href: string; id: string }) => links.push(link) },
     createElement: () => ({ rel: "", href: "", id: "" }),
-    querySelector: (selector: string) => (selector === 'link[rel="manifest"]' ? manifest : null),
+    querySelector: (selector: string) =>
+      selector === 'link[rel="manifest"]'
+        ? manifest
+        : selector === "#theme-stylesheet"
+          ? themeSheet
+          : null,
   };
   const stored = new Map(Object.entries(storage));
   const win = {
@@ -144,7 +156,14 @@ function runIndexScript(
     },
   };
   new Function("window", "document", "URLSearchParams", indexScript())(win, doc, URLSearchParams);
-  return { attributes, links, manifest: manifest.href, title: doc.title, stored };
+  return {
+    attributes,
+    links,
+    manifest: manifest.href,
+    themeSheet: themeSheet.href,
+    title: doc.title,
+    stored,
+  };
 }
 
 describe("index.html's script", () => {
@@ -180,6 +199,13 @@ describe("index.html's script", () => {
     expect(run.manifest).toBe("/brand/manifest.json");
     expect(run.title).toBe("GravitDesign Next");
     expect(runIndexScript("", undefined, {}).links[0]?.href).toBe("/brand/accent.light.css");
+  });
+
+  it("links the stored theme's stylesheet before the first paint in the next look", () => {
+    const dark = { "designer.settings": '{"theme":"dark"}' };
+    expect(runIndexScript("", undefined, dark).themeSheet).toBe("/designer.browser.dark.css");
+    expect(runIndexScript("", undefined, {}).themeSheet).toBe("/designer.browser.light.css");
+    expect(runIndexScript("", "classic", dark).themeSheet).toBe("/designer.browser.light.css");
   });
 
   it("leaves the page as the old app had it in the classic look", () => {
