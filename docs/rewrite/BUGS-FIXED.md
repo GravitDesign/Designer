@@ -1892,3 +1892,34 @@ lines 245110-245135.
   then asks again for queries the new queue shares. Pending, not enabled
   for the new app yet: import-export/import/open/svg-font-fallback.svg
   (and its render).
+
+## BUG-073 `<switch>` imports every child
+
+Old code: chunk.vendor.js module 1391, svg.Element.switch, line 246421
+onwards.
+
+- Reproduce: import an SVG with a `<switch>` holding alternatives, for
+  example `<switch><rect .../><circle .../></switch>` or the common
+  `<switch><foreignObject .../><g>...</g></switch>` fallback pattern.
+- Old: the switch took the scene node of its first child that is neither
+  a foreignObject nor unknown, then built every child into that node, so
+  all the alternatives were drawn on top of each other, nested inside the
+  first one (a rectangle holding a rectangle and an ellipse).
+- New: the switch becomes a group with the switch's own settings around
+  that first child only; the other alternatives are left out. A switch
+  without such a child gives nothing, as before. The switch holding
+  Gravit's editing data (the graphic source of a re-imported Gravit SVG)
+  works as before.
+- Test: src/io/import/svg/svg-parser.test.ts, "builds only the first
+  child of a switch that isn't a foreignObject (BUG-073)" (fails with
+  the old switch: the circle is imported too).
+- Parity exceptions: io-import-svg/anchors-svg, structure-svg and
+  structure-svg-into-group, and import-export/import/drop/svg-structure.svg
+  and its .doc. Checked against the old app: anchors.svg and structure.svg
+  with the switch replaced by a `<g>` holding only the chosen child give
+  exactly the `.fixed` output of io-import-svg, apart from the random ids;
+  the other `.fixed` files differ from the old output only in that group.
+  The roundtrip-*-preserved scenarios (Gravit's own switch) are unchanged.
+  Pending, not enabled for the new app yet: import-export/import/open/
+  svg-structure.svg (and its render) and import-export/import/place/
+  svg-structure.svg.

@@ -1475,19 +1475,34 @@ export class SvgPath extends SvgPathElementBase {
 }
 
 /**
- * svg.Element.switch. Its node is the node of its first child that
- * isn't a foreignObject or unknown; then every child is built into it as
- * well, so a switch draws all its children (QUESTIONS.md "SVG import
- * switch").
+ * svg.Element.switch: a group with the switch's settings around its first
+ * child that isn't a foreignObject or unknown; the other children are
+ * alternatives and are left out. The old code took that child's node and
+ * built every child into it (BUGS-FIXED.md "BUG-073 <switch> imports
+ * every child").
  */
 export class SvgSwitch extends SvgRenderedElementBase {
-  override createSceneNode(): CreatedNode {
+  /** The child the switch renders, or null. */
+  renderedChild(): SvgElementBase | null {
     for (const child of this.children) {
-      if (!(child instanceof SvgForeignObject) && !(child instanceof SvgMissing)) {
-        return child.createSceneNode();
-      }
+      if (!(child instanceof SvgForeignObject) && !(child instanceof SvgMissing)) return child;
     }
     return null;
+  }
+
+  override createSceneNode(): CreatedNode {
+    return this.renderedChild() ? importNode(new Group()) : null;
+  }
+
+  override toScene(stack: SceneContext[], target?: ImportNode | null): SceneResult {
+    const children = this.children;
+    const rendered = this.renderedChild();
+    this.children = rendered ? [rendered] : [];
+    try {
+      return super.toScene(stack, target);
+    } finally {
+      this.children = children;
+    }
   }
 
   getGraphicSource(): SvgForeignObject | null {

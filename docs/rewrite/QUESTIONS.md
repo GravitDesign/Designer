@@ -985,7 +985,7 @@ What it does: a `<switch>` takes the scene node of its first child that is neith
 
 Why it's unclear: SVG renders only the first child whose conditions match. Files that rely on switch for fallbacks import with every alternative on top of each other.
 
-Kept. Pinned by the io-import-svg/anchors-svg parity scenario and the roundtrip-*-preserved scenarios.
+Fixed: see BUG-073 in BUGS-FIXED.md.
 
 ## Q-080 SVG import text box
 

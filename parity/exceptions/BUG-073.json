@@ -1,0 +1,16 @@
+{
+  "bug": "BUG-073",
+  "why": "A <switch> imports only its first child that isn't a foreignObject or unknown, as a group with the switch's settings. The old app built every child into the first child's node. The .fixed files equal the old app's output for the same fixture with the switch replaced by a <g> holding only that child.",
+  "scenarios": [
+    "io-import-svg/anchors-svg",
+    "io-import-svg/structure-svg",
+    "io-import-svg/structure-svg-into-group",
+    "import-export/import/drop/svg-structure.svg",
+    "import-export/import/drop/svg-structure.svg.doc"
+  ],
+  "pending": [
+    "import-export/import/open/svg-structure.svg",
+    "import-export/import/open/svg-structure.svg.render",
+    "import-export/import/place/svg-structure.svg"
+  ]
+}

@@ -195,6 +195,37 @@ describe("SVGImport.import", () => {
     expect((rect.getProperty("trf") as Transform).getMatrix()).toEqual([4, 0, 0, 4, 9, 4]);
   });
 
+  it("builds only the first child of a switch that isn't a foreignObject (BUG-073)", async () => {
+    const result = await importTree(
+      el("svg", {}, [
+        el("rect", { width: "4", height: "4" }),
+        el("switch", { transform: "translate(5 0)", fill: "#0f0" }, [
+          el("foreignObject", { width: "10", height: "10" }),
+          el("rect", { x: "20", y: "20", width: "10", height: "6" }),
+          el("circle", { cx: "40", cy: "40", r: "5", fill: "red" }),
+        ]),
+      ]),
+    );
+    expect(result.error).toBeNull();
+    const kinds: string[] = [];
+    const walk = (node: ImportNode) => {
+      kinds.push(node.constructor.name);
+      for (const child of (node as unknown as Group).getChildren?.() ?? []) {
+        walk(child as unknown as ImportNode);
+      }
+    };
+    walk(result.node as ImportNode);
+    expect(kinds.filter((k) => k === "Ellipse")).toHaveLength(0);
+    const group = result.node as unknown as Group;
+    const alternative = group.getChildren()[1] as unknown as Group;
+    expect(alternative).toBeInstanceOf(Group);
+    const rect = alternative.getFirstChild() as unknown as Rectangle;
+    expect(rect).toBeInstanceOf(Rectangle);
+    expect(rect.getNext()).toBeNull();
+    expect(rect.getFirstChild?.() ?? null).toBeNull();
+    expect((rect.getProperty("trf") as Transform).getMatrix()).toEqual([5, 0, 0, 3, 30, 23]);
+  });
+
   it("fails on em lengths, which needed canvg's canvas", async () => {
     const result = await importTree(
       el("svg", {}, [el("rect", { x: "1em", width: "4", height: "4" })]),
