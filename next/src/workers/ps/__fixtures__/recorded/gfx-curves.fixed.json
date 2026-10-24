@@ -159,16 +159,53 @@
         "data": [58]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          8,
-          9,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 8,
+                  "y": -9
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 9,
+                  "y": -9
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 9,
+                  "y": -10
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 8,
+                  "y": -10
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 8,
+                  "y": -9
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -517,16 +554,53 @@
         "data": [58]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          8,
-          9,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 8,
+                  "y": -9
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 9,
+                  "y": -9
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 9,
+                  "y": -10
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 8,
+                  "y": -10
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 8,
+                  "y": -9
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -875,16 +949,53 @@
         "data": [58]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          8,
-          9,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 8,
+                  "y": -9
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 9,
+                  "y": -9
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 9,
+                  "y": -10
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 8,
+                  "y": -10
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 8,
+                  "y": -9
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {

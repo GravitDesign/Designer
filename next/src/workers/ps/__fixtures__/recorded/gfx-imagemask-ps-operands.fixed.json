@@ -23,16 +23,53 @@
         "data": [52]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          10,
-          10,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": -10
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -10
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -117,16 +154,53 @@
         "data": [52]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          10,
-          10,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": -10
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -10
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -211,16 +285,53 @@
         "data": [52]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          10,
-          10,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": -10
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -10
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {

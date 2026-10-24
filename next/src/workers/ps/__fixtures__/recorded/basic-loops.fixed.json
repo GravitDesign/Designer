@@ -67,16 +67,53 @@
         "data": [16]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -112,16 +149,53 @@
         "data": [24]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          4,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -137,16 +211,53 @@
         "data": [27]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          7,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 7,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 7,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -170,68 +281,253 @@
         "data": [32]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          4,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -243,68 +539,253 @@
         "data": [34]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1.5,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1.5,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1.5,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2.5,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2.5,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2.5,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -316,42 +797,153 @@
         "data": [36]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -379,55 +971,203 @@
         "data": [42]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0.1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0.2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0.30000000000000004,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.30000000000000004,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.30000000000000004,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -451,55 +1191,203 @@
         "data": [47]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -511,42 +1399,153 @@
         "data": [49]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          5,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 5,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 5,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          10,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          15,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -566,29 +1565,103 @@
         "data": [53]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -604,42 +1677,153 @@
         "data": [56]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          120,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          121,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 121,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 121,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          122,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 122,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 122,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -663,16 +1847,53 @@
         "data": [61]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -692,42 +1913,153 @@
         "data": [66]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -739,42 +2071,153 @@
         "data": [68]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          15,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          15,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          15,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -798,16 +2241,53 @@
         "data": [73]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          17,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 17,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 17,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -843,55 +2323,203 @@
         "data": [81]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          4,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -903,16 +2531,53 @@
         "data": [83]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          18,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 18,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 18,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -924,16 +2589,53 @@
         "data": [84]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          19,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 19,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 19,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -949,16 +2651,53 @@
         "data": [87]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -974,16 +2713,53 @@
         "data": [90]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -995,16 +2771,53 @@
         "data": [92]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1020,16 +2833,53 @@
         "data": [95]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1037,16 +2887,53 @@
         "data": [96]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1058,16 +2945,53 @@
         "data": [98]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1156,16 +3080,53 @@
         "data": [16]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1201,16 +3162,53 @@
         "data": [24]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          4,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1226,16 +3224,53 @@
         "data": [27]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          7,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 7,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 7,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1259,68 +3294,253 @@
         "data": [32]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          4,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1332,68 +3552,253 @@
         "data": [34]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1.5,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1.5,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1.5,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2.5,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2.5,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2.5,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1405,42 +3810,153 @@
         "data": [36]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1468,55 +3984,203 @@
         "data": [42]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0.1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0.2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0.30000000000000004,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.30000000000000004,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.30000000000000004,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1540,55 +4204,203 @@
         "data": [47]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1600,42 +4412,153 @@
         "data": [49]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          5,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 5,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 5,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          10,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          15,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1655,29 +4578,103 @@
         "data": [53]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1693,42 +4690,153 @@
         "data": [56]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          120,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          121,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 121,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 121,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          122,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 122,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 122,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1752,16 +4860,53 @@
         "data": [61]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1781,42 +4926,153 @@
         "data": [66]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1828,42 +5084,153 @@
         "data": [68]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          15,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          15,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          15,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1887,16 +5254,53 @@
         "data": [73]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          17,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 17,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 17,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1932,55 +5336,203 @@
         "data": [81]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          4,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1992,16 +5544,53 @@
         "data": [83]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          18,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 18,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 18,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2013,16 +5602,53 @@
         "data": [84]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          19,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 19,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 19,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2038,16 +5664,53 @@
         "data": [87]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2063,16 +5726,53 @@
         "data": [90]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2084,16 +5784,53 @@
         "data": [92]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2109,16 +5846,53 @@
         "data": [95]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2126,16 +5900,53 @@
         "data": [96]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2147,16 +5958,53 @@
         "data": [98]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2245,16 +6093,53 @@
         "data": [16]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2290,16 +6175,53 @@
         "data": [24]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          4,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2315,16 +6237,53 @@
         "data": [27]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          7,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 7,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 7,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2348,68 +6307,253 @@
         "data": [32]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          4,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2421,68 +6565,253 @@
         "data": [34]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1.5,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1.5,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1.5,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2.5,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2.5,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2.5,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2494,42 +6823,153 @@
         "data": [36]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2557,55 +6997,203 @@
         "data": [42]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0.1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0.2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0.30000000000000004,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.30000000000000004,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0.30000000000000004,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2629,55 +7217,203 @@
         "data": [47]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2689,42 +7425,153 @@
         "data": [49]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          5,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 5,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 5,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          10,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          15,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2744,29 +7591,103 @@
         "data": [53]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2782,42 +7703,153 @@
         "data": [56]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          120,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          121,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 121,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 121,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          122,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 122,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 122,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2841,16 +7873,53 @@
         "data": [61]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2870,42 +7939,153 @@
         "data": [66]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2917,42 +8097,153 @@
         "data": [68]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          15,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          15,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          15,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2976,16 +8267,53 @@
         "data": [73]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          17,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 17,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 17,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -3021,55 +8349,203 @@
         "data": [81]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          2,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 2,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          3,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 3,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          4,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 4,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -3081,16 +8557,53 @@
         "data": [83]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          18,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 18,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 18,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -3102,16 +8615,53 @@
         "data": [84]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          19,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 19,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 19,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -3127,16 +8677,53 @@
         "data": [87]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -3152,16 +8739,53 @@
         "data": [90]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -3173,16 +8797,53 @@
         "data": [92]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -3198,16 +8859,53 @@
         "data": [95]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -3215,16 +8913,53 @@
         "data": [96]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          1,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 1,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -3236,16 +8971,53 @@
         "data": [98]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          0,
-          1,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 0,
+                  "y": -1
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [null, null, null]
-          }
+          },
+          [],
+          false
         ]
       },
       {

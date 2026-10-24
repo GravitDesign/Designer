@@ -544,16 +544,53 @@
         "data": [38]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          30,
-          30,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 200,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 230,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 245,
+                  "y": -130
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 215,
+                  "y": -130
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 200,
+                  "y": -100
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [51, 77, 102]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -567,6 +604,64 @@
       {
         "func": "progress",
         "data": [41]
+      },
+      {
+        "func": "stroke",
+        "data": [
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 250,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 290,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 290,
+                  "y": -130
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 250,
+                  "y": -130
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 250,
+                  "y": -100
+                }
+              }
+            ]
+          ],
+          {
+            "type": "rgb",
+            "value": [0, 0, 255]
+          },
+          2,
+          [],
+          2,
+          1,
+          false,
+          4,
+          {
+            "arr": [],
+            "param": 0
+          }
+        ]
       },
       {
         "func": "progress",
@@ -585,16 +680,53 @@
         "data": [45]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          20,
-          20,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 300,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 320,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 320,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 300,
+                  "y": -120
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 300,
+                  "y": -100
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [51, 77, 102]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -703,16 +835,93 @@
         "data": [62]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          180,
-          180,
-          100,
-          100,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 180,
+                  "y": -180
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 280,
+                  "y": -180
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 280,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 180,
+                  "y": -280
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 180,
+                  "y": -180
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [0, 255, 0]
-          }
+          },
+          [
+            [
+              [
+                {
+                  "type": "moveto",
+                  "coord": {
+                    "x": 200,
+                    "y": -200
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 250,
+                    "y": -200
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 250,
+                    "y": -250
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 200,
+                    "y": -250
+                  }
+                },
+                {
+                  "type": "closepath",
+                  "coord": {
+                    "x": 200,
+                    "y": -200
+                  }
+                }
+              ]
+            ]
+          ],
+          false
         ]
       },
       {
@@ -740,16 +949,86 @@
         "data": [68]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          270,
-          190,
-          80,
-          80,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 270,
+                  "y": -190
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 350,
+                  "y": -190
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 350,
+                  "y": -270
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 270,
+                  "y": -270
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 270,
+                  "y": -190
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [230, 26, 230]
-          }
+          },
+          [
+            [
+              [
+                {
+                  "type": "moveto",
+                  "coord": {
+                    "x": 280,
+                    "y": -200
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 330,
+                    "y": -200
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 305,
+                    "y": -250
+                  }
+                },
+                {
+                  "type": "closepath",
+                  "coord": {
+                    "x": 280,
+                    "y": -200
+                  }
+                }
+              ]
+            ]
+          ],
+          false
         ]
       },
       {
@@ -781,16 +1060,53 @@
         "data": [75]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          360,
-          200,
-          10,
-          10,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 360,
+                  "y": -200
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 370,
+                  "y": -200
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 370,
+                  "y": -210
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 360,
+                  "y": -210
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 360,
+                  "y": -200
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [0, 0, 0]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -814,16 +1130,93 @@
         "data": [80]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          10,
-          280,
-          5,
-          5,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 10,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -285
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": -285
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 10,
+                  "y": -280
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [255, 0, 0]
-          }
+          },
+          [
+            [
+              [
+                {
+                  "type": "moveto",
+                  "coord": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 50,
+                    "y": 0
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 50,
+                    "y": -50
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 0,
+                    "y": -50
+                  }
+                },
+                {
+                  "type": "closepath",
+                  "coord": {
+                    "x": 0,
+                    "y": 0
+                  }
+                }
+              ]
+            ]
+          ],
+          false
         ]
       },
       {
@@ -831,16 +1224,63 @@
         "data": [81]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          20,
-          280,
-          5,
-          5,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 20,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 25,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 25,
+                  "y": -285
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 20,
+                  "y": -285
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 20,
+                  "y": -280
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [255, 0, 0]
-          }
+          },
+          {
+            "access": 7,
+            "executable": false,
+            "composite": true,
+            "pointer": -1,
+            "global": false,
+            "valuePointer": 0,
+            "_value": [[]],
+            "className": "array",
+            "_type": "arraytype"
+          },
+          false
         ]
       },
       {
@@ -982,6 +1422,93 @@
       {
         "func": "progress",
         "data": [94]
+      },
+      {
+        "func": "fill",
+        "data": [
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 10,
+                  "y": -220
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 40,
+                  "y": -220
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 40,
+                  "y": -240
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": -240
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 10,
+                  "y": -220
+                }
+              }
+            ],
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 50,
+                  "y": -220
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 80,
+                  "y": -220
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 80,
+                  "y": -240
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 50,
+                  "y": -240
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 50,
+                  "y": -220
+                }
+              }
+            ]
+          ],
+          {
+            "type": "rgb",
+            "value": [51, 77, 102]
+          },
+          [],
+          false
+        ]
       },
       {
         "func": "progress",
@@ -1614,16 +2141,53 @@
         "data": [38]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          30,
-          30,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 200,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 230,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 245,
+                  "y": -130
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 215,
+                  "y": -130
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 200,
+                  "y": -100
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [51, 77, 102]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1637,6 +2201,64 @@
       {
         "func": "progress",
         "data": [41]
+      },
+      {
+        "func": "stroke",
+        "data": [
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 250,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 290,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 290,
+                  "y": -130
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 250,
+                  "y": -130
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 250,
+                  "y": -100
+                }
+              }
+            ]
+          ],
+          {
+            "type": "rgb",
+            "value": [0, 0, 255]
+          },
+          2,
+          [],
+          2,
+          1,
+          false,
+          4,
+          {
+            "arr": [],
+            "param": 0
+          }
+        ]
       },
       {
         "func": "progress",
@@ -1655,16 +2277,53 @@
         "data": [45]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          20,
-          20,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 300,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 320,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 320,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 300,
+                  "y": -120
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 300,
+                  "y": -100
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [51, 77, 102]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1773,16 +2432,93 @@
         "data": [62]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          180,
-          180,
-          100,
-          100,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 180,
+                  "y": -180
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 280,
+                  "y": -180
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 280,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 180,
+                  "y": -280
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 180,
+                  "y": -180
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [0, 255, 0]
-          }
+          },
+          [
+            [
+              [
+                {
+                  "type": "moveto",
+                  "coord": {
+                    "x": 200,
+                    "y": -200
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 250,
+                    "y": -200
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 250,
+                    "y": -250
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 200,
+                    "y": -250
+                  }
+                },
+                {
+                  "type": "closepath",
+                  "coord": {
+                    "x": 200,
+                    "y": -200
+                  }
+                }
+              ]
+            ]
+          ],
+          false
         ]
       },
       {
@@ -1810,16 +2546,86 @@
         "data": [68]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          270,
-          190,
-          80,
-          80,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 270,
+                  "y": -190
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 350,
+                  "y": -190
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 350,
+                  "y": -270
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 270,
+                  "y": -270
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 270,
+                  "y": -190
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [230, 26, 230]
-          }
+          },
+          [
+            [
+              [
+                {
+                  "type": "moveto",
+                  "coord": {
+                    "x": 280,
+                    "y": -200
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 330,
+                    "y": -200
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 305,
+                    "y": -250
+                  }
+                },
+                {
+                  "type": "closepath",
+                  "coord": {
+                    "x": 280,
+                    "y": -200
+                  }
+                }
+              ]
+            ]
+          ],
+          false
         ]
       },
       {
@@ -1851,16 +2657,53 @@
         "data": [75]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          360,
-          200,
-          10,
-          10,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 360,
+                  "y": -200
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 370,
+                  "y": -200
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 370,
+                  "y": -210
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 360,
+                  "y": -210
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 360,
+                  "y": -200
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [0, 0, 0]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1884,16 +2727,93 @@
         "data": [80]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          10,
-          280,
-          5,
-          5,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 10,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -285
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": -285
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 10,
+                  "y": -280
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [255, 0, 0]
-          }
+          },
+          [
+            [
+              [
+                {
+                  "type": "moveto",
+                  "coord": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 50,
+                    "y": 0
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 50,
+                    "y": -50
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 0,
+                    "y": -50
+                  }
+                },
+                {
+                  "type": "closepath",
+                  "coord": {
+                    "x": 0,
+                    "y": 0
+                  }
+                }
+              ]
+            ]
+          ],
+          false
         ]
       },
       {
@@ -1901,16 +2821,63 @@
         "data": [81]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          20,
-          280,
-          5,
-          5,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 20,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 25,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 25,
+                  "y": -285
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 20,
+                  "y": -285
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 20,
+                  "y": -280
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [255, 0, 0]
-          }
+          },
+          {
+            "access": 7,
+            "executable": false,
+            "composite": true,
+            "pointer": -1,
+            "global": false,
+            "valuePointer": 0,
+            "_value": [[]],
+            "className": "array",
+            "_type": "arraytype"
+          },
+          false
         ]
       },
       {
@@ -2052,6 +3019,93 @@
       {
         "func": "progress",
         "data": [94]
+      },
+      {
+        "func": "fill",
+        "data": [
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 10,
+                  "y": -220
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 40,
+                  "y": -220
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 40,
+                  "y": -240
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": -240
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 10,
+                  "y": -220
+                }
+              }
+            ],
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 50,
+                  "y": -220
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 80,
+                  "y": -220
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 80,
+                  "y": -240
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 50,
+                  "y": -240
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 50,
+                  "y": -220
+                }
+              }
+            ]
+          ],
+          {
+            "type": "rgb",
+            "value": [51, 77, 102]
+          },
+          [],
+          false
+        ]
       },
       {
         "func": "progress",
@@ -2684,16 +3738,53 @@
         "data": [38]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          30,
-          30,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 200,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 230,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 245,
+                  "y": -130
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 215,
+                  "y": -130
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 200,
+                  "y": -100
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [51, 77, 102]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2707,6 +3798,64 @@
       {
         "func": "progress",
         "data": [41]
+      },
+      {
+        "func": "stroke",
+        "data": [
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 250,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 290,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 290,
+                  "y": -130
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 250,
+                  "y": -130
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 250,
+                  "y": -100
+                }
+              }
+            ]
+          ],
+          {
+            "type": "rgb",
+            "value": [0, 0, 255]
+          },
+          2,
+          [],
+          2,
+          1,
+          false,
+          4,
+          {
+            "arr": [],
+            "param": 0
+          }
+        ]
       },
       {
         "func": "progress",
@@ -2725,16 +3874,53 @@
         "data": [45]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          0,
-          0,
-          20,
-          20,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 300,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 320,
+                  "y": -100
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 320,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 300,
+                  "y": -120
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 300,
+                  "y": -100
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [51, 77, 102]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2843,16 +4029,93 @@
         "data": [62]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          180,
-          180,
-          100,
-          100,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 180,
+                  "y": -180
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 280,
+                  "y": -180
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 280,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 180,
+                  "y": -280
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 180,
+                  "y": -180
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [0, 255, 0]
-          }
+          },
+          [
+            [
+              [
+                {
+                  "type": "moveto",
+                  "coord": {
+                    "x": 200,
+                    "y": -200
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 250,
+                    "y": -200
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 250,
+                    "y": -250
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 200,
+                    "y": -250
+                  }
+                },
+                {
+                  "type": "closepath",
+                  "coord": {
+                    "x": 200,
+                    "y": -200
+                  }
+                }
+              ]
+            ]
+          ],
+          false
         ]
       },
       {
@@ -2880,16 +4143,86 @@
         "data": [68]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          270,
-          190,
-          80,
-          80,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 270,
+                  "y": -190
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 350,
+                  "y": -190
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 350,
+                  "y": -270
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 270,
+                  "y": -270
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 270,
+                  "y": -190
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [230, 26, 230]
-          }
+          },
+          [
+            [
+              [
+                {
+                  "type": "moveto",
+                  "coord": {
+                    "x": 280,
+                    "y": -200
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 330,
+                    "y": -200
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 305,
+                    "y": -250
+                  }
+                },
+                {
+                  "type": "closepath",
+                  "coord": {
+                    "x": 280,
+                    "y": -200
+                  }
+                }
+              ]
+            ]
+          ],
+          false
         ]
       },
       {
@@ -2921,16 +4254,53 @@
         "data": [75]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          360,
-          200,
-          10,
-          10,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 360,
+                  "y": -200
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 370,
+                  "y": -200
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 370,
+                  "y": -210
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 360,
+                  "y": -210
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 360,
+                  "y": -200
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [0, 0, 0]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -2954,16 +4324,93 @@
         "data": [80]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          10,
-          280,
-          5,
-          5,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 10,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 15,
+                  "y": -285
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": -285
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 10,
+                  "y": -280
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [255, 0, 0]
-          }
+          },
+          [
+            [
+              [
+                {
+                  "type": "moveto",
+                  "coord": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 50,
+                    "y": 0
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 50,
+                    "y": -50
+                  }
+                },
+                {
+                  "type": "lineto",
+                  "coord": {
+                    "x": 0,
+                    "y": -50
+                  }
+                },
+                {
+                  "type": "closepath",
+                  "coord": {
+                    "x": 0,
+                    "y": 0
+                  }
+                }
+              ]
+            ]
+          ],
+          false
         ]
       },
       {
@@ -2971,16 +4418,63 @@
         "data": [81]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          20,
-          280,
-          5,
-          5,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 20,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 25,
+                  "y": -280
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 25,
+                  "y": -285
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 20,
+                  "y": -285
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 20,
+                  "y": -280
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [255, 0, 0]
-          }
+          },
+          {
+            "access": 7,
+            "executable": false,
+            "composite": true,
+            "pointer": -1,
+            "global": false,
+            "valuePointer": 0,
+            "_value": [[]],
+            "className": "array",
+            "_type": "arraytype"
+          },
+          false
         ]
       },
       {
@@ -3122,6 +4616,93 @@
       {
         "func": "progress",
         "data": [94]
+      },
+      {
+        "func": "fill",
+        "data": [
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 10,
+                  "y": -220
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 40,
+                  "y": -220
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 40,
+                  "y": -240
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 10,
+                  "y": -240
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 10,
+                  "y": -220
+                }
+              }
+            ],
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 50,
+                  "y": -220
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 80,
+                  "y": -220
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 80,
+                  "y": -240
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 50,
+                  "y": -240
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 50,
+                  "y": -220
+                }
+              }
+            ]
+          ],
+          {
+            "type": "rgb",
+            "value": [51, 77, 102]
+          },
+          [],
+          false
+        ]
       },
       {
         "func": "progress",

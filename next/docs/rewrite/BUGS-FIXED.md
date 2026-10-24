@@ -1641,3 +1641,57 @@ core (only the CTM helper has it).
   rest of the program. Both fail with the old atan.
 - Parity exceptions: none (parity/exceptions/BUG-111.json lists no
   scenarios). No EPS or PS fixture of the parity suites uses atan.
+
+## BUG-112 rectfill mirrored, rectstroke missing, rectclip wrong, dashes lost
+
+Old code: public/pscore.js rectfill, rectstroke and rectclip; the page's
+rectfill handler in chunk.vendor.js module 1404 (GEPSParser).
+
+- Reproduce: open, place or drop an EPS or PS file that uses rectfill,
+  rectstroke or rectclip with a CTM other than the identity, for example
+  parity/fixtures/import/eps/shapes.eps (`20 120 100 60 rectstroke`, a
+  rectfill in a translated and scaled space) or any file whose page
+  setup flips or scales the coordinates, which almost every EPS does.
+- Old: rectfill posted its user-space x, y, width and height, and the
+  page drew a Rectangle there without the CTM, so the rectangle came out
+  mirrored or in the wrong place and size, and outside the clip. The
+  array form of rectfill did nothing. rectstroke only checked and dropped
+  its operands, so its rectangles were missing. rectclip offset three of
+  its corners by the current point instead of x and y.
+- New: rectfill and rectstroke build closed rectangle paths mapped
+  through the CTM and paint them with the normal fill and stroke (current
+  color, clip, line width, joins and dashes), without touching the
+  current path; both take four numbers or an array of them, rectstroke
+  also an optional matrix (accepted; the pen is not transformed by it).
+  rectclip clips to the corners x, y, x + width, y + height. The page's
+  rectfill handler is no longer called. Not done here: a dashed stroke
+  arrives with its dash array (`_bds [6 3]` on the border) but the
+  rendered import still draws it solid; that is in the renderer, not in
+  the import, and is left for the engine.
+- Test: src/workers/ps/interpreter.recorded.test.ts. The 142 corpus
+  programs that use rectfill (most of them print their results with it)
+  get `.fixed.json` recordings. "%s: the fixed recording fills a
+  rectangle path where the old one posted rectfill" checks the 114 that
+  only BUG-112 changes: with every old rectfill replaced by the fill of
+  its rectangle under the default CTM, the old recording equals the fixed
+  one. The checks of BUG-109, BUG-110 and BUG-111 map the old rectfills
+  the same way and ignore the strokes of rectstroke, which the old
+  worker never posted. Programs whose rectangles that map can't express
+  (a changed CTM, a clip, rectstroke or rectclip of their own, the array
+  form, NaN sizes) are listed in RECTS_BEYOND_DEFAULT_CTM and compared
+  with their recordings only; their messages were checked by hand: the
+  same stream with fills and strokes of the CTM-mapped rectangles.
+  fixture-shapes.eps and paths.eps are among them, so the BUG-110 moveto
+  check now covers four programs instead of six. With the old operators
+  426 recorded runs fail. src/workers/ps/jpeg.test.ts reads the bytes its
+  program dumps with rectfill from the fills instead.
+- Parity exceptions: parity/exceptions/BUG-112.json, 16
+  io-import-pdf-eps/eps scenarios (listed there). In each `.fixed` file
+  the old Rectangle nodes are paths with the same fill at the CTM-mapped
+  corners, rectstroke adds stroked paths, the array form adds its
+  rectangles (several rectangles in one fill as a compound path), and
+  gfx-rectclip-ps's clip path has the right corners; checked by counting
+  the node classes and reading the diffs of the expanded JSON (for
+  shapes-eps: the rectangle becomes a filled path and the rectstroke adds
+  a stroked one with the file's line width). Pending: the import-export
+  open and place scenarios of eps-shapes.eps.

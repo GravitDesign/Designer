@@ -139,7 +139,15 @@ describe("DCTDecode", () => {
       `${ascii85(jpeg)}~>\npop dump\n`;
     const { interpreter, messages } = start(() => TINY, program, 1000);
     interpreter.run();
-    return messages.filter((m) => m.func === "rectfill").map((m) => m.data[2]);
+    // dump fills a rectangle as wide as each byte (BUG-112): its second
+    // corner's x under the default CTM.
+    return messages
+      .filter((m) => m.func === "fill")
+      .map(
+        (m) =>
+          ((m.data[0] as { coord: { x: number } }[][])[0] as { coord: { x: number } }[])[1]?.coord
+            .x,
+      );
   }
 
   /** SOI and a baseline frame header (1 x 2 pixels) with `components` components. */

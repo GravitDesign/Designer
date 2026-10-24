@@ -1,0 +1,28 @@
+{
+  "bug": "BUG-112",
+  "why": "rectfill fills and rectstroke strokes a rectangle path mapped through the CTM (with the current clip), and rectclip clips to x, y, x + width, y + height. In the .fixed files each old Rectangle node (drawn by the page without the CTM, so mirrored or misplaced) is a path with the same fill at the mapped corners, each rectstroke adds a stroked path, the array form of rectfill adds its rectangles (two or more in one compound path), and rectclip's clip path has the right corners. Nothing else differs. The .fixed files of the BUG-008, BUG-109 and BUG-110 scenarios among them change further the same way.",
+  "scenarios": [
+    "io-import-pdf-eps/eps/arc-closepath-eps",
+    "io-import-pdf-eps/eps/arc-closepath-eps-text",
+    "io-import-pdf-eps/eps/color-device-spaces-ps",
+    "io-import-pdf-eps/eps/color-sh6-separation-ps",
+    "io-import-pdf-eps/eps/colors-eps",
+    "io-import-pdf-eps/eps/gfx-arcs-ps",
+    "io-import-pdf-eps/eps/gfx-clip-ps",
+    "io-import-pdf-eps/eps/gfx-patterns-ps",
+    "io-import-pdf-eps/eps/gfx-rectclip-ps",
+    "io-import-pdf-eps/eps/image-dct-rgb-eps",
+    "io-import-pdf-eps/eps/paths-eps",
+    "io-import-pdf-eps/eps/postscript-only-ai",
+    "io-import-pdf-eps/eps/shapes-eps",
+    "io-import-pdf-eps/eps/shapes-eps-text",
+    "io-import-pdf-eps/eps/shapes-ps",
+    "io-import-pdf-eps/eps/shapes-ps-text"
+  ],
+  "pending": [
+    "import-export/import/open/eps-shapes.eps",
+    "import-export/import/open/eps-shapes.eps.render",
+    "import-export/import/open/eps-shapes.eps.state",
+    "import-export/import/place/eps-shapes.eps"
+  ]
+}

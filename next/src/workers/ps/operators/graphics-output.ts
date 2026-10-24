@@ -4,7 +4,58 @@
 import type { PSCore } from "../core.ts";
 import type { GraphicsState, PSClipPath, PSPathSegment, PSValue } from "../objects.ts";
 import { ShowMode } from "../show.ts";
-import { colorHelper, positionX, positionY } from "./graphics-support.ts";
+import { colorHelper } from "./graphics-support.ts";
+import { paintOperators } from "./graphics-paint.ts";
+
+type Rect4 = [number, number, number, number];
+
+/** A closed rectangle subpath in device space (moveto, three linetos, closepath). */
+function rectanglePath(core: PSCore, [x, y, width, height]: Rect4): PSPathSegment[] {
+  const start = core.CTM.transform(x, y);
+  return [
+    { type: "moveto", coord: start },
+    { type: "lineto", coord: core.CTM.transform(x + width, y) },
+    { type: "lineto", coord: core.CTM.transform(x + width, y + height) },
+    { type: "lineto", coord: core.CTM.transform(x, y + height) },
+    { type: "closepath", coord: { x: start.x, y: start.y } },
+  ];
+}
+
+/**
+ * Takes the rectangles of rectfill or rectstroke off the stack: four
+ * numbers or an array of numbers (four per rectangle), for rectstroke
+ * optionally followed by a matrix. Null after an error.
+ */
+function rectOperands(core: PSCore, matrix: boolean): Rect4[] | null {
+  if (core.stackunderflowCheck(1)) return null;
+  const isMatrix = (value: unknown) =>
+    core.classes.isPSObject(value, "array") &&
+    (value as { value: unknown[] }).value.length == 6 &&
+    (value as { value: unknown[] }).value.every((v) => typeof v == "number");
+  let skip = 0;
+  if (matrix && isMatrix(core.stack[core.stack.length - 1])) {
+    if (core.stackunderflowCheck(2)) return null;
+    skip = 1;
+  }
+  const top = core.stack[core.stack.length - 1 - skip];
+  if (core.classes.isPSObject(top, "array")) {
+    const values = (top as { value: unknown[] }).value;
+    if (values.length % 4 != 0 || values.some((v) => typeof v != "number")) {
+      core.initiateError("typecheck");
+      return null;
+    }
+    for (let i = 0; i <= skip; i++) core.stack.pop();
+    const rects: Rect4[] = [];
+    for (let i = 0; i < values.length; i += 4) rects.push(values.slice(i, i + 4) as Rect4);
+    return rects;
+  }
+  if (core.stackunderflowCheck(4 + skip)) return null;
+  if (!topAreNumbers(core, 1 + skip, 4 + skip)) return null;
+  const n = core.stack.length - skip;
+  const rect = core.stack.slice(n - 4, n) as Rect4;
+  for (let i = 0; i < 4 + skip; i++) core.stack.pop();
+  return [rect];
+}
 
 /** Checks that the top `count` operands are numbers (typecheck otherwise). */
 function topAreNumbers(core: PSCore, from: number, to: number): boolean {
@@ -39,59 +90,34 @@ export const outputOperators = {
     this.stack.push(this.seedNum);
   },
 
-  rectfill(this: PSCore) {
-    if (this.stackunderflowCheck(1)) return;
-    const top = this.stack[this.stack.length - 1];
-    if (this.classes.isPSObject(top, "array")) {
-      // Sic: the array form is not implemented.
-      this.stack.pop();
-      return;
-    }
-    if (this.stackunderflowCheck(4)) return;
-    if (!topAreNumbers(this, 1, 4)) return;
-    const x = this.stack[this.stack.length - 4];
-    const y = this.stack[this.stack.length - 3];
-    const width = this.stack[this.stack.length - 2];
-    const height = this.stack[this.stack.length - 1];
-    for (let i = 0; i < 4; i++) this.stack.pop();
-    this.toGravit("rectfill", [
-      x,
-      y,
-      width,
-      height,
-      colorHelper(this)._getGColor(this.gstate.colorSpace, this.gstate.color),
-    ]);
-  },
-
-  /** Sic: not implemented; checks and drops its operands. */
-  rectstroke(this: PSCore) {
-    if (this.stackunderflowCheck(1)) return;
-    let top = this.stack[this.stack.length - 1];
-    if (this.classes.isPSObject(top, "array") && top.value.length != 6) {
-      this.stack.pop();
-      return;
-    }
-    if (this.stackunderflowCheck(2)) return;
-    const matrix = this.stack[this.stack.length - 1];
-    top = this.stack[this.stack.length - 2];
-    let count = 4;
-    if (this.classes.isPSObject(matrix, "array") && matrix.value.length == 6) {
-      if (this.classes.isPSObject(top, "array")) {
-        this.stack.pop();
-        this.stack.pop();
-        return;
-      }
-      if (this.stackunderflowCheck(5)) return;
-      count = 5;
-    }
-    if (!topAreNumbers(this, 2, count)) return;
-    for (let i = 0; i < count; i++) this.stack.pop();
-  },
-
   /**
-   * Intersects the clip with a rectangle. Sic: the corners after the first
-   * are offset by the current point instead of x and y.
+   * Fills rectangles (x y width height, or an array of them) like a path of
+   * them and fill, without touching the current path. The old operator
+   * posted its user-space numbers to the page, which drew them without the
+   * CTM (mirrored); rectstroke drew nothing and rectclip took its corners
+   * from the current point ("rectfill mirrored, rectstroke missing,
+   * rectclip wrong, dashes lost" in BUGS-FIXED.md).
    */
+  rectfill(this: PSCore) {
+    const rects = rectOperands(this, false);
+    if (!rects) return;
+    const saved = this.gstate.path;
+    this.gstate.path = rects.map((r) => rectanglePath(this, r));
+    paintOperators.fill.call(this);
+    this.gstate.path = saved;
+  },
+
+  /** Strokes rectangles like rectfill fills them; an optional matrix is taken but not applied to the pen. */
+  rectstroke(this: PSCore) {
+    const rects = rectOperands(this, true);
+    if (!rects) return;
+    const saved = this.gstate.path;
+    this.gstate.path = rects.map((r) => rectanglePath(this, r));
+    outputOperators.stroke.call(this);
+    this.gstate.path = saved;
+  },
+
+  /** Intersects the clip with a rectangle and clears the current path. */
   rectclip(this: PSCore) {
     if (this.stackunderflowCheck(1)) return;
     const top = this.stack[this.stack.length - 1];
@@ -107,23 +133,7 @@ export const outputOperators = {
     const height = this.stack[this.stack.length - 1] as number;
     for (let i = 0; i < 4; i++) this.stack.pop();
     const gstate = this.gstate;
-    const clip: PSClipPath = [];
-    clip.push([{ type: "moveto", coord: this.CTM.transform(x, y) }]);
-    const subpath = clip[0] as PSPathSegment[];
-    subpath.push({
-      type: "lineto",
-      coord: this.CTM.transform(width + positionX(this), positionY(this)),
-    });
-    subpath.push({
-      type: "lineto",
-      coord: this.CTM.transform(width + positionX(this), height + positionY(this)),
-    });
-    subpath.push({
-      type: "lineto",
-      coord: this.CTM.transform(positionX(this), height + positionY(this)),
-    });
-    const start = (subpath[0] as PSPathSegment).coord as { x: number; y: number };
-    subpath.push({ type: "closepath", coord: { x: start.x, y: start.y } });
+    const clip: PSClipPath = [rectanglePath(this, [x, y, width, height])];
     gstate.position = { x, y };
     // Sic: the id goes on the first subpath, not on the clip path.
     (clip[0] as PSPathSegment[] & { clipPathId?: number }).clipPathId = this.clipPathId;

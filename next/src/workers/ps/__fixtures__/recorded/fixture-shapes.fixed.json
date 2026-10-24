@@ -43,16 +43,53 @@
         "data": [21]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          20,
-          120,
-          100,
-          60,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 20,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -180
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 20,
+                  "y": -180
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 20,
+                  "y": -120
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [219, 41, 41]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -82,6 +119,64 @@
       {
         "func": "progress",
         "data": [28]
+      },
+      {
+        "func": "stroke",
+        "data": [
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 20,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -180
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 20,
+                  "y": -180
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 20,
+                  "y": -120
+                }
+              }
+            ]
+          ],
+          {
+            "type": "rgb",
+            "value": [0, 0, 0]
+          },
+          3,
+          [],
+          0,
+          0,
+          false,
+          10,
+          {
+            "arr": [],
+            "param": 0
+          }
+        ]
       },
       {
         "func": "progress",
@@ -526,22 +621,22 @@
                 {
                   "type": "lineto",
                   "coord": {
-                    "x": 100,
-                    "y": 0
+                    "x": 290,
+                    "y": -10
                   }
                 },
                 {
                   "type": "lineto",
                   "coord": {
-                    "x": 100,
-                    "y": -40
+                    "x": 290,
+                    "y": -50
                   }
                 },
                 {
                   "type": "lineto",
                   "coord": {
-                    "x": 0,
-                    "y": -40
+                    "x": 190,
+                    "y": -50
                   }
                 },
                 {
@@ -684,16 +779,53 @@
         "data": [21]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          20,
-          120,
-          100,
-          60,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 20,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -180
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 20,
+                  "y": -180
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 20,
+                  "y": -120
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [219, 41, 41]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -723,6 +855,64 @@
       {
         "func": "progress",
         "data": [28]
+      },
+      {
+        "func": "stroke",
+        "data": [
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 20,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -180
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 20,
+                  "y": -180
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 20,
+                  "y": -120
+                }
+              }
+            ]
+          ],
+          {
+            "type": "rgb",
+            "value": [0, 0, 0]
+          },
+          3,
+          [],
+          0,
+          0,
+          false,
+          10,
+          {
+            "arr": [],
+            "param": 0
+          }
+        ]
       },
       {
         "func": "progress",
@@ -1167,22 +1357,22 @@
                 {
                   "type": "lineto",
                   "coord": {
-                    "x": 100,
-                    "y": 0
+                    "x": 290,
+                    "y": -10
                   }
                 },
                 {
                   "type": "lineto",
                   "coord": {
-                    "x": 100,
-                    "y": -40
+                    "x": 290,
+                    "y": -50
                   }
                 },
                 {
                   "type": "lineto",
                   "coord": {
-                    "x": 0,
-                    "y": -40
+                    "x": 190,
+                    "y": -50
                   }
                 },
                 {
@@ -1325,16 +1515,53 @@
         "data": [21]
       },
       {
-        "func": "rectfill",
+        "func": "fill",
         "data": [
-          20,
-          120,
-          100,
-          60,
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 20,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -180
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 20,
+                  "y": -180
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 20,
+                  "y": -120
+                }
+              }
+            ]
+          ],
           {
             "type": "rgb",
             "value": [219, 41, 41]
-          }
+          },
+          [],
+          false
         ]
       },
       {
@@ -1364,6 +1591,64 @@
       {
         "func": "progress",
         "data": [28]
+      },
+      {
+        "func": "stroke",
+        "data": [
+          [
+            [
+              {
+                "type": "moveto",
+                "coord": {
+                  "x": 20,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -120
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 120,
+                  "y": -180
+                }
+              },
+              {
+                "type": "lineto",
+                "coord": {
+                  "x": 20,
+                  "y": -180
+                }
+              },
+              {
+                "type": "closepath",
+                "coord": {
+                  "x": 20,
+                  "y": -120
+                }
+              }
+            ]
+          ],
+          {
+            "type": "rgb",
+            "value": [0, 0, 0]
+          },
+          3,
+          [],
+          0,
+          0,
+          false,
+          10,
+          {
+            "arr": [],
+            "param": 0
+          }
+        ]
       },
       {
         "func": "progress",
@@ -1808,22 +2093,22 @@
                 {
                   "type": "lineto",
                   "coord": {
-                    "x": 100,
-                    "y": 0
+                    "x": 290,
+                    "y": -10
                   }
                 },
                 {
                   "type": "lineto",
                   "coord": {
-                    "x": 100,
-                    "y": -40
+                    "x": 290,
+                    "y": -50
                   }
                 },
                 {
                   "type": "lineto",
                   "coord": {
-                    "x": 0,
-                    "y": -40
+                    "x": 190,
+                    "y": -50
                   }
                 },
                 {
