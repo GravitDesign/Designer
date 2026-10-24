@@ -24,8 +24,10 @@
 //   (IndexSizeError from arc with a negative radius, InvalidStateError from
 //   createPattern of an empty canvas, a bad addColorStop color) surfaced
 //   there and not in the paint code. Such errors are marked here (see
-//   isCanvasError) so the tile renderer and tryRunRendering can handle them
-//   where the old replay did.
+//   isCanvasError). The tile renderer and tryRunRendering now handle every
+//   painting error the way the old replay handled canvas errors (BUGS-FIXED.md
+//   "BUG-009 A painting error leaves the render phase on and the view stops
+//   repainting"), so nothing branches on the mark any more.
 //
 // Known differences that no caller reaches:
 // - measureText: the recorder measured on the real context, which had not

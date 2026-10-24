@@ -282,3 +282,39 @@ license WebSocket server attached to the same HTTP server).
 - Parity exceptions: electron/port-in-use. The .fixed file is the new
   app's recorded output; the old expected file records the uncaught
   exception box, a process that has to be killed and no will-quit.
+## BUG-009 A painting error leaves the render phase on and the view stops repainting
+
+Old code: chunk.vendor.js module 663, _paintAndRenderInternal (93530-93568,
+scene.paint outside the try); module 103, tryRunRendering (25480-25489) and
+render (the job registered at 25683 and only removed at 26022).
+
+- Reproduce: make any element's paint throw (a bug in an effect, a broken
+  shape), for example by patching an element's paint to throw, and let the
+  view repaint. Then change anything and watch the view.
+- Old: the tile renderer called scene.paint outside its try. An exception
+  of the painting code left paintAndRender with the render phase still on,
+  so every later repaint only queued or logged "render phase render,
+  waiting" and thumbnails (page and symbol previews, which go through
+  tryRunRendering while a render phase runs) queued forever. Only canvas
+  errors (thrown at replay, inside the try) took the clean path. In
+  tryRunRendering, a painting error also left the phase on, and a canvas
+  error at replay cleared the render parameters and left its render job
+  registered, so every later tryRunRendering went into the queue and never
+  ran.
+- New: the tile renderer finishes the canvas and the render phase in a
+  finally and treats every painting error like the old canvas errors: it
+  logs "Render error at canvas N:...", cleans up, calls back with
+  (null, true, false) and goes on with the next request. tryRunRendering
+  ends the render phase on any error, keeps the render parameters, leaves
+  no job behind and starts the next queued rendering before it rethrows the
+  error.
+- Test: src/engine/paint/tile-cache.test.ts, "fails the tile on other
+  painting errors and keeps painting afterwards (BUG-009)", and
+  src/engine/paint/render-scheduler.test.ts, "ends the render phase on a
+  canvas error in tryRunRendering and keeps rendering (BUG-009)" and "ends
+  the render phase when the painting code itself throws (BUG-009)". All
+  three fail with the old code (the error escapes the tile with the phase
+  on; the parameters are cleared and the next rendering waits in the queue;
+  the phase stays on).
+- Parity exceptions: none. No recorded scenario paints an element that
+  throws.

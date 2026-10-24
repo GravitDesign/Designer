@@ -193,9 +193,7 @@ Why it's unclear: it is a hang after an error, not a choice. Errors of the
 painting code itself (not the canvas) left the render phase on instead,
 which blocks even more.
 
-Kept. Pinned by next/src/engine/paint/render-scheduler.test.ts "ends the
-render phase on a canvas error in tryRunRendering, as the old replay did" and
-"keeps the render phase on when the painting code itself throws".
+Fixed: see BUG-009 in BUGS-FIXED.md.
 
 ## Q-017 A painting error in a tile leaves the render phase on
 
@@ -211,9 +209,7 @@ cleanup, callback(null, true, false), next request).
 Why it's unclear: a hang after a bug elsewhere; a fix would finish the render
 phase in a finally.
 
-Kept. Pinned by next/src/engine/paint/tile-cache.test.ts "lets other errors
-of the painting code escape with the render phase on" and "reports a canvas
-error like the old failed replay and keeps painting afterwards".
+Fixed: see BUG-009 in BUGS-FIXED.md.
 
 ## Q-018 GVertexPolyBoolean ignores its pip_check_policy argument
 

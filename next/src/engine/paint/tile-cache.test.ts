@@ -235,15 +235,23 @@ describe("TileRenderer", () => {
     expect(painted).toEqual(["painted"]);
   });
 
-  it("lets other errors of the painting code escape with the render phase on", () => {
+  it("fails the tile on other painting errors and keeps painting afterwards (BUG-009)", () => {
     const renderer = new TileRenderer(1, 1);
     renderer.resize(50, 50);
+    const tile = renderer._paintCanvases[0] as Canvas2DPaintCanvas;
+    const errors = vi.spyOn(console, "error").mockImplementation(() => {});
     const bug = new TypeError("painting bug");
-    expect(() =>
+    expect(
       paintOnce(renderer, () => {
         throw bug;
       }, [new Rect(0, 0, 10, 10)]),
-    ).toThrow(bug);
-    expect(RenderScheduler.isRenderPhase()).toBe(true);
+    ).toEqual([[null, true, false]]);
+    expect(errors).toHaveBeenCalledWith("Render error at canvas 0:TypeError: painting bug");
+    expect(RenderScheduler.isRenderPhase()).toBe(false);
+    const painted: string[] = [];
+    expect(paintOnce(renderer, () => painted.push("painted"), [new Rect(0, 0, 10, 10)])).toEqual([
+      [tile._canvasContext.canvas, true, false],
+    ]);
+    expect(painted).toEqual(["painted"]);
   });
 });

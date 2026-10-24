@@ -79,11 +79,11 @@ describe("RenderScheduler", () => {
     expect(restore).toHaveBeenCalledTimes(2);
   });
 
-  it("ends the render phase on a canvas error in tryRunRendering, as the old replay did", () => {
+  it("ends the render phase on a canvas error in tryRunRendering and keeps rendering (BUG-009)", () => {
     const canvas = new PaintCanvas(true);
     const context = canvas.getRendererContext() as RecorderStateContext;
     const indexSize = new DOMException("negative radius", "IndexSizeError");
-    vi.spyOn(context.real, "arc").mockImplementation(() => {
+    const arc = vi.spyOn(context.real, "arc").mockImplementation(() => {
       throw indexSize;
     });
     RenderScheduler.setRenderParameters({ noWebGL: true });
@@ -98,27 +98,38 @@ describe("RenderScheduler", () => {
     expect(done).not.toHaveBeenCalled();
     expect(RenderScheduler.isRenderPhase()).toBe(false);
     expect(RenderScheduler.getRenderer()).not.toBeInstanceOf(RecorderStateContext);
-    // The failed replay never restored the parameters it had cleared and
-    // left its job behind, so the next rendering waits in the queue.
-    expect(RenderScheduler.getRenderParameters()).toEqual({});
+    expect(RenderScheduler.getRenderParameters()).toEqual({ noWebGL: true });
+    expect(RenderScheduler._renderJobs.some(() => true)).toBe(false);
+    arc.mockRestore();
     RenderScheduler.tryRunRendering(canvas, () => {}, done);
-    expect(done).not.toHaveBeenCalled();
-    expect(RenderScheduler._scheduledRenderings).toHaveLength(1);
+    expect(done).toHaveBeenCalledWith(canvas);
   });
 
-  it("keeps the render phase on when the painting code itself throws", () => {
+  it("ends the render phase when the painting code itself throws (BUG-009)", async () => {
     const canvas = new PaintCanvas(true);
     const bug = new TypeError("painting bug");
+    const order: string[] = [];
     expect(() =>
       RenderScheduler.tryRunRendering(
         canvas,
         () => {
+          // Queued while the failing one paints; it still runs afterwards.
+          RenderScheduler.tryRunRendering(
+            canvas,
+            () => order.push("queued"),
+            () => order.push("queued done"),
+          );
           throw bug;
         },
-        () => {},
+        () => order.push("failed done"),
       ),
     ).toThrow(bug);
-    expect(RenderScheduler.isRenderPhase()).toBe(true);
+    expect(RenderScheduler.isRenderPhase()).toBe(false);
     expect(RenderScheduler._renderJobs.some(() => true)).toBe(false);
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    expect(order).toEqual(["queued", "queued done"]);
+    const done = vi.fn();
+    RenderScheduler.tryRunRendering(canvas, () => {}, done);
+    expect(done).toHaveBeenCalledWith(canvas);
   });
 });

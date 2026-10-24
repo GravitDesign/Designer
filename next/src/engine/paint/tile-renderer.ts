@@ -14,7 +14,6 @@ import type { PaintContext } from "./paint-context.ts";
 import type { RenderParameters } from "./render-job.ts";
 import { RenderRequest, type PaintableScene, type RenderResultCallback } from "./render-request.ts";
 import { RenderScheduler } from "./render-scheduler.ts";
-import { isCanvasError } from "./recorder-state-context.ts";
 import { RendererConfig } from "./renderer-config.ts";
 import { TileCache } from "./tile-cache.ts";
 
@@ -327,15 +326,17 @@ export class TileRenderer extends GObject implements Destroyable {
           try {
             scene.paint(paintContext, screen);
           } catch (error) {
-            // Errors of the painting code left the old paint call at once,
-            // without finishing (QUESTIONS.md "A painting error in a tile
-            // leaves the render phase on"); canvas errors only came up in the
-            // replay below.
-            if (!isCanvasError(error)) throw error;
+            // Any painting error fails the tile like the old replay's canvas
+            // errors did (BUGS-FIXED.md "BUG-009 A painting error leaves the
+            // render phase on and the view stops repainting").
             canvasFailure = { error };
+          } finally {
+            try {
+              canvas.finish();
+            } finally {
+              RenderScheduler.finish();
+            }
           }
-          canvas.finish();
-          RenderScheduler.finish();
         }
         try {
           if (RendererConfig.DEBUG_GRID_PAINT_DELAY > 0) {
