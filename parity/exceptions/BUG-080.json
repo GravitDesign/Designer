@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-080",
+  "why": "matrix() and skews in a transform list multiply on the same side as translate, rotate and scale. In transforms.svg the two rects with scale(2) matrix(...) and rotate(30) matrix(...) translate(...) move; their .fixed transforms equal Chromium's getCTM() for the same elements, as all other rects already did.",
+  "scenarios": ["io-import-svg/transforms-svg"],
+  "pending": []
+}

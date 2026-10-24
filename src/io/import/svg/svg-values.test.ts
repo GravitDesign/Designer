@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { Point } from "../../../engine/math/point.ts";
 import { Transform } from "../../../engine/math/transform.ts";
 import recorded from "./__fixtures__/svg-values.recorded.json" with { type: "json" };
 import {
@@ -32,6 +33,8 @@ function context(): PropertyContext {
 describe("SvgTransform", () => {
   it("applies transform lists like the old importer (outputs recorded from the old app)", () => {
     recorded.inputs.TRANSFORMS.forEach((text, i) => {
+      // matrix() and skews multiply on the other side now (BUG-080).
+      if (/matrix|skew/i.test(text)) return;
       const result = attempt(() => {
         const scene: SceneContext = { transform: new Transform(1, 0, 0, 1, 3, 4) };
         new SvgTransform(context(), text).apply(scene);
@@ -41,14 +44,28 @@ describe("SvgTransform", () => {
     });
   });
 
-  it("applies matrix() on the other side than translate()", () => {
-    // translate() goes before the current transform, matrix() after it.
+  it("applies matrix() on the same side as translate() (BUG-080)", () => {
     const scene: SceneContext = { transform: new Transform(2, 0, 0, 2, 0, 0) };
     new SvgTransform(context(), "matrix(1 0 0 1 10 0)").apply(scene);
-    expect(scene.transform.getMatrix()).toEqual([2, 0, 0, 2, 10, 0]);
+    expect(scene.transform.getMatrix()).toEqual([2, 0, 0, 2, 20, 0]);
     const translated: SceneContext = { transform: new Transform(2, 0, 0, 2, 0, 0) };
     new SvgTransform(context(), "translate(10 0)").apply(translated);
     expect(translated.transform.getMatrix()).toEqual([2, 0, 0, 2, 20, 0]);
+  });
+
+  it("applies matrix() and skews in list order, the last one first (BUG-080)", () => {
+    const map = (text: string, x: number, y: number) => {
+      const scene: SceneContext = { transform: new Transform() };
+      new SvgTransform(context(), text).apply(scene);
+      const point = scene.transform.mapPoint(new Point(x, y));
+      return [point.getX(), point.getY()];
+    };
+    // As in SVG: translate(scale(p)) and scale(translate(p)).
+    expect(map("translate(10 5) matrix(2 0 0 3 0 0)", 1, 1)).toEqual([12, 8]);
+    expect(map("matrix(2 0 0 3 0 0) translate(10 5)", 1, 1)).toEqual([22, 18]);
+    const [x, y] = map("skewX(45) translate(0 10)", 0, 0);
+    expect(x).toBeCloseTo(10, 12);
+    expect(y).toBeCloseTo(10, 12);
   });
 });
 

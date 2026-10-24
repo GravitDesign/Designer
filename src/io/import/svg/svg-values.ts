@@ -433,10 +433,10 @@ class ScaleStep implements TransformStep {
 }
 
 /**
- * matrix(a b c d e f). Unlike the other steps it multiplies on the other
- * side (`multiplied`, not `preMultiplied`), so a matrix() after another
- * function applies in the opposite order (QUESTIONS.md "SVG import
- * matrix order").
+ * matrix(a b c d e f), on the same side as the other steps. The old step
+ * multiplied on the other side (`multiplied`), so a matrix() or skew in a
+ * list applied in the opposite order (BUGS-FIXED.md "BUG-080 matrix() and
+ * skew in a transform list apply on the wrong side").
  */
 class MatrixStep implements TransformStep {
   m: number[];
@@ -447,7 +447,7 @@ class MatrixStep implements TransformStep {
 
   apply(context: SceneContext): void {
     const m = this.m;
-    context.transform = context.transform.multiplied(
+    context.transform = context.transform.preMultiplied(
       new Transform(
         m[0] as number,
         m[1] as number,

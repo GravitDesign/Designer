@@ -1065,7 +1065,7 @@ What it does: in a transform list, `matrix()` is applied on the other side (mult
 
 Why it's unclear: transform lists like `translate(10) matrix(...)` import with a different result than browsers show; single matrix() transforms, the common case, are unaffected.
 
-Kept. Pinned by next/src/io/import/svg/svg-values.test.ts "applies matrix() on the other side than translate()" and the io-import-svg/transforms-svg parity scenario.
+Fixed: see BUG-080 in BUGS-FIXED.md.
 
 ## Q-088 SVG export text font colors
 

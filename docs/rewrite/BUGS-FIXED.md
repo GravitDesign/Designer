@@ -2076,3 +2076,30 @@ Old code: chunk.vendor.js module 1391, svg.Property getEM (line 245360).
   TypeError and no node. Checked against the old app: the fixture with
   `x="1em"` replaced by `x="16"` gives exactly the `.fixed` output, apart
   from the random ids.
+
+## BUG-080 matrix() and skew in a transform list apply on the wrong side
+
+Old code: chunk.vendor.js module 1391, svg.Transform Type.matrix (line
+245652), which SkewBase reuses for skewX and skewY.
+
+- Reproduce: import an SVG whose transform lists combine matrix() or a
+  skew with other functions, or whose matrix() sits inside a transformed
+  group, for example `<rect transform="scale(2) matrix(1 0 0 1 10 0)"/>`.
+- Old: translate, rotate and scale multiplied onto the current transform
+  with `preMultiplied`, matrix() and the skews with `multiplied`, so they
+  applied in the opposite order to the rest of the list and to the
+  parents' transforms. The rect above moved by 10 instead of 20.
+- New: matrix() and the skews multiply on the same side as the other
+  functions, which gives SVG's order.
+- Test: src/io/import/svg/svg-values.test.ts, "applies matrix() on the
+  same side as translate() (BUG-080)" and "applies matrix() and skews in
+  list order, the last one first (BUG-080)" (both fail with the old
+  side). The recorded old transforms stay pinned for the lists without
+  matrix() or a skew.
+- Parity exceptions: io-import-svg/transforms-svg. Only the two rects
+  with `scale(2) matrix(...)` and `rotate(30) matrix(...) translate(...)`
+  change. Checked in Chromium: for every rect of the fixture the `.fixed`
+  transform equals the browser's getCTM() combined with the rect's box;
+  the old output differed there for exactly those two. Lists where
+  matrix() or the skew stands alone under a uniform scale (structure.svg,
+  the roundtrip fixtures) give the same output as before.
