@@ -152,6 +152,18 @@ export class PDFDocument {
       this._promiseCapability.resolve = resolve;
       this._promiseCapability.reject = reject;
     });
+    this._expectRejection();
+  }
+
+  /**
+   * An abort rejects the promise before the export listens to it (it does
+   * once it writes); mark the rejection handled so it isn't reported as
+   * unhandled. Those who listen later still get it (BUGS-FIXED.md
+   * "BUG-088 Cancelling a PDF export during rasterization never calls
+   * back").
+   */
+  _expectRejection(): void {
+    this._promise.catch(() => {});
   }
 
   _resetPromise(): void {
@@ -160,6 +172,7 @@ export class PDFDocument {
       this._promiseCapability.resolve = resolve;
       this._promiseCapability.reject = reject;
     });
+    this._expectRejection();
   }
 
   isDownsamplingImages(): boolean {

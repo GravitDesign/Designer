@@ -2296,3 +2296,31 @@ Old code: chunk.vendor.js module 1113, Raster.concurrencyRaster (lines
   element. These outputs depend on the worker count
   (navigator.hardwareConcurrency); the `.fixed` files were made on the
   same machine as the old recordings.
+
+## BUG-088 Cancelling a PDF export during rasterization never calls back
+
+Old code: chunk.vendor.js module 1406, GPDFExport.export, the
+`if (E.isAbort()) return` in the raster loop (around 251600-251610), and
+the document promise that abort rejects (module 1428).
+
+- Reproduce: export to PDF a page with elements the exporter rasterizes
+  (shadows, blurs, gradients it can't write natively) and press Cancel in
+  the export dialog while they are rasterized.
+- Old: after the abort the raster loop returned without ending its job or
+  finishing the page, so the export never reached its end: the callback
+  was never called and the dialog's close never ran. An abort between
+  pages went on to the end and called back with an undefined error and no
+  bytes (taken as "aborted"), so whether the dialog closed depended on
+  when Cancel was pressed. The abort also rejected the document promise
+  before anything listened to it, an unhandled rejection.
+- New: an abort in the raster loop ends the job and goes on to the end of
+  the export like an abort between pages: the callback runs once with an
+  undefined error and no bytes, and no further node or page is exported.
+  The document marks its promise's rejection as expected, so the abort is
+  no longer reported as unhandled; the export still sees it when it
+  writes.
+- Test: src/io/export/pdf/pdf-export.test.ts, "calls back once without
+  bytes after an abort while nodes are rasterized (BUG-088)" (fails with
+  the old loop: no callback; and with the old document alone: an
+  unhandled rejection).
+- Parity exceptions: none. No recorded scenario cancels an export.

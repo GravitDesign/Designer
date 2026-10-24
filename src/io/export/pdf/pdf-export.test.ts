@@ -208,10 +208,15 @@ describe("PDFExport.export error and abort paths", () => {
     expect(progress).toEqual([0, 25]);
   });
 
-  it("never calls back after an abort while nodes are rasterized (kept hang)", async () => {
+  it("calls back once without bytes after an abort while nodes are rasterized (BUG-088)", async () => {
     const running: { document?: PDFDocument } = {};
+    const unhandled: unknown[] = [];
+    const onUnhandled = (reason: unknown) => unhandled.push(reason);
+    process.on("unhandledRejection", onUnhandled);
+    // A plain abort, as the dialog's Cancel does: nothing marks the
+    // rejection handled from outside.
     const raster = vi.spyOn(PDFRasterFallback.prototype, "export").mockImplementation(() => {
-      abortHandled(running.document as PDFDocument);
+      (running.document as PDFDocument).abort();
       return Promise.resolve(undefined);
     });
     const { scene, page, layer } = newPage(100, 100);
@@ -221,9 +226,15 @@ describe("PDFExport.export error and abort paths", () => {
     const newPages = vi.spyOn(PDFDocument.prototype, "newPage");
     const callback = vi.fn();
     running.document = PDFExport.export([page, second], { dpi: 72, disableWorker: true }, callback);
-    await vi.waitFor(() => expect(raster).toHaveBeenCalled(), SETTLE);
-    await wait(100);
-    expect(callback).not.toHaveBeenCalled();
+    try {
+      await vi.waitFor(() => expect(callback).toHaveBeenCalled(), SETTLE);
+      await wait(50);
+    } finally {
+      process.off("unhandledRejection", onUnhandled);
+    }
+    // Once, with an undefined error and no bytes: "aborted".
+    expect(callback.mock.calls).toEqual([[undefined]]);
+    expect(unhandled).toEqual([]);
     // The raster loop stopped after the first node; no second page.
     expect(raster).toHaveBeenCalledTimes(1);
     expect(pagesOf(newPages, running.document)).toBe(1);

@@ -511,7 +511,16 @@ export class PDFExport {
               finishPage();
               return;
             }
-            if (document.isAbort()) return;
+            if (document.isAbort()) {
+              // Cancelled while rasterizing: end the job and go on to the
+              // end of the export, which calls back once without bytes, as
+              // an abort between pages does. The old loop just returned and
+              // the callback never came (BUGS-FIXED.md "BUG-088 Cancelling
+              // a PDF export during rasterization never calls back").
+              job.done();
+              done();
+              return;
+            }
             const rasterized = nodes[index] as ExportNode;
             try {
               if (!rasterized.isVisible()) {

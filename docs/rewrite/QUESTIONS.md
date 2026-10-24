@@ -1131,7 +1131,7 @@ What it does: after document.abort(), the node export and the raster loop return
 
 Why it's unclear: whether the dialog closes after Cancel depends on when Cancel was pressed.
 
-Kept. Pinned by "stops between pages after an abort and calls back without bytes" and "never calls back after an abort while nodes are rasterized (kept hang)" in next/src/io/export/pdf/pdf-export.test.ts.
+Fixed: see BUG-088 in BUGS-FIXED.md.
 
 ## Q-094 Multi-file export drops a file whose final name is taken
 

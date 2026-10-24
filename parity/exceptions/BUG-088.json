@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-088",
+  "why": "Cancelling a PDF export while nodes are rasterized calls back once without bytes, like a cancel between pages, and the abort is no longer an unhandled rejection. No recorded scenario cancels an export.",
+  "scenarios": [],
+  "pending": []
+}
