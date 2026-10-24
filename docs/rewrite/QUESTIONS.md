@@ -1151,7 +1151,7 @@ What it does: an item with an empty name is skipped without being counted, so on
 
 Why it's unclear: looks like an oversight; the export just hangs.
 
-Kept. Pinned by next/src/io/export/exporter.test.ts "never calls onDone when an item has no name (old behaviour)".
+Fixed: see BUG-094 in BUGS-FIXED.md.
 
 ## Q-096 Fallback ZIP is lost when the storage can't download
 

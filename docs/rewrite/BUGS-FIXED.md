@@ -2456,3 +2456,23 @@ Old code: designer.browser.dev.js module 1253, GExporter.exportToDirectory
   have no repeated names and give the same output;
   import-export/meta/export-names records the single-name helper, which
   is unchanged.
+
+## BUG-094 A directory or ZIP export never finishes when an item has no name
+
+Old code: designer.browser.dev.js module 1253, GExporter.exportToDirectory
+(lines 80664-80725).
+
+- Reproduce: export several items into a folder or ZIP where one item's
+  name is empty after cleaning, for example a layer named with spaces
+  only.
+- Old: the item was skipped without being counted, so the count of
+  written files never reached the number of items: onDone never ran, the
+  ZIP was never saved and the export dialog waited.
+- New: such an item is exported under its element's type name (as an
+  unnamed layer is), numbered like any other name, so every item is
+  written and the export finishes.
+- Test: src/io/export/exporter.test.ts, "exports an item without a name
+  under its type name and finishes (BUG-094)" (fails with the old loop:
+  onDone never runs and the file is missing).
+- Parity exceptions: none. No recorded scenario exports an item without a
+  name.

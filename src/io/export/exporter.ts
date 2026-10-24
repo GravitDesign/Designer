@@ -146,6 +146,12 @@ const DOCUMENT_FILE_TYPES: readonly ExportFileType[] = [
 
 const PDF_TYPE: ExportFileType = { ext: "pdf", mime: "application/pdf" };
 
+/** The name of an export item that has none: its element's type name. */
+function fallbackName(exportable: Exportable): string {
+  const element = exportable.element as { getNodeNameTranslated?(): string } | null;
+  return (element && element.getNodeNameTranslated && element.getNodeNameTranslated()) || "Export";
+}
+
 /**
  * A layer name as the user typed it: names are stored with "<" and ">"
  * escaped (Block's name filter), which the old exporter put into file
@@ -423,8 +429,8 @@ export class Exporter {
   /**
    * Exports every item into `directory`. "/" in a name makes
    * subdirectories (reused case-insensitively). `onDone` runs once every
-   * item is written; an item without a name is skipped and then `onDone`
-   * never runs (old behaviour).
+   * item is written; an item without a name is written under its
+   * element's type name.
    */
   static async exportToDirectory(
     exportables: Exportable[],
@@ -480,39 +486,45 @@ export class Exporter {
       const exportable = exportables[i] as Exportable;
       let name: string | null | undefined = exportable.name;
       let target: ExportDirectory = directory;
-      if (name) {
-        if (name.indexOf("/") >= 0) {
-          const parts: string[] = [];
-          for (const part of fileNameOf(name).split("/")) {
-            const cleaned = sanitizeFilename(part.trim());
-            if (cleaned) parts.push(cleaned);
-          }
-          if (parts.length > 1) {
-            name = parts.pop() as string;
-            let path = "";
-            for (const part of parts) {
-              if (path) path += "/";
-              path += part.toLowerCase();
-              const existing = directories[path];
-              if (existing) target = existing;
-              else {
-                try {
-                  target = await target.addDirectory(part);
-                  directories[path] = target;
-                } catch {
-                  // Keep writing into the parent.
-                }
+      // An item whose name is empty (or only spaces or dots, which
+      // sanitizing removes) is exported under its element's type name. The
+      // old code skipped it without counting it, so onDone and with it the
+      // ZIP save never came (BUGS-FIXED.md "BUG-094 A directory or ZIP export
+      // never finishes when an item has no name").
+      const fallback = () => fallbackName(exportable);
+      if (!name || !name.trim()) name = fallback();
+      if (name.indexOf("/") >= 0) {
+        const parts: string[] = [];
+        for (const part of fileNameOf(name).split("/")) {
+          const cleaned = sanitizeFilename(part.trim());
+          if (cleaned) parts.push(cleaned);
+        }
+        if (parts.length > 1) {
+          name = parts.pop() as string;
+          let path = "";
+          for (const part of parts) {
+            if (path) path += "/";
+            path += part.toLowerCase();
+            const existing = directories[path];
+            if (existing) target = existing;
+            else {
+              try {
+                target = await target.addDirectory(part);
+                directories[path] = target;
+              } catch {
+                // Keep writing into the parent.
               }
             }
-          } else if (parts.length) name = parts[0] as string;
-        } else name = sanitizeFilename(fileNameOf(name).trim());
-        if (name && target) {
-          Exporter.exportExportable(
-            exportable,
-            writeInto(target, freeName(target, exportable, name)),
-            progress,
-          );
-        }
+          }
+        } else if (parts.length) name = parts[0] as string;
+      } else name = sanitizeFilename(fileNameOf(name).trim());
+      if (!name) name = fallback();
+      if (target) {
+        Exporter.exportExportable(
+          exportable,
+          writeInto(target, freeName(target, exportable, name)),
+          progress,
+        );
       }
     }
   }

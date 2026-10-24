@@ -414,14 +414,22 @@ describe("Exporter.exportToDirectory", () => {
     });
   });
 
-  it("never calls onDone when an item has no name (old behaviour)", async () => {
+  it("exports an item without a name under its type name and finishes (BUG-094)", async () => {
     const zip = new ZipDirectory();
     let done = 0;
-    await Exporter.exportToDirectory([item("A"), { ...item("B"), name: "" }], zip, () => done++);
+    await Exporter.exportToDirectory(
+      [item("A"), { ...item("B"), name: "" }, { ...item("C"), name: " " }],
+      zip,
+      () => done++,
+    );
     await settle();
-    expect(exported).toHaveLength(1);
-    expect(Object.keys(await zipContents(await zipOf(zip)))).toEqual(["A.png"]);
-    expect(done).toBe(0);
+    expect(exported).toHaveLength(3);
+    expect(Object.keys(await zipContents(await zipOf(zip))).sort()).toEqual([
+      "A.png",
+      "Rectangle(2).png",
+      "Rectangle.png",
+    ]);
+    expect(done).toBe(1);
   });
 
   it("numbers a file on until its final name is free (BUG-093)", async () => {
