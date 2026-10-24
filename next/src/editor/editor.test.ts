@@ -236,23 +236,24 @@ describe("Editor", () => {
     expect(editor.getUndoStateName()).toBe("Transform Selection");
   });
 
-  // Pins the old crash (BUGS-FIXED candidate "Toggle marquee over a
-  // highlighted selected node throws").
-  it("throws like the old code when a toggle marquee meets a highlighted selected node", () => {
+  it("BUG-040: a toggle marquee over a highlighted selected node unhighlights it and goes on", () => {
     const { editor } = setup();
     const a = rect(0, "a");
-    editor.insertElements([a], true);
+    const b = rect(20, "b");
+    editor.insertElements([a, b], true);
+    editor.updateSelection(false, [a]);
     a.setFlag(NodeFlag.Highlighted);
     const everything = { rewindVertices: () => false, readVertex: () => false };
-    expect(() => editor.highlightSelectablesUnderCollision(true, [a], everything)).toThrow(
-      ReferenceError,
-    );
-    a.removeFlag(NodeFlag.Highlighted);
-    const b = rect(20, "b");
-    editor.insertElements([b], true);
+    editor.highlightSelectablesUnderCollision(true, [a, b], everything);
+    // a is selected, so the toggle marquee drops its highlight; b comes
+    // after it and still gets highlighted.
+    expect(a.hasFlag(NodeFlag.Highlighted)).toBe(false);
+    expect(b.hasFlag(NodeFlag.Highlighted)).toBe(true);
+    const c = rect(40, "c");
+    editor.insertElements([c], false);
+    c.setFlag(NodeFlag.Highlighted);
     editor.highlightSelectablesUnderCollision(true, [a], everything);
-    // b is outside the marquee list: its highlight goes; a is selected, so
-    // a toggle marquee doesn't highlight it.
-    expect(b.hasFlag(NodeFlag.Highlighted)).toBe(false);
+    // c is outside the marquee list: its highlight goes.
+    expect(c.hasFlag(NodeFlag.Highlighted)).toBe(false);
   });
 });

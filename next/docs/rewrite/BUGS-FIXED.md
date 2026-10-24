@@ -847,3 +847,23 @@ at 92322).
   editor-actions/shortcuts/modify (modify.path2bmp case),
   editor-actions/clipboard/paste-events (paste.paste) and
   editor-actions/dnd/drops (png-file, two-files).
+## BUG-040 Toggle marquee over a highlighted selected node throws
+
+Old code: chunk.vendor.js module 82 (GEditor
+highlightSelectablesUnderCollision), line 20723.
+
+- Reproduce: select an element, Shift-drag a marquee over it, release
+  Shift during the drag and press it again.
+- Old: when a toggle marquee reaches a selected element that is still
+  highlighted, the old code removed the highlight and then ran
+  `removeFlag++` on an undeclared global, which throws a ReferenceError.
+  Every following pointer move threw again, the elements after it in the
+  scene were never visited, and the highlight stopped updating.
+- New: the highlight is removed and the element stays selected, as the
+  surrounding code means; the rest of the scene is updated as usual.
+- Test: src/editor/editor.test.ts, "BUG-040: a toggle marquee over a
+  highlighted selected node unhighlights it and goes on" (fails with the
+  old code: ReferenceError: removeFlag is not defined).
+- Parity exceptions: none. No recorded scenario toggles a marquee over a
+  highlighted selected element (the pointer/marquee-* scenarios release
+  the marquee without changing Shift mid-drag).

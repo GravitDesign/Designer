@@ -1489,14 +1489,10 @@ export class Editor extends EventTarget {
               if (!(this._selectionDetail && !node.isFullUnderCollision(area))) {
                 if (toggle && node.hasFlag(NodeFlag.Selected)) {
                   keptSelected = true;
-                  if (node.hasFlag(NodeFlag.Highlighted)) {
-                    node.removeFlag(NodeFlag.Highlighted);
-                    // The old code incremented an undeclared global here
-                    // (`removeFlag++`), which throws a ReferenceError. Kept
-                    // until the coordinator's fix (BUGS-FIXED candidate "Toggle
-                    // marquee over a highlighted selected node throws").
-                    throw new ReferenceError("removeFlag is not defined");
-                  }
+                  // The old code incremented an undeclared global here
+                  // (`removeFlag++`) and threw (BUG-040 Toggle marquee over a
+                  // highlighted selected node throws).
+                  if (node.hasFlag(NodeFlag.Highlighted)) node.removeFlag(NodeFlag.Highlighted);
                 } else node.setFlag(NodeFlag.Highlighted);
               }
             }
