@@ -1193,7 +1193,7 @@ What it does: replaceChild is meant to put an override layer (or nothing) in pla
 
 Why it's unclear: image overrides and nested-symbol overrides replace or remove the wrong layer, or none. A fix would replace the matching child at its own index and only search deeper when it isn't a direct child.
 
-Kept. next/src/io/import/sketch/sketch-base.ts replaceChild. Pinned by sketch-model.test.ts "replaces the first child when the layer is not a direct child (old inverted test)" and the parity scenarios io-import-sketch/symbols-v49 (I-scaled, I-remove) and symbols-edge-v49.
+Fixed: see BUG-104 in BUGS-FIXED.md.
 
 ## Q-100 Sketch path event blocks are unbalanced
 

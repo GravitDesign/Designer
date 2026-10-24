@@ -57,10 +57,35 @@ describe("SketchBase", () => {
     expect(root.findSymbol("none")).toBeUndefined();
   });
 
-  it("replaces the first child when the layer is not a direct child (old inverted test)", () => {
+  it("replaces a direct child at its index (BUG-104)", () => {
     const file = fakeFile();
     const root = new SketchBase(
-      layer("root", { layers: [layer("a"), layer("b", { layers: [layer("deep")] })] }),
+      layer("root", { layers: [layer("a"), layer("b"), layer("c")] }),
+      file,
+      null,
+    );
+    root.parse();
+    const replacement = new SketchBase(layer("new"), file, root);
+    const b = root.getChildren()[1] as SketchBase;
+    expect(root.replaceChild(b, replacement)).toBe(true);
+    expect(root.getChildren().map((c) => (c === replacement ? "new" : c.getId()))).toEqual([
+      "a",
+      "new",
+      "c",
+    ]);
+    expect(root.replaceChild(root.getChildren()[0] as SketchBase, null)).toBe(true);
+    expect(root.getChildren().map((c) => (c === replacement ? "new" : c.getId()))).toEqual([
+      "new",
+      "c",
+    ]);
+  });
+
+  it("replaces a deeper layer in its own parent (BUG-104)", () => {
+    const file = fakeFile();
+    const root = new SketchBase(
+      layer("root", {
+        layers: [layer("a", { layers: [layer("a1")] }), layer("b", { layers: [layer("deep")] })],
+      }),
       file,
       null,
     );
@@ -68,12 +93,19 @@ describe("SketchBase", () => {
     const replacement = new SketchBase(layer("new"), file, root);
     const deep = root.findSymbol("deep") as SketchBase;
     expect(root.replaceChild(deep, replacement)).toBe(true);
-    expect(root.getChildren()[0]).toBe(replacement);
-    expect(root.getChildren()[1]?.getId()).toBe("b");
-    // A direct child is searched for further down instead, and stays.
-    const b = root.getChildren()[1] as SketchBase;
-    root.replaceChild(b, null);
-    expect(root.getChildren()).toContain(b);
+    expect(root.getChildren().map((c) => c.getId())).toEqual(["a", "b"]);
+    const [a, b] = root.getChildren() as SketchBase[];
+    expect(a?.getChildren().map((c) => c.getId())).toEqual(["a1"]);
+    expect(b?.getChildren()).toEqual([replacement]);
+  });
+
+  it("replaces nothing for a layer it doesn't hold (BUG-104)", () => {
+    const file = fakeFile();
+    const root = new SketchBase(layer("root", { layers: [layer("a"), layer("b")] }), file, null);
+    root.parse();
+    const other = new SketchBase(layer("other"), file, null);
+    expect(root.replaceChild(other, null)).toBe(false);
+    expect(root.getChildren().map((c) => c.getId())).toEqual(["a", "b"]);
   });
 
   it("throws while creating the children when a layer's class is the paint base class", () => {

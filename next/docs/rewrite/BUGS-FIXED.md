@@ -1407,3 +1407,38 @@ effect classes).
   hidden, and an inner shadow) where the old one had only the empty list's
   id; checked with a diff of the expanded JSON. No other enabled Sketch
   fixture has effects; the whole io-import-sketch suite passes otherwise.
+
+## BUG-104 Sketch overrides replace the wrong layer
+
+Old code: chunk.vendor.js module 796 (sketchbase), replaceChild (lines
+109568-109583), called by the symbol instance's override handling
+(module 1140).
+
+- Reproduce: open a Sketch file with symbol instances that override an
+  image or a nested symbol, or remove a nested symbol
+  (parity/fixtures/import/sketch/symbols-v49.sketch: I-scaled, I-nested,
+  I-remove).
+- Old: the test in replaceChild was inverted. When the overridden layer
+  was not a direct child, the first direct child was replaced (the index
+  was never set, and `splice(undefined, 1, ...)` starts at 0); when it was
+  a direct child, the search went on in the children instead. So the image
+  override of I-scaled replaced the background shape with a second
+  picture, the nested override of I-nested replaced the oval with a second
+  copy of the nested symbol, and I-remove removed the oval and kept the
+  symbol it should have removed (QUESTIONS.md Q-099).
+- New: replaceChild replaces the matching direct child at its own index
+  (or removes it), searches the children only when it isn't one, and
+  reports whether it found the layer. I-scaled keeps its background and
+  shows the second image in its picture, I-nested has the oval and the
+  nested symbol with its text override, I-remove has the oval only.
+- Test: src/io/import/sketch/sketch-model.test.ts, "replaces a direct
+  child at its index (BUG-104)", "replaces a deeper layer in its own
+  parent (BUG-104)" and "replaces nothing for a layer it doesn't hold
+  (BUG-104)" (all three fail with the old test).
+- Parity exceptions: parity/exceptions/BUG-104.json,
+  io-import-sketch/symbols-v49, symbols-v49-ignore-symbol-page and
+  symbols-v49-late-fonts. The `.fixed` files equal the old recordings
+  except in the instances I-scaled, I-nested and I-remove on Page 1 (and
+  the renumbered ids after them), where they hold the layers described
+  above; checked with a layer tree (class, name, fill kind) of old and new
+  output. symbols-edge-v49 does not change.

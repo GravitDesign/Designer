@@ -1,0 +1,10 @@
+{
+  "bug": "BUG-104",
+  "why": "Sketch symbol overrides replace or remove the layer they name, not the first layer of the wrong parent. The .fixed files equal the old output except in the instances I-scaled (background kept, second image in the picture), I-nested (oval kept next to the overridden nested symbol) and I-remove (nested symbol removed, oval kept).",
+  "scenarios": [
+    "io-import-sketch/symbols-v49",
+    "io-import-sketch/symbols-v49-ignore-symbol-page",
+    "io-import-sketch/symbols-v49-late-fonts"
+  ],
+  "pending": []
+}

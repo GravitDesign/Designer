@@ -78,26 +78,21 @@ export class SketchBase extends SketchParser<SketchLayerData> {
   }
 
   /**
-   * Meant to put `replacement` (or nothing) in the place of `child`. The
-   * old test is inverted (QUESTIONS.md "Sketch symbol override
-   * replaceChild test is inverted"): when `child` is not among the
-   * direct children, the first child is replaced; when it is, the search
-   * goes on in the children and usually replaces nothing.
+   * Puts `replacement` (or nothing) in the place of `child`, a direct
+   * child or one further down; true when it was found. The old test was
+   * inverted and replaced the first child of the first layer that did not
+   * hold `child` ("Sketch overrides replace the wrong layer" in
+   * BUGS-FIXED.md).
    */
-  replaceChild(child: SketchBase, replacement: SketchBase | null): boolean | undefined {
-    const found = this.getChildren().some((candidate) => candidate.getId() === child.getId());
-    if (!found) {
-      // The index was never set, and splice(undefined, ...) starts at 0.
-      if (replacement) this.getChildren().splice(0, 1, replacement);
-      else this.getChildren().splice(0, 1);
+  replaceChild(child: SketchBase, replacement: SketchBase | null): boolean {
+    const children = this.getChildren();
+    const index = children.findIndex((candidate) => candidate.getId() === child.getId());
+    if (index >= 0) {
+      if (replacement) children.splice(index, 1, replacement);
+      else children.splice(index, 1);
       return true;
     }
-    const children = this.getChildren();
-    const count = children.length;
-    for (let i = 0; i < count; i++) {
-      if ((children[i] as SketchBase).replaceChild(child, replacement)) return true;
-    }
-    return undefined;
+    return children.some((candidate) => (candidate as SketchBase).replaceChild(child, replacement));
   }
 
   hasResizeFlag(flag: number): boolean {
