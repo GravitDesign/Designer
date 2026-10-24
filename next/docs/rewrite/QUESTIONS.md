@@ -3901,3 +3901,555 @@ What it does: init starts loading the profile and nobody waits for it. CMYK colo
 Why it's unclear: whether a CMYK colour right after start uses the profile depends on load timing (engine-model/colors/gradients raced under load).
 
 Changed in timing only: Designer.init keeps the call (loadsCmykProfile, set by boot) and boot resolves after the request finished (Designer.whenCmykProfileLoaded). No second request.
+
+<!-- Removed features (phase 7 review, phase 8, brand) -->
+
+## Q-330 The empty persona section in the header
+
+Old location: designer.browser.dev.js module 1500 (GHeader.init) and
+module 1502 (the persona bar).
+
+What it does: the header has `.section.persona` with the persona bar in
+it. The stylesheet gives `#header > .section.persona` flex-grow, so the
+section pushes the document tabs to the right end of the header.
+
+Why it's unclear: the section is named after the removed persona bar, but
+it is also the header's only spacer, and no app CSS may be added.
+
+Kept. src/app/menus/header.ts keeps the empty section (header.test.ts
+checks it has no children); the persona bar inside it is gone
+(REMOVED.md DROP-003).
+
+## Q-331 The old app variant for the comments sidebar
+
+Old location: designer.browser.dev.js module 10 (the app config),
+`HAS_ANNOTATIONS`.
+
+What it does: the switch registers the annotations sidebar and turns on
+the commenting code. With it off the old app has no comments tab row, so
+its inspector sits where the new app's does.
+
+Why it's unclear: removing the 32 px tab row moves the inspector, and
+round borders and circles then antialias differently, so a shifted old
+shot is not pixel-equal to the new one. Checking those shots needed a
+reference the old app renders itself.
+
+Kept as a harness feature: parity/support/old-variants.ts serves the old
+bundle with the switch off, and suite.ts runs "old app variants" tests
+that require it to produce DROP-006's `.fixed` files. The switch also
+leaves the annotations layer out of new documents, which the new app
+still creates, so the variant is used only for scenarios that don't
+record a document.
+
+## Q-332 Licence cookies in ui/storage/after-startup
+
+Old location: designer.browser.dev.js module 1483 (the bootstrap): the
+`_gcoupon`, `_gdesignerv`, `_gdt` and `_ginst` cookies, and the
+`last_update_check` and `old_version` localStorage keys.
+
+What it does: the old app writes these at startup.
+
+Why it's unclear: the cookies belong to the dropped licence and
+analytics, but the two keys belong to the software update check, which
+phase 8 ports. The scenario mixes both, so it isn't a DROP case yet.
+
+Not changed. Once the update check is ported, the cookies can get a DROP
+entry (rule: drop the four cookie names).
+
+<!-- Platform (phase 7 review, phase 8, brand) -->
+
+## Q-333 User guide videos served as application/mp4
+
+Old location: server.js `express.static(path.join(__dirname, "docs"))`; the
+content type comes from the mime-types 2 table bundled with the old
+Express.
+
+What it does: /docs/images/*.mp4 (the guide's videos) are served with
+`Content-Type: application/mp4`. The mime table of the current Express
+says `video/mp4`, which is the usual type for a video file.
+
+Why it's unclear: it is a quirk of an old dependency, not of the app.
+Browsers play the videos either way.
+
+Kept. server/app.ts sets application/mp4 for .mp4 under /docs; pinned by
+platform/docs/routing and the "serves the guide's videos as
+application/mp4" test in server/app.test.ts.
+
+## Q-334 First start takes the newest old session's settings
+
+Old location: electron-main.js of the released desktop builds 1.0.0 and
+1.0 (`listen(0)`), fixed later by #6 (port 47823).
+
+What it does: the released old desktop app got a new random port, and so a
+new, empty storage origin, on every launch. Its profile holds one set of
+localStorage and IndexedDB data per launch. The new app's first start
+(electron/migration.ts, src/app/migration/plan.ts) takes each kept
+localStorage key (settings, swatches and the other LocalStorageKeys) from
+the newest old origin that has it, and every imported font from every old
+origin, extending the font list. Builds from the repo since #6 already used
+port 47823, so their data carries over without any copying; then only
+fonts from older random-port origins are added.
+
+Why it's unclear: the user never saw the older sessions' data again in the
+old app, so "take over" could mean only the last session (what users last
+saw) or everything ever stored. Settings and swatches come from the last
+session that had them; fonts come from all sessions, because an imported
+font is something the user chose to keep.
+
+Kept as described. Pinned by src/app/migration/plan.test.ts and the "new
+desktop app: first start after the released old app" test in
+parity/scenarios/electron/desktop.spec.ts (a real profile of release 1.0,
+src/app/migration/fixtures/old-release-profile).
+
+## Q-335 No recent files to take over from the old desktop app
+
+Old location: designer.browser.dev.js GDesigner.addToRecentFiles (module
+1491) and electron-main.js.
+
+What it does: the old desktop app reported the browser runtime, so
+addToRecentFiles did nothing for local files, and its main process kept no
+list either (no app.addRecentDocument, no file of its own). File > Open
+Recent always says "No Recent Files" (parity electron/app-menu,
+platform/files/recent-files).
+
+Why it's unclear: the user asked for the recent files list to be taken
+over, but the old desktop app never had one.
+
+Kept: nothing to migrate. If the new app should keep a recent files list in
+the desktop app, that is a new feature.
+
+## Q-336 Desktop updates on the portable exe and on macOS
+
+Old location: none (the old desktop app had no updater).
+
+What it does: electron/updater.ts drives electron-updater against the
+GitHub releases of GravitDesign/designer. electron-updater updates the
+NSIS install, the AppImage and the deb. It can't replace the portable exe,
+so the portable build answers a check with an error message. On macOS it
+needs a signed app and a zip artifact, which the dmg-only, unsigned build
+doesn't have, so checks fail there with electron-updater's error.
+
+Why it's unclear: the targets are the old ones (dmg only, no signing), and
+adding a mac zip target or signing changes the release.
+
+Kept the old targets. Adding `{ "target": "zip", "arch": ["x64", "arm64"] }`
+to mac.target and a signing identity would make mac updates work.
+
+<!-- Shell, documents, actions (phase 7 review) (phase 7 review, phase 8, brand) -->
+
+## Q-337 The annotation tools go with the comments sidebar
+
+Old location: designer.browser.dev.js, the annotations sidebar (bootstrap
+module 1483, `HAS_ANNOTATIONS`) and its toolbar, which held the
+annotation tools (rectangle, ellipse, arrow, pencil, highlighter, comment
+note).
+
+What it does: the comments sidebar was the only way into the review mode
+and its tools; they are not in the tool table, the toolbar or the
+shortcuts.
+
+Why it's unclear: the removed-features pass dropped the sidebar (DROP-006)
+but left open whether the tools go with it (see "The annotation tools and
+their scenarios" in questions-draft-RF.md, which this entry answers).
+
+Decided by the user (2026-10-24): the tools go with the sidebar. Documents
+with annotations still load, render and save. REMOVED.md DROP-009; the 26
+editor-tools/annotations/* scenarios of the review mode run
+`removedInNewApp` checks (parity/scenarios/editor-tools/annot.spec.ts:
+no sidebar tab, annotations toolbar, tool icon or comments row, no
+annotation action, no letter or digit key that activates an annotation
+tool). The tool table has no annotation tool (bootstrap.test.ts) and
+canActivateTool blocks nothing.
+
+## Q-338 Opening a file without an extension throws
+
+Old location: designer.browser.dev.js module 1491
+(GDesigner._processOpenDocument), `e.ext.toUpperCase() === n.toUpperCase()`
+with `n = item.getExtension()`.
+
+What it does: for a file whose name has no extension ("README"),
+getExtension() is null and the lookup of the image formats throws a
+TypeError out of openDocument. Nothing is opened and no message is shown.
+A file with an unknown extension gets text.unsupported-file-extension.
+
+Why it's unclear: it is a crash; the message for unknown extensions is
+clearly what was meant. BUGS-FIXED candidate.
+
+Kept. src/app/shell/designer.ts _processOpenDocument; pinned by "throws
+for a file without an extension, as the old app did" in
+src/app/shell/designer.test.ts.
+
+## Q-339 Which browsers get the unsupported-browser notice
+
+Old location: designer.browser.dev.js module 1483 (the bootstrap, lines
+119293-119322) and module 1491 (_initBrowserSupported, isBrowserSupported,
+the call in init).
+
+What it does: the bootstrap sets the supported lists by the build flag
+isCorel (module 803). That flag is false in this build, so the lists are
+Chrome, Firefox, Safari and Edge on the desktop, and Chrome on Android
+(GSystem Unix) and Safari on iOS on tablets. Any other browser, and every
+phone, gets a one-time notice.
+
+Why it's unclear: the phase 7 review read the Corel branch (no desktop
+Safari). The other branch is the one this build runs.
+
+Kept as the old build ran it: SUPPORTED_BROWSERS and
+SUPPORTED_TABLET_BROWSERS in src/app/shell/bootstrap.ts; pinned by the
+"unsupported-browser notice" tests in src/app/shell/designer.test.ts.
+
+## Q-340 The old bundle files in the platform/server scenarios
+
+Old location: public/index.html and the old build's files next to it
+(jquery.js, chunk.vendor.js, designer.browser.js, designer.browser.dev.js,
+the workers, cacher.js, service-worker.js, static.css, proxy.html).
+
+What it does: platform/server/static-files and index-references record
+how the old server serves those files and that index.html loads them.
+
+Why it's unclear: the Vite build has its own hashed bundles under
+/bundle, so the old names can't match; serving copies of the old build
+would only hide that.
+
+Decided closest to the old behaviour: the files the new build still has
+under the old names (the pages, both theme stylesheets, the favicon, the
+manifest, the 512 px icon, the icon font) must answer exactly as before,
+every other old file must answer 404, and the new index.html must load
+only files that exist, none of them an old bundle file, with the old
+stylesheet and manifest links kept. REMOVED.md DROP-011; the two
+scenarios run `removedInNewApp` checks (parity/scenarios/platform/server.spec.ts).
+
+## Q-341 The online probe at start
+
+Old location: designer.browser.dev.js module 1483, `const co =
+gDesigner.isOfflineAsync()` (line 119250), read only at line 120172 by
+the Electron start to open the sign-in.
+
+What it does: one `HEAD /connection/test` while the app starts
+(platform/server/online-probe).
+
+Why it's unclear: the probe looks like part of the online detection, but
+its result fed only the dropped sign-in. The rest of the online detection
+(font providers retried when the network comes back, R7-B-031) works on
+the window online and offline events and sends no probe.
+
+Decided: the probe is dropped with the sign-in. REMOVED.md DROP-012; the
+scenario checks that the new app sends no probe at start (`removedInNewApp`).
+The /connection/test route stays (platform/server/connection-test).
+
+## Q-342 An import error shows an empty message dialog
+
+Old location: designer.browser.dev.js module 163 (GDocument's PDF, EPS,
+SVG and Sketch import callbacks, `new GMessageDialog(e).open()`) and
+module 219 (GMessageDialog, `$("<span/>").html(e)`).
+
+What it does: when an importer reports an error object (a broken PDF
+gives pdf.js's InvalidPDFException), the message dialog gets that object.
+jQuery's .html() shows nothing for a value that is neither a string nor a
+node, so the dialog has only its OK button.
+
+Why it's unclear: the dialog was meant to say what went wrong; an empty
+dialog looks broken. BUGS-FIXED candidate.
+
+Kept. src/app/document/document-host.ts documentDialogs().message passes
+"" for a non-string; pinned by import-export/import/open/pdf-broken.pdf.state
+and src/app/document/document-host.test.ts.
+
+<!-- Menus, widgets, dialogs, fonts (phase 7 review) (phase 7 review, phase 8, brand) -->
+
+## Q-343 Menu captions and tab titles are text
+
+Old location: designer.browser.dev.js module 339 (GMenuItem.setCaption, `t.html(...)`, around 14297) and module 1500 (GHeader._addWindowTab and _documentEvent, `.html(e.getTitleWithExtension())`, around 128586 and 128677).
+
+What it does: the old menu item inserted string and locale captions as HTML, and the header set the tab title the same way. A layer or file named `<b>x</b>` or `a&amp;b` showed bold or decoded.
+
+Why it's unclear: the markup came from user data (file and layer names), so this looks accidental, but it is a visible difference.
+
+Changed to text. src/app/menus/menu-item.ts setCaption and src/app/menus/header.ts (_addWindowTab and _documentEvent) use textContent. Pinned by menu.test.ts "shows captions as text and icons as an <i> with the class names".
+
+## Q-344 The touch save menu has two empty rows
+
+Old location: designer.browser.dev.js module 1543 (_createSaveButtonGroup, around 142790-142805).
+
+What it does: the touch toolbar's Save dropdown lists save-as for the default format, then GGravitCloudAction "gravit-cloud.save-as" and GCloudSynchronizationAction "sync". Neither cloud action is registered in the local app, so getAction gives null and createAddItem(null) adds an empty row for each.
+
+Why it's unclear: the empty rows look like a leftover of the cloud build rather than intended UI.
+
+Kept. src/app/toolbar/zoom-menu.ts _createSaveButtonGroup looks up both ids; pinned by zoom-menu.test.ts "gives the save menu the default save as and two empty rows for the cloud actions".
+
+## Q-345 Renaming clears the field before removing it
+
+Old location: designer.browser.dev.js module 1695 (gAutoEdit close, 165985-165988).
+
+What it does: the old close removed the input first, then set input and value to null. Chromium fires blur on a focused input as it is removed, but jQuery's remove() unbinds the handlers before it detaches the node, so the old blur handler never ran then.
+
+Why it's unclear: with native listeners the old order would run a nested submit from that blur (two renames on Enter, and Escape submitting a changed name). Clearing first keeps the old outcome: one rename on Enter, a real cancel on Escape.
+
+Kept. src/app/widgets/auto-edit.ts close() clears the fields before input.remove(); src/app/widgets/auto-edit.test.ts fires blur from remove() and expects one submit on Enter and none on Escape.
+
+## Q-346 Settings rounding box shows NaN for text
+
+Old location: designer.browser.dev.js module 1275 (GSettingsDialog._createDecimalsNum, the change handler).
+
+What it does: the decimals box's change handler parses the typed text with GUtil.parseNumber, clamps it to 0..6 and writes back `null !== t ? formatNumber(t, 0) : "2"`. parseNumber returns NaN, never null, for text, so typing "abc" shows "NaN", and the "2" fallback never runs. Save then skips the NaN and stores null (rounding off) although the switch is on.
+
+Why it's unclear: the fallback suggests "2" was meant for invalid input, but the old code never reaches it.
+
+Kept. src/app/settings/settings-dialog.ts (_decimals onBoxChange); settings.test.ts "clamps the typed rounding to 0..6; text gives NaN as in the old dialog".
+
+## Q-347 Recent file names on the welcome screen are text
+
+Old location: designer.browser.dev.js module 1544 (GNewDocumentDialog recent overlay, `.append(e.getName() + "." + ext)` at 143149).
+
+What it does: the old overlay appended the recent file's name as a string, which jQuery parses as HTML, so a file named `<b>a</b>.gvdesign` showed a bold "a". The new overlay renders the name as text.
+
+Why it's unclear: Q-262 keeps the HTML parsing for the notification panel, so the two places now differ. Text is the safer behaviour for file names, which users control.
+
+Changed: the name is text. src/app/welcome/welcome-screen-view.tsx (RecentDocumentsView).
+
+## Q-348 Go to master in the touch menu selects the instance
+
+Old location: designer.browser.dev.js module 1563, 149153-149212 (the "Go to master" entry of the touch symbol menu).
+
+What it does: it finds the first selected symbol instance that is neither locked nor a master, selects that instance (not its master), runs view.zoom.fit-selection and commits the transaction as "Go to Master".
+
+Why it's unclear: the caption promises to go to the master symbol, but the code only zooms to the instance that is already selected.
+
+Kept. src/app/touch/touch-context-menu.ts _goToMaster; pinned by touch.test.ts "selects the first unlocked instance and zooms to it in one transaction".
+
+## Q-349 Deleting an imported font twice runs both deletes at once
+
+Old location: designer.browser.dev.js module 1118, 67290-67395 (GImportedFontsProvider addPreviews, the trash icon's mouseup).
+
+What it does: after the confirm, the delete is pushed onto the family's _queue and run when the queue has one entry. It is taken off the queue before it runs, so a second confirmed delete also finds one entry and starts at once. Both delete the same files. The second one stops when it can't find the family in the formatted list, so FONT_LIST is written and the manager reset only once.
+
+Why it's unclear: the queue looks meant to run deletes one after the other, but it never waits.
+
+Kept. src/app/fonts/imported-fonts-provider.ts _confirmDelete; pinned by imported-fonts-provider.test.ts "starts a second delete of the family at once, which stops at the missing family".
+
+## Q-350 Font import gives up after about 50 tries
+
+Old location: designer.browser.dev.js module 1245 (GFontDBLoader.import, 80073-80106, and _prompt).
+
+What it does: while another import runs (or the font database isn't open yet), import() tries again every 100 ms. Its counter goes up twice per try, so it calls done and gives up after about 50 tries (5 seconds), not 100. The retries drop the options. Each picked file also sets the batch count back to the number of picked files before its own fonts are counted in.
+
+Why it's unclear: the doubled counter looks like a slip, but nobody sees the difference unless the database takes seconds to open.
+
+Kept. src/app/fonts/font-db-loader.ts import and _prompt; pinned by font-db-loader.test.ts "waits while busy and gives up after about 50 tries".
+
+## Q-351 Closing a document never releases its missing-fonts listener
+
+Old location: designer.browser.dev.js module 255 (releaseDocumentListener, 12262-12265) and module 1505 (GWindow.release, 129165).
+
+What it does: the window's release() called the font manager's releaseDocumentListener with `this._document.sessionId`, a number, but the function read `e.sessionId` from its argument, so it never found the document's DocumentStatusEvent listener. A document closed before it became ready keeps that listener on the font manager.
+
+Why it's unclear: the call shows the listener was meant to go away with the window; it never did.
+
+Kept. The new font manager has no releaseDocumentListener; src/app/shell/window.ts release() still calls it through an optional lookup that finds nothing, and the listeners live in src/app/dialogs/missing-fonts-dialog.ts (listenerFor).
+
+<!-- Inspector, colors, sidebars (phase 7 review) (phase 7 review, phase 8, brand) -->
+
+## Q-352 Touch add-to-swatches adds the current paint
+
+Old location: designer.browser.dev.js module 1657, initContextMenu (159143-159216).
+
+What it does: the touch chooser's long-press menu ("Add to document/global swatches") always clones the current paint. For a color or texture the pressed swatch's pattern is ignored and only its opacity is used. For a gradient, the first stop's color is set to the pressed swatch's whole pattern, which can itself be a gradient or texture. A long press on the hex box always adds the current paint to the document scope, also from "Add to global swatches".
+
+Why it's unclear: the menu reads like "add this swatch", but it adds something else, and the global item on the hex box writes to the document scope.
+
+Kept. next/src/app/color/pattern-chooser.ts initContextMenu; pinned by "TouchPatternChooser long-press menu (kept quirks)" in color-chooser.test.ts.
+
+## Q-353 Advanced texture settings open without the slide
+
+Old location: designer.browser.dev.js 68760 (desktop) and 159346 (touch), jQuery slideToggle() at 400 ms.
+
+What it does: the old chooser slid the advanced texture settings open and shut over 400 ms. The new one switches display between block and none at once.
+
+Why it's unclear: it's a visible animation that was dropped, so whether the snap is acceptable is a product decision.
+
+Kept as accepted (no animation), because the parity screenshots must not depend on animation timing. slideToggle in next/src/app/color/color-chooser.ts, used by both choosers; pinned by "toggles the advanced texture settings with the desktop Advanced button" and "toggles the advanced texture settings and the expand icon" in color-chooser.test.ts.
+
+## Q-354 Copy hint stays in the panel after its fade
+
+Old location: designer.browser.dev.js module 1162 (74092-74110), module 1163 (83312-83334), module 1262 (84874-84896).
+
+What it does: after a mouse-over copy of a border, fill or effect, the "copied" hint fades with `animate({opacity: 0, top: "+=20"}, 500, hint.remove)`. jQuery calls the complete callback with `this` set to the bare element, so jQuery's remove removes nothing. The span stays in the panel at opacity 0, 20 px lower, position absolute and z-index 999, until the next copy replaces it.
+
+Why it's unclear: the code clearly meant to remove the hint, and the invisible span catches clicks over that part of the panel.
+
+Kept. paint-dom.ts fadeCopyHint (swing easing, 500 ms), used by border-, fill- and effect-properties.ts; pinned by the "fades the hint out ... leaves it in the panel" tests in border-properties.test.ts, fill-properties.test.ts and effect-properties-rows.test.ts. BUGS-FIXED candidate.
+
+## Q-355 Copy hint throws without a selected row
+
+Old location: designer.browser.dev.js module 1162 (74092-74096), module 1163 (83314-83318), module 1262 (84877-84881).
+
+What it does: the border and fill hints read `find(".x-block.g-selected").position().top`. With no selected row, position() returns undefined and reading top throws, so no hint shows and the copy action stops after the copy. The effects hint does the same when the event target is outside an effect row; without an event it goes to top 0.
+
+Why it's unclear: it only happens with a stale active Border or Fill style, and it is an uncaught error in the copy path.
+
+Kept. border-properties.ts and fill-properties.ts _showCopyInfo, effect-properties.ts mouseenter callback; pinned by the "throws without a selected row" tests in border-properties.test.ts and fill-properties.test.ts, and "throws for an event outside an effect row" in effect-properties-rows.test.ts. BUGS-FIXED candidate.
+
+## Q-356 WebGL effect sliders commit on every move
+
+Old location: designer.browser.dev.js module 1262, number rows of the WebGL form (85328-85390).
+
+What it does: the slider's input handler assigns `shp` as a temporary change, then sets the row's unit box and triggers change. The box handler compares with the committed `shp` and commits a transaction, so every slider input event adds an undo step. The recolour hue slider also redraws the saturation slider twice per move (once from the slider, once from the box).
+
+Why it's unclear: the temporary assign suggests a single commit on release was intended.
+
+Kept. effect-forms.ts webGLForm; pinned by "transforms a slider value with the effect's transform, to three decimals" and "recolours the recolour effect's saturation slider" in effect-properties-rows.test.ts. BUGS-FIXED candidate.
+
+## Q-357 Unknown language tag stops the text panel update
+
+Old location: designer.browser.dev.js module 1273, GTextProperties._updateLanguageSelector (93378-93407).
+
+What it does: each language system tag of the font is named through GLocale.get("GBCP47LanguageTags", "text.lang." + bcp47). A tag without a BCP 47 code gives "text.lang.null", which has no string, so the name is undefined. The names are sorted with `e.name.localeCompare(t.name)`: when the undefined name is the left side of a comparison this throws, the select keeps only "Default" (enabled), and _updateProperties ends before _updateStylisticSetSelector, so the stylistic set select keeps its previous state. When the undefined name only ever sits on the right, it compares as "undefined" and the option gets an empty label.
+
+Why it's unclear: it looks like a missing fallback (the raw tag would be a natural label), and whether it throws depends on the tag order.
+
+Kept. text-properties.ts _updateLanguageSelector looks the name up with Locale.get and sorts with the same comparison; text-properties-panel.test.ts "the language select" pins both orders. BUGS-FIXED candidate.
+
+## Q-358 Line height unit switch writes NaN for text in the box
+
+Old location: designer.browser.dev.js module 1273, the `_plh_unit` click handler (91560-91624).
+
+What it does: from "%", the box is read with GUtil.parseNumber, which gives NaN (never null) for text that isn't a number. The `null !== r` check passes, the label switches to the document unit, and since NaN is a number every text gets the line height "NaN" in a "Modify Text Properties" step. From a length, text in the box is kept as a string and only the label flips.
+
+Why it's unclear: the null check suggests invalid input was meant to be ignored.
+
+Kept. text-properties.ts _createLineHeightField; text-properties-panel.test.ts "writes NaN for a percentage box that isn't a number (old bug)". BUGS-FIXED candidate.
+
+## Q-359 Paragraph spacing unit switch turns text into 0
+
+Old location: designer.browser.dev.js module 1273, the `_pas_unit` click handler (91750-91801).
+
+What it does: from a length, a box that GLength.parseEquation can't read leaves the value null. `!isNaN(null)` is true, so the spacing is recomputed from null and set to 0 % in a "Modify Text Properties" step. From "%", parseNumber gives NaN and nothing is written; in both directions the label flips.
+
+Why it's unclear: the isNaN check reads as "ignore invalid input", but null slips through.
+
+Kept. text-properties.ts _createParagraphSpacingField; text-properties-panel.test.ts "ignores text in a percentage box but sets 0 for text in a length box (old quirk)".
+
+## Q-360 Transform panel Enter turns negative moves into 0
+
+Old location: designer.browser.dev.js module 1660 (GTransformProperties._updateDisplayValues, 161317-161338).
+
+What it does: Enter in the move x or y box, or a decimals_num setting change, reformats both boxes with `isNaN(t) || t <= 0 || !t ? 0 : t`. A typed -10 becomes 0, so a left or up move only works when the user clicks Apply without pressing Enter first.
+
+Why it's unclear: moves are offsets and negative ones are valid; the check looks copied from the scale or copies boxes, which must be positive.
+
+Kept. src/app/inspector/transform-properties.ts _updateDisplayValues; pinned by "formats the move boxes on Enter and turns negative values into 0" in transform-properties.test.ts. BUGS-FIXED candidate.
+
+## Q-361 Frame and item panels add listeners on every update
+
+Old location: designer.browser.dev.js modules 1654 (GFrameProperties.update, _updateUI, 158605-158642) and 1656 (GItemProperties.update, _updateUI, 158924-158966). Same pattern as Q-311 (module 1658); this extends Q-311 to these two modules.
+
+What it does: with a document, update adds its SettingChangedEvent listener before it checks the elements, and removes it only when the last update showed the panel. Every update without layers (frame) or without an item with item children (item) leaves one more listener. In touch mode each update also calls _updateUI, which mounts the checkbox slider again on frm, clk and scc, and every mount adds another change listener to the checkbox.
+
+Why it's unclear: harmless (the handlers are idempotent), but the listener counts grow with every selection change.
+
+Kept. src/app/inspector/frame-properties.ts and item-properties.ts update; pinned by "adds a settings listener on every update with a document (Q-311)" and "mounts the checkbox slider again on every touch update (Q-311)" in inspector-frame-item.test.ts.
+
+## Q-362 Align panel's gap check is hidden by the box's minimum
+
+Old location: designer.browser.dev.js module 1274 (GAlignProperties._spaceEvent, 93907-93925).
+
+What it does: the spacing boxes are input boxes with minValue 1, and reading the value clamps it. A typed "0" or "-5" reads as 1 and distributes with a gap of 1; only text that isn't a number reads as 0, which the panel's `distance > 0` check skips. The box then shows 1.
+
+Why it's unclear: the `> 0` check suggests small gaps were meant to be rejected, not clamped.
+
+Kept. src/app/inspector/align-properties.ts; pinned by "reads a typed gap below 1 as 1 (the box's minValue), skips text and shows 1" in inspector-frame-item.test.ts.
+
+## Q-363 Ellipse angle boxes read unparsable text as 0
+
+Old location: designer.browser.dev.js module 1265 (GEllipseProperties, the sa/ea change handler, about 87482-87527) with module 1702 (gInputBox value()).
+
+What it does: the angle handler reads the box through gInputBox("value"), which turns text that isn't a number into "0" before the handler parses it. Typing "abc" into Start or End angle therefore stores 0 degrees (2π) and shows "0"; the handler's else branch (_updateProperties, which would restore the old value) never runs for typed input. The rectangle and polygon corner radius boxes read the box the same way and also have minValue 0, so a negative radius becomes 0 instead of being rejected.
+
+Why it's unclear: the handler clearly meant to reject bad input and restore the box, but the box normalises first, so the user's angle is replaced by 0.
+
+Kept. ellipse-properties.ts keeps the handler as is; pinned by "writes a typed angle; unparsable text counts as 0 degrees" in ellipse-properties.test.ts.
+
+## Q-364 Color Thief leaves its canvas in body when sampling throws
+
+Old location: designer.browser.dev.js module 1267 (Color Thief, CanvasImage and getPalette, lines 87851-87858 and 88225-88249).
+
+What it does: getPalette appends a temporary canvas to body, draws the image, reads getImageData and removes the canvas only after quantizing. When getImageData throws (a tainted canvas or a zero-size image) the canvas is never removed, so every click on the image panel's "Colors" button for such an image leaves one more canvas in body.
+
+Why it's unclear: it looks like a plain leak (no try/finally), but it only matters for images the browser won't let the app read, which the image panel may never get.
+
+Kept. src/app/inspector/color-thief.ts (ColorThief.getPalette); pinned by "leaves the canvas in body when getImageData throws, like the old code" in src/app/inspector/color-thief.test.ts. BUGS-FIXED candidate.
+
+## Q-365 The symbols panel piles up thumbnail listeners
+
+Old location: designer.browser.dev.js module 1714 (gSymbolsPanel), 172055 and 172121.
+
+What it does: every tile build adds a new bound AfterThumbnailUpdate listener to the master. The removal in the symbol-remove path passes the unbound function, so nothing comes off. Each scene switch (tab change) adds one more listener per master, and each one runs _thumbnailUpdated again.
+
+Why it's unclear: it looks like a leak, but the visible result is the same (the thumbnail is redrawn several times). Q-070 covers the symbol dictionary, not this.
+
+Kept. src/app/sidebars/symbols-panel.ts _createTile and _removeSymbol; pinned by symbols-panel.test.ts "adds another thumbnail listener per master on every scene switch, as the old code did". BUGS-FIXED candidate.
+
+## Q-366 Library photo boxes reflow one by one on resize
+
+Old location: designer.browser.dev.js module 1663, 162012-162020 and 162125-162170.
+
+What it does: the old debounced resize handler took every non-empty .assets-wrapper as one jQuery set, used the first one's css("width") (250 when there was none), and reflowed the whole set in one _initMasonryLayoutColumns call. That call unwrapped every column in every box and appended the new columns to each box in the set, which means jQuery clones for all but the last. The new handler takes the width the same way, then reflows each box that holds photo columns on its own.
+
+Why it's unclear: the old set call mixes the outer and inner photo wrappers and non-photo boxes, so its result with more than one non-empty box is not a sensible layout. The code is unreachable while the market API is gone.
+
+Kept as described. src/app/sidebars/library-panel.ts constructor; pinned by library-panel.test.ts "reflows each box with photo columns when the width changed by more than 50px".
+
+<!-- Brand (phase 7 review, phase 8, brand) -->
+
+## Q-367 Other texts still say "Gravit Designer"
+
+Old location: designer.browser.dev.js module 814 (the English string
+table, src/app/locale/data/en.json).
+
+What it does: about 40 strings name the app, among them the update
+panel ("You are now running Gravit Designer %currentVersion"), the PWA
+install dialog, the unsupported-browser notice, import warnings and the
+PDF export's producer ("Gravit Designer PDF Exporter").
+
+Why it's unclear: the task named the title, the version line, the
+favicon, the manifest and the desktop app name. The string table must
+stay the old bundle's byte for byte (scripts/extract-locales.test.ts),
+so renaming these would need overrides like src/app/brand/brand-strings.ts,
+and the PDF producer is part of exported files that the export scenarios
+compare.
+
+Kept. Only the named places change (CHANGES.md CHG-001). Renaming more
+is a list of string overrides in the next look; say which ones.
+
+## Q-368 No switch for the classic look in the UI
+
+Old location: none (new in the rewrite).
+
+What it does: the look comes from `?branding=classic|next` (stored),
+the harness or preload override, or the stored choice
+(src/app/brand/branding.ts).
+
+Why it's unclear: the user decided on two looks but not on whether users
+choose between them. A settings row would change the classic settings
+dialog, which the parity screenshots compare.
+
+Kept. No UI switch; `?branding=classic` in the browser, `GD_BRANDING=classic`
+for the desktop app. Pinned by src/app/brand/branding.test.ts.
+
+## Q-369 Every pink shade becomes the magenta's hue
+
+Old location: designer.browser.light.css and .dark.css (about 25 pink and
+raspberry shades around #d72e63).
+
+What it does: scripts/brand/accent-css.ts maps every colour with a hue
+of 325 to 352 degrees onto the magenta's hue, scaling saturation and
+shifting lightness by what separates #d72e63 from #E3136B. Yellow, lime
+and olive are used only in the welcome panel and the mark.
+
+Why it's unclear: "mapped to the brand palette" could also mean using the
+yellow or lime for some roles (selection rows, hover states). The old
+desktop UI has no pink in the toolbar and selected layer rows are grey,
+so those look the same in both looks.
+
+Kept. One accent, the magenta. Pinned by scripts/brand/accent-css.test.ts
+and the parity/scenarios/brand shots.

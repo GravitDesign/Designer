@@ -47,6 +47,19 @@ Decisions taken:
   intersection code, the Sly selector engine and zip.js v1 are modified
   forks in the old bundle, so they are ported, not taken from npm.
 
+## Bug-fix pass (bugfix-plan.md)
+
+Each clear old bug is fixed in its own `fix:` commit with a BUGS-FIXED
+entry, a test and parity exceptions. Done: engine BF-001..019 except
+BF-009 (BUG-009..026), editor BF-020..037 (BUG-040..057), import
+BF-067..083 except BF-077 (BUG-100..115), platform (BUG-130). In
+progress: SVG/export BF-038..066 (branch bugfix/io-export, BUG-070..099).
+Open: app UI BF-084..128 (BUG-131 onwards), BF-077 (EPS mesh shadings),
+BF-009 (symbol instances miss master text changes), the knife's Space
+drag (same as BF-026), the multi-page drop target that stays marked,
+dashed EPS borders rendered solid, BF-119's name escaping regression
+(layer and page names show `&lt;` instead of `<`).
+
 ## Decisions by the user (2026-10-24)
 
 - The annotations (comments) sidebar's tab row above the inspector is
@@ -82,9 +95,9 @@ Decisions taken:
 | 3 | Scaffold next/ | done |
 | 4 | Engine core | done: all engine clusters ported, review (phase4-review-A..D) fixed; 330+ parity ids pass in the new app; scenarios that need the editor are enabled in phase 6 |
 | 5 | File format and import/export | done: .gvdesign, SVG/PDF/PNG/JPG export, SVG/PDF/AI/EPS/Sketch import, workers; review (phase5-review.md) fixed; export output compared in the browser (io-export-svg/pdf/bitmap); export scenarios that need the editor wait for phase 6 |
-| 6 | Editor | ported (editor core, view, guides, all element editors, all tools, touch input, interim fonts); phase review (phase6-review-A..C) running |
-| 7 | UI | in progress: app foundation and shell, GDocument, storage (done), file/edit actions. Started before the phase 6 review was fixed, at the user's request (2026-10-23); review fixes land alongside. |
-| 8 | Platform | not started |
+| 6 | Editor | done: editor core, view, guides, all element editors, all tools, touch input; review (phase6-review-A..C) fixed |
+| 7 | UI | done: every app cluster ported on React 19 + Zustand (UI.md), removed features documented (REMOVED.md, DROP-001..013), review (phase7-review-A..C) fixed. Started before the phase 6 review was fixed, at the user's request (2026-10-23). The GravitDesign Next look and introduction were added at the user's request (CHANGES.md). |
+| 8 | Platform | done: shared server, Electron 45 with electron-updater (GitHub Releases of GravitDesign/designer), first-start migration of settings, swatches and fonts from the old releases, desktop packaging for all targets in .github/workflows/desktop.yml; Windows packaged and launch-tested locally |
 | 9 | Cutover | not started |
 | 10 | Final check | not started |
 
