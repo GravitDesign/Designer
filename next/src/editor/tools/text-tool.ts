@@ -354,10 +354,10 @@ export class TextTool extends ShapeTool {
 
   /**
    * The measurement of "Your text here" in the default text's font, made
-   * once. The old code called the meter with `new`, so when the font
-   * wasn't resolved yet (the meter returns null) it kept an empty object
-   * for good, whose height is undefined (see "The text tool keeps an
-   * empty default measure" in QUESTIONS.md).
+   * once the font is resolved. Until then (the meter returns null) it is
+   * an empty object, whose height is undefined, and the next call measures
+   * again. The old code kept that empty object for good (BUG-051 The text
+   * tool caches an empty default measure for the session).
    */
   _getDefaultMeasure(text: Text): DefaultMeasure | null {
     if (!this._defaultMeasure) {
@@ -370,7 +370,9 @@ export class TextTool extends ShapeTool {
         parts.push(String(text.getProperty("_tfi")) + "px");
         parts.push(text.getProperty("_tff"));
         const style = "font: " + parts.join(" ");
-        this._defaultMeasure = openTypeMeasure(yourTextHere(), style, null, fontManager) ?? {};
+        const measure = openTypeMeasure(yourTextHere(), style, null, fontManager);
+        if (!measure) return {};
+        this._defaultMeasure = measure;
       }
     }
     return this._defaultMeasure;

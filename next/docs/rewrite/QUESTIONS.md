@@ -1772,7 +1772,7 @@ What it does: the text tool measures "Your text here" in the default text font o
 
 Why it's unclear: it only matters when the first text box is dragged before the default font has loaded; it looks unintended but changes no data in the common case.
 
-Kept. editor/tools/text-tool.ts _getDefaultMeasure caches `{}` when the meter returns null; shape-tools.test.ts "keeps an empty measure for good when the font isn't resolved yet" pins it.
+Fixed: see BUG-051 in BUGS-FIXED.md.
 
 <!-- Editor, select tools (phase 6) -->
 

@@ -242,7 +242,7 @@ describe("TextTool", () => {
     expect(props(text, ["aw", "ah"])).toEqual([true, true]);
   });
 
-  it("keeps an empty measure for good when the font isn't resolved yet", () => {
+  it("BUG-051: measures again next time when the font isn't resolved yet", () => {
     const { manager, scene } = setupTools();
     // A font manager whose app never resolves a font.
     const fonts = scene.getWorkspace()?.getFontManager() as FontManager;
@@ -253,7 +253,12 @@ describe("TextTool", () => {
     text.setProperties(["_tff", "_tfi", "_tfw", "_tfs"], ["Open Sans", 20, 400, "N"]);
     const first = tool._getDefaultMeasure(text);
     expect(first).toEqual({});
-    expect(tool._getDefaultMeasure(text)).toBe(first);
+    // Nothing is cached, so a call after the font arrives measures it. The
+    // old code kept the empty object for the session.
+    expect(tool._defaultMeasure).toBeNull();
+    const second = tool._getDefaultMeasure(text);
+    expect(second).toEqual({});
+    expect(second).not.toBe(first);
   });
 });
 

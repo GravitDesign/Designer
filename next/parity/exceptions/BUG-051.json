@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-051",
+  "why": "A null default text measure is not cached, so the text tool measures again once the font is resolved. The parity runs load the default font before any text box is dragged, so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}

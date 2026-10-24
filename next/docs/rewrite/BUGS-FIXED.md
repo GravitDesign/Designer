@@ -1104,3 +1104,23 @@ checkDistanceGuidesMapping 32485) and module 741 (GPointsGuide.map
   back).
 - Parity exceptions: none. No recorded scenario drags a scoped selection
   across pages.
+
+## BUG-051 The text tool caches an empty default measure for the session
+
+Old code: chunk.vendor.js module 547 (GTextTool._getDefaultMeasure),
+lines 80490-80512.
+
+- Reproduce: drag out the first text box of the session before the
+  default text font has loaded, then drag more text boxes after it has.
+- Old: the tool measures "Your text here" once to decide whether a
+  dragged box is low enough for an auto height. It called the meter with
+  `new`, so when the font wasn't resolved yet (the meter returns null) it
+  cached an empty object. Its height is undefined, so every dragged text
+  box got a fixed height for the rest of the session (Q-151).
+- New: an empty measurement is used for that drag only and not cached;
+  the next drag measures again.
+- Test: src/editor/tools/shape-tools.test.ts, "BUG-051: measures again
+  next time when the font isn't resolved yet" (fails with the old code:
+  the empty object is cached).
+- Parity exceptions: none. The parity runs load the default font before
+  any text box is dragged.
