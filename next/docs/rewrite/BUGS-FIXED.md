@@ -942,3 +942,25 @@ lines 237400-237424 (`* o[1]` at 237413).
   code: [110, 70, 160, 0] instead of [210, 170, 160, 120]).
 - Parity exceptions: none. No recorded scenario scales a slice through the
   transform box.
+
+## BUG-044 Shift on a corner shoulder drag starts the right shoulder from the left one
+
+Old code: chunk.vendor.js module 127 (GPathEditor._movePreviewPointShoulders),
+lines 29993-30045 (the bug at 30019).
+
+- Reproduce: in detail mode, give a corner point different shoulder
+  lengths (cl 10, cr 20, not uniform) and drag its left shoulder with
+  Shift held.
+- Old: with `cr` set, the right shoulder's start value was read from `cl`,
+  so both shoulders started from the left one. Dragging the left shoulder
+  from 10 to 15 left cr at 5 instead of 15, and the returned translation
+  was off by the same amount (Q-189).
+- New: the right shoulder starts from `cr`. The Shift branch outside
+  detail mode still reads the unset values and gives a NaN translation;
+  that only reaches a hint that ignores path parts and stays as it was.
+- Test: src/editor/element-editors/path-editor.test.ts, "BUG-044: starts
+  the right shoulder from cr when Shift drags a shoulder in detail mode"
+  (fails with the old code: translation 10 instead of 20, cr 5 instead of
+  15).
+- Parity exceptions: none. No recorded scenario Shift-drags a shoulder of
+  a corner with different shoulder lengths.

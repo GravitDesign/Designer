@@ -1883,9 +1883,10 @@ export class PathEditor<E extends EditedPath = EditedPath> extends PathBaseEdito
     const length = GMath.ptDist(projection.getX(), projection.getY(), origin.getX(), origin.getY());
     const preview = this.getPathPointPreview(point) as AnchorPoint;
     // Declared at function level like the old `var`s: the Shift branch
-    // outside detail mode reads them unset (NaN translation; see "Shift
-    // on a corner shoulder drag reads cl for cr, or nothing outside detail
-    // mode" in QUESTIONS.md).
+    // outside detail mode reads them unset (NaN translation, which only
+    // reaches a hint that ignores path parts; see "Shift on a corner
+    // shoulder drag reads cl for cr, or nothing outside detail mode" in
+    // QUESTIONS.md).
     let left: number | undefined;
     let right: number | undefined;
     if (shift) {
@@ -1893,10 +1894,9 @@ export class PathEditor<E extends EditedPath = EditedPath> extends PathBaseEdito
         const cl = point.getProperty("cl") as number | null;
         left = null != cl ? cl : 0;
         const cr = point.getProperty("cr") as number | null;
-        // The old code read `cl` here when `cr` is set (see "Shift on a
-        // corner shoulder drag reads cl for cr, or nothing outside detail
-        // mode" in QUESTIONS.md).
-        right = null != cr ? left : 0;
+        // The old code read `cl` here when `cr` is set (BUG-044 Shift on a
+        // corner shoulder drag starts the right shoulder from the left one).
+        right = null != cr ? cr : 0;
         if (part.type == PartType.LeftShoulder) {
           const grow = length - left;
           let other = right - grow;

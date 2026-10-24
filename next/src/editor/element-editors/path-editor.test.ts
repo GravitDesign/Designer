@@ -174,7 +174,7 @@ describe("GPathEditor", () => {
     expect([preview.getProperty("cl"), preview.getProperty("cr")]).toEqual([minimum, minimum]);
   });
 
-  it("reads cl for cr when Shift drags a shoulder in detail mode (old bug)", () => {
+  it("BUG-044: starts the right shoulder from cr when Shift drags a shoulder in detail mode", () => {
     const { path, anchors } = setup();
     const corner = anchors[1] as AnchorPoint;
     // Non-uniform corners (cu false), else setting cl sets cr too and the
@@ -188,12 +188,21 @@ describe("GPathEditor", () => {
       true,
     );
     const preview = editor.getPathPointPreview(corner) as AnchorPoint;
-    // Left grows from 10 to 30; the right shoulder should shrink from 20
-    // to 0 (translation 20), but the old code took cl (10) as cr.
+    // Left grows from 10 to 30; the right shoulder shrinks from 20 to 0
+    // (translation 20). The old code took cl (10) as cr: translation 10.
     expect(preview.getProperty("cl")).toBeCloseTo(30, 10);
     expect(preview.getProperty("cr")).toBe(0);
-    expect(move.getMatrix()[5]).toBeCloseTo(10, 10);
+    expect(move.getMatrix()[5]).toBeCloseTo(20, 10);
     expect(move.getMatrix()[4]).toBeCloseTo(-20, 10);
+    // Left grows from 10 to 15: the right shoulder gives up 5 of its 20
+    // (the old code gave 5, from 10 - 5).
+    editor._movePreviewPointShoulders(
+      { type: PathEditor.PartType.LeftShoulder, point: corner },
+      new Point(85, 5),
+      true,
+    );
+    expect(preview.getProperty("cl")).toBeCloseTo(15, 10);
+    expect(preview.getProperty("cr")).toBeCloseTo(15, 10);
   });
 
   it("toggles a point between asymmetric and symmetric on a double click in detail mode", () => {

@@ -2231,7 +2231,7 @@ What it does: with Shift in detail mode, the right shoulder's start value is rea
 
 Why it's unclear: both look like bugs, but they decide where the shoulders end up after a Shift drag.
 
-Kept. path-editor.ts _movePreviewPointShoulders keeps both.
+Fixed for detail mode: see BUG-044 in BUGS-FIXED.md. The NaN outside detail mode stays: it only reaches a hint that ignores path parts.
 
 ## Q-190 A slice scaled without a preview gets height 0
 
