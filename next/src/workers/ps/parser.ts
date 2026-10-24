@@ -543,7 +543,7 @@ export class PSParser {
       }
     }
     if (yielded && !this.isEOF() && !this.nestedParse) {
-      this.core.host.setTimeout(() => this._readLoop(), 0);
+      this.core.host.setTimeout(() => this._guarded(() => this._readLoop()), 0);
     }
     if (new Date() > (this.endTime as unknown as Date)) {
       console.log("MAX WAIT TIME EXCEEDED");
@@ -559,8 +559,29 @@ export class PSParser {
 
   read(): void {
     this.endTime = String(new Date()) + this.MAXWAITTIME;
-    this._findFileStart();
-    this._readLoop();
+    this._guarded(() => {
+      this._findFileStart();
+      this._readLoop();
+    });
+  }
+
+  /**
+   * Runs one slice of the run. An exception ends the run with error "04"
+   * (the file can't be loaded) and done, so the page shows what was read
+   * so far; the old worker died silently and the page waited for its
+   * 300-second timeout ("Any exception in the PostScript worker makes the
+   * EPS import wait 300 s" in BUGS-FIXED.md).
+   */
+  _guarded(slice: () => void): void {
+    try {
+      slice();
+    } catch {
+      this.EOF = true;
+      this.nestedParse = 0;
+      this.core.toGravit("error", ["04"]);
+      this.core.toGravit("done");
+      this.core.host.setTimeout(() => this.core.host.close(), 500);
+    }
   }
 
   /** Reads a `%%Key: value` line. Near the end of the input it sets EOF instead. */

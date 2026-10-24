@@ -37,7 +37,54 @@ const FIXED: Record<string, string> = {
   // The JPEG handshake asks for the size, then for the RGBA pixels.
   "filter-dct-file.ps": "BUG-008",
   "fixture-image-dct.eps": "BUG-008",
+  // An exception ends the run with error "04" and done.
+  "basic-atan.ps": "BUG-109",
+  "basic-cos-typecheck.ps": "BUG-109",
+  "basic-cvr-bool.ps": "BUG-109",
+  "basic-cvrs-radix0.ps": "BUG-109",
+  "basic-eexec-file.ps": "BUG-109",
+  "basic-errordict-number-handler.ps": "BUG-109",
+  "basic-internaldict-error.ps": "BUG-109",
+  "basic-loops.ps": "BUG-109",
+  "color-fn-procedure.ps": "BUG-109",
+  "color-image-cie-repeat.ps": "BUG-109",
+  "color-separation-function-dict.ps": "BUG-109",
+  "color-sh-pattern-mesh.ps": "BUG-109",
+  "color-sh4-cmyk.ps": "BUG-109",
+  "color-sh4-flag3.ps": "BUG-109",
+  "color-sh4-function.ps": "BUG-109",
+  "color-sh4-gray.ps": "BUG-109",
+  "color-sh4-rgb.ps": "BUG-109",
+  "color-sh4-scaled-ctm.ps": "BUG-109",
+  "color-sh4-small-bits.ps": "BUG-109",
+  "color-sh4-truncated.ps": "BUG-109",
+  "color-sh5-gray-2rows.ps": "BUG-109",
+  "color-sh5-lattice.ps": "BUG-109",
+  "color-sh6-function.ps": "BUG-109",
+  "filter-ascii85-string.ps": "BUG-109",
+  "filter-dct-read.ps": "BUG-109",
+  "filter-lzw.ps": "BUG-109",
+  "filter-reusable-file.ps": "BUG-109",
+  "filters.ps": "BUG-109",
+  "fixture-arc-closepath.eps": "BUG-109",
+  "fixture-shapes-ps.ps": "BUG-109",
+  "font-type1-missing-subr.ps": "BUG-109",
+  "gfx-closepath-arc.ps": "BUG-109",
+  "gfx-curves.ps": "BUG-109",
+  "gfx-image-errors.ps": "BUG-109",
+  "gfx-image-ps-operands.ps": "BUG-109",
+  "gfx-imagemask-ps-operands.ps": "BUG-109",
+  "gfx-imagemask.ps": "BUG-109",
+  "gfx-lineto-nopath.ps": "BUG-109",
+  "gfx-resourceforall-typecheck.ps": "BUG-109",
+  "gfx-rlineto-nopath.ps": "BUG-109",
+  "images.eps": "BUG-109",
+  "math-stack.ps": "BUG-109",
+  "shadings.eps": "BUG-109",
 };
+
+/** The programs whose fixed recording comes from `bug` alone. */
+const fixedBy = (bug: string): string[] => Object.keys(FIXED).filter((f) => FIXED[f] === bug);
 
 function recordingFile(file: string, fixed: boolean): string {
   return path.join(RECORDED, file.replace(/\.[^.]+$/, fixed ? ".fixed.json" : ".json"));
@@ -61,7 +108,7 @@ describe("PostScript interpreter against the old worker's recordings", () => {
     }
   });
 
-  it.each(Object.keys(FIXED))(
+  it.each(fixedBy("BUG-008"))(
     "%s: the fixed recording differs from the old one only in its jpeg calls",
     (file) => {
       const old = JSON.parse(fs.readFileSync(recordingFile(file, false), "utf8")) as Record<
@@ -82,6 +129,40 @@ describe("PostScript interpreter against the old worker's recordings", () => {
       }
       // Without SharedArrayBuffer nothing changes.
       expect(fixed["outline-nosab"]).toEqual(old["outline-nosab"]);
+    },
+  );
+
+  it.each(fixedBy("BUG-109"))(
+    "%s: the fixed recording ends with error 04 and done where the old worker threw",
+    (file) => {
+      const old = JSON.parse(fs.readFileSync(recordingFile(file, false), "utf8")) as Record<
+        string,
+        RecordedRun
+      >;
+      const fixed = JSON.parse(fs.readFileSync(recordingFile(file, true), "utf8")) as Record<
+        string,
+        RecordedRun
+      >;
+      expect(Object.keys(fixed).sort()).toEqual(Object.keys(old).sort());
+      let threw = false;
+      for (const variant of Object.keys(old)) {
+        const before = (old[variant] as RecordedRun).messages;
+        const after = (fixed[variant] as RecordedRun).messages;
+        const at = before.findIndex((m) => "exception" in m);
+        if (at < 0) {
+          expect(after, variant).toEqual(before);
+          continue;
+        }
+        threw = true;
+        expect(at, variant).toBe(before.length - 1);
+        expect(after.slice(0, at), variant).toEqual(before.slice(0, at));
+        expect(after.slice(at), variant).toEqual([
+          { func: "error", data: ["04"] },
+          { func: "done", data: [] },
+        ]);
+        expect(fixed[variant]?.finished, variant).toBe(true);
+      }
+      expect(threw).toBe(true);
     },
   );
 

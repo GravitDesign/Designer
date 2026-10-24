@@ -1263,7 +1263,7 @@ What it does: a handler put into errordict that isn't an object or function (`er
 
 Why it's unclear: a crash, but PostScript files rarely do this. A fix would skip or ignore the handler.
 
-Kept. next/src/workers/ps/core.ts initiateError. Pinned by src/workers/ps/__fixtures__/corpus/basic-errordict-number-handler.ps (interpreter.recorded.test.ts).
+Kept, except for the wait: the run now ends with error "04" and done (see BUG-109 in BUGS-FIXED.md). next/src/workers/ps/core.ts initiateError. Pinned by src/workers/ps/__fixtures__/corpus/basic-errordict-number-handler.ps (interpreter.recorded.test.ts, its .fixed recording).
 
 ## Q-107 PS worker: image/imagemask with PS objects as operands
 
@@ -1273,7 +1273,7 @@ What it does: `{} (abc) 5 [1 0 0 1 0 0] {<ff>} image` posts PS objects as width 
 
 Why it's unclear: a crash on malformed input. A fix would raise typecheck instead.
 
-Kept. Pinned by corpus/gfx-image-ps-operands.ps and gfx-imagemask-ps-operands.ps (interpreter.recorded.test.ts).
+Kept, except for the wait: the run now ends with error "04" and done (see BUG-109 in BUGS-FIXED.md). Pinned by corpus/gfx-image-ps-operands.ps and gfx-imagemask-ps-operands.ps (interpreter.recorded.test.ts, their .fixed recordings).
 
 ## Q-108 PS worker: shading mesh parameters
 

@@ -1,0 +1,13 @@
+{
+  "bug": "BUG-109",
+  "why": "An exception in the PostScript worker ends its run with error 04 and done instead of silence, so the EPS import ends at once with what was drawn and the message 'The file can't be loaded.' instead of waiting for the 300 s timeout. The .fixed files equal the old output except called: true, error 0 with that message and the partial group.",
+  "scenarios": [
+    "io-import-pdf-eps/eps/arc-closepath-eps",
+    "io-import-pdf-eps/eps/arc-closepath-eps-text",
+    "io-import-pdf-eps/eps/shapes-ps",
+    "io-import-pdf-eps/eps/shapes-ps-text",
+    "io-import-pdf-eps/eps/gfx-imagemask-ps",
+    "io-import-pdf-eps/eps/shadings-eps"
+  ],
+  "pending": ["import-export/import/open/eps-worker-exception-hangs"]
+}

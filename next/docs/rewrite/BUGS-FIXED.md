@@ -1547,3 +1547,39 @@ GDocument.load (line 7337) and of placeOrImport (line 7851).
 - Parity exceptions: none (parity/exceptions/BUG-108.json lists no
   scenarios). The recorded HEIC scenarios (open, place and
   io-import-pdf-eps bitmap of raster/photo.heic) use a HEIC that converts.
+
+## BUG-109 Any exception in the PostScript worker makes the EPS import wait 300 s
+
+Old code: public/ps.worker.js onmessage and the parser's read loop in
+public/pscore.js (no try/catch anywhere in the run).
+
+- Reproduce: open, place or drop an EPS or PS file that makes the worker
+  throw, for example the circle idiom `x y r 0 360 arc closepath`
+  (parity/fixtures/import/eps/arc-closepath.eps), an `atan`, an LZW or
+  ASCII85 string filter, a mesh shading, or an image with PS objects as
+  operands.
+- Old: the exception ended the worker's run without another message: no
+  "done", no error. The page waited for its 300-second timeout, then
+  showed "The file can't be loaded in a timely manner" (error "03").
+- New: the worker catches an exception in the run and in each later time
+  slice, posts error "04" ("The file can't be loaded.") and done, and
+  closes like at the end of a file. The page then ends the import at once
+  with what was drawn so far, as it already did for error "04" from
+  `quit`. What makes the worker throw is unchanged here; the circle idiom,
+  atan, the filters and the shadings have their own entries.
+- Test: src/workers/ps/interpreter.recorded.test.ts. The corpus programs
+  whose old run threw (43 of them) are compared with `.fixed.json`
+  recordings, and "%s: the fixed recording ends with error 04 and done
+  where the old worker threw" checks each of them: every variant equals
+  the old recording up to the exception, which is the old run's last
+  message, and then has exactly error "04" and done (variants that didn't
+  throw are equal). With the old loop the 129 program runs fail with an
+  exception instead.
+- Parity exceptions: parity/exceptions/BUG-109.json.
+  io-import-pdf-eps/eps/arc-closepath-eps, arc-closepath-eps-text,
+  shapes-ps, shapes-ps-text, gfx-imagemask-ps and shadings-eps: the old
+  recording ends at the hook's timeout (`called: false`, no node). The
+  `.fixed` files have the same progress and `called: true`, error "0" with
+  the message "The file can't be loaded." and the group drawn before the
+  exception; nothing else differs. Pending:
+  import-export/import/open/eps-worker-exception-hangs.

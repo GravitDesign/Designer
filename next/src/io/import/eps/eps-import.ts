@@ -8,10 +8,13 @@
 // and a blob importScripts wrapper for other origins); the rewrite starts
 // the bundled module worker (workers/ps).
 //
+// An exception in the worker ends its run with error "04" and done, so
+// such an import ends at once with what was read ("Any exception in the
+// PostScript worker makes the EPS import wait 300 s" in BUGS-FIXED.md).
+//
 // Kept: the error-code check compares the arguments array with "04" by
 // `==`, which matches a one-element array; progress must be given (the
-// worker's progress calls it unchecked); an exception in the worker never
-// reaches the callbacks, so such an import only ends at the timeout.
+// worker's progress calls it unchecked).
 import { Locale } from "../../../engine/core/locale/locale.ts";
 import { LocaleKey } from "../../../engine/core/locale/locale-key.ts";
 import type { FontManager } from "../../../engine/text/fonts/font-manager.ts";
