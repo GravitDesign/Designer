@@ -332,7 +332,11 @@ function collectDropTargets(tool: SelectTool, sceneCurrent: Point | null): void 
     );
   }
   tool._cleanupTargetHighlights(tool._itemsToAddToPage, tool._scene.iteratePages.bind(tool._scene));
-  tool._cleanupTargetHighlights(tool._itemsToAddToImageMask);
+  // The image mask cleanup walks the whole scene, so the page targets
+  // count as targets there too. The old code passed only the image mask
+  // targets and cleared the page's highlight at once (BUG-057 A page drop
+  // target is never shown highlighted).
+  tool._cleanupTargetHighlights((tool._itemsToAddToPage || []).concat(tool._itemsToAddToImageMask));
 }
 
 export type ElementWalker = (visit: (element: Element) => unknown) => void;

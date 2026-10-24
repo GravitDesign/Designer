@@ -64,7 +64,7 @@ describe("SelectTool drop onto another page", () => {
     expect(page2.hasFlag(NodeFlag.Highlighted)).toBe(false);
   });
 
-  it("moves the element into the page under the pointer, keeping its scene position", async () => {
+  it("BUG-057: moves the element into the page under the pointer, highlighting it while dragging", async () => {
     const { page1, page2, editor, tool, input } = multiPage();
     const a = rect(page1, 20, 20, 50, 50);
     input.down(40, 140);
@@ -73,9 +73,9 @@ describe("SelectTool drop onto another page", () => {
     input.drag(150, 140);
     input.drag(300, 140);
     expect(tool._itemsToAddToPage?.map((c) => [c.source, c.target])).toEqual([[a, page2]]);
-    // The image mask cleanup right after it clears the page's highlight;
-    // see "Page drop targets lose their highlight at once" in QUESTIONS.md.
-    expect(page2.hasFlag(NodeFlag.Highlighted)).toBe(false);
+    // The target page shows as highlighted (the old code's image mask
+    // cleanup cleared it right away).
+    expect(page2.hasFlag(NodeFlag.Highlighted)).toBe(true);
     await input.up(300, 140);
     expect(a.getParent()).toBe(page2);
     // Moved by 260 to scene x 280..330, which is 58..108 on page 2 (at 222).

@@ -1246,3 +1246,25 @@ _compStart 103462, _compEnd 103470).
   true after deactivate).
 - Parity exceptions: none. editor-tools/extra/ime-composition commits its
   composition before the session ends and gives the same output.
+
+## BUG-057 A page drop target is never shown highlighted
+
+Old code: chunk.vendor.js module 334 (GSelectTool._updateSelectionTransform),
+lines 60238-60254, cleanups at 60277 and 60281.
+
+- Reproduce: in the multi-page view, drag an element from one page over
+  another page.
+- Old: the page drop target was gathered and highlighted, and then the
+  image mask cleanup walked the whole scene with an empty target list and
+  cleared the page's highlight in the same step. The drop worked, but the
+  page never showed as the target (Q-203).
+- New: the image mask cleanup counts the page targets as targets too, so
+  the target page stays highlighted during the drag and loses the
+  highlight on the drop. As before, the target isn't dropped when the
+  pointer goes back over the element's own page (the drop then still goes
+  to the other page), so the highlight shows where the drop will land.
+- Test: src/editor/tools/select-tool-drop.test.ts, "BUG-057: moves the
+  element into the page under the pointer, highlighting it while
+  dragging" (fails with the old code: the page isn't highlighted).
+- Parity exceptions: none. No recorded scenario drags an element onto
+  another page.

@@ -2374,7 +2374,7 @@ What it does: after the page drop targets are gathered (and highlighted), the im
 
 Why it's unclear: the page highlight is set on purpose and then wiped; probably the second cleanup was meant to skip pages.
 
-Kept. select/move-transform.ts collectDropTargets; pinned by "moves the element into the page under the pointer ..." in select-tool-drop.test.ts.
+Fixed: see BUG-057 in BUGS-FIXED.md.
 
 <!-- App shell (phase 6 review and phase 7) -->
 
