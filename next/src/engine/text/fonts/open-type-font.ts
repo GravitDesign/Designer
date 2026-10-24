@@ -95,6 +95,37 @@ export interface GlyphOptions extends Omit<RenderOptions, "script" | "features" 
   noreverse?: boolean;
 }
 
+/**
+ * The text of each shaped glyph. HarfBuzz reports clusters as UTF-8 byte
+ * offsets into `text`; they are mapped to string (UTF-16) indexes, the
+ * first glyph of a cluster gets the cluster's characters (up to the next
+ * cluster in the text) and the other glyphs of the cluster get "". The old
+ * code sliced the string at the byte offsets, which shifted the characters
+ * of non-ASCII text and gave "" to every glyph of right-to-left text
+ * (BUGS-FIXED.md "BUG-024 HarfBuzz clusters used as UTF-16 indexes").
+ */
+export function clusterTexts(text: string, clusters: readonly number[]): string[] {
+  const indexOfByte = new Map<number, number>();
+  let byte = 0;
+  for (let i = 0; i < text.length;) {
+    indexOfByte.set(byte, i);
+    const code = text.codePointAt(i) as number;
+    byte += code < 0x80 ? 1 : code < 0x800 ? 2 : code < 0x10000 ? 3 : 4;
+    i += code >= 0x10000 ? 2 : 1;
+  }
+  indexOfByte.set(byte, text.length);
+  const starts = [...new Set(clusters)].sort((a, b) => a - b);
+  const seen = new Set<number>();
+  return clusters.map((cluster) => {
+    if (seen.has(cluster)) return "";
+    seen.add(cluster);
+    const start = indexOfByte.get(cluster) ?? text.length;
+    const next = starts.find((other) => other > cluster);
+    const end = next === undefined ? text.length : (indexOfByte.get(next) ?? text.length);
+    return text.slice(start, end);
+  });
+}
+
 /** A glyph as an index into the opentype.js font, or the character to look up. */
 type GlyphRef = Glyph | string;
 
@@ -334,15 +365,15 @@ export class OpenTypeFont extends Font {
       let penY = y || 0;
       const openTypeFont = this._openTypeFont;
       if (direction !== DIRECTIONS.RTL || (opts && opts.noreverse)) {
+        const clusterText = clusterTexts(
+          text,
+          shaped.map((glyph) => glyph.cluster),
+        );
         glyphs = shaped.map((glyph, i) => {
-          // Clusters are UTF-8 byte offsets, used here as string indexes
-          // (kept, see QUESTIONS.md "HarfBuzz clusters used as string indexes").
-          const end =
-            i + 1 < shaped.length ? (shaped[i + 1] as { cluster: number }).cluster : text.length;
           const positioned: PositionedGlyph<Glyph> = {
             x: penX + glyph.xOffset,
             y: penY - glyph.yOffset,
-            text: text.slice(glyph.cluster, end),
+            text: clusterText[i] as string,
             glyph: openTypeFont.glyphs.get(glyph.codepoint) as Glyph,
           };
           penX += glyph.xAdvance;
@@ -352,13 +383,15 @@ export class OpenTypeFont extends Font {
         });
       } else {
         shaped.reverse();
+        const clusterText = clusterTexts(
+          text,
+          shaped.map((glyph) => glyph.cluster),
+        );
         glyphs = shaped.map((glyph, i) => {
-          const end =
-            i + 1 < shaped.length ? (shaped[i + 1] as { cluster: number }).cluster : text.length;
           const positioned: PositionedGlyph<Glyph> = {
             x: penX,
             y: penY - glyph.yOffset,
-            text: text.slice(glyph.cluster, end),
+            text: clusterText[i] as string,
             glyph: openTypeFont.glyphs.get(glyph.codepoint) as Glyph,
             xOff: -glyph.xOffset,
           };

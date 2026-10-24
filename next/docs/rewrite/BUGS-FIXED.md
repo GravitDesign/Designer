@@ -743,3 +743,35 @@ Old code: chunk.vendor.js module 161, GTLUtil.deCRLFify (35257-35263).
   (the old recording, still checked, is `"a\nb\n\nc\rd   e\r"`).
 - Parity exceptions: none. No recorded scenario sets a text with more than
   one line break of these kinds through the text core.
+
+## BUG-024 HarfBuzz clusters used as UTF-16 indexes
+
+Old code: chunk.vendor.js module 587, GOpenTypeFont.stringToGlyphs
+(82205-82250).
+
+- Reproduce: put a non-ASCII text (accented letters, Arabic, Hebrew,
+  Devanagari, CJK) on a path and export it as SVG or PDF, or use a text
+  pattern on such a text. These read the `text` of each shaped glyph.
+- Old: HarfBuzz reports each glyph's cluster as a UTF-8 byte offset into
+  the text, and the old code used it as a string index: `text.slice(
+  cluster, nextCluster)`. With characters of more than one byte the slices
+  drifted: "éà" (decomposed) gave "éa" and "̀", "日本語のテキスト" gave
+  "日本語", "のテキ", "スト" and then empty strings, and right-to-left text
+  got mostly empty strings, so text-on-path exports showed shifted or
+  missing characters. Carets and selection don't use it.
+- New: the byte offsets are mapped to string indexes. The first glyph of a
+  cluster gets the cluster's characters (up to the next cluster), the
+  other glyphs of the same cluster get "". Positions, advances and glyph
+  ids are unchanged.
+- Test: src/engine/text/fonts/open-type-font.test.ts, "HarfBuzz glyph
+  texts (BUG-024)": clusterTexts maps UTF-8 offsets (two- and four-byte
+  characters, a cluster of two glyphs, right-to-left order), the shaped
+  "éà" and Hebrew texts give one character per glyph, and every entry of
+  __fixtures__/old-fonts.fixed.json differs from old-fonts.json only in
+  the glyph texts (187 shaping entries). The stringToGlyphs tests compare
+  with those entries; they fail with the old code. harfbuzz.test.ts still
+  checks that HarfBuzz itself reports byte offsets.
+- Parity exceptions: parity/exceptions/BUG-024.json,
+  engine-model/fonts/browser-probe: only the text field of the HarfBuzz
+  glyphs differs (519 values, checked field by field). The io-export-svg,
+  io-export-pdf and engine-model/text scenarios still match.

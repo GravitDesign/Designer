@@ -145,10 +145,7 @@ character when it is empty), so HarfBuzz-shaped text may map carets or
 selections wrongly in the old app too. Whether anything visible depends on it
 needs checking when the text-engine clusters are reviewed.
 
-Kept. Pinned by next/src/engine/text/fonts/harfbuzz.test.ts ("reports
-clusters as UTF-8 byte offsets"), the shaping entries of
-next/src/engine/text/fonts/__fixtures__/old-fonts.json, and the parity
-scenario engine-model/fonts/browser-probe.
+Fixed: see BUG-024 in BUGS-FIXED.md.
 
 <!-- Engine port, geometry and paint (phase 4 review) -->
 

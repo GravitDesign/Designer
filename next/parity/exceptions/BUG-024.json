@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-024",
+  "why": "Glyphs shaped by HarfBuzz get the characters of their own cluster: the UTF-8 byte offsets HarfBuzz reports are mapped to string indexes, and the first glyph of a cluster gets its text, the others an empty string. In engine-model/fonts/browser-probe only the text field of the HarfBuzz glyphs changes (519 values, checked field by field); positions, advances and glyph ids are the same. The .fixed file also carries the weights of BUG-015.",
+  "scenarios": ["engine-model/fonts/browser-probe"],
+  "pending": []
+}

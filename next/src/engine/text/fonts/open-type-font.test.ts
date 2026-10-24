@@ -3,7 +3,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { FULL_PROBE, probeFonts } from "./font-probe.ts";
-import { OpenTypeFont, TextDirection } from "./open-type-font.ts";
+import { OpenTypeFont, TextDirection, clusterTexts } from "./open-type-font.ts";
 import { OpenTypeUtil } from "./open-type-util.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -125,6 +125,53 @@ describe("OpenTypeFont statics", () => {
   });
 });
 
+/**
+ * The HarfBuzz shaping entries whose glyph texts the old code got wrong,
+ * as the port gives them (BUGS-FIXED.md "BUG-024 HarfBuzz clusters used as
+ * UTF-16 indexes"). Only the `text` of the glyphs differs.
+ */
+const fixedShaping = (
+  JSON.parse(readFileSync(resolve(here, "__fixtures__/old-fonts.fixed.json"), "utf8")) as {
+    shaping: Record<string, Record<string, unknown>>;
+  }
+).shaping;
+
+describe("HarfBuzz glyph texts (BUG-024)", () => {
+  it("maps UTF-8 cluster offsets to string indexes", () => {
+    // "é" and "à" take two bytes each in UTF-8.
+    expect(clusterTexts("éàb", [0, 2, 4])).toEqual(["é", "à", "b"]);
+    // A cluster of two glyphs: the first gets the text, the second "".
+    expect(clusterTexts("fia", [0, 0, 2])).toEqual(["fi", "", "a"]);
+    // Clusters in visual order (right to left) and a surrogate pair.
+    expect(clusterTexts("a😀b", [5, 1, 0])).toEqual(["b", "😀", "a"]);
+  });
+
+  it("gives each glyph of shaped non-ASCII and right-to-left text its characters", () => {
+    const fonts = actual.fonts as Record<string, { shaping: Record<string, unknown[][]> }>;
+    const texts = (font: string, key: string) =>
+      (fonts[font]?.shaping[key] ?? []).map((glyph) => glyph[3]);
+    // e and a with combining accents (U+0301, U+0300), three bytes each.
+    expect(texts("OpenSans-Regular.ttf", "éà | plain")).toEqual(["é", "à", null]);
+    expect(texts("noto/NotoSansHebrew-Regular.ttf", "שלום עולם | plain")).toEqual([
+      ..."שלום עולם",
+      null,
+    ]);
+  });
+
+  it("changes only the glyph texts of the old recording", () => {
+    const old = expected.fonts as Record<string, { shaping: Record<string, unknown[][]> }>;
+    const withoutText = (glyphs: unknown[][]) =>
+      glyphs.map((glyph) => glyph.filter((_value, index) => index !== 3));
+    for (const [font, entries] of Object.entries(fixedShaping)) {
+      for (const [key, glyphs] of Object.entries(entries)) {
+        const before = old[font]?.shaping[key] as unknown[][];
+        expect(glyphs, key).not.toEqual(before);
+        expect(withoutText(glyphs as unknown[][]), key).toEqual(withoutText(before));
+      }
+    }
+  });
+});
+
 describe("OpenTypeFont glyph API and shaping", () => {
   const fonts = expected.fonts as Record<string, Record<string, unknown> | null>;
   const actualFonts = actual.fonts as Record<string, Record<string, unknown> | null>;
@@ -135,7 +182,10 @@ describe("OpenTypeFont glyph API and shaping", () => {
       expect(withoutShaping(actualFonts[name])).toEqual(withoutShaping(fonts[name]));
     });
     it(name + ": stringToGlyphs (HarfBuzz and opentype.js paths)", () => {
-      expect(actualFonts[name]?.shaping).toEqual(fonts[name]?.shaping);
+      const shaping = fonts[name]?.shaping as Record<string, unknown> | undefined;
+      expect(actualFonts[name]?.shaping).toEqual(
+        shaping && { ...shaping, ...(fixedShaping[name] ?? {}) },
+      );
     });
   }
 });
