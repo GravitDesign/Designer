@@ -1243,7 +1243,7 @@ What it does: when pdf.js rejects the document (a PDF that needs a user password
 
 Why it's unclear: users get no error and no import for an encrypted or broken PDF. A fix would add a rejection handler that calls back with the error.
 
-Kept. next/src/io/import/pdf/pdf-import.ts (file comment). Pinned by the parity scenarios io-import-pdf-eps/pdf/encrypted-user-password-pdf (called: false) and io-import-pdf-eps/ai-check/encrypted-user-password-pdf (PasswordException reported).
+Fixed: see BUG-102 in BUGS-FIXED.md.
 
 ## Q-105 EPS page side: show without a font name throws
 

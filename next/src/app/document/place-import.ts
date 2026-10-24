@@ -209,8 +209,12 @@ export function placeOrImport(
         (error, pages) => {
           document._deactivateProgress();
           document._postProcessFonts();
-          if (error) documentDialogs().message(error as string);
-          else if (pages && pages.length) {
+          if (error) {
+            // "A broken or encrypted PDF never finishes loading" in
+            // BUGS-FIXED.md: the old dialog showed the error object.
+            console.log(error);
+            documentDialogs().message(text("GDocument", "text.error-reading-file"));
+          } else if (pages && pages.length) {
             if (!noTransaction) editor().beginTransaction();
             try {
               const page = pages.shift() as unknown as PlacedNode;

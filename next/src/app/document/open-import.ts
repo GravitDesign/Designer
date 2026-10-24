@@ -247,8 +247,14 @@ export function openImportedFile(
         fontManager(),
         (error, pages, missingFonts) => {
           context.postProcessFonts();
-          if (error) documentDialogs().message(error as string);
-          else {
+          if (error) {
+            // A PDF pdf.js can't open fails the load with a message ("A
+            // broken or encrypted PDF never finishes loading" in
+            // BUGS-FIXED.md); the old dialog showed the error object.
+            console.log(error);
+            documentDialogs().message(text("GDocument", "text.error-reading-file"));
+            context.updateStatus(DocumentStatus.LoadFailed);
+          } else {
             const list = pages as Page[];
             const scene = gDesigner().createScene(true);
             asImported(scene)._beginBlockChanges(CHILD_CHANGES);

@@ -1,0 +1,9 @@
+{
+  "bug": "BUG-102",
+  "why": "A PDF that pdf.js rejects (broken, or locked with a user password) calls back with the error instead of never finishing; open shows the error-reading-file message and fails the load. The .fixed files equal the old output except called: true and the pdf.js error.",
+  "scenarios": [
+    "io-import-pdf-eps/pdf/broken-pdf",
+    "io-import-pdf-eps/pdf/encrypted-user-password-pdf"
+  ],
+  "pending": ["import-export/import/open/pdf-broken.pdf.state"]
+}

@@ -7,11 +7,13 @@
 // PDFs too; with an aiCallback the import first checks the XMP format and
 // lets the caller decide (FMT-IMPORT-011).
 //
-// Kept: a document pdf.js can't open never calls back (the loading
-// promise has no rejection handler; QUESTIONS.md "PDF import never calls
-// back for a document pdf.js can't open"), and a font that resolves is added
-// to the resolved list as a one-element slice that is never matched, so
-// readiness only depends on the counts.
+// A document pdf.js can't open calls back with the error (the old loading
+// promise had no rejection handler; "A broken or encrypted PDF never
+// finishes loading" in BUGS-FIXED.md).
+//
+// Kept: a font that resolves is added to the resolved list as a
+// one-element slice that is never matched, so readiness only depends on
+// the counts.
 import { extend } from "../../../engine/core/util.ts";
 import { RGBColor } from "../../../engine/color/rgb-color.ts";
 import { Page } from "../../../engine/scene/page.ts";
@@ -200,7 +202,14 @@ export const PDFImport = {
     const params = extend({ data, disableCMYKToRGB: true }, options.pdfjsOptions || {});
     const pdfjs = getPdfJs();
     const { task, terminate } = getDocument(params);
-    void task.then((document) => {
+    // A document pdf.js can't open (broken, or locked with a user
+    // password) or a page it can't load calls back with the error ("A
+    // broken or encrypted PDF never finishes loading" in BUGS-FIXED.md).
+    const fail = (error: unknown): void => {
+      terminate();
+      done(error || new Error("the PDF could not be read"));
+    };
+    task.then((document) => {
       const missingFonts: string[] = [];
       let embeddedFonts: Font[] = [];
       const pages: Page[] = [];
@@ -212,7 +221,7 @@ export const PDFImport = {
         const page = new Page();
         pages.push(page);
         if (progress && count > 1) progress(pageNumber, count);
-        void document.getPage(pageNumber).then((pdfPage) => {
+        document.getPage(pageNumber).then((pdfPage) => {
           const viewport = pdfPage.getViewport({ scale: 1 });
           const canvas = new CanvasHolder(viewport.width, viewport.height);
           page.setProperties(["w", "h", "bck"], [viewport.width, viewport.height, RGBColor.WHITE]);
@@ -253,10 +262,10 @@ export const PDFImport = {
               if (error) console.log((error as { stack?: string }).stack || error);
               done(error);
             });
-        });
+        }, fail);
       };
       nextPage();
-    });
+    }, fail);
   },
 };
 

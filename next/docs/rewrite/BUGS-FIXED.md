@@ -1339,3 +1339,40 @@ Old code: designer.browser.dev.js module 163, the import optimiser
   show yet (the missing-fonts and error dialogs), not on the document;
   open/ai-saved-as-pdf and its .state timed out waiting for the
   missing-fonts dialog before the document was read.
+
+## BUG-102 A broken or encrypted PDF never finishes loading
+
+Old code: chunk.vendor.js module 1393, GPDFImport.import
+(`A.getDocument(...).then(function (e) { ... })` without a rejection
+handler, and the same for getPage); designer.browser.dev.js module 163,
+the PDF and AI branches of GDocument.load (lines 7202-7207) and of the
+place import.
+
+- Reproduce: open, place or drop a PDF that pdf.js can't parse
+  (parity/fixtures/import/pdf/broken.pdf) or one that needs a user
+  password (encrypted-user-password.pdf).
+- Old: the import's callback is never called for a document pdf.js
+  rejects, so a PDF imported without the AI check (place, paste and drop)
+  keeps its progress shown and never arrives, with no message. Open goes
+  through the AI check, which
+  does catch the rejection: its callback hands the error object to the
+  message dialog, which shows an empty text with OK, and the document
+  stays Loading behind it (QUESTIONS.md Q-104).
+- New: a rejected document or page calls back with pdf.js's error and
+  ends the import's worker. Open shows "text.error-reading-file" ("Can't
+  open file. Please make sure that the file exists...") and sets
+  LoadFailed; place shows the same message. Valid PDFs are not affected.
+- Test: src/io/import/pdf/pdf-import.test.ts, "PDFImport.import for a PDF
+  pdf.js can't open (BUG-102)" (both cases stay pending with the old
+  code); src/app/document/open-import.test.ts, "opening a PDF that pdf.js
+  can't open (BUG-102)" (no status and the error object as the message
+  with the old code).
+- Parity exceptions: parity/exceptions/BUG-102.json.
+  io-import-pdf-eps/pdf/broken-pdf and
+  io-import-pdf-eps/pdf/encrypted-user-password-pdf: the old recording has
+  `called: false` and no error; the `.fixed` files equal it except
+  `called: true` and pdf.js's error (InvalidPDFException,
+  PasswordException), checked with diff. The ai-check scenarios record the
+  AI check, which already reported the error, and stay as they are.
+  Pending: import-export/import/open/pdf-broken.pdf.state (the old empty
+  dialog and Loading).
