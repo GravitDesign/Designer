@@ -155,11 +155,19 @@ describe("Document", () => {
     expect(designer.recent).toEqual([item]);
   });
 
-  it("stays Loading for a file that holds no scene", async () => {
-    const document = new Document(new MemoryItem("broken.gvdesign", new TextEncoder().encode("{")));
+  it.each([
+    ["cut-off JSON", "{"],
+    ["a group root", '{"@":"group"}'],
+  ])("fails the load with a message for %s (BUG-100)", async (_name, text) => {
+    const document = new Document(
+      new MemoryItem("broken.gvdesign", new TextEncoder().encode(text)),
+    );
+    const statuses = recordStatuses(document);
+    vi.spyOn(console, "log").mockImplementation(() => {});
     document.load();
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    expect(document.getStatus()).toBe(DocumentStatus.Loading);
+    await vi.waitFor(() => expect(document.getStatus()).toBe(DocumentStatus.LoadFailed));
+    expect(statuses).toEqual([DocumentStatus.Loading, DocumentStatus.LoadFailed]);
+    expect(messages).toHaveLength(1);
   });
 
   it("fails the load of an unknown extension", () => {

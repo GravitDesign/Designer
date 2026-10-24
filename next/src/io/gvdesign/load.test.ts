@@ -7,7 +7,7 @@ import { Node } from "../../engine/scene/node.ts";
 import { Rectangle } from "../../engine/scene/rectangle.ts";
 import { Scene } from "../../engine/scene/scene.ts";
 import { Workspace } from "../../engine/scene/workspace.ts";
-import { deserializeScene, loadGvdesign } from "./load.ts";
+import { deserializeScene, loadGvdesign, NoSceneError } from "./load.ts";
 
 const EDGE = path.resolve(import.meta.dirname, "../../../parity/corpus/edge/files");
 const edgeFile = (name: string): Uint8Array =>
@@ -94,54 +94,56 @@ describe("loadGvdesign", () => {
     expect(texts).toBeGreaterThan(0);
   });
 
-  it("never settles for JSON that is cut off, like the old document left Loading", async () => {
+  it("rejects JSON that is cut off (BUG-100)", async () => {
     const result = await settledWithin(
-      loadGvdesign(edgeFile("invalid-json"), new Workspace()),
+      loadGvdesign(edgeFile("invalid-json"), new Workspace()).catch((error: unknown) => error),
       300,
     );
-    expect(result).toBe("pending");
+    expect(result).toBeInstanceOf(NoSceneError);
   });
 
-  // The old deserializeData only went on for a truthy result and then
-  // called isCloudSynchronization() on it, which only scenes have, so a
-  // non-scene never reached LoadFailed: the document stayed Loading.
   it.each([
-    ["a JSON array of shapes", () => "[" + rectangleJson() + "]", "array"],
-    ["a group root", groupJson, "group"],
-  ])("never settles for %s, like the old document left Loading", async (_name, json, kind) => {
-    const restores = recordRestores();
-    const result = await settledWithin(
-      loadGvdesign(new TextEncoder().encode(json()), new Workspace()),
-      300,
-    );
-    expect(result).toBe("pending");
-    // The restore did finish: load.ts holds the promise back.
-    expect(restores).toHaveLength(1);
-    const restored = restores[0];
-    if (kind === "array") {
-      expect(Array.isArray(restored)).toBe(true);
-      expect((restored as unknown[])[0]).toBeInstanceOf(Rectangle);
-    } else {
-      expect(restored).toBeInstanceOf(Group);
-    }
-  });
-
-  // A root of an unknown class, or any root without children, never even
-  // finishes its restore: the old deserializeAsync only called back once
-  // its time-sliced executor ran a list of children (module 894).
-  it.each([
+    ["an empty file", () => ""],
+    ["a JSON array of shapes", () => "[" + rectangleJson() + "]"],
+    ["a group root", groupJson],
     ["a root of an unknown class", () => '{"@":"unknownClass"}'],
     ["a lone childless shape", rectangleJson],
-  ])("never settles for %s, whose restore never calls back", async (_name, json) => {
+    ["a JSON number", () => "42"],
+  ])("rejects %s before restoring it (BUG-100)", async (_name, json) => {
     const restores = recordRestores();
     const result = await settledWithin(
-      loadGvdesign(new TextEncoder().encode(json()), new Workspace()),
+      loadGvdesign(new TextEncoder().encode(json()), new Workspace()).catch(
+        (error: unknown) => error,
+      ),
       300,
     );
-    expect(result).toBe("pending");
+    expect(result).toBeInstanceOf(NoSceneError);
     expect(restores).toHaveLength(0);
   });
 
+  // The restore of these never calls back, or throws out of its time
+  // slice: the scene's children are checked before it starts.
+  it.each([
+    ["a scene without children", () => '{"@":"scene"}'],
+    ["a scene with an empty child list", () => '{"@":"scene","$":[]}'],
+    ["a scene with a child of an unknown class", () => '{"@":"scene","$":[{"@":"zzz"}]}'],
+  ])("rejects %s (BUG-100)", async (_name, json) => {
+    const restores = recordRestores();
+    const result = await settledWithin(
+      loadGvdesign(new TextEncoder().encode(json()), new Workspace()).catch(
+        (error: unknown) => error,
+      ),
+      300,
+    );
+    expect(result).toBeInstanceOf(NoSceneError);
+    expect(restores).toHaveLength(0);
+  });
+
+  it("still opens a scene whose page holds an element of an unknown class", async () => {
+    const json = '{"@":"scene","$":[{"@":"page","w":10,"h":10,"$":[{"@":"zzz"}]}]}';
+    const scene = await loadGvdesign(new TextEncoder().encode(json), new Workspace());
+    expect(scene).toBeInstanceOf(Scene);
+  });
   it("reports 5, 10, 15 and the restore's steps up to 100 for a small file", async () => {
     const steps: number[] = [];
     await loadGvdesign(new TextEncoder().encode(sceneJson()), new Workspace(), (p) =>

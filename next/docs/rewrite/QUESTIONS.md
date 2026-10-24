@@ -1431,7 +1431,7 @@ Cut-off or empty JSON also stays Loading (deserializeAsync never calls back). A 
 
 Why it's unclear: the code clearly meant to show LoadFailed, so the user sees a document that loads forever with no error. This is a BUGS-FIXED candidate (broken UI). The new code does not reproduce the unhandled-rejection log.
 
-Kept. next/src/io/gvdesign/load.ts deserializeScene only settles with a scene; next/src/parity/app/document.ts no longer sets LoadFailed. Pinned by load.test.ts: "never settles for a JSON array of shapes / a group root", "never settles for a root of an unknown class / a lone childless shape, whose restore never calls back", "never settles for JSON that is cut off", and "rejects when deserializeAsync throws".
+Fixed: see BUG-100 in BUGS-FIXED.md.
 
 ## Q-119 PDF bleed box is written as x y width height
 

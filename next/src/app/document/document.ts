@@ -579,8 +579,10 @@ export class Document extends EventTarget {
 
   /**
    * GDocument.deserializeData for JSON text: restores it as this
-   * document's scene. A text that holds no scene leaves the document
-   * Loading (io/gvdesign/load.ts).
+   * document's scene. A text that holds no scene, or a restore that
+   * throws, shows "text.error-reading-file" and fails the load ("A
+   * .gvdesign without a scene, or with cut-off JSON, stays Loading
+   * forever" in BUGS-FIXED.md).
    */
   async deserializeData(json: string | null, options?: LoadOptions | null): Promise<void> {
     const window = this.getActiveWindow();
@@ -589,7 +591,17 @@ export class Document extends EventTarget {
       options = { progress: null };
       this._updateStatus(DocumentStatus.Loading, options);
     }
-    const scene = await deserializeScene(json, gDesigner().getWorkspace(), options.progress);
+    let scene: Scene;
+    try {
+      scene = await deserializeScene(json, gDesigner().getWorkspace(), options.progress);
+    } catch (error) {
+      console.log(error);
+      documentDialogs().message(
+        Locale.get(new LocaleKey("GDocument", "text.error-reading-file")) as string,
+      );
+      this._updateStatus(DocumentStatus.LoadFailed);
+      return;
+    }
     this._sceneLoaded(scene);
   }
 

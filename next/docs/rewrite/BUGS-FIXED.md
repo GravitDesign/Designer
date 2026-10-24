@@ -1268,3 +1268,39 @@ lines 60238-60254, cleanups at 60277 and 60281.
   dragging" (fails with the old code: the page isn't highlighted).
 - Parity exceptions: none. No recorded scenario drags an element onto
   another page.
+## BUG-100 A .gvdesign without a scene, or with cut-off JSON, stays Loading forever
+
+Old code: designer.browser.dev.js module 163, GDocument.deserializeData
+(lines 6486-6512); chunk.vendor.js module 894, GNode.deserializeAsync.
+
+- Reproduce: open a .gvdesign whose JSON is cut off
+  (parity/corpus/edge/files/invalid-json.gvdesign), empty, or holds
+  something other than a scene: a JSON array of shapes, a group or shape
+  root, a root of an unknown class, a scene without pages.
+- Old: the document stays Loading forever with no message. Cut-off or
+  empty JSON and roots without children never finish their restore,
+  because deserializeAsync only calls back once its time-sliced executor
+  ran a list of children. A restore that does finish with something other
+  than a scene reaches `isCloudSynchronization()`, which only scenes have,
+  and the TypeError ends the promise executor without settling it. The
+  LoadFailed branch sits inside the `i && (...)` guard and can never run.
+  A scene with a top-level child of an unknown class throws inside a time
+  slice and also stays Loading (QUESTIONS.md Q-118).
+- New: the root is checked before the restore. When the text is empty, is
+  not valid JSON, has a root that isn't a scene, or a scene without
+  children or with a top-level child of an unknown class, loading rejects
+  with a NoSceneError; the document shows "text.error-reading-file" (as for
+  a file that can't be read) and goes to LoadFailed. A restore that throws
+  does the same. Valid files open exactly as before: the check only parses
+  the JSON once more and looks at the root and its direct children; an
+  unknown class deeper down (unknown-type.gvdesign) still opens.
+- Test: src/io/gvdesign/load.test.ts, "rejects JSON that is cut off
+  (BUG-100)", "rejects %s before restoring it (BUG-100)" and "rejects %s
+  (BUG-100)" for the scene cases, plus "still opens a scene whose page
+  holds an element of an unknown class"; src/app/document/document.test.ts,
+  "fails the load with a message for %s (BUG-100)". All BUG-100 tests time
+  out as pending with the old code.
+- Parity exceptions: parity/exceptions/BUG-100.json. Only
+  corpus/edge/invalid-json/state records the old behaviour (status
+  "loading"); its suite doesn't run against the new app yet, so it is
+  pending.

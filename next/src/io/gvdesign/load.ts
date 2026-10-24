@@ -20,6 +20,7 @@
 import { Node } from "../../engine/scene/node.ts";
 import { Scene } from "../../engine/scene/scene.ts";
 import type { Workspace } from "../../engine/scene/workspace.ts";
+import type { NodeBlob } from "../../engine/serialize/blob.ts";
 import { unzipData } from "./format.ts";
 
 /** module 40 sleep. */
@@ -27,19 +28,48 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/** A .gvdesign text that holds no scene. */
+export class NoSceneError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "NoSceneError";
+  }
+}
+
+/** Why `json` holds no scene, or null when its root is a scene. */
+function noSceneReason(json: string | null): string | null {
+  if (!json) return "the file is empty";
+  let root: unknown;
+  try {
+    root = JSON.parse(json);
+  } catch {
+    return "the file is not valid JSON";
+  }
+  if (root === null || typeof root !== "object" || Array.isArray(root)) {
+    return "the file's root is not a scene";
+  }
+  const blob = root as Record<string, unknown>;
+  if (blob["@"] !== "scene") return "the file's root is not a scene";
+  // The restore never calls back for a scene without children, and
+  // throws out of its time slice for a child of an unknown class.
+  const children = blob["$"];
+  if (!Array.isArray(children) || !children.length) return "the file's scene has no pages";
+  for (const child of children as unknown[]) {
+    const name = child !== null && typeof child === "object" ? (child as NodeBlob)["@"] : null;
+    if (typeof name !== "string" || !Node._nameToNodeClassMap.has(name)) {
+      return "the file's scene holds an element of an unknown kind";
+    }
+  }
+  return null;
+}
+
 /**
  * GDocument.deserializeData without the cloud: resolves with the restored
- * scene. Like the old code it never settles when there is no scene:
- * - for empty or invalid JSON, because GNode.deserializeAsync then never
- *   calls back;
- * - when the restore gives null: the old code only went on (and resolved)
- *   when the result was truthy, so its LoadFailed branch was unreachable;
- * - when the restore gives something other than a scene (a JSON array, a
- *   root of an unknown class, a lone shape): the old code called
- *   `isCloudSynchronization()` on it, which only scenes have, and the
- *   TypeError ended the async executor without settling its promise.
- * The old document stayed in its Loading state in all three cases; see
- * "A .gvdesign that holds no scene stays Loading" in QUESTIONS.md.
+ * scene, and rejects with a NoSceneError when the text holds none; see
+ * "A .gvdesign without a scene, or with cut-off JSON, stays Loading
+ * forever" in BUGS-FIXED.md. The root is checked before the restore,
+ * because GNode.deserializeAsync never calls back for empty or invalid
+ * JSON, nor for a root without children (a lone shape, an unknown class).
  * A synchronous throw from deserializeAsync rejects, like the old
  * `.catch(o)`.
  */
@@ -50,9 +80,15 @@ export function deserializeScene(
 ): Promise<Scene> {
   if (progress) progress(15);
   return new Promise((resolve, reject) => {
+    const reason = noSceneReason(json);
+    if (reason !== null) {
+      reject(new NoSceneError(reason));
+      return;
+    }
     try {
       Node.deserializeAsync(json, workspace, progress, null, (result) => {
         if (result instanceof Scene) resolve(result);
+        else reject(new NoSceneError("the file's root is not a scene"));
       });
     } catch (error) {
       reject(error instanceof Error ? error : new Error(String(error)));
