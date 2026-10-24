@@ -3041,14 +3041,14 @@ export class SvgFeComposite extends SvgElementBase {
 }
 
 /**
- * svg.Element.feColorMatrix: canvg recolored the canvas pixels; here it
- * gets the scene context instead of a canvas and throws, which fails
- * the import (QUESTIONS.md "SVG import feColorMatrix").
+ * svg.Element.feColorMatrix: canvg recolored the canvas pixels. As a
+ * scene filter it does nothing, like feMorphology and feComposite; the
+ * old code got the scene context instead of a canvas and threw, which
+ * failed the import (BUGS-FIXED.md "BUG-077 feColorMatrix fails the whole
+ * import").
  */
 export class SvgFeColorMatrix extends SvgElementBase {
-  apply(): void {
-    throw new TypeError("e.getImageData is not a function");
-  }
+  apply(): void {}
 }
 
 export class SvgFeOffset extends SvgElementBase {

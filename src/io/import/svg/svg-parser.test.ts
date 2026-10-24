@@ -255,6 +255,19 @@ describe("SVGImport.import", () => {
     expect(layers(red)[1]?.[0]).toBe("C#[0,204,0]");
   });
 
+  it("imports an element whose filter has a feColorMatrix (BUG-077)", async () => {
+    const result = await importTree(
+      el("svg", { width: "100", height: "100" }, [
+        el("filter", { id: "f" }, [el("feColorMatrix", { type: "saturate", values: "0" })]),
+        el("rect", { width: "30", height: "30", fill: "#f00", filter: "url(#f)" }),
+        el("circle", { cx: "70", cy: "25", r: "15" }),
+      ]),
+    );
+    expect(result.error).toBeNull();
+    const children = (result.node as unknown as Group).getChildren();
+    expect(children.map((c) => c.constructor.name)).toEqual(["Rectangle", "Ellipse"]);
+  });
+
   it("fails on em lengths, which needed canvg's canvas", async () => {
     const result = await importTree(
       el("svg", {}, [el("rect", { x: "1em", width: "4", height: "4" })]),

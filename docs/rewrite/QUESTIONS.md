@@ -1035,7 +1035,7 @@ What it does: canvg recolored canvas pixels in feColorMatrix's apply. The import
 
 Why it's unclear: the canvas code was left behind when the fork switched to building scene nodes; color matrix filters are common in exported SVGs.
 
-Kept. Pinned by the io-import-svg/color-matrix-svg parity scenario.
+Fixed: see BUG-077 in BUGS-FIXED.md.
 
 ## Q-085 SVG import line bounds
 

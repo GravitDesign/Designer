@@ -2003,3 +2003,28 @@ onwards.
   the old app: the fixture with the use replaced by the text itself at
   x 10, y 50 gives the same node, apart from the random ids and the name
   "t" the referenced element's id gives it (as for every used element).
+
+## BUG-077 feColorMatrix fails the whole import
+
+Old code: chunk.vendor.js module 1391, svg.Element.feColorMatrix (line
+248535 onwards) and its call at 248669.
+
+- Reproduce: import an SVG with a filter that contains a
+  `<feColorMatrix>` (grayscale and hue filters are common), for example
+  `<filter id="cm"><feColorMatrix type="saturate" values="0"/></filter>`
+  on a rect.
+- Old: canvg recolored canvas pixels in feColorMatrix. The importer
+  handed it the scene context instead of a canvas, so it threw
+  "getImageData is not a function" and the whole import failed with
+  nothing imported.
+- New: feColorMatrix does nothing as a scene filter, like feMorphology
+  and feComposite; the element imports with the filter's other
+  primitives.
+- Test: src/io/import/svg/svg-parser.test.ts, "imports an element whose
+  filter has a feColorMatrix (BUG-077)" (fails with the old TypeError).
+- Parity exceptions: io-import-svg/color-matrix-svg and
+  clip-mask-filter-svg. The old app recorded the TypeError and no node.
+  Checked against the old app: the same fixtures with the feColorMatrix
+  elements removed give exactly the `.fixed` output, apart from the
+  random ids. Pending, not enabled for the new app yet:
+  import-export/import/open/svg-clip-mask-filter.svg (and its render).
