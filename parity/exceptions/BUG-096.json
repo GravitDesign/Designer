@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-096",
+  "why": "The local fonts provider answers a load started from the answer of another one instead of dropping it. No old-app scenario reaches it; the import-export scenarios of font-fallback.svg that do are pending under BUG-072.",
+  "scenarios": [],
+  "pending": []
+}

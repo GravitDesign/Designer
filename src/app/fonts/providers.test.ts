@@ -211,6 +211,19 @@ describe("LocalFontsProvider", () => {
     expect(listed[0]?.family).toBe("Local Sans");
     expect(listed[0]?.fonts).toEqual([data]);
   });
+
+  it("answers a load started from the answer of another one (BUG-096)", async () => {
+    // No local fonts, so every load asks the API again. The first answer
+    // starts a second load; the old code dropped its answer.
+    vi.stubGlobal("window", { queryLocalFonts: () => Promise.resolve([]) });
+    const provider = new LocalFontsProvider(owner);
+    const second = vi.fn();
+    provider.load("a%", 0, 9999, {
+      done: () => provider.load("b%", 0, 9999, { done: second, fail: () => {} }),
+      fail: () => {},
+    });
+    await vi.waitFor(() => expect(second).toHaveBeenCalledTimes(1));
+  });
 });
 
 describe("font-style-naming", () => {

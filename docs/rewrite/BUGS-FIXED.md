@@ -2500,3 +2500,28 @@ Old code: designer.browser.dev.js module 1253, GExporter.exportExportable
   exports while the font is pending).
 - Parity exceptions: none. The import-export scenarios wait for fonts in
   the page before they export (page-lib.ts), so they never hit the race.
+
+## BUG-096 Loading the local fonts twice in a row loses the second load's answer
+
+Old code: designer.browser.dev.js module 163's local fonts provider,
+_createLocalFontList (around line 77679).
+
+- Reproduce: with no local fonts listed (the Local Font Access API is
+  missing or refuses, which it does without a user gesture), import an
+  SVG whose texts use several families that need a font search, for
+  example parity/fixtures/import/svg/font-fallback.svg.
+- Old: when the list came back, the provider handed it to each waiting
+  load and only then reset its state, and after that set the waiting
+  list to a new empty one. A load started from one of those answers
+  began a new list request, and the reset threw its callback away, so
+  that load never answered. The font search behind it waited forever
+  and the import stayed Loading. The old app rarely got here, because
+  it answered every family of an import with the first family's search
+  (BUG-072); since that fix each family gets its own search.
+- New: the provider resets its state before it hands the list out, so a
+  load started from an answer waits for its own list.
+- Test: src/app/fonts/providers.test.ts, "answers a load started from
+  the answer of another one (BUG-096)" (fails with the old code: the
+  second load never answers).
+- Parity exceptions: none. The import-export open scenarios of
+  font-fallback.svg, which reach it, are pending under BUG-072.

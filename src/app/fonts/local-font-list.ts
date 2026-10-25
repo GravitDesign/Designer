@@ -175,13 +175,16 @@ export class LocalFontsProvider extends FontsProvider {
       this._fontList = families;
     })();
     void this._createLocalFontListPromise.then(() => {
+      // Cleared before the answers go out: an answer can load again, and
+      // with no local fonts that starts a new list whose waiting calls
+      // the old code then dropped (BUGS-FIXED.md "BUG-096 Loading the
+      // local fonts twice in a row loses the second load's answer").
       const waiting = this._createLocalFontListCallbacks as LoadCallbacks[];
+      this._createLocalFontListPromise = null;
+      this._createLocalFontListCallbacks = null;
       waiting.forEach((entry) => {
         entry.done(this._listed(query, start, count), true, null);
-        this._createLocalFontListPromise = null;
-        this._createLocalFontListCallbacks = null;
       });
-      this._createLocalFontListCallbacks = [];
     });
   }
 
