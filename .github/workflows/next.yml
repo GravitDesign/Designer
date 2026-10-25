@@ -59,12 +59,21 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: package-lock.json
-      # The old app, used as the reference, needs only express and ws.
-      - name: Install the old app's server dependencies
+      # The old app's server needs express and ws; its desktop scenarios
+      # need the Electron it was recorded with, or require() finds the new
+      # app's Electron at the repo root.
+      - name: Install the old app's dependencies
         working-directory: legacy
-        run: npm install --no-save --no-package-lock express@5 ws@8
+        run: npm install --no-save --no-package-lock express@5.1.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2 electron@33.4.11
       - run: npm ci
       - run: npx playwright install chromium
+      # The desktop scenarios start the new app from dist-electron.
+      - run: npx vite build --config vite.electron.config.ts
+      # The runner's screen is 1024x768, smaller than the old app's
+      # 1400x900 window, which Windows would shrink to fit.
+      - name: Set the screen resolution
+        shell: pwsh
+        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
       - run: npx playwright test --project harness --project parity --shard ${{ matrix.shard }}/4
         env:
           CI: "1"
@@ -96,7 +105,7 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: Install the old app's server dependencies
         working-directory: legacy
-        run: npm install --no-save --no-package-lock express@5 ws@8
+        run: npm install --no-save --no-package-lock express@5.1.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2
       - run: npm ci
       - run: npx playwright install chromium
       - name: Brand scenarios, first run
@@ -137,7 +146,7 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: Install the old app's server dependencies
         working-directory: legacy
-        run: npm install --no-save --no-package-lock express@5 ws@8
+        run: npm install --no-save --no-package-lock express@5.1.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2
       - run: npm ci
       - run: npx playwright install chromium
       - run: npx playwright test --project=parity parity/scenarios/brand --grep "$PATTERN"

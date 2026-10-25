@@ -5,3 +5,8 @@
 *.pdf binary
 *.jpg binary
 *.wasm binary
+
+# The old app's assets and user guide are served as they were checked out
+# on Windows when the parity suite was recorded: text files with CRLF.
+assets/** text=auto eol=crlf
+guide/** text=auto eol=crlf
