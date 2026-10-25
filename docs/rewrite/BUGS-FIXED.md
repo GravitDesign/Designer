@@ -1699,8 +1699,10 @@ rectfill handler in chunk.vendor.js module 1404 (GEPSParser).
   gfx-rectclip-ps's clip path has the right corners; checked by counting
   the node classes and reading the diffs of the expanded JSON (for
   shapes-eps: the rectangle becomes a filled path and the rectstroke adds
-  a stroked one with the file's line width). Pending: the import-export
-  open and place scenarios of eps-shapes.eps.
+  a stroked one with the file's line width). The import-export open
+  scenarios of eps-shapes.eps (.fixed recorded on CI) differ the same way,
+  and the page they open is 185 instead of 370 high and its content 5
+  lower. Pending: the place scenario.
 
 ## BUG-113 Cancelling an EPS import leaves the document Loading
 
