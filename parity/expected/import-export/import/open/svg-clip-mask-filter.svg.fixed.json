@@ -1,0 +1,424 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "ellipse",
+     "@id": "id3",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id4",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        40,
+        0,
+        0,
+        40,
+        50,
+        50
+       ],
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id5",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id6",
+          "_pt": "C#[204,51,51]"
+         },
+         {
+          "@": "borderPaintLayer",
+          "@id": "id7",
+          "_blc": "butt",
+          "_bml": 4
+         }
+        ],
+        "&": "id8"
+       },
+       "_effId": "id9"
+      }
+     ],
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      40,
+      50,
+      50
+     ],
+     "_layId": "id10",
+     "_effId": "id11"
+    },
+    {
+     "@": "compoundpath",
+     "@id": "id12",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id13",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        40,
+        0,
+        0,
+        40,
+        150,
+        50
+       ],
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id14",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id15",
+          "_pt": "C#[51,102,204]"
+         },
+         {
+          "@": "borderPaintLayer",
+          "@id": "id16",
+          "_bw": 0.5,
+          "_ba": "I",
+          "_blc": "butt",
+          "_bml": 4
+         }
+        ],
+        "&": "id17"
+       },
+       "_effId": "id18"
+      }
+     ],
+     "paths": [
+      "{\"@\":\"path\",\"@id\":\"id19\",\"closed\":true,\"pts\":[[\"AADcQgAAIEE=\",\"#\",\"id20\"],[\"AAA+QwAAIEE=\",\"#\",\"id21\"],[\"AAA+QwAAtEI=\",\"#\",\"id22\"],[\"AADcQgAAtEI=\",\"#\",\"id23\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id24\",\"_effId\":\"id25\"}",
+      "{\"@\":\"path\",\"@id\":\"id26\",\"closed\":true,\"pts\":[[\"AAACQwAASEI=\",\"#\",\"id27\",\"h\",\"AAACQzgndEI=\",\"H\",\"AAACQ8jYG0I=\"],[\"AAAWQwAA8EE=\",\"#\",\"id28\",\"h\",\"MvYKQwAA8EE=\",\"H\",\"zgkhQwAA8EE=\"],[\"AAAqQwAASEI=\",\"#\",\"id29\",\"h\",\"AAAqQ8jYG0I=\",\"H\",\"AAAqQzgndEI=\"],[\"AAAWQwAAjEI=\",\"#\",\"id30\",\"h\",\"zgkhQwAAjEI=\",\"H\",\"MvYKQwAAjEI=\"]],\"reftxt\":null,\"refanchors\":[],\"_layId\":\"id31\",\"_effId\":\"id32\"}"
+     ],
+     "refanchors": [],
+     "_layId": "id33",
+     "_effId": "id34"
+    },
+    {
+     "@": "rectangle",
+     "@id": "id35",
+     "$": [
+      {
+       "@": "rectangle",
+       "@id": "id36",
+       "uf": true,
+       "ct": "R",
+       "sl": 0,
+       "reftxt": null,
+       "refanchors": [],
+       "trf": [
+        40,
+        0,
+        0,
+        40,
+        250,
+        50
+       ],
+       "_layers": {
+        "@": "paintLayers",
+        "@id": "id37",
+        "$": [
+         {
+          "@": "fillPaintLayer",
+          "@id": "id38",
+          "_pt": "C#[51,170,51]"
+         },
+         {
+          "@": "borderPaintLayer",
+          "@id": "id39",
+          "_blc": "butt",
+          "_bml": 4
+         }
+        ],
+        "&": "id40"
+       },
+       "_effId": "id41"
+      }
+     ],
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      0.25,
+      0,
+      0,
+      0.5,
+      0.25,
+      0.5
+     ],
+     "_layId": "id42",
+     "_effId": "id43"
+    },
+    {
+     "@": "rectangle",
+     "@id": "id44",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      30,
+      0,
+      0,
+      30,
+      340,
+      40
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id45",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id46",
+        "_pt": "C#[255,170,0]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id47",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id48"
+     },
+     "_eff": {
+      "@": "effects",
+      "$": [
+       {
+        "@": "blurEffect",
+        "r": 9.316171876521782
+       }
+      ],
+      "&": "id49"
+     }
+    },
+    {
+     "@": "rectangle",
+     "@id": "id50",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      220,
+      0,
+      0,
+      400,
+      20,
+      290
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id51",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id52",
+        "_pt": "C#[0,153,204]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id53",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id54"
+     },
+     "_eff": {
+      "@": "effects",
+      "$": [
+       {
+        "@": "dropShadowEffect",
+        "r": 6.9871289073913365,
+        "x": 4,
+        "y": 6,
+        "pat": "C#[0,0,0]",
+        "opc": 0.5
+       }
+      ],
+      "&": "id55"
+     }
+    },
+    {
+     "@": "rectangle",
+     "@id": "id56",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      220,
+      0,
+      0,
+      400,
+      20,
+      290
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id57",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id58",
+        "_pt": "C#[153,204,0]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id59",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id60"
+     },
+     "_eff": {
+      "@": "effects",
+      "$": [
+       {
+        "@": "dropShadowEffect",
+        "r": 4.658085938260891,
+        "x": 5,
+        "y": 5,
+        "pat": "C#[255,0,0]",
+        "opc": 0.6
+       }
+      ],
+      "&": "id61"
+     }
+    },
+    {
+     "@": "rectangle",
+     "@id": "id62",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      35,
+      0,
+      0,
+      35,
+      255,
+      155
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id63",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id64",
+        "_pt": "C#[204,0,153]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id65",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id66"
+     },
+     "_effId": "id67"
+    },
+    {
+     "@": "rectangle",
+     "@id": "id68",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      25,
+      0,
+      0,
+      25,
+      345,
+      145
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id69",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id70",
+        "_pt": "C#[51,51,51]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id71",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id72"
+     },
+     "_effId": "id73"
+    },
+    {
+     "@": "annlst",
+     "@id": "id74",
+     "pgid": "id2",
+     "aid": "id74"
+    }
+   ],
+   "#": "id75",
+   "w": 400,
+   "h": 220,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "bop": 0,
+   "name": "Page 1"
+  }
+ ],
+ "lmd": "<time>",
+ "__ids": [
+  "id76",
+  "id77",
+  "id78",
+  "id79",
+  "id80",
+  "id81",
+  "id82",
+  "id83",
+  "id84",
+  "id85",
+  "id86",
+  "id87",
+  "id88"
+ ],
+ "dictionary": {
+  "entries": []
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}

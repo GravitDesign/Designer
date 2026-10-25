@@ -1,9 +1,12 @@
 {
   "bug": "BUG-077",
   "why": "A filter with a feColorMatrix no longer fails the whole SVG import; feColorMatrix does nothing as a scene filter, like feMorphology and feComposite. The old app recorded a TypeError and no node; the old app gives the .fixed nodes for the same fixtures with the feColorMatrix elements removed.",
-  "scenarios": ["io-import-svg/color-matrix-svg", "io-import-svg/clip-mask-filter-svg"],
-  "pending": [
+  "scenarios": [
+    "io-import-svg/color-matrix-svg",
+    "io-import-svg/clip-mask-filter-svg",
     "import-export/import/open/svg-clip-mask-filter.svg",
-    "import-export/import/open/svg-clip-mask-filter.svg.render"
-  ]
+    "import-export/import/open/svg-clip-mask-filter.svg.render",
+    "import-export/import/open/svg-clip-mask-filter.svg.state"
+  ],
+  "pending": []
 }

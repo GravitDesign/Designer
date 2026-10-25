@@ -1,0 +1,442 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "text",
+     "@id": "id3",
+     "#": "id4",
+     "ct": [
+      {
+       "text": "Hello SVG",
+       "fontWeight": 400,
+       "fontStyle": "normal",
+       "underline": false,
+       "strikeout": false,
+       "fontColor": "transparent",
+       "fontFamily": "Open Sans",
+       "fontSize": 24,
+       "align": "left",
+       "script": "normal",
+       "transformation": null,
+       "charSpacing": null,
+       "wordSpacing": null,
+       "lineSpacing": 1,
+       "paragraphSpacing": "0",
+       "paragraphIndent": 0,
+       "ligatures": false,
+       "langScript": "auto",
+       "variant": null,
+       "fractions": false,
+       "listDepth": 0,
+       "listMarker": null,
+       "stylisticSet": null,
+       "localizedForm": null
+      }
+     ],
+     "content": "[{\"text\":\"Hello SVG\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"transparent\",\"fontFamily\":\"Open Sans\",\"fontSize\":24,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+     "w": 142,
+     "h": 27.236,
+     "sc": true,
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      20,
+      14.34765625
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id5",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id6",
+        "_pt": "C#[34,34,34]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id7",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id8"
+     },
+     "_effId": "id9",
+     "_tff": "Open Sans",
+     "_tfi": 24
+    },
+    {
+     "@": "text",
+     "@id": "id10",
+     "#": "id11",
+     "ct": [
+      {
+       "text": "Bold ",
+       "fontWeight": 700,
+       "fontStyle": "normal",
+       "underline": false,
+       "strikeout": false,
+       "fontColor": "transparent",
+       "fontFamily": "Open Sans",
+       "fontSize": 18,
+       "align": "left",
+       "script": "normal",
+       "transformation": null,
+       "charSpacing": null,
+       "wordSpacing": null,
+       "lineSpacing": 1,
+       "paragraphSpacing": "0",
+       "paragraphIndent": 0,
+       "ligatures": false,
+       "langScript": "auto",
+       "variant": null,
+       "fractions": false,
+       "listDepth": 0,
+       "listMarker": null,
+       "stylisticSet": null,
+       "localizedForm": null
+      }
+     ],
+     "content": "[{\"text\":\"Bold \",\"fontWeight\":700,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"transparent\",\"fontFamily\":\"Open Sans\",\"fontSize\":18,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+     "w": 142,
+     "h": 27.236,
+     "sc": true,
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      20,
+      60.7607421875
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id12",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id13",
+        "_pt": "C#[170,0,0]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id14",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id15"
+     },
+     "_effId": "id16",
+     "_tff": "Open Sans",
+     "_tfi": 18,
+     "_tfw": 700
+    },
+    {
+     "@": "text",
+     "@id": "id17",
+     "#": "id18",
+     "ct": [
+      {
+       "text": "italic span end",
+       "fontWeight": 700,
+       "fontStyle": "italic",
+       "underline": false,
+       "strikeout": false,
+       "fontColor": "transparent",
+       "fontFamily": "Open Sans",
+       "fontSize": 18,
+       "align": "left",
+       "script": "normal",
+       "transformation": null,
+       "charSpacing": null,
+       "wordSpacing": null,
+       "lineSpacing": 1,
+       "paragraphSpacing": "0",
+       "paragraphIndent": 0,
+       "ligatures": false,
+       "langScript": "auto",
+       "variant": null,
+       "fractions": false,
+       "listDepth": 0,
+       "listMarker": null,
+       "stylisticSet": null,
+       "localizedForm": null
+      }
+     ],
+     "content": "[{\"text\":\"italic span end\",\"fontWeight\":700,\"fontStyle\":\"italic\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"transparent\",\"fontFamily\":\"Open Sans\",\"fontSize\":18,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+     "w": 142,
+     "h": 27.236,
+     "sc": true,
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      0,
+      -19.2392578125
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id19",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id20",
+        "_pt": "C#[0,0,170]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id21",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id22"
+     },
+     "_effId": "id23",
+     "_tff": "Open Sans",
+     "_tfi": 18,
+     "_tfw": 700,
+     "_tfs": "I"
+    },
+    {
+     "@": "text",
+     "@id": "id24",
+     "#": "id25",
+     "ct": [
+      {
+       "text": "Right aligned",
+       "fontWeight": 400,
+       "fontStyle": "normal",
+       "underline": false,
+       "strikeout": false,
+       "fontColor": "transparent",
+       "fontFamily": "Open Sans",
+       "fontSize": 16,
+       "align": "left",
+       "script": "normal",
+       "transformation": null,
+       "charSpacing": null,
+       "wordSpacing": null,
+       "lineSpacing": 1,
+       "paragraphSpacing": "0",
+       "paragraphIndent": 0,
+       "ligatures": false,
+       "langScript": "auto",
+       "variant": null,
+       "fractions": false,
+       "listDepth": 0,
+       "listMarker": null,
+       "stylisticSet": null,
+       "localizedForm": null
+      }
+     ],
+     "content": "[{\"text\":\"Right aligned\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"transparent\",\"fontFamily\":\"Open Sans\",\"fontSize\":16,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+     "w": 142,
+     "h": 27.236,
+     "sc": true,
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      283.3125,
+      92.8984375
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id26",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id27",
+        "_pt": "C#[0,0,0]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id28",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id29"
+     },
+     "_effId": "id30",
+     "_tff": "Open Sans",
+     "_tfi": 16
+    },
+    {
+     "@": "text",
+     "@id": "id31",
+     "#": "id32",
+     "ct": [
+      {
+       "text": "Centered",
+       "fontWeight": 400,
+       "fontStyle": "normal",
+       "underline": false,
+       "strikeout": false,
+       "fontColor": "transparent",
+       "fontFamily": "Open Sans",
+       "fontSize": 16,
+       "align": "left",
+       "script": "normal",
+       "transformation": null,
+       "charSpacing": null,
+       "wordSpacing": null,
+       "lineSpacing": 1,
+       "paragraphSpacing": "0",
+       "paragraphIndent": 0,
+       "ligatures": false,
+       "langScript": "auto",
+       "variant": null,
+       "fractions": false,
+       "listDepth": 0,
+       "listMarker": null,
+       "stylisticSet": null,
+       "localizedForm": null
+      }
+     ],
+     "content": "[{\"text\":\"Centered\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"transparent\",\"fontFamily\":\"Open Sans\",\"fontSize\":16,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+     "w": 142,
+     "h": 27.236,
+     "sc": true,
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      165.5859375,
+      122.8984375
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id33",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id34",
+        "_pt": "C#[0,0,0]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id35",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id36"
+     },
+     "_effId": "id37",
+     "_tff": "Open Sans",
+     "_tfi": 16
+    },
+    {
+     "@": "text",
+     "@id": "id38",
+     "#": "id39",
+     "ct": [
+      {
+       "text": "Text along a quadratic curve path",
+       "fontWeight": 400,
+       "fontStyle": "normal",
+       "underline": false,
+       "strikeout": false,
+       "fontColor": "transparent",
+       "fontFamily": "Open Sans",
+       "fontSize": 14,
+       "align": "left",
+       "script": "normal",
+       "transformation": null,
+       "charSpacing": null,
+       "wordSpacing": null,
+       "lineSpacing": 1,
+       "paragraphSpacing": "0",
+       "paragraphIndent": 0,
+       "ligatures": false,
+       "langScript": "auto",
+       "variant": null,
+       "fractions": false,
+       "listDepth": 0,
+       "listMarker": null,
+       "stylisticSet": null,
+       "localizedForm": null
+      }
+     ],
+     "content": "[{\"text\":\"Text along a quadratic curve path\",\"fontWeight\":400,\"fontStyle\":\"normal\",\"underline\":false,\"strikeout\":false,\"fontColor\":\"transparent\",\"fontFamily\":\"Open Sans\",\"fontSize\":14,\"align\":\"left\",\"script\":\"normal\",\"transformation\":null,\"charSpacing\":null,\"wordSpacing\":null,\"lineSpacing\":1,\"paragraphSpacing\":\"0\",\"paragraphIndent\":0,\"ligatures\":false,\"langScript\":\"auto\",\"variant\":null,\"fractions\":false,\"listDepth\":0,\"listMarker\":null,\"stylisticSet\":null,\"localizedForm\":null}]",
+     "w": 142,
+     "h": 27.236,
+     "tpths": 1,
+     "sc": true,
+     "trf": [
+      1,
+      0,
+      0,
+      1,
+      0,
+      -14.9638671875
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id40",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id41",
+        "_pt": "C#[0,102,0]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id42",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id43"
+     },
+     "_effId": "id44",
+     "_tff": "Open Sans",
+     "_tfi": 14
+    },
+    {
+     "@": "annlst",
+     "@id": "id45",
+     "pgid": "id2",
+     "aid": "id45"
+    }
+   ],
+   "#": "id46",
+   "w": 400,
+   "h": 220,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "bop": 0,
+   "name": "Page 1"
+  }
+ ],
+ "lmd": "<time>",
+ "__ids": [
+  "id47",
+  "id48",
+  "id49",
+  "id50",
+  "id51",
+  "id52",
+  "id53",
+  "id54"
+ ],
+ "dictionary": {
+  "entries": []
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}

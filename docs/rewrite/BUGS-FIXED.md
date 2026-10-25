@@ -1820,9 +1820,9 @@ Old code: chunk.vendor.js module 1392, arcToBezier, lines 248961-248962.
   rotated arc. Checked against the old app: importing the same fixtures
   with each rotation r replaced by r * 180 / π (so the old double
   conversion lands on the right angle) gives exactly the `.fixed` output,
-  apart from the random ids. Pending, not enabled for the new app yet:
-  import-export/import/open/svg-shapes.svg (and its render) and
-  import-export/import/place/svg-shapes.svg and svg-shapes.svgz.
+  apart from the random ids. import-export/import/open/svg-shapes.svg and
+  its render (`.fixed` recorded on CI) differ the same way, in one path.
+  Pending: import-export/import/place/svg-shapes.svg and svg-shapes.svgz.
 
 ## BUG-071 SVG import never finishes when a font is asked for after another resolved
 
@@ -1891,9 +1891,11 @@ lines 245110-245135.
   the scenario's provider made synchronous (so nothing waits in the old
   queue) the old app gives exactly the `.fixed` nodes, apart from the
   random ids; only the recorded query lists differ, because the old app
-  then asks again for queries the new queue shares. Pending, not enabled
-  for the new app yet: import-export/import/open/svg-font-fallback.svg
-  (and its render).
+  then asks again for queries the new queue shares.
+  import-export/import/open/svg-text.svg and its render (`.fixed` recorded
+  on CI) differ the same way: the bold text and its italic span keep
+  weight 700 and italic. import-export/import/open/svg-font-fallback.svg
+  gives the old output and needs no exception.
 
 ## BUG-073 `<switch>` imports every child
 
@@ -1922,9 +1924,9 @@ onwards.
   exactly the `.fixed` output of io-import-svg, apart from the random ids;
   the other `.fixed` files differ from the old output only in that group.
   The roundtrip-*-preserved scenarios (Gravit's own switch) are unchanged.
-  Pending, not enabled for the new app yet: import-export/import/open/
-  svg-structure.svg (and its render) and import-export/import/place/
-  svg-structure.svg.
+  import-export/import/open/svg-structure.svg and its render (`.fixed`
+  recorded on CI, with BUG-075) differ the same way. Pending:
+  import-export/import/place/svg-structure.svg.
 
 ## BUG-074 Text children take the position and style of another child
 
@@ -1979,9 +1981,10 @@ onwards.
   `fill="#d22"` on the use (and the switch replaced as for BUG-073) gives
   exactly the new node, apart from the random ids and the class kept in
   `@svgattrs`. io-import-svg/use-symbol-svg is unchanged: its use with
-  `class="blue"` points at a group that sets its own fill. Pending, not
-  enabled for the new app yet: import-export/import/open/svg-structure.svg
-  (and its render) and import-export/import/place/svg-structure.svg.
+  `class="blue"` points at a group that sets its own fill.
+  import-export/import/open/svg-structure.svg and its render share their
+  `.fixed` files with BUG-073. Pending:
+  import-export/import/place/svg-structure.svg.
 
 ## BUG-076 `<use>` of a `<text>` fails the import
 
@@ -2028,8 +2031,9 @@ Old code: chunk.vendor.js module 1391, svg.Element.feColorMatrix (line
   clip-mask-filter-svg. The old app recorded the TypeError and no node.
   Checked against the old app: the same fixtures with the feColorMatrix
   elements removed give exactly the `.fixed` output, apart from the
-  random ids. Pending, not enabled for the new app yet:
-  import-export/import/open/svg-clip-mask-filter.svg (and its render).
+  random ids. import-export/import/open/svg-clip-mask-filter.svg, its
+  render and its .state (`.fixed` recorded on CI) have the finished
+  import where the old app showed "Loading has failed".
 
 ## BUG-078 Line and polyline bounds move the bottom edge to x
 

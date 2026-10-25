@@ -1,0 +1,536 @@
+{
+ "@": "scene",
+ "@id": "id1",
+ "$": [
+  {
+   "@": "page",
+   "@id": "id2",
+   "$": [
+    {
+     "@": "rectangle",
+     "@id": "id3",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      25,
+      50,
+      35
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id4",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id5",
+        "_pt": "C#[238,51,51]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id6",
+        "_bw": 2,
+        "_blc": "butt",
+        "_bml": 4,
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id7"
+     },
+     "_effId": "id8"
+    },
+    {
+     "@": "rectangle",
+     "@id": "id9",
+     "uf": true,
+     "ct": "R",
+     "sl": 12,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      40,
+      0,
+      0,
+      25,
+      150,
+      35
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id10",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id11",
+        "_pt": "C#[40,160,90]",
+        "_op": 0.6
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id12",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id13"
+     },
+     "_effId": "id14"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id15",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      25,
+      0,
+      0,
+      25,
+      250,
+      35
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id16",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id17",
+        "_pt": "C#[0,0,255]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id18",
+        "_bds": [
+         6,
+         3
+        ],
+        "_bw": 4,
+        "_blc": "butt",
+        "_bml": 4,
+        "_pt": "C#[255,165,0]"
+       }
+      ],
+      "&": "id19"
+     },
+     "_effId": "id20"
+    },
+    {
+     "@": "ellipse",
+     "@id": "id21",
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      45,
+      0,
+      0,
+      20,
+      340,
+      35
+     ],
+     "_stop": 0.5,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id22",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id23",
+        "_pt": "C#[0,0,0]",
+        "_vs": false
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id24",
+        "_bw": 3,
+        "_blc": "butt",
+        "_bml": 4,
+        "_pt": "C#[51,51,51]"
+       }
+      ],
+      "&": "id25"
+     },
+     "_effId": "id26"
+    },
+    {
+     "@": "path",
+     "@id": "id27",
+     "pts": [
+      [
+       "AAAgQQAAtEI=",
+       "#",
+       "id28"
+      ],
+      [
+       "AAA+QwAA8EI=",
+       "#",
+       "id29"
+      ]
+     ],
+     "reftxt": null,
+     "refanchors": [],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id30",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id31",
+        "_pt": "C#[0,0,0]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id32",
+        "_bw": 5,
+        "_blc": "round",
+        "_bml": 4,
+        "_pt": "C#[128,0,128]"
+       }
+      ],
+      "&": "id33"
+     },
+     "_effId": "id34"
+    },
+    {
+     "@": "path",
+     "@id": "id35",
+     "pts": [
+      [
+       "AABSQwAA8EI=",
+       "#",
+       "id36"
+      ],
+      [
+       "AABwQwAAoEI=",
+       "#",
+       "id37"
+      ],
+      [
+       "AACHQwAA8EI=",
+       "#",
+       "id38"
+      ],
+      [
+       "AACWQwAAoEI=",
+       "#",
+       "id39"
+      ],
+      [
+       "AAClQwAA8EI=",
+       "#",
+       "id40"
+      ]
+     ],
+     "reftxt": null,
+     "refanchors": [],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id41",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id42",
+        "_pt": "C#[0,0,0]",
+        "_vs": false
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id43",
+        "_bw": 3,
+        "_blc": "butt",
+        "_blj": "bevel",
+        "_bml": 4,
+        "_pt": "C#[0,128,128]"
+       }
+      ],
+      "&": "id44"
+     },
+     "_effId": "id45"
+    },
+    {
+     "@": "path",
+     "@id": "id46",
+     "closed": true,
+     "pts": [
+      [
+       "AACvQwAAoEI=",
+       "#",
+       "id47"
+      ],
+      [
+       "AADDQwAA8EI=",
+       "#",
+       "id48"
+      ],
+      [
+       "AACvQwAADEM=",
+       "#",
+       "id49"
+      ],
+      [
+       "AACgQwAA3EI=",
+       "#",
+       "id50"
+      ]
+     ],
+     "reftxt": null,
+     "refanchors": [],
+     "evenodd": true,
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id51",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id52",
+        "_pt": "C#[255,215,0]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id53",
+        "_blc": "butt",
+        "_bml": 2,
+        "_pt": "C#[0,0,0]"
+       }
+      ],
+      "&": "id54"
+     },
+     "_effId": "id55"
+    },
+    {
+     "@": "path",
+     "@id": "id56",
+     "closed": true,
+     "pts": [
+      [
+       "AAAgQQAAIEM=",
+       "#",
+       "id57"
+      ],
+      [
+       "AABwQgAAIEM=",
+       "#",
+       "id58"
+      ],
+      [
+       "AACgQgAANEM=",
+       "#",
+       "id59"
+      ],
+      [
+       "AADwQgAANEM=",
+       "#",
+       "id60"
+      ],
+      [
+       "AAACQwAANEM=",
+       "#",
+       "id61"
+      ],
+      [
+       "AAACQwAASEM=",
+       "#",
+       "id62"
+      ],
+      [
+       "AAACQwAAUkM=",
+       "#",
+       "id63",
+       "H",
+       "AAAMQwAAZkM="
+      ],
+      [
+       "AAAqQwAAUkM=",
+       "#",
+       "id64",
+       "h",
+       "AAAgQwAAZkM=",
+       "H",
+       "AAAvQwAASEM="
+      ],
+      [
+       "AAA+QwAAUkM=",
+       "#",
+       "id65",
+       "h",
+       "AAA5QwAASEM=",
+       "H",
+       "AABDQwAAXEM="
+      ],
+      [
+       "AABcQwAAUkM=",
+       "#",
+       "id66",
+       "h",
+       "AABSQwAAZkM=",
+       "H",
+       "AABmQwAAPkM="
+      ],
+      [
+       "AABwQwAAUkM=",
+       "#",
+       "id67",
+       "h",
+       "AABmQwAASEM="
+      ],
+      [
+       "AACMQwAAUkM=",
+       "#",
+       "id68",
+       "h",
+       "AACCQwAANEM="
+      ],
+      [
+       "AACWQwAAUkM=",
+       "#",
+       "id69",
+       "h",
+       "AACRQwAAZkM="
+      ],
+      [
+       "AACqQwAAUkM=",
+       "#",
+       "id70",
+       "h",
+       "AACbQwAAPkM="
+      ],
+      [
+       "AAC0QwAAUkM=",
+       "#",
+       "id71",
+       "h",
+       "AAC5QwAAZkM="
+      ]
+     ],
+     "reftxt": null,
+     "refanchors": [],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id72",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id73",
+        "_pt": "C#[153,204,255]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id74",
+        "_bw": 1.5,
+        "_blc": "butt",
+        "_bml": 4,
+        "_pt": "C#[0,51,102]"
+       }
+      ],
+      "&": "id75"
+     },
+     "_effId": "id76"
+    },
+    {
+     "@": "compoundpath",
+     "@id": "id77",
+     "paths": [
+      "{\"@\":\"path\",\"@id\":\"id78\",\"pts\":[[\"AACgQQAAgkM=\",\"#\",\"id79\",\"H\",\"AACgQWExdkM=\"],[\"AABwQgAAa0M=\",\"#\",\"id80\",\"h\",\"a6IXQgAAa0M=\",\"H\",\"yy6kQgAAa0M=\"],[\"AADIQgAAgkM=\",\"#\",\"id81\",\"h\",\"AADIQmExdkM=\",\"H\",\"DxHUQh41iEM=\"],[\"AKAGQxUMkUM=\",\"#\",\"id82\",\"h\",\"8HbuQobxjUM=\",\"H\",\"iAQWQ6QmlEM=\"],[\"AKAuQxUMkUM=\",\"#\",\"id83\",\"h\",\"AEQlQ6QmlEM=\",\"H\",\"Afw3Q4bxjUM=\"],[\"AAA0QwAAgkM=\",\"#\",\"id84\",\"h\",\"iAg6Qx41iEM=\"]],\"reftxt\":null,\"refanchors\":[],\"evenodd\":true,\"_layId\":\"id85\",\"_effId\":\"id86\"}",
+      "{\"@\":\"path\",\"@id\":\"id87\",\"closed\":true,\"pts\":[[\"AABIQwAAcEM=\",\"#\",\"id88\"],[\"AACCQwAAcEM=\",\"#\",\"id89\"],[\"AACCQwAAjEM=\",\"#\",\"id90\"],[\"AABIQwAAjEM=\",\"#\",\"id91\"]],\"reftxt\":null,\"refanchors\":[],\"evenodd\":true,\"_layId\":\"id92\",\"_effId\":\"id93\"}",
+      "{\"@\":\"path\",\"@id\":\"id94\",\"closed\":true,\"pts\":[[\"AABXQwAAekM=\",\"#\",\"id95\"],[\"AABXQwAAh0M=\",\"#\",\"id96\"],[\"AAB1QwAAh0M=\",\"#\",\"id97\"],[\"AAB1QwAAekM=\",\"#\",\"id98\"]],\"reftxt\":null,\"refanchors\":[],\"evenodd\":true,\"_layId\":\"id99\",\"_effId\":\"id100\"}"
+     ],
+     "refanchors": [],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id101",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id102",
+        "_pt": "C#[204,102,153]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id103",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id104"
+     },
+     "_effId": "id105"
+    },
+    {
+     "@": "rectangle",
+     "@id": "id106",
+     "uf": true,
+     "ct": "R",
+     "sl": 0,
+     "reftxt": null,
+     "refanchors": [],
+     "trf": [
+      38.63703305156273,
+      10.35276180410083,
+      -5.176380902050415,
+      19.318516525781366,
+      340,
+      260
+     ],
+     "_layers": {
+      "@": "paintLayers",
+      "@id": "id107",
+      "$": [
+       {
+        "@": "fillPaintLayer",
+        "@id": "id108",
+        "_pt": "C#[136,136,136]"
+       },
+       {
+        "@": "borderPaintLayer",
+        "@id": "id109",
+        "_blc": "butt",
+        "_bml": 4
+       }
+      ],
+      "&": "id110"
+     },
+     "_effId": "id111"
+    },
+    {
+     "@": "annlst",
+     "@id": "id112",
+     "pgid": "id2",
+     "aid": "id112"
+    }
+   ],
+   "#": "id113",
+   "w": 400,
+   "h": 300,
+   "off": [],
+   "bck": "C#[255,255,255]",
+   "bop": 0,
+   "name": "Page 1"
+  }
+ ],
+ "lmd": "<time>",
+ "__ids": [
+  "id114",
+  "id115",
+  "id116",
+  "id117",
+  "id118",
+  "id119",
+  "id120",
+  "id121",
+  "id122",
+  "id123",
+  "id124",
+  "id125"
+ ],
+ "dictionary": {
+  "entries": []
+ },
+ "symbolDictionary": {
+  "entries": []
+ }
+}
