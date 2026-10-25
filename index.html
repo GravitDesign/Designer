@@ -184,12 +184,26 @@
     <div id="gd-loader" aria-hidden="true">
       <div class="gd-loader-mark">
         <svg class="gd-loader-ring" viewBox="0 0 256 256">
-          <mask id="gd-loader-gap" maskUnits="userSpaceOnUse" x="-64" y="-64" width="384" height="384">
+          <mask
+            id="gd-loader-gap"
+            maskUnits="userSpaceOnUse"
+            x="-64"
+            y="-64"
+            width="384"
+            height="384"
+          >
             <rect x="-64" y="-64" width="384" height="384" fill="#fff" />
             <circle cx="123" cy="128" r="80" fill="#000" />
           </mask>
           <g mask="url(#gd-loader-gap)">
-            <path d="M123 92 A112 36 0 0 1 123 164 A112 36 0 0 1 123 92" pathLength="100" fill="none" stroke="#f4f3f8" stroke-width="14" transform="rotate(-22 123 128)" />
+            <path
+              d="M123 92 A112 36 0 0 1 123 164 A112 36 0 0 1 123 92"
+              pathLength="100"
+              fill="none"
+              stroke="#f4f3f8"
+              stroke-width="14"
+              transform="rotate(-22 123 128)"
+            />
           </g>
         </svg>
         <div class="gd-loader-back">
@@ -202,18 +216,36 @@
           <g transform="translate(123 128) scale(0.15359) translate(-785.88 -679.0)">
             <g clip-path="url(#gd-loader-sphere)">
               <rect x="0" y="0" width="1600" height="1400" fill="#FFD81F" />
-              <path d="M727 60 L727.6 200.5 L307.7 616.5 L60 700 L60 1300 L753.2 1300 L753.2 1159.6 C754.5 882.6 849.9 536.6 996.7 245.5 L996.7 60 Z" fill="#E3136B" />
+              <path
+                d="M727 60 L727.6 200.5 L307.7 616.5 L60 700 L60 1300 L753.2 1300 L753.2 1159.6 C754.5 882.6 849.9 536.6 996.7 245.5 L996.7 60 Z"
+                fill="#E3136B"
+              />
               <path d="M308.2 616.5 L728.6 200.5 L600 60 L60 60 L60 616.5 Z" fill="#C3DB4E" />
               <path d="M307.3 623.1 L60 623 L60 700.4 L304.5 700.4 L619.9 347.1 Z" fill="#6E9A34" />
-              <path d="M619.9 347.1 L304.5 700.4 L60 700.4 L60 900 L342.4 867.8 L757 226 Z" fill="#C3DB4E" />
-              <path d="M1300 700 L1259.3 768.5 C1206.1 807.6 1151.5 851.1 1103.9 895.8 C995.8 997.3 933.6 1076.8 864.5 1154.3 L864.5 1300 L1300 1300 Z" fill="#6E9A34" />
+              <path
+                d="M619.9 347.1 L304.5 700.4 L60 700.4 L60 900 L342.4 867.8 L757 226 Z"
+                fill="#C3DB4E"
+              />
+              <path
+                d="M1300 700 L1259.3 768.5 C1206.1 807.6 1151.5 851.1 1103.9 895.8 C995.8 997.3 933.6 1076.8 864.5 1154.3 L864.5 1300 L1300 1300 Z"
+                fill="#6E9A34"
+              />
             </g>
           </g>
         </svg>
         <svg class="gd-loader-ring" viewBox="0 0 256 256">
-          <clipPath id="gd-loader-front-half"><rect x="-64" y="128" width="384" height="192" /></clipPath>
+          <clipPath id="gd-loader-front-half">
+            <rect x="-64" y="128" width="384" height="192" />
+          </clipPath>
           <g transform="rotate(-22 123 128)">
-            <path d="M123 92 A112 36 0 0 1 123 164 A112 36 0 0 1 123 92" pathLength="100" fill="none" stroke="#f4f3f8" stroke-width="14" clip-path="url(#gd-loader-front-half)" />
+            <path
+              d="M123 92 A112 36 0 0 1 123 164 A112 36 0 0 1 123 92"
+              pathLength="100"
+              fill="none"
+              stroke="#f4f3f8"
+              stroke-width="14"
+              clip-path="url(#gd-loader-front-half)"
+            />
           </g>
         </svg>
         <div class="gd-loader-front">
@@ -261,7 +293,8 @@
           ring += at + "{stroke-dashoffset:" + (100 - (p.at / length) * 100).toFixed(3) + "}";
         }
         var style = document.createElement("style");
-        style.textContent = "@keyframes gd-orbit{" + orbit + "}@keyframes gd-ring-draw{" + ring + "}";
+        style.textContent =
+          "@keyframes gd-orbit{" + orbit + "}@keyframes gd-ring-draw{" + ring + "}";
         document.head.appendChild(style);
       })();
     </script>
