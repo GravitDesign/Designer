@@ -15,6 +15,7 @@ import {
   writeExpected,
   type StoredOutput,
 } from "./runner.ts";
+import { CI_SKIP_REASON, skippedOnCi } from "./ci-skip.ts";
 import type { Scenario } from "./scenario.ts";
 
 export interface SuiteOptions {
@@ -99,6 +100,7 @@ function defineSide(kind: AppKind, scenarios: readonly Scenario[]): void {
 
     for (const scenario of scenarios) {
       test(scenario.id, async ({ browser }) => {
+        test.skip(skippedOnCi(scenario.id), CI_SKIP_REASON);
         if (scenario.timeout) test.setTimeout(scenario.timeout);
         let page: Page;
         let owned = false;

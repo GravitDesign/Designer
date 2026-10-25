@@ -21,6 +21,7 @@ import {
   writeExpected,
   type StoredOutput,
 } from "../../support/runner.ts";
+import { CI_SKIP_REASON, skippedOnCi } from "../../support/ci-skip.ts";
 import type { Scenario, ScenarioKind } from "../../support/scenario.ts";
 import { portedScenarioIds } from "../../support/suite.ts";
 import { createSandbox, type Sandbox } from "./launcher.ts";
@@ -65,6 +66,7 @@ function defineSide(kind: AppKind, scenarios: readonly DesktopScenario[]): void 
   test.describe(`${kind} app`, () => {
     for (const scenario of scenarios) {
       test(scenario.id, async () => {
+        test.skip(skippedOnCi(scenario.id), CI_SKIP_REASON);
         test.setTimeout(scenario.timeout ?? 180_000);
         const sandboxes: Sandbox[] = [];
         const newSandbox = (label: string) => {

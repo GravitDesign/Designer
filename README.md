@@ -103,6 +103,10 @@ It expects the old app in `legacy/` (ignored by git), checked out from the
 `parity-reference` tag, which is what the expected output was recorded
 from. A few unit tests read it too.
 
+On CI, a few render and export scenarios whose output depends on the
+machine's renderer are skipped; they are listed in
+`parity/support/ci-skip.ts` and still run locally.
+
 ```sh
 git worktree add legacy parity-reference
 cd legacy && npm install --no-save --no-package-lock express@5.1.0 send@1.2.0 serve-static@2.2.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2
