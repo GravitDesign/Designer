@@ -1588,8 +1588,9 @@ public/pscore.js (no try/catch anywhere in the run).
   recording ends at the hook's timeout (`called: false`, no node). The
   `.fixed` files have the same progress and `called: true`, error "0" with
   the message "The file can't be loaded." and the group drawn before the
-  exception; nothing else differs. Pending:
-  import-export/import/open/eps-worker-exception-hangs.
+  exception; nothing else differs. import-export/import/open/
+  eps-worker-exception-hangs falls under BUG-110, since that file no
+  longer throws.
 
 ## BUG-110 `x y r 0 360 arc closepath` breaks the EPS import
 
@@ -1625,8 +1626,11 @@ Old code: public/pscore.js arc, arcn and closepath.
   the import now reads the whole file. Against the old recording only
   `called`, `error` ("0", no message), `progress` (continues to 100) and
   the group differ; the group has the shapes of the BUG-109 output
-  followed by the circle and everything after it. Pending:
-  import-export/import/open/eps-worker-exception-hangs.
+  followed by the circle and everything after it.
+  import-export/import/open/eps-worker-exception-hangs (`.fixed` recorded
+  on CI) opens the file instead of hanging: the document is Ready with a
+  300 x 185 page, and the missing fonts dialog asks about its Helvetica
+  text where the old app showed "File loading is canceled".
 
 ## BUG-111 atan throws in the PostScript worker
 
@@ -1724,11 +1728,11 @@ and designer.browser.dev.js module 163 (the EPS branch of GDocument.load).
   ended its progress on the cancel message and is unchanged.
 - Test: src/app/document/open-import.test.ts, "cancelling an EPS import
   (BUG-113)" (no status and no font post-processing with the old code).
-- Parity exceptions: parity/exceptions/BUG-113.json, pending:
-  import-export/import/open/eps-worker-exception-hangs. That scenario
-  cancels arc-closepath.eps while it hangs, which it no longer does after
-  BUG-110; it will need a new way to keep an import running before it can
-  record the cancel.
+- Parity exceptions: none. import-export/import/open/
+  eps-worker-exception-hangs cancelled arc-closepath.eps while it hung,
+  which it no longer does after BUG-110 (its `.fixed` file is listed
+  there); recording a cancel needs another way to keep an import
+  running.
 
 ## BUG-114 Text set with xshow, yshow, xyshow and charpath stacks at the start point; stroked fonts are filled
 
