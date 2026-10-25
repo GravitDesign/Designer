@@ -59,6 +59,13 @@ const KEPT_STATIC_FILES: ReadonlySet<string> = new Set([
   "/assets/font/gravit-designer.ttf",
 ]);
 
+/**
+ * The old service workers' names. The new build serves workers there that
+ * unregister themselves, so browsers that kept the old app's worker drop
+ * it and stop serving the cached old app.
+ */
+const SELF_REMOVING_WORKERS: ReadonlySet<string> = new Set(["/cacher.js", "/service-worker.js"]);
+
 /** The old bundle files the old index.html loaded. */
 const OLD_BUNDLE_FILES = [
   "/jquery.js",
@@ -89,6 +96,9 @@ async function assertOldBuildReplaced(page: Page, kind: AppKind): Promise<void> 
           wrong.push(
             `${method} ${file}: ${JSON.stringify(actual)}, old ${JSON.stringify(expected)}`,
           );
+      } else if (SELF_REMOVING_WORKERS.has(file)) {
+        if (actual.status !== 200)
+          wrong.push(`${method} ${file} answered ${String(actual.status)}`);
       } else if (actual.status !== 404) {
         wrong.push(`${method} ${file} answered ${String(actual.status)}`);
       }

@@ -274,9 +274,13 @@ static.css (only listed in the service worker's precache) and proxy.html
   worker and the cloud pages are dropped (PORT-PLAN). The pages, the two
   theme stylesheets, the favicon, the manifest, the 512 px icon and the
   icon font are still served under the old names, exactly as before.
+  cacher.js and service-worker.js are served again, as workers that
+  unregister themselves, so a browser that kept the old app's worker
+  stops serving the cached old app.
 - Scenarios: platform/server/static-files checks for the new app that
-  those kept files answer as the old server did and that every other old
-  file answers 404 (no stale copy of the old build).
+  those kept files answer as the old server did, that the two worker
+  names answer, and that every other old file answers 404 (no stale copy
+  of the old build).
   platform/server/index-references checks that every file the new
   index.html references exists with a JavaScript, CSS or JSON content
   type, that none of them is an old bundle file, and that the old
