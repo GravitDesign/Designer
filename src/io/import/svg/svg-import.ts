@@ -52,6 +52,13 @@ export type SvgImportCallback = (
  * every font the texts need is resolved; fills from gradients and
  * patterns are added after the call returns (they are promises).
  */
+/** The bytes as text, the way FileReader.readAsText reads them (UTF-8 unless a UTF-16 BOM says otherwise). */
+function decodeText(bytes: Uint8Array): string {
+  if (0xfe === bytes[0] && 0xff === bytes[1]) return new TextDecoder("utf-16be").decode(bytes);
+  if (0xff === bytes[0] && 0xfe === bytes[1]) return new TextDecoder("utf-16le").decode(bytes);
+  return new TextDecoder("utf-8").decode(bytes);
+}
+
 export const SVGImport = {
   import(
     source: SvgImportSource,
@@ -83,6 +90,8 @@ export const SVGImport = {
         // The bytes first, so a gzipped file (.svgz) is unpacked; the old
         // code read every Blob as text and failed on those (BUGS-FIXED.md
         // "BUG-084 Placing or dropping a .svgz does nothing").
+        // One read, like the old readAsText: a second one let a picture
+        // dropped with the SVG land before it.
         const bytesReader = new FileReader();
         bytesReader.onload = () => {
           const bytes = new Uint8Array(bytesReader.result as ArrayBuffer);
@@ -90,10 +99,7 @@ export const SVGImport = {
             SVGImport.import(bytes, options, fontManager, callback);
             return;
           }
-          const reader = new FileReader();
-          reader.onload = () =>
-            SVGImport.import(reader.result as string, options, fontManager, callback);
-          reader.readAsText(source);
+          SVGImport.import(decodeText(bytes), options, fontManager, callback);
         };
         bytesReader.readAsArrayBuffer(source);
         return;
