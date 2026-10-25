@@ -73,14 +73,198 @@
     </script>
     <!-- The next look's loading screen. Inline, because the brand
          stylesheets the script adds don't hold back the first paint and
-         the old stylesheet's pink would show until they arrive. -->
+         the old stylesheet's pink would show until they arrive. The page
+         gets the theme stylesheet's full height here too, or the mark is
+         centred on an empty page at the top until that sheet applies.
+         The mark is in the page (#gd-loader), not a background image: CSS
+         animations start with the first paint (an image's clock starts
+         when it loads, maybe before anything shows), and transform and
+         opacity animations keep running smoothly while the app starts.
+         The planet pops in, the ring draws itself from the back over one
+         lap, and the node comes out from behind the planet a third of a
+         lap after it and orbits without stopping; it passes behind the planet on the
+         back half and in front of it on the front half (two copies on one
+         path). The ring's drawing isn't a transform, so it can stutter if
+         the page is busy; the node keeps its pace. -->
     <style>
+      html[data-branding="next"] {
+        height: 100%;
+      }
       html[data-branding="next"] body.loading {
-        background: #1b1b24 url("/brand/loading.svg") no-repeat center / 128px;
+        background: #1b1b24;
+      }
+      #gd-loader {
+        display: none;
+      }
+      html[data-branding="next"] body.loading > #gd-loader {
+        display: flex;
+        position: fixed;
+        inset: 0;
+        align-items: center;
+        justify-content: center;
+      }
+      /* The mark at 128 px: its 256 viewBox at half size, the planet's
+         centre at (61.5, 64) and the ring 56 by 18 around it. */
+      .gd-loader-mark {
+        position: relative;
+        width: 128px;
+        height: 128px;
+      }
+      .gd-loader-mark > * {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 128px;
+        height: 128px;
+      }
+      /* The ring starts at its back (the top, behind the planet) and grows
+         over one lap, thin at first and full width by the time it closes;
+         the node follows a third of a lap behind at the same pace. The
+         draw and orbit keyframes come from the script at the end of body. */
+      .gd-loader-ring path {
+        stroke-dasharray: 100;
+        animation:
+          gd-ring-draw 3s linear 0.35s both,
+          gd-ring-grow 3s ease-in-out 0.35s both;
+      }
+      @keyframes gd-ring-grow {
+        from {
+          stroke-width: 3;
+        }
+      }
+      .gd-loader-planet {
+        transform-origin: 61.5px 64px;
+        animation: gd-planet-in 0.5s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+      }
+      .gd-loader-back {
+        -webkit-mask: radial-gradient(circle at 61.5px 64px, transparent 40px, #000 40.5px);
+        mask: radial-gradient(circle at 61.5px 64px, transparent 40px, #000 40.5px);
+      }
+      .gd-loader-frame {
+        position: absolute;
+        inset: 0;
+        transform: rotate(-22deg);
+        transform-origin: 61.5px 64px;
+      }
+      .gd-loader-front .gd-loader-frame {
+        clip-path: polygon(-64px 64px, 192px 64px, 192px 192px, -64px 192px);
+      }
+      .gd-loader-path {
+        position: absolute;
+        left: 61.5px;
+        top: 64px;
+        transform: translate(56px, 0);
+        animation: gd-orbit 3s linear 1.35s infinite both;
+      }
+      .gd-loader-node {
+        position: absolute;
+        left: -9px;
+        top: -9px;
+        width: 18px;
+        height: 18px;
+        box-sizing: border-box;
+        border: 2px solid #f4f3f8;
+        border-radius: 4px;
+        background: #e3136b;
+        transform: rotate(22deg);
+      }
+      @keyframes gd-planet-in {
+        from {
+          transform: scale(0);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #gd-loader * {
+          animation: none !important;
+        }
       }
     </style>
   </head>
   <body class="loading">
+    <div id="gd-loader" aria-hidden="true">
+      <div class="gd-loader-mark">
+        <svg class="gd-loader-ring" viewBox="0 0 256 256">
+          <mask id="gd-loader-gap" maskUnits="userSpaceOnUse" x="-64" y="-64" width="384" height="384">
+            <rect x="-64" y="-64" width="384" height="384" fill="#fff" />
+            <circle cx="123" cy="128" r="80" fill="#000" />
+          </mask>
+          <g mask="url(#gd-loader-gap)">
+            <path d="M123 92 A112 36 0 0 1 123 164 A112 36 0 0 1 123 92" pathLength="100" fill="none" stroke="#f4f3f8" stroke-width="14" transform="rotate(-22 123 128)" />
+          </g>
+        </svg>
+        <div class="gd-loader-back">
+          <div class="gd-loader-frame">
+            <div class="gd-loader-path"><div class="gd-loader-node"></div></div>
+          </div>
+        </div>
+        <svg class="gd-loader-planet" viewBox="0 0 256 256">
+          <clipPath id="gd-loader-sphere"><circle cx="785.88" cy="679.0" r="481.8" /></clipPath>
+          <g transform="translate(123 128) scale(0.15359) translate(-785.88 -679.0)">
+            <g clip-path="url(#gd-loader-sphere)">
+              <rect x="0" y="0" width="1600" height="1400" fill="#FFD81F" />
+              <path d="M727 60 L727.6 200.5 L307.7 616.5 L60 700 L60 1300 L753.2 1300 L753.2 1159.6 C754.5 882.6 849.9 536.6 996.7 245.5 L996.7 60 Z" fill="#E3136B" />
+              <path d="M308.2 616.5 L728.6 200.5 L600 60 L60 60 L60 616.5 Z" fill="#C3DB4E" />
+              <path d="M307.3 623.1 L60 623 L60 700.4 L304.5 700.4 L619.9 347.1 Z" fill="#6E9A34" />
+              <path d="M619.9 347.1 L304.5 700.4 L60 700.4 L60 900 L342.4 867.8 L757 226 Z" fill="#C3DB4E" />
+              <path d="M1300 700 L1259.3 768.5 C1206.1 807.6 1151.5 851.1 1103.9 895.8 C995.8 997.3 933.6 1076.8 864.5 1154.3 L864.5 1300 L1300 1300 Z" fill="#6E9A34" />
+            </g>
+          </g>
+        </svg>
+        <svg class="gd-loader-ring" viewBox="0 0 256 256">
+          <clipPath id="gd-loader-front-half"><rect x="-64" y="128" width="384" height="192" /></clipPath>
+          <g transform="rotate(-22 123 128)">
+            <path d="M123 92 A112 36 0 0 1 123 164 A112 36 0 0 1 123 92" pathLength="100" fill="none" stroke="#f4f3f8" stroke-width="14" clip-path="url(#gd-loader-front-half)" />
+          </g>
+        </svg>
+        <div class="gd-loader-front">
+          <div class="gd-loader-frame">
+            <div class="gd-loader-path"><div class="gd-loader-node"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // The loader is the next look's only; the classic look has none. The
+      // node turns around the planet at an even rate, as a real orbit
+      // seen at a tilt: quick across the front and back, slow at the ends.
+      // Its keyframes are 120 steps of the turn from the ring's back (the
+      // top), where the ring's path starts; the ring's drawing takes the
+      // same steps (as lengths along its path), so it grows at the same
+      // pace the node moves.
+      (function () {
+        var loader = document.getElementById("gd-loader");
+        if (document.documentElement.getAttribute("data-branding") !== "next") {
+          loader.remove();
+          return;
+        }
+        var a = 56;
+        var b = 18;
+        var steps = 120;
+        var fine = 24;
+        var points = [];
+        var length = 0;
+        var last = null;
+        for (var i = 0; i <= steps * fine; i++) {
+          var t = (i / (steps * fine)) * 2 * Math.PI - Math.PI / 2;
+          var x = a * Math.cos(t);
+          var y = b * Math.sin(t);
+          if (last) length += Math.hypot(x - last.x, y - last.y);
+          last = { x: x, y: y };
+          if (i % fine === 0) points.push({ x: x, y: y, at: length });
+        }
+        var orbit = "";
+        var ring = "";
+        for (var k = 0; k <= steps; k++) {
+          var at = ((k / steps) * 100).toFixed(3) + "%";
+          var p = points[k];
+          orbit += at + "{transform:translate(" + p.x.toFixed(2) + "px," + p.y.toFixed(2) + "px)}";
+          ring += at + "{stroke-dashoffset:" + (100 - (p.at / length) * 100).toFixed(3) + "}";
+        }
+        var style = document.createElement("style");
+        style.textContent = "@keyframes gd-orbit{" + orbit + "}@keyframes gd-ring-draw{" + ring + "}";
+        document.head.appendChild(style);
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

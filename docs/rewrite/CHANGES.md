@@ -42,9 +42,10 @@ What the next look changes, all in new files plus small hooks:
     (checked on the welcome screen and an editor window in both themes:
     no pixel differs).
   - index.html: the loading screen, inline so it's there for the first
-    paint: the mark on ink instead of the pink gradient, animated
-    (loading.svg: the planet pops in, the ring draws, then the node
-    orbits).
+    paint: the mark on ink instead of the pink gradient, animated with
+    CSS (#gd-loader: the planet pops in, the ring draws itself from the
+    back, and the node follows it out from behind the planet and keeps
+    orbiting at an even turn). The classic look removes the loader.
   - next.css: the welcome screen's left panel (mark and wordmark on ink,
     a yellow marker on the active item, bare line icons
     instead of the colour tiles), the wordmark and the

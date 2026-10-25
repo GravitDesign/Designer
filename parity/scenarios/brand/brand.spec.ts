@@ -313,12 +313,19 @@ const scenarios: BrandScenario[] = [
     kind: "png",
     open: { theme: "light" },
     // The loading screen as index.html shows it before the app starts:
-    // body.loading with nothing in front of it.
+    // body.loading with only the loader in front of it, its animation
+    // stopped after the first lap, the ring whole and the node at its
+    // right end.
     run: async (page) => {
       await page.evaluate(() => {
         document.body.classList.add("loading");
         for (const child of document.body.children)
-          (child as HTMLElement).style.setProperty("display", "none", "important");
+          if (child.id !== "gd-loader")
+            (child as HTMLElement).style.setProperty("display", "none", "important");
+        for (const animation of document.getAnimations()) {
+          animation.pause();
+          animation.currentTime = 5100;
+        }
       });
       await settle(page);
       return page.screenshot({ clip: { x: 600, y: 300, width: 400, height: 400 } });
