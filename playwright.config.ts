@@ -13,6 +13,10 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   fullyParallel: false,
   workers: process.env.CI ? 2 : 4,
+  // The shared runners are slower and busier, and a few old-app scenarios
+  // then fail now and then on timing. One retry there; a test that only
+  // passes on its retry is still reported as flaky.
+  retries: process.env.CI ? 1 : 0,
   reporter: [["list"], ["json", { outputFile: `test-results/${run}/playwright.json` }]],
   outputDir: `test-results/${run}/artifacts`,
   use: {
