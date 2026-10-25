@@ -4,6 +4,7 @@ import {
   ACCENT_LINK_ID,
   THEME_ATTRIBUTE,
   accentHref,
+  adoptDeviceTheme,
   currentPageShadowColor,
   followDeviceTheme,
   themeOfHref,
@@ -133,5 +134,23 @@ describe("followDeviceTheme", () => {
     stop();
     query.flip();
     expect(apply).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe("adoptDeviceTheme", () => {
+  it("reads the stored default light as no choice, once", () => {
+    const settings: Record<string, unknown> = { theme: "light" };
+    adoptDeviceTheme(settings);
+    expect(settings).toEqual({ theme: "default", theme_follows_device: true });
+    // Light chosen afterwards stays light.
+    settings["theme"] = "light";
+    adoptDeviceTheme(settings);
+    expect(settings["theme"]).toBe("light");
+  });
+
+  it("keeps dark", () => {
+    const settings: Record<string, unknown> = { theme: "dark" };
+    adoptDeviceTheme(settings);
+    expect(settings).toEqual({ theme: "dark", theme_follows_device: true });
   });
 });

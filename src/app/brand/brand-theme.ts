@@ -77,3 +77,19 @@ export function followDeviceTheme(
   query.addEventListener("change", onChange);
   return () => query.removeEventListener("change", onChange);
 }
+
+/** The setting that marks the stored settings as moved to the device's theme. */
+export const DEVICE_THEME_SETTING = "theme_follows_device";
+
+/**
+ * Moves stored settings to the device's theme once, in the next look. Every
+ * first start wrote "light" as the default theme (and the old app did the
+ * same on gravitdesign.com), so a stored "light" is read as no choice and
+ * becomes "default"; "dark" stays. Light chosen in the settings afterwards
+ * is kept, since the mark is stored with it.
+ */
+export function adoptDeviceTheme(settings: Record<string, unknown>): void {
+  if (settings[DEVICE_THEME_SETTING]) return;
+  if (settings["theme"] === "light") settings["theme"] = "default";
+  settings[DEVICE_THEME_SETTING] = true;
+}

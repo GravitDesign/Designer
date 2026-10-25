@@ -89,7 +89,7 @@ import { SoftwareUpdateEvents } from "../dialogs/software-update-events.ts";
 import { isEditable } from "../widgets/debounce.ts";
 import { baseConfig } from "../file-formats.ts";
 import { isNextBranding, productName } from "../brand/branding.ts";
-import { currentPageShadowColor } from "../brand/brand-theme.ts";
+import { adoptDeviceTheme, currentPageShadowColor } from "../brand/brand-theme.ts";
 import { publishSettings } from "../state/settings-store.ts";
 import { bumpShellVersion, useShellStore } from "../state/shell-store.ts";
 import { setTheme, updateTheme } from "../themes/theme.ts";
@@ -1869,6 +1869,7 @@ export class Designer extends EventTarget {
         for (const key of Object.keys(this._settings))
           if (!Object.prototype.hasOwnProperty.call(settings, key))
             settings[key] = this._settings[key];
+        if (isNextBranding()) adoptDeviceTheme(settings);
         this._settings = settings;
         this._settingsLoaded = true;
         publishSettings(this._settings, true);
