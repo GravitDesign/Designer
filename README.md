@@ -105,7 +105,7 @@ from. A few unit tests read it too.
 
 ```sh
 git worktree add legacy parity-reference
-cd legacy && npm install --no-save --no-package-lock express@5.1.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2
+cd legacy && npm install --no-save --no-package-lock express@5.1.0 send@1.2.0 serve-static@2.2.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2
 ```
 
 ## Layout

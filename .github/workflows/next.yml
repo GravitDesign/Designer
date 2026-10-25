@@ -64,7 +64,7 @@ jobs:
       # app's Electron at the repo root.
       - name: Install the old app's dependencies
         working-directory: legacy
-        run: npm install --no-save --no-package-lock express@5.1.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2 electron@33.4.11
+        run: npm install --no-save --no-package-lock express@5.1.0 send@1.2.0 serve-static@2.2.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2 electron@33.4.11
       - run: npm ci
       - run: npx playwright install chromium
       # The desktop scenarios start the new app from dist-electron.
@@ -105,7 +105,7 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: Install the old app's server dependencies
         working-directory: legacy
-        run: npm install --no-save --no-package-lock express@5.1.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2
+        run: npm install --no-save --no-package-lock express@5.1.0 send@1.2.0 serve-static@2.2.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2
       - run: npm ci
       - run: npx playwright install chromium
       - name: Brand scenarios, first run
@@ -146,7 +146,7 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: Install the old app's server dependencies
         working-directory: legacy
-        run: npm install --no-save --no-package-lock express@5.1.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2
+        run: npm install --no-save --no-package-lock express@5.1.0 send@1.2.0 serve-static@2.2.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2
       - run: npm ci
       - run: npx playwright install chromium
       - run: npx playwright test --project=parity parity/scenarios/brand --grep "$PATTERN"
