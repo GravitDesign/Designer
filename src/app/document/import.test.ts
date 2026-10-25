@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { RGBColor } from "../../engine/color/rgb-color.ts";
 import { Group } from "../../engine/scene/group.ts";
 import { Path } from "../../engine/scene/path.ts";
@@ -8,7 +8,8 @@ import { config } from "../config.ts";
 import { TouchConfig } from "../../editor/touch/touch-config.ts";
 import { FileTypes } from "./file-types.ts";
 import { documentStatusName, DocumentStatus } from "./document-status.ts";
-import { editDistance, pickFont } from "./import-font-provider.ts";
+import { FontsProviderManager, type QueryResult } from "../fonts/font-manager.ts";
+import { editDistance, importFontProvider, pickFont } from "./import-font-provider.ts";
 import { optimizeImport, optimizerStats } from "./import-optimizer.ts";
 
 describe("file types", () => {
@@ -85,6 +86,37 @@ describe("import font matching", () => {
       weight: 400,
       style: "N",
     });
+  });
+
+  it("asks the fonts provider manager one query at a time", () => {
+    // The manager drops the answer of a query older than the latest one,
+    // so a second query sent before the first answered would hang it.
+    const asked: [string, (result: QueryResult) => void][] = [];
+    const query = vi.fn((callback: (result: QueryResult) => void, name: string) => {
+      asked.push([name, callback]);
+    });
+    vi.spyOn(FontsProviderManager, "getInstance").mockReturnValue({
+      query,
+    } as unknown as FontsProviderManager);
+    const answers: unknown[] = [];
+    const face = (family: string) => ({ family, fonts: [{ weight: 400, style: "N" as never }] });
+    importFontProvider.queryFirst(
+      { fontFamily: "Open San", fontStyle: "N", fontWeight: 400 },
+      (answer) => answers.push(answer),
+    );
+    importFontProvider.queryFirst(
+      { fontFamily: "Robotto", fontStyle: "N", fontWeight: 400 },
+      (answer) => answers.push(answer),
+    );
+    expect(asked.map(([name]) => name)).toEqual(["Open San"]);
+    asked[0]?.[1]({ faces: [face("Open Sans")] });
+    expect(asked.map(([name]) => name)).toEqual(["Open San", "Robotto"]);
+    asked[1]?.[1]({ faces: [face("Roboto")] });
+    expect(answers).toEqual([
+      { family: "Open Sans", weight: 400, style: "N" },
+      { family: "Roboto", weight: 400, style: "N" },
+    ]);
+    vi.restoreAllMocks();
   });
 });
 

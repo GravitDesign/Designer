@@ -134,25 +134,59 @@ function defaultFamily(): string {
   return (fonts.getDefaultFont() as { getFamily(): string }).getFamily();
 }
 
-/** The provider the SVG and Sketch imports get as `fontProvider`. */
+type ImportFontCallback = (answer: ImportFontAnswer | null) => void;
+
+/** Queries waiting for the one in flight to answer. */
+const waiting: [ImportFontQuery, ImportFontCallback][] = [];
+let inFlight = false;
+
+/**
+ * The provider the SVG and Sketch imports get as `fontProvider`.
+ *
+ * It asks the fonts provider manager one query at a time: the manager
+ * drops the answer of a query that is older than the latest one, so
+ * overlapping queries (one per family since BUG-072) would leave an
+ * import waiting forever. The old app never overlapped them, because
+ * every family waited for the first one's answer.
+ */
 export const importFontProvider = {
-  queryFirst(query: ImportFontQuery, callback: (answer: ImportFontAnswer | null) => void): void {
-    let index = 0;
-    const names: string[] = [];
-    if (query.fontName) names.push(query.fontName);
-    if (names.length) {
-      if (names[0] !== query.fontFamily) names.push(query.fontFamily);
-    } else names.push(query.fontFamily);
-    const answered = (result: QueryResult): void => {
-      if (result.faces.length) {
-        callback(pickFont(query, result.faces, defaultFamily));
-      } else if (index < names.length - 1) {
-        index++;
-        setTimeout(() =>
-          FontsProviderManager.getInstance().query(answered, names[index] as string),
-        );
-      } else callback(null);
-    };
-    FontsProviderManager.getInstance().query(answered, names[index] as string);
+  queryFirst(query: ImportFontQuery, callback: ImportFontCallback): void {
+    waiting.push([query, callback]);
+    if (!inFlight) next();
   },
 };
+
+function next(): void {
+  const item = waiting.shift();
+  if (!item) {
+    inFlight = false;
+    return;
+  }
+  inFlight = true;
+  const [query, callback] = item;
+  ask(query, (answer) => {
+    try {
+      callback(answer);
+    } finally {
+      next();
+    }
+  });
+}
+
+function ask(query: ImportFontQuery, callback: ImportFontCallback): void {
+  let index = 0;
+  const names: string[] = [];
+  if (query.fontName) names.push(query.fontName);
+  if (names.length) {
+    if (names[0] !== query.fontFamily) names.push(query.fontFamily);
+  } else names.push(query.fontFamily);
+  const answered = (result: QueryResult): void => {
+    if (result.faces.length) {
+      callback(pickFont(query, result.faces, defaultFamily));
+    } else if (index < names.length - 1) {
+      index++;
+      setTimeout(() => FontsProviderManager.getInstance().query(answered, names[index] as string));
+    } else callback(null);
+  };
+  FontsProviderManager.getInstance().query(answered, names[index] as string);
+}
