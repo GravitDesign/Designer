@@ -379,8 +379,9 @@ separate-canvas choice at 117590); module 122, GGroup._paintStyleContent
   masking group and the gradient pattern matrices of the shapes inside
   them, which move by (-2, +18) in PDF space. That puts the gradients
   exactly on their rectangles (checked against the gradient stops); the
-  old export drew them 2 px to the right. Pending:
-  platform/gvthumb/corpus/masks and import-export/corpus/masks.
+  old export drew them 2 px to the right. platform/gvthumb/corpus/masks
+  (`.fixed` recorded on CI) shows the masked groups where the old
+  thumbnail was black. Pending: import-export/corpus/masks.
 
 ## BUG-012 Offset drops inset parts of an open path that come near the source
 
