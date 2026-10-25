@@ -117,6 +117,7 @@ function runIndexScript(
   search: string,
   override: unknown,
   storage: Record<string, string>,
+  deviceDark = false,
 ): ScriptRun {
   const attributes: Record<string, string> = {};
   const links: { rel: string; href: string; id: string }[] = [];
@@ -150,6 +151,9 @@ function runIndexScript(
   const win = {
     location: { search },
     __gdBranding: override,
+    matchMedia: (query: string) => ({
+      matches: deviceDark && query === "(prefers-color-scheme: dark)",
+    }),
     localStorage: {
       getItem: (key: string) => stored.get(key) ?? null,
       setItem: (key: string, value: string) => stored.set(key, value),
@@ -206,6 +210,21 @@ describe("index.html's script", () => {
     expect(runIndexScript("", undefined, dark).themeSheet).toBe("/designer.browser.dark.css");
     expect(runIndexScript("", undefined, {}).themeSheet).toBe("/designer.browser.light.css");
     expect(runIndexScript("", "classic", dark).themeSheet).toBe("/designer.browser.light.css");
+  });
+
+  it("takes the device's theme when none is chosen in the next look", () => {
+    const stores: Record<string, string>[] = [{}, { "designer.settings": '{"theme":"default"}' }];
+    for (const storage of stores) {
+      const run = runIndexScript("", undefined, storage, true);
+      expect(run.attributes["data-gd-theme"]).toBe("dark");
+      expect(run.themeSheet).toBe("/designer.browser.dark.css");
+      expect(run.links[0]?.href).toBe("/brand/accent.dark.css");
+    }
+    const light = { "designer.settings": '{"theme":"light"}' };
+    expect(runIndexScript("", undefined, light, true).themeSheet).toBe(
+      "/designer.browser.light.css",
+    );
+    expect(runIndexScript("", "classic", {}, true).themeSheet).toBe("/designer.browser.light.css");
   });
 
   it("leaves the page as the old app had it in the classic look", () => {

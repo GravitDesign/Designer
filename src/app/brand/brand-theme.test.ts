@@ -5,6 +5,7 @@ import {
   THEME_ATTRIBUTE,
   accentHref,
   currentPageShadowColor,
+  followDeviceTheme,
   themeOfHref,
   watchBrandTheme,
 } from "./brand-theme.ts";
@@ -102,5 +103,35 @@ describe("brand theme", () => {
     // What designer.ts reads at boot, before any switch: the attribute index.html set.
     root.setAttribute(THEME_ATTRIBUTE, "dark");
     expect(currentPageShadowColor(doc)).toBe("rgba(0,0,0,0.5)");
+  });
+});
+
+describe("followDeviceTheme", () => {
+  function fakeQuery() {
+    const listeners = new Set<() => void>();
+    const query = {
+      addEventListener: (_type: string, listener: () => void) => listeners.add(listener),
+      removeEventListener: (_type: string, listener: () => void) => listeners.delete(listener),
+      flip: () => listeners.forEach((listener) => listener()),
+    };
+    return { query, win: { matchMedia: () => query } as unknown as Window };
+  }
+
+  it("sets the theme again when the device switches, while none is chosen", () => {
+    const { query, win } = fakeQuery();
+    let setting: unknown = undefined;
+    const apply = vi.fn();
+    const stop = followDeviceTheme(() => setting, apply, win);
+    query.flip();
+    setting = "default";
+    query.flip();
+    expect(apply).toHaveBeenCalledTimes(2);
+    setting = "dark";
+    query.flip();
+    expect(apply).toHaveBeenCalledTimes(2);
+    setting = undefined;
+    stop();
+    query.flip();
+    expect(apply).toHaveBeenCalledTimes(2);
   });
 });

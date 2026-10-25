@@ -6,7 +6,7 @@
  * the page shadow on the canvas (the view repaints after the switch).
  */
 import { EditorPaintConfiguration } from "../../editor/editor-paint-configuration.ts";
-import { themeLink } from "../themes/theme.ts";
+import { DARK_SCHEME_QUERY, isDefaultTheme, themeLink } from "../themes/theme.ts";
 
 /** The id of the accent stylesheet link index.html's script adds. */
 export const ACCENT_LINK_ID = "brand-accent";
@@ -56,4 +56,24 @@ export function watchBrandTheme(doc: Document = document): () => void {
   const observer = new MutationObserver(sync);
   observer.observe(theme, { attributes: true, attributeFilter: ["href"] });
   return () => observer.disconnect();
+}
+
+/**
+ * With no theme chosen, the next look takes the device's (themes/theme.ts);
+ * this switches it when the device switches. `themeSetting` reads the
+ * stored setting, `apply` sets the theme again. Returns the function that
+ * stops it.
+ */
+export function followDeviceTheme(
+  themeSetting: () => unknown,
+  apply: () => void,
+  win: Pick<Window, "matchMedia"> = window,
+): () => void {
+  const query = win.matchMedia?.(DARK_SCHEME_QUERY);
+  if (!query) return () => {};
+  const onChange = (): void => {
+    if (isDefaultTheme(themeSetting())) apply();
+  };
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
 }

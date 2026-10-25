@@ -1,5 +1,18 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { setActiveBranding } from "../brand/branding.ts";
 import { themeHref, themeName } from "./theme.ts";
+
+/** A window whose device is set to dark or light. */
+function device(dark: boolean): void {
+  vi.stubGlobal("window", {
+    matchMedia: (query: string) => ({ matches: dark && query === "(prefers-color-scheme: dark)" }),
+  });
+}
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+  setActiveBranding("classic");
+});
 import { toolbarShadow } from "./theme-scroll.ts";
 
 describe("theme", () => {
@@ -8,9 +21,21 @@ describe("theme", () => {
     expect(themeHref("designer.browser.dark.css", "light")).toBe("designer.browser.light.css");
   });
 
-  it("reads default and empty as light", () => {
+  it("reads default and empty as light in the classic look, whatever the device", () => {
+    device(true);
     expect(themeName("default")).toBe("light");
     expect(themeName(undefined)).toBe("light");
+    expect(themeName("dark")).toBe("dark");
+  });
+
+  it("reads default and empty as the device's theme in the next look", () => {
+    setActiveBranding("next");
+    device(true);
+    expect(themeName("default")).toBe("dark");
+    expect(themeName(undefined)).toBe("dark");
+    expect(themeName("light")).toBe("light");
+    device(false);
+    expect(themeName("default")).toBe("light");
     expect(themeName("dark")).toBe("dark");
   });
 });

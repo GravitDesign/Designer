@@ -12,6 +12,7 @@ import { RGBColor } from "../../engine/color/rgb-color.ts";
 import { Platform } from "../../engine/core/platform.ts";
 import { PaintContext } from "../../engine/paint/paint-context.ts";
 import { EditorOptions } from "../../editor/editor-options.ts";
+import { isNextBranding } from "../brand/branding.ts";
 
 /** What the theme code needs of the windows (GWindows). */
 export interface ThemedWindows {
@@ -38,9 +39,26 @@ export function themeHref(href: string, theme: string): string {
   return parts.join(".");
 }
 
-/** The theme a setting value means ("default" and empty mean light). */
+/** The media query of a device set to dark. */
+export const DARK_SCHEME_QUERY = "(prefers-color-scheme: dark)";
+
+/** Whether the device is set to dark (false where that can't be asked). */
+export function deviceIsDark(): boolean {
+  return typeof window !== "undefined" && !!window.matchMedia?.(DARK_SCHEME_QUERY).matches;
+}
+
+/** Whether a setting value means no theme was chosen ("default" or empty). */
+export function isDefaultTheme(value: unknown): boolean {
+  return !value || "default" === value;
+}
+
+/**
+ * The theme a setting value means. "default" and empty mean light in the
+ * classic look, as before, and the device's theme in the next look.
+ */
 export function themeName(value: unknown): string {
-  return !value || "default" === value ? "light" : String(value);
+  if (!isDefaultTheme(value)) return String(value);
+  return isNextBranding() && deviceIsDark() ? "dark" : "light";
 }
 
 /**

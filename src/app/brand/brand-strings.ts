@@ -11,6 +11,8 @@ export interface BrandStrings {
   /** Help menu entries. */
   "menu.about": string;
   "menu.legacy": string;
+  /** Settings > theme: the device's light or dark. */
+  "settings.theme-device": string;
   "intro.title": string;
   "intro.lead": string;
   "intro.local": string;
@@ -36,6 +38,7 @@ export type BrandStringKey = keyof BrandStrings;
 const en: BrandStrings = {
   "menu.about": "About GravitDesign Next",
   "menu.legacy": "Open the Old Gravit Designer",
+  "settings.theme-device": "Device setting",
   "intro.title": "This is not the Gravit you know",
   "intro.lead":
     "GravitDesign Next is a community rebuild of Gravit Designer. It looks and works " +

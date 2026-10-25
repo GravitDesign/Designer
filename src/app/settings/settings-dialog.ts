@@ -32,6 +32,8 @@ import { EditorOptions } from "../../editor/editor-options.ts";
 import { RendererConfig } from "../../engine/paint/renderer-config.ts";
 import { Scene } from "../../engine/scene/scene.ts";
 import { Text } from "../../engine/text/text.ts";
+import { brandString } from "../brand/brand-strings.ts";
+import { isNextBranding } from "../brand/branding.ts";
 import { config } from "../config.ts";
 import { Dialog } from "../dialogs/dialog.ts";
 import { Overlay } from "../dialogs/dialog-container.ts";
@@ -72,11 +74,44 @@ const userSettings = {
 
 interface Theme {
   name: string;
-  localeClass: LocaleKey;
+  /** Absent for the next look's "Device setting", which has no old string. */
+  localeClass?: LocaleKey;
   key: string;
 }
 
 let themes: Theme[] | null = null;
+
+/**
+ * The next look's themes: the device's ("default", what an unset theme
+ * means there, see themes/theme.ts), then light and dark.
+ */
+function nextThemes(): Theme[] {
+  return [
+    {
+      name:
+        brandString("settings.theme-device") +
+        " (" +
+        text("GCommonNames", "text.default").toLowerCase() +
+        ")",
+      key: "default",
+    },
+    {
+      name: settingText("text.light-theme"),
+      localeClass: new LocaleKey("GSettingsDialog", "text.light-theme"),
+      key: "light",
+    },
+    {
+      name: settingText("text.dark-theme"),
+      localeClass: new LocaleKey("GSettingsDialog", "text.dark-theme"),
+      key: "dark",
+    },
+  ];
+}
+
+/** The themes the selector lists. */
+function themeList(): Theme[] {
+  return isNextBranding() ? nextThemes() : (themes as Theme[]);
+}
 
 function text(className: string, key: string): string {
   return Locale.get(new LocaleKey(className, key)) as string;
@@ -136,10 +171,14 @@ export class SettingsDialogImpl {
     this._notificationsDisabled = (
       await userSettings.get().catch(() => ({ notifications_disabled: false }))
     ).notifications_disabled;
-    const list = themes as Theme[];
+    const list = themeList();
+    // The next look lists the device's theme as "default", also for an unset one.
+    const stored = isNextBranding()
+      ? designer().getSetting("theme") || "default"
+      : designer().getSetting("theme", "light");
     let current: Theme | undefined;
     for (let i = 0; i < list.length; ++i)
-      if ((list[i] as Theme).key === designer().getSetting("theme", "light")) {
+      if ((list[i] as Theme).key === stored) {
         current = list[i];
         break;
       }
@@ -248,7 +287,7 @@ export class SettingsDialogImpl {
   }
 
   private _openThemeSelector(target: Element): void {
-    const list = themes as Theme[];
+    const list = themeList();
     const content = document.createElement("div");
     const overlay = new Overlay(content, {
       padding: false,
@@ -269,7 +308,8 @@ export class SettingsDialogImpl {
         onPick: (index) => {
           const theme = list[index] as Theme;
           // Old: stats with the English theme name (dropped).
-          void Locale.get(theme.localeClass, undefined, LocaleLanguage.English);
+          if (theme.localeClass)
+            void Locale.get(theme.localeClass, undefined, LocaleLanguage.English);
           this._theme = theme.key;
           this._themeName = theme.name;
           this._render();

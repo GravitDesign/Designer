@@ -43,8 +43,10 @@
         if (branding !== "next") return;
         d.documentElement.setAttribute("data-branding", branding);
         var settings = read("designer.settings");
+        // No theme chosen ("default"): the device's, like themes/theme.ts.
         var theme = settings && settings.theme;
-        theme = !theme || theme === "default" ? "light" : String(theme);
+        var dark = !!(w.matchMedia && w.matchMedia("(prefers-color-scheme: dark)").matches);
+        theme = !theme || theme === "default" ? (dark ? "dark" : "light") : String(theme);
         d.documentElement.setAttribute("data-gd-theme", theme);
         // The stored theme's stylesheet from the start, so the switch when
         // the settings are restored changes nothing (the page went unstyled
