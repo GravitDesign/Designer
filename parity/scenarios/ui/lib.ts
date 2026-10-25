@@ -128,11 +128,18 @@ export async function prepare(page: Page, options: { scrollbars?: boolean } = {}
   await page.addStyleTag({ content: FREEZE_CSS });
   if (!options.scrollbars) await page.addStyleTag({ content: HIDE_SCROLLBARS_CSS });
   // The stored theme's stylesheet, not index.html's light one before the swap.
-  const theme = await page.evaluate(
-    () =>
-      ((JSON.parse(localStorage.getItem("designer.settings") ?? "{}") as { theme?: string })
-        .theme ?? "light") as "light" | "dark",
-  );
+  // No theme chosen ("default") means light in the classic look and the
+  // device's theme in the next look, as in themes/theme.ts.
+  const theme = await page.evaluate(() => {
+    const stored = (
+      JSON.parse(localStorage.getItem("designer.settings") ?? "{}") as {
+        theme?: string;
+      }
+    ).theme;
+    if (stored && stored !== "default") return stored as "light" | "dark";
+    const next = document.documentElement.getAttribute("data-branding") === "next";
+    return next && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  });
   await waitForTheme(page, theme);
   await waitForImages(page);
   await waitForLayout(page);
