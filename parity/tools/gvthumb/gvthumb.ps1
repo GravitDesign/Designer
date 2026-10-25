@@ -36,7 +36,7 @@ $ErrorActionPreference = "Stop"
 if (-not $Dll) {
   $candidates = @(
     (Join-Path $PSScriptRoot "build\Release\GravitThumbnail.dll"),
-    (Join-Path $PSScriptRoot "..\..\..\..\native\gvthumb\build\Release\GravitThumbnail.dll")
+    (Join-Path $PSScriptRoot "..\..\..\native\gvthumb\build\Release\GravitThumbnail.dll")
   )
   foreach ($c in $candidates) {
     if (Test-Path $c) { $Dll = (Resolve-Path $c).Path; break }
