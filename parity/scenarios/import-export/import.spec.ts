@@ -533,8 +533,13 @@ const epsHang: Scenario<unknown> = {
     const opened = await openFiles(page, [fixtureFile("eps/arc-closepath.eps")]);
     const overlay = await page.locator(".window-overlay:visible").allInnerTexts();
     const during = await runInPage(page, documentsState, {});
-    await page.locator(".window-overlay:visible button", { hasText: "Cancel" }).first().click();
-    await page.locator(".window-overlay").first().waitFor({ state: "hidden" });
+    // Only the old app hangs and offers Cancel; the new one has finished
+    // the load by now (BUG-109, BUG-110, BUG-113).
+    const cancel = page.locator(".window-overlay:visible button", { hasText: "Cancel" }).first();
+    if (await cancel.count()) {
+      await cancel.click();
+      await page.locator(".window-overlay").first().waitFor({ state: "hidden" });
+    }
     return {
       opened,
       overlay: overlay.map((t) => t.replace(/\s+/g, " ").trim()),
