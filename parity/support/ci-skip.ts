@@ -8,7 +8,7 @@
  */
 const CI_SKIP: readonly RegExp[] = [
   // Blend modes and multiple fills (canvas compositing).
-  /^engine-model\/render\/blend-(element|layer)-/,
+  /^engine-model\/render\/blend-(element|layer)-(color|color-burn|color-dodge|hue|luminosity|saturation)$/,
   /^corpus\/(blend-modes|blend-layers-opacity|fills-multiple)\//,
   /^corpus\/matrix\/blend-and-composite$/,
   /^import-export\/corpus\/(blend-modes|blend-layers-opacity|fills-multiple)$/,
