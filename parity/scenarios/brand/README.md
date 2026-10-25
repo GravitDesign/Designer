@@ -20,8 +20,10 @@ and have no "old app" side:
   (`/brand/next.css`, `/brand/editor.css`, `/brand/accent.<theme>.css`)
   and must then differ from its recording ("needs the brand
   stylesheets"), so a shot that doesn't show the brand can't pass. The
-  Help menu entry has no brand colour, so it is recorded as text in
-  `brand/names` instead of a shot.
+  loading screen is the exception: index.html styles it inline so it
+  shows from the first paint, so blocking the stylesheets doesn't change
+  it. The Help menu entry has no brand colour, so it is recorded as text
+  in `brand/names` instead of a shot.
 - The shots that show the editor restyle (CHANGES.md CHG-002) run once
   more with only `/brand/editor.css` blocked and must differ then too
   ("needs editor.css"). That is every PNG scenario except the loading

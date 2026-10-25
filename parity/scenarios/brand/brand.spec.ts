@@ -61,6 +61,8 @@ interface BrandScenario {
   open: BrandOpen;
   /** The shot shows editor.css's work, so it must also differ with only editor.css blocked. */
   editor?: boolean;
+  /** Styled inline in index.html, so blocking the brand stylesheets doesn't change it. */
+  inline?: boolean;
   /** `unstyled`: brand stylesheets are blocked (a surface may then reach past the window). */
   run: (page: Page, unstyled: boolean) => Promise<unknown>;
 }
@@ -312,6 +314,7 @@ const scenarios: BrandScenario[] = [
     id: "brand/loading",
     kind: "png",
     open: { theme: "light" },
+    inline: true,
     // The loading screen as index.html shows it before the app starts:
     // body.loading with only the loader in front of it, its animation
     // stopped after the first lap, the ring whole and the node at its
@@ -406,7 +409,7 @@ test.describe("brand (new app only)", () => {
 
   // The shots must show the brand stylesheets' work: without them each
   // one differs from its recording.
-  for (const s of RECORDING ? [] : scenarios.filter((x) => x.kind === "png")) {
+  for (const s of RECORDING ? [] : scenarios.filter((x) => x.kind === "png" && !x.inline)) {
     test(`${s.id} needs the brand stylesheets`, async ({ browser }) => {
       test.setTimeout(180_000);
       const scenario = asScenario(s);
