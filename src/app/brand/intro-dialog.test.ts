@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import type { Container } from "../shell/container.ts";
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { FakeElement, installFakeDom } from "../menus/testing/fake-dom.testing.ts";
@@ -29,12 +30,22 @@ Object.assign(globalThis.window as unknown as Record<string, unknown>, {
 
 const { IntroDialog, INTRO_SHOWN_KEY, introWasShown } = await import("./intro-dialog.ts");
 const { ShowIntroAction } = await import("./show-intro-action.ts");
+const { OpenLegacyAction } = await import("./open-legacy-action.ts");
 const { brandActions } = await import("./brand-actions.ts");
 const { setActiveBranding } = await import("./branding.ts");
 const { Category } = await import("../actions/category.ts");
+const { setContainer } = await import("../shell/globals.ts");
 
 function openIntros(): unknown[] {
   return dom.document.querySelectorAll(".g-dialog.gd-intro-dialog");
+}
+
+/** The markup of the island rendered into the element with this class. */
+function islandHtml(className: string): string {
+  const island = islands.rendered.findLast((r) =>
+    (r.element as FakeElement).classList.contains(className),
+  );
+  return renderToStaticMarkup(island?.content as ReactElement);
 }
 
 beforeEach(() => {
@@ -66,8 +77,25 @@ describe("the introduction", () => {
     expect(openIntros()).toHaveLength(0);
   });
 
+  it("can't be closed on the first start until the box is ticked", () => {
+    const intro = IntroDialog.showOnFirstStart();
+    const dialog = intro?.getDialog();
+    // Escape and the backdrop only close closable dialogs.
+    expect(dialog?.closable).toBe(false);
+    const footer = islandHtml("g-dialog-footer");
+    expect(footer).toContain('<input type="checkbox"/>');
+    expect(footer).toContain("I understand that this is a different app");
+    expect(footer).toContain('<button class="primary" disabled="">Got it</button>');
+    intro?.confirm(true);
+    expect(dialog?.closable).toBe(true);
+    intro?.confirm(false);
+    expect(dialog?.closable).toBe(false);
+  });
+
   it("counts Escape and the backdrop as read too (any close)", () => {
-    IntroDialog.showOnFirstStart()?.getDialog().close(true);
+    const intro = IntroDialog.showOnFirstStart();
+    intro?.confirm();
+    intro?.getDialog().close(true);
     expect(introWasShown()).toBe(true);
   });
 
@@ -80,23 +108,21 @@ describe("the introduction", () => {
 
   it("says plainly what this app is, what's gone and where to report problems", () => {
     IntroDialog.show();
-    const view = islands.rendered.find((r) =>
-      (r.element as FakeElement).classList.contains("g-dialog-content"),
-    );
-    const html = renderToStaticMarkup(view?.content as ReactElement);
+    const html = islandHtml("g-dialog-content");
     expect(html).toContain("This is not the Gravit you know");
     expect(html).toContain("community rebuild of Gravit Designer");
     expect(html).toContain("no account, no cloud and no subscription");
     for (const gone of ["cloud sync", "sharing and comments", "templates from the cloud", "Pro"])
       expect(html).toContain(gone);
     expect(html).toContain('href="https://github.com/GravitDesign/designer/issues"');
+    expect(html).toContain('href="https://legacy.gravitdesign.com"');
     expect(html).toContain("Help &gt; About GravitDesign Next");
   });
 });
 
 describe("Help > About GravitDesign Next", () => {
   it("is an action only in the next look", () => {
-    expect(brandActions().map((a) => a.getId())).toEqual([ShowIntroAction.ID]);
+    expect(brandActions().map((a) => a.getId())).toEqual([ShowIntroAction.ID, OpenLegacyAction.ID]);
     setActiveBranding("classic");
     expect(brandActions()).toEqual([]);
   });
@@ -110,11 +136,31 @@ describe("Help > About GravitDesign Next", () => {
     expect(action.isEnabled()).toBe(true);
     action.execute();
     expect(openIntros()).toHaveLength(1);
+    // Read before: closable, no box to tick.
+    expect(IntroDialog.current()?.getDialog().closable).toBe(true);
+    expect(islandHtml("g-dialog-footer")).toBe(
+      '<div class="buttons"><button class="primary">Got it</button></div>',
+    );
     expect(action.isEnabled()).toBe(false);
     action.execute();
     expect(openIntros()).toHaveLength(1);
     IntroDialog.current()?.close();
     vi.runAllTimers();
     expect(action.isEnabled()).toBe(true);
+  });
+});
+
+describe("Help > Open the Old Gravit Designer", () => {
+  it("opens legacy.gravitdesign.com outside the app", () => {
+    const opened: string[] = [];
+    setContainer({
+      openExternalLink: (_event: unknown, url: string) => opened.push(url),
+    } as unknown as Container);
+    const action = new OpenLegacyAction();
+    expect(action.getTitle()).toBe("Open the Old Gravit Designer");
+    expect(action.getCategory()).toBe(Category.CATEGORY_HELP);
+    action.execute();
+    expect(opened).toEqual(["https://legacy.gravitdesign.com"]);
+    setContainer(null);
   });
 });

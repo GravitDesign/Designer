@@ -15,6 +15,24 @@
   "intro": true,
   "introShown": null
  },
+ "afterEscape": {
+  "title": "GravitDesign Next",
+  "branding": "next",
+  "theme": "light",
+  "stylesheets": [
+   "/designer.browser.light.css",
+   "/brand/accent.light.css",
+   "/brand/next.css",
+   "/brand/editor.css"
+  ],
+  "icon": "/brand/icons/favicon.ico",
+  "manifest": "/brand/manifest.json",
+  "version": "GravitDesign Next 2.0.0 Web",
+  "intro": true,
+  "introShown": null
+ },
+ "gotItBefore": false,
+ "gotItAfter": true,
  "afterClose": {
   "title": "GravitDesign Next",
   "branding": "next",
@@ -68,7 +86,8 @@
   "Learn",
   "Request New Feature",
   "Show Welcome Screen",
-  "About GravitDesign Next"
+  "About GravitDesign Next",
+  "Open the Old Gravit Designer"
  ],
  "fromHelp": {
   "title": "Untitled-1 - GravitDesign Next",

@@ -1,15 +1,37 @@
 /** The content of the introduction (brand/intro-dialog.ts). */
-import type { MouseEvent, ReactNode } from "react";
+import { useState, type MouseEvent, type ReactNode } from "react";
 import { BrandLockup } from "./brand-mark.tsx";
-import { brandString } from "./brand-strings.ts";
-import { ISSUES_URL } from "./branding.ts";
+import { brandString, type BrandStringKey } from "./brand-strings.ts";
+import { ISSUES_URL, LEGACY_URL } from "./branding.ts";
 
 export interface IntroDialogViewProps {
   onLink: (event: MouseEvent<HTMLAnchorElement>, url: string) => void;
 }
 
+/** A paragraph whose "%link" is a link to `url`. */
+function LinkParagraph({
+  text,
+  label,
+  url,
+  onLink,
+}: {
+  text: BrandStringKey;
+  label: BrandStringKey;
+  url: string;
+} & IntroDialogViewProps): ReactNode {
+  const [before, after = ""] = (brandString(text) as string).split("%link");
+  return (
+    <p>
+      {before}
+      <a href={url} onClick={(event) => onLink(event, url)}>
+        {brandString(label) as string}
+      </a>
+      {after}
+    </p>
+  );
+}
+
 export function IntroDialogView({ onLink }: IntroDialogViewProps): ReactNode {
-  const [before, after = ""] = brandString("intro.report").split("%link");
   return (
     <div className="gd-intro">
       <BrandLockup className="gd-intro-lockup" />
@@ -23,22 +45,55 @@ export function IntroDialogView({ onLink }: IntroDialogViewProps): ReactNode {
           <li key={item}>{item}</li>
         ))}
       </ul>
-      <p>
-        {before}
-        <a href={ISSUES_URL} onClick={(event) => onLink(event, ISSUES_URL)}>
-          {brandString("intro.report-link")}
-        </a>
-        {after}
-      </p>
+      <LinkParagraph
+        text="intro.report"
+        label="intro.report-link"
+        url={ISSUES_URL}
+        onLink={onLink}
+      />
+      <LinkParagraph
+        text="intro.legacy"
+        label="intro.legacy-link"
+        url={LEGACY_URL}
+        onLink={onLink}
+      />
       <p className="gd-intro-reopen">{brandString("intro.reopen")}</p>
     </div>
   );
 }
 
-export function IntroDialogButton({ onClick }: { onClick: () => void }): ReactNode {
+export interface IntroDialogFooterProps {
+  /** Whether the box has to be ticked before "Got it" works (first start). */
+  needsConfirm: boolean;
+  onConfirm: (confirmed: boolean) => void;
+  onClick: () => void;
+}
+
+export function IntroDialogFooter({
+  needsConfirm,
+  onConfirm,
+  onClick,
+}: IntroDialogFooterProps): ReactNode {
+  const [confirmed, setConfirmed] = useState(!needsConfirm);
   return (
-    <button className="primary" onClick={onClick}>
-      {brandString("intro.ok")}
-    </button>
+    <>
+      {needsConfirm && (
+        <label className="gd-intro-confirm">
+          <input
+            type="checkbox"
+            checked={confirmed}
+            onChange={(event) => {
+              const checked = event.currentTarget.checked;
+              setConfirmed(checked);
+              onConfirm(checked);
+            }}
+          />
+          <span>{brandString("intro.confirm")}</span>
+        </label>
+      )}
+      <button className="primary" disabled={!confirmed} onClick={onClick}>
+        {brandString("intro.ok")}
+      </button>
+    </>
   );
 }

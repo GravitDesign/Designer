@@ -48,6 +48,9 @@ export const PRODUCT_NAME: Record<Branding, string> = {
 /** Where problems with the new app are reported. */
 export const ISSUES_URL = "https://github.com/GravitDesign/designer/issues";
 
+/** Where the old Gravit Designer still runs. */
+export const LEGACY_URL = "https://legacy.gravitdesign.com";
+
 export function isBranding(value: unknown): value is Branding {
   return value === "next" || value === "classic";
 }

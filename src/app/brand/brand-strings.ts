@@ -8,8 +8,9 @@
 import { Locale } from "../../engine/core/locale/locale.ts";
 
 export interface BrandStrings {
-  /** Help menu entry. */
+  /** Help menu entries. */
   "menu.about": string;
+  "menu.legacy": string;
   "intro.title": string;
   "intro.lead": string;
   "intro.local": string;
@@ -19,7 +20,12 @@ export interface BrandStrings {
   /** "%link" stands for the issues link ("intro.report-link"). */
   "intro.report": string;
   "intro.report-link": string;
+  /** "%link" stands for the old app's link ("intro.legacy-link"). */
+  "intro.legacy": string;
+  "intro.legacy-link": string;
   "intro.reopen": string;
+  /** The box to tick before the first-start introduction can be closed. */
+  "intro.confirm": string;
   "intro.ok": string;
   /** "%name %version": the version line of the welcome screen. */
   "version.line": string;
@@ -29,6 +35,7 @@ export type BrandStringKey = keyof BrandStrings;
 
 const en: BrandStrings = {
   "menu.about": "About GravitDesign Next",
+  "menu.legacy": "Open the Old Gravit Designer",
   "intro.title": "This is not the Gravit you know",
   "intro.lead":
     "GravitDesign Next is a community rebuild of Gravit Designer. It looks and works " +
@@ -49,7 +56,10 @@ const en: BrandStrings = {
   "intro.report":
     "Something broken, or different from what you're used to? Please tell us at %link.",
   "intro.report-link": "github.com/GravitDesign/designer/issues",
+  "intro.legacy": "Need the old Gravit Designer? It's still there, at %link.",
+  "intro.legacy-link": "legacy.gravitdesign.com",
   "intro.reopen": "You can read this again under Help > About GravitDesign Next.",
+  "intro.confirm": "I understand that this is a different app",
   "intro.ok": "Got it",
   "version.line": "%name %version",
 };

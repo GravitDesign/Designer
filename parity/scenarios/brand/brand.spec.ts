@@ -357,6 +357,12 @@ const scenarios: BrandScenario[] = [
         }));
       await page.locator(".gd-intro-dialog-container.visible").waitFor();
       const firstStart = await facts();
+      // Escape doesn't close it on the first start; ticking the box enables "Got it".
+      await page.keyboard.press("Escape");
+      const afterEscape = await facts();
+      const gotItBefore = await page.isEnabled(".gd-intro-dialog .g-dialog-footer button");
+      await page.check(".gd-intro-dialog .gd-intro-confirm input");
+      const gotItAfter = await page.isEnabled(".gd-intro-dialog .g-dialog-footer button");
       await page.click(".gd-intro-dialog .g-dialog-footer button");
       await page.locator(".gd-intro-dialog-container").waitFor({ state: "detached" });
       const afterClose = await facts();
@@ -376,7 +382,17 @@ const scenarios: BrandScenario[] = [
       await clickMenu(page, ["Help", "About GravitDesign Next"]);
       await page.locator(".gd-intro-dialog-container.visible").waitFor();
       const fromHelp = await facts();
-      return { firstStart, afterClose, secondStart, withDocument, helpMenu, fromHelp };
+      return {
+        firstStart,
+        afterEscape,
+        gotItBefore,
+        gotItAfter,
+        afterClose,
+        secondStart,
+        withDocument,
+        helpMenu,
+        fromHelp,
+      };
     },
   },
 ];

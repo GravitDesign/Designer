@@ -274,3 +274,30 @@ html[data-branding="next"] .g-dialog.g-new-document-dialog > .g-dialog-content >
   margin-bottom: 0;
   opacity: 0.7;
 }
+/* First start: the box to tick on the left, "Got it" on the right. */
+.g-dialog.gd-intro-dialog .g-dialog-footer .buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+.g-dialog.gd-intro-dialog .gd-intro-confirm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: auto;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.g-dialog.gd-intro-dialog .gd-intro-confirm input {
+  margin: 0;
+}
+.g-dialog-container .g-dialog.gd-intro-dialog .g-dialog-footer button {
+  margin-left: 0;
+}
+.g-dialog-container .g-dialog.gd-intro-dialog .g-dialog-footer button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
