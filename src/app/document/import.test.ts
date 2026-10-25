@@ -118,6 +118,37 @@ describe("import font matching", () => {
     ]);
     vi.restoreAllMocks();
   });
+
+  it("takes only the first answer the manager gives a query", () => {
+    // A provider that disables itself during a load makes the manager
+    // answer the same query twice; the second answer must not count for
+    // the query after it.
+    const asked: [string, (result: QueryResult) => void][] = [];
+    vi.spyOn(FontsProviderManager, "getInstance").mockReturnValue({
+      query: (callback: (result: QueryResult) => void, name: string) => {
+        asked.push([name, callback]);
+      },
+    } as unknown as FontsProviderManager);
+    const answers: unknown[] = [];
+    const face = (family: string) => ({ family, fonts: [{ weight: 400, style: "N" as never }] });
+    for (const fontFamily of ["Open San", "Robotto", "Lato"]) {
+      importFontProvider.queryFirst({ fontFamily, fontStyle: "N", fontWeight: 400 }, (answer) =>
+        answers.push(answer),
+      );
+    }
+    asked[0]?.[1]({ faces: [face("Open Sans")] });
+    asked[0]?.[1]({ faces: [face("Open Sans")] });
+    expect(asked.map(([name]) => name)).toEqual(["Open San", "Robotto"]);
+    expect(answers).toHaveLength(1);
+    asked[1]?.[1]({ faces: [face("Roboto")] });
+    asked[2]?.[1]({ faces: [face("Lato")] });
+    expect(answers).toEqual([
+      { family: "Open Sans", weight: 400, style: "N" },
+      { family: "Roboto", weight: 400, style: "N" },
+      { family: "Lato", weight: 400, style: "N" },
+    ]);
+    vi.restoreAllMocks();
+  });
 });
 
 describe("import optimiser", () => {

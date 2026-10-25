@@ -143,9 +143,10 @@ let inFlight = false;
 /**
  * The provider the SVG and Sketch imports get as `fontProvider`.
  *
- * It asks the fonts provider manager one query at a time: the manager
- * drops the answer of a query that is older than the latest one, so
- * overlapping queries (one per family since BUG-072) would leave an
+ * It asks the fonts provider manager one query at a time and takes one
+ * answer per query: the manager drops the answer of a query that is
+ * older than the latest one, and can answer a query twice, so
+ * overlapping queries (one per family since BUG-072) could leave an
  * import waiting forever. The old app never overlapped them, because
  * every family waited for the first one's answer.
  */
@@ -173,20 +174,35 @@ function next(): void {
   });
 }
 
+/**
+ * Looks the query up by font name, then by family. Only the first answer
+ * to each lookup counts: the manager calls back a second time when a
+ * provider disables itself during a load (its probe goes on to the next
+ * provider twice), and that late answer would otherwise be taken for the
+ * next query's.
+ */
 function ask(query: ImportFontQuery, callback: ImportFontCallback): void {
-  let index = 0;
   const names: string[] = [];
   if (query.fontName) names.push(query.fontName);
   if (names.length) {
     if (names[0] !== query.fontFamily) names.push(query.fontFamily);
   } else names.push(query.fontFamily);
-  const answered = (result: QueryResult): void => {
-    if (result.faces.length) {
-      callback(pickFont(query, result.faces, defaultFamily));
-    } else if (index < names.length - 1) {
-      index++;
-      setTimeout(() => FontsProviderManager.getInstance().query(answered, names[index] as string));
-    } else callback(null);
+  let step = 0;
+  let finished = false;
+  const lookUp = (current: number): void => {
+    FontsProviderManager.getInstance().query((result: QueryResult) => {
+      if (finished || current !== step) return;
+      if (result.faces.length) {
+        finished = true;
+        callback(pickFont(query, result.faces, defaultFamily));
+      } else if (step < names.length - 1) {
+        step++;
+        setTimeout(() => lookUp(step));
+      } else {
+        finished = true;
+        callback(null);
+      }
+    }, names[current] as string);
   };
-  FontsProviderManager.getInstance().query(answered, names[index] as string);
+  lookUp(0);
 }
