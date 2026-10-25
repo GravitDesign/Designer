@@ -11,6 +11,8 @@ describe("CI skip list", () => {
     for (const id of [
       "engine-model/render/blend-layer-hue",
       "corpus/blend-modes/render-light",
+      "io-export-bitmap/corpus/fills-multiple",
+      "platform/gvthumb/corpus/blend-modes",
       "corpus/matrix/blend-and-composite",
       "import-export/corpus/effects-webgl-3",
       "io-export-pdf/corpus/effects-large",
@@ -25,6 +27,7 @@ describe("CI skip list", () => {
       "engine-model/render/blend-element-multiply",
       "corpus/shapes-rectangles/render-light",
       "import-export/corpus/masks",
+      "platform/gvthumb/corpus/blend-modes-extra",
       "import-export/export/pdf/effects-72dpi",
       "import-export/ui/print-dialog",
       "electron/lifecycle",

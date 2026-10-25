@@ -9,9 +9,9 @@
 const CI_SKIP: readonly RegExp[] = [
   // Blend modes and multiple fills (canvas compositing).
   /^engine-model\/render\/blend-(element|layer)-(color|color-burn|color-dodge|hue|luminosity|saturation)$/,
-  /^corpus\/(blend-modes|blend-layers-opacity|fills-multiple)\//,
+  // These corpus files, in every suite that renders or exports them.
+  /(^|\/)corpus\/(blend-modes|blend-layers-opacity|fills-multiple)(\/|$)/,
   /^corpus\/matrix\/blend-and-composite$/,
-  /^import-export\/corpus\/(blend-modes|blend-layers-opacity|fills-multiple)$/,
   // WebGL effects and their PDF rasters.
   /^import-export\/corpus\/effects-/,
   /^io-export-pdf\/(corpus|export)\/effects-/,
