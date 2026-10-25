@@ -221,6 +221,12 @@ const list: SurfaceSpec[] = [
       await settle(page, 400);
       await page.click("#left-sidebars .page-toolbar label.g-switch");
       await settle(page, 600);
+      // The mouse stays on the switch, whose tooltip shows after its delay;
+      // on a slow machine that is before the shot. The recording has none.
+      await page.waitForTimeout(700);
+      await page.addStyleTag({
+        content: ".g-tooltip,.g-rich-tooltip-container{display:none!important}",
+      });
     },
     shot: ["body"],
     dom: ["#left-sidebars .page-toolbar"],
