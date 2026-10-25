@@ -57,6 +57,7 @@ describe("brand files", () => {
     expect(svgs.sort()).toEqual([
       "avatar-dark.svg",
       "avatar-light.svg",
+      "loading.svg",
       "mark-on-dark.svg",
       "mark-on-light.svg",
       "mark.svg",

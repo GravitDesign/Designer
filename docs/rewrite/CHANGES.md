@@ -41,9 +41,12 @@ What the next look changes, all in new files plus small hooks:
     the result is the same as editing the old stylesheet in place
     (checked on the welcome screen and an editor window in both themes:
     no pixel differs).
-  - next.css: the loading screen (the mark on ink instead of the pink
-    gradient), the welcome screen's left panel (mark and wordmark on ink,
-    a yellow marker on the active item, line icons on quiet tiles
+  - index.html: the loading screen, inline so it's there for the first
+    paint: the mark on ink instead of the pink gradient, animated
+    (loading.svg: the planet pops in, the ring draws, then the node
+    orbits).
+  - next.css: the welcome screen's left panel (mark and wordmark on ink,
+    a yellow marker on the active item, bare line icons
     instead of the colour tiles), the wordmark and the
     introduction. Manrope (SIL OFL 1.1, public/brand/fonts) for the
     wordmark.
