@@ -403,15 +403,24 @@ describe("PatternChooser quirks kept from the old code", () => {
     expect(relayout).toHaveBeenLastCalledWith({ preserveTop: true });
   });
 
-  it("never selects the noise type of the pattern in the type select", () => {
-    // See "The noise type select doesn't follow the pattern" in QUESTIONS.md.
+  it("selects the noise type of the pattern in the type select (BUG-157)", () => {
     const { chooser: c, root } = chooser();
     open(c);
     const noise = new NoisePattern();
     noise.setType(NoisePattern.Type.Black);
     c.setPattern(noise);
     const select = q(root, '[data-property="noise_type"]');
-    expect(select.children.some((o) => o.hasAttribute("selected"))).toBe(false);
+    expect(select.value).toBe("black");
+    expect(
+      select.children.filter((o) => o.hasAttribute("selected")).map((o) => o.getAttribute("value")),
+    ).toEqual(["black"]);
+    const white = new NoisePattern();
+    white.setType(NoisePattern.Type.White);
+    c.setPattern(white);
+    expect(select.value).toBe("white");
+    expect(
+      select.children.filter((o) => o.hasAttribute("selected")).map((o) => o.getAttribute("value")),
+    ).toEqual(["white"]);
   });
 
   it("keeps listening to swatch changes after leaving the swatches palette", () => {

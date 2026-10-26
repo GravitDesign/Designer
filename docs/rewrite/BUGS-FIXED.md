@@ -3243,3 +3243,22 @@ setActive (line 166421, the tool change handler at 166425-166430).
   and picks on the next mouse down).
 - Parity exceptions: none. ui/color/eyedropper.dom changes no tool and is
   unaffected.
+
+## BUG-157 The noise type select doesn't show the pattern's type
+
+Old code: designer.browser.dev.js module 1150, the pattern chooser's
+_updatePattern, noise branch (lines 70115-70127).
+
+- Reproduce: select a shape whose fill is a noise pattern of type Black,
+  White or Color (or pick a type, then select another shape with a
+  different noise type), and open the fill's chooser.
+- Old: the chooser looked for the type select in the texture editor,
+  where it isn't, so the select kept its first option or the user's last
+  pick, whatever type the pattern had.
+- New: the select in the noise editor shows the pattern's type.
+- Test: src/app/color/color-chooser.test.ts, "selects the noise type of
+  the pattern in the type select (BUG-157)" (fails with the old code: the
+  select's value stays empty and no option is marked selected).
+- Parity exceptions: none. ui/color/fill-noise.light/.dark/.dom switch
+  to a new noise fill, whose type (Original) is the first option, so the
+  select shows the same as before.

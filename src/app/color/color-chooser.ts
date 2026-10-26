@@ -2303,14 +2303,15 @@ export class PatternChooser {
         this._noiseEditor.querySelector('[type="text"][data-property="noise_amount"]'),
         formatNumber(amount, 0),
       );
-      // Old: looked for the type select in the texture editor, where it
-      // isn't, so the noise type select never follows the pattern. See
-      // "The noise type select doesn't follow the pattern" in QUESTIONS.md.
-      const typeSelect = this._patternEditor.querySelector('[data-property="noise_type"]');
+      // The old code looked for the type select in the texture editor,
+      // where it isn't, so the select never showed the pattern's type
+      // (BUG-157).
+      const typeSelect = this._noiseEditor.querySelector('[data-property="noise_type"]');
       if (typeSelect) {
         for (const option of typeSelect.children) option.removeAttribute("selected");
         const option = typeSelect.querySelector(`option[value="${noise.getType()}"]`);
         if (option) option.setAttribute("selected", "selected");
+        setValue(typeSelect, noise.getType());
       }
     } else if (isTexture) {
       const texture = pattern as TexturePattern;
