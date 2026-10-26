@@ -11,6 +11,8 @@ import { Element } from "../../engine/scene/element.ts";
 import { NodeFlag } from "../../engine/scene/node-change.ts";
 import { Container } from "../../engine/scene/node-container.ts";
 import type { Scene } from "../../engine/scene/scene.ts";
+import { Text } from "../../engine/text/text.ts";
+import { CollabTextAnnotationBase } from "../../engine/scene/annotations/collab-text-annotation-base.ts";
 import { ActionGuide } from "./action-guide.ts";
 
 type Painted = [string, number[]];
@@ -124,6 +126,28 @@ describe("ActionGuide", () => {
     expect(visibleAreas.map((area) => [area.getX(), area.getY(), area.getWidth()])).toEqual([
       [0, 0, 1000],
     ]);
+  });
+
+  it("asks real nodes their class each time, so a swapped prototype counts at once", () => {
+    const painted: Painted[] = [];
+    // Real prototypes with the stock hasMixin; only what the guide reads is stubbed.
+    const real = (proto: object, name: string, x: number): Element =>
+      Object.assign(Object.create(proto) as Element, {
+        getActionsBBox: () => new Rect(x, 0, 10, 10),
+        getActions: () => [fakeAction(name, painted)],
+        getPrevious: () => null,
+      });
+    const text = real(Text.prototype, "text", 0);
+    const collab = real(CollabTextAnnotationBase.prototype, "collab", 20);
+    const page = fakePage([text, collab], { active: true });
+    paint([page], new Transform(), [new Rect(-5, -5, 100, 100)], false);
+    expect(painted.map(([name]) => name)).toEqual(["collab"]);
+    // Swap the classes (as CollabText.setModeText does) and paint again.
+    painted.length = 0;
+    Object.setPrototypeOf(text, CollabTextAnnotationBase.prototype);
+    Object.setPrototypeOf(collab, Text.prototype);
+    paint([page], new Transform(), [new Rect(-5, -5, 100, 100)], false);
+    expect(painted.map(([name]) => name)).toEqual(["text"]);
   });
 
   it("gathers nothing when the scene returns no pages", () => {
