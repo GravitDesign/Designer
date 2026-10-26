@@ -16,7 +16,6 @@
  * sorts panels into its groups by that string).
  *
  * Kept from the old code (see QUESTIONS.md):
- * - "Add Border on an open path aligns it inside";
  * - "Border panel takes elements by their fill property set";
  * - "Dropping a border outside the list is named after fills";
  * - "Border width box ignores the document unit".
@@ -136,18 +135,18 @@ function tooltip(fields: ConstructorParameters<typeof RichTooltipConfig>[0]): Ri
 
 /**
  * The alignment a new border gets on `element` (the Add Border button):
- * outside for texts, center for open arcs, inside for every other shape.
- * Paths are shapes, so the open-path branch never runs (see "Add Border
- * on an open path aligns it inside" in QUESTIONS.md).
+ * outside for texts, center for open paths and arcs, inside for every
+ * other shape. The old code checked shapes first, and paths are shapes,
+ * so open paths got Inside, which they can't show (BUG-154).
  */
 export function newBorderAlignment(element: unknown): string | null {
   if (element instanceof Text) return BorderAlignment.Outside;
+  if (element instanceof Path && !(element as unknown as { $closed: boolean }).$closed)
+    return BorderAlignment.Center;
   if (element instanceof Shape)
     return element instanceof Ellipse && element.$etp === Ellipse.Type.Arc
       ? BorderAlignment.Center
       : BorderAlignment.Inside;
-  if (element instanceof Path && !(element as unknown as { $closed: boolean }).$closed)
-    return BorderAlignment.Center;
   return null;
 }
 

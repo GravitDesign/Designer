@@ -89,9 +89,11 @@ describe("newBorderAlignment", () => {
     expect(newBorderAlignment(new Ellipse())).toBe(BorderAlignment.Inside);
   });
 
-  it("aligns open paths inside, since paths are shapes (old quirk)", () => {
+  it("centers the border of an open path and keeps a closed one inside (BUG-154)", () => {
     const path = new Path();
     path.setProperty("closed", false);
+    expect(newBorderAlignment(path)).toBe(BorderAlignment.Center);
+    path.setProperty("closed", true);
     expect(newBorderAlignment(path)).toBe(BorderAlignment.Inside);
   });
 });

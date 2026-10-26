@@ -3180,3 +3180,22 @@ Old code: designer.browser.dev.js module 1162, _updatePaintLayer (lines
   old code).
 - Parity exceptions: none. No recorded scenario undoes with a border
   chooser open.
+
+## BUG-154 Add Border on an open path aligns it Inside
+
+Old code: designer.browser.dev.js module 1162, the Add Border handler
+(lines 74015-74042).
+
+- Reproduce: draw a straight line or another open path and click Add
+  Border in the Border panel.
+- Old: the handler checked "is a shape" before "is an open path". Paths
+  are shapes, so the open path branch never ran and the new border was
+  aligned Inside. An open path has no inside, so the border was invisible,
+  and the border settings show Inside as disabled for open paths.
+- New: open paths get a centered border. Closed paths and other shapes
+  still get Inside, texts Outside and arcs Center.
+- Test: src/app/inspector/border-properties.test.ts, "centers the border of
+  an open path and keeps a closed one inside (BUG-154)" (fails with the old
+  code).
+- Parity exceptions: none. The recorded scenarios add borders only to
+  rectangles.
