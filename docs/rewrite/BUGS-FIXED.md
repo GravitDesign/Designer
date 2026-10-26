@@ -3575,3 +3575,83 @@ Old code: designer.browser.dev.js module 1491 (GDesigner._setTheme, lines
   new stylesheet has loaded, not when the fetch is done (BUG-170)" (fails
   with the old callback: the rulers are recreated before the link loads).
 - Parity exceptions: none.
+
+## BUG-169 A long press on an SVG icon throws
+
+Old code: designer.browser.dev.js module 1693
+(GLongPressEvent._fireLongPressEvent, lines 165724-165741).
+
+- Reproduce: long-press an icon drawn as SVG (an svg element or a path in
+  it) outside the canvas.
+- Old: after sending "long-press", the code called
+  `parentElement.className.indexOf(...)`. Inside an SVG the class name is
+  an SVGAnimatedString, which has no indexOf, so every long press put a
+  TypeError in the console. The throw came after the event, so the
+  release was not swallowed and its click still ran.
+- New: only a string class name is checked. An SVG parent gives no error
+  and, as before, the release is not swallowed.
+- Test: src/editor/touch/long-press-event.test.ts, "doesn't swallow the
+  release when the parent's className isn't a string (SVG)" (fails with
+  the old check: the timer callback throws).
+- Parity exceptions: none.
+
+## BUG-171 The web fonts tab would disable a missing system fonts provider
+
+Old code: designer.browser.dev.js module 1700 (the font list's tab click
+handler, lines 166810-166811).
+
+- Reproduce: open the font list outside the desktop app and click the
+  web fonts tab.
+- Old: the handler pushed the container's system fonts provider to the
+  providers to disable only when there was none (`d || c.push(d)`), so it
+  pushed either nothing or null. The old browser container always had a
+  provider, so nothing changed for the user, but a container without one
+  made disableProviders throw on the null.
+- New: nothing is pushed. The other tabs' providers are disabled as
+  before.
+- Test: src/app/fonts/fonts-button.test.ts, "builds the tabs and the
+  panel in the font list overlay" (checks the exact list given to
+  disableProviders; a pushed null fails it).
+- Parity exceptions: none.
+
+## BUG-172 The merge tool menu throws without the merge action
+
+Old code: designer.browser.dev.js module 1541 (GToolbar._createMergeMenu,
+lines 141177-141189).
+
+- Reproduce: not reachable in the old app; the merge action is always
+  registered.
+- Old: the menu called getSubActions on `getAction(...)` without a check,
+  so a missing action threw while the toolbar was built.
+- New: without the action the menu stays empty.
+- Test: none.
+- Parity exceptions: none.
+
+## BUG-173 A divider between top-level menus breaks the main menu build
+
+Old code: designer.browser.dev.js module 1491 (GDesigner._createMainMenu,
+lines 123373-123374).
+
+- Reproduce: not reachable in the old app; it needs an action whose
+  top-level category has a group part, which the full action table never
+  has.
+- Old: the final loop passed every root entry, dividers included, to the
+  menu builder, which read `items.length` of the divider and threw.
+- New: root entries that aren't menus are skipped.
+- Test: none.
+- Parity exceptions: none.
+
+## BUG-174 Painting during rendering throws for a graphic outside every tile
+
+Old code: chunk.vendor.js, the scene widget's _finishPaint (lines
+63176-63183).
+
+- Reproduce: not reachable; it needs RendererConfig.DRAW_DURING_RENDERING,
+  which nothing sets.
+- Old: _finishPaint read the canvas of the tile holding the graphic
+  without a check. With no tile it threw, and the render callback skipped
+  resetting its in-progress flag and restoring noWebGL.
+- New: without a tile _finishPaint returns, and the render callback goes
+  on as for any other paint.
+- Test: none.
+- Parity exceptions: none.
