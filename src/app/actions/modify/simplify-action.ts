@@ -33,10 +33,10 @@ interface ToleranceContent {
 /**
  * The slider (gInputSlider, 0-100 in steps of 1, starting at 10) and the
  * text field. Moving the slider writes its value, through the scene's
- * unit conversion and rounded, into the field. Typing into the field
- * never reaches the slider: the old handler looked for the slider inside
- * the field's own span. See "Q-248 Simplify ignores the typed tolerance"
- * in QUESTIONS.md.
+ * unit conversion and rounded, into the field, and a changed field writes
+ * its value the same way into the slider, which is what OK reads. The old
+ * field handler looked for the slider inside the field's own span and
+ * never found it, so typed values were lost (BUG-134).
  */
 function createToleranceContent(scene: Scene | null): ToleranceContent {
   const root = document.createElement("div");
@@ -57,8 +57,12 @@ function createToleranceContent(scene: Scene | null): ToleranceContent {
   input.setAttribute("type", "text");
   input.style.width = "3em";
   input.value = "10";
-  // The old field also had a change handler; it passed the value to a
-  // slider it never found, so it is left out.
+  input.addEventListener("change", () => {
+    // Text that isn't a length leaves the slider as it is (the old
+    // handler would have thrown on it).
+    const points = scene ? scene.stringToPoint(input.value) : null;
+    if (points !== null) slider.value(Number(points.toFixed(0)));
+  });
   const label = document.createElement("label");
   // Old: $("<label>").html(...) with the string table text.
   label.innerHTML = Locale.get(new LocaleKey("GSimplifyAction", "text.tolerance")) as string;

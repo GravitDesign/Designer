@@ -2768,3 +2768,29 @@ texture Paste button (lines 68890-68918, GCommonNames
   clipboard alerts with the texture message (BUG-133)" (fails with the
   old code, which alerts the arrow text).
 - Parity exceptions: none.
+
+## BUG-134 Simplify Path ignores the typed tolerance
+
+Old code: designer.browser.dev.js module 1318 (GSimplifyAction.execute,
+lines 102679-102686 and 102704).
+
+- Reproduce: select a path, Modify > Path > Simplify Path (Ctrl+Alt+S),
+  type a value into the % field and click OK.
+- Old: the field's change handler looked for the slider inside the
+  field's own span and never found it, so the typed value never reached
+  the slider. OK reads the slider, so the path was always simplified
+  with 10 (or with whatever the slider was dragged to). Typing 0 did not
+  give the invalid-value alert.
+- New: a changed field sets the slider to the typed value, converted
+  through the document's unit and rounded, as the old handler meant to.
+  OK then uses it: 40 simplifies with 40, 0 gives "Entered invalid number
+  for pixel tolerance." Values above 100 stop at 100, as when dragging
+  the slider. Text that is not a length leaves the slider as it was.
+- Test: src/app/actions/modify/simplify-action.test.ts, "simplifies with
+  the tolerance typed into the field (BUG-134)" and "refuses a typed
+  tolerance of 0 (BUG-134)" (both fail with the old dialog).
+- Parity exceptions: editor-actions/path-dialogs/simplify-typed-40 and
+  simplify-typed-0. sliderAfterTyping stays "10", because it is read
+  before the field loses focus. typed-40's document afterwards holds the
+  path simplified with tolerance 40 instead of 10. typed-0 has the alert
+  and the document unchanged.
