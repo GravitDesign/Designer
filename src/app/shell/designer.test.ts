@@ -256,3 +256,16 @@ describe("Designer.canUnloadDocument (module 1491)", () => {
     await expect(result).resolves.toBe(true);
   });
 });
+
+describe("Designer.start: the stored global swatches (module 1491)", () => {
+  it("skips a stored swatch it can't read and keeps the others (BUG-132)", async () => {
+    setContainer({
+      getProperty: (key: string) =>
+        Promise.resolve("swatches" === key ? ["Q#[1]", "C#[255,0,0]"] : null),
+      getRuntime: () => Runtime.Browser,
+    } as never);
+    const designer = new Designer();
+    await expect(designer.start()).resolves.toBeDefined();
+    expect(designer.getSwatches("global")).toHaveLength(1);
+  });
+});

@@ -1886,9 +1886,15 @@ export class Designer extends EventTarget {
         const list = stored as string[] | null;
         if (list) {
           for (const entry of list) {
-            const node = Node.deserialize(entry) || Pattern.deserialize(entry);
-            const swatch = node instanceof Swatch ? node : new Swatch(node as Pattern | null);
-            this._addGlobalSwatch(swatch);
+            // Old: an entry that didn't read threw, start() rejected and
+            // the app never became ready (BUGS-FIXED BUG-132). Skipped now.
+            try {
+              const node = Node.deserialize(entry) || Pattern.deserialize(entry);
+              const swatch = node instanceof Swatch ? node : new Swatch(node as Pattern | null);
+              this._addGlobalSwatch(swatch);
+            } catch (error) {
+              console.warn("skipping a stored swatch that can't be read: " + String(error));
+            }
           }
         }
         const SwatchesChangedEvent = lateExport<new (scope: string) => Event>(

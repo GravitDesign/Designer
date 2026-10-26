@@ -2731,3 +2731,22 @@ lines 94455-94458, and _saveNotificationSetting, lines 94460-94467).
 - Parity exceptions: platform/storage/settings-dialog-notifications. The
   `.fixed` file has the dialog closed and no page error, and
   notifications_disabled set to true in designer.settings.
+
+## BUG-132 A stored swatch that doesn't read stops the app from starting
+
+Old code: designer.browser.dev.js module 1491, GDesigner.start (the
+global swatches, around line 122979).
+
+- Reproduce: put an entry the pattern reader can't read into the
+  "swatches" list in localStorage (for example `"L#{"`, or a pattern id
+  the app doesn't know) and load the app.
+- Old: reading the entry threw, start() rejected and the designer never
+  became ready. The app stayed on its loading state until the site data
+  was cleared.
+- New: an entry that doesn't read is skipped with a warning in the
+  console. The other swatches load and the app starts. The skipped entry
+  is dropped the next time the global swatches are saved.
+- Test: src/app/shell/designer.test.ts, "skips a stored swatch it can't
+  read and keeps the others (BUG-132)" (fails with the old loop: start()
+  rejects with "Unregistered Pattern Class.").
+- Parity exceptions: none. No recorded scenario stores a bad swatch.

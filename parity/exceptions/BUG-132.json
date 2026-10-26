@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-132",
+  "why": "A stored global swatch that doesn't read is skipped with a warning instead of making start() reject. No recorded scenario stores a bad swatch.",
+  "scenarios": [],
+  "pending": []
+}
