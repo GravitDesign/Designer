@@ -7,6 +7,29 @@ import { isEditable } from "../focus.ts";
 import { activeDocument, gDesigner } from "../host.ts";
 import { isSelectAllInTextField } from "./select-all-action.ts";
 
+/**
+ * Collapses the text selection of a focused field to a caret at its end:
+ * the input's or textarea's own selection, or the page selection in a
+ * contenteditable element.
+ */
+function collapseTextSelection(field: Element): void {
+  const name = field.nodeName.toLowerCase();
+  if (name === "input" || name === "textarea") {
+    const input = field as HTMLInputElement;
+    // null (some browsers throw) for inputs without a text selection.
+    let end: number | null;
+    try {
+      end = input.selectionEnd;
+    } catch {
+      end = null;
+    }
+    if (end !== null) input.setSelectionRange(end, end);
+    return;
+  }
+  const selection = window.getSelection ? window.getSelection() : null;
+  if (selection && selection.rangeCount) selection.collapseToEnd();
+}
+
 export class DeselectAllAction extends Action {
   static ID = "edit.deselect-all";
   static TITLE = new LocaleKey("GDeselectAllAction", "title");
@@ -41,10 +64,10 @@ export class DeselectAllAction extends Action {
     return false;
   }
 
-  // In a text field this selects all of its text, like Select All (the old
-  // code ran execCommand("selectAll") here too).
+  // In a text field this deselects its text. Old: execCommand("selectAll"),
+  // which selected all of it like Select All (BUG-138).
   override execute(): void {
-    if (isSelectAllInTextField()) document.execCommand("selectAll");
+    if (isSelectAllInTextField()) collapseTextSelection(document.activeElement as Element);
     else activeDocument().getEditor().clearSelection();
   }
 

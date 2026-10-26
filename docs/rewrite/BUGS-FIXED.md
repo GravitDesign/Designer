@@ -2856,3 +2856,23 @@ lines 102879-102893).
   with the old code).
 - Parity exceptions: none. editor-actions/exec/modify.split-line splits
   a path with fill and border and is unchanged.
+
+## BUG-138 Edit > Deselect All selects the text of a focused field
+
+Old code: designer.browser.dev.js module 1334 (GDeselectAllAction.execute,
+line 104774).
+
+- Reproduce: click into a text field (a layer name, a number box, a
+  text in the inspector), select part of its text and use Edit >
+  Deselect All (Shift+Ctrl+A).
+- Old: with a text field focused, Deselect All ran
+  document.execCommand("selectAll"), the same as Select All, so it
+  selected all of the field's text.
+- New: it collapses the field's text selection to a caret at the end of
+  what was selected. Outside text fields it still clears the document's
+  selection.
+- Test: src/app/actions/edit/edit-actions.test.ts, "select and deselect
+  the text of a focused field instead (BUG-138)" and "deselect the page
+  selection in a focused contenteditable (BUG-138)" (both fail with the
+  old execCommand).
+- Parity exceptions: none. No scenario runs Deselect All in a text field.

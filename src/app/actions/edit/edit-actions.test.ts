@@ -118,13 +118,34 @@ describe("Select All, Deselect All, Invert Selection", () => {
     expect(names(editor.getSelection())).toEqual(["A", "C"]);
   });
 
-  it("select the text of a focused field instead", () => {
+  it("select and deselect the text of a focused field instead (BUG-138)", () => {
     const { editor } = fixture;
     editor.insertElements([rect("A", 0)], true);
-    browser.activeElement = fakeElement("input");
+    const setSelectionRange = vi.fn();
+    browser.activeElement = Object.assign(fakeElement("input"), {
+      selectionStart: 2,
+      selectionEnd: 5,
+      setSelectionRange,
+    });
     new SelectAllAction().execute();
     new DeselectAllAction().execute();
-    expect(browser.execCommand.mock.calls).toEqual([["selectAll"], ["selectAll"]]);
+    expect(browser.execCommand.mock.calls).toEqual([["selectAll"]]);
+    expect(setSelectionRange.mock.calls).toEqual([[5, 5]]);
+    expect(names(editor.getSelection())).toEqual(["A"]);
+  });
+
+  it("deselect the page selection in a focused contenteditable (BUG-138)", () => {
+    const { editor } = fixture;
+    editor.insertElements([rect("A", 0)], true);
+    const collapseToEnd = vi.fn();
+    vi.stubGlobal("window", {
+      ...window,
+      getSelection: () => ({ rangeCount: 1, collapseToEnd }),
+    });
+    browser.activeElement = fakeElement("div", { contenteditable: "true" });
+    new DeselectAllAction().execute();
+    expect(browser.execCommand).not.toHaveBeenCalled();
+    expect(collapseToEnd).toHaveBeenCalledTimes(1);
     expect(names(editor.getSelection())).toEqual(["A"]);
   });
 
