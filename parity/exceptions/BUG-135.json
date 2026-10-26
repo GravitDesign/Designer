@@ -1,6 +1,6 @@
 {
   "bug": "BUG-135",
   "why": "Expand/Shrink's invalid-value alert uses its own text, \"Entered invalid number for offset value.\", instead of Convert to Outline's. Only the alert message in offset-invalid's dialogs differs.",
-  "scenarios": ["editor-actions/path-dialogs/offset-invalid"],
-  "pending": []
+  "scenarios": [],
+  "pending": ["editor-actions/path-dialogs/offset-invalid"]
 }

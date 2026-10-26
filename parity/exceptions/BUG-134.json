@@ -1,9 +1,9 @@
 {
   "bug": "BUG-134",
   "why": "Simplify Path uses the tolerance typed into the % field. The old field never reached the slider, so OK always used 10. sliderAfterTyping stays 10 because it is read before the field loses focus. simplify-typed-40 simplifies with 40 instead of 10; simplify-typed-0 shows the invalid-value alert and leaves the document unchanged.",
-  "scenarios": [
+  "scenarios": [],
+  "pending": [
     "editor-actions/path-dialogs/simplify-typed-40",
     "editor-actions/path-dialogs/simplify-typed-0"
-  ],
-  "pending": []
+  ]
 }
