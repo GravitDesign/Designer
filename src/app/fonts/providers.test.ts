@@ -62,7 +62,9 @@ describe("NotoFontsProvider", () => {
     expect(second.done).toHaveBeenCalledTimes(1);
   });
 
-  it("fails only the first request on a connection error, and none on a 404", () => {
+  // BUG-164: the old app failed only the first request on a connection
+  // error and nobody on a 404, so those fonts stayed pending for good.
+  it("fails every waiting request on a connection error or a 404, then downloads again", () => {
     const provider = new NotoFontsProvider(owner);
     const first = callbacks();
     const second = callbacks();
@@ -70,12 +72,22 @@ describe("NotoFontsProvider", () => {
     provider.resolveFont("Open Sans", "N", 300, second);
     (FakeRequest.sent[0] as FakeRequest).fail();
     expect(first.fail).toHaveBeenCalledWith(FontsProviderErrors.ConnectionError);
-    expect(second.fail).not.toHaveBeenCalled();
+    expect(second.fail).toHaveBeenCalledWith(FontsProviderErrors.ConnectionError);
     const notFound = callbacks();
+    const waiting = callbacks();
     provider.resolveFont("Open Sans", "N", 600, notFound);
+    provider.resolveFont("Open Sans", "N", 600, waiting);
     (FakeRequest.sent[1] as FakeRequest).respond(404, null);
     expect(notFound.done).not.toHaveBeenCalled();
-    expect(notFound.fail).not.toHaveBeenCalled();
+    expect(notFound.fail).toHaveBeenCalledWith(FontsProviderErrors.UnknownError);
+    expect(waiting.fail).toHaveBeenCalledWith(FontsProviderErrors.UnknownError);
+    const retry = callbacks();
+    provider.resolveFont("Open Sans", "N", 600, retry);
+    expect(requestedUrls()).toEqual([
+      "assets/font/OpenSans-Light.ttf",
+      "assets/font/OpenSans-SemiBold.ttf",
+      "assets/font/OpenSans-SemiBold.ttf",
+    ]);
   });
 
   it("lists Open Sans first, then the CJK and Noto families", () => {

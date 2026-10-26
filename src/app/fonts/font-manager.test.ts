@@ -166,14 +166,22 @@ describe("FontsProviderManager.resolveFont", () => {
     expect(second.asked).toEqual(["A Gamma"]);
   });
 
-  it("leaves a listed font pending when its download had no connection", () => {
-    const { second } = setUp("B ");
+  // BUG-164: the old app left these requests pending for good.
+  it("goes on to the next provider when a listed font's download had no connection", () => {
+    vi.spyOn(OpenTypeFont, "create").mockReturnValue(fakeFont as OpenTypeFont);
+    const { first, second } = setUp("B ");
     FontsProviderManager.getInstance().query(() => {}, "%", true);
+    first.resolveError = FontsProviderErrors.ConnectionError;
+    const shared = request("B Shared");
+    FontsProviderManager.resolveFont(shared);
+    expect(first.asked).toEqual(["B Shared"]);
+    expect(second.asked).toEqual(["B Shared"]);
+    expect(shared.resolved).toHaveBeenCalledWith(fakeFont);
     second.resolveError = FontsProviderErrors.ConnectionError;
     const gamma = request("B Gamma");
     FontsProviderManager.resolveFont(gamma);
     expect(gamma.resolved).not.toHaveBeenCalled();
-    expect(gamma.failed).not.toHaveBeenCalled();
+    expect(gamma.failed).toHaveBeenCalledTimes(1);
     second.resolveError = FontsProviderErrors.UnknownError;
     const again = request("B Gamma");
     const missing = vi.fn();
@@ -182,6 +190,22 @@ describe("FontsProviderManager.resolveFont", () => {
     FontsProviderManager.getInstance().removeEventListener(MissingFontEvent, missing);
     expect(again.failed).toHaveBeenCalledTimes(1);
     expect((missing.mock.calls[0]?.[0] as MissingFontEvent).provider).toBe(second);
+  });
+
+  it("goes on to the next provider when a listed font's file doesn't parse (BUG-164)", () => {
+    const create = vi.spyOn(OpenTypeFont, "create");
+    create.mockReturnValueOnce(null).mockReturnValueOnce(fakeFont as OpenTypeFont);
+    const { first, second } = setUp("E ");
+    FontsProviderManager.getInstance().query(() => {}, "%", true);
+    expect(FontsProviderManager.getProvider("E Shared")).toBe(first);
+    const shared = request("E Shared");
+    FontsProviderManager.resolveFont(shared);
+    expect(second.asked).toEqual(["E Shared"]);
+    expect(shared.resolved).toHaveBeenCalledWith(fakeFont);
+    create.mockReturnValue(null);
+    const alpha = request("E Alpha");
+    FontsProviderManager.resolveFont(alpha);
+    expect(alpha.failed).toHaveBeenCalledTimes(1);
   });
 });
 

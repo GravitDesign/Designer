@@ -3361,3 +3361,37 @@ Old code: designer.browser.dev.js module 1701, weightsForFont (lines
   TypeError).
 - Parity exceptions: none. No recorded scenario reads the weights of a
   family the cache doesn't have.
+
+## BUG-164 Fonts that can't be fetched stay pending forever
+
+Old code: designer.browser.dev.js module 590 (bundled fonts provider, lines
+26490-26506), module 1379 (Google fonts provider, lines 109908-109924) and
+module 255, FontsProviderManager.resolveFont (lines 12188-12237).
+
+- Reproduce: open a document that uses a bundled or Google font while the
+  font file can't be fetched (offline in the desktop app, or the server
+  answers 404), or whose file doesn't parse.
+- Old: the providers download each font file once and queue further
+  requests for it. A connection error failed only the request that started
+  the download; the queued ones never heard back. A response outside
+  200-299 called nobody and kept the file in the queue, so every later
+  request for it waited too (Q-168). For a family a font list query had
+  listed, the font manager did nothing on a connection error or on a file
+  that doesn't parse (Q-170); offline the old app offered a retry dialog,
+  which the port never shows. Those fonts stayed pending: the font wait
+  after opening a document never ended and the missing-fonts dialog never
+  opened.
+- New: a failed download fails every request waiting for the file, with
+  ConnectionError, or with UnknownError for a response outside 200-299, and
+  the file is forgotten, so the next request downloads it again. For a
+  listed family, a connection error or a file that doesn't parse goes on to
+  the providers after the one that listed it; when none has the font the
+  request fails and the missing-fonts dialog opens.
+- Test: src/app/fonts/providers.test.ts, "fails every waiting request on a
+  connection error or a 404, then downloads again"; and
+  src/app/fonts/font-manager.test.ts, "goes on to the next provider when a
+  listed font's download had no connection" and "goes on to the next
+  provider when a listed font's file doesn't parse (BUG-164)". All fail
+  with the old code: the requests are never answered.
+- Parity exceptions: none. No recorded scenario downloads a font file that
+  fails, and the font-manager scenarios only fail resolves with UnknownError.

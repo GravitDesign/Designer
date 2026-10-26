@@ -67,11 +67,12 @@ export interface FontsProviderOwner {
 /**
  * Downloads one font file for the bundled and the Google fonts providers
  * (both had the same code). Requests for a file already on its way wait
- * for it in `pending`. Kept from the old code: a failed connection fails
- * only the request that started the download, the ones waiting for it
- * hear nothing, and a response outside 200-299 calls nobody and leaves
- * the file pending for good (see "A font download that fails leaves its
- * waiting requests pending" in QUESTIONS.md).
+ * for it in `pending`. A failed connection fails every request waiting
+ * for the file with ConnectionError, and a response outside 200-299
+ * fails them with UnknownError; either way the file is forgotten, so
+ * the next request downloads it again. The old app failed only the first
+ * request on a connection error and nobody on a 404, which left the
+ * fonts pending for good (BUG-164).
  */
 export function downloadFontFile(
   pending: Map<string, ResolveCallbacks[]>,
@@ -87,18 +88,27 @@ export function downloadFontFile(
   request.responseType = "arraybuffer";
   request.open("GET", url);
   pending.set(url, [callbacks]);
+  const takeWaiting = (): ResolveCallbacks[] => {
+    const all = pending.get(url) || [];
+    pending.delete(url);
+    return all;
+  };
   request.onload = function () {
+    const all = takeWaiting();
     if (this.status >= 200 && this.status < 300) {
-      const all = pending.get(url) as ResolveCallbacks[];
-      pending.delete(url);
       all.forEach((entry) => {
         entry.done(this.response as ArrayBuffer);
+      });
+    } else {
+      all.forEach((entry) => {
+        entry.fail(FontsProviderErrors.UnknownError);
       });
     }
   };
   request.onerror = () => {
-    pending.delete(url);
-    callbacks.fail(FontsProviderErrors.ConnectionError);
+    takeWaiting().forEach((entry) => {
+      entry.fail(FontsProviderErrors.ConnectionError);
+    });
   };
   request.send();
 }

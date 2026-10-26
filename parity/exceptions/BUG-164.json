@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-164",
+  "why": "A font file that can't be fetched fails every request waiting for it, and a listed family whose download had no connection or doesn't parse goes on to the next providers. No recorded scenario downloads a font file that fails (engine-model/fonts/font-manager only fails resolves with UnknownError), so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}

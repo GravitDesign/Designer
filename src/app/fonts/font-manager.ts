@@ -15,8 +15,8 @@
  * setMissingFontsHandler). Providers whose list failed for lack of a
  * connection are reset when the browser reports it is online again (init).
  * The "feature unavailable offline" dialog (old module 256) is dropped
- * with the cloud, so a font whose own download failed offline is never
- * retried (see "Q-170").
+ * with the cloud, so a font whose own download failed offline goes on to
+ * the next providers and fails when none has it (BUG-164).
  */
 import { Event } from "../../engine/core/event.ts";
 import { EventTarget } from "../../engine/core/event-target.ts";
@@ -259,11 +259,11 @@ export class FontsProviderManager extends EventTarget {
    * if there is one, else through the providers from `index` on (0 when
    * not given).
    *
-   * Kept from the old code: a listed family whose file doesn't parse, or
-   * whose download failed for lack of connection, is neither resolved nor
-   * failed and stays pending (offline, the old app offered to retry in a
-   * dialog; see "A listed family whose download had no connection stays
-   * pending" in QUESTIONS.md).
+   * A listed family whose file doesn't parse, or whose download failed
+   * for lack of connection, goes on to the providers after the one that
+   * listed it, and fails when none has it. The old app left it pending
+   * for good (BUG-164; offline it offered to retry in a dialog, which
+   * the port never shows).
    */
   static resolveFont(request: FontRequest, index?: number): void {
     if (request && index === undefined) {
@@ -272,14 +272,17 @@ export class FontsProviderManager extends EventTarget {
         FontsProviderManager.resolveFont(request, 0);
         return;
       }
+      const next = (): void =>
+        FontsProviderManager.resolveFont(request, providers.indexOf(provider) + 1);
       provider.resolveFont(request.family, request.style, request.weight, {
         done: (data) => {
           const font = FontsProviderManager._fontFor(request, data);
           if (font) request.resolved(font);
+          else next();
         },
         fail: (error) => {
-          if (error && error === FontsProviderErrors.ConnectionError) return;
-          FontsProviderManager._fail(request, provider);
+          if (error && error === FontsProviderErrors.ConnectionError) next();
+          else FontsProviderManager._fail(request, provider);
         },
       });
       return;
