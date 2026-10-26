@@ -1,6 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 import { FakeRequest, installFakeXhr, requestedUrls } from "./fake-xhr.testing.ts";
-import { FontsProviderErrors, type ListedFamily, type ResolveCallbacks } from "./fonts-provider.ts";
+import {
+  FontsProviderErrors,
+  type ListedFamily,
+  type LoadCallbacks,
+  type ResolveCallbacks,
+} from "./fonts-provider.ts";
 import { NotoFontsProvider } from "./noto-fonts-provider.ts";
 import { WebFontsProvider } from "./web-fonts-provider.ts";
 import { ImportedFontsProvider } from "./imported-fonts-provider.ts";
@@ -173,18 +178,30 @@ describe("ImportedFontsProvider", () => {
     vi.restoreAllMocks();
   });
 
-  it("runs its first request twice, later ones once", async () => {
+  // BUG-165: the old app ran the first request twice.
+  it("runs its first request once, like later ones", async () => {
     fakeDb({ [FontDB.FONT_LIST]: [] });
     const provider = new ImportedFontsProvider(owner);
     const answer = callbacks();
     provider.resolveFont("Mine", "N", 400, answer);
-    await vi.waitFor(() => expect(answer.fail).toHaveBeenCalledTimes(2));
+    await vi.waitFor(() => expect(answer.fail).toHaveBeenCalledTimes(1));
     const again = callbacks();
     provider.resolveFont("Mine", "N", 400, again);
     await vi.waitFor(() => expect(again.fail).toHaveBeenCalledTimes(1));
     await new Promise((resolve) => setTimeout(resolve, 10));
-    expect(answer.fail).toHaveBeenCalledTimes(2);
+    expect(answer.fail).toHaveBeenCalledTimes(1);
     expect(again.fail).toHaveBeenCalledTimes(1);
+  });
+
+  it("answers its first list query once (BUG-165)", async () => {
+    fakeDb({ [FontDB.FONT_LIST]: [{ family: "Mine", weight: "400", style: "N" }] });
+    const provider = new ImportedFontsProvider(owner);
+    const done = vi.fn<LoadCallbacks["done"]>();
+    provider.load("%", 0, 9999, { done, fail: () => {} });
+    await vi.waitFor(() => expect(done).toHaveBeenCalled());
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(done).toHaveBeenCalledTimes(1);
+    expect(done.mock.calls[0]?.[0].map((family) => family.family)).toEqual(["Mine"]);
   });
 
   it("hands back a stored font file, by family, weight and style", async () => {

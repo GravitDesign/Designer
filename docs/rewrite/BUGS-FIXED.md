@@ -3395,3 +3395,27 @@ module 255, FontsProviderManager.resolveFont (lines 12188-12237).
   with the old code: the requests are never answered.
 - Parity exceptions: none. No recorded scenario downloads a font file that
   fails, and the font-manager scenarios only fail resolves with UnknownError.
+
+## BUG-165 The first request to the imported fonts provider runs twice
+
+Old code: designer.browser.dev.js module 1118, GImportedFontsProvider
+initialize (line 67441), load (lines 67469-67474) and resolveFont's
+callbacks (lines 67571-67582).
+
+- Reproduce: after a page load, open a document with a font that isn't
+  imported, or open the font list (the first query that reaches the
+  imported fonts provider).
+- Old: the first call before the provider had read its font list both
+  waited in a callback list and was passed to initialize, which ran it once
+  the list was read and then ran the callback list, which ran it again
+  (Q-169). A first font request that the imported fonts don't have failed
+  twice, so the Google and local providers were asked twice and the engine
+  got two FontUnavailableEvents and two MissingFontEvents for the same
+  font. A first font list query answered twice, so the providers after it
+  were asked twice and their families could show up twice in that list.
+- New: the first call waits only in the callback list and runs once.
+- Test: src/app/fonts/providers.test.ts, "runs its first request once, like
+  later ones" and "answers its first list query once (BUG-165)" (both fail
+  with the old code: the call is answered twice).
+- Parity exceptions: none. No recorded scenario uses the imported fonts
+  provider.

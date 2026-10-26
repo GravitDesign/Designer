@@ -226,13 +226,12 @@ export class ImportedFontsProvider extends FontsProvider {
   }
 
   /**
-   * Reads the font list once, then runs `retry` (the call that started
-   * it) and everything that waited. Kept from the old code: the call that
-   * started it also waits in a callback list, so it runs twice (see "The
-   * first call to the imported fonts provider runs twice" in
-   * QUESTIONS.md).
+   * Reads the font list once, then runs everything that waited for it,
+   * the call that started it first. That call waits only in the callback
+   * list; the old app also passed it to initialize, so it ran twice
+   * (BUG-165).
    */
-  initialize(retry?: () => void): void {
+  initialize(): void {
     if (this._initialized || this._initializing) return;
     this._initializing = true;
     this.load(
@@ -243,7 +242,6 @@ export class ImportedFontsProvider extends FontsProvider {
         done: () => {
           this._initialized = true;
           this._initializing = false;
-          if (retry) retry();
           this._clearCallbacks();
         },
         fail: () => {
@@ -279,7 +277,7 @@ export class ImportedFontsProvider extends FontsProvider {
     };
     if (!this._initialized && !this._initializing) {
       this._loadCallbacks.push(retry);
-      this.initialize(() => this.load(query, start, count, callbacks));
+      this.initialize();
       return;
     }
     if (this._initializing && !initializing) {
@@ -349,7 +347,7 @@ export class ImportedFontsProvider extends FontsProvider {
     };
     if (!this._initialized && !this._initializing) {
       this._resolveCallbacks.push(retry);
-      this.initialize(() => this.resolveFont(family, style, weight, callbacks));
+      this.initialize();
       return;
     }
     if (this._initializing) {
