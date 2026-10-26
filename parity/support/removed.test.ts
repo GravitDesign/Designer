@@ -308,14 +308,22 @@ const drops: DropFile[] = fs
   .sort()
   .map((f) => JSON.parse(fs.readFileSync(path.join(EXCEPTIONS_DIR, f), "utf8")) as DropFile);
 
-/** The old and .fixed expected files of a scenario. */
+/**
+ * The old expected file of a scenario and the one its removal is checked
+ * against: the .fixed file, or `<id>.dropped.<ext>` when a bug fix
+ * (BUGS-FIXED.md) changes the scenario too. That file is the old output
+ * minus the removal only; the .fixed file adds the bug fix on top.
+ */
 function expectedFiles(id: string): { old: string; fixed: string; ext: string } {
   const base = path.join(EXPECTED_ROOT, id);
   const dir = path.dirname(base);
   const name = path.basename(base);
-  const fixed = fs.readdirSync(dir).find((f) => f.startsWith(`${name}.fixed.`));
+  const files = fs.readdirSync(dir);
+  const fixed =
+    files.find((f) => f.startsWith(`${name}.dropped.`)) ??
+    files.find((f) => f.startsWith(`${name}.fixed.`));
   if (!fixed) throw new Error(`${id}: no .fixed file`);
-  const ext = fixed.slice(`${name}.fixed`.length);
+  const ext = fixed.slice(fixed.indexOf(".", name.length + 1));
   return { old: path.join(dir, `${name}${ext}`), fixed: path.join(dir, fixed), ext };
 }
 

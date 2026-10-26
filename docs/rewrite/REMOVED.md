@@ -10,7 +10,10 @@ and each one has a `<scenario>.fixed.<ext>` expected file with the output
 the new app must produce. This works the same way as the `BUG-NNN`
 entries of BUGS-FIXED.md (parity/support/exceptions.ts). A scenario that
 shows several removed features is listed in each of their entries and
-has one `.fixed` file.
+has one `.fixed` file. When a bug fix (BUGS-FIXED.md) changes the scenario
+as well, `<scenario>.dropped.<ext>` holds the old output with only the
+removals, and the checks below compare that file; the `.fixed` file adds
+the bug fix on top.
 
 Scenarios whose whole subject is a removed feature (a removed action, the
 cloud save chooser) don't get a `.fixed` file. They run `removedInNewApp`

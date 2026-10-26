@@ -192,7 +192,8 @@ function oldVariantOf(scenarioId: string): string | undefined {
 /**
  * "old app without <feature>" tests: for a removed feature the old code
  * could switch off itself (old-variants.ts), the old app with the switch
- * off must produce the scenario's `.fixed` output, apart from the
+ * off must produce the scenario's `.fixed` output (`.dropped` when a bug
+ * fix changes the scenario too), apart from the
  * removals of the scenario's other DROP entries (their rules and png
  * specs, applied to the variant's output).
  */
@@ -217,7 +218,9 @@ function defineVariantSide(scenarios: readonly Scenario[]): void {
           await openApp(page, "old", { newDocument: true, ...scenario.open });
           let actual = await runScenario(page, "old", scenario);
           if (SABOTAGE) actual = sabotage(actual, scenario);
-          const fixed = readExpected(scenario, ".fixed");
+          // A bug fix that changes the scenario too keeps the output with
+          // only the removals in .dropped (removed.test.ts).
+          const fixed = readExpected(scenario, ".dropped") ?? readExpected(scenario, ".fixed");
           expect(fixed, `missing ${scenario.id}.fixed expected file`).toBeDefined();
           const others = entriesFor(scenario.id).filter((e) => e.removed?.oldVariant !== name);
           if (scenario.kind === "png") {
