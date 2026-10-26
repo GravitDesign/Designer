@@ -191,6 +191,26 @@ describe("GOutlineSidebar", () => {
     expect((element.children[2] as TestElement).id).toBe("page-layer-divider");
   });
 
+  it("unfolds the pages list when a page is added with the section folded (BUG-158)", () => {
+    const { sidebar, element } = makeSidebar();
+    activate(sidebar);
+    const pageToolbar = element.querySelector<TestElement>(".page-toolbar") as TestElement;
+    const pages = element.querySelector<TestElement>(".pages-container") as TestElement;
+    fireEvent(pageToolbar.querySelector(".g-accordion"), "click");
+    expect(pageToolbar.classList.contains("collapsed")).toBe(true);
+    expect(pages.style.display).toBe("none");
+    const createPage = pageToolbar
+      .querySelectorAll("button")
+      .find((button) => button.querySelector(".gravit-icon-addpage")) as TestElement;
+    fireEvent(createPage, "click");
+    expect(scene.queryCount("page")).toBe(2);
+    expect(pageToolbar.classList.contains("expanded")).toBe(true);
+    expect(pages.style.display).toBe("");
+    // The arrow and the fold button still work as before.
+    fireEvent(pageToolbar.querySelector(".g-accordion"), "click");
+    expect(pages.style.display).toBe("none");
+  });
+
   it("inserts a layer named after the layer count above the selection and moves the selection in", () => {
     const { sidebar, element } = makeSidebar();
     activate(sidebar);

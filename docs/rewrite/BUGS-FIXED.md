@@ -3262,3 +3262,23 @@ _updatePattern, noise branch (lines 70115-70127).
 - Parity exceptions: none. ui/color/fill-noise.light/.dark/.dom switch
   to a new noise fill, whose type (Original) is the first option, so the
   select shows the same as before.
+
+## BUG-158 New Page with the pages section folded leaves the list hidden
+
+Old code: designer.browser.dev.js module 1260, GOutlineSidebar.init, the
+create-page button (lines 81903-81908).
+
+- Reproduce: fold the Pages section with its arrow, then click the New
+  Page button in its header.
+- Old: the button inserted the page, marked the header open (arrow down)
+  and then ran the accordion's init to show the list again. It passed the
+  pages list, but the element after the header is the list's container,
+  so init found nothing and the list stayed hidden under a header that
+  looked open. A click on the arrow then "folded" a section that was
+  already hidden, and a second click showed it.
+- New: after the page is inserted the header is marked open and the
+  pages list is shown with it.
+- Test: src/app/sidebars/outline-sidebar.test.ts, "unfolds the pages list
+  when a page is added with the section folded (BUG-158)" (fails with the
+  old button: the container stays `display: none`).
+- Parity exceptions: none.

@@ -315,10 +315,11 @@ export class OutlineSidebar extends Sidebar {
       () => {
         this._insertPage();
         toggleAccordionOpen(pageToolbar, true);
-        // The old code also ran gAccordion("init", $(pagePanel)) here: the
-        // header is set up already and the element after it isn't the
-        // pages list, so that call changed nothing. See "New page marks
-        // the pages header open without showing the list" in QUESTIONS.md.
+        // Shows the list again. The old code ran gAccordion("init",
+        // $(pagePanel)) for this, but the element after the header is the
+        // .pages-container, not the .pages list, so a folded list stayed
+        // hidden under an open header (BUGS-FIXED.md "BUG-158").
+        initAccordion(pageToolbar, { next: ".pages-container", title: "label" });
       },
     );
     pageToolbar.appendChild(createPage);
