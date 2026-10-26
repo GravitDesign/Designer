@@ -3003,3 +3003,27 @@ verifyEnoughMemoryToSave.
   also after a saved one (BUG-144)" (the old sum gives 200 for 100 + 200,
   and throws for the second).
 - Parity exceptions: none. No recorded scenario runs out of memory.
+
+## BUG-145 Save of a document with linked images does nothing
+
+Old code: designer.browser.dev.js module 1511, GWarnLinkedImageDialog
+(lines 130707-130819), opened by GSaveAction._save in module 447 (lines
+19415-19419).
+
+- Reproduce: in Chrome, Edge or the desktop app (where the local storage
+  can save), open a .gvdesign that has a linked image and press File >
+  Save.
+- Old: the save action created the warning dialog and called open() at
+  once. The dialog builds itself only after it has read the stored "never
+  remind" choice (a promise), so open() found nothing, threw a TypeError
+  and the save promise rejected unhandled. No dialog appeared and nothing
+  was saved.
+- New: open() before the dialog is built opens it as soon as it is
+  built. Proceed saves and Cancel closes, as the dialog was meant to.
+  With "never remind" stored the save runs at once, as before.
+- Test: src/app/dialogs/warn-linked-image-dialog.test.ts, "opens the
+  dialog once it is built when open() comes right after new (BUG-145)"
+  and "agrees at once and open() does nothing when never-remind is stored
+  (BUG-145)" (both fail with the old open(), which throws).
+- Parity exceptions: none. corpus/edge/linked-file/resave saves with
+  Download File, which doesn't ask.

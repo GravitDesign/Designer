@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-145",
+  "why": "Save of a document with linked images opens the linked-image warning once it is built instead of throwing, so the save can go on. No recorded scenario saves a linked-image document to the local storage.",
+  "scenarios": [],
+  "pending": []
+}

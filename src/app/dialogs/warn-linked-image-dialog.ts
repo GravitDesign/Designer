@@ -5,10 +5,10 @@
  * user chose "never remind" before, `agree` runs right away instead.
  *
  * The dialog is built only after the stored choice has been read (a
- * promise), but the save action calls open() right after construction,
- * when nothing is built yet: the old open() then threw a TypeError and the
- * dialog never appeared (see "Linked-image warning opens before it is
- * built" in QUESTIONS.md). Kept: open() throws the same way.
+ * promise), but the save action calls open() right after construction.
+ * The old open() then threw a TypeError, the dialog never appeared and the
+ * save did nothing (BUGS-FIXED BUG-145). open() before the dialog is built
+ * now opens it once it is; with "never remind" stored it does nothing.
  */
 import { createElement } from "react";
 import { Locale } from "../../engine/core/locale/locale.ts";
@@ -28,6 +28,8 @@ export class WarnLinkedImageDialog {
   private readonly _agreeCb: () => void;
   private readonly _rejectCb: () => void;
   private _dialog: Dialog | undefined;
+  /** open() was called before the dialog was built. */
+  private _openWhenBuilt = false;
 
   constructor(agree: () => void, reject?: () => void) {
     this._agreeCb = agree;
@@ -70,6 +72,7 @@ export class WarnLinkedImageDialog {
       },
       "container",
     );
+    if (this._openWhenBuilt) this.open();
   }
 
   save(): void {
@@ -79,14 +82,12 @@ export class WarnLinkedImageDialog {
   }
 
   open(): void {
-    if (!this._dialog)
-      throw new TypeError("Cannot read properties of undefined (reading 'gDialog')");
-    this._dialog.open(true);
+    this._openWhenBuilt = !this._dialog;
+    if (this._dialog) this._dialog.open(true);
   }
 
   close(): void {
-    if (!this._dialog)
-      throw new TypeError("Cannot read properties of undefined (reading 'gDialog')");
-    this._dialog.close();
+    this._openWhenBuilt = false;
+    if (this._dialog) this._dialog.close();
   }
 }

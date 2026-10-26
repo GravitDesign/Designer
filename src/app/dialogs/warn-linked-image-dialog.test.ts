@@ -24,21 +24,27 @@ afterEach(() => {
   setContainer(null);
 });
 
-describe("warn linked image dialog (Q-259)", () => {
-  it("throws on open() right after new, and the dialog built later never opens", async () => {
+describe("warn linked image dialog (module 1511)", () => {
+  it("opens the dialog once it is built when open() comes right after new (BUG-145)", async () => {
     setContainer(fakeContainer(false) as never);
     const agree = vi.fn();
     const dialog = new WarnLinkedImageDialog(agree);
-    expect(() => dialog.open()).toThrow(TypeError);
+    expect(() => dialog.open()).not.toThrow();
     await Promise.resolve();
     await Promise.resolve();
     expect(created).toHaveLength(1);
     expect(created[0]?.className).toBe("g-warn-linked-image-dialog");
-    expect(created[0]?.open).not.toHaveBeenCalled();
-    expect(agree).not.toHaveBeenCalled();
-    // Once built, open() works.
-    dialog.open();
     expect(created[0]?.open).toHaveBeenCalledWith(true);
+    expect(agree).not.toHaveBeenCalled();
+  });
+
+  it("agrees at once and open() does nothing when never-remind is stored (BUG-145)", async () => {
+    setContainer(fakeContainer(true) as never);
+    const agree = vi.fn();
+    expect(() => new WarnLinkedImageDialog(agree).open()).not.toThrow();
+    await Promise.resolve();
+    expect(agree).toHaveBeenCalledOnce();
+    expect(created).toHaveLength(0);
   });
 
   it("agrees at once without a dialog when never-remind is stored", async () => {
