@@ -35,6 +35,7 @@ interface EyeDropperState {
   documentMove: ((event: { pageX: number; pageY: number }) => void) | null;
   documentMouseDown: ((event: MouseEvent) => void) | null;
   documentKeyDown: ((event: KeyboardEvent) => void) | null;
+  toolChanged?: (() => void) | null;
   rgba: Uint8ClampedArray | null;
   currentColor?: string;
   draggablePoint?: DragHelper;
@@ -108,14 +109,6 @@ export class EyeDropper {
     if (active === this.isActive()) return;
     const state = this._state;
     const app = designer();
-    // A new function on every call, so the removal in the else branch
-    // never finds the one the start added; that one removes itself on the
-    // next tool change, taking the loupe with it (the dropper stays
-    // active without it). See "Eye dropper on a tool change" in QUESTIONS.md.
-    const onToolChanged = () => {
-      app.getToolManager().removeEventListener(ToolChangedEvent, onToolChanged, this);
-      for (const picker of document.querySelectorAll(".g-eye-dropper-picker")) picker.remove();
-    };
     if (active) {
       const activeWindow = app.getWindows().getActiveWindow();
       if (!activeWindow) return;
@@ -268,7 +261,11 @@ export class EyeDropper {
       document.addEventListener("keydown", state.documentKeyDown);
       document.addEventListener("mousedown", state.documentMouseDown);
       document.addEventListener("mousemove", state.documentMove);
-      app.getToolManager().addEventListener(ToolChangedEvent, onToolChanged, this);
+      // A tool change ends picking without a color. The old code made a new
+      // listener on every call, so ending never removed it; a tool change
+      // only removed the loupe and the dropper stayed active (BUG-156).
+      state.toolChanged = () => this.setActive(false);
+      app.getToolManager().addEventListener(ToolChangedEvent, state.toolChanged, this);
     } else {
       if (state.documentKeyDown) document.removeEventListener("keydown", state.documentKeyDown);
       if (state.documentMouseDown)
@@ -278,7 +275,9 @@ export class EyeDropper {
           "mousemove",
           state.documentMove as unknown as (event: Event) => void,
         );
-      app.getToolManager().removeEventListener(ToolChangedEvent, onToolChanged, this);
+      if (state.toolChanged)
+        app.getToolManager().removeEventListener(ToolChangedEvent, state.toolChanged, this);
+      state.toolChanged = null;
       (state.picker as HTMLElement).remove();
       state.picker = null;
       state.documentKeyDown = null;

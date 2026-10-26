@@ -122,12 +122,23 @@ describe("EyeDropper (UI-COLOR-029)", () => {
     );
   });
 
-  it("removes the loupe on a tool change but stays active (the old quirk)", () => {
+  it("ends picking without a color on a tool change (BUG-156)", () => {
     const { element, dropper: d } = dropper();
+    const picked: unknown[] = [];
+    onPatternEvent(element as unknown as Element, "colorchange", (_e, rgba) => picked.push(rgba));
     fire(element, "click", { pageX: 400, pageY: 300 });
     toolManager.trigger(new ToolChangedEvent(null, null));
     expect(picker()).toBeNull();
+    expect(d.isActive()).toBe(false);
+    expect(element.classList.contains("g-active")).toBe(false);
+    // The next mouse down anywhere picks nothing.
+    fire(document, "mousedown", {});
+    expect(picked).toEqual([]);
+    // And the next start listens for a tool change again.
+    fire(element, "click", { pageX: 400, pageY: 300 });
     expect(d.isActive()).toBe(true);
+    toolManager.trigger(new ToolChangedEvent(null, null));
+    expect(d.isActive()).toBe(false);
   });
 
   it("does nothing inside a disabled field", () => {

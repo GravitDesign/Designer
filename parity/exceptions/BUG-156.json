@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-156",
+  "why": "A tool change while the eye dropper is picking ends it without applying a color. Before, only the loupe went away and the next mouse down still applied the last sampled color. No scenario changes the tool while picking.",
+  "scenarios": [],
+  "pending": []
+}

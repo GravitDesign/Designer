@@ -3220,3 +3220,26 @@ Old code: designer.browser.dev.js module 1267, vboxFromPixels (lines
 - Parity exceptions: none. ui/editor/image-colors is enabled, but in the
   recording the extract colors button is disabled and no palette opens, so
   nothing changes.
+
+## BUG-156 The eye dropper stays active after a tool change
+
+Old code: designer.browser.dev.js module 1698, $.fn.gEyeDropper
+setActive (line 166421, the tool change handler at 166425-166430).
+
+- Reproduce: click a fill's eye dropper, move over the canvas, then change
+  the tool (a toolbar button or a shortcut), and click anywhere.
+- Old: starting the dropper added a tool change listener that removed the
+  loupe and itself. Ending tried to remove "the" listener, but a new
+  function was made on every call, so nothing was removed. On a tool
+  change the loupe disappeared but the dropper stayed active: its document
+  listeners still ran, the button kept its active look, and the next mouse
+  down anywhere applied the last sampled color.
+- New: a tool change ends picking the way Escape does: no color is
+  applied, the loupe and the document listeners are removed and the
+  button is no longer active. Ending removes the tool change listener it
+  added.
+- Test: src/app/color/eye-dropper.test.ts, "ends picking without a color
+  on a tool change (BUG-156)" (fails with the old code, which stays active
+  and picks on the next mouse down).
+- Parity exceptions: none. ui/color/eyedropper.dom changes no tool and is
+  unaffected.
