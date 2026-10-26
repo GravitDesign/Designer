@@ -123,9 +123,9 @@ describe("SliceProperties", () => {
     expect(p.update(null, null)).toBe(false);
   });
 
-  // Sic: the old code passed true as setProperties' third argument, which
-  // is "custom", so a temporary change lands in the custom property.
-  it("writes temporary changes to the custom property, the rest in one transaction", () => {
+  // The old code passed true as setProperties' third argument, which is
+  // "custom", so a temporary change landed in the custom property (BUG-161).
+  it("writes temporary changes as temporary values, the rest in one transaction", () => {
     fakeDesigner();
     const log: string[] = [];
     const p = panel();
@@ -135,7 +135,11 @@ describe("SliceProperties", () => {
     p._slices = [a, b];
     p._assignProperty("trm", false, true);
     expect(log).toEqual([]);
-    expect([a.getProperty("trm", true), b.getProperty("trm", true)]).toEqual([false, false]);
+    expect([a.hasProperty("trm", true), b.hasProperty("trm", true)]).toEqual([false, false]);
+    expect([
+      a.getProperty("trm", false, null, true),
+      b.getProperty("trm", false, null, true),
+    ]).toEqual([false, false]);
     expect([a.getProperty("trm"), b.getProperty("trm")]).toEqual([true, true]);
     p._assignProperty("trm", false);
     expect(log.length).toBe(2);

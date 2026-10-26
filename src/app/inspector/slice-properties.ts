@@ -303,11 +303,12 @@ export class SliceProperties extends Properties {
     temporary?: boolean,
     related?: RelatedData | null,
   ): void {
-    // Sic: true is setProperties' "custom" argument; see "Slice background
-    // preview writes a custom property" in QUESTIONS.md.
+    // A temporary change, as the drag preview. The old code passed true as
+    // the third argument, which is "custom", so it wrote "@" properties
+    // that showed nothing and were saved (BUG-161).
     if (temporary) {
       for (let i = 0; i < this._slices.length; ++i)
-        (this._slices[i] as Slice).setProperties(properties, values, true);
+        (this._slices[i] as Slice).setProperties(properties, values, false, false, true);
       return;
     }
     this._ownChange = true;

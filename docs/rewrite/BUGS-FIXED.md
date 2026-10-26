@@ -3303,3 +3303,23 @@ Old code: designer.browser.dev.js module 1339, GPageProperties._windowEvent
   with the old order).
 - Parity exceptions: none. No recorded scenario opens a second window of a
   document.
+
+## BUG-161 Dragging a slice background colour writes `@cls` into the file
+
+Old code: designer.browser.dev.js module 1272,
+GSliceProperties._assignProperties (lines 90971-90974).
+
+- Reproduce: select a slice, open its background color chooser and drag in
+  it, then save.
+- Old: the panel passed true as the third argument of setProperties, which
+  is "custom", not "temporary". The preview went into the custom property
+  `@cls`: the slice didn't show the color while dragging, and the last
+  dragged color stayed in `@cls` and was saved with the file, since the
+  node store copies every "@" key.
+- New: the preview is a temporary change: the slice shows it while
+  dragging, and the commit replaces it. Nothing is written to `@cls`.
+- Test: src/app/inspector/document-panels.test.ts, "writes temporary
+  changes as temporary values, the rest in one transaction" (fails with the
+  old call).
+- Parity exceptions: none. ui/inspector/slice records the panel without
+  dragging the color.

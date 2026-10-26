@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-161",
+  "why": "The slice panel's color drag preview is a temporary change instead of a custom @cls property. ui/inspector/slice records the panel without dragging the color, so no scenario changes.",
+  "scenarios": [],
+  "pending": []
+}
