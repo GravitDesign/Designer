@@ -451,10 +451,10 @@ export class FontsPanel {
   }
 
   /**
-   * The weights of a family; a local family's fonts are read first. As
-   * before, a family that isn't in the cache throws (see "The weights of
-   * a family the font cache doesn't have throw" in QUESTIONS.md), and
-   * with `exact` a font of that very family counts twice.
+   * The weights of a family; a local family's fonts are read first. A
+   * family that isn't in the cache answers null like the other lookups
+   * (the old app threw, BUG-163). As before, with `exact` a font of that
+   * very family counts twice.
    */
   async weightsForFont(
     family: string,
@@ -463,8 +463,9 @@ export class FontsPanel {
   ): Promise<number[] | null | undefined> {
     if (this._cacheEmpty(callback)) return undefined;
     let weights: number[] | null = null;
-    const entry = this._family(family) as PreviewFamily & { isLocalFont?: boolean };
-    if (entry.isLocalFont) {
+    const entry = this._family(family) as
+      (PreviewFamily & { isLocalFont?: boolean }) | null | undefined;
+    if (entry && entry.isLocalFont) {
       entry.fonts = (await parseNativeFonts(
         entry.fonts as unknown as LocalFontData[],
       )) as unknown as FontFace[];

@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-163",
+  "why": "The text panel's weight lookup answers null for a family the font cache doesn't know instead of throwing. No recorded scenario asks for such a family, so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}

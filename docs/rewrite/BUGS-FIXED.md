@@ -3341,3 +3341,23 @@ ga1/ga2 change handler (line 159789).
   isometric grid angle when the box doesn't start with a number (BUG-162)"
   (fails with the old check).
 - Parity exceptions: none. No recorded scenario types into the angle boxes.
+
+## BUG-163 The text panel stops updating for a family the font cache doesn't know
+
+Old code: designer.browser.dev.js module 1701, weightsForFont (lines
+167356-167365).
+
+- Reproduce: select a text whose font family isn't in the font list (a
+  missing font, or a family no provider lists) and look at the text panel.
+- Old: weightsForFont read `isLocalFont` from the cache lookup before
+  checking that the lookup found anything, so for an unknown family the
+  promise rejected with a TypeError. The text panel awaits it, so its update
+  stopped there: family, size, colour, weight and script kept the values of
+  the previous selection (Q-325).
+- New: an unknown family answers null like the other lookups, and the panel
+  shows the text's values.
+- Test: src/app/fonts/fonts-panel.test.ts, "reads names, styles and weights
+  from the cache" (fails with the old code: the promise rejects with a
+  TypeError).
+- Parity exceptions: none. No recorded scenario reads the weights of a
+  family the cache doesn't have.

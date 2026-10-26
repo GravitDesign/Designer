@@ -202,6 +202,7 @@ describe("FontsPanel family lookups (UI-FONT-002)", () => {
     // With `exact`, a font of the family itself counts twice, as before.
     expect(await p.weightsForFont("Lato")).toEqual([400, 700, 700]);
     expect(await p.weightsForFont("Lato", null, true)).toEqual([400, 700, 700, 700]);
-    await expect(p.weightsForFont("Unknown")).rejects.toThrow(TypeError);
+    // BUG-163: a family the cache doesn't know answers null (the old app threw).
+    expect(await p.weightsForFont("Unknown")).toBeNull();
   });
 });
