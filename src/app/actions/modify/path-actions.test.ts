@@ -322,6 +322,9 @@ describe("Split Line", () => {
       [50, 0],
       [100, 0],
     ]);
+    // Anchors are selected with the Subselect tool; the pointer tool's
+    // transform box ignores part selections.
+    fixture.editor.setPathResize(false);
     select([p]);
     const parent = p.getParent();
     const anchors = p.getAnchorPoints().getChildren();
