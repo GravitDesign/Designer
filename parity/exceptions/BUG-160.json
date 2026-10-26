@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-160",
+  "why": "The page panel moves its scene listeners on window activation without dropping them for a second window of the same document. No recorded scenario opens a second window.",
+  "scenarios": [],
+  "pending": []
+}

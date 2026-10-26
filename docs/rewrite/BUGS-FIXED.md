@@ -3282,3 +3282,24 @@ create-page button (lines 81903-81908).
   when a page is added with the section folded (BUG-158)" (fails with the
   old button: the container stays `display: none`).
 - Parity exceptions: none.
+
+## BUG-160 A second window of a document stops the page clip sync
+
+Old code: designer.browser.dev.js module 1339, GPageProperties._windowEvent
+(lines 105412-105458).
+
+- Reproduce: open a document with a fixed-size page and choose View > New
+  Window. Then change the page size to 0 x 0 (infinite) or switch pages
+  with different clip settings.
+- Old: on window activation the panel added its page listeners to the
+  active scene and then removed them from the last scene. A second window
+  of the same document has the same scene, so the listeners it had just
+  added were removed. From then on Output/Full no longer followed page
+  activation or page size changes.
+- New: the listeners are removed from the last scene first and then added
+  to the active one, so a second window keeps them.
+- Test: src/app/inspector/page-properties.test.ts, "keeps listening to a
+  document's scene when a second window of it activates (BUG-160)" (fails
+  with the old order).
+- Parity exceptions: none. No recorded scenario opens a second window of a
+  document.

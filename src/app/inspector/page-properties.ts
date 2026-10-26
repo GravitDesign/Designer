@@ -449,11 +449,9 @@ export class PageProperties extends Properties {
     }
     if ((window.getDocument() as unknown) !== designer().getActiveDocument()) return;
     const scene = sceneOf(activeDocument() as Document);
-    scene.addEventListener(AfterFlagChangeEvent, this._pageActivationEventHandler, this);
-    scene.addEventListener(AfterPropertiesChangeEvent, this._propertiesUpdateEventHandler, this);
-    // Sic: with a second window of the same document the scene is the
-    // last one, so this removes the listeners just added. See "Second
-    // window of a document stops the page clip sync" in QUESTIONS.md.
+    // The last scene's listeners go first. The old code removed them after
+    // adding the new ones, so with a second window of the same document
+    // (the same scene) it removed the listeners just added (BUG-160).
     if (this._lastScene) {
       this._lastScene.removeEventListener(
         AfterPropertiesChangeEvent,
@@ -466,6 +464,8 @@ export class PageProperties extends Properties {
         this,
       );
     }
+    scene.addEventListener(AfterFlagChangeEvent, this._pageActivationEventHandler, this);
+    scene.addEventListener(AfterPropertiesChangeEvent, this._propertiesUpdateEventHandler, this);
     this._lastScene = scene;
     this._pageActivationEventHandler({ node: scene.getActivePage(), flag: NodeFlag.Active });
   }

@@ -8,6 +8,12 @@ import type { Document } from "../document/document.ts";
 import { PageClip } from "../export/page-clip.ts";
 import type { Designer } from "../shell/designer.ts";
 import { resetGlobals, setDesigner } from "../shell/globals.ts";
+import {
+  AfterFlagChangeEvent,
+  AfterPropertiesChangeEvent,
+} from "../../engine/scene/node-events.ts";
+import type { Window } from "../shell/window.ts";
+import { WindowEvent } from "../shell/windows.ts";
 import { PageProperties } from "./page-properties.ts";
 
 const { Output, Full } = ScenePaintConfiguration.PaintMode;
@@ -126,6 +132,59 @@ describe("PageProperties._pageActivationEventHandler", () => {
     panel()._pageActivationEventHandler({ node: page, flag: NodeFlag.Active });
     panel()._pageActivationEventHandler({ node: sizedPage(10, 10), flag: NodeFlag.Selected });
     expect(env.modes).toEqual([]);
+  });
+});
+
+describe("PageProperties._windowEvent", () => {
+  /**
+   * A scene that records its listeners, with `page` active. Like the real
+   * one, a remove takes every registration of the listener.
+   */
+  function fakeScene(page: Page) {
+    let listeners: { type: unknown; handler: unknown }[] = [];
+    return {
+      get listeners() {
+        return listeners;
+      },
+      getActivePage: () => page,
+      addEventListener: (type: unknown, handler: unknown) => listeners.push({ type, handler }),
+      removeEventListener: (type: unknown, handler: unknown) => {
+        listeners = listeners.filter((l) => l.type !== type || l.handler !== handler);
+      },
+    };
+  }
+
+  it("keeps listening to a document's scene when a second window of it activates (BUG-160)", () => {
+    const page = sizedPage(100, 50);
+    const first = fakeScene(page);
+    const second = fakeScene(page);
+    let scene = first;
+    const doc = { getScene: () => scene };
+    const configuration = { paintMode: Output };
+    setDesigner({
+      getWindows: () => ({
+        getActiveWindow: () => ({ getView: () => ({ getViewConfiguration: () => configuration }) }),
+      }),
+      getActiveView: () => null,
+      setPaintMode: () => {},
+      getActiveDocument: () => doc,
+    } as unknown as Designer);
+    const window = { getDocument: () => doc } as unknown as Window;
+    const activate = (p: PageProperties) =>
+      p._windowEvent(new WindowEvent(WindowEvent.Type.Activated, window));
+    const types = (s: typeof first) => s.listeners.map((l) => l.type);
+    const p = panel();
+    activate(p);
+    expect(types(first)).toEqual([AfterFlagChangeEvent, AfterPropertiesChangeEvent]);
+    // View > New Window: the same document, so the same scene. The old
+    // code removed the listeners it had just added.
+    activate(p);
+    expect(types(first)).toEqual([AfterFlagChangeEvent, AfterPropertiesChangeEvent]);
+    // Another document moves them to its scene.
+    scene = second;
+    activate(p);
+    expect(types(first)).toEqual([]);
+    expect(types(second)).toEqual([AfterFlagChangeEvent, AfterPropertiesChangeEvent]);
   });
 });
 
