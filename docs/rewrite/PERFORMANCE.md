@@ -292,12 +292,15 @@ and the parity suite is the check.
     proxy must see the same values; exported bytes are compared by the
     PDF scenarios.
 
-11. **Large SVG import notifies per node.** 3,000 elements take 2.9 to
-    4.7 s. Text nodes fire change events when they join the workspace
-    (`src/engine/text/text.ts:2339` → `src/engine/scene/node.ts:831`,
-    200 ms), each append notifies (`src/io/import/svg/svg-parser.ts:724`),
-    and the first paint of the result is 800 ms. Fix: build the imported
-    tree detached and attach it once. Win: 20 to 30%. Risk: low.
+11. **Large SVG import: the per-node cost is in the engine.** 3,000
+    elements take 2.9 to 4.7 s. A closer look found the imported tree is
+    already built detached, and events cost 73 ms in all. The time goes to
+    text layout in SvgTextElementBase.ready (270 ms, 45 ms of it a new
+    canvas per TLCore), Block._updateElementVisibility and the quadtree
+    insert on every append (150 ms) and property handlers. A speed-up has
+    to come from the engine (a shared measuring context in TLCore, a lazy
+    quadtree, no second ChildGeometryUpdate on insert), not from the
+    importer. Not done: each needs every reader of that state checked.
 
 12. **One 4.7 MB entry chunk.** Only heic2any is split off. Importers and
     exporters (`src/io`, 341 KB), the parity bridge with its eager globs
@@ -340,3 +343,79 @@ A note on the benchmark itself: the idle wait polls the parity hook
 document it shows up in the profiles as `src/parity/app/corpus.ts:54`
 (about 30 ms per case), only while waiting for the view to settle, not
 inside the measured frames.
+
+## After the speed-ups
+
+Measured on 2026-10-26 on the same machine, quiet apart from the
+benchmark: `--ref 0e937670` (the baseline commit) and `--ref 44eaa5c5`
+(the last speed-up), one right after the other, 5 runs plus a warm-up,
+median. Everything between the two commits is in the second column: the
+bug fixes of the same day (none aimed at speed) and the ten `perf:`
+commits below. The baseline numbers here are lower than in the table
+above, which was measured while other test runs loaded the machine.
+
+| case | headline | before | after | script ms before | script ms after |
+| --- | --- | ---: | ---: | ---: | ---: |
+| cold-start | docReadyMs | 1,044 | 828 | 173 | 235 |
+| open-effects-webgl-2 | painted | 702 | 654 | 499 | 464 |
+| open-fills-textures | painted | 228 | 262 | 69 | 75 |
+| open-effects-webgl-1 | painted | 324 | 278 | 150 | 121 |
+| pan-wheel | frameP95 | 16.7 | 16.7 | 533 | 483 |
+| zoom-wheel | frameP95 | 75.0 | 66.7 | 1,092 | 850 |
+| pan-api | frameP95 | 33.3 | 33.3 | 1,115 | 833 |
+| zoom-api | frameP95 | 285 | 267 | 8,332 | 7,677 |
+| drag-group | moveMedian | 35.9 | 18.3 | 1,245 | 650 |
+| type-long-text | keyP95 | 316 | 266 | 7,848 | 6,212 |
+| export-svg | ms | 99 | 99 | | |
+| export-pdf | ms | 1,010 | 855 | 731 | 624 |
+| export-png | ms | 288 | 275 | | |
+| import-svg-3000 | painted | 2,971 | 3,081 | 2,768 | 2,867 |
+| import-svg-welcome | painted | 215 | 222 | 107 | 110 |
+| import-pdf-print | painted | 466 | 424 | 59 | 55 |
+| import-pdf-2pages | painted | 427 | 398 | 48 | 41 |
+| import-eps-2000 | painted | 18,414 | 1,772 | 18,157 | 1,582 |
+| import-eps-gradient | painted | 130 | 148 | 34 | 36 |
+
+Cold start transfers 2.9 MB instead of 11.4 MB (48 requests instead of
+49); the decoded size went from 11.4 MB to 9.1 MB, the theme stylesheet no
+longer being downloaded twice. Changes of less than about 15% in the cases
+the speed-ups don't touch (open, svg import, png export) are within the
+run-to-run spread: repeated runs of the same build vary by that much.
+
+Per speed-up. Each row compares the commit before with the commit itself,
+measured with `--ref` one after the other. Where the machine was not
+quiet enough to tell commits apart, the row says so and gives the
+agent's profile numbers instead.
+
+| commit | what | case | before | after |
+| --- | --- | --- | ---: | ---: |
+| 6ae981ee | EPS open: the page is not re-measured per shape | import-eps-2000 painted | 25,027 | 4,548 |
+| f4a2f09b | SVG open with a group result: the same batching | import-svg-3000 painted | 3,034 | 3,368 (spread; the file has 60 top-level groups, so no change is expected) |
+| 43eda078 | EPS parse: the drawing is measured once | import-eps-2000 painted | 4,548 | 2,123 |
+| f7f89105 | typing: one formatting merge per inspector update | type-long-text keyP95 (9 runs) | 258 | 224 |
+| | | type-long-text script ms | 5,748 | 4,656 |
+| cfca07bd | action overlay: class checks per prototype | pan-api profile, walk time | 437 ms (12%) | 230 to 250 ms (9%) |
+| b6901501 | action overlay skipped while no element has actions | pan-api | not separable (machine loaded) | |
+| d81f0fcb | snapping: no rescans of found shapes | drag-group, _applySnappingToPivots in the profile | 454 to 496 ms | 250 to 266 ms |
+| | the three guide commits together, quiet runs | drag-group moveMedian, script ms | 35.9, 1,245 | 18.3, 650 (full runs above) |
+| 18606c39 | start without colour chooser previews | cold-start docReadyMs (15 runs) | 891 | 892 (no change measurable; script 256 to 222 ms in the agent's runs) |
+| f5095a7f | theme stylesheet downloaded once | cold-start docReadyMs (15 runs) | 892 | 735; transfer 3,488 to 2,916 KB |
+| 44eaa5c5 | compressed static files | cold-start transfer | 9,126 KB | 2,917 KB |
+
+The benchmark serves every `--ref` build with the working tree's server,
+so the per-commit cold-start runs above already had compression; the
+compression row is the decoded size against the transferred size.
+Loopback hides its time win; on a real network it is the 6 MB less to
+download.
+
+Left as found (see the findings above): canvas creation on zoom
+(finding 3, medium risk to pixels), PDF export copies and shadow
+rasterising (finding 10), the theme CSS size (finding 9), the entry chunk
+split (finding 12), the CMYK profile (finding 13), and in typing the
+whole-text repaint (TLCore.render redraws the whole text per keystroke;
+a partial redraw risks pixel differences) and Text.getProperty merging the
+paragraph formatting per read (about 1 s of a 12 s typing profile; it
+needs a document-level formatting cache with every writer listed). In
+EPS import 344 ms remain in _refreshIndicesForward
+(src/engine/scene/element-accelerated.ts), renumbering siblings each time
+open-import removes the parser group's first child.
