@@ -2,8 +2,8 @@
  * The content of the system dialogs (dialogs/system-dialog.ts), as the
  * old module built it with jQuery. Messages are HTML: the old code
  * inserted them with .html(), and the callers pass strings from the
- * string tables, sometimes with a document title or file name in them
- * (that was so in the old app too).
+ * string tables. A caller that puts a document title or file name in
+ * escapes it first (the close prompt, BUGS-FIXED BUG-146).
  */
 import { useLayoutEffect, useRef, type CSSProperties, type ReactNode } from "react";
 

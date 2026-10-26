@@ -1470,10 +1470,13 @@ export class Designer extends EventTarget {
       const cancelled = { documentStatus: DocumentStatus.SaveCancelled };
       // The dialog module is always loaded in the app (boot loads every
       // module), so there is no fallback that resolves silently.
+      // The title is markup: the old code put the document's title (a file
+      // name) in as is (BUGS-FIXED BUG-146).
+      const title = Util.escape(document.getTitle());
       (systemDialog() as unknown as { advanced(options: unknown): void }).advanced({
         title: (
           Locale.get(new LocaleKey("GCommonNames", "text.document-modified")) as string
-        ).replace("%title", document.getTitle()),
+        ).replace("%title", () => title),
         closeCallback: (closed?: boolean) => {
           if (closed) reject(cancelled);
         },

@@ -3419,3 +3419,39 @@ callbacks (lines 67571-67582).
   with the old code: the call is answered twice).
 - Parity exceptions: none. No recorded scenario uses the imported fonts
   provider.
+
+## BUG-146 Element, font and file names are put into the UI as HTML
+
+Old code: designer.browser.dev.js module 1238 (the unsupported-features
+dialog, lines 78533 and 78553-78562), and module 1491,
+GDesigner.canUnloadDocument (line 124502) with GSystemDialog's .html();
+the font panel's previews of imported and local families (module 1118 and module 1199).
+
+- Reproduce: export to SVG a page with an element named `<b>x</b>` in a
+  file made elsewhere (or `Tom & Jerry`) that has a noise fill. Or close
+  a modified document whose file name has `<`, `&` or `$&` in it.
+- Old: the unsupported-features dialog put each element name into its
+  list as markup, and the close prompt did the same with the document's
+  title. Names typed in the app have "<" and ">" stored as `&lt;` and
+  `&gt;`, which showed right. A name or file name from outside showed as
+  markup: tags were rendered, an img with onerror ran its script, and
+  `&` sequences turned into other characters. A `$&` in the title
+  inserted "%title" (a replace pattern).
+- New: both dialogs show the name as typed. Element names have their
+  stored `&lt;` and `&gt;` turned back into "<" and ">", and then names
+  and titles are escaped. The texts from the string tables stay HTML.
+  The font panel puts the names of imported font families (from the font
+  file) and of local families (from the system) into its previews as text;
+  before, a family name with markup was shown as markup and could run
+  script.
+- Test: src/app/color/pattern-type-menu.test.ts, "shows element names as
+  typed, not as markup (BUG-146)", and src/app/shell/designer.test.ts,
+  "shows the document's title as typed, not as markup (BUG-146)" (both
+  fail with the old code, which inserts the names as they are), and
+  src/app/fonts/previews.test.ts, "puts an imported family's name in as
+  text" and "puts a local family's name in as text" (both fail with the
+  old code: the name is set as innerHTML).
+- Parity exceptions: none enabled. ui/dialog/svg-unsupported-features
+  names a plain "Rectangle" and is unaffected. Pending, not enabled for
+  the new app yet: ui/dialog/close-modified-confirm (its title has no
+  special characters, so it should match).

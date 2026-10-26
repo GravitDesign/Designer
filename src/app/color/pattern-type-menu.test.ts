@@ -25,6 +25,18 @@ describe("unsupported-features dialog text (UI-DIALOG-046)", () => {
     ]);
     expect(lines).toBe("• Noise [Box]<br>• Background Fill [Box]<br>• Angular Gradient [Star]");
   });
+
+  it("shows element names as typed, not as markup (BUG-146)", () => {
+    const lines = featureLines([
+      // Typed as a<b> (stored escaped), and one read from a file as is.
+      { name: "a&lt;b&gt; & c", features: [new NoisePattern()] },
+      { name: '<img src=x onerror="alert(1)">', features: [new Background()] },
+    ]);
+    expect(lines).toBe(
+      "• Noise [a&lt;b&gt; &amp; c]<br>" +
+        "• Background Fill [&lt;img src=x onerror=&quot;alert(1)&quot;&gt;]",
+    );
+  });
 });
 
 describe("SwatchesChangedEvent (UI-SWATCH-007)", () => {

@@ -74,7 +74,7 @@ export class ImportedFontsProvider extends FontsProvider {
         const container = document.createElement("div");
         container.className = "preview-container";
         const label = document.createElement("div");
-        label.innerHTML = (entry.displayname as string | undefined) || entry.family;
+        label.textContent = (entry.displayname as string | undefined) || entry.family;
         label.style.fontFamily = entry.family;
         label.style.fontSize = designer().isTouchEnabled() ? "20px" : "13px";
         label.style.height = designer().isTouchEnabled() ? "30px" : "20px";

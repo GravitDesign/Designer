@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-146",
+  "why": "Element names in the SVG unsupported-features dialog and the document title in the close prompt are escaped and shown as typed instead of being inserted as HTML. The recorded names have no special characters.",
+  "scenarios": [],
+  "pending": ["ui/dialog/close-modified-confirm"]
+}

@@ -4,6 +4,10 @@ import type { PreviewFamily } from "./font-preview.ts";
 import type { ListedFamily, LoadCallbacks } from "./fonts-provider.ts";
 import { NotoFontsProvider } from "./noto-fonts-provider.ts";
 import { WebFontsProvider } from "./web-fonts-provider.ts";
+import { ImportedFontsProvider } from "./imported-fonts-provider.ts";
+import { LocalFontsProvider } from "./local-font-list.ts";
+import { FontDB } from "./font-db.ts";
+import { setDesigner } from "../shell/globals.ts";
 
 const owner = { setLock: () => {}, reset: () => {} };
 
@@ -111,5 +115,84 @@ describe("Google fonts previews (UI-FONT-007)", () => {
     provider.addPreviews([families[1] as ListedFamily, families[20] as ListedFamily], true);
     // Batch 0 starts with a cached family, so only batch 2 is fetched.
     expect(requestedUrls()).toEqual(["/assets/data/google_previews/previews2.json"]);
+  });
+});
+
+describe("font names in the imported and local previews (BUG-146)", () => {
+  /** Records what was put in as markup and what as text. */
+  class NameElement {
+    html: string | undefined = undefined;
+    text: string | undefined = undefined;
+    className = "";
+    style: Record<string, string> = {};
+    readonly children: NameElement[] = [];
+    set innerHTML(value: string) {
+      this.html = value;
+    }
+    set textContent(value: string) {
+      this.text = value;
+    }
+    appendChild(child: NameElement): void {
+      this.children.push(child);
+    }
+    setAttribute(): void {}
+    addEventListener(): void {}
+  }
+
+  const name = '<img src=x onerror="alert(1)">';
+
+  beforeEach(() => {
+    vi.stubGlobal("document", { createElement: () => new NameElement() });
+  });
+
+  afterEach(() => {
+    setDesigner(null);
+    vi.restoreAllMocks();
+  });
+
+  it("puts an imported family's name in as text", async () => {
+    setDesigner({ isTouchEnabled: () => false } as never);
+    const db = {
+      getItem: (key: string) =>
+        Promise.resolve({
+          value:
+            key === FontDB.FONT_LIST ? [{ family: name, weight: "400", style: "N" }] : undefined,
+          store: undefined,
+        }),
+    } as unknown as FontDB;
+    const getInstance = vi.spyOn(FontDB, "getInstance").mockImplementation((callback) => {
+      callback?.(db);
+      return db;
+    });
+    const provider = new ImportedFontsProvider(owner);
+    let families: ListedFamily[] = [];
+    provider.load("%", 0, 9999, { done: (result) => (families = result), fail: () => {} });
+    await vi.waitFor(() => expect(families).toHaveLength(1));
+    // No font file for the preview's @font-face.
+    getInstance.mockImplementation((callback) => {
+      callback?.(null);
+      return null as unknown as FontDB;
+    });
+    provider.addPreviews(families);
+    const received: NameElement[] = [];
+    const family = families[0] as PreviewFamily;
+    family.addPreviewCallback?.call(family, (container) =>
+      received.push(container as unknown as NameElement),
+    );
+    const label = received[0]?.children[0];
+    expect(label?.text).toBe(name);
+    expect(label?.html).toBeUndefined();
+  });
+
+  it("puts a local family's name in as text", () => {
+    const provider = new LocalFontsProvider(owner);
+    const family = { family: name, fonts: [] } as unknown as PreviewFamily;
+    provider.addPreviews([family as ListedFamily]);
+    const received: NameElement[] = [];
+    family.addPreviewCallback?.call(family, (preview) =>
+      received.push(preview as unknown as NameElement),
+    );
+    expect(received[0]?.text).toBe(name);
+    expect(received[0]?.html).toBeUndefined();
   });
 });

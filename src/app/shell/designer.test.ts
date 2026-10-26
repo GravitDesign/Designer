@@ -257,6 +257,24 @@ describe("Designer.canUnloadDocument (module 1491)", () => {
     // asking, so the answer is already given.
     await expect(result).resolves.toBe(true);
   });
+
+  it("shows the document's title as typed, not as markup (BUG-146)", () => {
+    const asked: { title: string }[] = [];
+    setLateModules({
+      "dialogs/system-dialog.ts": {
+        SystemDialog: { alert() {}, advanced: (options: never) => asked.push(options) },
+      },
+    });
+    const designer = new Designer();
+    const document = {
+      isModified: () => true,
+      getTitle: () => '<img src=x onerror="alert(1)"> & $&',
+    } as never;
+    void designer.canUnloadDocument(document, { changeActiveDocument: false });
+    expect(asked[0]?.title).toBe(
+      'The document "&lt;img src=x onerror=&quot;alert(1)&quot;&gt; &amp; $&amp;" has been modified, do you want to save it?',
+    );
+  });
 });
 
 describe("Designer.start: the stored global swatches (module 1491)", () => {

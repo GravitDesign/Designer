@@ -52,7 +52,7 @@ export class LocalFontsProvider extends FontsProvider {
       family.addPreviewCallback = function (receiver) {
         const entry = this as PreviewFamily & { style?: unknown; weight?: unknown };
         const preview = document.createElement("div");
-        preview.innerHTML = (entry.displayname as string | undefined) || entry.family;
+        preview.textContent = (entry.displayname as string | undefined) || entry.family;
         preview.style.fontFamily = entry.family;
         preview.style.fontStyle = entry.style === Font.Style.Italic ? "italic" : "normal";
         // A family has no weight, so this sets nothing ("undefined"), as before.

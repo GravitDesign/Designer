@@ -12,6 +12,7 @@
  * path reaches it through registerDocumentDialogs (document-host.ts).
  */
 import { Locale } from "../../engine/core/locale/locale.ts";
+import { escape } from "../../engine/core/util.ts";
 import { LocaleKey } from "../../engine/core/locale/locale-key.ts";
 import { Node } from "../../engine/scene/node.ts";
 import { AngularGradient } from "../../engine/style/angular-gradient.ts";
@@ -44,13 +45,25 @@ export function featureLabel(feature: unknown): string {
   return "";
 }
 
+/**
+ * An element name as markup that shows it as typed. Names are stored with
+ * "<" and ">" as "&lt;" and "&gt;" (the name filter of Block); the old
+ * dialog put them in as markup, so a name read from a file could add
+ * markup to the dialog (BUGS-FIXED BUG-146).
+ */
+function nameHtml(name: string): string {
+  return escape(String(name).replace(/&lt;/g, "<").replace(/&gt;/g, ">"));
+}
+
 /** The list markup: one "• feature [name]" line per entry, duplicates dropped. */
 export function featureLines(entries: readonly UnsupportedFeatureEntry[]): string {
   return [
     ...new Set(
       entries.map((entry) =>
         entry.features
-          .map((feature) => "• ".concat(featureLabel(feature), " [").concat(entry.name, "]"))
+          .map((feature) =>
+            "• ".concat(featureLabel(feature), " [").concat(nameHtml(entry.name), "]"),
+          )
           .join("<br>"),
       ),
     ),
@@ -71,8 +84,7 @@ export class UnsupportedFeaturesDialog {
     message.classList.add("message");
     cssAll(message, { "line-height": "1.5em", "max-height": "60%", overflow: "auto" });
     const span = document.createElement("span");
-    // Old: .html(title + "<br>" + lines). The element names are put in as
-    // markup too (see the BUGS-FIXED candidate in the color cluster's report).
+    // Old: .html(title + "<br>" + lines). The names are escaped in lines.
     span.innerHTML = text("GUnsupportedFeaturesDialog", "text.title-unsupported") + "<br>" + lines;
     message.appendChild(span);
     content.appendChild(message);
