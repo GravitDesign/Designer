@@ -94,16 +94,46 @@ describe("GPagePanel", () => {
     ]);
   });
 
-  it("shows a page name as text, not as markup (BF-119)", () => {
+  it("shows a page name as typed, as text and not as markup (BUG-166)", () => {
     const { first, element, panel } = setup();
     first.setProperty("name", "a <b>x</b>");
     panel.vtree.requestInvalidation(true);
     const title = rows(element)[0]?.querySelector<TestElement>(".page-title") as TestElement;
-    // The engine stores names with < and > escaped (Block's name filter),
-    // so the row shows the stored "a &lt;b&gt;x&lt;/b&gt;" as it is.
+    // The engine stores names with < and > escaped (Block's name filter);
+    // the row shows the name as typed.
     expect(first.getProperty("name")).toBe("a &lt;b&gt;x&lt;/b&gt;");
-    expect(title.textContent).toBe("a &lt;b&gt;x&lt;/b&gt;");
+    expect(title.textContent).toBe("a <b>x</b>");
     expect(title.children).toEqual([]);
+    expect(title.querySelector("b")).toBeNull();
+  });
+
+  it("renames a page with < in its name the way the old app stored it (BUG-166)", () => {
+    const { first, element, panel } = setup();
+    first.setProperty("name", "a<b");
+    panel.vtree.requestInvalidation(true);
+    expect(titles(element)[0]).toBe("a<b");
+    const edit = AutoEdit.of(rows(element)[0]?.children[0] as unknown as HTMLElement) as AutoEdit;
+    edit.open();
+    const input = dom.document.body.querySelector<TestElement>(".g-auto-edit") as TestElement;
+    expect(input.value).toBe("a<b");
+    input.value = "a<b>";
+    fireEvent(input, "blur");
+    expect(first.getProperty("name")).toBe("a&lt;b&gt;");
+  });
+
+  it("shows the dragged page names as typed while dragging, then its own (BUG-166)", () => {
+    const { first, second, element, panel } = setup({
+      startDraggingCallback: () => [first, second],
+    });
+    first.setProperty("name", "a<b");
+    second.setProperty("name", "c>d");
+    panel.vtree.requestInvalidation(true);
+    const group = rows(element)[0]?.children[0] as TestElement;
+    fireEvent(group, "dragstart");
+    const title = group.querySelector<TestElement>(".page-title") as TestElement;
+    expect(title.textContent).toBe("a<b, c>d");
+    vi.advanceTimersByTime(0);
+    expect(title.textContent).toBe("a<b");
   });
 
   it("adds ' (master)' to a master page on desktop, and the master icon on touch", () => {

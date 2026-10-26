@@ -48,6 +48,17 @@ export interface LayerOrItemStatus {
   hasSelection: boolean;
 }
 
+/**
+ * A stored name as the user typed it, for the panels to show as text.
+ * Block's name filter stores "<" and ">" as "&lt;" and "&gt;"; the old
+ * panels inserted names as HTML, which turned them back (and read any
+ * markup in the name). See "BUG-166 Layer and page names are read as
+ * HTML" in BUGS-FIXED.md.
+ */
+export function nameAsTyped(name: string): string {
+  return name.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+}
+
 /** jQuery's toggleClass(name, state) for one element. */
 function toggleClass(element: globalThis.Element, name: string, state: boolean): void {
   element.classList.toggle(name, state);
@@ -81,9 +92,8 @@ export function buildLayerItemContainer(
   let name = item.getProperty("name") as string | null;
   name = name || node.getNodeNameTranslated();
   const title = document.createElement("span");
-  // The old code inserted the name as HTML; see "Layer and page names
-  // are no longer read as HTML" (BF-119) in bugfix-plan.md.
-  title.textContent = name;
+  // The old code inserted the name as HTML; see nameAsTyped.
+  title.textContent = nameAsTyped(name);
   title.classList.add("layer-title");
   titleGroup.appendChild(title);
   const isSymbolInstance = (candidate: unknown): boolean =>

@@ -207,14 +207,47 @@ describe("GLayerPanel", () => {
     expect(input?.value).toBe("A");
   });
 
-  it("shows a layer name as text, not as markup (BF-119)", () => {
+  it("shows a layer name as typed, as text and not as markup (BUG-166)", () => {
     const { a, element, panel } = setup();
     a.setProperty("name", "a <b>x</b>");
     panel.vtree.requestInvalidation(true);
     const title = rows(element)[1]?.querySelector<TestElement>(".layer-title") as TestElement;
-    // Stored with < and > escaped by the engine, and shown as stored.
-    expect(title.textContent).toBe("a &lt;b&gt;x&lt;/b&gt;");
+    // The engine stores < and > escaped (Block's name filter); the row
+    // shows the name as typed.
+    expect(a.getProperty("name")).toBe("a &lt;b&gt;x&lt;/b&gt;");
+    expect(title.textContent).toBe("a <b>x</b>");
     expect(title.children).toEqual([]);
+    expect(title.querySelector("b")).toBeNull();
+  });
+
+  it("renames a layer with < in its name the way the old app stored it (BUG-166)", () => {
+    const { a, element, panel } = setup();
+    a.setProperty("name", "a<b");
+    panel.vtree.requestInvalidation(true);
+    expect(titles(element)[1]).toBe("a<b");
+    const title = panel.getTitleOfLayer(rows(element)[1]);
+    title.openAutoEdit();
+    const input = dom.document.body.querySelector<TestElement>(".g-auto-edit") as TestElement;
+    expect(input.value).toBe("a<b");
+    input.value = "a<b>";
+    fireEvent(input, "blur");
+    expect(a.getProperty("name")).toBe("a&lt;b&gt;");
+    panel.vtree.requestInvalidation(true);
+    expect(titles(element)[1]).toBe("a<b>");
+  });
+
+  it("shows the dragged layer names as typed while dragging (BUG-166)", () => {
+    const { a, group, element, panel } = setup();
+    a.setProperty("name", "a<b");
+    group.setProperty("name", "c>d");
+    panel.options.startDraggingCallback = () => [group, a];
+    panel.vtree.requestInvalidation(true);
+    const titleGroup = rows(element)[1]?.children[0] as TestElement;
+    fireEvent(titleGroup, "dragstart");
+    const title = titleGroup.querySelector<TestElement>(".layer-title") as TestElement;
+    expect(title.textContent).toBe("c>d, a<b");
+    vi.advanceTimersByTime(0);
+    expect(title.textContent).toBe("a<b");
   });
 
   it("maps tree nodes back to their elements", () => {

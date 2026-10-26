@@ -25,6 +25,7 @@ import {
   text,
   type InspectedElements,
 } from "./properties.ts";
+import { nameAsTyped } from "../sidebars/layer-item.ts";
 
 export class SymbolProperties extends Properties {
   _panel: HTMLElement | null = null;
@@ -156,10 +157,15 @@ export class SymbolProperties extends Properties {
     if (symbols.length > 1) {
       title = symbols.length + " " + text("GSymbolProperties", "text.instances");
     } else {
-      title = (first.getProperty("name") as string) || text("GSymbolProperties", "title");
+      title =
+        nameAsTyped((first.getProperty("name") as string) || "") ||
+        text("GSymbolProperties", "title");
       if (master.getProperty("name"))
         title +=
-          " (" + text("GSymbolProperties", "text.instanceof") + " " + master.getProperty("name");
+          " (" +
+          text("GSymbolProperties", "text.instanceof") +
+          " " +
+          nameAsTyped(master.getProperty("name") as string);
       else title += " (" + text("GSymbolProperties", "text.instance");
       title += ")";
     }
@@ -193,7 +199,7 @@ export class SymbolProperties extends Properties {
       const option = el("option");
       setData(option, "symbol", symbol);
       option.setAttribute("value", String(++count));
-      option.textContent = symbol.getProperty("name") as string;
+      option.textContent = nameAsTyped((symbol.getProperty("name") as string) || "");
       select.appendChild(option);
       if (master.getMultireferenceId() === symbol.getMultireferenceId()) {
         option.selected = true;

@@ -74,6 +74,7 @@ import {
   text,
   type InspectedElements,
 } from "./properties.ts";
+import { nameAsTyped } from "../sidebars/layer-item.ts";
 
 const PaintMode = ScenePaintConfiguration.PaintMode;
 
@@ -956,7 +957,10 @@ export class PageProperties extends Properties {
     if (designer().isTouchEnabled()) name = name.toUpperCase();
     let title = name + " (";
     if (pages.length > 1) title += pages.length + " " + text("GCommonNames", "text.pages");
-    else title += (page.getProperty("name") as string) || text("GCommonNames", "text.active");
+    else
+      title +=
+        nameAsTyped((page.getProperty("name") as string) || "") ||
+        text("GCommonNames", "text.active");
     title += ")";
     const label = (this._toolbar as HTMLElement).querySelector("label:first-child");
     if (label) label.textContent = title;
@@ -1021,7 +1025,7 @@ export class PageProperties extends Properties {
           const option = el("option");
           setData(option, "page", other);
           option.setAttribute("value", String(index));
-          option.textContent = other.getProperty("name") as string;
+          option.textContent = nameAsTyped((other.getProperty("name") as string) || "");
           select.appendChild(option);
           if (common === other) option.selected = true;
         }

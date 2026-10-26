@@ -13,6 +13,7 @@ import {
 } from "../menus/testing/fake-dom.testing.ts";
 import { resetGlobals, setDesigner } from "../shell/globals.ts";
 import type { Designer } from "../shell/designer.ts";
+import { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
 import { SymbolsPanel } from "./symbols-panel.ts";
 
 interface FakeScene extends EventTarget {
@@ -125,6 +126,19 @@ describe("SymbolsPanel", () => {
     panel.setScene(scene as unknown as Scene);
     expect(tiles(panel)).toHaveLength(2);
     expect(other.toBitmap).toHaveBeenCalled();
+  });
+
+  it("shows the symbol name in the tooltip as typed (BUG-166)", () => {
+    const scene = makeScene();
+    // Stored as the engine's name filter stores "a<b>".
+    makeSymbol(scene, "a1", "a&lt;b&gt;");
+    const from = vi.spyOn(RichTooltipConfig, "from");
+    const panel = newPanel();
+    panel.setScene(scene as unknown as Scene);
+    const titles = from.mock.calls.map(([fields]) => fields.title);
+    expect(titles).toContain("a<b>");
+    expect(titles).not.toContain("a&lt;b&gt;");
+    from.mockRestore();
   });
 
   it("highlights the tile while the master is selected", () => {

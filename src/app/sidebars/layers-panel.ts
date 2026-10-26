@@ -48,6 +48,7 @@ import { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
 import {
   buildLayerItemContainer,
   getLayerOrItemStatus,
+  nameAsTyped,
   type PanelContainerNode,
   type PanelNode,
 } from "./layer-item.ts";
@@ -140,9 +141,9 @@ function text(table: string, key: string): string {
   return Locale.get(new LocaleKey(table, key)) as string;
 }
 
-/** `$(el).html(text)` of the old code for names, as text (see BF-119 in bugfix-plan.md). */
+/** `$(el).html(text)` of the old code for names, as the name was typed (see nameAsTyped). */
 function setText(element: HTMLElement, value: string | null | undefined): void {
-  element.textContent = value == null ? "" : value;
+  element.textContent = value == null ? "" : nameAsTyped(value);
 }
 
 function span(className: string): HTMLSpanElement {

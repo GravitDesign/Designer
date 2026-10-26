@@ -27,6 +27,7 @@ import { css, cssAll } from "../shell/dom.ts";
 import { designer } from "../shell/globals.ts";
 import { attachRichTooltip } from "../widgets/rich-tooltip.ts";
 import { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
+import { nameAsTyped } from "./layer-item.ts";
 
 export interface SymbolsPanelOptions {
   moveCallback?: ((...args: unknown[]) => void) | null;
@@ -226,10 +227,12 @@ export class SymbolsPanel {
     tile.setAttribute("draggable", "false");
     tile.setAttribute("id", "symbol_" + symbol.getMultireferenceId());
     css(tile, "display", "inline");
+    const name = symbol.getProperty("name") as string;
     attachRichTooltip(
       tile,
       RichTooltipConfig.from({
-        title: symbol.getProperty("name") as string,
+        // Shown as text, so the name as typed; see nameAsTyped.
+        title: name ? nameAsTyped(name) : name,
         description: Locale.get(
           new LocaleKey("GCommonNames", "text.symbol-panel-symbol-tooltip-description"),
         ) as string,

@@ -20,6 +20,7 @@ import type { Scene } from "../../engine/scene/scene.ts";
 import { Menu } from "../menus/menu.ts";
 import { designerOrNull } from "../shell/globals.ts";
 import { MenuButton } from "../widgets/menu-button.ts";
+import { nameAsTyped } from "../sidebars/layer-item.ts";
 
 function span(className: string): HTMLSpanElement {
   const element = document.createElement("span");
@@ -74,7 +75,7 @@ export class PageButton {
           menu.clearItems();
           for (const page of scene.getChildren())
             if (page instanceof Page && page.isVisible())
-              menu.createAddItem(page.getLabel(), () => {
+              menu.createAddItem(nameAsTyped(page.getLabel()), () => {
                 page.setFlag(NodeFlag.Active);
               });
         }
@@ -84,7 +85,7 @@ export class PageButton {
         const scene = this._scene;
         if (scene) {
           const page = scene.getActivePage();
-          if (page) return menu.findItem(page.getLabel());
+          if (page) return menu.findItem(nameAsTyped(page.getLabel()));
         }
         return null;
       },

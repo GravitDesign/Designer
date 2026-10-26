@@ -31,7 +31,7 @@ import { AutoEdit } from "../widgets/auto-edit.ts";
 import { attachRichTooltip } from "../widgets/rich-tooltip.ts";
 import { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
 import { contextMenuOptions, PRESS_AND_HOLD } from "./layers-panel.ts";
-import type { PanelContainerNode, PanelNode } from "./layer-item.ts";
+import { nameAsTyped, type PanelContainerNode, type PanelNode } from "./layer-item.ts";
 import type { VirtualRow } from "./virtual-list.ts";
 import { VirtualTree, VirtualTreeNodeNamed, type VirtualTreeNode } from "./virtual-tree.ts";
 
@@ -339,11 +339,10 @@ export class PagePanel {
     row.appendChild(titleGroup);
     entry.element = titleGroup;
     let name = page.getProperty("name") as string | null;
-    name = name || page.getNodeNameTranslated();
+    // The old code inserted the name as HTML; see nameAsTyped.
+    name = nameAsTyped(name || page.getNodeNameTranslated());
     if (isMaster && !designer().isTouchEnabled()) name += " (master)";
     const title = span("page-title");
-    // The old code inserted the name as HTML; see "Layer and page names
-    // are no longer read as HTML" (BF-119) in bugfix-plan.md.
     title.textContent = name;
     titleGroup.appendChild(title);
     if (!page.hasFlag(Element.Flag.PartialLocked as number)) {
@@ -364,7 +363,7 @@ export class PagePanel {
                 (nodes[i] as Node).getNodeNameTranslated())
             )
               names += ", " + other;
-          if (names.length) title.textContent = names;
+          if (names.length) title.textContent = nameAsTyped(names);
           const treeNodes: VirtualTreeNode[] = [];
           for (let i = 0; i < nodes.length; ++i) {
             const treeNode = this._treeNodeOf(nodes[i] as Node);

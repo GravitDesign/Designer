@@ -3455,3 +3455,36 @@ the font panel's previews of imported and local families (module 1118 and module
   names a plain "Rectangle" and is unaffected. Pending, not enabled for
   the new app yet: ui/dialog/close-modified-confirm (its title has no
   special characters, so it should match).
+
+## BUG-166 Layer and page names are read as HTML
+
+Old code: designer.browser.dev.js module 1351 (the layer row title, line
+107382, `.html(name)`), module 1717 (the page row title and its drag
+label, lines 171568, 171587, 171597) and module 1706 (the layer drag
+label, lines 168182, 168192).
+
+- Reproduce: name a layer or a page `a <b>x</b>`, `a<b` or `a &amp; b`
+  and look at its row, drag it, and double-click it to rename.
+- Old: the layers and pages panels inserted the stored name as HTML.
+  Names are stored with "<" and ">" escaped as `&lt;` and `&gt;` (the
+  name filter of GBlock), so these came back as typed, but every other
+  entity in a name was decoded: `a &amp; b` showed `a & b`, and the
+  rename field (the row's text) offered `a & b` too.
+- New: the rows, the drag labels, the rename field and the symbol
+  tooltip in the symbols panel show the name as typed, as text: the
+  stored `&lt;` and `&gt;` become "<" and ">" again, nothing else is
+  decoded and nothing is read as markup. Renaming stores what the old app
+  stored (typing `a<b` stores `a&lt;b`). The symbol tooltip set its title
+  as text and showed the stored `&lt;`; it now shows "<" like the rows.
+  The pages dropdown in the toolbar and the page and symbol inspectors
+  (title, master page and symbol lists) show names the same way.
+- Test: src/app/sidebars/layers-panel.test.ts, "shows a layer name as
+  typed, as text and not as markup (BUG-166)", "renames a layer with < in
+  its name the way the old app stored it (BUG-166)" and "shows the
+  dragged layer names as typed while dragging (BUG-166)";
+  src/app/sidebars/pages-panel.test.ts, the same three for pages; and
+  src/app/sidebars/symbols-panel.test.ts, "shows the symbol name in the
+  tooltip as typed (BUG-166)". All fail with the stored names shown as
+  they are.
+- Parity exceptions: none. Names with markup only appear in engine-model
+  and import-export/meta scenarios, which don't render the panels.
