@@ -1960,6 +1960,24 @@ Old code: public/pscore.js, the stroke operator.
   `2 2 scale` (from 20,280 to 80,280 in device space) has `_bw` 6
   instead of 3. Nothing else differs.
 
+## BUG-118 EPS line joins 1 and 2 are swapped
+
+Old code: chunk.vendor.js module 1404 (GEPSParser, the stroke handler).
+
+- Reproduce: open an EPS or PS file that strokes after `1 setlinejoin`
+  or `2 setlinejoin`, for example
+  parity/scenarios/io-import-pdf-eps/fixtures/eps/paths.eps.
+- Old: the page mapped line join 1 to bevel and 2 to round. In
+  PostScript 1 is round and 2 is bevel, so round corners came out cut
+  off and bevelled ones rounded.
+- New: 0 is miter, 1 round and 2 bevel.
+- Test: src/io/import/eps/eps-parser.test.ts, "EPSParser stroke joins
+  (BUG-118)" (joins 1 and 2 fail with the old code).
+- Parity exceptions: parity/exceptions/BUG-118.json,
+  io-import-pdf-eps/eps/paths-eps. The seven borders stroked after
+  `1 setlinejoin` have `"_blj": "round"` instead of `"bevel"`. Nothing
+  else differs.
+
 ## BUG-070 Rotated arcs come out almost unrotated
 
 Old code: chunk.vendor.js module 1392, arcToBezier, lines 248961-248962.

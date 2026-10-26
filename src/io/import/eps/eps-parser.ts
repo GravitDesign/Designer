@@ -18,6 +18,9 @@
 // only their CMYK pixels; RGB and gray images stayed empty), and a mesh
 // pattern fills a path as the image inside it instead of as the fill.
 //
+// Fixed (BUG-118): line joins 1 and 2 were swapped (1 became bevel and 2
+// round); PostScript's 1 is round and 2 is bevel.
+//
 // Fixed (BUG-008): the JPEG handler signalled the waiting worker with
 // Atomics.wake, which browsers have removed (it threw, and the worker
 // waited until its timeout); it told size requests by a byte view of
@@ -384,9 +387,10 @@ export class EPSParser {
     let cap: string = PaintCanvas.LineCap.Butt;
     if (lineCap == 1) cap = PaintCanvas.LineCap.Round;
     else if (lineCap == 2) cap = PaintCanvas.LineCap.Square;
+    // PostScript joins: 0 miter, 1 round, 2 bevel.
     let join: string = PaintCanvas.LineJoin.Miter;
-    if (lineJoin == 1) join = PaintCanvas.LineJoin.Bevel;
-    else if (lineJoin == 2) join = PaintCanvas.LineJoin.Round;
+    if (lineJoin == 1) join = PaintCanvas.LineJoin.Round;
+    else if (lineJoin == 2) join = PaintCanvas.LineJoin.Bevel;
     let dashes: number[] | null = null;
     if (dash && dash.arr.length) dashes = dash.arr;
     const miter = miterLimit || 3;

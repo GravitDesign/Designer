@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-118",
+  "why": "Line join 1 is round and 2 is bevel; the page had them swapped. In paths-eps the seven borders stroked after 1 setlinejoin have _blj round instead of bevel.",
+  "scenarios": ["io-import-pdf-eps/eps/paths-eps"],
+  "pending": []
+}

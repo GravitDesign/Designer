@@ -245,3 +245,19 @@ describe("EPSParser mesh images (BUG-116)", () => {
     expect(node.getFirstChild()).toBeInstanceOf(GImage);
   });
 });
+
+describe("EPSParser stroke joins (BUG-118)", () => {
+  it.each([
+    [0, "miter"],
+    [1, "round"],
+    [2, "bevel"],
+  ])("maps PostScript line join %i to %s", (lineJoin, expected) => {
+    const { p } = parser();
+    const path = [[segment("moveto", 0, 0), segment("lineto", 10, 0), segment("lineto", 10, 10)]];
+    p.stroke(path as never, { type: "rgb", value: [0, 0, 0] }, 1, [], 0, lineJoin, false, 10, null);
+    const node = p.ggroup.getFirstChild() as unknown as {
+      getPaintLayers(): { getFirstChild(): { getProperty(name: string): unknown } };
+    };
+    expect(node.getPaintLayers().getFirstChild().getProperty("_blj")).toBe(expected);
+  });
+});
