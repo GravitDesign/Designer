@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-168",
+  "why": "The layers panel skips the style update of a row that was never rendered instead of throwing in a timer. Nothing recorded changes.",
+  "scenarios": [],
+  "pending": []
+}

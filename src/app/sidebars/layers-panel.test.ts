@@ -369,6 +369,18 @@ describe("GLayerPanel risky branches", () => {
     expect(invalidate).toHaveBeenCalledTimes(1);
   });
 
+  it("with onlyUpdateStyle skips a row that was never rendered (BUG-168)", () => {
+    const { inner, panel } = setup();
+    // inner sits in the collapsed group G, so its row was never rendered.
+    expect(titles(panel.element as unknown as TestElement)).toEqual(["G", "A"]);
+    const invalidate = vi.spyOn(panel.vtree, "requestInvalidation");
+    panel.onlyUpdateStyle(true);
+    inner.setFlag(Node.Flag.Selected as number);
+    // The old timer threw a TypeError reading the missing row's parent.
+    expect(() => vi.advanceTimersByTime(0)).not.toThrow();
+    expect(invalidate).not.toHaveBeenCalled();
+  });
+
   it("expands and focuses a selected node's parents with auto_expand_layers", () => {
     settings.auto_expand_layers = true;
     const { group, inner, element, panel } = setup();

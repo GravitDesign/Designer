@@ -3488,3 +3488,26 @@ label, lines 168182, 168192).
   they are.
 - Parity exceptions: none. Names with markup only appear in engine-model
   and import-export/meta scenarios, which don't render the panels.
+
+## BUG-168 Selecting a layer whose row isn't shown throws in the layers panel
+
+Old code: designer.browser.dev.js module 1706, the style update timer of
+the flag handler (lines 168611-168613) and the row style update (lines
+168643-168661).
+
+- Reproduce: select an element inside a collapsed group (on the canvas),
+  then click another row in the layers panel. The click changes the
+  selection with style-only updates, so each changed node's row is
+  restyled in a timer.
+- Old: the row style update read the row element of every changed node.
+  A node whose row was never rendered (inside a collapsed group, or
+  scrolled out before it was drawn) has none, and `element.parent()`
+  threw a TypeError in the timer. Only the console saw it; the other rows
+  were updated by their own timers.
+- New: a node without a rendered row is skipped quietly. Its parent's row
+  is still not restyled from there, as before; it is right again after
+  the next render.
+- Test: src/app/sidebars/layers-panel.test.ts, "with onlyUpdateStyle
+  skips a row that was never rendered (BUG-168)" (fails with the old
+  update: the timer throws).
+- Parity exceptions: none.
