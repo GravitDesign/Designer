@@ -400,6 +400,9 @@ function svgBackground(svg: string): string {
   return 'url("data:image/svg+xml;base64,' + btoa(svg) + '")';
 }
 
+/** The texture paste message, which the old string table lacks (BUG-133). */
+const TEXTURE_PASTE_ALERT = "Select a shape, copy it to clipboard then paste it as texture here.";
+
 export class PatternChooser {
   static ColorMode = ColorMode;
   static ColorModeLabel: Record<string, string> = { RGB: "RGB", HSV: "HSB", CMYK: "CMYK" };
@@ -1360,8 +1363,9 @@ export class PatternChooser {
           break;
         }
       }
-    // The old app showed the arrowhead message here (BUG-133).
-    if (!pasted) window.alert(text("GCommonNames", "texture-paste.alert"));
+    // The old app showed the arrowhead message here (BUG-133). The string
+    // table is the old bundle's, so the texture message is English only.
+    if (!pasted) window.alert(TEXTURE_PASTE_ALERT);
   }
 
   __getCreatePaletteSwatchParamas(): TouchParams {
