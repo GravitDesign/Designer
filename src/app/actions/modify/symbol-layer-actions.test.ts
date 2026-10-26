@@ -6,6 +6,7 @@ import { Symbol } from "../../../engine/scene/symbol.ts";
 import "../../../editor/element-editors/group-editor.ts";
 import "../../../editor/element-editors/symbol-editor.ts";
 import { setLateModules } from "../../shell/late.ts";
+import { shortcutToMousetrap } from "../../shell/shortcut-binder.ts";
 import { rect, setupDesigner, type Fixture } from "../actions.testing.ts";
 import { props, setActionDesigner } from "../host.ts";
 import { ChangeActivePageAction } from "./change-active-page-action.ts";
@@ -160,6 +161,16 @@ describe("Change active page", () => {
     next.execute();
     previous.execute();
     expect(changed).toEqual([second, null]);
+  });
+
+  it("binds Page Down and Page Up as one-key shortcuts (BUG-148)", () => {
+    // Designer.registerAdditionalShortcuts binds each entry through shortcutToMousetrap.
+    const combos = (type: string) =>
+      (new ChangeActivePageAction(type).getAdditionalShortcuts() || []).map((shortcut) =>
+        shortcutToMousetrap(shortcut),
+      );
+    expect(combos(ChangeActivePageAction.Type.Next)).toEqual(["pagedown"]);
+    expect(combos(ChangeActivePageAction.Type.Previous)).toEqual(["pageup"]);
   });
 });
 

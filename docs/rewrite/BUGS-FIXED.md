@@ -3055,3 +3055,24 @@ and module 1316 (GCreateNestedCompoundAction.getShortcut).
   Create Nested Compound row. Ctrl+Alt+M still runs Clip Selection, so
   the nested-compound-keys result is the same. Pending, not enabled for
   the new app yet: ui/dialog/shortcuts (.dom, .dark, .light).
+
+## BUG-148 Page Down / Page Up never change the page
+
+Old code: designer.browser.dev.js module 1341
+(GChangeActivePageAction.getAdditionalShortcuts).
+
+- Reproduce: in a document with several pages, click the canvas and
+  press Page Down or Page Up.
+- Old: the extra shortcuts were a bare key instead of a list of keys.
+  The shortcut binder turned that into an empty combo, which matches no
+  key, so nothing happened. Ctrl+Alt+Down and Ctrl+Alt+Up worked.
+- New: Page Down makes the next page active and Page Up the previous
+  one, like Ctrl+Alt+Down and Ctrl+Alt+Up. The keys are bound like the
+  other non-global shortcuts, so text fields and inline text editing
+  still get them.
+- Test: src/app/actions/modify/symbol-layer-actions.test.ts, "binds Page
+  Down and Page Up as one-key shortcuts (BUG-148)" (fails with the old
+  list).
+- Parity exceptions: editor-actions/shortcuts/windows-pages, checks
+  next-page-pagedown and previous-page-pageup. They now change the
+  active page like next-page and previous-page do.

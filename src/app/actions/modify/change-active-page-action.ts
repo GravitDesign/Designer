@@ -56,14 +56,15 @@ export class ChangeActivePageAction extends Action {
     }
   }
 
-  // The old list holds a bare key, not a key list; the shortcut code
-  // treats a bare key as a one-key shortcut.
+  // The designer binds these as non-global shortcuts, so text fields (and
+  // the text editor's input field) keep the keys. Old: a bare key instead
+  // of a key list, which bound to no key at all (BUG-148).
   override getAdditionalShortcuts(): Shortcut[] | null {
     switch (this._type) {
       case Type.Next:
-        return [Key.Constant.PAGE_DOWN] as unknown as Shortcut[];
+        return [[Key.Constant.PAGE_DOWN]];
       case Type.Previous:
-        return [Key.Constant.PAGE_UP] as unknown as Shortcut[];
+        return [[Key.Constant.PAGE_UP]];
       default:
         return null;
     }
