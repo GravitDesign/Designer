@@ -3511,3 +3511,21 @@ the flag handler (lines 168611-168613) and the row style update (lines
   skips a row that was never rendered (BUG-168)" (fails with the old
   update: the timer throws).
 - Parity exceptions: none.
+
+## BUG-159 Dragging several layer rows leaves another layer's name on the row
+
+Old code: designer.browser.dev.js module 1706, the row's dragstart
+handler (lines 168171-168200); module 1717 does it right for pages.
+
+- Reproduce: select two or more layers and start dragging the row of one
+  that isn't the last of them in the selection.
+- Old: while the drag starts, the row shows the names of all dragged
+  layers joined with ", ". A timer then put back the name left in the
+  loop variable, the last dragged layer's name, so the row showed another
+  layer's name until the list rendered again (a drop or any change does
+  that right away).
+- New: the timer puts back the row's own name, as the pages panel does.
+- Test: src/app/sidebars/layers-panel.test.ts, "shows every dragged layer
+  name on the row while dragging, then its own again (BUG-159)" (fails
+  with the old timer: the row shows "G" instead of "A").
+- Parity exceptions: none.

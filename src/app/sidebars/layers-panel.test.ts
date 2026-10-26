@@ -250,6 +250,18 @@ describe("GLayerPanel", () => {
     expect(title.textContent).toBe("a<b");
   });
 
+  it("shows every dragged layer name on the row while dragging, then its own again (BUG-159)", () => {
+    const { a, group, element, panel } = setup();
+    panel.options.startDraggingCallback = () => [a, group];
+    const titleGroup = rows(element)[1]?.children[0] as TestElement;
+    fireEvent(titleGroup, "dragstart");
+    const title = titleGroup.querySelector<TestElement>(".layer-title") as TestElement;
+    expect(title.textContent).toBe("A, G");
+    vi.advanceTimersByTime(0);
+    // The row is A's; the old code put back the last dragged name, "G".
+    expect(title.textContent).toBe("A");
+  });
+
   it("maps tree nodes back to their elements", () => {
     const { a, panel } = setup();
     const treeNode = panel.getTreeNode(a);

@@ -612,6 +612,7 @@ export class LayerPanel {
         if (!this.options.startDraggingCallback) return;
         const nodes = this.options.startDraggingCallback(node);
         if (nodes && nodes.length) {
+          const own = title.textContent;
           let names = "";
           let name = (nodes[0] as PanelNode).getProperty("name") as string | null;
           if ((name = name || (nodes[0] as Node).getNodeNameTranslated())) names = name;
@@ -629,11 +630,10 @@ export class LayerPanel {
             if (treeNode) treeNodes.push(treeNode);
           }
           this.vtree.setDragNodes(treeNodes);
-          // Restores the last name of the list, not the row's own one; see
-          // "Dragging several layer rows leaves the last name on the row"
-          // in QUESTIONS.md.
-          const restore = name;
-          setTimeout(() => setText(title, restore));
+          // Puts back the row's own name, as the pages panel does. The old
+          // code put back the last name of the list (BUGS-FIXED.md
+          // "BUG-159").
+          setTimeout(() => (title.textContent = own));
         } else titleGroup.setAttribute("draggable", "false");
       });
     }
