@@ -3555,3 +3555,23 @@ the Select hit list, lines 100830-100855).
   without the decoding: "1. a&lt;b&gt; & c").
 - Parity exceptions: none. The ui/context Select scenarios use names
   without "<", ">" or "&".
+
+## BUG-170 Rulers can keep the old theme's colours after a theme switch
+
+Old code: designer.browser.dev.js module 1491 (GDesigner._setTheme, lines
+123731-123760).
+
+- Reproduce: switch between the light and dark theme in the settings
+  while a document is open, with rulers on.
+- Old: the new stylesheet link was set and the callback (guide colours,
+  rulers recreated, label colour) ran when `$(link).load(url)` had
+  fetched the CSS text. That races with the browser applying the
+  stylesheet. The rulers read their colours from the stylesheet, so when
+  the fetch won they were drawn with the previous theme's colours.
+- New: the callback waits for both the fetch and the link's load (or
+  error). When the href doesn't change and the sheet is there, it waits
+  only for the fetch, as before.
+- Test: src/app/themes/theme.test.ts, "recreates the rulers only once the
+  new stylesheet has loaded, not when the fetch is done (BUG-170)" (fails
+  with the old callback: the rulers are recreated before the link loads).
+- Parity exceptions: none.
