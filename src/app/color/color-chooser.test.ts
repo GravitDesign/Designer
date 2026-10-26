@@ -6,6 +6,7 @@ import { CMYKColor } from "../../engine/color/cmyk-color.ts";
 import { Color } from "../../engine/color/color.ts";
 import { HSVColor } from "../../engine/color/hsv-color.ts";
 import { RGBColor } from "../../engine/color/rgb-color.ts";
+import { GMath } from "../../engine/math/math.ts";
 import { Node } from "../../engine/scene/node.ts";
 import { AngularGradient } from "../../engine/style/angular-gradient.ts";
 import { Background } from "../../engine/style/background.ts";
@@ -820,5 +821,75 @@ describe("PatternChooserWidget (UI-COLOR-025)", () => {
 describe("Swatch", () => {
   it("counts a CMYK pattern as CMYK", () => {
     expect(new Swatch(new CMYKColor([0, 0, 0, 1])).isCMYK()).toBe(true);
+  });
+});
+
+describe("PatternChooser type previews (cold start)", () => {
+  let saved: typeof PatternChooser.PATTERN_TYPES;
+  beforeEach(() => {
+    saved = PatternChooser.PATTERN_TYPES;
+    PatternChooser.PATTERN_TYPES = null;
+  });
+  afterEach(() => {
+    PatternChooser.PATTERN_TYPES = saved;
+    vi.restoreAllMocks();
+  });
+
+  it("paints no preview when the choosers are made, and all of them once a chooser opens", () => {
+    const angular = vi.spyOn(AngularGradient.prototype, "asCSSBackground");
+    const linear = vi.spyOn(LinearGradient.prototype, "asCSSBackground");
+    const radial = vi.spyOn(RadialGradient.prototype, "asCSSBackground");
+    createPatternChoosers();
+    const { normal } = patternChoosers();
+    expect(PatternChooser.PATTERN_TYPES).toHaveLength(7);
+    expect(angular).not.toHaveBeenCalled();
+    expect(radial).not.toHaveBeenCalled();
+    // The color preview of the chooser itself is a Pattern.asCSSBackground call, not a gradient's.
+    const linearAtBoot = linear.mock.calls.length;
+
+    open(normal as PatternChooser);
+    expect(angular).toHaveBeenCalledTimes(1);
+    expect(radial).toHaveBeenCalledTimes(1);
+    expect(linear.mock.calls.length - linearAtBoot).toBeGreaterThanOrEqual(2);
+
+    // Built once: a second open or read paints nothing more.
+    open(normal as PatternChooser);
+    const types = PatternChooser.PATTERN_TYPES as NonNullable<typeof PatternChooser.PATTERN_TYPES>;
+    void types[3]?.cssBackgroundImage;
+    expect(angular).toHaveBeenCalledTimes(1);
+  });
+
+  it("builds the same previews the old eager code made", () => {
+    const types = PatternChooser.initPatternType();
+    expect(types.map((type) => type.cssBackgroundImage)).toEqual([
+      new LinearGradient(
+        [
+          { color: RGBColor.WHITE, position: 0, opacity: 0.5 },
+          { color: RGBColor.WHITE, position: 1, opacity: 0.5 },
+        ],
+        1,
+        GMath.toRadians(90),
+      ).asCSSBackground(),
+      new LinearGradient(
+        [
+          { color: RGBColor.WHITE, position: 0, opacity: 1 },
+          { color: RGBColor.BLACK, position: 1, opacity: 0 },
+        ],
+        1,
+        GMath.toRadians(90),
+      ).asCSSBackground(),
+      new RadialGradient([
+        { color: RGBColor.WHITE, position: 0, opacity: 1 },
+        { color: RGBColor.BLACK, position: 1, opacity: 0 },
+      ]).asCSSBackground(),
+      new AngularGradient([
+        { color: RGBColor.WHITE, position: 0, opacity: 1 },
+        { color: RGBColor.BLACK, position: 1, opacity: 0 },
+      ]).asCSSBackground(),
+      expect.stringMatching(/^url\("data:image\/svg\+xml;base64,/),
+      expect.stringMatching(/^url\("data:image\/svg\+xml;base64,/),
+      expect.stringMatching(/^url\("data:image\/svg\+xml;base64,/),
+    ]);
+    expect(Object.keys(types[0] as object)).toContain("cssBackgroundImage");
   });
 });

@@ -273,7 +273,12 @@ export type ChooserStop = GradientStop & { remove?: boolean };
 /** One entry of the pattern type select. */
 export interface PatternTypeEntry {
   name: string;
-  cssBackgroundImage: string;
+  /**
+   * The type's preview image. Nothing reads it (the old chooser didn't
+   * either), but making it paints the angular gradient through WebGL, so
+   * it is made on first read or when a chooser opens, not at boot.
+   */
+  readonly cssBackgroundImage: string;
   /** Whether a class in the field's `types` allows this entry. */
   isCompatible(type: unknown): boolean;
   isInstance(pattern: unknown): boolean;
@@ -402,6 +407,21 @@ function svgBackground(svg: string): string {
 
 /** The texture paste message, which the old string table lacks (BUG-133). */
 const TEXTURE_PASTE_ALERT = "Select a shape, copy it to clipboard then paste it as texture here.";
+
+/**
+ * `entry` with a cssBackgroundImage that `make` builds on its first read
+ * and keeps (an enumerable getter, so the entry still lists the key).
+ */
+function withLazyPreview(
+  entry: Omit<PatternTypeEntry, "cssBackgroundImage">,
+  make: () => string,
+): PatternTypeEntry {
+  let preview: string | undefined;
+  return Object.defineProperty(entry, "cssBackgroundImage", {
+    enumerable: true,
+    get: () => (preview ??= make()),
+  }) as PatternTypeEntry;
+}
 
 export class PatternChooser {
   static ColorMode = ColorMode;
@@ -917,6 +937,7 @@ export class PatternChooser {
 
   /** Opens the chooser at the field `target` with the field's settings. */
   open(target: HTMLElement, settings: Partial<PatternChooserSettings>): void {
+    PatternChooser.buildPatternPreviews();
     this._updateSettings(settings, true);
     this._overlay.open(target);
     if ("used" === this._activePalette) this._updateUsedPalette();
@@ -2746,95 +2767,121 @@ export class PatternChooser {
     return stops;
   }
 
+  /**
+   * Makes the type previews the old chooser made at boot, in the old
+   * order, so they exist (as the same data urls) once a chooser shows.
+   */
+  static buildPatternPreviews(): void {
+    for (const type of PatternChooser.PATTERN_TYPES || []) void type.cssBackgroundImage;
+  }
+
   static initPatternType(): PatternTypeEntry[] {
     return [
-      {
-        name: text("GPatternChooser", "pattern-type.color"),
-        cssBackgroundImage: new LinearGradient(
-          [
-            { color: RGBColor.WHITE, position: 0, opacity: 0.5 },
-            { color: RGBColor.WHITE, position: 1, opacity: 0.5 },
-          ],
-          1,
-          GMath.toRadians(90),
-        ).asCSSBackground(),
-        isCompatible: (type) => type === Color,
-        isInstance: (pattern) => !!pattern && pattern instanceof Color,
-        createDefault(current) {
-          if (current instanceof Gradient)
-            for (let stops = current.getStops(), n = 0; n < stops.length; ++n)
-              if (Object.prototype.hasOwnProperty.call(stops[n], "color"))
-                return (stops[n] as GradientStop).color;
-          return new RGBColor();
+      withLazyPreview(
+        {
+          name: text("GPatternChooser", "pattern-type.color"),
+          isCompatible: (type) => type === Color,
+          isInstance: (pattern) => !!pattern && pattern instanceof Color,
+          createDefault(current) {
+            if (current instanceof Gradient)
+              for (let stops = current.getStops(), n = 0; n < stops.length; ++n)
+                if (Object.prototype.hasOwnProperty.call(stops[n], "color"))
+                  return (stops[n] as GradientStop).color;
+            return new RGBColor();
+          },
         },
-      },
-      {
-        name: text("GPatternChooser", "pattern-type.lineargradient"),
-        cssBackgroundImage: new LinearGradient(
-          [
+        () =>
+          new LinearGradient(
+            [
+              { color: RGBColor.WHITE, position: 0, opacity: 0.5 },
+              { color: RGBColor.WHITE, position: 1, opacity: 0.5 },
+            ],
+            1,
+            GMath.toRadians(90),
+          ).asCSSBackground(),
+      ),
+      withLazyPreview(
+        {
+          name: text("GPatternChooser", "pattern-type.lineargradient"),
+          isCompatible: (type) => type === LinearGradient || type === Gradient,
+          isInstance: (pattern) => !!pattern && pattern instanceof LinearGradient,
+          createDefault: (current) =>
+            new LinearGradient(PatternChooser.getGradientStopsFromCurrentPattern(current)),
+        },
+        () =>
+          new LinearGradient(
+            [
+              { color: RGBColor.WHITE, position: 0, opacity: 1 },
+              { color: RGBColor.BLACK, position: 1, opacity: 0 },
+            ],
+            1,
+            GMath.toRadians(90),
+          ).asCSSBackground(),
+      ),
+      withLazyPreview(
+        {
+          name: text("GPatternChooser", "pattern-type.radialgradient"),
+          isCompatible: (type) => type === RadialGradient || type === Gradient,
+          isInstance: (pattern) => !!pattern && pattern instanceof RadialGradient,
+          createDefault: (current) =>
+            new RadialGradient(PatternChooser.getGradientStopsFromCurrentPattern(current)),
+        },
+        () =>
+          new RadialGradient([
             { color: RGBColor.WHITE, position: 0, opacity: 1 },
             { color: RGBColor.BLACK, position: 1, opacity: 0 },
-          ],
-          1,
-          GMath.toRadians(90),
-        ).asCSSBackground(),
-        isCompatible: (type) => type === LinearGradient || type === Gradient,
-        isInstance: (pattern) => !!pattern && pattern instanceof LinearGradient,
-        createDefault: (current) =>
-          new LinearGradient(PatternChooser.getGradientStopsFromCurrentPattern(current)),
-      },
-      {
-        name: text("GPatternChooser", "pattern-type.radialgradient"),
-        cssBackgroundImage: new RadialGradient([
-          { color: RGBColor.WHITE, position: 0, opacity: 1 },
-          { color: RGBColor.BLACK, position: 1, opacity: 0 },
-        ]).asCSSBackground(),
-        isCompatible: (type) => type === RadialGradient || type === Gradient,
-        isInstance: (pattern) => !!pattern && pattern instanceof RadialGradient,
-        createDefault: (current) =>
-          new RadialGradient(PatternChooser.getGradientStopsFromCurrentPattern(current)),
-      },
-      {
-        name: text("GPatternChooser", "pattern-type.angulargradient"),
-        cssBackgroundImage: new AngularGradient([
-          { color: RGBColor.WHITE, position: 0, opacity: 1 },
-          { color: RGBColor.BLACK, position: 1, opacity: 0 },
-        ]).asCSSBackground(),
-        isCompatible: (type) => type === AngularGradient || type === Gradient,
-        isInstance: (pattern) => !!pattern && pattern instanceof AngularGradient,
-        createDefault: (current) =>
-          new AngularGradient(PatternChooser.getGradientStopsFromCurrentPattern(current)),
-      },
-      {
-        name: text("GPatternChooser", "pattern-type.texture"),
-        cssBackgroundImage: svgBackground(TEXTURE_ICON),
-        isCompatible: (type) => type === TexturePattern,
-        isInstance: (pattern) =>
-          !!pattern && pattern instanceof TexturePattern && !(pattern instanceof NoisePattern),
-        createDefault() {
-          const group = (Node.deserialize(TEXTURE_DEFAULT_GROUP) as Node[]).pop();
-          const texture = new TexturePattern(
-            group as unknown as ConstructorParameters<typeof TexturePattern>[0],
-            TexturePattern.RepeatMode.Both,
-          );
-          texture.setScene(sceneOfActiveDocument());
-          return texture;
+          ]).asCSSBackground(),
+      ),
+      withLazyPreview(
+        {
+          name: text("GPatternChooser", "pattern-type.angulargradient"),
+          isCompatible: (type) => type === AngularGradient || type === Gradient,
+          isInstance: (pattern) => !!pattern && pattern instanceof AngularGradient,
+          createDefault: (current) =>
+            new AngularGradient(PatternChooser.getGradientStopsFromCurrentPattern(current)),
         },
-      },
-      {
-        name: text("GPatternChooser", "pattern-type.noise"),
-        cssBackgroundImage: svgBackground(NOISE_ICON),
-        isCompatible: (type) => type === NoisePattern,
-        isInstance: (pattern) => !!pattern && pattern instanceof NoisePattern,
-        createDefault: () => new NoisePattern(),
-      },
-      {
-        name: text("GPatternChooser", "pattern-type.backgroundfill"),
-        cssBackgroundImage: svgBackground(BACKGROUND_ICON),
-        isCompatible: (type) => type === Background,
-        isInstance: (pattern) => !!pattern && pattern instanceof Background,
-        createDefault: () => new Background(),
-      },
+        () =>
+          new AngularGradient([
+            { color: RGBColor.WHITE, position: 0, opacity: 1 },
+            { color: RGBColor.BLACK, position: 1, opacity: 0 },
+          ]).asCSSBackground(),
+      ),
+      withLazyPreview(
+        {
+          name: text("GPatternChooser", "pattern-type.texture"),
+          isCompatible: (type) => type === TexturePattern,
+          isInstance: (pattern) =>
+            !!pattern && pattern instanceof TexturePattern && !(pattern instanceof NoisePattern),
+          createDefault() {
+            const group = (Node.deserialize(TEXTURE_DEFAULT_GROUP) as Node[]).pop();
+            const texture = new TexturePattern(
+              group as unknown as ConstructorParameters<typeof TexturePattern>[0],
+              TexturePattern.RepeatMode.Both,
+            );
+            texture.setScene(sceneOfActiveDocument());
+            return texture;
+          },
+        },
+        () => svgBackground(TEXTURE_ICON),
+      ),
+      withLazyPreview(
+        {
+          name: text("GPatternChooser", "pattern-type.noise"),
+          isCompatible: (type) => type === NoisePattern,
+          isInstance: (pattern) => !!pattern && pattern instanceof NoisePattern,
+          createDefault: () => new NoisePattern(),
+        },
+        () => svgBackground(NOISE_ICON),
+      ),
+      withLazyPreview(
+        {
+          name: text("GPatternChooser", "pattern-type.backgroundfill"),
+          isCompatible: (type) => type === Background,
+          isInstance: (pattern) => !!pattern && pattern instanceof Background,
+          createDefault: () => new Background(),
+        },
+        () => svgBackground(BACKGROUND_ICON),
+      ),
     ];
   }
 
