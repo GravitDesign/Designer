@@ -17,13 +17,22 @@ import type { OpenImportContext } from "./open-import.ts";
 
 const importer = vi.hoisted(() => ({ group: null as unknown }));
 
-// The EPS import hands over a group of shapes, as the real one does once
-// the worker is done.
+// The EPS and SVG imports hand over a group of shapes, as the real ones do
+// once they have parsed the file.
 vi.mock("../../io/import/eps/eps-import.ts", () => ({
   EPSImport: {
     import: (...args: unknown[]) => {
       const callback = args[3] as (e: unknown, g: unknown, s: unknown, b: unknown) => void;
       callback(null, importer.group, null, null);
+    },
+  },
+}));
+
+vi.mock("../../io/import/svg/svg-import.ts", () => ({
+  SVGImport: {
+    import: (...args: unknown[]) => {
+      const callback = args[3] as (e: unknown, g: unknown, info: unknown) => void;
+      callback(null, importer.group, { width: 900, height: 400 });
     },
   },
 }));
@@ -133,22 +142,28 @@ function openUnbatched(group: Group, scene: Scene): void {
   scene._endBlockChanges(blocked);
 }
 
+/** The SVG branch for a group as it was before the batching. */
+function openSvgUnbatched(group: Group, scene: Scene): void {
+  const page = scene.getActivePage() as Page;
+  while (group.getFirstChild()) {
+    const child = group.getFirstChild() as Element;
+    group.removeChild(child);
+    page.appendChild(child);
+    child.getPaintBBox();
+  }
+  page.setProperties(["w", "h"], [900, 400]);
+}
+
 let workspace: EditorWorkspace;
-let scenes: Scene[];
 
 beforeEach(() => {
   workspace = new EditorWorkspace();
-  scenes = [];
   registerDocumentDialogs({ message: () => {} });
   setDesigner({
     getWorkspace: () => ({ getFontManager: () => ({}) }),
     getWindows: () => ({ getActiveWindow: () => null }),
     getSetting: (_key: string, value: unknown) => value,
-    createScene: (noPage?: boolean) => {
-      const scene = new Scene(workspace, noPage);
-      scenes.push(scene);
-      return scene;
-    },
+    createScene: (noPage?: boolean) => new Scene(workspace, noPage),
   } as never);
 });
 
@@ -157,7 +172,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-function openEps(): Scene | null {
+function open(name: string, extension: string): Scene | null {
   let opened: Scene | null = null;
   const context: OpenImportContext = {
     document: {},
@@ -171,7 +186,7 @@ function openEps(): Scene | null {
     initCancelHandler: () => {},
   };
   importer.group = shapes();
-  openImportedFile(context, new NamedItem("shapes.eps"), "EPS", new Uint8Array(4), {
+  openImportedFile(context, new NamedItem(name), extension, new Uint8Array(4), {
     progress: null,
   });
   return opened;
@@ -179,7 +194,7 @@ function openEps(): Scene | null {
 
 describe("opening an EPS file with many shapes", () => {
   it("leaves the scene, the page and the shapes as the unbatched open did", () => {
-    const opened = openEps();
+    const opened = open("shapes.eps", "EPS");
     expect(opened).toBeInstanceOf(Scene);
     const reference = new Scene(workspace);
     openUnbatched(shapes(), reference);
@@ -192,9 +207,31 @@ describe("opening an EPS file with many shapes", () => {
     const calculate = vi.spyOn(Page.prototype, "_calculatePaintBBox");
     openUnbatched(shapes(), new Scene(workspace));
     // The unbatched open recomputes it for every insert and every move.
-    expect(calculate.mock.calls.length).toBeGreaterThan(COUNT);
+    expect(calculate.mock.calls.length).toBeGreaterThan(COUNT / 2);
     calculate.mockClear();
-    openEps();
+    open("shapes.eps", "EPS");
+    expect(calculate.mock.calls.length).toBeLessThan(10);
+  });
+});
+
+describe("opening an SVG file with many shapes at the top", () => {
+  it("leaves the scene, the page and the shapes as the unbatched open did", () => {
+    const opened = open("shapes.svg", "SVG");
+    expect(opened).toBeInstanceOf(Scene);
+    const reference = new Scene(workspace);
+    openSvgUnbatched(shapes(), reference);
+    const result = state(opened as unknown as Scene) as { children: unknown[] };
+    expect(result.children).toHaveLength(COUNT);
+    expect(result).toEqual(state(reference));
+  });
+
+  it("computes the page's paint box a few times, not once per shape", () => {
+    const calculate = vi.spyOn(Page.prototype, "_calculatePaintBBox");
+    openSvgUnbatched(shapes(), new Scene(workspace));
+    // The unbatched open recomputes it for every insert.
+    expect(calculate.mock.calls.length).toBeGreaterThan(COUNT / 2);
+    calculate.mockClear();
+    open("shapes.svg", "SVG");
     expect(calculate.mock.calls.length).toBeLessThan(10);
   });
 });

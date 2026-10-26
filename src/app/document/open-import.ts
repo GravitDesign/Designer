@@ -170,10 +170,13 @@ export function openImportedFile(
             const kept: Node[] = [];
             if (result instanceof Group) {
               const single = 1 === result.getChildren().length;
+              let last: ImportedNode | null = null;
+              beginPageUpdates(scene);
               while (result.getFirstChild()) {
                 const child = asImported(result.getFirstChild());
                 result.removeChild(child);
                 page.appendChild(child);
+                last = child;
                 if (single && hasMixin(child, Stylable)) {
                   const effects = asImported(result).getEffects() as (Node & ContainerApi) | null;
                   if (effects && effects.getChildren().length) {
@@ -197,6 +200,7 @@ export function openImportedFile(
                   }
                 }
               }
+              endPageUpdates(scene, page, last);
             } else {
               kept.push(result as unknown as Node);
               page.appendChild(result as unknown as Node);
