@@ -492,9 +492,9 @@ export class Symbol extends SymbolBase {
   /**
    * Copies into `target` the run properties that differ between `before`
    * and `after` (all three of the same length), skipping names `filter`
-   * rejects. With `current` (the instance's runs, same length), a value is
-   * only copied where the instance still has the one in `before` (colors
-   * compared by value). Returns whether anything was copied.
+   * rejects. With `current` (the instance's runs, same length), a value
+   * other than the font color is only copied where the instance still has
+   * the one in `before`. Returns whether anything was copied.
    */
   static _assignChangedTextContentProperties(
     before: RunRecord[],
@@ -511,8 +511,11 @@ export class Symbol extends SymbolBase {
         const old = (before[i] as RunRecord)[name];
         if (old !== (after[i] as RunRecord)[name]) {
           if (filter && !filter(name)) continue;
-          // An instance with its own value keeps it (BUG-027).
-          if (current && !sameRunValue(name, (current[i] as RunRecord)[name], old)) continue;
+          // An instance with its own value keeps it (BUG-027). Colors are
+          // copied as before: the two contents can hold the same color in
+          // forms that don't compare ("transparent" and black for a text
+          // without its own color), so an in-sync instance would miss it.
+          if (current && "fontColor" !== name && (current[i] as RunRecord)[name] !== old) continue;
           (target[i] as RunRecord)[name] = (after[i] as RunRecord)[name];
           changed = true;
         }
