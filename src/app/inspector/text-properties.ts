@@ -185,6 +185,26 @@ function setSelectValue(select: HTMLSelectElement, value: unknown): void {
   select.value = value === null || value === undefined ? "" : String(value);
 }
 
+/** The formatting the runs of a whole text share (TLRange.getFormatting). */
+function documentFormatting(target: Text): Run {
+  return (target.getTLCore() as NonNullable<ReturnType<Text["getTLCore"]>>)
+    .getDocumentRange()
+    .getFormatting();
+}
+
+/**
+ * documentFormatting with one merge per text, for reads that follow each
+ * other with no change to the texts in between.
+ */
+function memoDocumentFormatting(): (target: Text) => Run {
+  const known = new Map<Text, Run>();
+  return (target) => {
+    let formatting = known.get(target);
+    if (!formatting) known.set(target, (formatting = documentFormatting(target)));
+    return formatting;
+  };
+}
+
 /** `$(select).val()`: null when nothing is selected. */
 function selectValue(select: HTMLSelectElement): string | null {
   return select.selectedIndex < 0 ? null : select.value;
@@ -1383,24 +1403,28 @@ export class TextProperties extends Properties {
     return editor && editor.isInlineEdit() ? core.selectedRange() : core.getDocumentRange();
   }
 
-  /** A run formatting key when every inspected text has the same value, else null. */
-  _getFormatting(key: string, list: Inspected[]): unknown {
+  /**
+   * A run formatting key when every inspected text has the same value, else
+   * null. With `known`, each item's range is merged once and kept there,
+   * for reads with no change to the texts in between.
+   */
+  _getFormatting(key: string, list: Inspected[], known?: Map<Inspected, Run | null>): unknown {
     const count = list.length;
     if (0 === count) return null;
-    const read = (item: Inspected): unknown => {
+    const formattingOf = (item: Inspected): Run | null => {
       let element: Text | undefined;
       if (item instanceof TextEditor) element = item.getElement() as unknown as Text;
       else if (item instanceof Text) element = item;
-      if (element) {
-        const core = element.getTLCore();
-        if (core) {
-          const editor = ElementEditor.getEditor(element) as TextEditor | null;
-          const range =
-            editor && editor.isInlineEdit() ? core.selectedRange() : core.getDocumentRange();
-          if (range) return (range.getFormatting() as Run)[key];
-        }
-      }
-      return null;
+      const range = element ? this._rangeOf(element) : null;
+      return range ? range.getFormatting() : null;
+    };
+    const read = (item: Inspected): unknown => {
+      let formatting: Run | null | undefined;
+      if (known) {
+        formatting = known.get(item);
+        if (undefined === formatting) known.set(item, (formatting = formattingOf(item)));
+      } else formatting = formattingOf(item);
+      return formatting ? formatting[key] : null;
     };
     const first = read(list[0] as Inspected);
     for (let i = 1; i < count; i++) if (read(list[i] as Inspected) !== first) return null;
@@ -1446,10 +1470,13 @@ export class TextProperties extends Properties {
       list.push(this._inspected(this._text[i] as TextTarget));
     const fontSet = panel.querySelector<HTMLInputElement>('input[data-property="fontSet"]');
     if (fontSet) fontSet.checked = !!designer().getSetting("font-set");
-    const underline = this._getFormatting("underline", list) || null;
-    const strikeout = this._getFormatting("strikeout", list) || null;
-    const fractions = this._getFormatting("fractions", list) || false;
-    const marker = this._getFormatting("listMarker", list) || null;
+    // The five run formatting reads below come before the first await, so
+    // the texts can't change between them: each range is merged once.
+    const known = new Map<Inspected, Run | null>();
+    const underline = this._getFormatting("underline", list, known) || null;
+    const strikeout = this._getFormatting("strikeout", list, known) || null;
+    const fractions = this._getFormatting("fractions", list, known) || false;
+    const marker = this._getFormatting("listMarker", list, known) || null;
     const indent = this._getProperty(
       "_pai",
       list,
@@ -1483,7 +1510,7 @@ export class TextProperties extends Properties {
     const direction = this._getProperty("dir", list);
     const language = this._getProperty("_tlocl", list);
     const stylisticSet = this._getProperty("_tstyls", list);
-    let ligatures = this._getFormatting("ligatures", list);
+    let ligatures = this._getFormatting("ligatures", list, known);
     ligatures = "auto" === ligatures ? !charSpacing : !!ligatures;
     if (!color) color = this._getFontColor(list);
     const editor = this._document && this._document.getEditor();
@@ -1914,8 +1941,12 @@ export class TextProperties extends Properties {
         .querySelector(`.list-type-group[value="${LIST_TYPES.None.value}"]`)
         ?.classList.add("g-selected");
     }
-    this._updateLanguageSelector(font, script, language);
-    this._updateStylisticSetSelector(font, script, stylisticSet);
+    // Both selects can ask whether the runs disagree, which merges the
+    // runs of the whole text. Nothing between the two changes the text, so
+    // they share one merge per text.
+    const formattingOf = memoDocumentFormatting();
+    this._updateLanguageSelector(font, script, language, formattingOf);
+    this._updateStylisticSetSelector(font, script, stylisticSet, formattingOf);
   }
 
   /**
@@ -1948,7 +1979,12 @@ export class TextProperties extends Properties {
     }
   }
 
-  _updateLanguageSelector(font: Font, script: unknown, language: unknown): void {
+  _updateLanguageSelector(
+    font: Font,
+    script: unknown,
+    language: unknown,
+    formattingOf?: (target: Text) => Run,
+  ): void {
     const select = (this._advancedSettings as HTMLElement).querySelector(
       'select[data-property="_tlocl"]',
     ) as HTMLSelectElement;
@@ -1983,14 +2019,19 @@ export class TextProperties extends Properties {
       // Old: .text(undefined) left the option empty.
       for (const { name, tag: value } of named) select.appendChild(option(value, name ?? ""));
       if (language) setSelectValue(select, language);
-      else if (this._hasMultipleLanguages()) {
+      else if (this._hasMultipleLanguages(formattingOf)) {
         select.appendChild(this._mixedOption());
         setSelectValue(select, "mixed");
       }
     }
   }
 
-  _updateStylisticSetSelector(font: Font, script: unknown, stylisticSet: unknown): void {
+  _updateStylisticSetSelector(
+    font: Font,
+    script: unknown,
+    stylisticSet: unknown,
+    formattingOf?: (target: Text) => Run,
+  ): void {
     const select = (this._advancedSettings as HTMLElement).querySelector(
       'select[data-property="_tstyls"]',
     ) as HTMLSelectElement;
@@ -2008,7 +2049,7 @@ export class TextProperties extends Properties {
       select.appendChild(option("", text("GCommonNames", "text.none")));
       for (const value of sets) select.appendChild(option(value, value.toUpperCase()));
       if (stylisticSet) setSelectValue(select, stylisticSet);
-      else if (this._hasMultipleStylisticSets()) {
+      else if (this._hasMultipleStylisticSets(formattingOf)) {
         select.appendChild(this._mixedOption());
         setSelectValue(select, "mixed");
       }
@@ -2025,26 +2066,26 @@ export class TextProperties extends Properties {
     return element;
   }
 
-  _hasMultipleLanguages(): boolean {
-    return this._hasMultipleValues(Text.PropertyMapping._tlocl as string);
+  _hasMultipleLanguages(formattingOf?: (target: Text) => Run): boolean {
+    return this._hasMultipleValues(Text.PropertyMapping._tlocl as string, formattingOf);
   }
 
-  _hasMultipleStylisticSets(): boolean {
-    return this._hasMultipleValues(Text.PropertyMapping._tstyls as string);
+  _hasMultipleStylisticSets(formattingOf?: (target: Text) => Run): boolean {
+    return this._hasMultipleValues(Text.PropertyMapping._tstyls as string, formattingOf);
   }
 
-  _hasMultipleValues(key: string): boolean {
-    return this._text.some((target) => {
-      if (target instanceof Text) {
-        const value = (
-          (target.getTLCore() as NonNullable<ReturnType<Text["getTLCore"]>>)
-            .getDocumentRange()
-            .getFormatting() as Run
-        )[key];
-        return Formatting.multipleValues === value;
-      }
-      return false;
-    });
+  /**
+   * Whether the runs of an inspected text disagree on a formatting key.
+   * `formattingOf` gives a text's whole-text formatting; by default the
+   * runs are merged again on every call.
+   */
+  _hasMultipleValues(
+    key: string,
+    formattingOf: (target: Text) => Run = documentFormatting,
+  ): boolean {
+    return this._text.some(
+      (target) => target instanceof Text && Formatting.multipleValues === formattingOf(target)[key],
+    );
   }
 
   /**

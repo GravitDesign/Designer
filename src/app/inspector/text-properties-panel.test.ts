@@ -558,6 +558,77 @@ describe("the language select", () => {
   });
 });
 
+describe("the whole-text formatting of one update", () => {
+  const LANGUAGE = Text.PropertyMapping._tlocl as string;
+  const SET = Text.PropertyMapping._tstyls as string;
+  const coreOf = (text: Text) => text.getTLCore() as NonNullable<ReturnType<Text["getTLCore"]>>;
+
+  it("is merged once per text for the language and the stylistic set select", async () => {
+    const font = setup.fontManager.getDefaultFont() as Font;
+    const has = font.hasFeature.bind(font);
+    vi.spyOn(font, "hasFeature").mockImplementation(
+      (feature) =>
+        feature === Font.Features.LocalizedForm ||
+        feature === Font.Features.StylisticSet ||
+        has(feature),
+    );
+    vi.spyOn(font, "getAvailableLanguageSystemTags").mockReturnValue(["DEU "]);
+    vi.spyOn(font, "getAvailableStylisticSets").mockReturnValue(["ss01"]);
+    // The first text is German with ss01 throughout, the second only in
+    // its first run: the texts disagree, so the panel reads no language or
+    // set, and both selects ask whether the runs of a text disagree.
+    setRuns([{ [LANGUAGE]: "DEU ", [SET]: "ss01" }]);
+    const second = secondText("Two");
+    const base = (second.getContent() as Record<string, unknown>[])[0] as Record<string, unknown>;
+    second.setText([
+      { ...base, text: "T", [LANGUAGE]: "DEU ", [SET]: "ss01" },
+      { ...base, text: "wo" },
+    ]);
+    expect(coreOf(second).getDocumentRange().getFormatting()[LANGUAGE]).toBe(
+      Formatting.multipleValues,
+    );
+    const p = initPanel();
+    await show(p, [setup.text, second]);
+
+    const first = vi.spyOn(coreOf(setup.text), "getDocumentRange");
+    const other = vi.spyOn(coreOf(second), "getDocumentRange");
+    const counts = (): [number, number] => [first.mock.calls.length, other.mock.calls.length];
+    let before: [number, number] = [0, 0];
+    let after: [number, number] = [0, 0];
+    const language = p.properties._updateLanguageSelector;
+    const stylistic = p.properties._updateStylisticSetSelector;
+    vi.spyOn(p.properties, "_updateLanguageSelector").mockImplementation((...args) => {
+      before = counts();
+      language.apply(p.properties, args);
+    });
+    vi.spyOn(p.properties, "_updateStylisticSetSelector").mockImplementation((...args) => {
+      stylistic.apply(p.properties, args);
+      after = counts();
+    });
+    await p.properties._updateProperties();
+
+    // Before, each select merged the runs of both texts again.
+    expect([after[0] - before[0], after[1] - before[1]]).toEqual([1, 1]);
+    expect(p.q('select[data-property="_tlocl"]').value).toBe("mixed");
+    expect(p.q('select[data-property="_tstyls"]').value).toBe("mixed");
+  });
+
+  it("is merged once per text for the run formatting reads that share a map", async () => {
+    const p = initPanel();
+    setRuns([{ text: "He", underline: true }, { text: "llo" }]);
+    await show(p, [setup.text]);
+    const list = [setup.text] as unknown as Parameters<TextProperties["_getFormatting"]>[1];
+    const underline = p.properties._getFormatting("underline", list);
+    const ligatures = p.properties._getFormatting("ligatures", list);
+    const range = vi.spyOn(coreOf(setup.text), "getDocumentRange");
+    const known = new Map();
+    expect(p.properties._getFormatting("underline", list, known)).toBe(underline);
+    expect(p.properties._getFormatting("ligatures", list, known)).toBe(ligatures);
+    expect(underline).toBe(Formatting.multipleValues);
+    expect(range).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe("TextProperties font assignment", () => {
   it("moves each run to a weight and style the family has, in one undo step", async () => {
     addFamilies("Lato");
