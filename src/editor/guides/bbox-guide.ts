@@ -73,6 +73,9 @@ export class BBoxGuide extends GuideMap(Guide) {
   _scoped = false;
   _snapMainPage: Node | null = null;
   _eSnapElems: Element[] | null = null;
+  /** The scope list _scopeSetCache was made from. */
+  _scopeSetOf: Element[] | null = null;
+  _scopeSetCache: Set<Element> | null = null;
 
   constructor(guides: GuidesHost) {
     super(guides);
@@ -781,29 +784,51 @@ export class BBoxGuide extends GuideMap(Guide) {
     return this._eSnapElems ? this._eSnapElems : this._snapElems;
   }
 
-  /** The elements under `node` (recursively) whose geometry box meets `area`. */
+  /**
+   * `scoped` as a set, for the membership test of _applySnappingToPivots.
+   * The scope lists are only filled while setScope and _setEffectiveScope
+   * build them and are replaced, never changed, afterwards, so the set is
+   * kept for the list it was made from.
+   */
+  _scopeSet(scoped: Element[]): Set<Element> {
+    if (this._scopeSetOf !== scoped || !this._scopeSetCache) {
+      this._scopeSetCache = new Set(scoped);
+      this._scopeSetOf = scoped;
+    }
+    return this._scopeSetCache;
+  }
+
+  /**
+   * The elements under `node` (recursively) whose geometry box meets
+   * `area`: the node's own matches first, then those under each match in
+   * turn.
+   */
   _getAllChildrenInBBox(node: Node, area: Rect): Element[] {
-    let found: Element[] = [];
-    if (!node.hasMixin(Container)) return [];
+    const found: Element[] = [];
+    this._collectChildrenInBBox(node, area, found);
+    return found;
+  }
+
+  /** Appends to `out` what _getAllChildrenInBBox(node, area) returns, in its order. */
+  _collectChildrenInBBox(node: Node, area: Rect, out: Element[]): void {
+    if (!node.hasMixin(Container)) return;
+    const start = out.length;
     if (node.hasMixin(Accelerated)) {
-      found =
-        (node as unknown as AcceleratedApi).retrieveChildrenInGeometryBBox(
-          area,
-          QuadTree.RETRIEVE_MODE_INTERSECT,
-        ) || [];
+      const matches = (node as unknown as AcceleratedApi).retrieveChildrenInGeometryBBox(
+        area,
+        QuadTree.RETRIEVE_MODE_INTERSECT,
+      );
+      if (matches) for (let a = 0; a < matches.length; a++) out.push(matches[a] as Element);
     } else {
       for (let child = (node as ContainerNode).getFirstChild(); child; child = child.getNext()) {
         if (child instanceof Element) {
           const box = child.getGeometryBBox();
-          if (box && box.intersectsRect(area)) found.push(child);
+          if (box && box.intersectsRect(area)) out.push(child);
         }
       }
     }
-    let nested: Element[] = [];
-    for (let a = 0; a < found.length; a++) {
-      nested = nested.concat(this._getAllChildrenInBBox(found[a] as Element, area));
-    }
-    return found.concat(nested);
+    const end = out.length;
+    for (let a = start; a < end; a++) this._collectChildrenInBBox(out[a] as Element, area, out);
   }
 
   /**
@@ -819,7 +844,18 @@ export class BBoxGuide extends GuideMap(Guide) {
   ): void {
     const box = page.getGeometryBBox();
     if (!box) return;
-    let elements: Element[] = [];
+    const elements: Element[] = [];
+    // What `elements` holds; each strip adds the elements it finds that
+    // earlier strips didn't (repeats within one strip stay, as in the
+    // old filter against the list before the strip).
+    const seen = new Set<Element>();
+    const add = (found: Element[]): void => {
+      const fresh = found.filter((element) => !seen.has(element));
+      for (let k = 0; k < fresh.length; k++) {
+        elements.push(fresh[k] as Element);
+        seen.add(fresh[k] as Element);
+      }
+    };
     for (let h = 0; h < pivots.length; h++) {
       const px = (pivots[h] as Point).getX();
       const py = (pivots[h] as Point).getY();
@@ -835,12 +871,8 @@ export class BBoxGuide extends GuideMap(Guide) {
         box.getWidth() + 2 * distance,
         2 * distance,
       );
-      elements = elements.concat(
-        this._getAllChildrenInBBox(page, column).filter((element) => elements.indexOf(element) < 0),
-      );
-      elements = elements.concat(
-        this._getAllChildrenInBBox(page, row).filter((element) => elements.indexOf(element) < 0),
-      );
+      add(this._getAllChildrenInBBox(page, column));
+      add(this._getAllChildrenInBBox(page, row));
     }
     for (let h = 0; h < elements.length; h++) {
       const element = elements[h] as Element;
@@ -851,11 +883,7 @@ export class BBoxGuide extends GuideMap(Guide) {
         let target: Element | null = null;
         const scoped = this._getEffectiveSnapElems();
         if (scoped || element.getParent() instanceof Item) {
-          if (scoped) {
-            for (let y = 0; y < scoped.length && !target; ++y) {
-              if (element == scoped[y]) target = element;
-            }
-          }
+          if (scoped && this._scopeSet(scoped).has(element)) target = element;
         } else target = element;
         if (target) visit(target);
       }
