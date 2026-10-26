@@ -2917,3 +2917,23 @@ Old code: designer.browser.dev.js module 1331
 - Parity exceptions: editor-actions/clipboard/keyboard, check
   copy-group-child-and-parent. The internal and system clipboard data
   hold only the group, without the trailing copy of rectangle A.
+
+## BUG-141 Turning fast view off ignores the page's clip setting
+
+Old code: designer.browser.dev.js module 1603 (the fast view action's
+execute, lines 154695-154697).
+
+- Reproduce: on a fixed-size page, turn off Clip Content in the page's
+  inspector, then turn View > Fast View on and off again.
+- Old: turning fast view off read two clip names that GPageProperties
+  never defined. Both were undefined, so a fixed-size page always went
+  back to the clipped Output mode, and content outside the page stayed
+  hidden until the view was repainted another way.
+- New: it reads the page's clip setting like Outline view: Output for a
+  fixed-size page that clips its content, Full when clipping is off.
+  Infinite pages still go back to Full.
+- Test: src/app/actions/view/view-actions.test.ts, "fast view follows
+  the page clip setting on a fixed page, like outline view (BUG-141)"
+  (fails with the old names).
+- Parity exceptions: none. No scenario turns fast view off on a page
+  with clipping off.

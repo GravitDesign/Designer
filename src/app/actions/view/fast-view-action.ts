@@ -3,6 +3,7 @@ import { Locale } from "../../../engine/core/locale/locale.ts";
 import { LocaleKey } from "../../../engine/core/locale/locale-key.ts";
 import { PaintCanvas } from "../../../engine/paint/paint-canvas.ts";
 import { ScenePaintConfiguration } from "../../../engine/paint/scene-paint-configuration.ts";
+import { PageClip } from "../../export/page-clip.ts";
 import type { Window } from "../../shell/window.ts";
 import { Action } from "../action.ts";
 import { Category } from "../category.ts";
@@ -11,19 +12,12 @@ import { activeWindow, viewDesigner, known } from "./view-host.ts";
 const PaintMode = ScenePaintConfiguration.PaintMode;
 
 /**
- * The page clip names the old action read from GPageProperties, which
- * never defined them (it has PAGE_CLIP_PROPERTY_NAME and
- * PAGE_CLIP_CONTENT_ENABLED). Both are undefined, so turning fast view off
- * always picks Output for a fixed-size page. See "Fast view ignores the
- * page clip setting" in QUESTIONS.md.
- */
-const CLIP_PROPERTY_NAME = undefined as unknown as string;
-const CLIP_CONTENT_ENABLED: unknown = undefined;
-
-/**
  * View > Fast View: paints the active view in the fast mode with effects
  * at a lower detail level. Turning it off resets the detail level and goes
- * back to Full for an infinite page, Output for a fixed-size one.
+ * back to what the page's clip setting says, like Outline view: Output
+ * (clipped) for a fixed-size page that clips its content, Full otherwise.
+ * Old: it read clip names GPageProperties never defined, so a fixed-size
+ * page always got Output (BUG-141).
  */
 export class FastViewAction extends Action {
   static ID = "view.fast-view";
@@ -76,8 +70,8 @@ export class FastViewAction extends Action {
       if (page && !page.isFixedSized()) mode = PaintMode.Full;
       else
         mode =
-          (known(page).getProperty(CLIP_PROPERTY_NAME, true) || CLIP_CONTENT_ENABLED) ===
-          CLIP_CONTENT_ENABLED
+          (known(page).getProperty(PageClip.PAGE_CLIP_PROPERTY_NAME, true) ||
+            PageClip.PAGE_CLIP_CONTENT_ENABLED) === PageClip.PAGE_CLIP_CONTENT_ENABLED
             ? PaintMode.Output
             : PaintMode.Full;
     } else {

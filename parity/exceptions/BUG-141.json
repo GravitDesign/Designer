@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-141",
+  "why": "Turning fast view off reads the page's clip setting, so a fixed page with clipping off goes back to Full instead of Output. No recorded scenario turns fast view off on a page with clipping off.",
+  "scenarios": [],
+  "pending": []
+}

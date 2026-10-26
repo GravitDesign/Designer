@@ -306,11 +306,14 @@ describe("Outline and fast view", () => {
     ]);
   });
 
-  it("fast view ignores the page clip setting on a fixed page", () => {
+  it("fast view follows the page clip setting on a fixed page, like outline view (BUG-141)", () => {
     const fast = new FastViewAction();
     const page = known(fixture.scene.getActivePage());
     page.setProperties(["w", "h"], [100, 100]);
-    // "cce" 1 means "don't clip"; outline view honours it, fast view doesn't.
+    // A fixed page clips its content by default.
+    fast.execute();
+    fast.execute();
+    // "cce" 1 means "don't clip".
     page.setProperty("cce", 1, true);
     fast.execute();
     expect(fixture.view.getViewConfiguration().defaultEffectDetailLevel).toBeGreaterThan(0);
@@ -320,6 +323,8 @@ describe("Outline and fast view", () => {
     expect(fixture.paintModes).toEqual([
       PaintMode.Fast,
       PaintMode.Output,
+      PaintMode.Fast,
+      PaintMode.Full,
       PaintMode.Outline,
       PaintMode.Full,
     ]);
