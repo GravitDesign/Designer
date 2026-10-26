@@ -46,6 +46,7 @@ interface RectFields {
 }
 import { Transform } from "../../../engine/math/transform.ts";
 import { PaintCanvas } from "../../../engine/paint/paint-canvas.ts";
+import { ElementChange } from "../../../engine/scene/element-change.ts";
 import { Ellipse } from "../../../engine/scene/ellipse.ts";
 import { sceneNode, type ImportPaintLayers, type SceneNodeLike } from "../scene-node.ts";
 import { Group } from "../../../engine/scene/group.ts";
@@ -118,6 +119,32 @@ export type EPSDrawCallback = (
 
 export type EPSErrorCallback = (message: string) => void;
 
+/**
+ * The group's own geometry update brackets, blocked while the parser
+ * fills it. Each appended shape sends the group a ChildGeometryUpdate, and
+ * the group wraps it in Prepare/FinishGeometryUpdate, whose Finish measures
+ * the group again over all its children: quadratic in the number of shapes.
+ * The ChildGeometryUpdate itself still runs (it clears the group's boxes and
+ * keeps its quadtree and child indices exactly as before); only the
+ * bracket waits, and runs once when the group is handed over
+ * (`_endGroupBatch`). Skipping the brackets in between changes nothing:
+ * the group has no parent, scene or listeners yet, so their events and
+ * invalidations go nowhere, and the size changes they report only lay out
+ * anchored children, which the parser never makes.
+ */
+const GROUP_BRACKET = [
+  ElementChange.PrepareGeometryUpdate,
+  ElementChange.FinishGeometryUpdate,
+] as number[];
+
+/** The group as the batch drives it. */
+type BatchedGroup = Group & {
+  _beginBlockChanges(changes: readonly number[]): void;
+  _endBlockChanges(changes: readonly number[]): void;
+  _notifyChange(change: number, args?: unknown): boolean;
+  _invalidateGeometryForChildUpdate(geometryChanged: unknown): void;
+};
+
 export class EPSParser {
   static ErrorCodes = {
     FailedColorUseBlue: "01",
@@ -135,6 +162,8 @@ export class EPSParser {
   pointer = 0;
   worker: Worker | null = null;
   ggroup: Group = new Group();
+  /** Whether the group's geometry brackets are blocked (see GROUP_BRACKET). */
+  _groupBatched = false;
   background: unknown = null;
   clipGPathes: SceneNodeLike[] = [];
   fontsCache: Record<string, Font | null> = {};
@@ -155,6 +184,8 @@ export class EPSParser {
     this.drawCallback = drawCallback;
     this.fontManager = fontManager;
     this.errorCallback = errorCallback;
+    (this.ggroup as BatchedGroup)._beginBlockChanges(GROUP_BRACKET);
+    this._groupBatched = true;
     this.workerAPI = {
       stroke: this.stroke,
       fill: this.fill,
@@ -171,6 +202,32 @@ export class EPSParser {
 
   appendItem(node: unknown, parent?: unknown): void {
     sceneNode(parent || this.ggroup).appendChild(sceneNode(node));
+  }
+
+  /**
+   * Drops the group's boxes so the next read measures it again. Without
+   * the batch the group's Finish bracket had just done that after the last
+   * shape; its ChildGeometryUpdate alone skips it for a child whose paint
+   * box didn't change.
+   */
+  _refreshGroupBoxes(): void {
+    if (this._groupBatched) (this.ggroup as BatchedGroup)._invalidateGeometryForChildUpdate(true);
+  }
+
+  /**
+   * Ends the batch: the group runs one geometry bracket, which leaves its
+   * boxes and caches as the bracket after the last shape did. A group that
+   * never took a shape never ran one.
+   */
+  _endGroupBatch(): void {
+    if (!this._groupBatched) return;
+    this._groupBatched = false;
+    const group = this.ggroup as BatchedGroup;
+    group._endBlockChanges(GROUP_BRACKET);
+    if (!group.getFirstChild()) return;
+    group._invalidateGeometryForChildUpdate(true);
+    group._notifyChange(ElementChange.PrepareGeometryUpdate);
+    group._notifyChange(ElementChange.FinishGeometryUpdate, [2, null]);
   }
 
   /** A Gravit color, gradient (relative to `node`'s box) or mesh image for a worker color. */
@@ -190,6 +247,7 @@ export class EPSParser {
         }
         return { opacity: stop.opacity, color: stopColor, position: stop.position };
       });
+      if (node === sceneNode(this.ggroup)) this._refreshGroupBoxes();
       const box = node.getGeometryBBox() as unknown as RectFields;
       if (!box) return new RGBColor();
       let transform: Transform | null = null;
@@ -669,6 +727,7 @@ export class EPSParser {
   /** Hands over the group and reports the errors queued so far (once). */
   doneCall(): boolean {
     if (!this._finished) {
+      this._endGroupBatch();
       this.drawCallback(0, this.ggroup, null, this.background);
       if (this.errorCallback && this._errorQueue)
         for (let i = 0; i < this._errorQueue.length; ++i)
