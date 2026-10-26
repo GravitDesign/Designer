@@ -50,15 +50,15 @@ Decisions taken:
 ## Bug-fix pass (bugfix-plan.md)
 
 Each clear old bug is fixed in its own `fix:` commit with a BUGS-FIXED
-entry, a test and parity exceptions. Done: engine BF-001..019 except
-BF-009 (BUG-009..026), editor BF-020..037 (BUG-040..057), import
-BF-067..083 except BF-077 (BUG-100..115), platform (BUG-130). In
-progress: SVG/export BF-038..066 (branch bugfix/io-export, BUG-070..099).
-Open: app UI BF-084..128 (BUG-131 onwards), BF-077 (EPS mesh shadings),
-BF-009 (symbol instances miss master text changes), the knife's Space
-drag (same as BF-026), the multi-page drop target that stays marked,
-dashed EPS borders rendered solid, BF-119's name escaping regression
-(layer and page names show `&lt;` instead of `<`).
+entry, a test and parity exceptions. Done: engine BF-001..019
+(BUG-009..027), editor BF-020..037 and the knife's Space drag
+(BUG-040..058; the multi-page drop target that stayed marked is part of
+BUG-057), SVG/export BF-038..066 (BUG-070..096), import BF-067..083 and
+the EPS strokes (BUG-100..118), platform (BUG-130), app UI BF-084..127
+(BUG-131..174; BF-128 is BUG-130), including BF-119's name escaping
+regression. "Dashed EPS borders rendered solid" was the stroke ignoring
+the CTM (BUG-117); a dash with round caps whose gaps are shorter than the
+line width still draws solid, as in PostScript.
 
 ## Decisions by the user (2026-10-24)
 

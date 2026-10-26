@@ -814,7 +814,7 @@ What it does: a master text's content change reaches an in-sync instance through
 
 Why it's unclear: the instance looks in sync (no override is recorded) but shows old text. It may be a bug in the old app that users see when editing a master text through the inspector.
 
-Kept. Pinned by engine-model/symbols-branches/text-merge (`size`, `text`, `collapsedText`), run in Node by next/src/engine/scene/symbol-scenarios.test.ts (not run against the new app yet: its parity build has no font providers).
+Fixed: BUG-027 in BUGS-FIXED.md.
 
 ## Q-063 Image error cross ignores the crop origin
 
@@ -1283,7 +1283,7 @@ What it does: the mesh parameters (BitsPerComponent, BitsPerCoordinate, BitsPerF
 
 Why it's unclear: mesh shadings in patterns and lattice meshes with more than two rows import wrong or not at all. A fix would read the shading dict and build every row.
 
-Kept. Pinned by the corpus programs color-sh4-*.ps, color-sh5-*.ps, color-sh6-*.ps, color-sh7-*.ps and color-sh-pattern-mesh.ps (interpreter.recorded.test.ts).
+Fixed: BUG-116 in BUGS-FIXED.md.
 
 ## Q-109 PS worker: filter quirks
 
@@ -2014,7 +2014,7 @@ What it does: both providers download a font file once and queue further request
 
 Why it's unclear: in the engine those fonts stay pending (hasPendingFonts stays true), so a document that uses them never counts as loaded. It may be on purpose for the offline case (the font manager offers a retry dialog there), but the 404 case looks like an oversight.
 
-Kept. app/fonts/fonts-provider.ts downloadFontFile; pinned by "fails only the first request on a connection error, and none on a 404" in app/fonts/providers.test.ts.
+Fixed: BUG-164 in BUGS-FIXED.md.
 
 ## Q-169 The first call to the imported fonts provider runs twice
 
@@ -2024,7 +2024,7 @@ What it does: the first load or resolveFont before the provider has read its fon
 
 Why it's unclear: it looks like a bug (duplicate events, duplicate entries in the first font list), but it only shows on the first request after a page load and nothing crashes.
 
-Kept. app/fonts/imported-fonts-provider.ts initialize; pinned by "runs its first request twice, later ones once" in app/fonts/providers.test.ts.
+Fixed: BUG-165 in BUGS-FIXED.md.
 
 ## Q-170 A listed family whose download had no connection stays pending
 
@@ -2034,7 +2034,7 @@ What it does: once a font list query has run, a family is resolved by the provid
 
 Why it's unclear: the font stays pending for good, so anything waiting for fonts (the missing-fonts dialog after opening a document, the corpus settle hook) never finishes. It may be meant to wait for the retry, but online nothing ever retries.
 
-Kept. app/fonts/font-manager.ts FontsProviderManager.resolveFont; pinned by "leaves a listed font pending when its download had no connection" in app/fonts/font-manager.test.ts.
+Fixed: BUG-164 in BUGS-FIXED.md.
 
 ## Q-171 The Chinese default font checks for a family the app doesn't ship
 
@@ -2394,8 +2394,7 @@ Why it's unclear: it looks like the author meant a one-shot handler,
 but the visible behaviour (a click closes later overlays too) is what
 users got.
 
-Kept. src/app/shell/window.ts `_setOverlayContent` adds the listener and
-never removes it. Not pinned by a test yet (needs a DOM environment).
+Fixed: BUG-143 in BUGS-FIXED.md.
 
 ## Q-205 The save button of the close prompt has no shortcut
 
@@ -2477,7 +2476,7 @@ later document has none). The low-memory warning before a save uses it.
 Why it's unclear: the intent was the total size of all open documents;
 the effect is a warning that rarely shows.
 
-Kept. src/app/shell/container.ts `_estimatingMemoryUsage`.
+Fixed: BUG-144 in BUGS-FIXED.md.
 
 <!-- Documents and config (phase 6 review and phase 7) -->
 
@@ -2561,7 +2560,7 @@ What it does: the hidden input#file-input is created on the first openPrompt wit
 
 Why it's unclear: looks unintended, but it is how the old app behaved and scenarios record the input's attributes (platform/files/input-fallback-open).
 
-Kept. src/app/storage/file-system-access.ts (openPrompt); pinned by "creates the input once: multiple stays as first set, accept follows each call".
+Fixed: BUG-142 in BUGS-FIXED.md.
 
 ## Q-218 Save checks instanceof a storage class nobody creates
 
@@ -2583,7 +2582,7 @@ What it does: meant to drop selected nodes whose ancestor is also copied. Its fi
 
 Why it's unclear: the name says it should filter; the editor's selection rarely holds a parent and its child at once, so it may never have mattered.
 
-Kept. src/app/actions/edit/cut-copy-action.ts keeps the loop as it was.
+Fixed: BUG-140 in BUGS-FIXED.md.
 
 ## Q-220 Deselect All selects the text of a focused field
 
@@ -2593,7 +2592,7 @@ What it does: with an editable element focused, Shift+Ctrl+A runs `document.exec
 
 Why it's unclear: looks copied from Select All; a deselect would be expected.
 
-Kept. src/app/actions/edit/deselect-all-action.ts; pinned by "select the text of a focused field instead" in src/app/actions/edit/edit-actions.test.ts.
+Fixed: BUG-138 in BUGS-FIXED.md.
 
 ## Q-221 Cut names its undo step with a key that has no class
 
@@ -2603,7 +2602,7 @@ What it does: the undo name is `GLocale.get(new GLocaleKey("text.cut-selection")
 
 Why it's unclear: it reads like `new GLocaleKey("GCutCopyAction", "text.cut-selection")` was meant.
 
-Kept. src/app/actions/edit/cut-copy-action.ts; the editor-actions/exec edit.cut case records the undo state name.
+Fixed: BUG-139 in BUGS-FIXED.md.
 
 ## Q-222 Save of a new document skips the cloud chooser
 
@@ -2685,7 +2684,7 @@ What it does: a scrub move changes the value by the pixels moved (times the modi
 
 Why it's unclear: the rule is meant for small fractional steps; applying it to negative steps reverses the drag direction.
 
-Kept. widgets/input-box.ts `InputBoxValue._step`; widgets/input-box.test.ts "takes at least one whole step per move without decimals, even down or still".
+Fixed: BUG-149 in BUGS-FIXED.md.
 
 ## Q-230 Checkbox slider class lags behind
 
@@ -2849,7 +2848,7 @@ What it does: both actions bind the same key. The recorded shortcuts scenario (e
 
 Why it's unclear: the nested compound action has a shortcut nobody can use, but its menu hint still shows it.
 
-Kept. clip-action.ts and create-nested-compound-action.ts keep both shortcuts; which binding wins is up to the shortcut binder's order, pinned by editor-actions/shortcuts once that area is enabled.
+Fixed: BUG-147 in BUGS-FIXED.md.
 
 ## Q-246 Expand/Shrink shows the outline action's invalid-value text
 
@@ -2859,7 +2858,7 @@ What it does: GOffsetAction defines _dialogAlertMessage ("Entered invalid number
 
 Why it's unclear: looks like a missed override, but it is only a wording difference.
 
-Kept. outline-action.ts execute uses the outline key; offset-action.ts keeps the unused _dialogAlertMessage. Pinned by path-actions.test.ts "shows the outline action's alert for an invalid offset".
+Fixed: BUG-135 in BUGS-FIXED.md.
 
 ## Q-247 Split Path is enabled in review mode
 
@@ -2879,7 +2878,7 @@ What it does: the text field's change handler looks for the slider with $(this).
 
 Why it's unclear: the field is meant to set the tolerance, but the path-dialogs scenarios (simplify-typed-40, simplify-typed-0) record this behaviour.
 
-Kept. simplify-action.ts reads only the slider value; pinned by editor-actions/path-dialogs/simplify-typed-* once the dialog exists.
+Fixed: BUG-134 in BUGS-FIXED.md.
 
 ## Q-249 Split Line gives a lone line its source's fill
 
@@ -2889,7 +2888,7 @@ What it does: a piece that is a single line and has no border gets a black borde
 
 Why it's unclear: the condition looks inverted. With no fill layers it appends undefined, which probably throws.
 
-Kept. split-line-action.ts, the isLine branch.
+Fixed: BUG-137 in BUGS-FIXED.md.
 
 ## Q-250 Detach Symbol's undo name has a stray "s" slot
 
@@ -2929,7 +2928,7 @@ What it does: returns [PAGE_DOWN] instead of [[PAGE_DOWN]], a key where a shortc
 
 Why it's unclear: inconsistent with every other getAdditionalShortcuts.
 
-Kept. change-active-page-action.ts, cast with a comment.
+Fixed: BUG-148 in BUGS-FIXED.md.
 
 <!-- View and help actions (phase 6 review and phase 7) -->
 
@@ -2941,7 +2940,7 @@ What it does: turning fast view off picks the paint mode from the page's clip se
 
 Why it's unclear: almost certainly the wrong constant names, but the result only shows on a page whose clip content button is off, and the page properties panel re-applies the clip mode when the page is activated again.
 
-Kept. fast-view-action.ts keeps the two undefined names; view-actions.test.ts ("fast view ignores the page clip setting on a fixed page") pins it next to Outline view's behaviour.
+Fixed: BUG-141 in BUGS-FIXED.md.
 
 ## Q-255 Snap to Half Pixel grows the size
 
@@ -2993,7 +2992,7 @@ What it does: the constructor reads "designer.settings.warn-linked-image-dialog.
 
 Why it's unclear: it only happens when the default storage can save (desktop storage) and the document has linked images, which the browser build never reaches. It looks like a crash, but nothing a user of the web app can hit.
 
-Kept: open() and close() throw the old TypeError while the dialog isn't built. src/app/dialogs/warn-linked-image-dialog.ts.
+Fixed: BUG-145 in BUGS-FIXED.md.
 
 ## Q-260 Keep Fonts adds duplicates to cst
 
@@ -3194,8 +3193,7 @@ image) instead of the colour.
 Why it's unclear: a known bug of the third-party library; it changes the
 extracted palette, which is wrong output.
 
-Kept. src/app/inspector/color-thief.ts, pinned by the "keeps the else-if
-bounding box" test. BUGS-FIXED candidate.
+Fixed: BUG-155 in BUGS-FIXED.md.
 
 <!-- Text panel and styles (phase 6 review and phase 7) -->
 
@@ -3269,7 +3267,7 @@ What it does: a new border gets Outside on texts, Center on open arcs and Inside
 
 Why it's unclear: the open-path branch is clearly meant to run.
 
-Kept. border-properties.ts `newBorderAlignment`, pinned in border-properties.test.ts.
+Fixed: BUG-154 in BUGS-FIXED.md.
 
 ## Q-282 Border panel takes elements by their fill property set
 
@@ -3369,7 +3367,7 @@ What it does: on undo or redo of a change made in the chooser, the old code mean
 
 Why it's unclear: a crash in an event handler after undo; a BUGS-FIXED candidate.
 
-Kept (ported faithfully first). border-properties.ts `_updatePaintLayer`, pinned in border-properties.test.ts ("throws on undo").
+Fixed: BUG-153 in BUGS-FIXED.md.
 
 <!-- Color UI (phase 6 review and phase 7) -->
 
@@ -3409,9 +3407,7 @@ loupe.
 Why it's unclear: it is probably a leftover, but it neither crashes nor
 loses data; a tool change while picking only hides the loupe.
 
-Kept. src/app/color/eye-dropper.ts `setActive`; pinned by "removes the
-loupe on a tool change but stays active (the old quirk)" in
-eye-dropper.test.ts.
+Fixed: BUG-156 in BUGS-FIXED.md.
 
 ## Q-294 The noise type select doesn't follow the pattern
 
@@ -3426,9 +3422,7 @@ pattern has.
 Why it's unclear: looks like a typo for `_noiseEditor`, but fixing it
 would change what the noise editor shows.
 
-Kept. src/app/color/color-chooser.ts `_updatePattern`; pinned by "never
-selects the noise type of the pattern in the type select" in
-color-chooser.test.ts.
+Fixed: BUG-157 in BUGS-FIXED.md.
 
 ## Q-295 The swatches palette never stops listening
 
@@ -3528,8 +3522,7 @@ Why it's unclear: with the pages section folded, a new page leaves the
 header looking open (arrow down) while the list stays hidden. It looks
 like the button was meant to unfold the section.
 
-Kept. outline-sidebar.ts (create-page button) only calls
-toggleAccordionOpen; the comment there points here.
+Fixed: BUG-158 in BUGS-FIXED.md.
 
 ## Q-301 Dragging several layer rows leaves the last name on the row
 
@@ -3545,8 +3538,7 @@ Why it's unclear: with several selected layers dragged from a row that
 isn't the last of them, that row shows another layer's name until the
 list renders again (which a drop or any change does right away).
 
-Kept. layers-panel.ts restores the loop's last name (comment in the
-dragstart handler).
+Fixed: BUG-159 in BUGS-FIXED.md.
 
 ## Q-302 Alt-drag in the layers panel selects the originals
 
@@ -3638,7 +3630,7 @@ What it does: on window activation the panel adds its page-activation and page-s
 
 Why it's unclear: it looks like an ordering slip, but it only matters with two windows of one document.
 
-Kept. src/app/inspector/page-properties.ts `_windowEvent` (comment "Sic").
+Fixed: BUG-160 in BUGS-FIXED.md.
 
 ## Q-309 Page size button tooltips never attach
 
@@ -3658,7 +3650,7 @@ What it does: while the color chooser of a slice's background is dragged (tempor
 
 Why it's unclear: probably meant as the temporary flag, but the committed value is right.
 
-Kept. src/app/inspector/slice-properties.ts `_assignProperties`, pinned by document-panels.test.ts ("writes temporary changes to the custom property").
+Fixed: BUG-161 in BUGS-FIXED.md.
 
 ## Q-311 Symbol panel adds a settings listener on every update
 
@@ -3678,7 +3670,7 @@ What it does: the handler parses the box with `parseFloat` and checks `null !== 
 
 Why it's unclear: the check was meant to reject bad input, like the other fields' `_updateProperties()` fallback.
 
-Kept. src/app/inspector/scene-properties.ts (comment "Sic: parseFloat never gives null").
+Fixed: BUG-162 in BUGS-FIXED.md.
 
 ## Q-313 Export dialog never closes its color chooser
 
@@ -3848,8 +3840,7 @@ lookups.
 Why it's unclear: the null check right after shows null was expected;
 the text panel awaits the result.
 
-Kept. src/app/fonts/fonts-panel.ts `weightsForFont`; pinned in
-fonts-panel.test.ts ("reads names, styles and weights from the cache").
+Fixed: BUG-163 in BUGS-FIXED.md.
 
 ## Q-326 Weights of the family itself count twice with `exact`
 
@@ -4453,3 +4444,252 @@ so those look the same in both looks.
 
 Kept. One accent, the magenta. Pinned by scripts/brand/accent-css.test.ts
 and the parity/scenarios/brand shots.
+
+<!-- Bug-fix pass, app UI and the remaining open bugs (2026-10-26) -->
+
+## Q-370 Simplify Path with a typed value that isn't a length
+
+Old location: designer.browser.dev.js module 1318 (GSimplifyAction.execute,
+the field's change handler).
+
+What it does: the old handler ran stringToPoint(text).toFixed(0), which
+throws for text that isn't a length (stringToPoint gives null). Since the
+handler never found the slider anyway, this never mattered in the old app.
+
+Why it's unclear: with BUG-134 fixed, the typed value reaches the slider,
+and the new code has to do something with text like "abc" or an empty
+field.
+
+Kept closest to the old app: such text leaves the slider as it was, so
+OK uses the slider's value (10 unless it was dragged). Values above 100
+stop at 100 and below 0 at 0, as the slider clamps them. Pinned by
+src/app/actions/modify/simplify-action.test.ts "keeps the slider's value
+when the typed text isn't a length".
+
+## Q-371 Deselect All in a text field leaves the caret at the end
+
+Old location: designer.browser.dev.js module 1334 (GDeselectAllAction.execute).
+
+What it does: with BUG-138 fixed, Deselect All in a focused text field
+collapses the field's text selection instead of selecting all of it.
+
+Why it's unclear: a collapsed selection needs a caret position: the
+start or the end of what was selected. The old app never deselected.
+
+Kept: the caret goes to the end of the selection (setSelectionRange(end,
+end) for inputs and textareas, Selection.collapseToEnd for contenteditable
+elements), where it ends after typing or Select All. Pinned by
+src/app/actions/edit/edit-actions.test.ts "select and deselect the text
+of a focused field instead (BUG-138)".
+
+## Q-372 The Select hit list turns stored name escapes back
+
+Old location: designer.browser.dev.js module 1303 (GContextMenu, the
+Select hit list, lines 100830-100855) with GMenuItem.setCaption (module
+339, `.html()`).
+
+What it does: layer names are stored with "<" and ">" escaped as "&lt;"
+and "&gt;". The old Select list passed the stored name to setCaption,
+whose `.html()` decoded every entity, so `a<b>` showed as typed and a
+name typed as `a&amp;b` showed "a&b".
+
+Why it's unclear: with captions as text, the stored escapes would show
+("a&lt;b&gt;"). Decoding every entity, as the old HTML did, would also
+change names the user typed with "&...;" in them.
+
+Changed: src/app/menus/context-menu.ts decodes only "&lt;" and "&gt;"
+(the inverse of the name filter), so every name shows as typed. Pinned by
+context-menu.test.ts "shows a hit's name in Select as typed, not as stored
+(BUG-167)". The pages dropdown (src/app/toolbar/pages-button.ts) needs the
+same.
+
+## Q-373 Setting the noise type select's value
+
+Old location: designer.browser.dev.js module 1150 (`_updatePattern`,
+noise branch).
+
+What it does: the old code (aimed at the wrong editor, see BUG-157) only
+moved the `selected` attribute to the option of the pattern's type. In a
+browser that changes the shown option only while the user hasn't picked
+one in that select; after a pick, the attribute no longer moves the
+selection.
+
+Why it's unclear: fixing the lookup alone would still leave the select
+stale after the user's first pick, which is the case the bug is about.
+
+Decided: the fix moves the attribute as the old code meant to and also
+sets the select's value, the way the same function already does for the
+texture editor's selects. src/app/color/color-chooser.ts `_updatePattern`.
+
+## Q-374 A page drop target stays after the pointer returns to the own page
+
+Old location: chunk.vendor.js module 334, GSelectTool._updateSelectionTransform (60222-60254).
+
+What it does: in the multi-page view the page drop target is only
+recomputed while the active page is not under the pointer. After a drag
+over another page and back over the own page the old target stays, and
+the release moves the element into that page, offset by the page
+positions, so it lands outside it.
+
+Why it's unclear: the guard reads as "no page target over the own page",
+but the list is never cleared, so the drop may also have been meant to
+stick to the last page.
+
+Fixed as the guard reads: back over the own page there is no page target.
+See BUG-057 in BUGS-FIXED.md.
+
+## Q-375 PS worker: mesh shading details
+
+Old location: public/pscolor.js mesh branches, ported to
+src/workers/ps/color-shadings.ts; chunk.vendor.js module 1404 shfill.
+
+What it does:
+- A mesh is rasterized into one image over its Decode box (or, for array
+  data, the bounds of its points). Cells that no triangle or patch covers
+  take the colour of the nearest painted cells, so the image is opaque
+  everywhere in the box, also outside the mesh.
+- The page ignores a shfill without a clip path (it paints nothing),
+  though PostScript paints the shading over the whole page then.
+- For free-form meshes, the flags of a new triangle's second and third
+  vertices are read and ignored, and every flag starts on a byte
+  boundary (the PostScript Language Reference and Ghostscript). The old
+  code stopped when those flags weren't 0 and didn't align; it never got
+  that far because its vertex reader threw.
+- A Function's t is interpolated as a fraction of the Domain of the first
+  function and clamped to it.
+
+Why it's unclear: making the outside of the mesh transparent needs a
+coverage mask through the worker message and the page image; Illustrator
+and most producers clip a mesh to its outline, so the clip hides it. A
+shfill without a clip is rare in EPS files.
+
+Kept. Pinned by src/workers/ps/color-shadings.test.ts and the corpus
+recordings color-sh4-*, color-sh5-*, color-sh6-*, color-sh7-* and
+color-sh-pattern-mesh.
+
+## Q-376 How a font that can't be fetched fails
+
+Old location: designer.browser.dev.js module 590 and module 1379
+(resolveFont downloads) and module 255, FontsProviderManager.resolveFont.
+
+What it does: BUG-164 makes failed font downloads answer. Three choices
+had no old behaviour to follow: which error a response outside 200-299
+gives, whether a listed family whose file is missing (404) goes on to other
+providers, and where "the next provider" starts for a listed family.
+
+Why it's unclear: the old code never answered in these cases.
+
+Decided: a response outside 200-299 fails with UnknownError, which the font
+manager treats like "this provider doesn't have it": a listed family then
+fails at once (as any non-connection error did), an unlisted one goes on to
+the next provider. A connection error, or a file that doesn't parse, for a
+listed family goes on to the providers after the one that listed it, not
+from the first one, since the earlier providers didn't list it. Pinned by
+src/app/fonts/providers.test.ts and src/app/fonts/font-manager.test.ts
+(BUG-164 tests).
+
+## Q-377 Fill and border rows may be deleted by Chrome's last drag event
+
+Old location: designer.browser.dev.js module 1161 (handleDragForDeleteIcon)
+and the fill and border panels' drag handlers (modules 1161 and 1162).
+
+What it does: the panels keep the answer of the last drag event ("outside
+the panel") and delete the row on dragend when it said yes. Chrome sends
+the last drag event before dragend at (0, 0), which is left of the panel,
+so a release between rows or Escape may delete the row there too.
+
+Why it's unclear: not checked in a real browser. The effect panel now skips
+drag events at (0, 0) (BUG-152); the fill and border panels don't.
+
+Kept. src/app/inspector/fill-properties.ts and border-properties.ts, the
+"drag" handlers.
+
+## Q-378 "Disable notifications" is stored but nothing reads it
+
+Old location: designer.browser.dev.js module 1275 (GSettingsDialog, the
+notifications row).
+
+What it does: the row switched a cloud account setting that controlled
+the account's notifications. The cloud is dropped, and since BUG-131 the
+row stores notifications_disabled locally. Nothing in the app reads it.
+
+Why it's unclear: dropping the row would change the settings dialog,
+which the parity screenshots compare, and the plan allowed either.
+
+Kept the row, stored locally (src/app/settings/settings-dialog.ts).
+Dropping it is a one-line change in settings-dialog-view.tsx plus new
+screenshots.
+
+## Q-379 A name typed as "&lt;" shows as "<"
+
+Old location: chunk.vendor.js GBlock's name filter, with the dialogs of
+designer.browser.dev.js modules 1238 and 1491.
+
+What it does: names are stored with "<" and ">" as `&lt;` and `&gt;`,
+and "&" as is. To show a name as typed, the unsupported-features dialog
+turns `&lt;` and `&gt;` back into "<" and ">" and then escapes the name
+(BUG-146). A name typed as the literal text `&lt;` is stored the same as
+one typed as "<", so it shows as "<".
+
+Why it's unclear: the stored form can't tell the two apart. The old
+dialog, which inserted the name as markup, showed "<" for both as well.
+
+Kept: decode `&lt;` and `&gt;` only, like the layers panel and the
+exporter (BUG-091). Document titles come from file names, not through
+the filter, so they are only escaped.
+
+## Q-380 The symbol tooltip shows names as typed too
+
+Old location: designer.browser.dev.js, $.fn.gRichTooltip (the title set
+with `.text()`, line 173545), used by the symbols panel's tiles.
+
+What it does: the old symbol tile tooltip set the stored name as text,
+so a symbol named `a<b` showed `a&lt;b` there, while the layer and page
+rows (inserted as HTML) showed `a<b`.
+
+Why it's unclear: BUG-166 makes the sidebars show names as typed. Keeping
+the tooltip's old text would leave the one place in the sidebars that
+shows `&lt;`.
+
+Decided: the tooltip shows the name as typed (symbols-panel.ts, through
+nameAsTyped in layer-item.ts), as part of BUG-166.
+
+## Q-381 A master text changed with setText alone doesn't reach its instances
+
+Old location: public/chunk.vendor.js module 70, GText.setText (16656-16720),
+and module 216, the GSymbol content merge (43418-43556).
+
+What it does: instances follow a master text through property changes
+of `content`. setText changes the runs without one, so a text change made
+only with setText reaches no instance. The master's `content` keeps the
+runs of the last property change. The next change without a selection
+then merges the text difference into in-sync instances, if their text
+still equals that content. In the app this only matters for scripts:
+typing, pasting and the inspector all write `content`.
+
+Why it's unclear: BUG-027 could also have been fixed by writing `content`
+in setText. That would have changed the previous values that undo
+records, the text editor's "same content" check and the `content` field
+of every text after setText, and an instance could then never pick up
+the text difference later. Making setText send a property change would
+add undo steps and events wherever it is called.
+
+Kept. setText still doesn't write `content` or send an event. BUG-027
+only makes the merge read a missing content as the start text, as
+Text.setProperties does. Pinned by engine-model/symbols-branches/text-merge
+(`plain` of the `text` state: the instance still shows "Hello world").
+
+## Q-382 The setdash phase of an EPS stroke is dropped
+
+Old location: chunk.vendor.js, the EPS parser's stroke (the page side of
+the PostScript import), with the worker's stroke in public/pscore.js.
+
+What it does: the worker posts the dash array and its phase; the page puts
+the array on the border (`_bds`) and drops the phase.
+
+Why it's unclear: the scene's border has no dash offset (BorderPaintLayer
+holds only `_bds`, and strokeVertices takes no offset), so keeping the
+phase would mean a new border property, saved in files.
+
+Kept. BUG-117 scales the phase with the CTM in the worker, but the page
+still leaves it out (src/io/import/eps/eps-parser.ts, stroke()).

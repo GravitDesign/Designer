@@ -3028,6 +3028,42 @@ Old code: designer.browser.dev.js module 1511, GWarnLinkedImageDialog
 - Parity exceptions: none. corpus/edge/linked-file/resave saves with
   Download File, which doesn't ask.
 
+## BUG-146 Element, font and file names are put into the UI as HTML
+
+Old code: designer.browser.dev.js module 1238 (the unsupported-features
+dialog, lines 78533 and 78553-78562), and module 1491,
+GDesigner.canUnloadDocument (line 124502) with GSystemDialog's .html();
+the font panel's previews of imported and local families (module 1118 and module 1199).
+
+- Reproduce: export to SVG a page with an element named `<b>x</b>` in a
+  file made elsewhere (or `Tom & Jerry`) that has a noise fill. Or close
+  a modified document whose file name has `<`, `&` or `$&` in it.
+- Old: the unsupported-features dialog put each element name into its
+  list as markup, and the close prompt did the same with the document's
+  title. Names typed in the app have "<" and ">" stored as `&lt;` and
+  `&gt;`, which showed right. A name or file name from outside showed as
+  markup: tags were rendered, an img with onerror ran its script, and
+  `&` sequences turned into other characters. A `$&` in the title
+  inserted "%title" (a replace pattern).
+- New: both dialogs show the name as typed. Element names have their
+  stored `&lt;` and `&gt;` turned back into "<" and ">", and then names
+  and titles are escaped. The texts from the string tables stay HTML.
+  The font panel puts the names of imported font families (from the font
+  file) and of local families (from the system) into its previews as text;
+  before, a family name with markup was shown as markup and could run
+  script.
+- Test: src/app/color/pattern-type-menu.test.ts, "shows element names as
+  typed, not as markup (BUG-146)", and src/app/shell/designer.test.ts,
+  "shows the document's title as typed, not as markup (BUG-146)" (both
+  fail with the old code, which inserts the names as they are), and
+  src/app/fonts/previews.test.ts, "puts an imported family's name in as
+  text" and "puts a local family's name in as text" (both fail with the
+  old code: the name is set as innerHTML).
+- Parity exceptions: none enabled. ui/dialog/svg-unsupported-features
+  names a plain "Rectangle" and is unaffected. Pending, not enabled for
+  the new app yet: ui/dialog/close-modified-confirm (its title has no
+  special characters, so it should match).
+
 ## BUG-147 Clip Selection and Create Nested Compound share Ctrl+Alt+M
 
 Old code: designer.browser.dev.js module 809 (GClipAction.getShortcut)
@@ -3283,6 +3319,24 @@ create-page button (lines 81903-81908).
   old button: the container stays `display: none`).
 - Parity exceptions: none.
 
+## BUG-159 Dragging several layer rows leaves another layer's name on the row
+
+Old code: designer.browser.dev.js module 1706, the row's dragstart
+handler (lines 168171-168200); module 1717 does it right for pages.
+
+- Reproduce: select two or more layers and start dragging the row of one
+  that isn't the last of them in the selection.
+- Old: while the drag starts, the row shows the names of all dragged
+  layers joined with ", ". A timer then put back the name left in the
+  loop variable, the last dragged layer's name, so the row showed another
+  layer's name until the list rendered again (a drop or any change does
+  that right away).
+- New: the timer puts back the row's own name, as the pages panel does.
+- Test: src/app/sidebars/layers-panel.test.ts, "shows every dragged layer
+  name on the row while dragging, then its own again (BUG-159)" (fails
+  with the old timer: the row shows "G" instead of "A").
+- Parity exceptions: none.
+
 ## BUG-160 A second window of a document stops the page clip sync
 
 Old code: designer.browser.dev.js module 1339, GPageProperties._windowEvent
@@ -3420,42 +3474,6 @@ callbacks (lines 67571-67582).
 - Parity exceptions: none. No recorded scenario uses the imported fonts
   provider.
 
-## BUG-146 Element, font and file names are put into the UI as HTML
-
-Old code: designer.browser.dev.js module 1238 (the unsupported-features
-dialog, lines 78533 and 78553-78562), and module 1491,
-GDesigner.canUnloadDocument (line 124502) with GSystemDialog's .html();
-the font panel's previews of imported and local families (module 1118 and module 1199).
-
-- Reproduce: export to SVG a page with an element named `<b>x</b>` in a
-  file made elsewhere (or `Tom & Jerry`) that has a noise fill. Or close
-  a modified document whose file name has `<`, `&` or `$&` in it.
-- Old: the unsupported-features dialog put each element name into its
-  list as markup, and the close prompt did the same with the document's
-  title. Names typed in the app have "<" and ">" stored as `&lt;` and
-  `&gt;`, which showed right. A name or file name from outside showed as
-  markup: tags were rendered, an img with onerror ran its script, and
-  `&` sequences turned into other characters. A `$&` in the title
-  inserted "%title" (a replace pattern).
-- New: both dialogs show the name as typed. Element names have their
-  stored `&lt;` and `&gt;` turned back into "<" and ">", and then names
-  and titles are escaped. The texts from the string tables stay HTML.
-  The font panel puts the names of imported font families (from the font
-  file) and of local families (from the system) into its previews as text;
-  before, a family name with markup was shown as markup and could run
-  script.
-- Test: src/app/color/pattern-type-menu.test.ts, "shows element names as
-  typed, not as markup (BUG-146)", and src/app/shell/designer.test.ts,
-  "shows the document's title as typed, not as markup (BUG-146)" (both
-  fail with the old code, which inserts the names as they are), and
-  src/app/fonts/previews.test.ts, "puts an imported family's name in as
-  text" and "puts a local family's name in as text" (both fail with the
-  old code: the name is set as innerHTML).
-- Parity exceptions: none enabled. ui/dialog/svg-unsupported-features
-  names a plain "Rectangle" and is unaffected. Pending, not enabled for
-  the new app yet: ui/dialog/close-modified-confirm (its title has no
-  special characters, so it should match).
-
 ## BUG-166 Layer and page names are read as HTML
 
 Old code: designer.browser.dev.js module 1351 (the layer row title, line
@@ -3489,47 +3507,6 @@ label, lines 168182, 168192).
 - Parity exceptions: none. Names with markup only appear in engine-model
   and import-export/meta scenarios, which don't render the panels.
 
-## BUG-168 Selecting a layer whose row isn't shown throws in the layers panel
-
-Old code: designer.browser.dev.js module 1706, the style update timer of
-the flag handler (lines 168611-168613) and the row style update (lines
-168643-168661).
-
-- Reproduce: select an element inside a collapsed group (on the canvas),
-  then click another row in the layers panel. The click changes the
-  selection with style-only updates, so each changed node's row is
-  restyled in a timer.
-- Old: the row style update read the row element of every changed node.
-  A node whose row was never rendered (inside a collapsed group, or
-  scrolled out before it was drawn) has none, and `element.parent()`
-  threw a TypeError in the timer. Only the console saw it; the other rows
-  were updated by their own timers.
-- New: a node without a rendered row is skipped quietly. Its parent's row
-  is still not restyled from there, as before; it is right again after
-  the next render.
-- Test: src/app/sidebars/layers-panel.test.ts, "with onlyUpdateStyle
-  skips a row that was never rendered (BUG-168)" (fails with the old
-  update: the timer throws).
-- Parity exceptions: none.
-
-## BUG-159 Dragging several layer rows leaves another layer's name on the row
-
-Old code: designer.browser.dev.js module 1706, the row's dragstart
-handler (lines 168171-168200); module 1717 does it right for pages.
-
-- Reproduce: select two or more layers and start dragging the row of one
-  that isn't the last of them in the selection.
-- Old: while the drag starts, the row shows the names of all dragged
-  layers joined with ", ". A timer then put back the name left in the
-  loop variable, the last dragged layer's name, so the row showed another
-  layer's name until the list rendered again (a drop or any change does
-  that right away).
-- New: the timer puts back the row's own name, as the pages panel does.
-- Test: src/app/sidebars/layers-panel.test.ts, "shows every dragged layer
-  name on the row while dragging, then its own again (BUG-159)" (fails
-  with the old timer: the row shows "G" instead of "A").
-- Parity exceptions: none.
-
 ## BUG-167 Menu captions and tab titles are read as HTML
 
 Old code: designer.browser.dev.js module 339 (GMenuItem.setCaption,
@@ -3556,24 +3533,27 @@ the Select hit list, lines 100830-100855).
 - Parity exceptions: none. The ui/context Select scenarios use names
   without "<", ">" or "&".
 
-## BUG-170 Rulers can keep the old theme's colours after a theme switch
+## BUG-168 Selecting a layer whose row isn't shown throws in the layers panel
 
-Old code: designer.browser.dev.js module 1491 (GDesigner._setTheme, lines
-123731-123760).
+Old code: designer.browser.dev.js module 1706, the style update timer of
+the flag handler (lines 168611-168613) and the row style update (lines
+168643-168661).
 
-- Reproduce: switch between the light and dark theme in the settings
-  while a document is open, with rulers on.
-- Old: the new stylesheet link was set and the callback (guide colours,
-  rulers recreated, label colour) ran when `$(link).load(url)` had
-  fetched the CSS text. That races with the browser applying the
-  stylesheet. The rulers read their colours from the stylesheet, so when
-  the fetch won they were drawn with the previous theme's colours.
-- New: the callback waits for both the fetch and the link's load (or
-  error). When the href doesn't change and the sheet is there, it waits
-  only for the fetch, as before.
-- Test: src/app/themes/theme.test.ts, "recreates the rulers only once the
-  new stylesheet has loaded, not when the fetch is done (BUG-170)" (fails
-  with the old callback: the rulers are recreated before the link loads).
+- Reproduce: select an element inside a collapsed group (on the canvas),
+  then click another row in the layers panel. The click changes the
+  selection with style-only updates, so each changed node's row is
+  restyled in a timer.
+- Old: the row style update read the row element of every changed node.
+  A node whose row was never rendered (inside a collapsed group, or
+  scrolled out before it was drawn) has none, and `element.parent()`
+  threw a TypeError in the timer. Only the console saw it; the other rows
+  were updated by their own timers.
+- New: a node without a rendered row is skipped quietly. Its parent's row
+  is still not restyled from there, as before; it is right again after
+  the next render.
+- Test: src/app/sidebars/layers-panel.test.ts, "with onlyUpdateStyle
+  skips a row that was never rendered (BUG-168)" (fails with the old
+  update: the timer throws).
 - Parity exceptions: none.
 
 ## BUG-169 A long press on an SVG icon throws
@@ -3593,6 +3573,26 @@ Old code: designer.browser.dev.js module 1693
 - Test: src/editor/touch/long-press-event.test.ts, "doesn't swallow the
   release when the parent's className isn't a string (SVG)" (fails with
   the old check: the timer callback throws).
+- Parity exceptions: none.
+
+## BUG-170 Rulers can keep the old theme's colours after a theme switch
+
+Old code: designer.browser.dev.js module 1491 (GDesigner._setTheme, lines
+123731-123760).
+
+- Reproduce: switch between the light and dark theme in the settings
+  while a document is open, with rulers on.
+- Old: the new stylesheet link was set and the callback (guide colours,
+  rulers recreated, label colour) ran when `$(link).load(url)` had
+  fetched the CSS text. That races with the browser applying the
+  stylesheet. The rulers read their colours from the stylesheet, so when
+  the fetch won they were drawn with the previous theme's colours.
+- New: the callback waits for both the fetch and the link's load (or
+  error). When the href doesn't change and the sheet is there, it waits
+  only for the fetch, as before.
+- Test: src/app/themes/theme.test.ts, "recreates the rulers only once the
+  new stylesheet has loaded, not when the fetch is done (BUG-170)" (fails
+  with the old callback: the rulers are recreated before the link loads).
 - Parity exceptions: none.
 
 ## BUG-171 The web fonts tab would disable a missing system fonts provider
