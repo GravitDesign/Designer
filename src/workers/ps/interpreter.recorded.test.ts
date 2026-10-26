@@ -40,7 +40,9 @@ const FIXED: Record<string, string> = {
   // The JPEG handshake asks for the size, then for the RGBA pixels.
   "filter-dct-file.ps": "BUG-008",
   "fixture-image-dct.eps": "BUG-008",
-  // An exception ends the run with error "04" and done.
+  // An exception ends the run with error "04" and done. The mesh
+  // shadings (color-sh*, BUG-116) draw where the old worker threw;
+  // color-shadings.test.ts checks their pixels.
   "basic-atan.ps": "BUG-109 BUG-111 BUG-112",
   "basic-cos-typecheck.ps": "BUG-109 BUG-112",
   "basic-cvr-bool.ps": "BUG-109 BUG-112",
@@ -52,18 +54,18 @@ const FIXED: Record<string, string> = {
   "color-fn-procedure.ps": "BUG-109",
   "color-image-cie-repeat.ps": "BUG-109",
   "color-separation-function-dict.ps": "BUG-109",
-  "color-sh-pattern-mesh.ps": "BUG-109",
-  "color-sh4-cmyk.ps": "BUG-109",
-  "color-sh4-flag3.ps": "BUG-109",
-  "color-sh4-function.ps": "BUG-109",
-  "color-sh4-gray.ps": "BUG-109",
-  "color-sh4-rgb.ps": "BUG-109",
-  "color-sh4-scaled-ctm.ps": "BUG-109",
-  "color-sh4-small-bits.ps": "BUG-109",
-  "color-sh4-truncated.ps": "BUG-109",
-  "color-sh5-gray-2rows.ps": "BUG-109",
-  "color-sh5-lattice.ps": "BUG-109",
-  "color-sh6-function.ps": "BUG-109",
+  "color-sh-pattern-mesh.ps": "BUG-109 BUG-116",
+  "color-sh4-cmyk.ps": "BUG-109 BUG-116",
+  "color-sh4-flag3.ps": "BUG-109 BUG-116",
+  "color-sh4-function.ps": "BUG-109 BUG-116",
+  "color-sh4-gray.ps": "BUG-109 BUG-116",
+  "color-sh4-rgb.ps": "BUG-109 BUG-116",
+  "color-sh4-scaled-ctm.ps": "BUG-109 BUG-116",
+  "color-sh4-small-bits.ps": "BUG-109 BUG-116",
+  "color-sh4-truncated.ps": "BUG-109 BUG-116",
+  "color-sh5-gray-2rows.ps": "BUG-109 BUG-116",
+  "color-sh5-lattice.ps": "BUG-109 BUG-116",
+  "color-sh6-function.ps": "BUG-109 BUG-116",
   "filter-ascii85-string.ps": "BUG-109 BUG-115",
   "filter-dct-read.ps": "BUG-109",
   "filter-lzw.ps": "BUG-109 BUG-115",
@@ -148,7 +150,7 @@ const FIXED: Record<string, string> = {
   "color-sh4-string-data.ps": "BUG-112",
   "color-sh6-coons.ps": "BUG-112",
   "color-sh6-gray-flags.ps": "BUG-112",
-  "color-sh6-separation.ps": "BUG-112",
+  "color-sh6-separation.ps": "BUG-112 BUG-116",
   "color-sh6-tiny.ps": "BUG-112",
   "color-sh6-truncated.ps": "BUG-112",
   "color-sh7-tensor-cmyk.ps": "BUG-112",
@@ -475,6 +477,36 @@ describe("PostScript interpreter against the old worker's recordings", () => {
           expect.objectContaining({ func: "rectfill" }),
         );
         expect(fixed[variant], variant).toEqual(old[variant]);
+      }
+    },
+  );
+
+  /** A message that draws a mesh: a shfill, or a fill compacted for its mesh image. */
+  const drawsMesh = (m: RecordedMessage | undefined) =>
+    !!m && "func" in m && (m.func === "shfill" || (m.func === "fill" && "digest" in m));
+
+  it.each([...fixedBy("BUG-109 BUG-116"), ...fixedBy("BUG-116")])(
+    "%s: the fixed recording draws the mesh where the old one threw or drew an empty image",
+    (file) => {
+      const old = oldRecording(file);
+      const fixed = fixedRecording(file);
+      expect(Object.keys(fixed).sort()).toEqual(Object.keys(old).sort());
+      for (const variant of Object.keys(old)) {
+        const before = (old[variant] as RecordedRun).messages;
+        const after = (fixed[variant] as RecordedRun).messages;
+        expect(after, variant).not.toEqual(before);
+        const at = before.findIndex((m) => "exception" in m);
+        if (at < 0) {
+          // Only the image of the shfill differs.
+          const others = (messages: RecordedMessage[]) => messages.filter((m) => !drawsMesh(m));
+          expect(others(after), variant).toEqual(others(before));
+          continue;
+        }
+        // The old run threw at the mesh; the fixed one draws it and reads on.
+        expect(after.slice(0, at), variant).toEqual(before.slice(0, at));
+        expect(drawsMesh(after[at]), variant).toBe(true);
+        expect(after[after.length - 1], variant).toEqual({ func: "done", data: [] });
+        expect(after, variant).not.toContainEqual({ func: "error", data: ["04"] });
       }
     },
   );

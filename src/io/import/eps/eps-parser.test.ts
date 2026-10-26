@@ -3,6 +3,7 @@ import { CMYKColor } from "../../../engine/color/cmyk-color.ts";
 import { RGBColor } from "../../../engine/color/rgb-color.ts";
 import { FontManager } from "../../../engine/text/fonts/font-manager.ts";
 import { Group } from "../../../engine/scene/group.ts";
+import { Image as GImage } from "../../../engine/scene/image.ts";
 import { EPSParser } from "./eps-parser.ts";
 
 function parser(errors: string[] = []) {
@@ -166,5 +167,81 @@ describe("EPSParser.jpeg (page side of the JPEG handshake, BUG-008)", () => {
     expect(Array.from(new Int32Array(buffer, 4, 2))).toEqual([0, 0]);
     expect(flags[0]).toBe(1);
     expect(notified).toBe(true);
+  });
+});
+
+describe("EPSParser mesh images (BUG-116)", () => {
+  // The pixels each fake canvas held when it was turned into a URL.
+  const pixels = new Map<string, number[]>();
+  const canvas = () => {
+    let data: number[] = [];
+    return {
+      width: 0,
+      height: 0,
+      getContext: () => ({
+        createImageData: (width: number, height: number) => ({
+          data: new Uint8ClampedArray(width * height * 4),
+        }),
+        putImageData: (imageData: { data: Uint8ClampedArray }) => (data = [...imageData.data]),
+      }),
+      toDataURL: () => {
+        const url = `canvas:${pixels.size}`;
+        pixels.set(url, data);
+        return url;
+      },
+    };
+  };
+
+  beforeEach(() => {
+    pixels.clear();
+    vi.stubGlobal(
+      "Image",
+      class {
+        src = "";
+      },
+    );
+    vi.stubGlobal("document", { createElement: canvas });
+  });
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  const mesh = (meshType: number, colorSpace: string, value: number[]) => ({
+    type: "imageData",
+    value,
+    colorSpace,
+    meshType,
+    width: 2,
+    height: 1,
+    transform: [1, 0, 0, 1, 0, 0],
+  });
+  const pixelsOf = (image: unknown) => pixels.get((image as GImage).getProperty("url") as string);
+
+  it.each([4, 5, 6, 7])("draws an RGB mesh of type %i as opaque RGBA", (meshType) => {
+    const { p } = parser();
+    const image = p.getGColor(mesh(meshType, "DeviceRGB", [255, 0, 0, 0, 0, 255]));
+    expect(image).toBeInstanceOf(GImage);
+    expect(pixelsOf(image)).toEqual([255, 0, 0, 255, 0, 0, 255, 255]);
+  });
+
+  it("draws a gray mesh as opaque RGBA", () => {
+    const { p } = parser();
+    const image = p.getGColor(mesh(4, "DeviceGray", [10, 200]));
+    expect(pixelsOf(image)).toEqual([10, 10, 10, 255, 200, 200, 200, 255]);
+  });
+
+  it("puts a mesh pattern's image inside the filled path", () => {
+    const { p } = parser();
+    const path = [
+      [
+        segment("moveto", 0, 0),
+        segment("lineto", 2, 0),
+        segment("lineto", 2, 1),
+        segment("closepath", 0, 0),
+      ],
+    ];
+    p.fill(path as never, mesh(4, "DeviceRGB", [255, 0, 0, 0, 0, 255]), [], false);
+    const node = p.ggroup.getFirstChild() as unknown as { getFirstChild(): unknown };
+    expect(node.getFirstChild()).toBeInstanceOf(GImage);
   });
 });

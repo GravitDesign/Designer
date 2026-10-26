@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-116",
+  "why": "Mesh shadings read the shading dict, take string and array data, draw free-form triangles and every lattice row, and the page draws gray and RGB mesh images and meshes of types 4 and 5. No enabled scenario draws a mesh: color-sh6-separation-ps has no clip path, so the page drops its shfill as before, and shadings-eps stops at error 04 before its meshes.",
+  "scenarios": [],
+  "pending": []
+}

@@ -1872,6 +1872,61 @@ LZWDecode entries of the Filter resource dict, and readstring.
   scenarios). The EPS fixtures of the parity suites don't use these
   filters; the io-import-pdf-eps suite gives the same output.
 
+## BUG-116 Mesh shadings read the wrong dict, ignore string and array data, and never draw triangles
+
+Old code: public/pscolor.js, the mesh branches (shading types 4 to 7) of
+PSColor._getGColor and PSColor.BitsReader; chunk.vendor.js module 1404
+(GEPSParser getGColor and fill).
+
+- Reproduce: open an EPS or PS file with a mesh shading: a shfill or a
+  PatternType 2 pattern of ShadingType 4, 5, 6 or 7, for example
+  src/workers/ps/__fixtures__/corpus/color-sh4-rgb.ps,
+  color-sh5-lattice.ps, color-sh-pattern-mesh.ps or the array meshes of
+  parity/scenarios/io-import-pdf-eps/fixtures/eps/shadings.eps.
+- Old: the mesh parameters (BitsPerComponent, BitsPerCoordinate,
+  BitsPerFlag, Decode, VerticesPerRow, Function) were read from the dict
+  passed in, which for a pattern is the pattern dict, so every mesh
+  pattern threw. Data was read only from files: strings read as empty,
+  arrays threw on the missing Decode. The triangle vertex reader was
+  called without its object and threw on the first coordinate, so no
+  free-form or lattice mesh ever drew; a lattice would have joined only
+  its first two rows, and one without VerticesPerRow looped forever. With
+  a Function no t values were read. Separation and DeviceN meshes posted
+  an image without pixels. The page drew only Coons and tensor meshes,
+  and of those only CMYK ones: RGB and gray pixels never reached the
+  canvas. A mesh pattern became the fill layer's paint.
+- New: the parameters come from the shading dict; data can be a file, a
+  string or an array (numbers taken as they are, the image spans the
+  points' bounds). Free-form triangles and every lattice row are drawn;
+  each flag starts on a byte boundary and the flags of a new triangle's
+  second and third vertices are ignored, as in the PostScript Language
+  Reference and Ghostscript. A Function turns each vertex's t into a
+  colour per pixel (function types 0, 2 and 3, or an array of them).
+  Separation, DeviceN and CIEBasedABC meshes come out as RGB or CMYK
+  pixels; other spaces and a lattice without VerticesPerRow (2 or more)
+  give error "01". The page draws meshes of all four types with gray,
+  RGB and CMYK pixels, and a mesh pattern goes inside the filled path,
+  which clips it. Patch meshes from files in device spaces come out as
+  before. Not changed: the mesh is still rasterized over its whole box,
+  so cells outside every patch or triangle take the nearest painted
+  colour, and the page still ignores a shfill without a clip path
+  (QUESTIONS.md Q-NNN).
+- Test: src/workers/ps/color-shadings.test.ts, "mesh shadings
+  (BUG-116)" (string data, array data, a three-row lattice, a Function
+  and a mesh pattern, all failing with the old code), and
+  src/io/import/eps/eps-parser.test.ts, "EPSParser mesh images
+  (BUG-116)". The corpus programs color-sh-pattern-mesh, color-sh4-cmyk,
+  -flag3, -function, -gray, -rgb, -scaled-ctm, -small-bits, -truncated,
+  color-sh5-gray-2rows, -lattice and color-sh6-function get `.fixed.json`
+  recordings that equal the old ones up to where the old worker threw and
+  then draw the mesh and read on to the end; color-sh6-separation's
+  differs only in its shfill's image (src/workers/ps/
+  interpreter.recorded.test.ts checks both).
+- Parity exceptions: none (parity/exceptions/BUG-116.json lists no
+  scenarios). io-import-pdf-eps/eps/color-sh6-separation-ps has no clip,
+  so the page drops its shfill as before; shadings-eps ends with error
+  "04" at its procedure Function before it reaches the meshes.
+
 ## BUG-070 Rotated arcs come out almost unrotated
 
 Old code: chunk.vendor.js module 1392, arcToBezier, lines 248961-248962.

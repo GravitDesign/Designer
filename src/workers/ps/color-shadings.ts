@@ -6,12 +6,12 @@
 // and tensor patch meshes (6, 7) are rasterized into a small image in
 // device space ("imageData"). Everything else is error "01" and blue.
 //
-// Kept (QUESTIONS.md "PS worker: shading mesh parameters"): the mesh parameters (BitsPerComponent,
-// BitsPerCoordinate, BitsPerFlag, Decode, VerticesPerRow, Function) are
-// read from the dict passed in, which is the pattern dict, not its
-// shading, for PatternType 2; mesh data only reads from files (see
-// ColorBitsReader); a lattice mesh (5) only builds triangles between its
-// first two rows.
+// BUG-116: the mesh parameters (BitsPerComponent, BitsPerCoordinate,
+// BitsPerFlag, Decode, VerticesPerRow, Function) come from the shading
+// dict, also when it sits in a PatternType 2 pattern; mesh data can be a
+// file, a string or an array; triangle meshes get their triangles and a
+// lattice joins all its rows. The old code read the pattern dict, read
+// only files, threw on the first triangle vertex and joined two rows.
 import {
   ColorBitsReader,
   failedColor,
@@ -363,16 +363,26 @@ export function getPatternColor(color: PSColor, dict: unknown): GColor {
 
 type ToColor = (values: unknown) => GColor | null;
 
-/** Reads the mesh parameters shared by types 4-7 from the dict passed in. */
-function meshParameters(entries: PSPlainRecord) {
-  const bitsPerComponent = entries.BitsPerComponent as number;
-  const bitsPerCoordinate = entries.BitsPerCoordinate as number;
+/** The mesh parameters shared by types 4-7, from the shading dict. */
+interface MeshParameters {
+  bitsPerComponent: number;
+  maxComponent: number;
+  bitsPerCoordinate: number;
+  bitsPerFlag: number;
+  decode: number[];
+  maxCoordinate: number;
+}
+
+function meshParameters(shading: PSPlainRecord, fromArray: boolean): MeshParameters {
+  const bitsPerComponent = shading.BitsPerComponent as number;
+  const bitsPerCoordinate = shading.BitsPerCoordinate as number;
   return {
     bitsPerComponent,
     maxComponent: Math.pow(2, bitsPerComponent) - 1,
     bitsPerCoordinate,
-    bitsPerFlag: entries.BitsPerFlag as number,
-    decode: (valueOf(entries.Decode) as number[]).slice(),
+    bitsPerFlag: shading.BitsPerFlag as number,
+    // An array holds its values as they are: no Decode.
+    decode: fromArray ? [] : (valueOf(shading.Decode) as number[]).slice(),
     maxCoordinate: Math.pow(2, bitsPerCoordinate) - 1,
   };
 }
@@ -382,18 +392,272 @@ function channelsOf(spaceName: string): number {
   if (spaceName == "DeviceRGB") channels = 3;
   else if (spaceName == "DeviceCMYK") channels = 4;
   else if (spaceName == "DeviceGray") channels = 1;
-  // Other spaces: undefined, so no colour components are read or written.
   return channels as number;
 }
 
 /**
- * Free-form (4) and lattice (5) triangle meshes. Sic: the old vertex
- * reader was a plain function call, so its `this._valueDecodeDomain` was
- * looked up on the worker's global scope and threw as soon as a vertex
- * coordinate was read. So these meshes never get a triangle: the import
- * either ends with that exception or, when the data runs out first,
- * rasterizes an empty grid. A lattice mesh without VerticesPerRow reads
- * nothing and loops forever.
+ * The vertex data of a mesh: the bits of a file or string mapped through
+ * Decode, or the numbers of an array as they are. Every flag starts on a
+ * byte boundary.
+ */
+class MeshData {
+  readonly #bits: ColorBitsReader | null = null;
+  readonly #numbers: PSValue[] | null = null;
+  #next = 0;
+  readonly #color: PSColor;
+  readonly #parameters: MeshParameters;
+
+  constructor(color: PSColor, source: PSValue, parameters: MeshParameters) {
+    const classes = color.core.classes;
+    this.#color = color;
+    this.#parameters = parameters;
+    if (classes.isPSObject(source, "array") || classes.isPSObject(source, "packedarray"))
+      this.#numbers = source.value;
+    else this.#bits = new ColorBitsReader(source, classes);
+  }
+
+  static fromArray(color: PSColor, source: PSValue): boolean {
+    const classes = color.core.classes;
+    return classes.isPSObject(source, "array") || classes.isPSObject(source, "packedarray");
+  }
+
+  isEOF(): boolean {
+    if (this.#numbers) return this.#next >= this.#numbers.length;
+    return (this.#bits as ColorBitsReader).isEOF();
+  }
+
+  #number(): number | null {
+    const numbers = this.#numbers as PSValue[];
+    if (this.#next >= numbers.length) return null;
+    return asNumber(numbers[this.#next++]);
+  }
+
+  flag(): number | null {
+    if (this.#numbers) return this.#number();
+    const bits = this.#bits as ColorBitsReader;
+    bits.align();
+    return bits.readData(this.#parameters.bitsPerFlag);
+  }
+
+  /** The x (axis 0) or y (axis 1) of a point. */
+  coordinate(axis: number): number | null {
+    if (this.#numbers) return this.#number();
+    const { decode, bitsPerCoordinate, maxCoordinate } = this.#parameters;
+    const raw = (this.#bits as ColorBitsReader).readData(bitsPerCoordinate);
+    if (raw === null) return null;
+    return this.#color._valueDecodeDomain(
+      raw,
+      decode[2 * axis] as number,
+      decode[2 * axis + 1] as number,
+      maxCoordinate,
+    );
+  }
+
+  /** The index-th colour component (or the parametric value t). */
+  component(index: number): number | null {
+    if (this.#numbers) return this.#number();
+    const { decode, bitsPerComponent, maxComponent } = this.#parameters;
+    const raw = (this.#bits as ColorBitsReader).readData(bitsPerComponent);
+    if (raw === null) return null;
+    return this.#color._valueDecodeDomain(
+      raw,
+      decode[4 + 2 * index] as number,
+      decode[5 + 2 * index] as number,
+      maxComponent,
+    );
+  }
+
+  /** `count` colour components, or null when the data ran out. */
+  colorOf(count: number): number[] | null {
+    const components: number[] = [];
+    for (let i = 0; i < count; ++i) {
+      const value = this.component(i);
+      if (value === null) return null;
+      components.push(value);
+    }
+    return components;
+  }
+}
+
+/**
+ * How a mesh's vertex colours become page colours: the components read
+ * per vertex, the value of a cell no piece painted, and the conversion of
+ * an interpolated cell. With a Function each vertex has one parametric
+ * value t, interpolated as a fraction of the function's domain (the
+ * interpolation clamps to 0..1) and turned into a colour per cell.
+ */
+interface MeshColors {
+  components: number;
+  vertex(values: number[]): number[];
+  cell(values: number[]): GColor | null;
+}
+
+function meshColors(
+  color: PSColor,
+  shading: PSPlainRecord,
+  spaceName: string,
+  toColor: ToColor,
+): MeshColors | null {
+  const device = spaceName == "DeviceRGB" || spaceName == "DeviceCMYK" || spaceName == "DeviceGray";
+  if (!device && spaceName != "Separation" && spaceName != "DeviceN" && spaceName != "CIEBasedABC")
+    return null;
+  const spaceValue = valueOf(shading.ColorSpace);
+  const space = typeof spaceValue == "string" ? [shading.ColorSpace] : (spaceValue as PSValue[]);
+  const convert = (values: number[]): GColor | null =>
+    device ? toColor(values) : color._getGColor(space, values);
+  if (!("Function" in shading))
+    return {
+      components: device ? channelsOf(spaceName) : color.getColorChannelsCount(space),
+      vertex: (values) => values,
+      cell: convert,
+    };
+  const functionObject = shading.Function;
+  const functions = color.core.classes.isPSObject(functionObject, "array")
+    ? functionObject.value
+    : [functionObject];
+  const first = valueOf(functions[0]) as PSPlainRecord | undefined;
+  if (!first || typeof first != "object" || !("Domain" in first)) return null;
+  const domain = valueOf(first.Domain) as number[];
+  const start = domain[0] as number;
+  const end = domain[1] as number;
+  return {
+    components: 1,
+    vertex: ([t]) => [end == start ? 0 : ((t as number) - start) / (end - start)],
+    cell: ([fraction]) => {
+      const t = start + (fraction as number) * (end - start);
+      const components: number[] = [];
+      for (const fn of functions) {
+        const result = evaluateFunction(color, fn, t);
+        if (!result) return null;
+        for (const value of result) components.push(value);
+      }
+      return convert(components);
+    },
+  };
+}
+
+/** The outputs of a one-input function dict (types 0, 2 and 3) at t, or null. */
+function evaluateFunction(color: PSColor, functionObject: PSValue, t: number): number[] | null {
+  const dict = valueOf(functionObject) as PSPlainRecord | undefined;
+  if (!dict || typeof dict != "object" || !("FunctionType" in dict)) return null;
+  const domain = valueOf(dict.Domain) as number[];
+  const x = Math.min(Math.max(t, domain[0] as number), domain[1] as number);
+  const range = "Range" in dict ? (valueOf(dict.Range) as number[]) : null;
+  let result: number[];
+  switch (dict.FunctionType) {
+    case 0: {
+      const sampled = color.PSFunction(functionObject) as SampledFunction | null;
+      if (!sampled || sampled.size.length != 1) return null;
+      const size = sampled.size[0] as number;
+      const outputs = sampled.range.length / 2;
+      const encode = sampled.encode ? sampled.encode : [0, size - 1];
+      const decode = sampled.decode ? sampled.decode : sampled.range;
+      const position = Math.min(
+        Math.max(
+          color.PSFunctionInterpolate(
+            x,
+            domain[0] as number,
+            domain[1] as number,
+            encode[0] as number,
+            encode[1] as number,
+          ),
+          0,
+        ),
+        size - 1,
+      );
+      const low = Math.floor(position);
+      const high = Math.min(low + 1, size - 1);
+      const fraction = position - low;
+      const maxSample = Math.pow(2, sampled.bitsPerSample) - 1;
+      result = [];
+      for (let j = 0; j < outputs; ++j) {
+        const a = sampled.samples[low * outputs + j] as number;
+        const b = sampled.samples[high * outputs + j] as number;
+        result.push(
+          color.PSFunctionInterpolate(
+            a + fraction * (b - a),
+            0,
+            maxSample,
+            decode[2 * j] as number,
+            decode[2 * j + 1] as number,
+          ),
+        );
+      }
+      break;
+    }
+    case 2: {
+      const c0 = "C0" in dict ? (valueOf(dict.C0) as number[]) : [0];
+      const c1 = "C1" in dict ? (valueOf(dict.C1) as number[]) : [1];
+      const power = Math.pow(x, dict.N as number);
+      result = c0.map((start, i) => start + power * ((c1[i] as number) - start));
+      break;
+    }
+    case 3: {
+      const functions = valueOf(dict.Functions) as PSValue[];
+      const bounds = valueOf(dict.Bounds) as number[];
+      const encode = valueOf(dict.Encode) as number[];
+      let k = 0;
+      while (k < bounds.length && x >= (bounds[k] as number)) ++k;
+      const low = k == 0 ? (domain[0] as number) : (bounds[k - 1] as number);
+      const high = k == bounds.length ? (domain[1] as number) : (bounds[k] as number);
+      const inner = evaluateFunction(
+        color,
+        functions[k],
+        color.PSFunctionInterpolate(
+          x,
+          low,
+          high,
+          encode[2 * k] as number,
+          encode[2 * k + 1] as number,
+        ),
+      );
+      if (!inner) return null;
+      result = inner;
+      break;
+    }
+    default:
+      return null;
+  }
+  return range ? color.PSFunctionDomain(result, range) : result;
+}
+
+/** A vertex of a triangle mesh. */
+interface MeshVertex {
+  x: number;
+  y: number;
+  color: number[];
+}
+
+function readVertex(data: MeshData, colors: MeshColors): MeshVertex | null {
+  const x = data.coordinate(0);
+  if (x === null) return null;
+  const y = data.coordinate(1);
+  if (y === null) return null;
+  const values = data.colorOf(colors.components);
+  if (!values) return null;
+  return { x, y, color: colors.vertex(values) };
+}
+
+function trianglePiece(a: MeshVertex, b: MeshVertex, c: MeshVertex): MeshPiece {
+  return { coords: [a.x, a.y, b.x, b.y, c.x, c.y], colors: [a.color, b.color, c.color] };
+}
+
+function triangleBox(coords: number[]): number[] {
+  const c = coords as unknown as Indexed;
+  return [
+    Math.min(c[0], c[2], c[4]),
+    Math.min(c[1], c[3], c[5]),
+    Math.max(c[0], c[2], c[4]),
+    Math.max(c[1], c[3], c[5]),
+  ];
+}
+
+/**
+ * Free-form (4) and lattice (5) triangle meshes. A free-form triangle
+ * with flag 0 reads three vertices (the flags of the second and third are
+ * read and ignored); flags 1 and 2 add a vertex to the previous
+ * triangle's vb, vc or vc, va. A lattice joins every row with the next.
+ * Data that ends inside a triangle or row ends the mesh.
  */
 function triangleMesh(
   color: PSColor,
@@ -403,32 +667,84 @@ function triangleMesh(
   spaceName: string,
   toColor: ToColor,
 ): GColor {
-  const channels = channelsOf(spaceName);
-  const reader = new ColorBitsReader(shading.DataSource, color.core.classes);
-  const { bitsPerCoordinate, bitsPerFlag, decode } = meshParameters(entries);
-  const verticesPerRow = shadingType == 5 ? (entries.VerticesPerRow as number) : null;
-  let failed = false;
-  /** Returns false when the data ran out; throws once it has a coordinate (see above). */
-  const readVertex = (): boolean => {
-    if (reader.readData(bitsPerCoordinate) === null) return false;
-    throw new TypeError("this._valueDecodeDomain is not a function");
-  };
-  while (!reader.isEOF() && !failed) {
-    if (shadingType == 4) {
-      const flag = reader.readData(bitsPerFlag);
+  const colors = meshColors(color, shading, spaceName, toColor);
+  const verticesPerRow = shadingType == 5 ? (shading.VerticesPerRow as number) : 0;
+  if (!colors || (shadingType == 5 && !(verticesPerRow >= 2))) {
+    color.core.toGravit("error", ["01"]);
+    return failedColor();
+  }
+  const fromArray = MeshData.fromArray(color, shading.DataSource);
+  const parameters = meshParameters(shading, fromArray);
+  const data = new MeshData(color, shading.DataSource, parameters);
+  const pieces: MeshPiece[] = [];
+  if (shadingType == 4) {
+    let previous: MeshVertex[] | null = null;
+    while (!data.isEOF()) {
+      const flag = data.flag();
       if (flag === null) break;
-      if ((flag & 3) == 3) {
+      const edge = flag & 3;
+      if (edge == 3) {
         color.core.toGravit("error", ["01"]);
         return failedColor();
       }
-      // Flags 1 and 2 continue a previous triangle, and there is none.
-      if ((flag & 3) != 0) break;
-      failed = !readVertex();
-    } else {
-      for (let k = 0; k < (verticesPerRow as number) && !failed; ++k) failed = !readVertex();
+      // Flags 1 and 2 continue a previous triangle; without one the mesh ends.
+      if (edge != 0 && !previous) break;
+      const vertex = readVertex(data, colors);
+      if (!vertex) break;
+      let triangle: MeshVertex[];
+      if (edge == 0) {
+        if (data.flag() === null) break;
+        const second = readVertex(data, colors);
+        if (!second) break;
+        if (data.flag() === null) break;
+        const third = readVertex(data, colors);
+        if (!third) break;
+        triangle = [vertex, second, third];
+      } else {
+        const [a, b, c] = previous as [MeshVertex, MeshVertex, MeshVertex];
+        triangle = edge == 1 ? [b, c, vertex] : [c, a, vertex];
+      }
+      pieces.push(trianglePiece(...(triangle as [MeshVertex, MeshVertex, MeshVertex])));
+      previous = triangle;
+    }
+  } else {
+    let previousRow: MeshVertex[] | null = null;
+    rows: while (!data.isEOF()) {
+      const row: MeshVertex[] = [];
+      for (let k = 0; k < verticesPerRow; ++k) {
+        const vertex = readVertex(data, colors);
+        if (!vertex) break rows;
+        row.push(vertex);
+      }
+      if (previousRow) {
+        for (let k = 0; k < verticesPerRow - 1; ++k) {
+          const above = previousRow as MeshVertex[];
+          pieces.push(
+            trianglePiece(above[k] as MeshVertex, above[k + 1] as MeshVertex, row[k] as MeshVertex),
+          );
+          pieces.push(
+            trianglePiece(
+              above[k + 1] as MeshVertex,
+              row[k] as MeshVertex,
+              row[k + 1] as MeshVertex,
+            ),
+          );
+        }
+      }
+      previousRow = row;
     }
   }
-  return rasterizeMesh(color, shadingType, entries, spaceName, channels, decode, [], [], toColor);
+  const boxes = pieces.map((piece) => triangleBox(piece.coords));
+  return rasterizeMesh(
+    color,
+    shadingType,
+    entries,
+    meshBox(parameters, fromArray, pieces),
+    colors,
+    spaceName,
+    pieces,
+    boxes,
+  );
 }
 
 /** Coons (6) and tensor-product (7) patch meshes. */
@@ -440,20 +756,23 @@ function patchMesh(
   spaceName: string,
   toColor: ToColor,
 ): GColor {
-  const channels = channelsOf(spaceName);
-  const reader = new ColorBitsReader(shading.DataSource, color.core.classes);
-  const { bitsPerComponent, maxComponent, bitsPerCoordinate, bitsPerFlag, decode, maxCoordinate } =
-    meshParameters(entries);
+  const colors = meshColors(color, shading, spaceName, toColor);
+  if (!colors) {
+    color.core.toGravit("error", ["01"]);
+    return failedColor();
+  }
+  const fromArray = MeshData.fromArray(color, shading.DataSource);
+  const parameters = meshParameters(shading, fromArray);
+  const data = new MeshData(color, shading.DataSource, parameters);
   let flag: number | null;
   let coords: number[] | null = null;
   let previousCoords: number[] | null;
-  let colors: number[][] | null = null;
+  let patchColors: number[][] | null = null;
   let previousColors: number[][] | null;
   let failed = false;
-  const decodeOffset = 4;
   const pieces: MeshPiece[] = [];
   const boxes: number[][] = [];
-  while (!reader.isEOF() && !failed && (flag = reader.readData(bitsPerFlag)) !== null) {
+  while (!data.isEOF() && !failed && (flag = data.flag()) !== null) {
     let coordinateCount: number;
     switch ((flag &= 3)) {
       case 0:
@@ -468,61 +787,43 @@ function patchMesh(
         color.core.toGravit("error", ["01"]);
         return failedColor();
     }
-    if (!(flag == 0 || (coords && colors))) break;
+    if (!(flag == 0 || (coords && patchColors))) break;
     previousCoords = flag == 0 ? null : coords;
     coords = [];
     for (let k = 0; k < coordinateCount; ++k) {
-      const raw = reader.readData(bitsPerCoordinate);
-      if (raw === null) {
+      const value = data.coordinate(k % 2);
+      if (value === null) {
         failed = true;
         break;
       }
-      const [low, high] =
-        k % 2 == 0
-          ? [decode[0] as number, decode[1] as number]
-          : [decode[2] as number, decode[3] as number];
-      coords.push(color._valueDecodeDomain(raw, low, high, maxCoordinate));
+      coords.push(value);
     }
     if (failed) break;
-    previousColors = flag == 0 ? null : colors;
-    colors = [];
-    if (!("Function" in entries)) {
-      const colorCount = flag == 0 ? 4 : 2;
-      for (let k = 0; k < colorCount; ++k) {
-        const components: number[] = [];
-        for (let i = 0; i < channels; ++i) {
-          const raw = reader.readData(bitsPerComponent);
-          if (raw === null) {
-            // Sic: only ends this colour; the remaining ones are still read.
-            failed = true;
-            break;
-          }
-          components.push(
-            color._valueDecodeDomain(
-              raw,
-              decode[decodeOffset + 2 * i] as number,
-              decode[decodeOffset + 2 * i + 1] as number,
-              maxComponent,
-            ),
-          );
-        }
-        colors.push(components);
+    previousColors = flag == 0 ? null : patchColors;
+    patchColors = [];
+    const colorCount = flag == 0 ? 4 : 2;
+    for (let k = 0; k < colorCount; ++k) {
+      const values = data.colorOf(colors.components);
+      if (!values) {
+        failed = true;
+        break;
       }
+      patchColors.push(colors.vertex(values));
     }
     if (failed) break;
     const previous = previousCoords as number[];
     const previousC = previousColors as number[][];
     if (flag == 1) {
       coords = previous.slice(6, 14).concat(coords);
-      colors = previousC.slice(1, 3).concat(colors);
+      patchColors = previousC.slice(1, 3).concat(patchColors);
     } else if (flag == 2) {
       coords = previous.slice(12, 20).concat(coords);
-      colors = previousC.slice(2, 4).concat(colors);
+      patchColors = previousC.slice(2, 4).concat(patchColors);
     } else if (flag == 3) {
       coords = previous.slice(18, 24).concat(previous.slice(0, 2)).concat(coords);
-      colors = [previousC[3] as number[], previousC[0] as number[]].concat(colors);
+      patchColors = [previousC[3] as number[], previousC[0] as number[]].concat(patchColors);
     }
-    pieces.push({ flag, coords, colors });
+    pieces.push({ flag, coords, colors: patchColors });
     const c = coords as unknown as Indexed;
     boxes.push([
       Math.min(c[0], c[6], c[18], c[12]),
@@ -535,13 +836,39 @@ function patchMesh(
     color,
     shadingType,
     entries,
+    meshBox(parameters, fromArray, pieces),
+    colors,
     spaceName,
-    channels,
-    decode,
     pieces,
     boxes,
-    toColor,
   );
+}
+
+/**
+ * The shading-space box the mesh is rasterized over, as x0, x1, y0, y1:
+ * the Decode ranges of the coordinates, or for array data the bounds of
+ * every point.
+ */
+function meshBox(parameters: MeshParameters, fromArray: boolean, pieces: MeshPiece[]): number[] {
+  if (!fromArray) return parameters.decode.slice(0, 4);
+  let box = [0, 0, 0, 0];
+  let first = true;
+  for (const piece of pieces) {
+    for (let i = 0; i + 1 < piece.coords.length; i += 2) {
+      const x = piece.coords[i] as number;
+      const y = piece.coords[i + 1] as number;
+      if (first) box = [x, x, y, y];
+      else
+        box = [
+          Math.min(box[0] as number, x),
+          Math.max(box[1] as number, x),
+          Math.min(box[2] as number, y),
+          Math.max(box[3] as number, y),
+        ];
+      first = false;
+    }
+  }
+  return box;
 }
 
 /** Device-space bounds of the axis-aligned box (x0, y0)-(x1, y1) under `ctm`. */
@@ -585,21 +912,21 @@ function transformedBounds(
 
 /**
  * Rasterizes mesh pieces into a grid of one cell per device unit over the
- * Decode box, fills the cells no piece hit from their neighbours, and
- * returns the grid as an image in the shading's colour space.
+ * mesh box, fills the cells no piece hit from their neighbours, and
+ * returns the grid as an image: in the shading's colour space for the
+ * device spaces, otherwise in the RGB or CMYK its colours convert to.
  */
 function rasterizeMesh(
   color: PSColor,
   shadingType: number,
   entries: PSPlainRecord,
+  box: number[],
+  colors: MeshColors,
   spaceName: string,
-  channels: number,
-  decode: number[],
   pieces: MeshPiece[],
   boxes: number[][],
-  toColor: ToColor,
 ): GColor {
-  const [d0, d1, d2, d3] = decode as [number, number, number, number];
+  const [d0, d1, d2, d3] = box as [number, number, number, number];
   const gstateCTM = (entries.gstate as GraphicsState).CTM;
   const ctm = gstateCTM ? gstateCTM : null;
   let minX: number;
@@ -631,7 +958,7 @@ function rasterizeMesh(
     return failedColor();
   }
   const blank: number[] = [];
-  for (let c = 0; c < channels; ++c) blank.push(1);
+  for (let c = 0; c < colors.components; ++c) blank.push(1);
   const cells: number[][][] = [];
   const painted: number[][] = [];
   for (let row = 0; row < height; ++row) {
@@ -645,17 +972,17 @@ function rasterizeMesh(
     }
   }
   for (let c = 0; c < boxes.length; ++c) {
-    const box = boxes[c] as [number, number, number, number];
+    const pieceBox = boxes[c] as [number, number, number, number];
     const piece = pieces[c] as MeshPiece;
-    let [left, top, right, bottom] = [box[0], box[1], box[2], box[3]];
+    let [left, top, right, bottom] = [pieceBox[0], pieceBox[1], pieceBox[2], pieceBox[3]];
     if (ctm)
       [left, top, right, bottom] = transformedBounds(
         color,
         ctm,
-        box[0],
-        box[1],
-        box[2],
-        box[3],
+        pieceBox[0],
+        pieceBox[1],
+        pieceBox[2],
+        pieceBox[3],
         "box",
       );
     const pieceWidth = Math.round(right - left);
@@ -700,20 +1027,31 @@ function rasterizeMesh(
       }
     }
   }
+  const device = spaceName == "DeviceRGB" || spaceName == "DeviceCMYK" || spaceName == "DeviceGray";
+  let colorSpace = spaceName;
+  let channels = device ? channelsOf(spaceName) : 0;
   const pixels: number[] = [];
   for (let row = 0; row < height; ++row) {
     for (let column = 0; column < width; ++column) {
       const cell = (painted[row] as number[])[column]
         ? ((cells[row] as number[][])[column] as number[])
         : color._getApproximatedColor(row, column, cells, painted);
-      const pixel = toColor(cell) as GColor;
+      const pixel = colors.cell(cell);
+      if (!pixel || (pixel.type != "rgb" && pixel.type != "cmyk")) {
+        color.core.toGravit("error", ["01"]);
+        return failedColor();
+      }
+      if (!channels) {
+        colorSpace = pixel.type == "cmyk" ? "DeviceCMYK" : "DeviceRGB";
+        channels = pixel.type == "cmyk" ? 4 : 3;
+      }
       for (let c = 0; c < channels; ++c) pixels.push((pixel.value as number[])[c] as number);
     }
   }
   const result: ImageDataGColor = {
     type: "imageData",
     value: pixels,
-    colorSpace: spaceName,
+    colorSpace,
     meshType: shadingType,
     width,
     height,

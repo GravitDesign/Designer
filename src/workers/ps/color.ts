@@ -98,7 +98,10 @@ type ControlPointIndex =
 /** Numbers read by index without checks (missing ones read as undefined, as before). */
 export type Indexed = { readonly [K in ControlPointIndex]: number };
 
-/** A data source read bit by bit: a file is read to its end first, anything else is indexed directly. */
+/**
+ * A data source read bit by bit: a file is read to its end first, a
+ * string gives its character codes, anything else is indexed directly.
+ */
 export class ColorBitsReader {
   _dataSource: ArrayLike<number | null>;
   _dataIdx = 0;
@@ -109,9 +112,12 @@ export class ColorBitsReader {
       const bytes: (number | null)[] = [];
       this._dataSource = bytes;
       while (!source.isEOF()) bytes.push(source.getUint8());
+    } else if (classes.isPSObject(source, "string")) {
+      const text = source.value;
+      const bytes: number[] = [];
+      for (let i = 0; i < text.length; ++i) bytes.push(text.charCodeAt(i) & 255);
+      this._dataSource = bytes;
     } else {
-      // Sic: PS strings and arrays have no length, so they read as empty
-      // (and never as EOF).
       this._dataSource = source as unknown as ArrayLike<number>;
     }
     this._dataIdx = 0;
@@ -121,6 +127,14 @@ export class ColorBitsReader {
   rewindData(): void {
     this._dataIdx = 0;
     this._dataBitsIdx = 0;
+  }
+
+  /** Skips the rest of a partly read byte. */
+  align(): void {
+    if (this._dataBitsIdx > 0) {
+      ++this._dataIdx;
+      this._dataBitsIdx = 0;
+    }
   }
 
   isEOF(): boolean {
@@ -687,11 +701,13 @@ export class PSColor {
         const s = (y - lowest.y) / (middle.y - lowest.y);
         const shortX = lowest.x + s * (middle.x - lowest.x);
         const shortColor = this._interpolateColorLinear(s, [lowest.col, middle.col]);
-        // Sic: when the short edge is on the left, out[0] keeps its old value.
         if (longX <= shortX) {
           out[0] = longX + u * (shortX - longX);
           color = this._interpolateColorLinear(u, [longColor, shortColor]);
-        } else color = this._interpolateColorLinear(u, [shortColor, longColor]);
+        } else {
+          out[0] = shortX + u * (longX - shortX);
+          color = this._interpolateColorLinear(u, [shortColor, longColor]);
+        }
       } else {
         out[0] =
           lowest.x < middle.x
@@ -709,7 +725,10 @@ export class PSColor {
       if (longX <= shortX) {
         out[0] = longX + u * (shortX - longX);
         color = this._interpolateColorLinear(u, [longColor, shortColor]);
-      } else color = this._interpolateColorLinear(u, [shortColor, longColor]);
+      } else {
+        out[0] = shortX + u * (longX - shortX);
+        color = this._interpolateColorLinear(u, [shortColor, longColor]);
+      }
     } else {
       out[0] =
         middle.x < highest.x

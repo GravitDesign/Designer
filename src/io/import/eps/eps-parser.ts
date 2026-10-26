@@ -13,6 +13,11 @@
 // - ImageData.data assignments of the old code did nothing; they are left
 //   out.
 //
+// Fixed (BUG-116): meshes of every type (4 to 7) become images, gray and
+// RGB pixels included (the old page drew only Coons and tensor meshes and
+// only their CMYK pixels; RGB and gray images stayed empty), and a mesh
+// pattern fills a path as the image inside it instead of as the fill.
+//
 // Fixed (BUG-008): the JPEG handler signalled the waiting worker with
 // Atomics.wake, which browsers have removed (it threw, and the worker
 // waited until its timeout); it told size requests by a byte view of
@@ -84,6 +89,17 @@ type WorkerPath = WorkerSegment[][];
 type WorkerClipPath = WorkerPath & { clipPathId?: number };
 
 type PaintNode = SceneNodeLike;
+
+/** Gray (one byte per pixel) or RGB (three) mesh pixels as opaque RGBA. */
+function toRGBA(pixels: number[], gray: boolean): number[] {
+  const rgba: number[] = [];
+  const step = gray ? 1 : 3;
+  for (let i = 0; i + step - 1 < pixels.length; i += step) {
+    const r = pixels[i] as number;
+    rgba.push(r, gray ? r : (pixels[i + 1] as number), gray ? r : (pixels[i + 2] as number), 255);
+  }
+  return rgba;
+}
 
 /** The paint layers of a node that has them. */
 function layersOf(node: unknown): ImportPaintLayers {
@@ -229,11 +245,13 @@ export class EPSParser {
         new Transform().scaled(1, ratio),
       );
     }
-    if (color.type == "imageData" && (color.meshType == 7 || color.meshType == 6)) {
+    if (color.type == "imageData" && color.meshType && color.meshType >= 4 && color.meshType <= 7) {
       const width = color.width as number;
       const height = color.height as number;
       if (width && height) {
-        const image = this.makeImage(width, height, color.value, color.colorSpace == "DeviceCMYK");
+        const cmyk = color.colorSpace == "DeviceCMYK";
+        const pixels = cmyk ? color.value : toRGBA(color.value, color.colorSpace == "DeviceGray");
+        const image = this.makeImage(width, height, pixels, cmyk);
         let transform: Transform | undefined;
         if (color.transform) transform = Transform.deserialize(color.transform);
         // Sic: the image gets only the mesh's own transform (or none).
@@ -402,9 +420,14 @@ export class EPSParser {
     }
     const node = this.path2GPath(path);
     if (!node) return false;
-    const layer = new FillPaintLayer();
-    layer.setProperties(["_pt"], [this.getGColor(color, node)]);
-    layersOf(node).appendChild(layer);
+    const paint = this.getGColor(color, node);
+    // A mesh image goes inside the path, which clips it, like a shfill's.
+    if (paint instanceof GImage) this.appendItem(paint, node);
+    else {
+      const layer = new FillPaintLayer();
+      layer.setProperties(["_pt"], [paint]);
+      layersOf(node).appendChild(layer);
+    }
     node.setProperties(["evenodd"], [!!evenOdd]);
     if (clipPaths && clipPaths.length > 0) this.appendItem(node, this.getClipPath(clipPaths));
     else this.appendItem(node);
