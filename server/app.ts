@@ -1,12 +1,20 @@
 import http from "node:http";
 import path from "node:path";
-import express, { type Express } from "express";
+import express, { type Express, type RequestHandler } from "express";
+import { compressed } from "./compression.ts";
 import { ASSETS_ROOT, CLIENT_ROOT, DOCS_ROOT } from "./paths.ts";
 
 export interface ServerOptions {
   clientRoot?: string;
   assetsRoot?: string;
   docsRoot?: string;
+  /**
+   * Sends the client build and the assets brotli or gzip compressed to
+   * browsers that accept it. server/main.ts turns it on; the desktop app
+   * leaves it off, since it loads them over loopback, where compressing
+   * would only cost time.
+   */
+  compress?: boolean;
 }
 
 /**
@@ -19,6 +27,8 @@ export function createApp(options: ServerOptions = {}): Express {
   const clientRoot = options.clientRoot ?? CLIENT_ROOT;
   const assetsRoot = options.assetsRoot ?? ASSETS_ROOT;
   const docsRoot = options.docsRoot ?? DOCS_ROOT;
+  const statics = (serve: RequestHandler): RequestHandler =>
+    options.compress ? compressed(serve) : serve;
 
   const app = express();
   app.disable("x-powered-by");
@@ -37,16 +47,18 @@ export function createApp(options: ServerOptions = {}): Express {
     next();
   });
 
-  app.use("/assets", express.static(assetsRoot));
+  app.use("/assets", statics(express.static(assetsRoot)));
   app.use(
-    express.static(clientRoot, {
-      setHeaders: (res, filePath) => {
-        // Vite puts a content hash in every bundle name under assets-*/.
-        if (filePath.includes(`${path.sep}bundle${path.sep}`)) {
-          res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-        }
-      },
-    }),
+    statics(
+      express.static(clientRoot, {
+        setHeaders: (res, filePath) => {
+          // Vite puts a content hash in every bundle name under assets-*/.
+          if (filePath.includes(`${path.sep}bundle${path.sep}`)) {
+            res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+          }
+        },
+      }),
+    ),
   );
   app.use(
     "/docs",
