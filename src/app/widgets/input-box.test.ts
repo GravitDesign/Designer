@@ -95,10 +95,14 @@ describe("InputBox scrubbing (UI-FIELD-173)", () => {
     expect(b.scrub(10, false, false, -2)).toEqual({ value: 8, text: "8" });
   });
 
-  it("takes at least one whole step per move without decimals, even down or still", () => {
+  it("keeps the direction of a move without decimals (BUG-149)", () => {
     const b = box({}, "px", 0);
-    expect(b.scrub(10, false, false, 0)).toEqual({ value: 11, text: "11" });
-    expect(b.scrub(10, false, false, -3)).toEqual({ value: 11, text: "11" });
+    expect(b.scrub(10, false, false, 0)).toEqual({ value: 10, text: "10" });
+    expect(b.scrub(10, false, false, -3)).toEqual({ value: 7, text: "7" });
+    expect(b.scrub(10, false, false, 3)).toEqual({ value: 13, text: "13" });
+    // A slow move under one whole step takes one whole step its way.
+    expect(b.scrub(10, false, true, 2)).toEqual({ value: 11, text: "11" });
+    expect(b.scrub(10, false, true, -2)).toEqual({ value: 9, text: "9" });
   });
 
   it("stops when the base isn't a number", () => {

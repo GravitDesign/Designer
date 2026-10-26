@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-149",
+  "why": "Scrubbing a number box without decimals keeps the move's direction: no move stays still and a move under one step takes one step its way, not always +1. The scrubbing scenarios use one decimal and don't change.",
+  "scenarios": [],
+  "pending": []
+}

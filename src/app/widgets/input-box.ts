@@ -198,7 +198,7 @@ export class InputBoxValue {
   }
 
   /** The step size and the decimals for a step from `base`, or null. */
-  private _step(size: number): { size: number; decimals: number } {
+  private _step(size: number, scrub = false): { size: number; decimals: number } {
     let decimals = 2;
     const scene = this._scene();
     let unit: unknown;
@@ -216,9 +216,13 @@ export class InputBoxValue {
       fixedIncrement
     ))
       size *= 0.1;
-    // Also for zero and negative scrub moves (see "Scrubbing without
-    // decimals always steps up" in QUESTIONS.md).
-    if (size < 1 && 0 == decimals) size = 1;
+    if (0 == decimals) {
+      // The old code raised zero and negative scrub moves to 1 too, so
+      // dragging down stepped up (BUG-149). A scrub move keeps its direction.
+      if (!scrub) {
+        if (size < 1) size = 1;
+      } else if (0 !== size && Math.abs(size) < 1) size = Math.sign(size);
+    }
     return { size, decimals };
   }
 
@@ -257,6 +261,7 @@ export class InputBoxValue {
         : slow && "%" !== options.postfix
           ? delta * options.slowIncrementValue
           : delta,
+      true,
     );
     const value = base + size;
     return { value, text: formatNumber(value, decimals) };

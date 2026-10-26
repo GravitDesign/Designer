@@ -3076,3 +3076,23 @@ Old code: designer.browser.dev.js module 1341
 - Parity exceptions: editor-actions/shortcuts/windows-pages, checks
   next-page-pagedown and previous-page-pageup. They now change the
   active page like next-page and previous-page do.
+
+## BUG-149 Scrubbing a number box without decimals always steps up
+
+Old code: designer.browser.dev.js module 1702, $.fn.gInputBox
+mousemoveIncrement (lines 167517-167544).
+
+- Reproduce: set the number of decimals to 0 in the settings (or use a
+  document that shows none), then press on a number box in the inspector
+  and drag down.
+- Old: every move below one whole step was raised to +1, including the
+  first move (no change) and every downward move, so dragging down
+  increased the value.
+- New: when scrubbing, no move leaves the value as it is, and a move under
+  one whole step goes one whole step in its own direction. Arrow keys and
+  the wheel step as before.
+- Test: src/app/widgets/input-box.test.ts, "keeps the direction of a move
+  without decimals (BUG-149)" (fails with the old code, which gives 11
+  for a still or downward move from 10).
+- Parity exceptions: none. ui/fields/scrubbing runs with one decimal (px
+  default) and is unaffected.
