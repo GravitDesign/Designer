@@ -2981,3 +2981,25 @@ GWindow._setOverlayContent (lines 129276-129279).
   old handler: the later overlay is removed on the click).
 - Parity exceptions: none. No recorded scenario clicks a progress
   overlay.
+
+## BUG-144 The low-memory warning counts only the last open document
+
+Old code: designer.browser.dev.js module 85,
+GContainer._estimatingMemoryUsage (lines 3367-3380), used by
+verifyEnoughMemoryToSave.
+
+- Reproduce: open several large documents and save one of them, in the
+  desktop app or a browser that reports its heap limit.
+- Old: the sum `e + (t && t.getStorageItem()) ? size : 0` parsed as a
+  conditional on the sum, so the estimate was the last document's size
+  instead of the total, and the "not enough memory" warning was missed.
+  When an untitled document came after a saved one, the expression read
+  the size of a missing item and threw. verifyEnoughMemoryToSave caught
+  the error, logged it, and gave no warning.
+- New: the estimate adds up the sizes of every open document, with 0 for
+  one that has no file yet.
+- Test: src/app/shell/container.test.ts, "adds up the sizes of every
+  open document (BUG-144)" and "counts a document without an item as 0,
+  also after a saved one (BUG-144)" (the old sum gives 200 for 100 + 200,
+  and throws for the second).
+- Parity exceptions: none. No recorded scenario runs out of memory.

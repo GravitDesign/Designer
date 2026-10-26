@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-144",
+  "why": "The memory estimate before a save adds up every open document's size instead of taking the last one, and no longer throws for an untitled document. No recorded scenario reaches the warning.",
+  "scenarios": [],
+  "pending": []
+}

@@ -270,20 +270,18 @@ export abstract class Container extends EventTarget {
   }
 
   /**
-   * The memory the open documents take. The old expression
-   * `e + (t && t.getStorageItem()) ? size : 0` parses as a conditional on
-   * the sum, so it gives the last document's size instead of the total
-   * (see "Memory estimate counts only the last document" in QUESTIONS.md).
+   * The memory the open documents take: the sum of their sizes. The old
+   * expression `e + (t && t.getStorageItem()) ? size : 0` parsed as a
+   * conditional on the sum, so it gave the last document's size, and threw
+   * (caught by verifyEnoughMemoryToSave) on a document without an item
+   * after one with a size (BUGS-FIXED BUG-144).
    */
   protected _estimatingMemoryUsage(): number {
     const documents = (designerOrNull()?.getDocuments() ?? []) as unknown as SizedDocument[];
-    const size = documents.reduce(
-      (sum: number, document) =>
-        sum + (document && document.getStorageItem() ? 1 : 0)
-          ? (document.getStorageItem() as SizedItem).documentRealFileSize
-          : 0,
-      0,
-    );
+    const size = documents.reduce((sum: number, document) => {
+      const item = document ? document.getStorageItem() : null;
+      return sum + (item ? item.documentRealFileSize : 0);
+    }, 0);
     return size * baseConfig.FILE_SIZE_TO_RAM_COEFFCIENT + baseConfig.MIN_JS_HEAP_SIZE;
   }
 
