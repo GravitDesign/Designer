@@ -2,6 +2,7 @@
 // handlers, and the touch layout switch (color mode row below dpi, the
 // dpi label, the unit title).
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { GMath } from "../../engine/math/math.ts";
 import { Rectangle } from "../../engine/scene/rectangle.ts";
 import { Page } from "../../engine/scene/page.ts";
 import { Scene } from "../../engine/scene/scene.ts";
@@ -110,6 +111,20 @@ describe("SceneProperties handlers", () => {
     expect(log.filter((entry) => entry.startsWith("commit"))).toEqual(
       Array(3).fill("commit Change grid settings"),
     );
+  });
+
+  it("keeps the isometric grid angle when the box doesn't start with a number (BUG-162)", () => {
+    const { scene, panel } = setup();
+    const box = find(panel, 'input[data-property="ga1"]');
+    change(box, "45");
+    expect(scene.getProperty("ga1")).toBe(GMath.toRadians(45));
+    log.length = 0;
+    // The box takes "(30)", a valid equation, but parseFloat gives NaN. The
+    // old code stored NaN, which hid the grid and was saved as null.
+    change(box, "(30)");
+    expect(scene.getProperty("ga1")).toBe(GMath.toRadians(45));
+    expect(log).toEqual(["stats sceneproperties_change_axono-grid-settings angle1"]);
+    expect(box.value).toContain("45");
   });
 
   it("falls back to 72 dpi for an empty dpi box", () => {

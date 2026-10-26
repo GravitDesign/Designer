@@ -239,9 +239,9 @@ export class SceneProperties extends Properties {
           "ga1" === property ? "angle1" : "angle2",
         );
         const value = parseFloat((InputBox.of(input) as InputBox).value());
-        // Sic: parseFloat never gives null, so NaN goes through as NaN. See
-        // "Typing a non-number into the isometric grid angles" in QUESTIONS.md.
-        if (null !== value && "number" == typeof value)
+        // Only a finite number. The old check (not null, a number) let NaN
+        // through, which hid the grid and was saved as null (BUG-162).
+        if (Number.isFinite(value))
           this._assignProperty(
             property,
             GMath.toRadians(clampGridAngle(property, value)),

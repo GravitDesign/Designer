@@ -3323,3 +3323,21 @@ GSliceProperties._assignProperties (lines 90971-90974).
   old call).
 - Parity exceptions: none. ui/inspector/slice records the panel without
   dragging the color.
+
+## BUG-162 A non-number isometric grid angle stores NaN
+
+Old code: designer.browser.dev.js module 1659, GSceneProperties, the
+ga1/ga2 change handler (line 159789).
+
+- Reproduce: open the document settings, set the grid to isometric and
+  type a value the box accepts as an equation but that doesn't start with a
+  number, such as "(30)", into one of the angle boxes.
+- Old: the handler read the box with parseFloat and checked "not null and a
+  number", which NaN passes. NaN was stored as the angle, the grid
+  disappeared, and the file saved the angle as null.
+- New: only a finite number is stored. Anything else puts the box back to
+  the current angle, like the other grid boxes.
+- Test: src/app/inspector/scene-properties-dom.test.ts, "keeps the
+  isometric grid angle when the box doesn't start with a number (BUG-162)"
+  (fails with the old check).
+- Parity exceptions: none. No recorded scenario types into the angle boxes.
