@@ -1,11 +1,9 @@
 // Old: designer.browser.dev.js module 1316 (GCreateNestedCompoundAction).
-import { Key } from "../../../engine/core/key.ts";
 import { LocaleKey } from "../../../engine/core/locale/locale-key.ts";
 import { CompoundShape } from "../../../engine/scene/compound-shape.ts";
 import { Node } from "../../../engine/scene/node.ts";
 import type { ContainerNode } from "../../../engine/scene/node-container.ts";
 import { blockChanges, releaseChanges } from "../../util/designer-util.ts";
-import { type Shortcut } from "../action.ts";
 import { Category } from "../category.ts";
 import { ElementAction } from "../element-action.ts";
 import { activeDocument, gDesigner } from "../host.ts";
@@ -13,9 +11,8 @@ import { activeDocument, gDesigner } from "../host.ts";
 type Updatable = { beginUpdate(): void; endUpdate(): void };
 
 /**
- * Modify > Create Nested Compound (Cmd+Alt+M, the same keys as Clip): the
- * first selected compound shape takes the other selected compound shapes
- * as children.
+ * Modify > Create Nested Compound (no shortcut): the first selected
+ * compound shape takes the other selected compound shapes as children.
  */
 export class CreateNestedCompoundAction extends ElementAction {
   static ID = "modify.createnestedcompound";
@@ -37,8 +34,10 @@ export class CreateNestedCompoundAction extends ElementAction {
     return "structure-boolean";
   }
 
-  override getShortcut(): Shortcut {
-    return [Key.Constant.META, Key.Constant.ALT_LEFT, "M"];
+  // Old: Cmd+Alt+M, the keys of Clip Selection, which always won; the
+  // menu showed a shortcut that never ran this action (BUG-147).
+  override getShortcut(): null {
+    return null;
   }
 
   override getIcon(): string {

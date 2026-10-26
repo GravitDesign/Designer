@@ -1,6 +1,7 @@
 import "../window.testing.ts";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { RGBColor } from "../../../engine/color/rgb-color.ts";
+import { Key } from "../../../engine/core/key.ts";
 import { VertexPolyBoolean } from "../../../engine/geometry/boolean/vertex-poly-boolean.ts";
 import { CompoundPath } from "../../../engine/scene/compound-path.ts";
 import { CompoundShape } from "../../../engine/scene/compound-shape.ts";
@@ -14,6 +15,7 @@ import { PathEditor } from "../../../editor/element-editors/path-editor.ts";
 import { setLateModules } from "../../shell/late.ts";
 import { rect, setupDesigner, type Fixture } from "../actions.testing.ts";
 import { setActionDesigner } from "../host.ts";
+import { ClipAction } from "./clip-action.ts";
 import { ConnectLinesAction } from "./connect-lines-action.ts";
 import { ConvertToRawPathAction } from "./convert-to-raw-path-action.ts";
 import { CreateNestedCompoundAction } from "./create-nested-compound-action.ts";
@@ -144,6 +146,11 @@ describe("Create Nested Compound", () => {
     expect(second.getParent()).toBe(first);
     expect(fixture.editor.getSelection()).toEqual([first]);
     expect(fixture.editor.getUndoStateName()).toBe("Create nested compound");
+  });
+
+  it("has no shortcut, so Ctrl+Alt+M stays Clip Selection's (BUG-147)", () => {
+    expect(new CreateNestedCompoundAction().getShortcut()).toBeNull();
+    expect(new ClipAction().getShortcut()).toEqual([Key.Constant.OPTION, Key.Constant.META, "M"]);
   });
 });
 

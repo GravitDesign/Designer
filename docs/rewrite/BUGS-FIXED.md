@@ -3027,3 +3027,31 @@ Old code: designer.browser.dev.js module 1511, GWarnLinkedImageDialog
   (BUG-145)" (both fail with the old open(), which throws).
 - Parity exceptions: none. corpus/edge/linked-file/resave saves with
   Download File, which doesn't ask.
+
+## BUG-147 Clip Selection and Create Nested Compound share Ctrl+Alt+M
+
+Old code: designer.browser.dev.js module 809 (GClipAction.getShortcut)
+and module 1316 (GCreateNestedCompoundAction.getShortcut).
+
+- Reproduce: select two compound shapes, open the Modify menu (it shows
+  Ctrl+Alt+M next to Create Nested Compound) and press Ctrl+Alt+M.
+- Old: both actions bound Ctrl+Alt+M. Clip Selection always won, so the
+  key clipped the shapes, while the menu, the Keyboard Shortcuts dialog
+  and the action's info all promised Create Nested Compound.
+- New: Create Nested Compound has no shortcut. It runs from the menu
+  only, and Ctrl+Alt+M is Clip Selection's. Picking another key for it
+  is left to a product decision.
+- Test: src/app/actions/modify/path-actions.test.ts, "has no shortcut,
+  so Ctrl+Alt+M stays Clip Selection's (BUG-147)" (fails with the old
+  shortcut).
+- Parity exceptions: editor-actions/registry/registered,
+  editor-actions/main-menu/tree,
+  editor-actions/exec/modify.createnestedcompound,
+  editor-actions/shortcuts/modify (nested-compound-keys),
+  editor-actions/dialogs/help.shortcuts and the Modify menu shots under
+  ui/menu/empty and ui/menu/rect. The action's shortcut is null (empty
+  in the menu tree, a hidden shortcut span in the menu DOM, no
+  "Ctrl+Alt+M" in the shots), and the Keyboard Shortcuts dialog has no
+  Create Nested Compound row. Ctrl+Alt+M still runs Clip Selection, so
+  the nested-compound-keys result is the same. Pending, not enabled for
+  the new app yet: ui/dialog/shortcuts (.dom, .dark, .light).
