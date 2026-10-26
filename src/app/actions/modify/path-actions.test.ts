@@ -1,5 +1,6 @@
 import "../window.testing.ts";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { RGBColor } from "../../../engine/color/rgb-color.ts";
 import { VertexPolyBoolean } from "../../../engine/geometry/boolean/vertex-poly-boolean.ts";
 import { CompoundPath } from "../../../engine/scene/compound-path.ts";
 import { CompoundShape } from "../../../engine/scene/compound-shape.ts";
@@ -8,7 +9,8 @@ import { AnchorPoint } from "../../../engine/scene/path-base.ts";
 import { Path } from "../../../engine/scene/path.ts";
 import "../../../editor/element-editors/compound-shape-editor.ts";
 import "../../../editor/element-editors/compound-path-editor.ts";
-import "../../../editor/element-editors/path-editor.ts";
+import { ElementEditor } from "../../../editor/element-editors/element-editor.ts";
+import { PathEditor } from "../../../editor/element-editors/path-editor.ts";
 import { setLateModules } from "../../shell/late.ts";
 import { rect, setupDesigner, type Fixture } from "../actions.testing.ts";
 import { setActionDesigner } from "../host.ts";
@@ -21,6 +23,7 @@ import { MergeSubAction } from "./merge-sub-action.ts";
 import { OffsetAction } from "./offset-action.ts";
 import { OutlineAction } from "./outline-action.ts";
 import { ReverseOrderAction } from "./reverse-order-action.ts";
+import { SplitLineAction } from "./split-line-action.ts";
 
 let fixture: Fixture;
 
@@ -302,5 +305,43 @@ describe("Convert to Outline and Expand/Shrink", () => {
     new OffsetAction().execute();
     expect(fixture.editor.getUndoStates().length).toBe(before);
     expect(fixture.editor.getSelection()).toEqual([p]);
+  });
+});
+
+describe("Split Line", () => {
+  it("gives line pieces of a path without fill and border a black border (BUG-137)", () => {
+    const p = path("P", [
+      [0, 0],
+      [50, 0],
+      [100, 0],
+    ]);
+    select([p]);
+    const parent = p.getParent();
+    const anchors = p.getAnchorPoints().getChildren();
+    const pathEditor = ElementEditor.getEditor(p) as unknown as PathEditor;
+    pathEditor.updatePartSelection(false, [{ type: PathEditor.PartType.Point, point: anchors[1] }]);
+    const action = new SplitLineAction();
+    expect(action.isEnabled()).toBe(true);
+    action.execute();
+    expect(p.getParent()).toBeNull();
+    const pieces = parent?.getChildren().filter((n) => n instanceof Path);
+    expect(pieces?.map((piece) => points(piece as Path))).toEqual([
+      [
+        [0, 0],
+        [50, 0],
+      ],
+      [
+        [50, 0],
+        [100, 0],
+      ],
+    ]);
+    for (const piece of pieces as Path[]) {
+      const layers = piece.getPaintLayers();
+      expect(layers?.getFillLayers(true).length).toBe(0);
+      const borders = layers?.getBorderLayers(true) ?? [];
+      expect(borders.length).toBe(1);
+      expect(RGBColor.equals(borders[0]?.getProperty("_pt"), RGBColor.BLACK)).toBe(true);
+    }
+    expect(fixture.editor.getUndoStateName()).toBe("Break Curve");
   });
 });

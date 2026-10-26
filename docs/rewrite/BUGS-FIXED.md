@@ -2833,3 +2833,26 @@ GDesigner.registerShortcut (lines 123232-123237).
 - Parity exceptions: editor-actions/shortcuts/view-zoom, case
   zoom-in-plus. The `.fixed` file has that case zoomed in, the same as
   zoom-in-equal. The other cases are unchanged.
+
+## BUG-137 Split Line throws on a line from a path without fill and border
+
+Old code: designer.browser.dev.js module 1319 (GSplitLineAction.execute,
+lines 102879-102893).
+
+- Reproduce: draw an open path with three or more points, remove its
+  fill and border, select a middle point with the Subselect tool and use
+  Modify > Path > Break Curve.
+- Old: a piece that is a single line and has no border got a black
+  border only when the source had fill layers. Otherwise the code
+  appended the source's first fill layer, which does not exist, and
+  threw. The action stopped half way: the first piece was in the
+  document, the source path not yet removed, and the transaction was
+  committed like that.
+- New: a line piece without a border always gets the black border, so
+  the split finishes. Sources with fill layers give the same result as
+  before.
+- Test: src/app/actions/modify/path-actions.test.ts, "gives line pieces
+  of a path without fill and border a black border (BUG-137)" (throws
+  with the old code).
+- Parity exceptions: none. editor-actions/exec/modify.split-line splits
+  a path with fill and border and is unchanged.

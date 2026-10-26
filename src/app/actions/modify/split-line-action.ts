@@ -7,7 +7,6 @@ import type { ContainerNode } from "../../../engine/scene/node-container.ts";
 import { Path } from "../../../engine/scene/path.ts";
 import { AnchorPoint } from "../../../engine/scene/path-base.ts";
 import { BorderPaintLayer } from "../../../engine/style/border-paint-layer.ts";
-import type { PaintLayer } from "../../../engine/style/paint-layer.ts";
 import type { PaintLayers } from "../../../engine/style/paint-layers.ts";
 import { ElementEditor } from "../../../editor/element-editors/element-editor.ts";
 import { PathEditor, type PathPartId } from "../../../editor/element-editors/path-editor.ts";
@@ -148,15 +147,11 @@ export class SplitLineAction extends ElementAction {
               piecePoints.appendChild(copy);
               following = (current = point) === first ? null : points.getNextPoint(point);
             } else following = null;
-            // See "Split Line gives a lone line its source's fill" in QUESTIONS.md.
+            // A line piece without a border gets a black one. Old: only when
+            // the source had fills; otherwise it appended the source's
+            // missing first fill and threw (BUG-137).
             if (piece.isLine() && !layersOf(piece).getBorderLayers(true).length) {
-              if (layersOf(path).getFillLayers(true).length) {
-                layersOf(piece).appendChild(new BorderPaintLayer(RGBColor.BLACK));
-              } else {
-                layersOf(piece).appendChild(
-                  layersOf(path).getFillLayers(true)[0] as unknown as PaintLayer,
-                );
-              }
+              layersOf(piece).appendChild(new BorderPaintLayer(RGBColor.BLACK));
             }
           }
           parent.removeChild(path);

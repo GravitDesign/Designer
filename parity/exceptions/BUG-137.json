@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-137",
+  "why": "Split Line gives a line piece without a border a black border also when the source has no fill layers, instead of throwing. The recorded split-line scenario splits a path with fill and border, so no scenario differs.",
+  "scenarios": [],
+  "pending": []
+}
