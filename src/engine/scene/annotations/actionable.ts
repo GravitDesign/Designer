@@ -29,11 +29,24 @@ interface GeometrySource {
   getGeometryBBox(): Rect | null;
 }
 
+/** Set by the first addAction of the session; nothing ever clears it. */
+let anyActionAdded = false;
+
+/**
+ * Whether any element got an action in this session. Until then every
+ * element's getActionsBBox is null, so the action overlay has nothing to
+ * place (editor/guides/action-guide.ts).
+ */
+export function actionsWereEverAdded(): boolean {
+  return anyActionAdded;
+}
+
 function actionableMembers<TBase extends AnyConstructor>(Base: TBase) {
   abstract class ActionableMembers extends Base implements ActionableApi {
     declare _actions: ActionItem[] | null;
 
     addAction(action: ActionItem): void {
+      anyActionAdded = true;
       if (!this._actions) this._actions = [];
       this._actions.push(action);
     }

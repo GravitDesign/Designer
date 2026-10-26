@@ -1,6 +1,6 @@
 // Expected values worked out from the old GActionGuide (chunk.vendor.js
 // module 1076, lines 235527-235618).
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { Point } from "../../engine/math/point.ts";
 import { Rect } from "../../engine/math/rect.ts";
 import { Transform } from "../../engine/math/transform.ts";
@@ -71,7 +71,40 @@ function paint(
   return { guide, context };
 }
 
+/** Gives one real element an action, which no test before this has done. */
+function addFirstAction(): void {
+  const owner = Object.create(CollabTextAnnotationBase.prototype) as CollabTextAnnotationBase;
+  owner.addAction(fakeAction("first", []) as never);
+}
+
+// Runs before the describe below adds the session's first action.
+describe("ActionGuide before any element has an action", () => {
+  it("places nothing and walks no page, then places actions once one is added", () => {
+    const painted: Painted[] = [];
+    let walked = 0;
+    const page = fakePage([actionable(new Rect(0, 0, 10, 10), [fakeAction("a", painted)])], {
+      active: true,
+    });
+    const getLastChild = (page as unknown as { getLastChild(): unknown }).getLastChild;
+    Object.assign(page, {
+      getLastChild: () => {
+        walked++;
+        return getLastChild();
+      },
+    });
+    paint([page], new Transform(), [new Rect(-5, -5, 100, 100)], false);
+    expect(painted).toEqual([]);
+    expect(walked).toBe(0);
+    addFirstAction();
+    paint([page], new Transform(), [new Rect(-5, -5, 100, 100)], false);
+    expect(painted.map(([name]) => name)).toEqual(["a"]);
+    expect(walked).toBe(1);
+  });
+});
+
 describe("ActionGuide", () => {
+  beforeAll(addFirstAction);
+
   it("places each element's actions 5 px further left, scaled by the view", () => {
     const painted: Painted[] = [];
     const first = actionable(new Rect(100, 50, 20, 10), [

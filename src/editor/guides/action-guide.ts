@@ -5,7 +5,11 @@ import { Rect } from "../../engine/math/rect.ts";
 import { Transform } from "../../engine/math/transform.ts";
 import type { PaintContext } from "../../engine/paint/paint-context.ts";
 import type { ActionItem } from "../../engine/scene/annotations/action-item.ts";
-import { Actionable, type ActionableApi } from "../../engine/scene/annotations/actionable.ts";
+import {
+  Actionable,
+  actionsWereEverAdded,
+  type ActionableApi,
+} from "../../engine/scene/annotations/actionable.ts";
 import { Accelerated, type AcceleratedApi } from "../../engine/scene/element-accelerated.ts";
 import { Element } from "../../engine/scene/element.ts";
 import { NodeFlag } from "../../engine/scene/node-change.ts";
@@ -93,6 +97,9 @@ export class ActionGuide extends GuideVisual(Guide) {
     );
     let pages = scene.retrieveChildrenInPaintBBox(visible, QuadTree.RETRIEVE_MODE_INTERSECT);
     if (!pages) return undefined;
+    // Without any action in the session no element has an actions box, so
+    // the walk below would place nothing.
+    if (!actionsWereEverAdded()) return [];
     let page: Node | undefined;
     if (!context.configuration.multiPageView) {
       pages = pages.filter((node) => node.hasFlag(NodeFlag.Active));
