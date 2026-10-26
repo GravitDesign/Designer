@@ -103,10 +103,10 @@ export class OutlineAction extends ElementAction {
         if (!value) return;
         const ed = editor as NonNullable<typeof editor>;
         const offset = parseFloat(value);
-        // The alert text is Convert to Outline's for both actions; see
-        // "Expand/Shrink shows the outline action's invalid-value text" in QUESTIONS.md.
+        // Old: always Convert to Outline's text, also for Expand/Shrink
+        // (BUG-135).
         if (isNaN(offset) || !isFinite(offset) || GMath.isEqualEps(offset, 0)) {
-          alertDialog(Locale.get(new LocaleKey("GOutlineAction", "text.invalid-value")) as string);
+          alertDialog(this._dialogAlertMessage());
           return;
         }
         ed.beginTransaction();
@@ -150,6 +150,10 @@ export class OutlineAction extends ElementAction {
 
   protected _dialogPromptMessage(): string {
     return Locale.get(new LocaleKey("GOutlineAction", "text.dialog-prompt-message")) as string;
+  }
+
+  protected _dialogAlertMessage(): string {
+    return Locale.get(new LocaleKey("GOutlineAction", "text.invalid-value")) as string;
   }
 
   /** Both sides of the source at |offset|; a counter-clockwise path is reversed in place first. */

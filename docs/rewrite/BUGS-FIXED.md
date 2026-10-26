@@ -2794,3 +2794,22 @@ lines 102679-102686 and 102704).
   before the field loses focus. typed-40's document afterwards holds the
   path simplified with tolerance 40 instead of 10. typed-0 has the alert
   and the document unchanged.
+
+## BUG-135 An invalid Expand/Shrink value shows the outline action's text
+
+Old code: designer.browser.dev.js module 1185 (GOutlineAction.execute,
+lines 76689-76691) and module 1317 (GOffsetAction._dialogAlertMessage,
+lines 102591-102593).
+
+- Reproduce: select a closed path, Modify > Path > Expand/Shrink, type
+  0 or text and click OK.
+- Old: the shared execute of Convert to Outline always alerted
+  "Entered invalid number for outline value." Expand/Shrink defined its
+  own text in _dialogAlertMessage, but nothing called it.
+- New: the alert asks the action for its text, so Expand/Shrink says
+  "Entered invalid number for offset value." Convert to Outline is
+  unchanged.
+- Test: src/app/actions/modify/path-actions.test.ts, "shows its own
+  alert for an invalid offset (BUG-135)" (fails with the old alert).
+- Parity exceptions: editor-actions/path-dialogs/offset-invalid. The
+  alert's message in after.dialogs is the offset text.

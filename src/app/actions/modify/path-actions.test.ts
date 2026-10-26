@@ -251,7 +251,7 @@ describe("Convert to Outline and Expand/Shrink", () => {
     expect(fixture.editor.getUndoStateName()).toBe("Convert to Outline");
   });
 
-  it("shows the outline action's alert for an invalid offset", () => {
+  it("shows its own alert for an invalid offset (BUG-135)", () => {
     const seen = answerPrompts("0");
     const p = path(
       "P",
@@ -266,6 +266,21 @@ describe("Convert to Outline and Expand/Shrink", () => {
     new OffsetAction().execute();
     expect(seen.messages).toEqual([
       "Enter a positive value for offset or negative for inset:",
+      "alert: Entered invalid number for offset value.",
+    ]);
+    expect(p.getParent()).not.toBeNull();
+  });
+
+  it("keeps Convert to Outline's alert for an invalid width", () => {
+    const seen = answerPrompts("x");
+    const p = path("P", [
+      [0, 0],
+      [100, 0],
+    ]);
+    select([p]);
+    new OutlineAction().execute();
+    expect(seen.messages).toEqual([
+      "Enter a positive value for the outline:",
       "alert: Entered invalid number for outline value.",
     ]);
     expect(p.getParent()).not.toBeNull();

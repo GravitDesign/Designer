@@ -48,11 +48,7 @@ export class OffsetAction extends OutlineAction {
       : new VertexOffsetter(clockwise, -offset, true, false, 0, cap);
   }
 
-  /**
-   * Never called: the invalid-value alert uses Convert to Outline's text.
-   * See "Expand/Shrink shows the outline action's invalid-value text" in QUESTIONS.md.
-   */
-  _dialogAlertMessage(): string {
+  protected override _dialogAlertMessage(): string {
     return Locale.get(new LocaleKey("GOffsetAction", "text.invalid-value")) as string;
   }
 
