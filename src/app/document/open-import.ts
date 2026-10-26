@@ -22,6 +22,7 @@ import { ScenePaintConfiguration } from "../../engine/paint/scene-paint-configur
 import { Group } from "../../engine/scene/group.ts";
 import { Image } from "../../engine/scene/image.ts";
 import { Node } from "../../engine/scene/node.ts";
+import { ElementChange } from "../../engine/scene/element-change.ts";
 import { Page } from "../../engine/scene/page.ts";
 import type { Scene } from "../../engine/scene/scene.ts";
 import { Stylable } from "../../engine/style/stylable.ts";
@@ -64,6 +65,36 @@ const CHILD_CHANGES = [
   Node._Change.BeforeChildInsert,
   Node._Change.AfterChildInsert,
 ] as number[];
+
+/**
+ * While an import fills the new scene's page, the scene doesn't hear of
+ * each child's geometry update. Every one of them made the scene re-index
+ * the page, which recomputes the page's boxes over all its children, so
+ * filling a page was quadratic in the number of shapes. The scene is told
+ * once at the end instead (`endPageUpdates`), with the page in its final
+ * state, which leaves it as the last of those updates did. Nothing else
+ * sees the difference: the new scene has no views or listeners yet, so
+ * its invalidations and events go nowhere, and the page and its children
+ * still handle every change themselves.
+ */
+const PAGE_UPDATES = [ElementChange.ChildGeometryUpdate] as number[];
+
+function beginPageUpdates(scene: Scene): void {
+  asImported(scene)._beginBlockChanges(PAGE_UPDATES);
+}
+
+/**
+ * Ends `beginPageUpdates` and, when the page took children, sends the
+ * update the page sent last: `last` is the child it was about (its paint
+ * box is the area to repaint), or the page's own box when that child left
+ * the page again.
+ */
+function endPageUpdates(scene: Scene, page: Page, last: ImportedNode | null): void {
+  asImported(scene)._endBlockChanges(PAGE_UPDATES);
+  if (!last) return;
+  const box = last.getParent() === page ? last.getPaintBBox() : page.getPaintBBox();
+  scene._notifyChange(ElementChange.ChildGeometryUpdate, [page, 1, box]);
+}
 
 const text = (group: string, key: string): string =>
   Locale.get(new LocaleKey(group, key)) as string;
@@ -203,6 +234,7 @@ export function openImportedFile(
         optimizeImport(group);
         const moved: ImportedNode[] = [];
         asImported(scene)._beginBlockChanges(CHILD_CHANGES);
+        beginPageUpdates(scene);
         asImported(group)._blockUpdateChanges();
         while (group.getFirstChild()) {
           const child = asImported(group.getFirstChild());
@@ -218,6 +250,11 @@ export function openImportedFile(
         for (const child of moved) {
           child.transform(new Transform().translated(-(box as Rect).getX(), -(box as Rect).getY()));
         }
+        endPageUpdates(
+          scene,
+          page,
+          moved.length ? (moved[moved.length - 1] as ImportedNode) : null,
+        );
         const pageSize = size as { width: number; height: number } | null;
         if (pageSize) page.setProperties(["w", "h"], [pageSize.width, pageSize.height]);
         else page.trimToContent();
