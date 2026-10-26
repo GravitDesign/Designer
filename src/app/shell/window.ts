@@ -90,6 +90,8 @@ export class Window extends EventTarget {
   /** The element in #windows (old `_container`). */
   readonly _container: HTMLDivElement;
   private readonly _overlay: HTMLElement;
+  /** The close-on-click handler of the overlay's current content, if any. */
+  private _overlayClick: (() => void) | null = null;
   private readonly _document: WindowDocument;
   private _view: EditorWidget | null = null;
   private _requiresViewTransformation = true;
@@ -323,17 +325,23 @@ export class Window extends EventTarget {
     content: HTMLElement | null,
     closeOnClick?: boolean | null,
   ): HTMLElement {
+    // The handler belongs to the content it was added with. The old one
+    // tried to unbind itself with the wrong argument and stayed on the
+    // reused overlay element, so every later overlay closed on a click
+    // (BUGS-FIXED BUG-143).
+    if (this._overlayClick) {
+      this._overlay.removeEventListener("click", this._overlayClick);
+      this._overlayClick = null;
+    }
     if (content) {
       this._container.appendChild(this._overlay);
       const holder = this._overlay.querySelector(".window-overlay-content") as HTMLElement;
       holder.replaceChildren(content);
       if (closeOnClick) {
-        // The old handler tried to unbind itself with the wrong argument, so
-        // it stays on the reused overlay element (see "The window overlay
-        // keeps its close-on-click handler" in QUESTIONS.md).
-        this._overlay.addEventListener("click", () => {
+        this._overlayClick = () => {
           this._setOverlayContent(null);
-        });
+        };
+        this._overlay.addEventListener("click", this._overlayClick);
       }
     } else {
       this._overlay.remove();

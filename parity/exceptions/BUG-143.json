@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-143",
+  "why": "The window overlay's close-on-click handler is removed with the content it was added for, so later overlays no longer close on a click. No recorded scenario clicks a progress overlay.",
+  "scenarios": [],
+  "pending": []
+}

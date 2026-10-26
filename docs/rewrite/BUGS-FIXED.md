@@ -2956,3 +2956,28 @@ input branch, line 77177).
   old prompt: multiple stays false).
 - Parity exceptions: none. platform/files/input-fallback-open opens once
   and records the same attributes.
+
+## BUG-143 After one cancelable import, every later overlay closes on a click
+
+Old code: designer.browser.dev.js module 1503,
+GWindow._setOverlayContent (lines 129276-129279).
+
+- Reproduce: open or import something that shows the progress overlay
+  with a cancel button (a cancelable load). After it finishes, save the
+  document (or start any other load or save) and click the progress
+  overlay.
+- Old: the cancelable overlay added a click handler that closed the
+  overlay and then tried to unbind itself. It passed the overlay element
+  instead of the handler, so nothing was removed. The handler stayed on
+  the window's reused overlay element, and every later overlay of that
+  window closed on a click. The user could then edit while a save was
+  still running.
+- New: the handler belongs to the content it was added with. It is
+  removed when the overlay gets new content or closes, so only a
+  cancelable overlay closes on a click.
+- Test: src/app/shell/window.test.ts, "keeps a later overlay open on a
+  click after a cancelable one (BUG-143)" and "keeps a later overlay open
+  after a cancelable one closed on a click (BUG-143)" (both fail with the
+  old handler: the later overlay is removed on the click).
+- Parity exceptions: none. No recorded scenario clicks a progress
+  overlay.
