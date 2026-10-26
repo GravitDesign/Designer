@@ -22,8 +22,8 @@ import { Node } from "../../engine/scene/node.ts";
 import { LinearGradient } from "../../engine/style/linear-gradient.ts";
 import { Editor } from "../../editor/editor.ts";
 import { StyleEdManager } from "../../editor/style-ed-manager.ts";
-import { setPopupPattern } from "./color-deps.testing.ts";
-import { str } from "./paint-dom.ts";
+import { clickedPreviews, setPopupPattern } from "./color-deps.testing.ts";
+import { getData, str } from "./paint-dom.ts";
 import { BorderProperties, newBorderAlignment } from "./border-properties.ts";
 import {
   descendants,
@@ -215,21 +215,32 @@ describe("BorderProperties", () => {
     expect(commits).toHaveLength(2);
   });
 
-  it("throws on undo with the chooser open, as the old undefined $element did", () => {
-    const { properties } = initPanel();
-    const { scene, rect } = rectWithBorders(1);
+  it("reopens the undone layer's chooser at its stop on undo and redo (BUG-153)", () => {
+    const { properties, panel } = initPanel();
+    const { scene, rect } = rectWithBorders(2);
     properties.update(documentOf(scene), [rect]);
     const layer = (rect.getPaintLayers() as PaintLayers).getBorderLayers()[0] as BorderPaintLayer;
-    expect(() =>
-      properties._updatePaintLayer(layer, {
-        evtType: ModifiedEvent.Type.Undo,
-        chooserOn: true,
-        borderLayerIndex: 0,
-      }),
-    ).toThrow(ReferenceError);
-    expect(() =>
-      properties._updatePaintLayer(layer, { evtType: ModifiedEvent.Type.Raw, chooserOn: true }),
-    ).not.toThrow();
+    const undo = { evtType: ModifiedEvent.Type.Undo, chooserOn: true, borderLayerIndex: 0 };
+    clickedPreviews.length = 0;
+    // The old code threw a ReferenceError here.
+    properties._updatePaintLayer(layer, { ...undo, activeStopIdx: 2 });
+    const block = panel.children.find(
+      (c) =>
+        c.classList.contains("border-block") &&
+        getData(c as unknown as Element, "paintLayer") === layer,
+    ) as FakeElement;
+    const preview = descendants(block).find((e) => e.classList.contains("preview"));
+    expect(preview).toBeDefined();
+    expect(clickedPreviews).toEqual([[preview, 2]]);
+    clickedPreviews.length = 0;
+    properties._updatePaintLayer(layer, { ...undo, evtType: ModifiedEvent.Type.Redo });
+    expect(clickedPreviews).toEqual([[preview, null]]);
+    clickedPreviews.length = 0;
+    // Not an undo, the chooser wasn't open, or another layer: nothing.
+    properties._updatePaintLayer(layer, { ...undo, evtType: ModifiedEvent.Type.Raw });
+    properties._updatePaintLayer(layer, { ...undo, chooserOn: false });
+    properties._updatePaintLayer(layer, { ...undo, borderLayerIndex: 1 });
+    expect(clickedPreviews).toEqual([]);
   });
 });
 

@@ -3161,3 +3161,22 @@ handlers (dragstart line 84561, drop 84615, dragend 84661-84690).
   the old code) and "removes a row's effect from every element when let go
   outside the panel".
 - Parity exceptions: none. No recorded scenario drags an effect row.
+
+## BUG-153 Undo of a border colour change with the chooser open throws
+
+Old code: designer.browser.dev.js module 1162, _updatePaintLayer (lines
+74750-74803, `$element` at 74798).
+
+- Reproduce: open a border's color chooser, change the color, and undo (or
+  redo) while the chooser is open.
+- Old: the panel tried to reopen the chooser through `$element`, a variable
+  that doesn't exist, and threw a ReferenceError. The later border rows and
+  the panels after Border were not updated, and the chooser stayed closed.
+- New: the panel clicks the color preview of the undone border's row, at
+  the gradient stop that was active, like the fill panel, so the chooser
+  opens again.
+- Test: src/app/inspector/border-properties.test.ts, "reopens the undone
+  layer's chooser at its stop on undo and redo (BUG-153)" (fails with the
+  old code).
+- Parity exceptions: none. No recorded scenario undoes with a border
+  chooser open.

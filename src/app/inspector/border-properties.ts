@@ -21,8 +21,7 @@
  * - "Dropping a border outside the list is named after fills";
  * - "Border width box ignores the document unit".
  * The undo/redo re-open of the chooser referenced an undefined variable
- * and threw; see "Border undo with an open chooser throws" (kept, pinned
- * in border-properties.test.ts).
+ * and threw; it reopens the chooser like the fill panel (BUG-153).
  */
 import type { Pattern } from "../../engine/style/pattern.ts";
 import { Color } from "../../engine/color/color.ts";
@@ -82,6 +81,7 @@ import { RichTooltipConfig } from "../widgets/rich-tooltip-config.ts";
 import { UnitBox } from "../widgets/unit-box.ts";
 import {
   chooserOf,
+  clickPreview,
   eventArgs,
   inputSlider,
   patternChooser,
@@ -1371,10 +1371,13 @@ export class BorderProperties extends Properties {
       null != related.borderLayerIndex &&
       (layer.getParent() as ContainerNode).getIndexOfChild(layer) == related.borderLayerIndex
     )
-      // Sic: the old code clicked `$element.find(".preview")`, a variable
-      // that doesn't exist, so it threw a ReferenceError here (see "Border
-      // undo with an open chooser throws").
-      throw new ReferenceError("$element is not defined");
+      // Reopens the chooser of the layer's row, like the fill panel. The old
+      // code clicked `$element.find(".preview")`, a variable that doesn't
+      // exist, so it threw a ReferenceError here (BUG-153).
+      for (const block of findAll(this._panel as HTMLElement, ".border-block"))
+        if (layerOf(block) === layer)
+          for (const preview of findAll(block, ".preview"))
+            clickPreview(preview, null != related.activeStopIdx ? related.activeStopIdx : null);
   }
 
   _assign(
