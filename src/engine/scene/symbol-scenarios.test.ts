@@ -170,16 +170,17 @@ describe("master text changes", () => {
     const inSyncText = inSync.getFirstChild() as Text;
     // Gives the master a content, so the old merge has one to diff against.
     masterText.setProperty("_tfi", 20);
-    // Content from a file or undo: the master keeps the color serialized,
-    // the instance gets the master's color object, which JSON.stringify
-    // writes as {"_value": [...]}.
-    masterText.setProperty(
-      "content",
-      JSON.stringify([{ text: "Hello world", fontSize: 20, fontColor: "C#[255,0,0]" }]),
-    );
-    await fonts(masterText, inSyncText);
     const runs = (node: Text) =>
       JSON.parse(node.getProperty("content") as string) as { text: string; fontColor: unknown }[];
+    // Content from a file or undo: the master keeps the color serialized,
+    // the instance gets the master's color object, which JSON.stringify
+    // writes as {"_value": [...]}. The runs keep their font: a run without
+    // weight and style asks for a font the test can't resolve, and the
+    // master's text then stays as it was.
+    const red = runs(masterText);
+    (red[0] as { fontColor: unknown }).fontColor = "C#[255,0,0]";
+    masterText.setProperty("content", JSON.stringify(red));
+    await fonts(masterText, inSyncText);
     expect(runs(inSyncText)[0]?.fontColor).toEqual(
       expect.objectContaining({ _value: [255, 0, 0] }),
     );
