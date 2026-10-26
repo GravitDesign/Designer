@@ -1927,6 +1927,39 @@ PSColor._getGColor and PSColor.BitsReader; chunk.vendor.js module 1404
   so the page drops its shfill as before; shadings-eps ends with error
   "04" at its procedure Function before it reaches the meshes.
 
+## BUG-117 Stroke widths and dashes of an EPS ignore the CTM
+
+Old code: public/pscore.js, the stroke operator.
+
+- Reproduce: open an EPS or PS file that strokes under a scaled CTM, for
+  example parity/scenarios/io-import-pdf-eps/fixtures/eps/paths.eps
+  (`2 2 scale ... 3 setlinewidth stroke`), or a dashed line drawn under
+  `0.1 0.1 scale`.
+- Old: the worker posts the path in device space, but the line width
+  only when stroke adjustment was on (then scaled by the length of the
+  mapped unit diagonal), and the dash array and phase always in user
+  space. A file drawn under `0.1 0.1 scale` got borders 10 times too
+  thick and dashes 10 times too long, which can look solid. The dashed
+  curve of shapes.eps (`4 setlinewidth [6 3] 0 setdash 1 setlinecap`)
+  is solid in PostScript too: the round caps close the gaps.
+- New: stroke scales the line width, the dash lengths and the dash phase
+  by sqrt(|det|) of the CTM, as PostScript measures them in user space.
+  For a CTM that scales x and y differently that is the geometric mean
+  of the two scales (a border has one width; Ghostscript strokes with an
+  elliptical pen). Under a uniform CTM, stroke adjustment gives the same
+  width as before. The border has no dash offset, so the page still
+  leaves out the phase.
+- Test: src/workers/ps/stroke.test.ts, "stroke scales width and dashes
+  by the CTM (BUG-117)" (scaled and non-uniform CTMs fail with the old
+  code). The corpus programs gfx-linestate.ps and paths.eps get
+  `.fixed.json` recordings that differ only in one stroke's width and
+  dashes each (`[4 2] 1` becomes `[12 6] 3` under a 3x matrix; 3 becomes
+  6 under `2 2 scale`).
+- Parity exceptions: parity/exceptions/BUG-117.json,
+  io-import-pdf-eps/eps/paths-eps. The border of the line stroked under
+  `2 2 scale` (from 20,280 to 80,280 in device space) has `_bw` 6
+  instead of 3. Nothing else differs.
+
 ## BUG-070 Rotated arcs come out almost unrotated
 
 Old code: chunk.vendor.js module 1392, arcToBezier, lines 248961-248962.

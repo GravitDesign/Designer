@@ -90,7 +90,7 @@ const FIXED: Record<string, string> = {
   // An arc without a current point starts its subpath with a moveto.
   "fixture-shapes.eps": "BUG-110 BUG-112",
   "gfx-arcs.ps": "BUG-110 BUG-112",
-  "paths.eps": "BUG-110 BUG-112",
+  "paths.eps": "BUG-110 BUG-112 BUG-117",
   // rectfill fills and rectstroke strokes a CTM-mapped rectangle path;
   // rectclip uses x + width and y + height.
   "basic-access.ps": "BUG-112",
@@ -190,7 +190,7 @@ const FIXED: Record<string, string> = {
   "gfx-gsave.ps": "BUG-112",
   "gfx-gstate.ps": "BUG-112",
   "gfx-imagecolor.ps": "BUG-112",
-  "gfx-linestate.ps": "BUG-112",
+  "gfx-linestate.ps": "BUG-112 BUG-117",
   "gfx-matrices.ps": "BUG-112",
   "gfx-moveto.ps": "BUG-112",
   "gfx-params.ps": "BUG-112",
@@ -217,6 +217,8 @@ const FIXED: Record<string, string> = {
   "show-outlined-typecheck.ps": "BUG-112",
   "show-outlined-underflow.ps": "BUG-112",
   "show-outlined-xshow-range.ps": "BUG-112",
+  // stroke scales its width and dashes by the CTM (stroke.test.ts checks
+  // it): gfx-linestate.ps and paths.eps above.
   // charpath advances from glyph to glyph (show.test.ts checks it).
   "show-outlined-charpath-false.ps": "BUG-114",
   "show-outlined-charpath-true.ps": "BUG-114",
@@ -477,6 +479,29 @@ describe("PostScript interpreter against the old worker's recordings", () => {
           expect.objectContaining({ func: "rectfill" }),
         );
         expect(fixed[variant], variant).toEqual(old[variant]);
+      }
+    },
+  );
+
+  /** `messages` with the width and dash pattern of every stroke left out. */
+  const withoutStrokeScale = (messages: RecordedMessage[]) =>
+    messages.map((m) => {
+      if (!("func" in m) || m.func !== "stroke" || !("data" in m)) return m;
+      const data = (m.data as unknown[]).slice();
+      data[2] = data[8] = null;
+      return { func: m.func, data };
+    });
+
+  it.each(fixedBy("BUG-117"))(
+    "%s: the fixed recording differs from the old one only in stroke widths and dashes",
+    (file) => {
+      const old = oldRecording(file);
+      const fixed = fixedRecording(file);
+      for (const variant of Object.keys(old)) {
+        const before = (old[variant] as RecordedRun).messages;
+        const after = (fixed[variant] as RecordedRun).messages;
+        expect(after, variant).not.toEqual(before);
+        expect(withoutStrokeScale(after), variant).toEqual(withoutStrokeScale(before));
       }
     },
   );

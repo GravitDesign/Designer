@@ -149,19 +149,29 @@ export const outputOperators = {
     else this.initiateError("typecheck");
   },
 
+  /**
+   * Posts the current path (in device space) with the line width, dash
+   * lengths and dash phase scaled by the CTM, as PostScript applies them
+   * in user space. A border has one width, so a CTM that scales x and y
+   * differently gives the geometric mean, sqrt(|det|). The old worker
+   * scaled the width only with stroke adjustment on (by the length of the
+   * mapped diagonal) and never the dashes ("Dashed EPS borders render
+   * solid" in BUGS-FIXED.md).
+   */
   stroke(this: PSCore) {
-    let lineWidth = this.gstate.lineWidth;
-    if (this.gstate.strokeAdjustment) lineWidth *= this.CTM.getScaleFactor(this.gstate.CTM);
+    const [a, b, c, d] = this.gstate.CTM as [number, number, number, number];
+    const scale = Math.sqrt(Math.abs(a * d - b * c));
+    const dash = this.gstate.dashPattern;
     this.toGravit("stroke", [
       this.gstate.path,
       colorHelper(this)._getGColor(this.gstate.colorSpace, this.gstate.color),
-      lineWidth,
+      this.gstate.lineWidth * scale,
       this.gstate.clippingPath,
       this.gstate.lineCap,
       this.gstate.lineJoin,
       this.gstate.strokeAdjustment,
       this.gstate.miterLimit,
-      this.gstate.dashPattern,
+      { arr: dash.arr.map((length) => length * scale), param: dash.param * scale },
     ]);
     this.gstate.path = [];
   },

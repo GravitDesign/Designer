@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-117",
+  "why": "stroke scales the line width, the dash lengths and the dash phase by sqrt(|det|) of the CTM. In paths-eps the line stroked under 2 2 scale has a border width of 6 instead of 3; nothing else differs.",
+  "scenarios": ["io-import-pdf-eps/eps/paths-eps"],
+  "pending": []
+}
