@@ -8,7 +8,13 @@ import { MenuBar } from "./menu-bar.ts";
 import { MenuCloseEvent } from "./menu-close-event.ts";
 import { MenuItem } from "./menu-item.ts";
 import { MenuOpenEvent } from "./menu-open-event.ts";
-import { fake, fire, installFakeDom, type FakeDomHandle } from "./testing/fake-dom.testing.ts";
+import {
+  fake,
+  FakeElement,
+  fire,
+  installFakeDom,
+  type FakeDomHandle,
+} from "./testing/fake-dom.testing.ts";
 
 class TestAction extends Action {
   enabled = true;
@@ -103,11 +109,15 @@ describe("MenuItem", () => {
   });
 
   it("shows captions as text and icons as an <i> with the class names", () => {
+    // The fake innerHTML keeps markup as text, so the test watches its setter.
+    const asHtml = vi.spyOn(FakeElement.prototype, "innerHTML", "set");
     const item = new MenuItem();
-    item.setCaption("<b>Layer</b>");
+    item.setCaption("<b>Layer</b> &amp;");
     const caption = fake(item._htmlElement).children[1];
-    expect(caption?.textContent).toBe("<b>Layer</b>");
+    expect(caption?.textContent).toBe("<b>Layer</b> &amp;");
     expect(caption?.children).toHaveLength(0);
+    expect(asHtml).not.toHaveBeenCalled();
+    asHtml.mockRestore();
     item.setIcon('<svg class="x"');
     const icon = fake(item._htmlElement).children[0];
     expect(icon?.getAttribute("style")).toBe("");

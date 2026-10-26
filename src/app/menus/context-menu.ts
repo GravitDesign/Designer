@@ -40,6 +40,7 @@ import { Menu } from "./menu.ts";
 import { MenuItem } from "./menu-item.ts";
 import { MenuOpenEvent } from "./menu-open-event.ts";
 import { DragSource } from "../shell/drag-source.ts";
+import { nameAsTyped } from "../sidebars/layer-item.ts";
 
 /** Where a context menu request comes from (shell/drag-source.ts). */
 export const ContextMenuContext = DragSource;
@@ -431,8 +432,10 @@ export class ContextMenu {
     if ((hits && hits.length > 0 && (hits[0] as unknown) instanceof Page) || !hits || !hits.length)
       return;
     select.setEnabled(true);
+    // The old caption was HTML, which turned the stored "&lt;" and "&gt;"
+    // back; captions are text now (BUG-167), so see nameAsTyped.
     const label = (element: ContextElement): string =>
-      element instanceof Block ? element.getLabel() : element.getNodeNameTranslated();
+      element instanceof Block ? nameAsTyped(element.getLabel()) : element.getNodeNameTranslated();
     const addHit = (target: Menu, caption: string, element: ContextElement): void => {
       target.createAddItem(
         caption,

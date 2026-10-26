@@ -11,7 +11,13 @@ import { WindowEvent } from "../shell/windows.ts";
 import { duplicateTitle, Header, windowOfTab } from "./header.ts";
 import { Menu } from "./menu.ts";
 import { MenuItem } from "./menu-item.ts";
-import { fake, fire, installFakeDom, type FakeDomHandle } from "./testing/fake-dom.testing.ts";
+import {
+  fake,
+  FakeElement,
+  fire,
+  installFakeDom,
+  type FakeDomHandle,
+} from "./testing/fake-dom.testing.ts";
 
 class FakeWindows extends EventTarget {
   active: unknown = null;
@@ -185,6 +191,21 @@ describe("Header", () => {
     const tab = tabs()[0];
     expect(tab?.querySelector(".cover")?.textContent).toBe("Untitled-1*");
     expect(tab?.querySelector("input")?.value).toBe("Untitled-1*");
+  });
+
+  it("shows a title with < > and & as typed, set as text (BUG-167)", () => {
+    // The fake innerHTML keeps markup as text, so the test watches its setter.
+    const asHtml = vi.spyOn(FakeElement.prototype, "innerHTML", "set");
+    const title = "a<b>x</b> & c&amp;";
+    const { window, document } = fakeWindow(title);
+    designer.windows.trigger(new WindowEvent(WindowEvent.Type.Added, window));
+    const cover = tabs()[0]?.querySelector(".cover") as FakeElement;
+    expect(cover.textContent).toBe(title);
+    expect(cover.children).toEqual([]);
+    document.modified = true;
+    designer.trigger(new DocumentEvent(DocumentEvent.Type.Modified, document as never));
+    expect(cover.textContent).toBe(title + "*");
+    expect(asHtml).not.toHaveBeenCalled();
   });
 });
 

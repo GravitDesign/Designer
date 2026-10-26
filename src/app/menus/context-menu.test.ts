@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Node } from "../../engine/scene/node.ts";
+import { Rectangle } from "../../engine/scene/rectangle.ts";
 import { Action } from "../actions/action.ts";
 import { Designer } from "../shell/designer.ts";
 import { resetGlobals, setDesigner } from "../shell/globals.ts";
@@ -56,7 +57,7 @@ class FakeHitElement {
 interface FakeWorld {
   registered: Set<string>;
   tool: unknown;
-  hits: { element: FakeHitElement }[] | null;
+  hits: { element: FakeHitElement | Rectangle }[] | null;
   selections: unknown[][];
   hitArgs: unknown[] | null;
   touch: boolean;
@@ -294,6 +295,19 @@ describe("ContextMenu", () => {
     fire(ellipse, "mouseup");
     expect(other.flags.has(Node.Flag.Highlighted as number)).toBe(false);
     expect(world.selections).toEqual([[other]]);
+  });
+
+  it("shows a hit's name in Select as typed, not as stored (BUG-167)", () => {
+    const rectangle = new Rectangle();
+    rectangle.setProperty("name", "a<b> & c");
+    // The engine stores "<" and ">" escaped (Block's name filter).
+    expect(rectangle.getLabel()).toBe("a&lt;b&gt; & c");
+    world.hits = [{ element: rectangle }];
+    create();
+    rightClick(windows, 100, 200);
+    const root = openMenus()[0] as FakeElement;
+    fire(root.children[root.children.length - 1], "mouseover");
+    expect(captions(openMenus()[1] as FakeElement)).toEqual(["1. a<b> & c"]);
   });
 
   it("disables Select when nothing is under the cursor", () => {

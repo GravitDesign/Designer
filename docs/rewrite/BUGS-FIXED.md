@@ -3529,3 +3529,29 @@ handler (lines 168171-168200); module 1717 does it right for pages.
   name on the row while dragging, then its own again (BUG-159)" (fails
   with the old timer: the row shows "G" instead of "A").
 - Parity exceptions: none.
+
+## BUG-167 Menu captions and tab titles are read as HTML
+
+Old code: designer.browser.dev.js module 339 (GMenuItem.setCaption,
+lines 14297-14307, `.html()`), module 1500 (GHeader._addWindowTab and
+_documentEvent, lines 128585 and 128677) and module 1303 (GContextMenu,
+the Select hit list, lines 100830-100855).
+
+- Reproduce: save a file as `a<b>.gvdesign` or rename a tab to `a&amp;b`
+  and look at the tab. Or name a layer `a<b>`, right-click it on the
+  canvas and open Select.
+- Old: captions and tab titles were inserted as HTML. The tab of
+  `a<b>.gvdesign` showed "a" and a bold ".gvdesign", and `a&amp;b`
+  showed "a&b". Layer names are stored with "<" and ">" escaped, so in
+  the Select list the HTML turned them back and `a<b>` showed as typed.
+- New: captions and tab titles are set as text and show exactly what was
+  typed. The Select list turns the stored "&lt;" and "&gt;" of a layer
+  name back first, so `a<b>` still shows "1. a<b>".
+- Test: src/app/menus/header.test.ts, "shows a title with < > and & as
+  typed, set as text (BUG-167)"; src/app/menus/menu.test.ts, "shows
+  captions as text and icons as an <i> with the class names" (both fail
+  when the text goes in through innerHTML); src/app/menus/context-menu.test.ts,
+  "shows a hit's name in Select as typed, not as stored (BUG-167)" (fails
+  without the decoding: "1. a&lt;b&gt; & c").
+- Parity exceptions: none. The ui/context Select scenarios use names
+  without "<", ">" or "&".
