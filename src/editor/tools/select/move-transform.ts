@@ -309,6 +309,12 @@ function collectDropTargets(tool: SelectTool, sceneCurrent: Point | null): void 
       );
       const notPages = tool._itemsToAddToPage.filter((item) => !(item.source instanceof Page));
       if (notPages.length) tool._itemsToAddToPage = notPages;
+    } else {
+      // Back over the own page there is no page target. The old code kept
+      // the last one, so the drop still went to the page the pointer had
+      // left and that page stayed highlighted (BUG-057 A page drop target
+      // is never shown highlighted).
+      tool._itemsToAddToPage = [];
     }
   }
   tool._itemsToAddToImageMask = [];

@@ -90,6 +90,27 @@ describe("SelectTool drop onto another page", () => {
     expect(trf(a)).toEqual([25, 0, 0, 25, 45, 45]);
   });
 
+  it("BUG-057: drops the page target when the pointer goes back over the own page", async () => {
+    const { page1, page2, editor, tool, input } = multiPage();
+    const a = rect(page1, 20, 20, 50, 50);
+    input.down(40, 140);
+    input.drag(41, 140);
+    vi.advanceTimersByTime(40);
+    input.drag(150, 140);
+    input.drag(300, 140);
+    expect(page2.hasFlag(NodeFlag.Highlighted)).toBe(true);
+    input.drag(60, 140);
+    // The old code kept page 2 as the target (and highlighted) and moved
+    // the element there on the drop.
+    expect(page2.hasFlag(NodeFlag.Highlighted)).toBe(false);
+    expect(tool._itemsToAddToPage).toEqual([]);
+    await input.up(60, 140);
+    expect(a.getParent()).toBe(page1);
+    expect(trf(a)).toEqual([25, 0, 0, 25, 65, 45]);
+    expect(editor.getUndoStateName()).toBe("Transform Selection");
+    expect(page2.hasFlag(NodeFlag.Highlighted)).toBe(false);
+  });
+
   it("takes along the elements the dragged one is linked to", async () => {
     const { page1, page2, scene, tool, input } = multiPage();
     const a = rect(page1, 20, 20, 50, 50);

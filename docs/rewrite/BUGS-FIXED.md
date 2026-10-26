@@ -1297,24 +1297,31 @@ _compStart 103462, _compEnd 103470).
 ## BUG-057 A page drop target is never shown highlighted
 
 Old code: chunk.vendor.js module 334 (GSelectTool._updateSelectionTransform),
-lines 60238-60254, cleanups at 60277 and 60281.
+lines 60222-60254, cleanups at 60277 and 60281.
 
 - Reproduce: in the multi-page view, drag an element from one page over
-  another page.
+  another page, and then back over its own page.
 - Old: the page drop target was gathered and highlighted, and then the
   image mask cleanup walked the whole scene with an empty target list and
   cleared the page's highlight in the same step. The drop worked, but the
-  page never showed as the target (Q-203).
+  page never showed as the target (Q-203). Back over the own page the
+  target list wasn't recomputed, so the last target stayed: a release
+  there still moved the element into the other page, outside its bounds.
 - New: the image mask cleanup counts the page targets as targets too, so
   the target page stays highlighted during the drag and loses the
-  highlight on the drop. As before, the target isn't dropped when the
-  pointer goes back over the element's own page (the drop then still goes
-  to the other page), so the highlight shows where the drop will land.
+  highlight on the drop. Back over the own page there is no page target
+  any more: the other page loses its highlight and a release there only
+  moves the element on its own page.
 - Test: src/editor/tools/select-tool-drop.test.ts, "BUG-057: moves the
   element into the page under the pointer, highlighting it while
-  dragging" (fails with the old code: the page isn't highlighted).
+  dragging" (fails with the old code: the page isn't highlighted) and
+  "BUG-057: drops the page target when the pointer goes back over the own
+  page" (fails with the old code: the page stays the target, highlighted,
+  and the element is moved into it).
 - Parity exceptions: none. No recorded scenario drags an element onto
-  another page.
+  another page. The page label drags (editor-tools/eledit/page-label-*)
+  keep the active page under the pointer, where the list is now empty
+  instead of null; that gives the same drop and the same flags.
 
 ## BUG-058 Knife: Space during a drag throws the point off by the scroll
 
