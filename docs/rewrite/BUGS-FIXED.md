@@ -2897,3 +2897,23 @@ Old code: designer.browser.dev.js module 1331
   editor-actions/exec/edit.cut--group-child and
   editor-actions/clipboard/keyboard (checks cut and cut-paste). The ""
   in their undo and redo lists is "Cut Selection".
+
+## BUG-140 Copying a group together with its child pastes the child twice
+
+Old code: designer.browser.dev.js module 1331
+(GCutCopyAction._filterOutSelectionWithSameParent, lines 104308-104326).
+
+- Reproduce: in the Layers panel, select a group and Ctrl+click one of
+  its children, copy (Ctrl+C) and paste (Ctrl+V).
+- Old: the filter meant to drop nodes whose ancestor is copied too, but
+  its findParent predicate never returned true, so the topmost ancestor
+  decided and nothing was dropped. The clipboard held the group and the
+  child again next to it, and pasting gave an extra copy of the child.
+- New: a node with a copied ancestor is left out, so the clipboard holds
+  the group once with its children. Cut uses the same filter.
+- Test: src/app/actions/edit/cut-copy-action.test.ts, "leaves out a
+  selected child of a selected group (BUG-140)" (fails with the old
+  predicate).
+- Parity exceptions: editor-actions/clipboard/keyboard, check
+  copy-group-child-and-parent. The internal and system clipboard data
+  hold only the group, without the trailing copy of rectangle A.

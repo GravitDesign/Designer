@@ -160,24 +160,17 @@ export class CutCopyAction extends Action {
   }
 
   /**
-   * Meant to drop every node that has an ancestor among the nodes kept
-   * before it. The predicate never returns true, so findParent walks all
-   * ancestors and only the last one (the topmost) decides, and only for
-   * the last kept node: in practice nothing is dropped. Kept, see "Copy
-   * keeps children of copied groups" in QUESTIONS.md.
+   * Drops every node that has an ancestor among the nodes kept before it
+   * (tree order puts a group before its children), so a group copied
+   * together with its child holds the child once. Old: the predicate never
+   * returned true, so only the topmost ancestor decided and in practice
+   * nothing was dropped (BUG-140).
    */
   private _filterOutSelectionWithSameParent(selection: Node[] = []): Node[] {
     const nodes = Node.order(selection.slice()) as Node[];
     const kept: Node[] = [];
     const hasKeptAncestor = function (node: Node): boolean {
-      let found = false;
-      kept.forEach((candidate) => {
-        node.findParent((parent) => {
-          found = parent === candidate;
-          return undefined;
-        });
-      });
-      return found;
+      return kept.some((candidate) => !!node.findParent((parent) => parent === candidate));
     };
     for (let i = 0; i < nodes.length; ++i) {
       if (!hasKeptAncestor(nodes[i] as Node)) kept.push(nodes[i] as Node);
