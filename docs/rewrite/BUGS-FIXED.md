@@ -2813,3 +2813,23 @@ lines 102591-102593).
   alert for an invalid offset (BUG-135)" (fails with the old alert).
 - Parity exceptions: editor-actions/path-dialogs/offset-invalid. The
   alert's message in after.dialogs is the offset text.
+
+## BUG-136 Ctrl+Shift+= doesn't zoom in
+
+Old code: designer.browser.dev.js module 1491,
+GDesigner.registerShortcut (lines 123232-123237).
+
+- Reproduce: on a US keyboard press Ctrl+Shift+= (Cmd+Shift+= on a Mac),
+  the "+" key the menu shows for View > Zoom In.
+- Old: the shortcut [META, "+"] was bound as Mousetrap's "mod++", which
+  on keydown only matches the "+" the numpad sends, and also as "mod+="
+  for the key without shift. Ctrl+Shift+= matched neither, so nothing
+  happened. Ctrl+= and Ctrl+numpad + zoomed in.
+- New: [META, "+"] is also bound as "mod+shift+=", so Ctrl+Shift+= zooms
+  in like Ctrl+=. The other bindings are unchanged.
+- Test: src/app/shell/designer.test.ts, "binds [META, +] to the numpad +,
+  mod+= and mod+shift+= (BUG-136)" (fails with the old bindings: no
+  mod+shift+= combo).
+- Parity exceptions: editor-actions/shortcuts/view-zoom, case
+  zoom-in-plus. The `.fixed` file has that case zoomed in, the same as
+  zoom-in-equal. The other cases are unchanged.

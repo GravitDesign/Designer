@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { Key } from "../../engine/core/key.ts";
 import { WebBrowser } from "../../engine/core/platform.ts";
 import { Hardware, OperatingSystem, System } from "../../engine/core/system.ts";
 import { SoftwareUpdateEvents } from "../dialogs/software-update-events.ts";
@@ -14,6 +15,7 @@ import { Designer } from "./designer.ts";
 import { resetGlobals, setContainer, setDesigner } from "./globals.ts";
 import { setLateModules } from "./late.ts";
 import { Layout } from "./layout-ids.ts";
+import { setShortcutBinder, SingleKeyBinder } from "./shortcut-binder.ts";
 
 const saved = { hardware: System.hardware, operatingSystem: System.operatingSystem };
 let dom: FakeDomHandle;
@@ -267,5 +269,31 @@ describe("Designer.start: the stored global swatches (module 1491)", () => {
     const designer = new Designer();
     await expect(designer.start()).resolves.toBeDefined();
     expect(designer.getSwatches("global")).toHaveLength(1);
+  });
+});
+
+describe("Designer.registerShortcut (module 1491)", () => {
+  it("binds [META, +] to the numpad +, mod+= and mod+shift+= (BUG-136)", () => {
+    const bound: string[] = [];
+    const record = (combo: string, _callback: unknown, phase?: string) =>
+      bound.push(combo + " " + (phase ?? "-"));
+    setShortcutBinder({ bind: record, bindGlobal: record, reset() {} });
+    try {
+      new Designer().registerShortcut(
+        [Key.Constant.META, "+"],
+        () => true,
+        true,
+        () => true,
+      );
+    } finally {
+      setShortcutBinder(new SingleKeyBinder());
+    }
+    expect(bound.slice(1)).toEqual([
+      "mod+= keydown",
+      "mod+shift+= keydown",
+      "mod+= keyup",
+      "mod+shift+= keyup",
+    ]);
+    expect(bound[0]?.endsWith("+ -")).toBe(true);
   });
 });

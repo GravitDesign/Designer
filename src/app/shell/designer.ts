@@ -746,7 +746,7 @@ export class Designer extends EventTarget {
   /**
    * Binds a key combo. While a text is edited inline its editor gets the
    * key first; a handler returning true stops the event. [META, "+"] also
-   * binds mod+= (the key the plus sits on).
+   * binds mod+= and mod+shift+= (the key the plus sits on).
    */
   registerShortcut(
     keys: readonly KeyValue[],
@@ -778,9 +778,16 @@ export class Designer extends EventTarget {
     const binder = shortcutBinder();
     const bind = global ? binder.bindGlobal.bind(binder) : binder.bind.bind(binder);
     if (2 === keys.length && keys[0] === Key.Constant.META && "+" === keys[1]) {
+      // "mod++" only matches the numpad's + on keydown, and "mod+=" the
+      // key without shift. Ctrl+Shift+= (the + of US layouts) matched
+      // neither in the old app (BUGS-FIXED BUG-136).
       bind(shortcutToMousetrap(keys), wrap(down, true));
       bind("mod+=", wrap(down, true), "keydown");
-      if (up) bind("mod+=", wrap(up, false), "keyup");
+      bind("mod+shift+=", wrap(down, true), "keydown");
+      if (up) {
+        bind("mod+=", wrap(up, false), "keyup");
+        bind("mod+shift+=", wrap(up, false), "keyup");
+      }
     } else {
       bind(shortcutToMousetrap(keys), wrap(down, true), "keydown");
       if (up) bind(shortcutToMousetrap(keys), wrap(up, false), "keyup");
