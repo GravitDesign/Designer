@@ -339,10 +339,8 @@ export class BrowserFileStorage extends Storage {
    * Asks for files to open and calls done(item, count) for each. With the
    * API every chosen file is read in parallel and keeps its handle; a
    * cancelled picker is ignored. Otherwise the hidden file input is used:
-   * created once (its multiple flag is set only then; see "The file input
-   * keeps the multiple flag of its first use" in QUESTIONS.md), the accept list
-   * from the file types (none on macOS and iOS), files read one after the
-   * other. With silent the input is prepared but not clicked.
+   * created once, the multiple flag and the accept list set on each call
+   * (no accept list on macOS and iOS), files read one after the other. With silent the input is prepared but not clicked.
    */
   override openPrompt(
     fileTypes: readonly StorageFileType[],
@@ -390,7 +388,6 @@ export class BrowserFileStorage extends Storage {
       const input = document.createElement("input");
       input.setAttribute("type", "file");
       input.setAttribute("id", "file-input");
-      input.multiple = !!multiple;
       input.style.opacity = "0";
       input.style.position = "absolute";
       input.style.zIndex = "-1";
@@ -426,6 +423,9 @@ export class BrowserFileStorage extends Storage {
       document.body.appendChild(input);
     }
     const input = this._fileInput;
+    // Old: set only when the input was created, so it kept the first
+    // prompt's flag (BUGS-FIXED BUG-142).
+    input.multiple = !!multiple;
     if (System.operatingSystem === System.OperatingSystem.OSX_IOS) {
       input.removeAttribute("accept");
     } else if (extensions && extensions.length) {

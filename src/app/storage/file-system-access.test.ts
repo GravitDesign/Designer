@@ -192,13 +192,14 @@ describe("open (FMT-STORAGE-003, FMT-STORAGE-004)", () => {
     expect(input.value).toBe("");
   });
 
-  it("creates the input once: multiple stays as first set, accept follows each call", () => {
+  it("creates the input once: multiple and accept follow each call (BUG-142)", () => {
     const storage = new BrowserFileStorage();
     storage.openPrompt([GVDESIGN], () => {}, false);
+    expect((dom.created[0] as FakeElement).multiple).toBe(false);
     storage.openPrompt([], () => {}, true, { silent: true });
     expect(dom.created).toHaveLength(1);
     const input = dom.created[0] as FakeElement;
-    expect(input.multiple).toBe(false);
+    expect(input.multiple).toBe(true);
     expect(input.getAttribute("accept")).toBeNull();
     expect(input.clicks).toBe(1);
     expect(input.focused).toBe(2);

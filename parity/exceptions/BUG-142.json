@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-142",
+  "why": "The fallback file input sets its multiple flag on every prompt, not only on the first. platform/files/input-fallback-open prompts once and is unaffected.",
+  "scenarios": [],
+  "pending": []
+}

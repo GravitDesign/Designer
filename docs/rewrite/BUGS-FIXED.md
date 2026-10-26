@@ -2937,3 +2937,22 @@ execute, lines 154695-154697).
   (fails with the old names).
 - Parity exceptions: none. No scenario turns fast view off on a page
   with clipping off.
+
+## BUG-142 The fallback file input keeps the multiple flag of its first use
+
+Old code: designer.browser.dev.js module 1195, openPrompt (the file
+input branch, line 77177).
+
+- Reproduce: in a browser without the File System Access API (Firefox,
+  Safari), use File > Place Image, then File > Open Local File... and try
+  to choose several files. Or open first, then place an image.
+- Old: the hidden file input was created on the first prompt, and its
+  multiple flag was set only then. Later prompts changed the accept list
+  but not the flag. After a single-file prompt every later prompt took
+  one file, and after an Open every picker took several.
+- New: each prompt sets the flag it asks for.
+- Test: src/app/storage/file-system-access.test.ts, "creates the input
+  once: multiple and accept follow each call (BUG-142)" (fails with the
+  old prompt: multiple stays false).
+- Parity exceptions: none. platform/files/input-fallback-open opens once
+  and records the same attributes.
