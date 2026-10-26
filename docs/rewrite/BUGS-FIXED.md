@@ -1316,6 +1316,26 @@ lines 60238-60254, cleanups at 60277 and 60281.
 - Parity exceptions: none. No recorded scenario drags an element onto
   another page.
 
+## BUG-058 Knife: Space during a drag throws the point off by the scroll
+
+Old code: chunk.vendor.js module 757 (GKnifeTool._updatePointProperties),
+lines 105290-105318.
+
+- Reproduce: with the knife tool, press and drag out the cut line and
+  hold Space while dragging. The app view is always scrolled (the page is
+  centred), so this happens on every move.
+- Old: the point's own coordinates plus the pointer delta were passed to
+  _updatePoint, which reads its argument as a view position. In a
+  scrolled view the line's point flew off by the scroll, as the pen's did
+  (BUG-046); zoom broke it as well.
+- New: the point is mapped to view space first (through the knife's
+  transform from native coordinates), the pointer delta is added there,
+  and the returned view position is compared with that same view point.
+- Test: src/editor/tools/knife-tool.test.ts, "BUG-058: moves the line's
+  point by the pointer delta in a scrolled view too" (fails with the old
+  code: [-230, 60] instead of [170, 260]).
+- Parity exceptions: none. No recorded knife scenario holds Space.
+
 ## BUG-100 A .gvdesign without a scene, or with cut-off JSON, stays Loading forever
 
 Old code: designer.browser.dev.js module 163, GDocument.deserializeData

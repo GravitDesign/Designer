@@ -166,6 +166,39 @@ describe("KnifeTool", () => {
   });
 });
 
+describe("KnifeTool Space", () => {
+  /**
+   * Presses at (100, 200), drags to (130, 200), then to (150, 230) with
+   * Space. The move puts the line's new point on the pointer, then Space
+   * moves it by the pointer delta (20, 30).
+   */
+  function spaceDrag(originX: number, originY: number): unknown[] {
+    const { input, tool, view } = setup();
+    view.transform(-originX, -originY, 1);
+    const at = (x: number, y: number): [number, number] => [x + originX, y + originY];
+    pause();
+    input.down(...at(100, 200));
+    input.drag(...at(130, 200));
+    setModifiers({ spaceKey: true });
+    input.drag(...at(150, 230));
+    const point = tool._editPt as AnchorPoint;
+    const out = [point.getProperty("x"), point.getProperty("y")];
+    setModifiers({ spaceKey: false });
+    input.up(...at(150, 230));
+    return out;
+  }
+
+  it("moves the line's point by the pointer delta", () => {
+    expect(spaceDrag(0, 0)).toEqual([170, 260]);
+  });
+
+  it("BUG-058: moves the line's point by the pointer delta in a scrolled view too", () => {
+    // The old code read the point's scene position plus the delta as a
+    // view position: [170 - 400, 260 - 200].
+    expect(spaceDrag(400, 200)).toEqual([170, 260]);
+  });
+});
+
 /**
  * A shape of a recorded knife case (knife-cuts.recorded.json). The old
  * app built the same shapes with the same values, cut them with the knife

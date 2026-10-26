@@ -521,15 +521,21 @@ export class KnifeTool extends PathTool {
     this._invalidate();
     if (Platform.modifiers.spaceKey) {
       if (this._lastMouseEvent && this._lastMouseEvent.clientDelta && this._editPt) {
-        const x = this._editPt.getProperty("x") as number;
-        const y = this._editPt.getProperty("y") as number;
-        let moved = new Point(
-          x + this._lastMouseEvent.clientDelta.getX(),
-          y + this._lastMouseEvent.clientDelta.getY(),
+        // The point moves by the pointer delta in view space. The old code
+        // added the delta to the point's own coordinates and read that as
+        // a view position (BUG-058 Knife: Space during a drag throws the
+        // point off by the scroll).
+        const from = this.getTransformFromNative(
+          this._view.getWorldTransform(this._view.getScene().getActivePage()),
+        ).mapPoint(
+          new Point(
+            this._editPt.getProperty("x") as number,
+            this._editPt.getProperty("y") as number,
+          ),
         );
-        moved = this._updatePoint(moved);
+        const moved = this._updatePoint(from.add(this._lastMouseEvent.clientDelta));
         this._invalidate();
-        result = result.add(new Point(moved.getX() - x, moved.getY() - y));
+        result = result.add(new Point(moved.getX() - from.getX(), moved.getY() - from.getY()));
       }
     } else {
       result = this._constrainIfNeeded(
