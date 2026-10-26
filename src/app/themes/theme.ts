@@ -2,11 +2,10 @@
 /**
  * The light and dark themes are the two old stylesheets
  * (designer.browser.light.css and .dark.css in public/). Switching
- * rewrites the theme link's href; once the stylesheet text has been
- * fetched again (the old code used jQuery's $(link).load(url, done)), the
- * guide line colours follow the theme, every view recreates its rulers
- * (they read their colours from the stylesheet) and the label colour is
- * picked to read on #windows' background.
+ * rewrites the theme link's href; once the link has loaded the new
+ * stylesheet, the guide line colours follow the theme, every view
+ * recreates its rulers (they read their colours from the stylesheet) and
+ * the label colour is picked to read on #windows' background.
  */
 import { RGBColor } from "../../engine/color/rgb-color.ts";
 import { Platform } from "../../engine/core/platform.ts";
@@ -72,10 +71,15 @@ export function setTheme(value: unknown, windows: ThemedWindows, relayout: () =>
   const href = themeHref(link.getAttribute("href") as string, theme);
   const changed = link.getAttribute("href") !== href || !link.sheet;
   // The rulers read their colours from the stylesheet, so wait until the
-  // new one applies as well. The old code raced the link against the
-  // request; waiting for both takes the race out.
+  // new one applies. The old code ran the callback when its own request for
+  // the stylesheet ($(link).load(href, done)) completed, which raced the
+  // link (BUG-170). That second download of the 2.3 MB file only stood in
+  // for "loaded", so the link's own load or error event is all we wait for.
+  // An unchanged stylesheet still waits for a later task, as the request
+  // did: at boot the first window is open by then, so its rulers are
+  // recreated and its label colour picked in the same order as before.
   const applied = new Promise<void>((resolve) => {
-    if (!changed) resolve();
+    if (!changed) setTimeout(resolve, 0);
     else {
       link.addEventListener("load", () => resolve(), { once: true });
       link.addEventListener("error", () => resolve(), { once: true });
@@ -95,12 +99,7 @@ export function setTheme(value: unknown, windows: ThemedWindows, relayout: () =>
     }
     updateTheme(windows, relayout);
   };
-  // $(link).load(href, done): the callback runs when the request
-  // completes, successfully or not.
-  const fetched = fetch(href)
-    .then((response) => response.text())
-    .catch(() => "");
-  Promise.all([fetched, applied]).then(done, done);
+  void applied.then(done);
 }
 
 /** GDesigner._updateTheme: black or white labels, whichever reads on #windows. */

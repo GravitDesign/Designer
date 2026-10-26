@@ -62,12 +62,14 @@ class FakeLink {
 
 describe("setTheme", () => {
   let link: FakeLink;
+  let fetchSpy: ReturnType<typeof vi.fn>;
   const guideLineColor = EditorOptions.guideLineColor;
   const guideLineHintColor = EditorOptions.guideLineHintColor;
   beforeEach(() => {
     link = new FakeLink();
     vi.stubGlobal("document", { querySelector: () => link });
-    vi.stubGlobal("fetch", () => Promise.resolve({ text: () => Promise.resolve("css") }));
+    fetchSpy = vi.fn(() => Promise.resolve({ text: () => Promise.resolve("css") }));
+    vi.stubGlobal("fetch", fetchSpy);
   });
   afterEach(() => {
     EditorOptions.guideLineColor = guideLineColor;
@@ -96,13 +98,13 @@ describe("setTheme", () => {
     return { themed, toggles };
   }
 
-  it("recreates the rulers only once the new stylesheet has loaded, not when the fetch is done (BUG-170)", async () => {
+  it("recreates the rulers only once the new stylesheet has loaded (BUG-170)", async () => {
     const { themed, toggles } = windows();
     const relayout = vi.fn();
     setTheme("dark", themed, relayout);
     expect(link.href).toBe("designer.browser.dark.css");
     await settle();
-    // The fetch is done, the link still has the light sheet.
+    // The link still has the light sheet.
     expect(toggles).toEqual([]);
     expect(relayout).not.toHaveBeenCalled();
     link.fire("load");
@@ -110,6 +112,17 @@ describe("setTheme", () => {
     expect(toggles).toEqual([false, true]);
     expect(relayout).toHaveBeenCalledTimes(1);
     expect(EditorOptions.guideLineHintColor).toBe("#F790B6");
+  });
+
+  it("doesn't download the stylesheet a second time to wait for it", async () => {
+    const { themed, toggles } = windows();
+    setTheme("dark", themed, () => {});
+    link.fire("load");
+    await settle();
+    expect(toggles).toEqual([false, true]);
+    setTheme("dark", themed, () => {});
+    await settle();
+    expect(fetchSpy).not.toHaveBeenCalled();
   });
 
   it("goes on when the stylesheet fails to load, and doesn't wait for an unchanged one", async () => {
