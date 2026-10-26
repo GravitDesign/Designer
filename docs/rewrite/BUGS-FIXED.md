@@ -3096,3 +3096,28 @@ mousemoveIncrement (lines 167517-167544).
   for a still or downward move from 10).
 - Parity exceptions: none. ui/fields/scrubbing runs with one decimal (px
   default) and is unaffected.
+
+## BUG-150 Advanced Export in a tall window pushes the settings off screen
+
+Old code: designer.browser.light.css lines 15332-15334 and
+designer.browser.dark.css line 15381, `.g-export-dialog >
+.g-dialog-content { width: 120vh }`.
+
+- Reproduce: in a window taller than wide (or less than 1.2 times as wide
+  as tall, plus the dialog's padding), open File > Export > Advanced
+  Export.
+- Old: the dialog's content was always 120% of the window's height wide.
+  In a 1600 x 2000 window that is 2400px, so the centered dialog spilled
+  over both sides and the settings column on the left was off screen; only
+  the preview was visible.
+- New: the content is 120vh wide but never wider than the window less the
+  dialog's 20px padding on each side, so the whole dialog stays in the
+  window. Windows wide enough for 120vh look the same as before.
+- Test: src/app/export/export-dialog-stylesheet.test.ts, "keeps the
+  dialog inside a window taller than wide (light, BUG-150)" and "(dark,
+  BUG-150)" (fail with the old stylesheets, whose width is 120vh).
+- Parity exceptions: ui/dialog/export-canvas-tall-window.light (the
+  dialog now spans the window's width with the settings column visible).
+  ui/dialog/export-canvas-tall-window.dom doesn't change. The other export
+  dialog scenarios run at 1600 x 1000, where 120vh (1200px) is narrower
+  than the window, and are unaffected.

@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-150",
+  "why": "The Advanced Export dialog's content is at most the window's width less the dialog padding (min(120vh, 100vw - 40px)) instead of always 120vh. In the 1600 x 2000 window the dialog now fits the window and shows its settings column; before, it was 2440px wide and only the preview was on screen.",
+  "scenarios": ["ui/dialog/export-canvas-tall-window.light"],
+  "pending": []
+}

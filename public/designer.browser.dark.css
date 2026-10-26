@@ -15378,7 +15378,8 @@ body.g-touch .g-auto-edit {
   position: relative;
 }
 .g-dialog.g-export-dialog > .g-dialog-content {
-  width: 120vh;
+  /* Was 120vh, wider than a tall window (BUG-150); 40px is the dialog padding. */
+  width: min(120vh, calc(100vw - 40px));
   height: 80vh;
   display: -webkit-box;
   display: -ms-flexbox;
