@@ -3142,3 +3142,22 @@ line 86738) and its lookup U (lines 86723-86728).
   from the add panel but keeps their forms" (both fail with the old table).
 - Parity exceptions: none. No recorded scenario selects an element with
   one of these effects.
+
+## BUG-152 Dragging an effect row and not dropping it on a row deletes the effect
+
+Old code: designer.browser.dev.js module 1262, the effect row's drag
+handlers (dragstart line 84561, drop 84615, dragend 84661-84690).
+
+- Reproduce: in the Effects panel, start dragging an effect row and press
+  Escape, let go between two rows, or let go on the canvas.
+- Old: dragend removed the dragged effect (from every selected element)
+  unless a drop on a row had happened first. The trash icon shown outside
+  the panel was decoration only. Undo brought the effect back.
+- New: the effect is removed only when it is let go outside the panel,
+  where the trash icon shows, like fill and border rows. The last drag
+  event before dragend, which Chrome sends at (0, 0), is ignored for that.
+- Test: src/app/inspector/effect-properties-rows.test.ts, "keeps the effect
+  when the drag ends without a drop inside the panel (BUG-152)" (fails with
+  the old code) and "removes a row's effect from every element when let go
+  outside the panel".
+- Parity exceptions: none. No recorded scenario drags an effect row.

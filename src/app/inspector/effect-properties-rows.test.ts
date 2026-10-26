@@ -202,17 +202,45 @@ describe("EffectProperties row drag", () => {
     expect(start()).toBe(false);
   });
 
-  it("removes a row's effect from every element when the drag ends without a drop", () => {
+  it("keeps the effect when the drag ends without a drop inside the panel (BUG-152)", () => {
+    const { properties, panel } = initPanel();
+    const { scene, rect } = rectWith(shadow(1), shadow(2));
+    const other = besides(scene, shadow(1), shadow(2));
+    properties.update(documentOf(scene, t.commits), [rect, other]);
+    // Escape, or letting go between rows: no drop, no drag outside.
+    let row = rows(panel)[0] as FakeElement; // shadow 2
+    startDrag(row, headerOf(row));
+    fire(row, "dragend");
+    // Out of the panel and back in, then Chrome's last drag event at (0, 0).
+    row = rows(panel)[0] as FakeElement;
+    startDrag(row, headerOf(row));
+    fire(row, "drag", { clientX: -50, clientY: 10 });
+    fire(row, "drag", { clientX: 10, clientY: 0 });
+    fire(row, "drag", { clientX: 0, clientY: 0 });
+    fire(row, "dragend");
+    expect(xs(rect)).toEqual([1, 2]);
+    expect(xs(other)).toEqual([1, 2]);
+    expect(titles).toEqual([]);
+  });
+
+  it("removes a row's effect from every element when let go outside the panel", () => {
     const { properties, panel } = initPanel();
     const { scene, rect } = rectWith(shadow(1), shadow(2));
     const other = besides(scene, shadow(1), shadow(2));
     properties.update(documentOf(scene, t.commits), [rect, other]);
     const row = rows(panel)[0] as FakeElement; // shadow 2
     startDrag(row, headerOf(row));
+    fire(row, "drag", { clientX: -50, clientY: 10 });
+    fire(row, "drag", { clientX: 0, clientY: 0 });
     fire(row, "dragend");
     expect(xs(rect)).toEqual([1]);
     expect(xs(other)).toEqual([1]);
     expect(titles).toEqual([str(KEY, "action.remove")]);
+    // The next drag starts without the trash.
+    const next = rows(panel)[0] as FakeElement;
+    startDrag(next, headerOf(next));
+    fire(next, "dragend");
+    expect(xs(rect)).toEqual([1]);
   });
 });
 

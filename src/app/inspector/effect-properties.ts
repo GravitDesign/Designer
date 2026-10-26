@@ -362,6 +362,8 @@ export class EffectProperties extends Properties implements EffectFormHost {
     let grabX = 0;
     let grabY = 0;
     let pressTarget: EventTarget | null = null;
+    // Whether the last drag event was outside the panel, on the trash.
+    let deleting = false;
     const toggleCollapse = () => {
       Editor.tryRunTransaction(
         effect,
@@ -465,6 +467,7 @@ export class EffectProperties extends Properties implements EffectFormHost {
       grabX = event.clientX - rowOffset.left;
       grabY = event.clientY - rowOffset.top;
       event.stopPropagation();
+      deleting = false;
       dragged = getData<Effect>(row, "effect") ?? null;
       const transfer = event.dataTransfer;
       if (transfer) {
@@ -538,7 +541,10 @@ export class EffectProperties extends Properties implements EffectFormHost {
       }
     });
     block.addEventListener("drag", (event) => {
-      if (image) handleDragForDeleteIcon(event, image, panelOffset, panelHeight, grabX, grabY);
+      // Chrome sends the last drag event before dragend at (0, 0); it
+      // doesn't say where the row was let go.
+      if (image && (event.clientX || event.clientY))
+        deleting = handleDragForDeleteIcon(event, image, panelOffset, panelHeight, grabX, grabY);
     });
     block.addEventListener("dragend", (event) => {
       for (const indicator of panel.querySelectorAll(".g-drop-indicator")) indicator.remove();
@@ -546,10 +552,11 @@ export class EffectProperties extends Properties implements EffectFormHost {
       if (image) css(image, "display", "none");
       image = null;
       event.stopPropagation();
-      // A drag that wasn't dropped on a row removes the effect, wherever it
-      // ended (BF-105 in docs/rewrite/bugfix-plan.md: "Dragging an effect row
-      // and not dropping it on a row deletes the effect").
-      if (dragged) {
+      // Removes the effect only when it was let go on the trash, outside the
+      // panel, like the fill and border panels. The old code removed it
+      // after any drag that didn't end on a row: Escape, between rows or on
+      // the canvas (BUG-152).
+      if (dragged && deleting) {
         const removing = dragged;
         const elements = this._elements as EffectsOwner[];
         Editor.tryRunTransaction(
