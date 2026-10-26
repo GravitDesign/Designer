@@ -2750,3 +2750,21 @@ global swatches, around line 122979).
   read and keeps the others (BUG-132)" (fails with the old loop: start()
   rejects with "Unregistered Pattern Class.").
 - Parity exceptions: none. No recorded scenario stores a bad swatch.
+
+## BUG-133 Pasting a texture with nothing copied shows the arrowhead message
+
+Old code: designer.browser.dev.js module 1150, the pattern chooser's
+texture Paste button (lines 68890-68918, GCommonNames
+"arrow-paste.alert").
+
+- Reproduce: in a fill's chooser, pick Texture, copy something that is
+  not a shape or group (or nothing), and click Paste.
+- Old: the alert said "Select a shape, copy it to clipboard then paste it
+  as arrow here.", the message of the border panel's arrowhead paste.
+- New: the alert says "Select a shape, copy it to clipboard then paste it
+  as texture here." (new string GCommonNames "texture-paste.alert"). The
+  arrowhead paste keeps its message.
+- Test: src/app/color/color-chooser.test.ts, "paste without a shape on the
+  clipboard alerts with the texture message (BUG-133)" (fails with the
+  old code, which alerts the arrow text).
+- Parity exceptions: none.

@@ -1360,7 +1360,8 @@ export class PatternChooser {
           break;
         }
       }
-    if (!pasted) window.alert(text("GCommonNames", "arrow-paste.alert"));
+    // The old app showed the arrowhead message here (BUG-133).
+    if (!pasted) window.alert(text("GCommonNames", "texture-paste.alert"));
   }
 
   __getCreatePaletteSwatchParamas(): TouchParams {

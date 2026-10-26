@@ -621,7 +621,7 @@ describe("PatternChooser branches without a parity scenario (R7-C-103)", () => {
     expect(clicked).toEqual(["C#[255,0,0]"]);
   });
 
-  it("paste without a shape on the clipboard alerts", () => {
+  it("paste without a shape on the clipboard alerts with the texture message (BUG-133)", () => {
     const { chooser: c, root } = chooser();
     const onPattern = vi.fn();
     open(c, { onPattern });
@@ -630,7 +630,7 @@ describe("PatternChooser branches without a parity scenario (R7-C-103)", () => {
     q(root, ".paste-btn").click();
     expect(window.alert).toHaveBeenCalledTimes(1);
     expect(window.alert).toHaveBeenCalledWith(
-      Locale.get(new LocaleKey("GCommonNames", "arrow-paste.alert")),
+      "Select a shape, copy it to clipboard then paste it as texture here.",
     );
     expect(onPattern).not.toHaveBeenCalled();
   });
