@@ -878,8 +878,10 @@ module 70, GText.setText (16656-16720), which doesn't write `content`.
   in-sync instance gets the new size. When no selection is formatted,
   a run property is only copied to an instance that still has the
   master's old value, so an instance with its own size keeps it, as
-  with the selection path and the other properties. The text color
-  compares by value on both paths. A text change made with setText
+  with the selection path and the other properties. The text color is
+  copied as before on that path, since the two contents can hold the
+  same color in forms that don't compare ("transparent" and black); on
+  the selection path it compares by value. A text change made with setText
   alone still reaches no instance, since setText sends no property
   change. In the app only a text's first setText (text tool, paste as
   text) leaves the content empty. Typing and the inspector write it.
@@ -2762,8 +2764,9 @@ texture Paste button (lines 68890-68918, GCommonNames
 - Old: the alert said "Select a shape, copy it to clipboard then paste it
   as arrow here.", the message of the border panel's arrowhead paste.
 - New: the alert says "Select a shape, copy it to clipboard then paste it
-  as texture here." (new string GCommonNames "texture-paste.alert"). The
-  arrowhead paste keeps its message.
+  as texture here." The old string table has no such string and stays
+  the old bundle's, so the message is English only. The arrowhead paste
+  keeps its message.
 - Test: src/app/color/color-chooser.test.ts, "paste without a shape on the
   clipboard alerts with the texture message (BUG-133)" (fails with the
   old code, which alerts the arrow text).
