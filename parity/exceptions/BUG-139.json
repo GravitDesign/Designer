@@ -1,0 +1,10 @@
+{
+  "bug": "BUG-139",
+  "why": "Cut names its undo step \"Cut Selection\" instead of \"\". The undo and redo lists of the cut scenarios differ only in that name.",
+  "scenarios": [
+    "editor-actions/exec/edit.cut",
+    "editor-actions/exec/edit.cut--group-child",
+    "editor-actions/clipboard/keyboard"
+  ],
+  "pending": []
+}

@@ -291,8 +291,8 @@ export class CutCopyAction extends Action {
   }
 
   private _deleteCutSelection(): void {
-    // The old code built this key with the key name as class and no key.
-    let title = Locale.get(new LocaleKey("text.cut-selection", undefined as unknown as string));
+    // Old: the key name as class and no key, which named the step "" (BUG-139).
+    let title = Locale.get(new LocaleKey("GCutCopyAction", "text.cut-selection"));
     const designer = gDesigner();
     const designerDocument = designer.getActiveDocument();
     const editor = designerDocument && designerDocument.getEditor();

@@ -2876,3 +2876,24 @@ line 104774).
   selection in a focused contenteditable (BUG-138)" (both fail with the
   old execCommand).
 - Parity exceptions: none. No scenario runs Deselect All in a text field.
+
+## BUG-139 Cut names its undo step with an empty string
+
+Old code: designer.browser.dev.js module 1331
+(GCutCopyAction._deleteCutSelection, line 104441).
+
+- Reproduce: select an element, Edit > Cut (Ctrl+X), then open the
+  Edit menu.
+- Old: the undo step's name was looked up with the key name as the
+  class and no key, which found nothing, so the step was named "" and
+  the menu said "Undo ". The string table has the text under
+  GCutCopyAction.
+- New: the step is named "Cut Selection" (Edit > Undo Cut Selection).
+  Cutting a hovered fill, border or effect layer still names the step
+  "Cut", as before.
+- Test: src/app/actions/edit/cut-copy-action.test.ts, "names its undo
+  step Cut Selection (BUG-139)" (fails with the old key).
+- Parity exceptions: editor-actions/exec/edit.cut,
+  editor-actions/exec/edit.cut--group-child and
+  editor-actions/clipboard/keyboard (checks cut and cut-paste). The ""
+  in their undo and redo lists is "Cut Selection".
