@@ -23,6 +23,8 @@
  * and changed nothing (no caller in any old bundle), and the
  * console.log("GET SYMBOL IMAGE") in getSymbolImage.
  */
+import { CMYKColor } from "../color/cmyk-color.ts";
+import { RGBColor } from "../color/rgb-color.ts";
 import { Locale } from "../core/locale/locale.ts";
 import { Event } from "../core/event.ts";
 import { getTypeId, registerClass } from "../core/object.ts";
@@ -41,6 +43,7 @@ import { Effect } from "../style/effect.ts";
 import { ElementStylable, type StylePaintContext } from "../style/element-stylable.ts";
 import { Stylable } from "../style/stylable.ts";
 import { PropertySet, PropertySetInfo } from "../style/stylable-sets.ts";
+import { Pattern } from "../style/pattern.ts";
 import { Formatting } from "../text/gtl/formatting.ts";
 import { TLDocument } from "../text/gtl/document.ts";
 import type { Run } from "../text/gtl/formatting.ts";
@@ -181,6 +184,48 @@ function runsText(runs: RunRecord[]): string {
       return "_";
     })
     .join("");
+}
+
+/**
+ * The runs a text got from its first setText, as content (JSON), or null
+ * when that setText didn't reach the core (then it holds the raw text).
+ */
+function startContent(text: Text): string | null {
+  const start = text._startText;
+  if ("string" != typeof start) return null;
+  try {
+    return Array.isArray(JSON.parse(start)) ? start : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * A run's font color as a pattern: content keeps it as a serialized
+ * string, as the object JSON.stringify makes of a color, or as the
+ * pattern itself, depending on who wrote it.
+ */
+function runColor(value: unknown): unknown {
+  try {
+    if ("string" == typeof value) return Pattern.deserialize(value) || value;
+  } catch {
+    return value;
+  }
+  if (value && "object" == typeof value && !(value instanceof Pattern)) {
+    const values = (value as { _value?: unknown })._value;
+    if (Array.isArray(values)) {
+      return 3 === values.length
+        ? new RGBColor(values as number[])
+        : new CMYKColor(values as number[]);
+    }
+  }
+  return value;
+}
+
+/** Whether two values of the run property `name` are the same (colors by value). */
+function sameRunValue(name: string, a: unknown, b: unknown): boolean {
+  if (a === b) return true;
+  return "fontColor" === name && equals(runColor(a), runColor(b), true);
 }
 
 const GeometryProperties = {
@@ -447,20 +492,27 @@ export class Symbol extends SymbolBase {
   /**
    * Copies into `target` the run properties that differ between `before`
    * and `after` (all three of the same length), skipping names `filter`
-   * rejects. Returns whether anything was copied.
+   * rejects. With `current` (the instance's runs, same length), a value is
+   * only copied where the instance still has the one in `before` (colors
+   * compared by value). Returns whether anything was copied.
    */
   static _assignChangedTextContentProperties(
     before: RunRecord[],
     after: RunRecord[],
     target: RunRecord[],
     filter?: (name: string) => boolean,
+    current?: RunRecord[],
   ): boolean {
     if (before.length !== after.length || after.length !== target.length) return false;
+    if (current && current.length !== target.length) return false;
     let changed = false;
     for (let i = 0; i < before.length; i++) {
       for (const name in before[i]) {
-        if ((before[i] as RunRecord)[name] !== (after[i] as RunRecord)[name]) {
+        const old = (before[i] as RunRecord)[name];
+        if (old !== (after[i] as RunRecord)[name]) {
           if (filter && !filter(name)) continue;
+          // An instance with its own value keeps it (BUG-027).
+          if (current && !sameRunValue(name, (current[i] as RunRecord)[name], old)) continue;
           (target[i] as RunRecord)[name] = (after[i] as RunRecord)[name];
           changed = true;
         }
@@ -1901,7 +1953,11 @@ export class Symbol extends SymbolBase {
     }
     const contentIndex = changed instanceof Text ? names.indexOf("content") : -1;
     if (changed instanceof Text && contentIndex >= 0) {
-      const content = previous[contentIndex] as string | null;
+      // A text whose content was never set (filled by setText only) had
+      // its start text before, as Text.setProperties reads it; the old
+      // merge diffed against nothing (BUGS-FIXED.md "BUG-027 Symbol
+      // instances miss text changes of their master").
+      const content = (previous[contentIndex] as string | null) || startContent(changed);
       names.splice(contentIndex, 1);
       values.splice(contentIndex, 1);
       previous.splice(contentIndex, 1);
@@ -1912,6 +1968,7 @@ export class Symbol extends SymbolBase {
           content,
           extraNames,
           extraValues,
+          event.temporary ?? undefined,
         );
       }
     }
@@ -2000,6 +2057,7 @@ export class Symbol extends SymbolBase {
     previousContent: string | null,
     names: string[],
     values: unknown[],
+    temporary?: boolean,
   ): void {
     const core = changed.getTLCore();
     const targetCore = target.getTLCore();
@@ -2053,8 +2111,10 @@ export class Symbol extends SymbolBase {
                 selection.start + (end as number),
               );
               const formatting = part.getFormatting() as unknown as RunRecord;
+              // Colors compare by value: the master's and the instance's
+              // content can hold them in different forms (BUG-027).
               if (
-                change.oldValue === formatting[change.property] ||
+                sameRunValue(change.property, change.oldValue, formatting[change.property]) ||
                 formatting[change.property] === Formatting.multipleValues
               ) {
                 part.setFormatting([change.property], [change.value]);
@@ -2100,6 +2160,11 @@ export class Symbol extends SymbolBase {
           const newText = runsText(core.getDocumentRange().save() as unknown as RunRecord[]);
           const previousText = runsText(previousRuns);
           if (previousText === newText) {
+            // Only runs that still have the master's old value follow, as
+            // for the other properties (BUG-027).
+            const currentRuns = JSON.parse(
+              (target.getProperty("content", false, null, temporary) as string | null) || "[]",
+            ) as RunRecord[];
             const applied = Symbol._assignChangedTextContentProperties(
               previousRuns,
               runs,
@@ -2109,6 +2174,7 @@ export class Symbol extends SymbolBase {
                   debugLog("cannot handle simultaneous change of text and other properties");
                 return "text" !== name;
               },
+              currentRuns,
             );
             if (applied) {
               names.push("content");

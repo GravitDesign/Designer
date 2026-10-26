@@ -852,6 +852,48 @@ at 92322).
   with a structural diff). Pending, not enabled for the new app yet:
   editor-actions/clipboard/paste-events (paste.paste).
 
+## BUG-027 Symbol instances miss text changes of their master
+
+Old code: chunk.vendor.js module 216, the GSymbol property push
+(content merge at 43423 and 43455, the oldValue test of the selection
+path, the run property copy of _assignChangedTextContentProperties);
+module 70, GText.setText (16656-16720), which doesn't write `content`.
+
+- Reproduce: create a text and make a symbol of it without typing into
+  the text first (or set its text through setText, as the text tool
+  does), place an instance, then change the master text's font size in
+  the inspector. Or color part of a master text in the inspector while
+  editing it, after an undo or a whole-text color change gave the
+  instance its color in another form.
+- Old: an instance's text follows a master text change by diffing the
+  master's runs against the master's previous `content`. setText never
+  writes `content`, so a text that only got its runs from setText has no
+  content, and the merge compared with nothing and changed nothing. The
+  instance looked in sync but kept the old size. When a selection was
+  formatted, the instance's value was compared with the master's old
+  one by ===, and a color stored once as "C#[...]" and once as an
+  object never matched, so the instance kept its color.
+- New: a master text without content counts as its start text (the runs
+  of its first setText), as Text.setProperties already reads it, so the
+  in-sync instance gets the new size. When no selection is formatted,
+  a run property is only copied to an instance that still has the
+  master's old value, so an instance with its own size keeps it, as
+  with the selection path and the other properties. The text color
+  compares by value on both paths. A text change made with setText
+  alone still reaches no instance, since setText sends no property
+  change. In the app only a text's first setText (text tool, paste as
+  text) leaves the content empty. Typing and the inspector write it.
+- Test: src/engine/scene/symbol-scenarios.test.ts, "an in-sync instance
+  follows a size change of a new master text, an overridden one keeps
+  its size (BUG-027)" (the in-sync instance keeps 20 with the old code),
+  "an in-sync instance follows a color set on a selection when the two
+  contents store the color differently (BUG-027)" (the instance stays
+  red with the old code), and the text-merge scenario there, which now
+  compares with text-merge.fixed.json.
+- Parity exceptions: engine-model/symbols-branches/text-merge. The
+  `.fixed` file differs from the old recording only in the in-sync
+  instance's runs (`i1`) from the `size` step on.
+
 ## BUG-040 Toggle marquee over a highlighted selected node throws
 
 Old code: chunk.vendor.js module 82 (GEditor

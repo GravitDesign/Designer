@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-027",
+  "why": "A master text that only got its runs from setText merges its changes into in-sync instances against its start text instead of an empty content. The .fixed file equals the old output except for the in-sync instance's runs (i1) from the size step on; the master, the overridden instance, the plain texts and the override counts are unchanged.",
+  "scenarios": ["engine-model/symbols-branches/text-merge"],
+  "pending": []
+}
