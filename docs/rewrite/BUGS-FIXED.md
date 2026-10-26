@@ -3199,3 +3199,24 @@ Old code: designer.browser.dev.js module 1162, the Add Border handler
   code).
 - Parity exceptions: none. The recorded scenarios add borders only to
   rectangles.
+
+## BUG-155 Image palette (Color Thief) boxes are too small
+
+Old code: designer.browser.dev.js module 1267, vboxFromPixels (lines
+87984-87986).
+
+- Reproduce: select an image and click the extract colors button in the
+  Image panel. A single-colour image shows it best.
+- Old: the bounding box of the sampled colours used "else if" for the
+  maxima, so a sample that lowered a channel's minimum never raised its
+  maximum. The first sample never counted as a maximum, and images whose
+  samples got darker lost their bright end. A single-colour image of
+  (200, 200, 200) gave (104, 104, 104), the centre of an empty box.
+- New: each channel's minimum and maximum are checked on their own. The
+  single-colour image gives (204, 204, 204), the centre of its 5-bit bin.
+  The rest of the quantizer is unchanged.
+- Test: src/app/inspector/color-thief.test.ts, "raises the maximum for a
+  sample that also lowers the minimum (BUG-155)" (fails with the old box).
+- Parity exceptions: none. ui/editor/image-colors is enabled, but in the
+  recording the extract colors button is disabled and no palette opens, so
+  nothing changes.

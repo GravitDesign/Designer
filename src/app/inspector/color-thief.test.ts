@@ -34,8 +34,9 @@ describe("quantize", () => {
     const cmap = quantize(pixels, 2);
     // Recorded by running the old module 1267 on the same samples. 5-bit
     // bins: 200 >> 3 = 25 -> (25 + 0.5) * 8 = 204; 16 >> 3 = 2 -> 20. The
-    // third, empty box comes from the else-if bounding box and averages to
-    // its centre.
+    // third box is empty and averages to its centre. The old else-if
+    // bounding box gave the same here: the red maximum came from a later
+    // sample that didn't lower the minimum.
     expect((cmap as Exclude<typeof cmap, false | undefined>).palette()).toEqual([
       [20, 20, 204],
       [204, 20, 20],
@@ -43,12 +44,26 @@ describe("quantize", () => {
     ]);
   });
 
-  it("keeps the else-if bounding box: a first sample only lowers the minimum", () => {
-    // One sample: rmin = rmax would be 25, but the old code leaves rmax at 0,
-    // so the box is empty and the colour is the box centre, not the sample.
-    const cmap = quantize([[200, 200, 200]], 2);
-    const palette = (cmap as Exclude<typeof cmap, false | undefined>).palette();
-    expect(palette).toEqual([[104, 104, 104]]);
+  it("raises the maximum for a sample that also lowers the minimum (BUG-155)", () => {
+    // One sample: the box is its bin. The old "else if" left rmax at 0, so
+    // the box was empty and the colour was its centre, [104, 104, 104].
+    const single = quantize([[200, 200, 200]], 2);
+    expect((single as Exclude<typeof single, false | undefined>).palette()).toEqual([
+      [204, 204, 204],
+    ]);
+    // A light sample, then a dark one: every sample lowered the minimum, so
+    // the old box ended below its minimum and gave [[12, 12, 12]].
+    const two = quantize(
+      [
+        [200, 200, 200],
+        [16, 16, 16],
+      ],
+      2,
+    );
+    expect((two as Exclude<typeof two, false | undefined>).palette()).toEqual([
+      [204, 204, 204],
+      [20, 20, 20],
+    ]);
   });
 });
 

@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-155",
+  "why": "The image palette's bounding box checks each channel's minimum and maximum separately. ui/editor/image-colors records the image panel with the extract colors button disabled and no palette, so no scenario changes.",
+  "scenarios": [],
+  "pending": []
+}

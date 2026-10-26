@@ -5,11 +5,11 @@
  * appended to body, every 10th opaque, not-white pixel is sampled, and
  * the samples go through the modified median cut quantizer (MMCQ).
  *
- * The quantizer is kept as it was, including its quirks: the bounding box
- * of the samples uses "else if" for the maxima (a channel's maximum is
- * only raised by samples that didn't lower its minimum), and every
- * iteration order and comparison is the original one, because the
- * palette the panel shows depends on it.
+ * The quantizer is kept as it was: every iteration order and comparison
+ * is the original one, because the palette the panel shows depends on it.
+ * Only the bounding box of the samples is fixed: the old one used "else
+ * if" for the maxima, so a channel's maximum was only raised by samples
+ * that didn't lower its minimum (BUG-155).
  *
  * Left out: forcebw (never called, and it called sort on the queue
  * object, which has none) and the URL and XHR helpers (getColorFromUrl,
@@ -232,13 +232,14 @@ function vboxFromPixels(pixels: readonly RGB[], histo: Histogram): VBox {
     const rval = pixel[0] >> RSHIFT;
     const gval = pixel[1] >> RSHIFT;
     const bval = pixel[2] >> RSHIFT;
-    // "else if", as in the original: see the file comment.
+    // The old code raised a maximum only for samples that didn't lower the
+    // minimum ("else if"), so the boxes came out too small (BUG-155).
     if (rval < rmin) rmin = rval;
-    else if (rval > rmax) rmax = rval;
+    if (rval > rmax) rmax = rval;
     if (gval < gmin) gmin = gval;
-    else if (gval > gmax) gmax = gval;
+    if (gval > gmax) gmax = gval;
     if (bval < bmin) bmin = bval;
-    else if (bval > bmax) bmax = bval;
+    if (bval > bmax) bmax = bval;
   }
   return new VBox(rmin, rmax, gmin, gmax, bmin, bmax, histo);
 }
