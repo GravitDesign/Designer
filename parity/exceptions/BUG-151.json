@@ -1,0 +1,6 @@
+{
+  "bug": "BUG-151",
+  "why": "The effect table has hidden entries for the true blur, bend blur and adjust effects, so selecting an element with one of them builds its row instead of throwing. No recorded scenario selects such an element.",
+  "scenarios": [],
+  "pending": []
+}

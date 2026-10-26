@@ -26,6 +26,7 @@ import { Length } from "../../engine/math/length.ts";
 import { GMath } from "../../engine/math/math.ts";
 import { Node } from "../../engine/scene/node.ts";
 import type { Effect } from "../../engine/style/effect.ts";
+import { AdjustMultiEffect } from "../../engine/style/effects/adjust-multi-effect.ts";
 import { BlurEffect } from "../../engine/style/effects/blur-effect.ts";
 import { ColorAdjustMultiEffect } from "../../engine/style/effects/color-adjust-multi-effect.ts";
 import { ColorGradingEffect } from "../../engine/style/effects/color-grading-effect.ts";
@@ -39,6 +40,7 @@ import type { MultiEffect } from "../../engine/style/effects/multi-effect.ts";
 import { OverlayEffect } from "../../engine/style/effects/overlay-effect.ts";
 import { Gradient } from "../../engine/style/gradient.ts";
 import { LinearGradient } from "../../engine/style/linear-gradient.ts";
+import { GLBendBlurEffect } from "../../engine/style/webgl/effects/gl-bend-blur-effect.ts";
 import { GLBendEffect } from "../../engine/style/webgl/effects/gl-bend-effect.ts";
 import { GLBloomEffect } from "../../engine/style/webgl/effects/gl-bloom-effect.ts";
 import { GLBlurEffect } from "../../engine/style/webgl/effects/gl-blur-effect.ts";
@@ -65,6 +67,7 @@ import { GLStrokeLayerEffect } from "../../engine/style/webgl/effects/gl-stroke-
 import { GLSwirlEffect } from "../../engine/style/webgl/effects/gl-swirl-effect.ts";
 import { GLTiltShiftEffect } from "../../engine/style/webgl/effects/gl-tilt-shift-effect.ts";
 import { GLToonEffect } from "../../engine/style/webgl/effects/gl-toon-effect.ts";
+import { GLTrueBlurEffect } from "../../engine/style/webgl/effects/gl-true-blur-effect.ts";
 import { GLUnsharpMaskEffect } from "../../engine/style/webgl/effects/gl-unsharp-mask-effect.ts";
 import { GLVibranceEffect } from "../../engine/style/webgl/effects/gl-vibrance-effect.ts";
 import { GLVignetteEffect } from "../../engine/style/webgl/effects/gl-vignette-effect.ts";
@@ -1627,6 +1630,12 @@ export function effectTable(categories?: EffectCategories): EffectEntry[] {
       colorGradingForm,
       "gravit-icon-color-grading-effect",
     ),
+    // Not in the old table, so selecting an element that has one of these
+    // threw "Invalid effect/class". Hidden like the legacy effects: they
+    // get a form but no add panel item.
+    entry(GLTrueBlurEffect, "GGLTrueBlurEffect", "webgl", blur, webGLForm, undefined, hidden),
+    entry(GLBendBlurEffect, "GGLBendBlurEffect", "webgl", blur, webGLForm, undefined, hidden),
+    entry(AdjustMultiEffect, "GAdjustMultiEffect", "webgl", adjust, multiForm, undefined, hidden),
   ];
   return table;
 }

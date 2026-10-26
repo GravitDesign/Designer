@@ -2,9 +2,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Node } from "../../engine/scene/node.ts";
 import { Rectangle } from "../../engine/scene/rectangle.ts";
 import type { Effect } from "../../engine/style/effect.ts";
+import { AdjustMultiEffect } from "../../engine/style/effects/adjust-multi-effect.ts";
 import { BlurEffect } from "../../engine/style/effects/blur-effect.ts";
 import { DropShadowEffect } from "../../engine/style/effects/drop-shadow-effect.ts";
 import { MirrorEffect } from "../../engine/style/effects/mirror-effect.ts";
+import { GLBendBlurEffect } from "../../engine/style/webgl/effects/gl-bend-blur-effect.ts";
+import { GLTrueBlurEffect } from "../../engine/style/webgl/effects/gl-true-blur-effect.ts";
 import {
   fake,
   fire,
@@ -18,7 +21,9 @@ import {
   compareCategories,
   effectTable,
   entryOf,
+  multiForm,
   partAssign,
+  webGLForm,
   type EffectEntry,
 } from "./effect-forms.ts";
 import { EffectProperties } from "./effect-properties.ts";
@@ -55,6 +60,9 @@ describe("effect table", () => {
       "GGLBrightnessContrastEffect",
       "GGLHueSaturationEffect",
       "GColorAdjustMultiEffect",
+      "GGLTrueBlurEffect",
+      "GGLBendBlurEffect",
+      "GAdjustMultiEffect",
     ]);
   });
 
@@ -62,6 +70,16 @@ describe("effect table", () => {
     expect(entryOf(new DropShadowEffect()).i18n).toBe("GDropShadowEffect");
     expect(entryOf(BlurEffect).i18n).toBe("GBlurEffect");
     expect(() => entryOf(Rectangle)).toThrow("Invalid effect/class");
+  });
+
+  it("finds an entry for the effects the old table missed (BUG-151)", () => {
+    // The old table had none, so building their rows threw "Invalid
+    // effect/class" and the inspector stopped updating.
+    expect(entryOf(new GLTrueBlurEffect()).createSettings).toBe(webGLForm);
+    expect(entryOf(new GLBendBlurEffect()).createSettings).toBe(webGLForm);
+    expect(entryOf(new AdjustMultiEffect()).createSettings).toBe(multiForm);
+    for (const clazz of [GLTrueBlurEffect, GLBendBlurEffect, AdjustMultiEffect])
+      expect(entryOf(clazz).hidden).toBe(true);
   });
 
   it("maps the localized categories to the English statistics names", () => {

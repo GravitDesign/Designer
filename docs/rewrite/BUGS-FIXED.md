@@ -3121,3 +3121,24 @@ designer.browser.dark.css line 15381, `.g-export-dialog >
   ui/dialog/export-canvas-tall-window.dom doesn't change. The other export
   dialog scenarios run at 1600 x 1000, where 120vh (1200px) is narrower
   than the window, and are unaffected.
+
+## BUG-151 A true blur, bend blur or adjust effect breaks the inspector
+
+Old code: designer.browser.dev.js module 1262, the effect table (H, from
+line 86738) and its lookup U (lines 86723-86728).
+
+- Reproduce: open a file with a true blur, bend blur or adjust (dot screen,
+  sepia and blur) effect, such as corpus effects-webgl-2 or -4, and select
+  the element.
+- Old: the effect table had no entry for these three effects, so building
+  their effect row threw "Invalid effect/class". The rest of the Effects
+  rows and the panels after Effects were not updated.
+- New: the three effects have hidden entries in the table, like the legacy
+  effects: their rows show the WebGL settings (true blur, bend blur) or the
+  settings of each part (adjust), and the add panel still doesn't offer
+  them.
+- Test: src/app/inspector/effect-properties.test.ts, "finds an entry for
+  the effects the old table missed (BUG-151)" and "hides the legacy effects
+  from the add panel but keeps their forms" (both fail with the old table).
+- Parity exceptions: none. No recorded scenario selects an element with
+  one of these effects.
