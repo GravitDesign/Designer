@@ -1,6 +1,6 @@
 {
   "bug": "BUG-136",
   "why": "Ctrl+Shift+= zooms in (also bound as mod+shift+=). In the old app the zoom-in-plus case changed nothing; it now matches zoom-in-equal.",
-  "scenarios": [],
-  "pending": ["editor-actions/shortcuts/view-zoom"]
+  "scenarios": ["editor-actions/shortcuts/view-zoom"],
+  "pending": []
 }

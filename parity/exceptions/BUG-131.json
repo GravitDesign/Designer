@@ -1,6 +1,6 @@
 {
   "bug": "BUG-131",
   "why": "Disable notifications + Save Changes stores notifications_disabled in designer.settings and closes the dialog. The old app sent the change to the account service, failed on the local server's HTML answer and stayed open with a page error.",
-  "scenarios": [],
-  "pending": ["platform/storage/settings-dialog-notifications"]
+  "scenarios": ["platform/storage/settings-dialog-notifications"],
+  "pending": []
 }

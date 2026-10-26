@@ -1,6 +1,6 @@
 {
   "bug": "BUG-165",
-  "why": "The imported fonts provider runs its first request once. No recorded scenario uses the imported fonts provider, so no scenario differs.",
-  "scenarios": [],
+  "why": "The imported fonts provider runs its first request once. The font list no longer shows each web font row twice. font-list.dom also shows removed features: its .dropped.json is the old dump minus those only (checked by the DROP rules), its .fixed.json adds this fix.",
+  "scenarios": ["ui/editor/font-list.dom"],
   "pending": []
 }

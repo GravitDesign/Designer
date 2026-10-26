@@ -1,6 +1,6 @@
 {
   "bug": "BUG-140",
   "why": "Copy leaves out a selected node whose ancestor is copied too. In copy-group-child-and-parent the clipboard data (internal node data and the system text/xml json) hold only the group; the old data had rectangle A again after it.",
-  "scenarios": [],
-  "pending": ["editor-actions/clipboard/keyboard"]
+  "scenarios": ["editor-actions/clipboard/keyboard"],
+  "pending": []
 }

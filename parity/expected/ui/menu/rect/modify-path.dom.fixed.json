@@ -1,0 +1,1870 @@
+[
+ {
+  "tag": "ul",
+  "cls": [
+   "g-menu",
+   "g-menu-bottom"
+  ],
+  "attrs": {
+   "style": "left: 81.4062px; top: 32px;"
+  },
+  "children": [
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Arrange"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Align"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Transform"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-group"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Group Selection"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "text": "Ctrl+G"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-clip-circle"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Clip Selection"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "text": "Alt+Ctrl+M"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-ungroup"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Ungroup Selection"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "text": "Shift+Ctrl+G"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Mask with Shape"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "text": "Ctrl+Shift+M"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-crop"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Confirm Cropping"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Cancel Cropping"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon",
+     "g-disabled"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Create Compound Shape"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Create Nested Compound"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu",
+     "g-active",
+     "g-hover"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Path"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-menu"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Symbol"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Flatten"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "text": "F7"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut"
+    ],
+    "attrs": {
+     "style": "display: none;"
+    },
+    "hidden": true
+   }
+  ]
+ },
+ {
+  "tag": "ul",
+  "cls": [
+   "g-menu",
+   "g-menu-right"
+  ],
+  "attrs": {
+   "style": "left: 313.015px; top: 352.875px;"
+  },
+  "children": [
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Join Paths"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "text": "Ctrl+J"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Split Path"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "text": "Shift+Ctrl+J"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut",
+     "has-icon"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-convert-to-path"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Convert to Path"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "text": "Ctrl+Shift+P"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Convert to Raw Path"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "text": "Ctrl+Shift+R"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Convert to Outline"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "text": "F5"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Expand/Shrink"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-icon",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "children": [
+       {
+        "tag": "i",
+        "cls": [
+         "gravit-icon-vectorize-border"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Vectorize Border"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Vectorize Image"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Attach Text to Path"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Detach Text from Path"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "has-shortcut"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Simplify Path"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": ""
+      },
+      "text": "Ctrl+Alt+S"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-menu-item-divider"
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Connect Paths Lines"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Break Curve"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "li",
+    "cls": [
+     "g-menu-item",
+     "g-disabled"
+    ],
+    "children": [
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-icon"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      }
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-caption"
+      ],
+      "text": "Reverse Order"
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-info"
+      ]
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-shortcut"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-detach",
+       "gravit-icon-detach"
+      ],
+      "attrs": {
+       "style": "display: none;"
+      },
+      "hidden": true
+     },
+     {
+      "tag": "span",
+      "cls": [
+       "g-menu-item-tail"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

@@ -1,0 +1,188 @@
+{
+ "platform": {
+  "userAgentHasWindows": true,
+  "operatingSystem": 1,
+  "hardware": 10
+ },
+ "trigger": "execute",
+ "info": {
+  "title": "Show Keyboard Shortcuts",
+  "fullTitle": "Show Keyboard Shortcuts",
+  "info": null,
+  "icon": null,
+  "category": [
+   "Help",
+   "Help/Learn"
+  ],
+  "group": "help/learn",
+  "pro": false,
+  "available": true,
+  "visible": true,
+  "enabled": true,
+  "checkable": false,
+  "checked": null,
+  "global": false,
+  "shortcut": null,
+  "additional": []
+ },
+ "dialogs": [
+  {
+   "className": "g-dialog-container g-shortcuts-dialog-container",
+   "lines": [
+    "Keyboard Shortcuts",
+    "New Design...\tAlt + N",
+    "New from Clipboard\tShift + Ctrl + Alt + N",
+    "Open Local File...\tCtrl + O",
+    "Save\tCtrl + S",
+    "Download File\tShift + Ctrl + Alt + S",
+    "Close window\tAlt + Q",
+    "Place Image...\tAlt + P",
+    "Advanced Export...\tShift + Ctrl + E",
+    "Print...\tCtrl + P",
+    "Undo Insert Element(s)\tCtrl + Z",
+    "Redo\tShift + Ctrl + Z",
+    "Cut\tCtrl + X",
+    "Copy\tCtrl + C",
+    "Paste\tCtrl + V",
+    "Paste In Place\tShift + Ctrl + V",
+    "Paste and Replace\tAlt + Ctrl + V",
+    "Paste Inside Selection\tAlt + Shift + Ctrl + V",
+    "Paste Style\tF4",
+    "Delete\tDel",
+    "Duplicate\tCtrl + D",
+    "Select All\tCtrl + A",
+    "Deselect All\tShift + Ctrl + A",
+    "Invert Selection\tShift + Ctrl + I",
+    "Choose a fill color\tCtrl + Alt + C",
+    "Choose a border color\tShift + Ctrl + Alt + C",
+    "Rename a layer\tAlt + R",
+    "Set opacity to 100% (10%, 20%, 25%, 26%, 30%, 40%, ... 90%)\tShift + 0 (1, 2, 25, 26, 3, 4, ... 9)",
+    "Bring to Front\tShift + Ctrl + Up",
+    "Bring Forward\tCtrl + Up",
+    "Send Backward\tCtrl + Down",
+    "Send to Back\tShift + Ctrl + Down",
+    "Align Left\tAlt + A",
+    "Align Center\tAlt + H",
+    "Align Right\tAlt + D",
+    "Align Top\tAlt + W",
+    "Align Middle\tAlt + V",
+    "Align Bottom\tAlt + S",
+    "Snap to Full Units\tShift + Ctrl + U",
+    "Group Selection\tCtrl + G",
+    "Clip Selection\tAlt + Ctrl + M",
+    "Ungroup Selection\tShift + Ctrl + G",
+    "Mask with Shape\tCtrl + Shift + M",
+    "Create Compound\tShift + Ctrl + Y",
+    "Create Compound (Intersect)\tShift + Ctrl + Y then I",
+    "Create Compound (Difference)\tShift + Ctrl + Y then X",
+    "Create Compound (Subtract)\tShift + Ctrl + Y then S",
+    "Create Compound (Union)\tShift + Ctrl + Y then U",
+    "Join Paths\tCtrl + J",
+    "Split Path\tShift + Ctrl + J",
+    "Convert to Path\tCtrl + Shift + P",
+    "Convert to Raw Path\tCtrl + Shift + R",
+    "Convert to Outline\tF5",
+    "Simplify Path\tCtrl + Alt + S",
+    "Create Symbol\tF8",
+    "Detach Symbol Instance\tShift + Ctrl + F8",
+    "Flatten\tF7",
+    "Lock a layer\tCtrl + 2",
+    "Change anchor point joint type to Straight\tCtrl + Alt + A then S",
+    "Change anchor point joint type to Mirrored\tCtrl + Alt + A then M",
+    "Change anchor point joint type to Disconnected\tCtrl + Alt + A then D",
+    "Change anchor point joint type to Asymmetric\tCtrl + Alt + A then A",
+    "Change anchor point joint type to Connector\tCtrl + Alt + A then C",
+    "Swap fill and border\tX",
+    "Create new layer\tCtrl + M",
+    "Original-View\tCtrl + 0",
+    "Fit All\tAlt + Ctrl + 0",
+    "Enter layer group\tEnter",
+    "Leave layer group\tShift + Enter",
+    "Hide a layer\tCtrl + 3",
+    "Select next layer\tTab",
+    "Select previous layer\tShift + Tab",
+    "Toggle multipage mode\tF6",
+    "Select next page\tCtrl + Alt + Down",
+    "Select previous page\tCtrl + Alt + Up",
+    "Select next tab\tAlt + .",
+    "Select previous tab\tAlt + ,",
+    "50%\tCtrl + 5",
+    "100%\tCtrl + 1",
+    "400%\tCtrl + 4",
+    "800%\tCtrl + 8",
+    "Zoom in\tCtrl + +",
+    "Zoom out\tCtrl + -",
+    "Outline View\tAlt + Y",
+    "Show Rulers\tCtrl + Alt + R",
+    "Show Guide Lines\tCtrl + ,",
+    "Show Grid\tCtrl + Alt + G",
+    "Show Effects\tCtrl + E",
+    "Show Selection Handles\tShift + Ctrl + X",
+    "Use Snapping\tShift + F10",
+    "Show Inspector Panel\tAlt + 2",
+    "Show Layers Panel\tAlt + 1",
+    "New View\tCtrl + Alt + N",
+    "Play/Present...\tCtrl + Alt + Enter",
+    "Toggle Fullscreen...\tAlt + Enter",
+    "Pointer tool\tV",
+    "Subselect tool\tD",
+    "Lasso tool\tO",
+    "Slice tool\tS",
+    "Pen tool\tP",
+    "Bezigon tool\tB",
+    "Knife tool\tK",
+    "Create line\tL",
+    "Create rectangle\tR",
+    "Create ellipse\tE",
+    "Text tool\tT",
+    "Pan tool\tH",
+    "Zoom tool\tZ"
+   ]
+  }
+ ],
+ "events": [],
+ "fullscreen": false,
+ "parts": [
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "collapse-none",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": false
+  },
+  {
+   "className": "",
+   "shown": true
+  },
+  {
+   "className": "",
+   "shown": true
+  }
+ ],
+ "pageErrors": []
+}

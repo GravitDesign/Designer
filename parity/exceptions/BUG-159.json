@@ -1,6 +1,6 @@
 {
   "bug": "BUG-159",
-  "why": "After the drag label, a layer row shows its own name again instead of the last dragged layer's. No recorded scenario drags layer rows.",
-  "scenarios": [],
+  "why": "After the drag label, a layer row shows its own name again instead of the dragged layers' names. In drag-reorders row C showed \"A\" (the selection's name) afterwards; it now shows \"C\".",
+  "scenarios": ["ui/layers/drag-reorders"],
   "pending": []
 }

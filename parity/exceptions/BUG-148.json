@@ -1,6 +1,6 @@
 {
   "bug": "BUG-148",
   "why": "Page Down and Page Up are bound as one-key shortcuts and change the active page. In next-page-pagedown and previous-page-pageup, changed is true and the active page moves (P1 to P2, and P2 back to P1), with undo and redo sections like next-page and previous-page; the old app did nothing.",
-  "scenarios": [],
-  "pending": ["editor-actions/shortcuts/windows-pages"]
+  "scenarios": ["editor-actions/shortcuts/windows-pages"],
+  "pending": []
 }

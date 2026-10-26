@@ -1,0 +1,1906 @@
+{
+ "menuBar": [
+  "File",
+  "Edit",
+  "Modify",
+  "View",
+  "Help"
+ ],
+ "menus": {
+  "File": [
+   {
+    "caption": "New Design...",
+    "shortcut": "Alt+N",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "New from Clipboard",
+    "shortcut": "Shift+Ctrl+Alt+N",
+    "classes": [
+     "g-disabled",
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Open Local File...",
+    "shortcut": "Ctrl+O",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Open Recent",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "No Recent Files",
+      "shortcut": "",
+      "classes": [
+       "g-disabled"
+      ],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Save",
+    "shortcut": "Ctrl+S",
+    "classes": [
+     "has-icon",
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Download File",
+    "shortcut": "Shift+Ctrl+Alt+S",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Close window",
+    "shortcut": "Alt+Q",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Import",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "Place Image...",
+      "shortcut": "Alt+P",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Link Image...",
+      "shortcut": "",
+      "classes": [
+       "g-disabled"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Add Fonts...",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Export",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "Advanced Export...",
+      "shortcut": "Shift+Ctrl+E",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "PNG Image (.png)",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "JPEG Image (.jpg)",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "Scalable Vector Graphics (.svg)",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "PDF Document (.pdf)",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-menu"
+      ],
+      "shown": true,
+      "submenu": [
+       {
+        "caption": "72 dpi",
+        "shortcut": "",
+        "classes": [],
+        "shown": true
+       },
+       {
+        "caption": "96 dpi",
+        "shortcut": "",
+        "classes": [],
+        "shown": true
+       },
+       {
+        "caption": "150 dpi",
+        "shortcut": "",
+        "classes": [],
+        "shown": true
+       },
+       {
+        "caption": "300 dpi",
+        "shortcut": "",
+        "classes": [],
+        "shown": true
+       },
+       {
+        "caption": "",
+        "shortcut": "",
+        "classes": [
+         "g-menu-item-divider"
+        ],
+        "shown": true
+       },
+       {
+        "caption": "Advanced Options...",
+        "shortcut": "",
+        "classes": [],
+        "shown": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Print...",
+    "shortcut": "Ctrl+P",
+    "classes": [
+     "has-icon",
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Install to Desktop",
+    "shortcut": "",
+    "classes": [
+     "g-disabled",
+     "has-icon"
+    ],
+    "shown": true
+   }
+  ],
+  "Edit": [
+   {
+    "caption": "Undo Insert Element(s)",
+    "shortcut": "Ctrl+Z",
+    "classes": [
+     "has-icon",
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Redo",
+    "shortcut": "Shift+Ctrl+Z",
+    "classes": [
+     "g-disabled",
+     "has-icon",
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Cut",
+    "shortcut": "Ctrl+X",
+    "classes": [
+     "has-icon",
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Copy",
+    "shortcut": "Ctrl+C",
+    "classes": [
+     "has-icon",
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Paste",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "Paste",
+      "shortcut": "Ctrl+V",
+      "classes": [
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Paste In Place",
+      "shortcut": "Shift+Ctrl+V",
+      "classes": [
+       "g-disabled",
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Paste and Replace",
+      "shortcut": "Alt+Ctrl+V",
+      "classes": [
+       "g-disabled",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Paste Inside Selection",
+      "shortcut": "Alt+Shift+Ctrl+V",
+      "classes": [
+       "g-disabled",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Paste Style",
+      "shortcut": "F4",
+      "classes": [
+       "g-disabled",
+       "has-shortcut"
+      ],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "Delete",
+    "shortcut": "Del",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Duplicate",
+    "shortcut": "Ctrl+D",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Edit Selection",
+    "shortcut": "",
+    "classes": [],
+    "shown": true
+   },
+   {
+    "caption": "Select All",
+    "shortcut": "Ctrl+A",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Deselect All",
+    "shortcut": "Shift+Ctrl+A",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Invert Selection",
+    "shortcut": "Shift+Ctrl+I",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Select Same",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "Font Type",
+      "shortcut": "",
+      "classes": [
+       "g-disabled"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Fill",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "Border",
+      "shortcut": "",
+      "classes": [
+       "g-disabled"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Fill & Border",
+      "shortcut": "",
+      "classes": [
+       "g-disabled"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Border Width",
+      "shortcut": "",
+      "classes": [
+       "g-disabled"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Transparency",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "Blend Mode",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "Shape",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "Effect",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Settings...",
+    "shortcut": "",
+    "classes": [],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Choose a fill color",
+    "shortcut": "Ctrl+Alt+C",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Choose a border color",
+    "shortcut": "Shift+Ctrl+Alt+C",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Rename a layer",
+    "shortcut": "Alt+R",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Change opacity",
+    "shortcut": "",
+    "classes": [],
+    "shown": false
+   }
+  ],
+  "Modify": [
+   {
+    "caption": "Arrange",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "Bring to Front",
+      "shortcut": "Shift+Ctrl+Up",
+      "classes": [
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Bring Forward",
+      "shortcut": "Ctrl+Up",
+      "classes": [
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Send Backward",
+      "shortcut": "Ctrl+Down",
+      "classes": [
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Send to Back",
+      "shortcut": "Shift+Ctrl+Down",
+      "classes": [
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "Align",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "Align Left",
+      "shortcut": "Alt+A",
+      "classes": [
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Align Center",
+      "shortcut": "Alt+H",
+      "classes": [
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Align Right",
+      "shortcut": "Alt+D",
+      "classes": [
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Align Top",
+      "shortcut": "Alt+W",
+      "classes": [
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Align Middle",
+      "shortcut": "Alt+V",
+      "classes": [
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Align Bottom",
+      "shortcut": "Alt+S",
+      "classes": [
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Same Width",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "Same Height",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Distribute Horizontally",
+      "shortcut": "",
+      "classes": [
+       "g-disabled",
+       "has-icon"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Distribute Vertically",
+      "shortcut": "",
+      "classes": [
+       "g-disabled",
+       "has-icon"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Snap to Full Units",
+      "shortcut": "Shift+Ctrl+U",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Snap to Half Units",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "Transform",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "Rotate 45° Left",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "Rotate 90° Left",
+      "shortcut": "",
+      "classes": [
+       "has-icon"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Rotate 180° Left",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Rotate 45° Right",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "Rotate 90° Right",
+      "shortcut": "",
+      "classes": [
+       "has-icon"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Rotate 180° Right",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Flip Vertical",
+      "shortcut": "",
+      "classes": [
+       "has-icon"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Flip Horizontal",
+      "shortcut": "",
+      "classes": [
+       "has-icon"
+      ],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Group Selection",
+    "shortcut": "Ctrl+G",
+    "classes": [
+     "has-icon",
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Clip Selection",
+    "shortcut": "Alt+Ctrl+M",
+    "classes": [
+     "g-disabled",
+     "has-icon",
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Ungroup Selection",
+    "shortcut": "Shift+Ctrl+G",
+    "classes": [
+     "g-disabled",
+     "has-icon",
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Mask with Shape",
+    "shortcut": "Ctrl+Shift+M",
+    "classes": [
+     "g-disabled",
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Confirm Cropping",
+    "shortcut": "",
+    "classes": [
+     "g-disabled",
+     "has-icon"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Cancel Cropping",
+    "shortcut": "",
+    "classes": [
+     "g-disabled"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Create Compound",
+    "shortcut": "Shift+Ctrl+Y",
+    "classes": [
+     "g-disabled",
+     "has-icon",
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Create Compound Shape",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "Intersect",
+      "shortcut": "",
+      "classes": [
+       "g-disabled",
+       "has-icon"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Difference",
+      "shortcut": "",
+      "classes": [
+       "g-disabled",
+       "has-icon"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Subtract",
+      "shortcut": "",
+      "classes": [
+       "g-disabled",
+       "has-icon"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Union",
+      "shortcut": "",
+      "classes": [
+       "g-disabled",
+       "has-icon"
+      ],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "Create Nested Compound",
+    "shortcut": "",
+    "classes": [
+     "g-disabled"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Path",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "Join Paths",
+      "shortcut": "Ctrl+J",
+      "classes": [
+       "g-disabled",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Split Path",
+      "shortcut": "Shift+Ctrl+J",
+      "classes": [
+       "g-disabled",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Convert to Path",
+      "shortcut": "Ctrl+Shift+P",
+      "classes": [
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Convert to Raw Path",
+      "shortcut": "Ctrl+Shift+R",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Convert to Outline",
+      "shortcut": "F5",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Expand/Shrink",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "Vectorize Border",
+      "shortcut": "",
+      "classes": [
+       "g-disabled",
+       "has-icon"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Vectorize Image",
+      "shortcut": "",
+      "classes": [
+       "g-disabled"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Attach Text to Path",
+      "shortcut": "",
+      "classes": [
+       "g-disabled"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Detach Text from Path",
+      "shortcut": "",
+      "classes": [
+       "g-disabled"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Simplify Path",
+      "shortcut": "Ctrl+Alt+S",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Connect Paths Lines",
+      "shortcut": "",
+      "classes": [
+       "g-disabled"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Break Curve",
+      "shortcut": "",
+      "classes": [
+       "g-disabled"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Reverse Order",
+      "shortcut": "",
+      "classes": [
+       "g-disabled"
+      ],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "Symbol",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "Create Symbol",
+      "shortcut": "F8",
+      "classes": [
+       "has-icon",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Detach Symbol Instance",
+      "shortcut": "Shift+Ctrl+F8",
+      "classes": [
+       "g-disabled",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Reset Instance",
+      "shortcut": "",
+      "classes": [
+       "g-disabled"
+      ],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Flatten",
+    "shortcut": "F7",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Lock a layer",
+    "shortcut": "Ctrl+2",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Change anchor point joint type",
+    "shortcut": "Ctrl+Alt+A",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Change anchor point joint type to Straight",
+    "shortcut": "",
+    "classes": [],
+    "shown": false
+   },
+   {
+    "caption": "Change anchor point joint type to Mirrored",
+    "shortcut": "",
+    "classes": [],
+    "shown": false
+   },
+   {
+    "caption": "Change anchor point joint type to Disconnected",
+    "shortcut": "",
+    "classes": [],
+    "shown": false
+   },
+   {
+    "caption": "Change anchor point joint type to Asymmetric",
+    "shortcut": "",
+    "classes": [],
+    "shown": false
+   },
+   {
+    "caption": "Change anchor point joint type to Connector",
+    "shortcut": "",
+    "classes": [],
+    "shown": false
+   },
+   {
+    "caption": "Swap fill and border",
+    "shortcut": "X",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Create new layer",
+    "shortcut": "Ctrl+M",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   }
+  ],
+  "View": [
+   {
+    "caption": "Original-View",
+    "shortcut": "Ctrl+0",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Fit Selection",
+    "shortcut": "",
+    "classes": [],
+    "shown": true
+   },
+   {
+    "caption": "Fit Layer",
+    "shortcut": "",
+    "classes": [
+     "g-disabled"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Fit All",
+    "shortcut": "Alt+Ctrl+0",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Enter layer group",
+    "shortcut": "Enter",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Leave layer group",
+    "shortcut": "Shift+Enter",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Hide a layer",
+    "shortcut": "Ctrl+3",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Select next layer",
+    "shortcut": "Tab",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Select previous layer",
+    "shortcut": "Shift+Tab",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Toggle multipage mode",
+    "shortcut": "F6",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Select next page",
+    "shortcut": "Ctrl+Alt+Down",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Select previous page",
+    "shortcut": "Ctrl+Alt+Up",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Select next tab",
+    "shortcut": "Alt+.",
+    "classes": [
+     "g-disabled",
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Select previous tab",
+    "shortcut": "Alt+,",
+    "classes": [
+     "g-disabled",
+     "has-shortcut"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": false
+   },
+   {
+    "caption": "Magnification",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "6%",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "12%",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "25%",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "50%",
+      "shortcut": "Ctrl+5",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "66%",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "100%",
+      "shortcut": "Ctrl+1",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "150%",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "200%",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "300%",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "400%",
+      "shortcut": "Ctrl+4",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "800%",
+      "shortcut": "Ctrl+8",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "1600%",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "3200%",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "6400%",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "12800%",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "25600%",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Zoom in",
+      "shortcut": "Ctrl++",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Zoom out",
+      "shortcut": "Ctrl+-",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Outline View",
+    "shortcut": "Alt+Y",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Fast View",
+    "shortcut": "",
+    "classes": [],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Canvas",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "Show Rulers",
+      "shortcut": "Ctrl+Alt+R",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Show Guide Lines",
+      "shortcut": "Ctrl+,",
+      "classes": [
+       "g-menu-item-checked",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Show Symbol Labels",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-checked"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Show Grid",
+      "shortcut": "Ctrl+Alt+G",
+      "classes": [
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Show Slices",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-checked"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Show Effects",
+      "shortcut": "Ctrl+E",
+      "classes": [
+       "g-menu-item-checked",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Show Selection Handles",
+      "shortcut": "Shift+Ctrl+X",
+      "classes": [
+       "g-menu-item-checked",
+       "has-shortcut"
+      ],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Snap to",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "Use Snapping",
+      "shortcut": "Shift+F10",
+      "classes": [
+       "g-menu-item-checked",
+       "has-shortcut"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Use Snap Zones",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-divider"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Snap to Grid",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-checked"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Snap to Guide Lines",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-checked"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Snap to Full Pixels",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-checked"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Snap to Anchor Points",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-checked"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Snap to Shapes",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-checked"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Snap to Pages",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-checked"
+      ],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Show Inspector Panel",
+    "shortcut": "Alt+2",
+    "classes": [
+     "g-menu-item-checked",
+     "has-shortcut",
+     "hidepanel",
+     "null"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Show Layers Panel",
+    "shortcut": "Alt+1",
+    "classes": [
+     "g-menu-item-checked",
+     "has-shortcut",
+     "hidepanel",
+     "null"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Show Libraries Panel",
+    "shortcut": "",
+    "classes": [
+     "hidepanel",
+     "null"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Show Symbols Panel",
+    "shortcut": "",
+    "classes": [
+     "hidepanel",
+     "null"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "New View",
+    "shortcut": "Ctrl+Alt+N",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Play/Present...",
+    "shortcut": "Ctrl+Alt+Enter",
+    "classes": [
+     "has-icon",
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Toggle Fullscreen...",
+    "shortcut": "Alt+Enter",
+    "classes": [
+     "has-shortcut"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-divider"
+    ],
+    "shown": true
+   },
+   {
+    "caption": "Touch interface",
+    "shortcut": "",
+    "classes": [],
+    "shown": true
+   }
+  ],
+  "Help": [
+   {
+    "caption": "Support",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "Contact Us",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "Learn",
+    "shortcut": "",
+    "classes": [
+     "g-menu-item-menu"
+    ],
+    "shown": true,
+    "submenu": [
+     {
+      "caption": "User Guide",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "Tutorials",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     },
+     {
+      "caption": "Display Enhanced Tooltips",
+      "shortcut": "",
+      "classes": [
+       "g-menu-item-checked"
+      ],
+      "shown": true
+     },
+     {
+      "caption": "Show Keyboard Shortcuts",
+      "shortcut": "",
+      "classes": [],
+      "shown": true
+     }
+    ]
+   },
+   {
+    "caption": "Request New Feature",
+    "shortcut": "",
+    "classes": [],
+    "shown": true
+   },
+   {
+    "caption": "Show Quick Help",
+    "shortcut": "",
+    "classes": [],
+    "shown": false
+   },
+   {
+    "caption": "Show Welcome Screen",
+    "shortcut": "",
+    "classes": [],
+    "shown": true
+   }
+  ]
+ }
+}

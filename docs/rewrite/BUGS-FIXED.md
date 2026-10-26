@@ -2792,11 +2792,10 @@ lines 102679-102686 and 102704).
 - Test: src/app/actions/modify/simplify-action.test.ts, "simplifies with
   the tolerance typed into the field (BUG-134)" and "refuses a typed
   tolerance of 0 (BUG-134)" (both fail with the old dialog).
-- Parity exceptions: editor-actions/path-dialogs/simplify-typed-40 and
-  simplify-typed-0. sliderAfterTyping stays "10", because it is read
-  before the field loses focus. typed-40's document afterwards holds the
-  path simplified with tolerance 40 instead of 10. typed-0 has the alert
-  and the document unchanged.
+- Parity exceptions: editor-actions/path-dialogs/simplify-typed-0, which
+  now has the alert and the document unchanged. simplify-typed-40 doesn't
+  change: its path simplifies the same with tolerance 10, 40 or 60 (the
+  recorded simplify-default and simplify-slider-60 are equal too).
 
 ## BUG-135 An invalid Expand/Shrink value shows the outline action's text
 
@@ -3092,8 +3091,11 @@ and module 1316 (GCreateNestedCompoundAction.getShortcut).
   in the menu tree, a hidden shortcut span in the menu DOM, no
   "Ctrl+Alt+M" in the shots), and the Keyboard Shortcuts dialog has no
   Create Nested Compound row. Ctrl+Alt+M still runs Clip Selection, so
-  the nested-compound-keys result is the same. Pending, not enabled for
-  the new app yet: ui/dialog/shortcuts (.dom, .dark, .light).
+  the nested-compound-keys result is the same. registry/registered and
+  main-menu/tree also show removed features: their `.dropped.json` is the
+  old output minus those only (checked by the DROP rules), the
+  `.fixed.json` adds this fix. Pending, not enabled for the new app yet:
+  ui/dialog/shortcuts (.dom, .dark, .light).
 
 ## BUG-148 Page Down / Page Up never change the page
 
@@ -3338,7 +3340,9 @@ handler (lines 168171-168200); module 1717 does it right for pages.
 - Test: src/app/sidebars/layers-panel.test.ts, "shows every dragged layer
   name on the row while dragging, then its own again (BUG-159)" (fails
   with the old timer: the row shows "G" instead of "A").
-- Parity exceptions: none.
+- Parity exceptions: ui/layers/drag-reorders. Dragging row C (with A
+  selected) showed "A" on C's row afterwards, the drag label of the
+  selection; the `.fixed` file has "C" there and is otherwise equal.
 
 ## BUG-160 A second window of a document stops the page clip sync
 
@@ -3474,8 +3478,13 @@ callbacks (lines 67571-67582).
 - Test: src/app/fonts/providers.test.ts, "runs its first request once, like
   later ones" and "answers its first list query once (BUG-165)" (both fail
   with the old code: the call is answered twice).
-- Parity exceptions: none. No recorded scenario uses the imported fonts
-  provider.
+- Parity exceptions: ui/editor/font-list.dom. The font list asks every
+  provider for its first page, so the doubled first answer of the imported
+  fonts provider added each web font row twice (once without its preview).
+  The `.fixed` file is the old dump without those 1,306 doubled rows. The
+  scenario also shows removed features (DROP-002, DROP-006); the dump with
+  only those removed is kept as font-list.dom.dropped.json, which the
+  DROP check compares.
 
 ## BUG-166 Layer and page names are read as HTML
 

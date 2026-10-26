@@ -4,12 +4,7 @@
   "scenarios": [
     "editor-actions/registry/registered",
     "editor-actions/main-menu/tree",
-    "editor-actions/shortcuts/modify"
-  ],
-  "pending": [
-    "ui/dialog/shortcuts.dom",
-    "ui/dialog/shortcuts.dark",
-    "ui/dialog/shortcuts.light",
+    "editor-actions/shortcuts/modify",
     "editor-actions/exec/modify.createnestedcompound",
     "editor-actions/dialogs/help.shortcuts",
     "ui/menu/empty/modify-align.dark",
@@ -53,5 +48,6 @@
     "ui/menu/rect/modify-transform.light",
     "ui/menu/rect/modify.dom",
     "ui/menu/rect/modify.light"
-  ]
+  ],
+  "pending": ["ui/dialog/shortcuts.dom", "ui/dialog/shortcuts.dark", "ui/dialog/shortcuts.light"]
 }
