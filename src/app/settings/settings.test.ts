@@ -121,7 +121,7 @@ describe("settings dialog save (UI-SETTING-016, UI-SETTING-005, UI-SETTING-009, 
     expect(values[keys.indexOf("decimals_num")]).toBe(3);
   });
 
-  it("fails after writing the settings when notifications were switched (old bug kept)", async () => {
+  it("stores a switched notifications row locally and closes (BUG-131)", async () => {
     const designer = fakeDesigner();
     setDesigner(designer as never);
     const { dialog } = dialogWith({
@@ -129,9 +129,10 @@ describe("settings dialog save (UI-SETTING-016, UI-SETTING-005, UI-SETTING-009, 
       notifications_disabled: { checked: true },
     });
     const done = vi.fn();
-    await expect(dialog.save(done)).rejects.toThrow(/is not valid JSON/);
-    expect(designer.calls).toHaveLength(1);
-    expect(done).not.toHaveBeenCalled();
+    await dialog.save(done);
+    expect(done).toHaveBeenCalledOnce();
+    expect(designer.calls).toHaveLength(2);
+    expect(designer.calls[1]).toEqual({ keys: ["notifications_disabled"], values: [true] });
   });
 });
 

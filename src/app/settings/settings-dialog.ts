@@ -20,8 +20,9 @@
  *   dialog asked the account service for it (getting the default, false)
  *   and Save sent a change there; the local server answers that request
  *   with its HTML page, so a change made Save fail after the local
- *   settings were written and the dialog stayed open. Kept: see
- *   `userSettings` below.
+ *   settings were written and the dialog stayed open. Fixed (BUGS-FIXED
+ *   BUG-131): it is a local setting now, written on its own after the
+ *   other rows when it changed.
  */
 import { createElement, type ReactNode } from "react";
 import { Locale } from "../../engine/core/locale/locale.ts";
@@ -53,24 +54,6 @@ import {
 const AUTO_SAVE_SETTING = "auto_save";
 const AUTO_SAVE_INTERVAL_SETTING = "auto_save_interval";
 const DISABLE_WARNING_SETTING_NAME = "autosave-prompt-for-local-files-disabled";
-
-/**
- * The cloud user settings the dialog read and wrote (gApi.getUserSettings
- * and updateUserSettings). The account service is dropped; what is left
- * is what the old app got from the local server: the defaults on read,
- * and on a change the server's HTML page, which failed to parse.
- */
-const userSettings = {
-  get(): Promise<{ notifications_disabled: boolean }> {
-    return Promise.resolve({ notifications_disabled: false });
-  },
-  /** Old: updateUserSettings({ notifications_disabled }, true). */
-  update(): Promise<never> {
-    return Promise.reject(
-      new SyntaxError(`Unexpected token '<', "<!DOCTYPE "... is not valid JSON`),
-    );
-  },
-};
 
 interface Theme {
   name: string;
@@ -168,9 +151,7 @@ export class SettingsDialogImpl {
   }
 
   async _buildDialog(): Promise<void> {
-    this._notificationsDisabled = (
-      await userSettings.get().catch(() => ({ notifications_disabled: false }))
-    ).notifications_disabled;
+    this._notificationsDisabled = !!designer().getSetting("notifications_disabled", false);
     const list = themeList();
     // The next look lists the device's theme as "default", also for an unset one.
     const stored = isNextBranding()
@@ -328,10 +309,10 @@ export class SettingsDialogImpl {
     (this._dialog as Dialog).close();
   }
 
-  /** Writes the rows, then the notification setting; `done` only runs if both worked. */
+  /** Writes the rows, then the notification setting, then runs `done`. */
   async save(done: () => void): Promise<void> {
     this._saveBasicSettings();
-    await this._saveNotificationSetting();
+    this._saveNotificationSetting();
     done();
     // Old: $(".symbols-container").triggerHandler("scroll"), to redraw the
     // symbols panel previews with the new settings.
@@ -351,10 +332,15 @@ export class SettingsDialogImpl {
     return input ? input.checked : undefined;
   }
 
-  private async _saveNotificationSetting(): Promise<void> {
-    const disabled = this._checked("notifications_disabled") as boolean;
-    const current = await userSettings.get();
-    if (current && current.notifications_disabled !== disabled) await userSettings.update();
+  /**
+   * Old: updateUserSettings({ notifications_disabled }) on the cloud
+   * account when the switch changed. Stored locally now (BUG-131).
+   */
+  private _saveNotificationSetting(): void {
+    const disabled = this._checked("notifications_disabled");
+    if (disabled === undefined) return;
+    if (!!designer().getSetting("notifications_disabled", false) !== disabled)
+      designer().setSetting(["notifications_disabled"], [disabled]);
   }
 
   private _saveBasicSettings(): void {

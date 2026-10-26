@@ -2709,3 +2709,25 @@ _createLocalFontList (around line 77679).
   second load never answers).
 - Parity exceptions: none. The import-export open scenarios of
   font-fallback.svg, which reach it, are pending under BUG-072.
+
+## BUG-131 Disable notifications + Save Changes leaves the settings dialog open
+
+Old code: designer.browser.dev.js module 1275, GSettingsDialog (Save,
+lines 94455-94458, and _saveNotificationSetting, lines 94460-94467).
+
+- Reproduce: Edit > Settings..., switch "Disable notifications", press
+  Save Changes.
+- Old: the switch was a setting of the cloud account. Save wrote the
+  local settings, then sent the change to the account service. The local
+  server answers that request with its HTML page, the JSON parse failed,
+  Save stopped with an error and the dialog stayed open. The switch went
+  back to off the next time the dialog opened.
+- New: "Disable notifications" is a local setting (notifications_disabled,
+  default off). Save writes it after the other rows when it changed, and
+  the dialog closes. The dialog starts from the stored value.
+- Test: src/app/settings/settings.test.ts, "stores a switched
+  notifications row locally and closes (BUG-131)" (fails with the old
+  Save: it rejects with the JSON error and never calls done).
+- Parity exceptions: platform/storage/settings-dialog-notifications. The
+  `.fixed` file has the dialog closed and no page error, and
+  notifications_disabled set to true in designer.settings.
