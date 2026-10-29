@@ -1,0 +1,105 @@
+name: Check a branch
+
+# The checks of next.yml, started by hand for one branch: lint, typecheck,
+# unit tests (all, or some files) and, when asked, the parity suite. With
+# `expect_failure` the unit test step must fail instead, which proves a
+# new test fails without its fix (push the test without the fix to a
+# ci/ branch and run this there).
+
+on:
+  workflow_dispatch:
+    inputs:
+      vitest:
+        description: Test files or filters for vitest (empty = all tests)
+        required: false
+        default: ""
+      expect_failure:
+        description: The unit tests must fail (the fix is left out on purpose)
+        type: boolean
+        default: false
+      parity:
+        description: Also run the parity suite
+        type: boolean
+        default: false
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The old app, which the parity suite and some unit tests read.
+      - uses: actions/checkout@v4
+        with:
+          ref: parity-reference
+          path: legacy
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - if: ${{ !inputs.expect_failure }}
+        run: npm run lint
+      - if: ${{ !inputs.expect_failure }}
+        run: npm run typecheck
+      - name: Unit tests
+        env:
+          VITEST_ARGS: ${{ inputs.vitest }}
+          EXPECT_FAILURE: ${{ inputs.expect_failure }}
+        run: |
+          status=0
+          # Word splitting on purpose: several files or filters.
+          # shellcheck disable=SC2086
+          npx vitest run $VITEST_ARGS || status=$?
+          if [ "$EXPECT_FAILURE" = "true" ]; then
+            if [ "$status" -eq 0 ]; then
+              echo "::error::the tests passed, but they should fail without the fix"
+              exit 1
+            fi
+            echo "the tests failed, as they should without the fix"
+          else
+            exit "$status"
+          fi
+      - if: ${{ !inputs.expect_failure }}
+        run: npm run build
+
+  parity:
+    if: ${{ inputs.parity && !inputs.expect_failure }}
+    # Same as next.yml: the expected output was recorded on Windows.
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    needs: checks
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: parity-reference
+          path: legacy
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - name: Install the old app's dependencies
+        working-directory: legacy
+        run: npm install --no-save --no-package-lock express@5.1.0 send@1.2.0 serve-static@2.2.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2 electron@33.4.11
+      - run: npm ci
+      - run: npx playwright install chromium
+      - run: npx vite build --config vite.electron.config.ts
+      - name: Set the screen resolution
+        shell: pwsh
+        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+      - run: npx playwright test --project harness --project parity --shard ${{ matrix.shard }}/4
+        env:
+          CI: "1"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: parity-results-${{ matrix.shard }}
+          path: test-results/
