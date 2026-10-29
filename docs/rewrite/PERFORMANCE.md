@@ -1,8 +1,9 @@
 # Performance
 
-A benchmark of the real app, the baseline it measured, and where the time
-goes. Every number here is from a production build of commit `0e937670`
-(the last commit before the current round of fixes).
+A benchmark of the real app, the baselines it measured, and where the time
+goes. The first round's numbers are from a production build of commit
+`0e937670` (the last commit before its fixes), on the machine below; the
+second round's are from GitHub Actions (see "Second round: baseline").
 
 ## Running the benchmark
 
@@ -570,3 +571,106 @@ needs a document-level formatting cache with every writer listed). In
 EPS import 344 ms remain in _refreshIndicesForward
 (src/engine/scene/element-accelerated.ts), renumbering siblings each time
 open-import removes the parser group's first child.
+
+## Second round: baseline
+
+The second round goes after what heavy documents do: tens of thousands
+of objects, effect-heavy pages, many pages, large imports and exports.
+Its baseline is commit `bf570f0e` (the benchmark of the second round,
+no app changes since `be745b96`), measured on GitHub Actions on
+2026-10-29: Benchmark run 40826836634, `split`, 5 runs plus a warm-up
+(fewer where a case sets its own limit, e.g. 1 for the 50k moves),
+median, times in ms.
+
+The runner: ubuntu-latest, AMD EPYC 7763 (4 logical cores), 16 GB RAM,
+Node 22.23.4, Chromium 156.0.8078.4 headless with the parity flags.
+These numbers are not comparable with the Ryzen numbers above, and two
+jobs on different runners can differ by up to 2x; every before/after
+pair in this round comes from one job that measures both commits.
+"frame p95" is given for the move cases, whose headline is the input
+round trip; "script ms" is the CDP ScriptDuration over the measured part.
+
+| case | headline | median | min | max | frame p95 | script ms | heap MB |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| cold-start | docReadyMs | 508 | 501 | 695 |  | 152 | 18 |
+| open-effects-webgl-2 | painted | 925 | 796 | 980 |  | 803 | 24 |
+| open-fills-textures | painted | 187 | 168 | 194 |  | 71 | 26 |
+| open-effects-webgl-1 | painted | 262 | 243 | 285 |  | 138 | 24 |
+| pan-wheel | frameP95 | 16.7 | 16.7 | 16.7 |  | 258 | 51 |
+| zoom-wheel | frameP95 | 33.3 | 33.3 | 33.3 |  | 405 | 43 |
+| pan-api | frameP95 | 33.3 | 33.3 | 35.0 |  | 470 | 50 |
+| zoom-api | frameP95 | 135 | 133 | 152 |  | 3,198 | 40 |
+| drag-group | moveMedian | 17.3 | 17.2 | 17.4 | 16.7 | 452 | 63 |
+| type-long-text | keyP95 | 158 | 121 | 173 |  | 3,104 | 129 |
+| export-svg | ms | 47.7 | 45.7 | 53.7 |  | 0 | 126 |
+| export-pdf | ms | 516 | 501 | 589 |  | 381 | 66 |
+| export-png | ms | 189 | 182 | 218 |  | 0 | 40 |
+| import-svg-3000 | painted | 1,518 | 1,368 | 1,620 |  | 1,393 | 129 |
+| import-svg-welcome | painted | 131 | 111 | 145 |  | 70 | 33 |
+| import-pdf-print | painted | 336 | 335 | 368 |  | 53 | 24 |
+| import-pdf-2pages | painted | 318 | 303 | 347 |  | 36 | 31 |
+| import-eps-2000 | painted | 1,078 | 1,033 | 1,114 |  | 932 | 104 |
+| import-eps-gradient | painted | 114 | 106 | 134 |  | 34 | 21 |
+| doc20k-flat-open | painted | 11,877 | 11,372 | 12,761 |  | 10,650 | 192 |
+| doc20k-flat-zoom-api | frameP95 | 617 | 583 | 720 |  | 8,191 | 174 |
+| doc20k-flat-pan-api | frameP95 | 50.0 | 50.0 | 50.0 |  | 397 | 202 |
+| doc20k-flat-pan-wheel | frameP95 | 16.7 | 16.7 | 16.7 |  | 295 | 226 |
+| doc20k-flat-select-all | ms | 7,528 | 7,332 | 7,748 |  | 351 | 281 |
+| doc20k-flat-nudge | nudgeMedian | 5,807 | 5,807 | 5,903 |  | 11,338 | 522 |
+| doc20k-flat-drag | moveMedian | 114 | 112 | 118 | 280 | 6,655 | 443 |
+| doc20k-flat-undo | ms | 6,199 | 5,716 | 6,267 |  | 254 | 462 |
+| doc20k-flat-redo | ms | 6,243 | 6,172 | 6,259 |  | 253 | 351 |
+| doc20k-flat-layers-scroll | frameP95 | 33.3 | 33.3 | 33.3 |  | 332 | 185 |
+| doc20k-nested-open | painted | 40,548 | 40,526 | 40,807 |  | 8,246 | 249 |
+| doc20k-nested-zoom-api | frameP95 | 563 | 517 | 637 |  | 7,248 | 161 |
+| doc20k-nested-pan-api | frameP95 | 66.7 | 66.7 | 85.8 |  | 608 | 177 |
+| doc20k-nested-pan-wheel | frameP95 | 16.7 | 16.7 | 16.7 |  | 289 | 157 |
+| doc20k-nested-select-all | ms | 811 | 803 | 849 |  | 52 | 180 |
+| doc20k-nested-nudge | nudgeMedian | 457 | 357 | 542 |  | 742 | 202 |
+| doc20k-nested-drag | moveMedian | 80.8 | 67.7 | 86.9 | 84.2 | 824 | 230 |
+| doc20k-nested-undo | ms | 200 | 195 | 211 |  | 35 | 248 |
+| doc20k-nested-redo | ms | 214 | 213 | 214 |  | 35 | 265 |
+| doc20k-symbols-open | painted | 41,272 | 40,944 | 41,516 |  | 11,947 | 367 |
+| doc20k-symbols-zoom-api | frameP95 | 602 | 500 | 650 |  | 7,353 | 182 |
+| doc20k-symbols-pan-api | frameP95 | 83.3 | 66.7 | 84.2 |  | 571 | 191 |
+| doc20k-symbols-pan-wheel | frameP95 | 16.7 | 16.7 | 16.7 |  | 273 | 200 |
+| doc20k-symbols-select-all | ms | 2,114 | 1,982 | 2,472 |  | 293 | 276 |
+| doc20k-symbols-nudge | nudgeMedian | 5,623 | 5,616 | 5,873 |  | 11,000 | 450 |
+| doc20k-symbols-drag | moveMedian | 97.6 | 91.3 | 98.9 | 280 | 6,704 | 337 |
+| doc20k-symbols-undo | ms | 6,210 | 5,632 | 6,419 |  | 279 | 313 |
+| doc20k-symbols-redo | ms | 5,987 | 5,609 | 6,194 |  | 277 | 456 |
+| doc20k-symbols-layers-scroll | frameP95 | 33.3 | 16.7 | 33.3 |  | 309 | 204 |
+| doc50k-flat-open | painted | 71,907 | 71,302 | 82,903 |  | 69,541 | 591 |
+| doc50k-flat-zoom-api | frameP95 | 1,585 | 1,520 | 1,775 |  | 20,906 | 495 |
+| doc50k-flat-pan-api | frameP95 | 33.3 | 33.3 | 33.3 |  | 328 | 507 |
+| doc50k-flat-pan-wheel | frameP95 | 16.7 | 16.7 | 16.7 |  | 327 | 580 |
+| doc50k-flat-select-all | ms | 99,475 | 96,285 | 107,238 |  | 865 | 818 |
+| doc50k-flat-nudge | nudgeMedian | 13,289 | 13,289 | 13,289 |  | 26,168 | 994 |
+| doc50k-flat-drag | moveMedian | 223 | 223 | 223 | 572 | 15,949 | 476 |
+| doc50k-flat-undo | ms | 13,609 | 13,609 | 13,609 |  | 501 | 965 |
+| doc50k-flat-redo | ms | 14,342 | 14,342 | 14,342 |  | 522 | 419 |
+| doc50k-flat-layers-scroll | frameP95 | 33.3 | 33.3 | 33.3 |  | 349 | 589 |
+| doc50k-nested-open | painted | 99,743 | 99,702 | 99,820 |  | 19,936 | 452 |
+| doc50k-nested-select-all | ms | 2,507 | 2,487 | 2,510 |  | 88 | 597 |
+| pages-open | painted | 6,408 | 6,336 | 6,610 |  | 5,470 | 153 |
+| pages-multipage | ms | 63.6 | 63.4 | 64.4 |  | 25 | 127 |
+| pages-zoom-api | frameP95 | 33.3 | 33.3 | 50.0 |  | 365 | 113 |
+| pages-pan-api | frameP95 | 33.3 | 33.3 | 33.3 |  | 503 | 120 |
+| fx-zoom-api | frameP95 | 883 | 868 | 900 |  | 28,206 | 35 |
+| fx-pan-api | frameP95 | 50.0 | 50.0 | 66.7 |  | 783 | 42 |
+| fx-zoom-min | ms | 981 | 964 | 999 |  | 921 | 31 |
+| fx-zoom-max | ms | 64.5 | 64.4 | 64.6 |  | 18 | 32 |
+| fx-zoom-step-min | frameP95 | 742 | 717 | 817 |  | 3,222 | 47 |
+| fx-zoom-step-max | frameP95 | 943 | 922 | 963 |  | 6,754 | 29 |
+| export-doc20k-flat-svg | ms | 659 | 636 | 661 |  | 0 | 399 |
+| export-doc20k-flat-pdf | ms | 3,352 | 3,291 | 3,629 |  | 1,988 | 237 |
+| export-doc20k-flat-png | ms | 1,708 | 1,567 | 1,829 |  | 0 | 167 |
+| export-fx-svg | ms | 1,969 | 1,945 | 2,043 |  | 0 | 237 |
+| export-fx-pdf | ms | 5,570 | 5,511 | 5,701 |  | 1,811 | 71 |
+| export-fx-png | ms | 3,343 | 3,189 | 3,411 |  | 0 | 65 |
+| import-svg-20000 | painted | 24,484 | 23,595 | 27,027 |  | 23,503 | 850 |
+| import-pdf-20pages | painted | 8,769 | 8,409 | 8,882 |  | 3,266 | 972 |
+| import-eps-4000 | painted | 7,261 | 7,115 | 7,451 |  | 6,940 | 786 |
+| import-png-6000x4000 | painted | 1,833 | 671 | 1,869 |  | 253 | 20 |
+| import-jpeg-6000x4000 | painted | 1,997 | 1,973 | 2,015 |  | 1,455 | 20 |
+| import-sketch-4000 | ms | 118,654 | 118,647 | 118,751 |  | 3,665 | 74 |
