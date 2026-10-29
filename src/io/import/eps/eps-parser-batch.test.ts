@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import type { AcceleratedApi } from "../../../engine/scene/element-accelerated.ts";
 import { Group } from "../../../engine/scene/group.ts";
 import { FontManager } from "../../../engine/text/fonts/font-manager.ts";
 import { EPSParser } from "./eps-parser.ts";
@@ -97,6 +98,8 @@ function tree(t: Tree, children: unknown[]): unknown {
 /** Everything the group keeps: its caches, its trees and its children's indices and boxes. */
 function state(group: Group): unknown {
   const g = group as Inspected;
+  // The group's tree entries as its next read sees them.
+  (group as unknown as AcceleratedApi)._applyPendingAccelUpdates();
   const children = group.getChildren();
   return {
     caches: {

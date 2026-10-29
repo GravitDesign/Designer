@@ -14,7 +14,7 @@ import type { PaintCanvas } from "../paint/paint-canvas.ts";
 import { ElementChange, isElement } from "./element-change.ts";
 import type { Element } from "./element.ts";
 import { NodeChange } from "./node-change.ts";
-import type { ContainerNode } from "./node-container.ts";
+import { hasContainer, type ContainerNode } from "./node-container.ts";
 import type { Node } from "./node.ts";
 
 export interface AcceleratedApi {
@@ -22,6 +22,14 @@ export interface AcceleratedApi {
   _childrenGeometryQTree: QuadTree | null;
   /** Set on a removed child: its index needs refreshing when it is inserted again. */
   _dirtyIndex: boolean;
+  /**
+   * Children whose entries wait for the next read of the trees, in the
+   * order of their last update; true for a geometry update (both trees),
+   * false for a visual one (the paint tree). See `_deferAccelUpdate`.
+   */
+  _pendingAccelUpdates: Map<Element, boolean> | null;
+  /** Moves the waiting children's entries to their current boxes. */
+  _applyPendingAccelUpdates(): void;
   _updateQTree(): void;
   _createQTreeIfNotExists(): void;
   _removeAccelElement(element: Element, keepPaint?: boolean, keepGeometry?: boolean): void;
@@ -46,8 +54,55 @@ const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => 
     declare _childrenPaintQTree: QuadTree | null;
     declare _childrenGeometryQTree: QuadTree | null;
     declare _dirtyIndex: boolean;
+    declare _pendingAccelUpdates: Map<Element, boolean> | null;
+
+    /**
+     * Whether the entries of `child` (in the trees already) can wait for
+     * the next read of the trees instead of moving now. They wait when the
+     * child is a container whose box is not measured: a page or layer
+     * after one of its own children moved. Measuring it goes over all its
+     * children, so moving n children of a page with N children made the
+     * scene measure the page n times, n x N. The trees are read only
+     * through `retrieveChildrenIn*BBox`, `paintQTree` and `_updateQTree`,
+     * and every other change to them applies the waiting entries first, so
+     * the trees get the same operations in the same order as before, with
+     * the boxes the children have then; a child updated several times in
+     * between is moved once, to its last box.
+     */
+    _deferAccelUpdate(child: Element, geometry: boolean): boolean {
+      const pending = this._pendingAccelUpdates;
+      if (pending && pending.has(child)) {
+        const both = pending.get(child) || geometry;
+        pending.delete(child);
+        pending.set(child, both);
+        return true;
+      }
+      if (!hasContainer(child) || !child.isVisible()) return false;
+      if (null !== child._paintBBox && (!geometry || null !== child._geometryBBox)) return false;
+      (pending || (this._pendingAccelUpdates = new Map())).set(child, geometry);
+      return true;
+    }
+
+    _applyPendingAccelUpdates(): void {
+      const pending = this._pendingAccelUpdates;
+      if (!pending || !pending.size) return;
+      // Emptied, not dropped: a copy of this node (the PDF export's
+      // proxies copy the own fields) shares the map along with the trees.
+      const updates = Array.from(pending);
+      pending.clear();
+      updates.forEach(([child, geometry]) => {
+        if (geometry) {
+          this._removeAccelElement(child);
+          this._insertAccelElement(child);
+        } else {
+          this._removeAccelElement(child, false, true);
+          this._insertAccelElement(child, false, true);
+        }
+      });
+    }
 
     _updateQTree(): void {
+      this._applyPendingAccelUpdates();
       this._createQTreeIfNotExists();
       let index = 0;
       const self = this as unknown as ContainerNode;
@@ -124,6 +179,31 @@ const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => 
     }
 
     _handleChildrenStructureChange(change: number, args: unknown): void {
+      if (this._pendingAccelUpdates && this._pendingAccelUpdates.size) {
+        if (
+          change === ElementChange.ChildGeometryUpdate ||
+          change === ElementChange.ChildVisualUpdate
+        ) {
+          // Updates of deeper descendants pass by here too; only those of
+          // the children touch the trees.
+          const child = (args as unknown[])[0];
+          if (isElement(child) && child.getParent() === (this as unknown)) {
+            if (this._pendingAccelUpdates.has(child)) {
+              this._deferAccelUpdate(child, change === ElementChange.ChildGeometryUpdate);
+              return;
+            }
+            this._applyPendingAccelUpdates();
+          }
+        } else if (
+          change === NodeChange.Restore ||
+          ((change === NodeChange.BeforeChildRemove ||
+            change === NodeChange.AfterChildRemove ||
+            change === NodeChange.AfterChildInsert) &&
+            isElement(args))
+        ) {
+          this._applyPendingAccelUpdates();
+        }
+      }
       if (change === NodeChange.Restore) {
         this._createQTreeIfNotExists();
         let index = 0;
@@ -154,6 +234,7 @@ const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => 
         if (isElement(child) && child.getParent() === (this as unknown)) {
           this._createQTreeIfNotExists();
           if (child._containingPaintQTreeElement || child._containingGeometryQTreeElement) {
+            if (this._deferAccelUpdate(child, true)) return;
             this._removeAccelElement(child);
             this._insertAccelElement(child);
           } else {
@@ -167,6 +248,7 @@ const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => 
         if (isElement(child) && child.getParent() === (this as unknown)) {
           this._createQTreeIfNotExists();
           if (child._containingPaintQTreeElement) {
+            if (this._deferAccelUpdate(child, false)) return;
             this._removeAccelElement(child, false, true);
             this._insertAccelElement(child, false, true);
           } else {
@@ -199,6 +281,7 @@ const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => 
     }
 
     retrieveChildrenInPaintBBox(area: Rect, mode?: number): Element[] | null {
+      this._applyPendingAccelUpdates();
       return this._childrenPaintQTree
         ? this._childrenPaintQTree
             .retrieve(
@@ -210,6 +293,7 @@ const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => 
     }
 
     retrieveChildrenInGeometryBBox(area: Rect, mode?: number): Element[] | null {
+      this._applyPendingAccelUpdates();
       return this._childrenGeometryQTree
         ? this._childrenGeometryQTree
             .retrieve(
@@ -226,6 +310,7 @@ const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => 
       opacity?: number,
       color?: string,
     ): void {
+      this._applyPendingAccelUpdates();
       const node = tree || this._childrenPaintQTree || this._childrenGeometryQTree;
       if (!node) return;
       const canvas = context.canvas as PaintCanvas;
@@ -247,6 +332,7 @@ const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => 
   AcceleratedMixin.prototype._childrenPaintQTree = null;
   AcceleratedMixin.prototype._childrenGeometryQTree = null;
   AcceleratedMixin.prototype._dirtyIndex = false;
+  AcceleratedMixin.prototype._pendingAccelUpdates = null;
   return AcceleratedMixin;
 };
 

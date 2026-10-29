@@ -3,6 +3,7 @@ import { RGBColor } from "../../engine/color/rgb-color.ts";
 import type { Rect } from "../../engine/math/rect.ts";
 import { Transform } from "../../engine/math/transform.ts";
 import { EditorWorkspace } from "../../editor/editor-workspace.ts";
+import type { AcceleratedApi } from "../../engine/scene/element-accelerated.ts";
 import type { Element } from "../../engine/scene/element.ts";
 import { Group } from "../../engine/scene/group.ts";
 import { Node } from "../../engine/scene/node.ts";
@@ -80,6 +81,8 @@ const box = (r: Rect | null): number[] | null =>
 
 /** What the scene, its page and the page's children look like. */
 function state(scene: Scene): unknown {
+  // The scene's tree entries as its next read sees them.
+  (scene as unknown as AcceleratedApi)._applyPendingAccelUpdates();
   const page = scene.getActivePage() as unknown as Accel & Page;
   return {
     page: [page.getProperty("w"), page.getProperty("h"), page.getProperty("x")],
@@ -204,11 +207,10 @@ describe("opening an EPS file with many shapes", () => {
   });
 
   it("computes the page's paint box a few times, not once per shape", () => {
+    // Since the scene's tree entry of the page waits for the next read
+    // (GElement.Accelerated), the unbatched open no longer recomputes it
+    // for every insert and every move either.
     const calculate = vi.spyOn(Page.prototype, "_calculatePaintBBox");
-    openUnbatched(shapes(), new Scene(workspace));
-    // The unbatched open recomputes it for every insert and every move.
-    expect(calculate.mock.calls.length).toBeGreaterThan(COUNT / 2);
-    calculate.mockClear();
     open("shapes.eps", "EPS");
     expect(calculate.mock.calls.length).toBeLessThan(10);
   });
@@ -226,11 +228,8 @@ describe("opening an SVG file with many shapes at the top", () => {
   });
 
   it("computes the page's paint box a few times, not once per shape", () => {
+    // As for EPS, the unbatched open no longer recomputes it per insert.
     const calculate = vi.spyOn(Page.prototype, "_calculatePaintBBox");
-    openSvgUnbatched(shapes(), new Scene(workspace));
-    // The unbatched open recomputes it for every insert.
-    expect(calculate.mock.calls.length).toBeGreaterThan(COUNT / 2);
-    calculate.mockClear();
     open("shapes.svg", "SVG");
     expect(calculate.mock.calls.length).toBeLessThan(10);
   });
