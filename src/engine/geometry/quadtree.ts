@@ -48,14 +48,29 @@ export class QuadTree<T extends QuadTreeBounds = QuadTreeElement> {
   objects: T[];
   /** The quadrants once split: bottom right, top right, bottom left, top left. */
   nodes: QuadTree<T>[] | null;
+  /**
+   * The boxes never change while they are in the tree (the scene makes a
+   * new box per insert). A box that stays in a split node then crosses a
+   * quadrant edge for good, so only the split itself moves boxes down,
+   * instead of every insert into a full node checking all of them again.
+   * The tree comes out the same.
+   */
+  fixedBoxes: boolean;
 
-  constructor(bounds: QuadTreeBounds, maxObjects?: number, maxLevels?: number, level?: number) {
+  constructor(
+    bounds: QuadTreeBounds,
+    maxObjects?: number,
+    maxLevels?: number,
+    level?: number,
+    fixedBoxes?: boolean,
+  ) {
     this.max_objects = maxObjects || 10;
     this.max_levels = maxLevels || 4;
     this.level = level || 0;
     this.bounds = bounds;
     this.objects = [];
     this.nodes = null;
+    this.fixedBoxes = !!fixedBoxes;
   }
 
   /** Creates the four quadrants, on rounded coordinates. */
@@ -71,6 +86,7 @@ export class QuadTree<T extends QuadTreeBounds = QuadTreeElement> {
         this.max_objects,
         this.max_levels,
         level,
+        this.fixedBoxes,
       );
     this.nodes = new Array<QuadTree<T>>(4);
     this.nodes[0] = quadrant(x + halfWidth, y + halfHeight);
@@ -103,6 +119,7 @@ export class QuadTree<T extends QuadTreeBounds = QuadTreeElement> {
     }
     this.objects.push(box);
     if (this.objects.length > this.max_objects && this.level < this.max_levels) {
+      if (this.nodes && this.fixedBoxes) return;
       if (!this.nodes) this.split();
       const nodes = this.nodes as unknown as QuadTree<T>[];
       while (i < this.objects.length) {

@@ -118,4 +118,63 @@ describe("QuadTree", () => {
     expect(topLeft.objects).toEqual([]);
     expect(topLeft.nodes?.map((n) => n.objects.map((o) => o.data))).toEqual([[], [], [], ["b"]]);
   });
+
+  /** Each node's boxes (by data) and quadrants, depth first. */
+  function shape(t: QuadTree<QuadTreeElement>): unknown {
+    return [t.level, t.objects.map((o) => o.data), t.nodes ? t.nodes.map(shape) : null];
+  }
+
+  it("builds the same tree with fixed boxes, through inserts and removes", () => {
+    let seed = 1;
+    const rnd = (): number => {
+      seed = (seed * 16807) % 2147483647;
+      return seed / 2147483647;
+    };
+    const bounds = { x: -5e3, y: -5e3, width: 1e4, height: 1e4 };
+    const plain = new QuadTree<QuadTreeElement>(bounds, 10, 50);
+    const fixed = new QuadTree<QuadTreeElement>(bounds, 10, 50, 0, true);
+    const boxes: [QuadTreeElement, QuadTreeElement][] = [];
+    for (let i = 0; i < 3000; i++) {
+      // Mostly small shapes on a page, some wide ones crossing many edges.
+      const w = rnd() < 0.1 ? 200 + rnd() * 2000 : 5 + rnd() * 80;
+      const h = 5 + rnd() * 80;
+      const x = rnd() * 4000;
+      const y = rnd() * 3000;
+      const pair: [QuadTreeElement, QuadTreeElement] = [
+        box(x, y, w, h, String(i)),
+        box(x, y, w, h, String(i)),
+      ];
+      plain.insert(pair[0]);
+      fixed.insert(pair[1]);
+      boxes.push(pair);
+      // Remove some again, so quadrants merge and split once more.
+      if (i % 7 === 3) {
+        const [p, f] = boxes.splice(Math.floor(rnd() * boxes.length), 1)[0] as [
+          QuadTreeElement,
+          QuadTreeElement,
+        ];
+        expect(fixed.remove(f)).toBe(plain.remove(p));
+      }
+    }
+    expect(shape(fixed)).toEqual(shape(plain));
+    const query = { x: 1000, y: 800, width: 900, height: 700 };
+    expect(fixed.retrieve(query).map((o) => o.data)).toEqual(
+      plain.retrieve(query).map((o) => o.data),
+    );
+  });
+
+  it("still moves a box down that was changed after it went in, without fixed boxes", () => {
+    // The boolean operations re-measure segments that are in their tree.
+    const t = new QuadTree<QuadTreeElement>({ x: 0, y: 0, width: 100, height: 100 }, 1, 4);
+    t.insert(box(1, 1, 5, 5, "a"));
+    t.insert(box(10, 10, 5, 5, "b"));
+    const changed = box(45, 45, 10, 10, "changed");
+    t.insert(changed);
+    expect(t.objects).toEqual([changed]);
+    changed.x = 60;
+    changed.y = 60;
+    t.insert(box(40, 40, 20, 20, "crossing"));
+    expect(t.objects.map((o) => o.data)).toEqual(["crossing"]);
+    expect(t.nodes?.[0]?.objects).toEqual([changed]);
+  });
 });

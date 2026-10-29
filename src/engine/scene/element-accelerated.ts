@@ -38,7 +38,7 @@ export interface AcceleratedApi {
 }
 
 function newTree(): QuadTree {
-  return new QuadTree({ x: -5e3, y: -5e3, width: 1e4, height: 1e4 }, 10, 50);
+  return new QuadTree({ x: -5e3, y: -5e3, width: 1e4, height: 1e4 }, 10, 50, 0, true);
 }
 
 const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => {
