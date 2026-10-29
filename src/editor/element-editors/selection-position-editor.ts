@@ -46,6 +46,25 @@ interface SceneLike {
   removeEventListener(type: unknown, listener: unknown, target?: object | null): void;
 }
 
+/** SelectionPositionEditor._getGroupBox's last result and what it was computed from. */
+interface GroupBoxCache {
+  elements: EditedElement[];
+  boxes: (Rect | null)[];
+  pages: (PageLike | null)[];
+  positions: Map<PageLike, Point>;
+  box: Rect | null;
+}
+
+/** The page's position in the multi-page grid, measured once per read through `positions`. */
+function pagePosition(page: PageLike, positions: Map<PageLike, Point>): Point {
+  let position = positions.get(page);
+  if (!position) {
+    position = page.getPosition(true);
+    positions.set(page, position);
+  }
+  return position;
+}
+
 /** GEditor statics the editor uses. */
 const EditorStatics = Editor as unknown as {
   getGroupGeometryBBox(nodes: readonly Node[], preview?: unknown, arg?: unknown): Rect | null;
@@ -61,6 +80,7 @@ export class SelectionPositionEditor extends BoxEditor {
   declare _scene: SceneLike | null;
   declare _graphicEditor: SelectionHost | null;
   declare _activated: boolean;
+  declare _groupBox: GroupBoxCache | null;
 
   /** Starts editing the selection of `editor` in `scene`. */
   activate(scene: unknown, editor: SelectionHost): void {
@@ -81,21 +101,81 @@ export class SelectionPositionEditor extends BoxEditor {
     );
     this._scene = null;
     this._selection = null;
+    this._groupBox = null;
     this._activated = false;
   }
 
   /** The geometry box of the selection, relative to the active page. */
   override getBox(arg?: unknown): Rect | null {
     if (this._selection) {
-      let box = EditorStatics.getGroupGeometryBBox(this._selection, true, arg);
+      const positions = new Map<PageLike, Point>();
+      let box = arg
+        ? EditorStatics.getGroupGeometryBBox(this._selection, true, arg)
+        : this._getGroupBox(this._selection, positions);
       if (box) {
         const page = (this._scene as SceneLike).getActivePage();
-        const position = page ? page.getPosition(true) : null;
+        const position = page ? pagePosition(page, positions) : null;
         if (position) box = box.translated(-position.getX(), -position.getY());
       }
       return box;
     }
     return null;
+  }
+
+  /**
+   * GEditor.getGroupGeometryBBox(selection, true) without the preview,
+   * kept with what it was computed from: the elements, their geometry
+   * boxes (cached and immutable, so a change gives a new one), their
+   * pages and the pages' positions. Every invalidation reads the box and
+   * a move sends several geometry events per moved element, so it is
+   * computed again only when one of these differs, measuring each page's
+   * grid position once per read instead of once per element.
+   */
+  _getGroupBox(selection: readonly EditedElement[], positions: Map<PageLike, Point>): Rect | null {
+    const cache = this._groupBox;
+    if (cache && cache.elements.length === selection.length) {
+      let valid = true;
+      for (let i = 0; valid && i < selection.length; i++) {
+        const element = selection[i];
+        if (element !== cache.elements[i]) valid = false;
+        else if (element instanceof Element) {
+          const box = element.getGeometryBBox();
+          valid =
+            box === cache.boxes[i] &&
+            (!box || EditorStatics.getElementPage(element) === cache.pages[i]);
+        }
+      }
+      for (const [page, position] of valid ? cache.positions : []) {
+        const now = pagePosition(page, positions);
+        if (now.getX() !== position.getX() || now.getY() !== position.getY()) {
+          valid = false;
+          break;
+        }
+      }
+      if (valid) return cache.box;
+    }
+    const boxes: (Rect | null)[] = [];
+    const pages: (PageLike | null)[] = [];
+    const used = new Map<PageLike, Point>();
+    let box: Rect | null = null;
+    for (let i = 0; i < selection.length; i++) {
+      const element = selection[i];
+      const elementBox = element instanceof Element ? element.getGeometryBBox() : null;
+      const page = elementBox ? EditorStatics.getElementPage(element as Node) : null;
+      boxes.push(elementBox);
+      pages.push(page);
+      if (elementBox) {
+        let pageBox = elementBox;
+        if (page) {
+          const position = pagePosition(page, positions);
+          used.set(page, position);
+          pageBox = elementBox.translated(position.getX(), position.getY());
+        }
+        box = box ? box.united(pageBox) : pageBox;
+      }
+    }
+    this._groupBox = { elements: selection.slice(), boxes, pages, positions: used, box };
+    return box;
   }
 
   _getSelectionPages(): PageLike[] | null {
@@ -181,6 +261,7 @@ export class SelectionPositionEditor extends BoxEditor {
     this.requestInvalidation();
     this._selection = (this._graphicEditor as SelectionHost).getIndividualSelection() as
       EditedElement[] | null;
+    this._groupBox = null;
     if (this._selection) {
       for (let i = 0; i < this._selection.length; ++i) {
         const element = this._selection[i] as EditedElement;
@@ -374,4 +455,5 @@ Object.assign(SelectionPositionEditor.prototype, {
   _scene: null,
   _graphicEditor: null,
   _activated: false,
+  _groupBox: null,
 });

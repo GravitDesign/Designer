@@ -8,9 +8,13 @@ import { AnchorPoint, PathBase } from "../../engine/scene/path-base.ts";
 import { Scene } from "../../engine/scene/scene.ts";
 import { Workspace } from "../../engine/scene/workspace.ts";
 import { Text } from "../../engine/text/text.ts";
+import { Editor } from "../editor.ts";
+import { EditorWorkspace } from "../editor-workspace.ts";
 import { BaseEditor } from "./base-editor.ts";
 import { BoxEditor, EdTransformOptions } from "./box-editor.ts";
 import { ElementEditor } from "./element-editor.ts";
+import "./layer-editor.ts";
+import "./page-editor.ts";
 import "./path-base-editor.ts";
 import "./scene-editor.ts";
 import "./text-editor.ts";
@@ -242,5 +246,116 @@ describe("GSelectionPositionEditor", () => {
         [2, 0, 0, 2, 5, 5],
       ]);
     });
+
+    it("measures again when a selected element leaves its page", () => {
+      const { b, editor } = paged();
+      const before = rect(editor.getBox());
+      (b.getParent() as unknown as { removeChild(n: Node): void }).removeChild(b);
+      expect(rect(editor.getBox())).toEqual(rect(measured(editor)));
+      expect(rect(editor.getBox())).not.toEqual(before);
+    });
+  });
+
+  describe("keeps its box between reads", () => {
+    it("measures the page's grid position once per read, not once per element", () => {
+      const { scene, editor } = setup();
+      const spy = vi.spyOn(scene.getActivePage() as Page, "getPosition");
+      expect(rect(editor.getBox())).toEqual([0, 0, 100, 60]);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(rect(editor.getBox())).toEqual([0, 0, 100, 60]);
+      expect(spy).toHaveBeenCalledTimes(2);
+    });
+
+    it("measures again when a selected element moves or is resized", () => {
+      const { a, b, editor } = setup();
+      let before = rect(editor.getBox());
+      a.transform(new Transform(1, 0, 0, 1, -20, -5));
+      expect(rect(editor.getBox())).toEqual(rect(measured(editor)));
+      expect(rect(editor.getBox())).not.toEqual(before);
+      before = rect(editor.getBox());
+      b.transform(new Transform(2, 0, 0, 2, 0, 0));
+      expect(rect(editor.getBox())).toEqual(rect(measured(editor)));
+      expect(rect(editor.getBox())).not.toEqual(before);
+    });
+
+    it("measures again when the selection changes", () => {
+      const { a, b, editor } = setup();
+      expect(rect(editor.getBox())).toEqual([0, 0, 100, 60]);
+      const host = editor._graphicEditor as SelectionHost;
+      host.getIndividualSelection = () => [b];
+      editor.updateFromSelection();
+      expect(rect(editor.getBox())).toEqual([60, 20, 40, 40]);
+      // The same list, changed in place.
+      const list = [a, b];
+      host.getIndividualSelection = () => list;
+      editor.updateFromSelection();
+      expect(rect(editor.getBox())).toEqual([0, 0, 100, 60]);
+      list.pop();
+      expect(rect(editor.getBox())).toEqual([0, 0, 40, 40]);
+      list[0] = b;
+      expect(rect(editor.getBox())).toEqual([60, 20, 40, 40]);
+    });
+
+    it("measures again when a page moves in the page grid", () => {
+      const scene = new Scene(new Workspace());
+      const first = scene.getActivePage() as Page;
+      const second = new Page();
+      scene.appendChild(second);
+      first.setProperties(["w", "h"], [800, 600]);
+      second.setProperties(["w", "h"], [800, 600]);
+      const a = square(0, 0, 40);
+      const b = square(60, 20, 40);
+      first.appendChild(a);
+      second.appendChild(b);
+      const host = {
+        requestInvalidation: () => undefined,
+        getIndividualSelection: () => [a, b],
+      } as unknown as SelectionHost;
+      (scene as unknown as { __graphic_editor__: unknown }).__graphic_editor__ = host;
+      const editor = new SelectionPositionEditor();
+      editor.activate(scene, host);
+      const before = rect(editor.getBox());
+      const at = second.getPosition(true).getX();
+      second.setProperty("off", new Transform(1, 0, 0, 1, 2000, 0));
+      expect(second.getPosition(true).getX()).not.toBe(at);
+      expect(rect(editor.getBox())).toEqual(rect(measured(editor)));
+      expect(rect(editor.getBox())).not.toEqual(before);
+    });
+
+    it("measures again after a move is undone and redone", () => {
+      const scene = new Scene(new EditorWorkspace());
+      const graphic = new Editor(scene);
+      const a = square(0, 0, 40);
+      const b = square(60, 20, 40);
+      graphic.insertElements([a, b], true);
+      const box = () => {
+        const editor = graphic.getSelectionEditor() as unknown as SelectionPositionEditor;
+        expect(editor).toBeInstanceOf(SelectionPositionEditor);
+        const result = rect(editor.getBox());
+        expect(result).toEqual(rect(measured(editor)));
+        return result;
+      };
+      const before = box();
+      graphic.beginTransaction();
+      a.transform(new Transform(1, 0, 0, 1, -30, -10));
+      graphic.commitTransaction("Move");
+      const moved = box();
+      expect(moved).not.toEqual(before);
+      graphic.undoState();
+      expect(box()).toEqual(before);
+      graphic.redoState();
+      expect(box()).toEqual(moved);
+    });
   });
 });
+
+/** The box measured from scratch, as getBox did before it kept its box. */
+function measured(editor: SelectionPositionEditor): Rect | null {
+  let box = Editor.getGroupGeometryBBox(editor._selection, true);
+  const page = (editor._scene as unknown as Scene).getActivePage();
+  if (box && page) {
+    const position = page.getPosition(true);
+    box = box.translated(-position.getX(), -position.getY());
+  }
+  return box;
+}
