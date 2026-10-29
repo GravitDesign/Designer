@@ -66,11 +66,19 @@ export class PaintLayers extends Store(Container(SceneNode)) {
   };
 
   hasStyleFill(): boolean {
-    return !!this.getFillLayers(true).length;
+    return this._hasStyledLayer(FillPaintLayer);
   }
 
   hasStyleBorder(): boolean {
-    return !!this.getBorderLayers(true).length;
+    return this._hasStyledLayer(BorderPaintLayer);
+  }
+
+  /** Whether a layer of `layerClass` has something to paint; asked on every repaint, so no arrays. */
+  private _hasStyledLayer(layerClass: AnyConstructor<PaintLayer>): boolean {
+    for (let child = this.getFirstChild(); null !== child; child = child.getNext()) {
+      if (child instanceof layerClass && child.hasStyle()) return true;
+    }
+    return false;
   }
 
   /** The layers, optionally of one class and only those with something to paint. */

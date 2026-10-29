@@ -10,6 +10,7 @@
 //
 // Not ported: worker rendering (WORKER_RENDERING_ENABLED is false) and the
 // debug recorder with its code dump (GRendererCtxDbg, ENABLE_DEBUG false).
+import { releaseCanvas, takeCanvas } from "./canvas-pool.ts";
 import { RecorderStateContext, type ReplayPolicy } from "./recorder-state-context.ts";
 import { RenderJob, type RenderParameters } from "./render-job.ts";
 import { RendererConfig } from "./renderer-config.ts";
@@ -220,6 +221,45 @@ export class RenderScheduler {
       return new RecorderStateContext(canvas, replayPolicy, persistent, !!force);
     }
     return canvas.getContext("2d", attributes) as CanvasRenderingContext2D;
+  }
+
+  /**
+   * Like getRenderer() for a 2D context, but on a canvas of `width` x
+   * `height` from the canvas pool when one is free. Without one it is
+   * getRenderer()'s new canvas, which the caller still has to size.
+   */
+  static getPooledRenderer(width: number, height: number): Context2D {
+    const pooled = takeCanvas(width, height);
+    if (!pooled) return this.getRenderer();
+    const canvas = pooled.canvas;
+    if (this._enabled && this._renderPhase) {
+      recordedCanvases.add(canvas);
+      return new RecorderStateContext(canvas, replayPolicy, false, false);
+    }
+    recordedCanvases.delete(canvas);
+    return pooled.context;
+  }
+
+  /**
+   * Gives the canvas of a 2D context from getRenderer() or
+   * getPooledRenderer() back to the pool. Nothing may use the context or its
+   * canvas afterwards. Tile canvases (made on request) and persistent ones
+   * are never pooled; false for those (the caller may keep using them).
+   */
+  static releaseRenderer(context: Context2D): boolean {
+    if (context instanceof RecorderStateContext) {
+      if (context.persistent || context.isRoot) return false;
+      releaseCanvas(context.canvas, context.real);
+      return true;
+    }
+    if (
+      "undefined" != typeof CanvasRenderingContext2D &&
+      context instanceof CanvasRenderingContext2D
+    ) {
+      releaseCanvas(context.canvas, context);
+      return true;
+    }
+    return false;
   }
 
   /**

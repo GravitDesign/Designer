@@ -116,6 +116,11 @@ export class FakeContext2D {
   _state: State = defaultState();
   _stack: State[] = [];
   _lineDash: number[] = [];
+  /** The current transform (a, b, c, d, e, f) and the number of clip() calls in effect. */
+  _matrix: number[] = [1, 0, 0, 1, 0, 0];
+  _clips = 0;
+  /** _matrix and _clips of each save(). */
+  _savedGeometry: { matrix: number[]; clips: number }[] = [];
 
   // Accessors on the prototype (see below).
   declare fillStyle: unknown;
@@ -146,6 +151,36 @@ export class FakeContext2D {
     this._state = defaultState();
     this._stack = [];
     this._lineDash = [];
+    this._matrix = [1, 0, 0, 1, 0, 0];
+    this._clips = 0;
+    this._savedGeometry = [];
+  }
+
+  /** Like a browser's reset(): default state, empty stack, transparent pixels. */
+  reset(): void {
+    this._call("reset", []);
+    this._reset();
+    this.canvas.pixels.fill(0);
+  }
+
+  /** Multiplies the current transform by (a, b, c, d, e, f). */
+  private _multiply(a: number, b: number, c: number, d: number, e: number, f: number): void {
+    const [ma, mb, mc, md, me, mf] = this._matrix as [
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+    ];
+    this._matrix = [
+      ma * a + mc * b,
+      mb * a + md * b,
+      ma * c + mc * d,
+      mb * c + md * d,
+      ma * e + mc * f + me,
+      mb * e + md * f + mf,
+    ];
   }
 
   private _call(name: string, args: unknown[]): void {
@@ -155,11 +190,17 @@ export class FakeContext2D {
   save(): void {
     this._call("save", []);
     this._stack.push({ ...this._state });
+    this._savedGeometry.push({ matrix: this._matrix.slice(), clips: this._clips });
   }
   restore(): void {
     this._call("restore", []);
     const state = this._stack.pop();
     if (state) this._state = state;
+    const geometry = this._savedGeometry.pop();
+    if (geometry) {
+      this._matrix = geometry.matrix;
+      this._clips = geometry.clips;
+    }
   }
   getLineDash(): number[] {
     return this._lineDash.slice();
@@ -191,6 +232,7 @@ export class FakeContext2D {
   }
   clip(...args: unknown[]): void {
     this._call("clip", args);
+    this._clips++;
   }
   fill(...args: unknown[]): void {
     this._call("fill", args);
@@ -200,18 +242,25 @@ export class FakeContext2D {
   }
   rotate(angle: number): void {
     this._call("rotate", [angle]);
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    this._multiply(cos, sin, -sin, cos, 0, 0);
   }
   scale(x: number, y: number): void {
     this._call("scale", [x, y]);
+    this._multiply(x, 0, 0, y, 0, 0);
   }
   translate(x: number, y: number): void {
     this._call("translate", [x, y]);
+    this._multiply(1, 0, 0, 1, x, y);
   }
   transform(...args: number[]): void {
     this._call("transform", args);
+    this._multiply(...(args as [number, number, number, number, number, number]));
   }
   setTransform(...args: number[]): void {
     this._call("setTransform", args);
+    if (args.length >= 6) this._matrix = args.slice(0, 6);
   }
   fillText(...args: unknown[]): void {
     this._call("fillText", args);

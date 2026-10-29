@@ -173,7 +173,10 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
           this._paintStyleFillLayer(context, bbox, layers, effects, effectCanvas, hasEffects);
         }
       }
-      if (effectCanvas) effectCanvas.finish();
+      if (effectCanvas) {
+        effectCanvas.finish();
+        effectCanvas.recycle?.();
+      }
     }
 
     _isStyleSeparate(): boolean {
@@ -212,6 +215,7 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
           target.drawCanvas(canvas, 0, 0, opacity, composite);
         });
         canvas.finish();
+        canvas.recycle?.();
       } finally {
         context.popCanvas();
       }
@@ -295,6 +299,7 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
             );
           } else previous.drawCanvas(canvas, 0, 0, this.$_sfop as number);
           canvas.finish();
+          canvas.recycle?.();
         } catch (error) {
           if ("function" == typeof gdb_loaddesign) console.warn("Rendering error:" + String(error));
         } finally {
@@ -395,7 +400,10 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
           } else this._paintStyleLayer(context, layer, false);
         }
       }
-      if (canvas) canvas.finish();
+      if (canvas) {
+        canvas.finish();
+        canvas.recycle?.();
+      }
     }
 
     /**
@@ -712,7 +720,10 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
           if (contents) contents.drawCanvas(effectCanvas, 0, 0, 1, blend);
         }
       }
-      if (contents) contents.clear();
+      if (contents) {
+        contents.clear();
+        contents.recycle?.();
+      }
       if (!contentDrawn && opacity > 0) target.drawCanvas(canvas, 0, 0, opacity);
     }
 

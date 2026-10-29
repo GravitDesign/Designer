@@ -78,6 +78,11 @@ const HitType = {
   Other: 3,
 } as const;
 
+/** The node's own value under `key`, or null: getProperty with `temporary` set. */
+function ownProperty(node: object, key: string): unknown {
+  return Object.hasOwn(node, key) ? (node as Record<string, unknown>)[key] : null;
+}
+
 /**
  * GShape.HitResult: what a shape's own hit test found (the `data` of the
  * returned ElementData). A plain class in the old code, never registered.
@@ -586,34 +591,34 @@ export class Shape extends ShapeBase {
    */
   override _isSeparateStylePaintLayer(context: StylePaintContext, layer: string): boolean {
     if (super._isSeparateStylePaintLayer(context, layer)) return true;
-    const borders = (this.getPaintLayers() as PaintLayers).getBorderLayers(true);
-    const anyBorder = (names: string[], test: (...values: unknown[]) => unknown): boolean => {
-      for (let i = 0; i < borders.length; i++) {
-        if (
-          test(...(borders[i] as BorderPaintLayer).getProperties(names, null as never, null, true))
-        )
-          return true;
-      }
-      return false;
-    };
+    // Runs for every style layer of every shape on each repaint, so it reads
+    // the border properties directly (as getProperties with `temporary`
+    // does: own values only, null otherwise) instead of through arrays and
+    // closures.
     if (layer === StyleLayer.Border) {
       if (!this.hasStyleBorder()) return false;
-      if (anyBorder(["_ba"], (alignment) => alignment !== BorderAlignment.Center)) return true;
-      if (anyBorder(["_pt"], (pattern) => !(pattern instanceof Color))) return true;
-      if (
-        anyBorder(
-          ["_bhm", "_btm", "_op"],
-          (head, tail, opacity) => (head || tail) && (opacity as number) < 1,
-        )
-      )
-        return true;
+      const borders = (this.getPaintLayers() as PaintLayers).getBorderLayers(true);
+      for (let i = 0; i < borders.length; i++) {
+        const border = borders[i] as BorderPaintLayer;
+        if (ownProperty(border, "$_ba") !== BorderAlignment.Center) return true;
+        if (!(ownProperty(border, "$_pt") instanceof Color)) return true;
+        if (
+          (ownProperty(border, "$_bhm") || ownProperty(border, "$_btm")) &&
+          (ownProperty(border, "$_op") as number) < 1
+        ) {
+          return true;
+        }
+      }
+      return false;
     }
-    return !!(
-      layer === StyleLayer.Fill &&
-      this.hasStyleFill() &&
-      this.hasStyleBorder() &&
-      anyBorder(["_ba"], (alignment) => alignment === BorderAlignment.Outside)
-    );
+    if (layer !== StyleLayer.Fill || !this.hasStyleFill() || !this.hasStyleBorder()) return false;
+    const borders = (this.getPaintLayers() as PaintLayers).getBorderLayers(true);
+    for (let i = 0; i < borders.length; i++) {
+      if (ownProperty(borders[i] as BorderPaintLayer, "$_ba") === BorderAlignment.Outside) {
+        return true;
+      }
+    }
+    return false;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- the old signature

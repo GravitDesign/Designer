@@ -314,6 +314,8 @@ export interface PaintCanvas extends Destroyable {
   clone(copyBitmap?: boolean, options?: PaintCanvasCloneOptions | null): PaintCanvas;
   getRendererContext(): RecorderStateContext | null;
   isRendered(): boolean;
+  /** Gives the backing canvas to the canvas pool; see Canvas2DPaintCanvas.recycle. */
+  recycle?(): void;
 }
 
 let filterSupport = -1;
@@ -429,19 +431,61 @@ export class Canvas2DPaintCanvas extends GObject implements PaintCanvas {
   /**
    * `plain2d` paints into a plain canvas. Otherwise the canvas comes from
    * the renderer, which (with `forceRecorder`, or during a render phase)
-   * gives one that behaves like the old recorded canvases.
+   * gives one that behaves like the old recorded canvases. `context` is a
+   * context to paint into instead (one from the canvas pool).
    */
   constructor(
     forceRecorder?: boolean,
     plain2d?: boolean,
     persistent?: boolean,
     multithreaded?: boolean,
+    context?: Context2D,
   ) {
     super();
-    this._canvasContext = plain2d
-      ? (document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D)
-      : RenderScheduler.getRenderer(forceRecorder, void 0, void 0, persistent, multithreaded);
+    this._canvasContext =
+      context ||
+      (plain2d
+        ? (document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D)
+        : RenderScheduler.getRenderer(forceRecorder, void 0, void 0, persistent, multithreaded));
     this._blender = new Blender(this);
+  }
+
+  /**
+   * A new paint canvas of `width` x `height`, on a canvas from the canvas
+   * pool when one is free. It starts like `new Canvas2DPaintCanvas()`
+   * resized to that size.
+   */
+  static _createPooled(width: number, height: number): Canvas2DPaintCanvas {
+    const canvas = new Canvas2DPaintCanvas(
+      void 0,
+      void 0,
+      void 0,
+      void 0,
+      RenderScheduler.getPooledRenderer(width, height),
+    );
+    canvas.resize(width, height);
+    return canvas;
+  }
+
+  /**
+   * Gives the backing canvas to the canvas pool. Only for a canvas that is
+   * finished and that nothing refers to any more: this paint canvas can't
+   * be used afterwards. A canvas whose bitmap was handed out stays out of
+   * the pool, as do the export canvases (subclasses) and tile canvases.
+   */
+  recycle(): void {
+    if (
+      !this._canvasContext ||
+      this._bitmap ||
+      Object.getPrototypeOf(this) !== Canvas2DPaintCanvas.prototype
+    ) {
+      return;
+    }
+    if (!RenderScheduler.releaseRenderer(this._canvasContext)) return;
+    // Any use from here on fails at once instead of painting into a canvas
+    // that someone else has got.
+    this._canvasContext = null as unknown as Context2D;
+    this._blender._ctx = null as unknown as Context2D;
   }
 
   getWidth(): number {
@@ -702,12 +746,14 @@ export class Canvas2DPaintCanvas extends GObject implements PaintCanvas {
     clipToAreas?: boolean,
     padding?: number | number[] | null,
   ): Canvas2DPaintCanvas {
-    const canvas = new Canvas2DPaintCanvas();
     const paintExtents = this.getPaintExtents(extents, false, padding);
     const x = paintExtents.getX();
     const y = paintExtents.getY();
     const finalExtents = this.getFinalExtents(paintExtents).toRoundedPrecision();
-    canvas.resize(Math.ceil(finalExtents.getWidth()), Math.ceil(finalExtents.getHeight()));
+    const canvas = Canvas2DPaintCanvas._createPooled(
+      Math.ceil(finalExtents.getWidth()),
+      Math.ceil(finalExtents.getHeight()),
+    );
     let areas: Rect[] | null = null;
     if (clipToAreas && this._areas) {
       areas = [];
