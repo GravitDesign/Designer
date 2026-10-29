@@ -50,6 +50,24 @@ export const SceneNodeChange = {
   SceneDetached: 201,
 } as const;
 
+/**
+ * Scene id → the node that has it, so the scene can find a linked node
+ * without walking the tree. A node gets its id once and keeps it, so an
+ * entry never points at the wrong node; it goes when the node is
+ * garbage collected.
+ */
+const nodesBySceneId = new Map<string, WeakRef<SceneNode>>();
+const sceneIdsToForget = new FinalizationRegistry<string>((sceneId) => {
+  const entry = nodesBySceneId.get(sceneId);
+  if (entry && !entry.deref()) nodesBySceneId.delete(sceneId);
+});
+
+/** The node whose scene id is `sceneId`, wherever it is, or undefined. */
+export function sceneNodeById(sceneId: string): SceneNode | undefined {
+  const entry = nodesBySceneId.get(sceneId);
+  return entry ? entry.deref() : undefined;
+}
+
 const SceneNodeBase = EventTargetMixin(Multireference(Identity(Node)));
 
 export class SceneNode extends SceneNodeBase {
@@ -71,7 +89,11 @@ export class SceneNode extends SceneNodeBase {
 
   /** An id unique in the scene, made on first use. */
   getSceneId(): string {
-    if (!this.____id) this.____id = uuid();
+    if (!this.____id) {
+      this.____id = uuid();
+      nodesBySceneId.set(this.____id, new WeakRef(this));
+      sceneIdsToForget.register(this, this.____id);
+    }
     return this.____id;
   }
 

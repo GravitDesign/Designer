@@ -57,7 +57,7 @@ import { Node, registerNodeClass, type NodeClass, type NodeWorkspace } from "./n
 import { Page } from "./page.ts";
 import { PathBase } from "./path-base.ts";
 import { ReferenceEvent } from "./reference-event.ts";
-import { SceneNode, type SceneHooks } from "./scene-node.ts";
+import { SceneNode, sceneNodeById, type SceneHooks } from "./scene-node.ts";
 import { SceneOptions } from "./scene-options.ts";
 import type { Workspace } from "./workspace.ts";
 // queryCount, queryAll and querySingle on nodes (the old scene required it the same way).
@@ -242,6 +242,13 @@ type StoreFilter = (name: string, value: unknown) => unknown;
 
 const hasOwn = (object: object, key: string): boolean =>
   Object.prototype.hasOwnProperty.call(object, key);
+
+/**
+ * The scene ids in a `_linksLookup` list, made the first time a node is
+ * looked for in it. The scene replaces a reference's list when its links
+ * change and never edits one in place, so a set stays right for its list.
+ */
+const lookupSceneIds = new WeakMap<SceneNode[], Set<string>>();
 
 const SceneBase = Accelerated(Store(Properties(Container(Element))));
 
@@ -780,11 +787,14 @@ export class Scene extends SceneBase implements SceneHooks {
     const linked = (this._linksLookup as LinksLookup)[id];
     if (linked) {
       const sceneId = node.getSceneId();
-      const count = linked.length;
-      for (let i = 0; i < count; i++) {
-        const entry = linked[i];
-        if (entry && entry instanceof SceneNode && entry.getSceneId() === sceneId) return true;
+      let ids = lookupSceneIds.get(linked);
+      if (!ids) {
+        ids = new Set();
+        for (const entry of linked)
+          if (entry && entry instanceof SceneNode) ids.add(entry.getSceneId());
+        lookupSceneIds.set(linked, ids);
       }
+      return ids.has(sceneId);
     }
     return false;
   }
@@ -853,16 +863,9 @@ export class Scene extends SceneBase implements SceneHooks {
       const linked = (this._linksLookup as LinksLookup)[id];
       if (linked) {
         const ids = links[id] as string[];
+        const linkedIds = new Set(linked.map((node) => node.getSceneId()));
         for (let idIndex = ids.length - 1; idIndex >= 0; idIndex--) {
-          const sceneId = ids[idIndex];
-          let found = false;
-          for (let nodeIndex = 0; nodeIndex < linked.length; nodeIndex++) {
-            if ((linked[nodeIndex] as SceneNode).getSceneId() === sceneId) {
-              found = true;
-              break;
-            }
-          }
-          if (!found) {
+          if (!linkedIds.has(ids[idIndex] as string)) {
             if (!removed[id]) removed[id] = [];
             removed[id].push(ids[idIndex] as string);
             ids.splice(idIndex, 1);
@@ -1671,20 +1674,24 @@ export class Scene extends SceneBase implements SceneHooks {
         } else this.$_links[id] = disabled[id] as string[];
       }
     }
-    let bySceneId: Record<string, SceneNode> | null = null;
-    const nodesBySceneId = (): Record<string, SceneNode> => {
+    // The nodes of the linked scene ids, taken all at once the first time
+    // one is needed (as the old code walked the scene once): each id is
+    // looked up and checked to be in the scene, not found by walking all
+    // of it, which made every link cost as much as the whole scene.
+    let bySceneId: Map<string, SceneNode | undefined> | null = null;
+    const nodeBySceneId = (sceneId: string): SceneNode | undefined => {
       if (!bySceneId) {
-        const map: Record<string, SceneNode> = {};
-        this.acceptChildren((node: Node) => {
-          if (node instanceof SceneNode) {
-            const sceneId = node.getSceneId();
-            if (sceneId) map[sceneId] = node;
+        bySceneId = new Map();
+        for (const id in this.$_links) {
+          const ids = this.$_links[id];
+          if (!ids) continue;
+          for (const linkedId of ids) {
+            if (!bySceneId.has(linkedId)) bySceneId.set(linkedId, this._sceneNodeById(linkedId));
           }
-          return undefined;
-        });
-        bySceneId = map;
+        }
       }
-      return bySceneId;
+      if (!bySceneId.has(sceneId)) bySceneId.set(sceneId, this._sceneNodeById(sceneId));
+      return bySceneId.get(sceneId);
     };
     const workspace = this._workspace as NodeWorkspace;
     for (const id in this.$_links) {
@@ -1696,17 +1703,20 @@ export class Scene extends SceneBase implements SceneHooks {
         previousIds = previous.map((node) => node.getSceneId());
       }
       const sceneIds = this.$_links[id] as string[];
+      // Sets, not indexOf: a master with thousands of instances.
+      const previousIdSet = new Set(previousIds);
       sceneIds.forEach((sceneId) => {
-        if (previousIds.indexOf(sceneId) < 0) {
-          const node = nodesBySceneId()[sceneId];
+        if (!previousIdSet.has(sceneId)) {
+          const node = nodeBySceneId(sceneId);
           if (node && reference && node.hasEventListeners(ReferenceEvent)) {
             node.trigger(new ReferenceEvent(reference, node, true));
           }
         }
       });
+      const sceneIdSet = new Set(sceneIds);
       previous.forEach((node) => {
         if (
-          (!node._scene || sceneIds.indexOf(node.getSceneId()) < 0) &&
+          (!node._scene || !sceneIdSet.has(node.getSceneId())) &&
           reference &&
           node.hasEventListeners(ReferenceEvent)
         ) {
@@ -1715,7 +1725,7 @@ export class Scene extends SceneBase implements SceneHooks {
       });
       lookup[id] = sceneIds
         .map((sceneId) => {
-          const node: SceneNode | null | undefined = nodesBySceneId()[sceneId];
+          const node: SceneNode | null | undefined = nodeBySceneId(sceneId);
           // A missing id is undefined, never null: this never runs; kept.
           if (null === node && reference) {
             const old = previous[previousIds.indexOf(sceneId)];
@@ -1747,6 +1757,26 @@ export class Scene extends SceneBase implements SceneHooks {
     this._temporarilyDisabledLinks = this._cleanupLinks(this.$_links);
   }
 
+  /**
+   * The node with `sceneId` if a walk of this scene's children would meet
+   * it: every node on the way up is in its parent's list of children.
+   * Nodes a parent only keeps aside (a compound path's paths, a path's
+   * anchor points) don't count, and neither do the master pages.
+   */
+  _sceneNodeById(sceneId: string): SceneNode | undefined {
+    const node = sceneNodeById(sceneId);
+    let child: Node | undefined = node;
+    while (child) {
+      const parent: ContainerNode | null = child._parent;
+      if (!parent) return undefined;
+      if (!child._previous && !(parent.hasMixin(Container) && parent.getFirstChild() === child))
+        return undefined;
+      if (parent === (this as unknown)) return node;
+      child = parent;
+    }
+    return undefined;
+  }
+
   /** Whether `_links` and `_linksLookup` hold the same links. */
   _checkLinksSanity(): boolean {
     const links = this.$_links;
@@ -1762,13 +1792,13 @@ export class Scene extends SceneBase implements SceneHooks {
         console.warn("Links: prop len != dyn len");
         return false;
       }
-      const nodeIds = nodes.map((node) =>
-        node && node instanceof SceneNode ? node.getSceneId() : null,
+      const nodeIds = new Set(
+        nodes.map((node) => (node && node instanceof SceneNode ? node.getSceneId() : null)),
       );
       for (let s = 0; s < ids.length; s++) {
         const sceneId = ids[s];
         if (!sceneId) return false;
-        if (nodeIds.indexOf(sceneId) < 0) return false;
+        if (!nodeIds.has(sceneId)) return false;
       }
     }
     for (const id in lookup) if (!hasOwn(links, id)) return false;
