@@ -296,6 +296,7 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
               context.configuration.enableFxCache,
               extents[0] as Rect,
               downScale[0] as number,
+              true,
             );
           } else previous.drawCanvas(canvas, 0, 0, this.$_sfop as number);
           canvas.finish();
@@ -510,15 +511,26 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
       return false;
     }
 
-    /** Keeps a copy of `canvas` as the result of `effect`, valid while `deps` are cached. */
-    _setFxCache(canvas: PaintCanvas, effect: Effect, deps: Effect[]): boolean | undefined {
+    /**
+     * Keeps a copy of `canvas` as the result of `effect`, valid while `deps`
+     * are cached. With `handOver` nothing changes the pixels of `canvas` any
+     * more, so the cache takes them over instead of a copy where it can.
+     */
+    _setFxCache(
+      canvas: PaintCanvas,
+      effect: Effect,
+      deps: Effect[],
+      handOver?: boolean,
+    ): boolean | undefined {
       if (!canvas.isClipped() && this._scene) {
         if (!effect.isCacheable(canvas)) return false;
-        const copy = canvas.clone(false, {
-          renderPhaseDraw: true,
-          dontCopyContents: false,
-          persistent: true,
-        } as never);
+        const copy =
+          (handOver && canvas.handOver ? canvas.handOver() : null) ||
+          canvas.clone(false, {
+            renderPhaseDraw: true,
+            dontCopyContents: false,
+            persistent: true,
+          } as never);
         (this._scene as unknown as StyleSceneHooks).addDestroyable(copy);
         this._reinvalidateRemovedFx(effect);
         const cache = this._fxCache;
@@ -627,6 +639,8 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
      * Runs `effects` over `canvas` and draws the result into `target`:
      * filters change the content, pre/post/multi effects paint into
      * `effectCanvas`, which is drawn under (pre) or over (post) the content.
+     * `lastUse`: the caller only finishes `canvas` and `effectCanvas`
+     * afterwards (the element's own effects, the last list painted).
      */
     _paintWithEffects(
       canvas: PaintCanvas,
@@ -639,6 +653,7 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
       useCache: boolean,
       extents: Rect,
       downScale: number,
+      lastUse?: boolean,
     ): void {
       let contentDrawn = false;
       let partial: boolean | undefined;
@@ -671,7 +686,15 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
             effect.render(canvas, null, rootCanvas, canvas.getScale(), extents, this, downScale);
           } else if (!this._getFxCache(canvas, effect, partial ? extents : null)) {
             effect.render(canvas, null, rootCanvas, canvas.getScale(), extents, this, downScale);
-            if (!partial) this._setFxCache(canvas, effect, effects.slice(0, i).concat(extraDeps));
+            if (!partial) {
+              // After the last effect the content is only drawn from.
+              this._setFxCache(
+                canvas,
+                effect,
+                effects.slice(0, i).concat(extraDeps),
+                lastUse && i === effects.length - 1,
+              );
+            }
           }
           if (contents) {
             effect.render(contents, null, rootCanvas, canvas.getScale(), extents, this, downScale);
@@ -710,7 +733,13 @@ const body = <TBase extends ElementStylableBaseClass>(Base: TBase) => {
               downScale,
             );
             if (!partial) {
-              this._setFxCache(effectCanvas, effect, effects.slice(0, i).concat(extraDeps));
+              // No overlay after the last one paints into the effect canvas.
+              this._setFxCache(
+                effectCanvas,
+                effect,
+                effects.slice(0, i).concat(extraDeps),
+                lastUse && !effects.slice(i + 1).some(isOverlayType),
+              );
             }
           }
           if (effect.isAffectedByContents()) canvas = own;

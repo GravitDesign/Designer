@@ -30,6 +30,7 @@ import {
   type TexturePatternLike,
 } from "./late-bound.ts";
 import { registerPaintCanvasClass } from "./paint-canvas-class.ts";
+import { frozenSourcePattern, isFrozenPatternSource } from "./pattern-cache.ts";
 import { RecorderStateContext } from "./recorder-state-context.ts";
 import { RenderScheduler } from "./render-scheduler.ts";
 
@@ -316,6 +317,8 @@ export interface PaintCanvas extends Destroyable {
   isRendered(): boolean;
   /** Gives the backing canvas to the canvas pool; see Canvas2DPaintCanvas.recycle. */
   recycle?(): void;
+  /** clone()'s copy without copying; see Canvas2DPaintCanvas.handOver. */
+  handOver?(): PaintCanvas | null;
 }
 
 let filterSupport = -1;
@@ -427,6 +430,8 @@ export class Canvas2DPaintCanvas extends GObject implements PaintCanvas {
   declare _areas: Rect[] | null;
   declare _filters: Record<string, string> | null;
   declare _isMasked: number;
+  /** Set by handOver(): the backing canvas belongs to another paint canvas. */
+  declare _handedOver: boolean;
 
   /**
    * `plain2d` paints into a plain canvas. Otherwise the canvas comes from
@@ -477,6 +482,7 @@ export class Canvas2DPaintCanvas extends GObject implements PaintCanvas {
     if (
       !this._canvasContext ||
       this._bitmap ||
+      this._handedOver ||
       Object.getPrototypeOf(this) !== Canvas2DPaintCanvas.prototype
     ) {
       return;
@@ -486,6 +492,51 @@ export class Canvas2DPaintCanvas extends GObject implements PaintCanvas {
     // that someone else has got.
     this._canvasContext = null as unknown as Context2D;
     this._blender._ctx = null as unknown as Context2D;
+  }
+
+  /**
+   * Not in the old app. What clone(false, { renderPhaseDraw, persistent })
+   * gives, without copying the pixels: a paint canvas on this canvas'
+   * backing canvas, with its offset, origin, transform, scale and areas.
+   * Only for a canvas whose pixels nobody changes any more (it may still be
+   * drawn from and finished); it stays out of the canvas pool from now on.
+   * Null where clone()'s copy might not be pixel for pixel the same: with
+   * a raw transform, or with an offset away from the origin.
+   */
+  handOver(): Canvas2DPaintCanvas | null {
+    const matrix = this._transform ? this._transform.getMatrix() : null;
+    const offset = this._offset;
+    const origin = this._origin;
+    if (
+      !this._canvasContext ||
+      this._handedOver ||
+      Object.getPrototypeOf(this) !== Canvas2DPaintCanvas.prototype ||
+      !matrix ||
+      1 !== matrix[0] ||
+      0 !== matrix[1] ||
+      0 !== matrix[2] ||
+      1 !== matrix[3] ||
+      0 !== matrix[4] ||
+      0 !== matrix[5] ||
+      !offset ||
+      !origin ||
+      offset.getX() !== origin.getX() ||
+      offset.getY() !== origin.getY()
+    ) {
+      return null;
+    }
+    const copy = new Canvas2DPaintCanvas(void 0, void 0, void 0, void 0, this._canvasContext);
+    copy._areas = this._areas
+      ? this._areas.map(
+          (area) => new Rect(area.getX(), area.getY(), area.getWidth(), area.getHeight()),
+        )
+      : null;
+    copy._offset = new Point(offset.getX(), offset.getY());
+    copy._origin = new Point(origin.getX(), origin.getY());
+    copy._transform = new Transform();
+    copy._scale = this._scale;
+    this._handedOver = true;
+    return copy;
   }
 
   getWidth(): number {
@@ -880,7 +931,10 @@ export class Canvas2DPaintCanvas extends GObject implements PaintCanvas {
       if (sized.width && 0 !== Math.floor(sized.width) && 0 !== Math.floor(sized.height)) {
         let pattern: CanvasPattern | null = null;
         try {
-          pattern = this._canvasContext.createPattern(source, repeat);
+          pattern =
+            this._sharesPatterns() && isFrozenPatternSource(source)
+              ? frozenSourcePattern(this._canvasContext, source, repeat)
+              : this._canvasContext.createPattern(source, repeat);
         } catch {
           console.warn("pattern couldn't have been created");
         }
@@ -888,6 +942,19 @@ export class Canvas2DPaintCanvas extends GObject implements PaintCanvas {
       }
     }
     return null;
+  }
+
+  /**
+   * Whether this canvas' patterns are plain canvas patterns, which any 2D
+   * context can paint with (the export canvases make their own kinds).
+   */
+  _sharesPatterns(): boolean {
+    const context = this._canvasContext;
+    return (
+      context instanceof RecorderStateContext ||
+      ("undefined" != typeof CanvasRenderingContext2D &&
+        context instanceof CanvasRenderingContext2D)
+    );
   }
 
   /**
@@ -1717,6 +1784,7 @@ Object.assign(Canvas2DPaintCanvas.prototype, {
   _areas: null,
   _filters: null,
   _isMasked: 0,
+  _handedOver: false,
 });
 
 /** The paint canvas class under its old name (minus the G). */

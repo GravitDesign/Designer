@@ -6,8 +6,10 @@ import { Point } from "../math/point.ts";
 import { Rect } from "../math/rect.ts";
 import type { Transform } from "../math/transform.ts";
 import { Canvas2DPaintCanvas } from "../paint/paint-canvas.ts";
+import { freezePatternSource } from "../paint/pattern-cache.ts";
 import { RenderScheduler } from "../paint/render-scheduler.ts";
 import { RendererConfig } from "../paint/renderer-config.ts";
+import { GLContext } from "../paint/webgl/gl-context.ts";
 import { WebGLRenderer, type ShaderClass } from "../paint/webgl/webgl-renderer.ts";
 import { registerAngularGradient } from "../scene/shape.ts";
 import { Gradient, type GradientBlob, type GradientStop } from "./gradient.ts";
@@ -16,6 +18,9 @@ import {
   GLAngularGradientShader,
   type AngularGradientStop,
 } from "./webgl/shaders/gl-angular-gradient-shader.ts";
+
+/** Gradient canvases up to this many pixels (16 MB) are kept for the next paint. */
+const MAX_KEPT_PIXELS = 4 * 1024 * 1024;
 
 /**
  * A conic gradient around the focal point (fx, fy), starting at angle
@@ -45,6 +50,8 @@ export class AngularGradient extends WebGLRenderer(Gradient) {
   }
 
   _a0: number;
+  /** The last canvas getGradient painted, and what it was painted from. */
+  declare _painted: { key: string; canvas: Canvas2DPaintCanvas } | null;
 
   constructor(
     stops?: readonly GradientStop[] | null,
@@ -99,9 +106,20 @@ export class AngularGradient extends WebGLRenderer(Gradient) {
     return blob;
   }
 
-  /** The gradient painted over `rect`'s size with `opacity`; null without a size or WebGL. */
+  /**
+   * The gradient painted over `rect`'s size with `opacity`; null without a
+   * size or WebGL. Not in the old app: the canvas painted last is handed
+   * out again while the size, the opacity and everything the shader reads
+   * are the same (the shader paints the same pixels for them), so callers
+   * must not draw into it.
+   */
   getGradient(opacity: number, rect?: Rect | null): Canvas2DPaintCanvas | null {
     if (!rect || rect.isEmpty()) return null;
+    // What prepareShader() checks first.
+    if (!GLContext.getGLContext()) return null;
+    const stops = this._getRGBStops();
+    const key = this._paintKey(opacity, rect, stops);
+    if (this._painted && this._painted.key === key) return this._painted.canvas;
     let canvas: Canvas2DPaintCanvas | null = null;
     if (this.prepareShader()) {
       canvas = new Canvas2DPaintCanvas();
@@ -109,7 +127,6 @@ export class AngularGradient extends WebGLRenderer(Gradient) {
       canvas.prepare();
       canvas.setOrigin(new Point(0, 0));
       canvas.setOffset(new Point(0, 0));
-      const stops = this._getRGBStops();
       this.drawShader(
         canvas,
         {
@@ -125,8 +142,32 @@ export class AngularGradient extends WebGLRenderer(Gradient) {
         rect.getHeight(),
       );
       if (RendererConfig.DELETE_BLEND_AND_GRADIENT_TEXTURES_AFTER_DRAW) this.destroy();
+      if (canvas.getWidth() * canvas.getHeight() <= MAX_KEPT_PIXELS) {
+        this._painted = { key, canvas };
+        freezePatternSource(canvas._canvasContext.canvas);
+      } else this._painted = null;
     }
     return canvas;
+  }
+
+  /** Everything getGradient's painting depends on, as a string. */
+  _paintKey(opacity: number, rect: Rect, stops: AngularGradientStop[]): string {
+    const parts: unknown[] = [
+      rect.getWidth(),
+      rect.getHeight(),
+      opacity,
+      this._fx,
+      this._fy,
+      this._a0,
+      this._scale,
+      this.renderMethod,
+      Canvas2DPaintCanvas.getScreenDPI(),
+    ];
+    for (let i = 0; i < stops.length; i++) {
+      const stop = stops[i] as AngularGradientStop;
+      parts.push(stop.position, stop.color.getValue().join(","), stop.opacity);
+    }
+    return parts.join(" ");
   }
 
   override _deserializeFromBlob(blob: GradientBlob): void {
@@ -164,3 +205,4 @@ export class AngularGradient extends WebGLRenderer(Gradient) {
 }
 
 AngularGradient.prototype._isAffectedByGLBug = true;
+AngularGradient.prototype._painted = null;
