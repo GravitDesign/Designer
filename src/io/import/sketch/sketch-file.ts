@@ -62,6 +62,13 @@ export class SketchFile extends EventTarget {
   declare _progressValue: number;
   declare _blockedEvents: boolean | null;
   declare _workspace: Workspace;
+  /** The image nodes of bitmap layers whose image hasn't loaded or failed yet. */
+  declare _loadingBitmaps: Set<object>;
+  /** What _whenBitmapsSettled waits to call. */
+  declare _bitmapsSettled: (() => void) | null;
+
+  /** How long the import waits at most for its bitmaps to settle (ms). */
+  static BITMAP_WAIT = 5000;
 
   constructor(data: Blob) {
     super();
@@ -69,7 +76,47 @@ export class SketchFile extends EventTarget {
     this._objects = {};
     this._symbolsMaster = {};
     this._symbolsInstance = {};
+    this._loadingBitmaps = new Set();
     this.addEventListener(SketchProcessEvent, this._processEvent, this);
+  }
+
+  /**
+   * Not in the old app. A bitmap layer's name, bounds and transform are
+   * set when its image loads (SketchBitmap), and its image data is read
+   * from the zip, which the import closes when it calls back. The old
+   * importer waited a frame after every list, so the images had always
+   * loaded by then; it now goes on without frames, and waits for the
+   * bitmaps (_whenBitmapsSettled) before it calls back.
+   */
+  bitmapLoading(image: object): void {
+    this._loadingBitmaps.add(image);
+  }
+
+  bitmapSettled(image: object): void {
+    this._loadingBitmaps.delete(image);
+    if (!this._loadingBitmaps.size && this._bitmapsSettled) this._bitmapsSettled();
+  }
+
+  /**
+   * Calls `callback` once no bitmap is loading any more (right away when
+   * none is), or after BITMAP_WAIT ms, so an image that never settles
+   * can't keep the import from calling back (Q-386).
+   */
+  _whenBitmapsSettled(callback: () => void): void {
+    if (!this._loadingBitmaps.size) {
+      callback();
+      return;
+    }
+    let called = false;
+    const once = (): void => {
+      if (called) return;
+      called = true;
+      this._bitmapsSettled = null;
+      clearTimeout(timer);
+      callback();
+    };
+    const timer = setTimeout(once, SketchFile.BITMAP_WAIT);
+    this._bitmapsSettled = once;
   }
 
   canEventBeSent(eventClass: unknown): boolean {
@@ -284,7 +331,7 @@ export class SketchFile extends EventTarget {
         const appendPages = (): void => {
           this._objectsProcessed = 0;
           this._progressStage = 50;
-          executor.execute(pages, appendPage, finish);
+          executor.execute(pages, appendPage, () => this._whenBitmapsSettled(finish));
         };
         const appendPage = (page: SketchPage): void => {
           page.appendTo(scene, executor);
@@ -333,3 +380,4 @@ SketchFile.prototype._ignoreSymbolPage = false;
 SketchFile.prototype._progressStage = 0;
 SketchFile.prototype._progressValue = 0;
 SketchFile.prototype._blockedEvents = null;
+SketchFile.prototype._bitmapsSettled = null;

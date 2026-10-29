@@ -16,7 +16,8 @@ export class SketchBitmap extends SketchElement {
   declare _deferredTransform: Transform | null | undefined;
 
   override parse(): void {
-    void this._getReference((this._data.image as SketchFileReferenceData)._ref).then((blob) => {
+    const reference = this._getReference((this._data.image as SketchFileReferenceData)._ref);
+    void reference.then((blob) => {
       const reader = new window.FileReader();
       reader.readAsDataURL(blob);
       reader.onload = () => {
@@ -26,9 +27,20 @@ export class SketchBitmap extends SketchElement {
             clone._node.setProperty("url", reader.result);
           });
       };
+      reader.onerror = () => this._settled();
     });
+    // The image never gets a url: the import needn't wait for it. (The
+    // promise above still rejects unhandled, as before.)
+    void reference.catch(() => this._settled());
     this._node.__sketchNode__ = this;
     this._node.addEventListener(Image.StatusEvent, this._imageStatusEvent, this);
+    this._file.bitmapLoading(this._node);
+  }
+
+  /** Tells the file that this bitmap and its clones won't load any more (see SketchFile.bitmapLoading). */
+  _settled(): void {
+    this._file.bitmapSettled(this._node);
+    if (this._clones) this._clones.forEach((clone) => clone._file.bitmapSettled(clone._node));
   }
 
   override transform(transform: Transform | null | undefined): void {
@@ -45,6 +57,10 @@ export class SketchBitmap extends SketchElement {
   override clone(): this {
     const copy = super.clone();
     copy._node.addEventListener(Image.StatusEvent, copy._imageStatusEvent, copy);
+    // A clone made before the image data arrived gets its url with this
+    // bitmap's (parse); one with a url reports its loading by status.
+    if (this._file._loadingBitmaps.has(this._node) && !this._node.getProperty("url"))
+      copy._file.bitmapLoading(copy._node);
     if (!this._clones) this._clones = [];
     this._clones.push(copy);
     return copy;
@@ -60,6 +76,15 @@ export class SketchBitmap extends SketchElement {
       }
       if (event.status === Image.ImageStatus.Error || event.status === Image.ImageStatus.Loaded)
         this._node.removeEventListener(Image.StatusEvent, this._imageStatusEvent, this);
+      // Not in the old app: what the import waits for before it calls back
+      // (SketchFile.bitmapLoading). An image outside a scene is Delayed
+      // and can't load until it is attached, so it isn't waited for.
+      if (
+        event.status === Image.ImageStatus.Resolving ||
+        event.status === Image.ImageStatus.Loading
+      )
+        this._file.bitmapLoading(this._node);
+      else this._file.bitmapSettled(this._node);
     }
   }
 

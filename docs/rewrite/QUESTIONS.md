@@ -4764,3 +4764,29 @@ Decided: keep the split. The loader and the rendered content look the
 same; only the time to a usable app changes, and it gets shorter. If
 the loader's timing matters more, splitting or trimming the theme
 stylesheet is the lever, or this one config can be reverted.
+
+## Q-386 A Sketch import waits for its bitmaps, at most 5 seconds
+
+Old location: chunk.vendor.js, GSketchFile.parse and the bitmap layer
+(module 1205), now src/io/import/sketch/sketch-file.ts and
+sketch-bitmap.ts.
+
+What it does: a bitmap layer gets its name, size and transform when its
+image loads, and its image data is read from the zip, which the import
+closes when it calls back. The old importer waited a frame after every
+list of layers, so the images of a small file had always loaded before
+the callback, although nothing waited for them. Since the second
+performance round the importer no longer waits frames, so it now waits
+for the bitmaps that are loading before it calls back: until each one
+has loaded, failed, or waits for a scene (an image outside a scene
+can't load), or 5 seconds have passed.
+
+Why it's unclear: the old app had no such wait and no limit; with a
+large file whose images were still loading at the end (more data than
+the frames gave time for), it called back with those bitmaps
+unfinished. The new app finishes them unless they take more than 5
+seconds.
+
+Decided: wait, with the 5 second limit, so an image that never settles
+can't keep the import from calling back. The parity recordings are the
+old app's output with every bitmap finished.
