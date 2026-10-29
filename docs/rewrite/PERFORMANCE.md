@@ -779,3 +779,224 @@ everywhere, the layers panel scrolls at 33 ms p95 on 50,000 rows (it is
 a virtual list), switching to multi-page view over 60 pages takes 64 ms,
 and API panning stays at 33 to 83 ms p95. PNG and JPEG import of a
 6000 × 4000 image take about 2 s, mostly decoding.
+
+## After the second round
+
+Measured on GitHub Actions on 2026-10-29: Benchmark run 40887355997,
+`split`, refs `bf570f0e` (the second round's baseline) and `3520a261`
+(the last speed-up), 5 runs plus a warm-up, median, times in ms. Each
+group ran both commits one after the other in one job, so every row
+compares two builds on the same runner. The runners differed by group:
+Intel Xeon 6973P-C for the base and doc20k cases, AMD EPYC 9V45 for
+doc50k, fx and pages, AMD EPYC 9V74 for imports and exports (all 4
+logical cores, 16 GB). That is why the "before" column is not the
+baseline table above.
+
+| case | headline | before | after | change | script ms before | script ms after |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| cold-start | docReadyMs | 621 | 541 | -13% | 190 | 132 |
+| open-effects-webgl-2 | painted | 1,242 | 976 | -21% | 1,071 | 834 |
+| open-fills-textures | painted | 234 | 213 | -9% | 86.8 | 86.2 |
+| open-effects-webgl-1 | painted | 362 | 296 | -18% | 184 | 161 |
+| pan-wheel | frameP95 | 16.7 | 16.7 | 0% | 699 | 661 |
+| zoom-wheel | frameP95 | 66.7 | 50.0 | -25% | 789 | 615 |
+| pan-api | frameP95 | 50.0 | 50.0 | 0% | 906 | 746 |
+| zoom-api | frameP95 | 202 | 150 | -26% | 4,977 | 3,379 |
+| drag-group | moveMedian | 18.5 | 33.9 | 84% | 639 | 1,005 |
+| type-long-text | keyP95 | 201 | 131 | -35% | 3,964 | 2,393 |
+| export-svg | ms | 52.9 | 56.3 | 7% |  |  |
+| export-pdf | ms | 711 | 510 | -28% | 546 | 411 |
+| export-png | ms | 257 | 235 | -9% |  |  |
+| import-svg-3000 | painted | 2,020 | 2,176 | 8% | 1,864 | 2,019 |
+| import-svg-welcome | painted | 160 | 175 | 10% | 84.2 | 101 |
+| import-pdf-print | painted | 446 | 439 | -2% | 70.4 | 70.1 |
+| import-pdf-2pages | painted | 414 | 418 | 1% | 47.2 | 45.7 |
+| import-eps-2000 | painted | 1,653 | 1,022 | -38% | 1,454 | 821 |
+| import-eps-gradient | painted | 164 | 163 | 0% | 42.3 | 44.1 |
+| doc20k-flat-open | painted | 13,205 | 6,285 | -52% | 12,088 | 5,244 |
+| doc20k-flat-zoom-api | frameP95 | 422 | 317 | -25% | 5,212 | 4,037 |
+| doc20k-flat-pan-api | frameP95 | 66.7 | 66.7 | 0% | 748 | 658 |
+| doc20k-flat-pan-wheel | frameP95 | 16.7 | 16.7 | 0% | 398 | 430 |
+| doc20k-flat-select-all | ms | 8,743 | 7,981 | -9% | 202 | 165 |
+| doc20k-flat-nudge | nudgeMedian | 1,453 | 434 | -70% | 2,705 | 654 |
+| doc20k-flat-drag | moveMedian | 82.6 | 80.9 | -2% | 1,992 | 1,015 |
+| doc20k-flat-undo | ms | 1,657 | 434 | -74% | 186 | 199 |
+| doc20k-flat-redo | ms | 1,692 | 462 | -73% | 188 | 205 |
+| doc20k-flat-layers-scroll | frameP95 | 16.7 | 16.7 | 0% | 210 | 226 |
+| doc20k-nested-open | painted | 38,909 | 6,590 | -83% | 4,557 | 5,125 |
+| doc20k-nested-zoom-api | frameP95 | 417 | 302 | -28% | 5,363 | 3,866 |
+| doc20k-nested-pan-api | frameP95 | 50.8 | 50.0 | -2% | 571 | 495 |
+| doc20k-nested-pan-wheel | frameP95 | 16.7 | 16.7 | 0% | 428 | 482 |
+| doc20k-nested-select-all | ms | 229 | 144 | -37% | 32.4 | 46.0 |
+| doc20k-nested-nudge | nudgeMedian | 320 | 332 | 4% | 485 | 517 |
+| doc20k-nested-drag | moveMedian | 49.3 | 51.5 | 4% | 499 | 546 |
+| doc20k-nested-undo | ms | 126 | 125 | -1% | 22.5 | 18.9 |
+| doc20k-nested-redo | ms | 133 | 130 | -2% | 23.2 | 18.2 |
+| doc20k-symbols-open | painted | 42,201 | 6,590 | -84% | 12,201 | 4,911 |
+| doc20k-symbols-zoom-api | frameP95 | 404 | 452 | 12% | 5,322 | 6,241 |
+| doc20k-symbols-pan-api | frameP95 | 66.7 | 34.2 | -49% | 777 | 482 |
+| doc20k-symbols-pan-wheel | frameP95 | 16.7 | 16.7 | 0% | 344 | 494 |
+| doc20k-symbols-select-all | ms | 1,281 | 1,593 | 24% | 177 | 270 |
+| doc20k-symbols-nudge | nudgeMedian | 1,792 | 582 | -68% | 3,392 | 927 |
+| doc20k-symbols-drag | moveMedian | 66.1 | 123 | 87% | 2,426 | 1,611 |
+| doc20k-symbols-undo | ms | 2,096 | 641 | -69% | 225 | 296 |
+| doc20k-symbols-redo | ms | 2,008 | 604 | -70% | 219 | 281 |
+| doc20k-symbols-layers-scroll | frameP95 | 16.7 | 16.7 | 0% | 222 | 272 |
+| doc50k-flat-open | painted | 42,072 | 13,903 | -67% | 40,252 | 11,276 |
+| doc50k-flat-zoom-api | frameP95 | 762 | 717 | -6% | 10,755 | 10,012 |
+| doc50k-flat-pan-api | frameP95 | 50.0 | 50.0 | 0% | 298 | 202 |
+| doc50k-flat-pan-wheel | frameP95 | 16.7 | 16.7 | 0% | 176 | 184 |
+| doc50k-flat-select-all | ms | 22,029 | 60,046 | 173% | 490 | 522 |
+| doc50k-flat-nudge | nudgeMedian | 5,099 | 589 | -88% | 9,952 | 877 |
+| doc50k-flat-drag | moveMedian | 115 | 169 | 47% | 6,508 | 2,051 |
+| doc50k-flat-undo | ms | 5,255 | 565 | -89% | 249 | 315 |
+| doc50k-flat-redo | ms | 5,176 | 590 | -89% | 243 | 323 |
+| doc50k-flat-layers-scroll | frameP95 | 16.7 | 16.7 | 0% | 275 | 209 |
+| doc50k-nested-open | painted | 96,462 | 11,414 | -88% | 9,077 | 9,016 |
+| doc50k-nested-select-all | ms | 1,699 | 280 | -84% | 61.4 | 44.0 |
+| pages-open | painted | 3,663 | 2,916 | -20% | 2,445 | 2,350 |
+| pages-multipage | ms | 62.5 | 61.6 | -1% | 19.1 | 15.8 |
+| pages-zoom-api | frameP95 | 33.3 | 16.7 | -50% | 278 | 218 |
+| pages-pan-api | frameP95 | 16.7 | 18.3 | 10% | 404 | 423 |
+| fx-zoom-api | frameP95 | 635 | 470 | -26% | 19,608 | 13,718 |
+| fx-pan-api | frameP95 | 33.3 | 50.0 | 50% | 586 | 611 |
+| fx-zoom-min | ms | 665 | 464 | -30% | 609 | 405 |
+| fx-zoom-max | ms | 64.6 | 64.5 | 0% | 6.3 | 6.8 |
+| fx-zoom-step-min | frameP95 | 523 | 303 | -42% | 1,999 | 663 |
+| fx-zoom-step-max | frameP95 | 617 | 495 | -20% | 4,441 | 3,683 |
+| export-doc20k-flat-svg | ms | 586 | 654 | 12% |  |  |
+| export-doc20k-flat-pdf | ms | 3,236 | 2,042 | -37% | 1,867 | 1,251 |
+| export-doc20k-flat-png | ms | 1,702 | 1,753 | 3% |  |  |
+| export-fx-svg | ms | 1,954 | 1,611 | -18% |  |  |
+| export-fx-pdf | ms | 5,596 | 4,534 | -19% | 1,761 | 1,387 |
+| export-fx-png | ms | 3,384 | 2,864 | -15% |  |  |
+| import-svg-20000 | painted | 26,868 | 19,728 | -27% | 25,813 | 18,944 |
+| import-pdf-20pages | painted | 8,425 | 8,478 | 1% | 2,917 | 2,914 |
+| import-eps-4000 | painted | 7,290 | 5,144 | -29% | 6,978 | 4,795 |
+| import-png-6000x4000 | painted | 2,019 | 740 | -63% | 380 | 269 |
+| import-jpeg-6000x4000 | painted | 2,115 | 2,124 | 0% | 1,521 | 1,556 |
+| import-sketch-4000 | ms | 118,664 | 2,319 | -98% | 3,823 | 1,953 |
+
+Rows the run above gets wrong, checked with more runs:
+
+- drag-group (18.5 to 33.9) is the runner. Run 40893051342 measured
+  every `perf:` commit of the round in one job: 34 ms on all of them,
+  `bf570f0e` included. The move lands on the next frame or the one
+  after, so the headline is either about 17 or about 34.
+- doc50k-flat-select-all (22 s to 60 s) is the runner too: its times
+  in this job spread from 46 to 66 s. In run 40893051342 the same case
+  goes from 4,540 (`bf570f0e`) to 2,937 (`3520a261`), most of it at
+  `06c6a7e6`. doc50k-flat-drag ran once per commit and isn't
+  conclusive either way.
+- The doc20k-symbols rows swing with the heap (garbage collection
+  during the measured part). Run 40897610247 alternated the commits
+  (`bf570f0e`, `70bfb987`, `3520a261`, twice): drag 150 and 108 to
+  83 and 86, Select All 3,502 and 2,714 to 1,423 and 1,381, zoom-api
+  frame p95 734 and 687 to 469 and 467.
+- Frame p95 values move in steps of 16.7 ms (one frame), so 33.3 to
+  50.0 in fx-pan-api and 16.7 to 18.3 in pages-pan-api are one frame
+  in the slowest 5% of a short case.
+- Changes of up to about 15% in cases no speed-up touches (svg export,
+  svg-3000 import, png export) are within the spread between jobs.
+  import-png-6000x4000 takes either about 0.7 or about 1.9 s on the
+  same build (see its min and max in the baseline), so its -63% is not
+  a speed-up.
+
+Per speed-up. Each row comes from one job that measured the commit
+before and the change, mostly alternated (before, after, before,
+after). The commit messages have the full numbers.
+
+| commit | what | case | before | after |
+| --- | --- | --- | ---: | ---: |
+| 97fe23b1 | the asynchronous reader yields a task, not a frame, after each finished list | import-sketch-4000 | 118,663 | 2,327 |
+| | | doc20k-nested-open, doc50k-nested-open | 39,406, 99,953 | 9,467, 23,381 |
+| a3a73d16 | the scene's quadtrees only move boxes down when a node splits | doc20k-flat-open | 11,332 | 7,816 |
+| a154b6e8 | a page's quadtree entry moves once per read, not per moved child (Q-383) | doc20k-flat-nudge, undo | 1,739, 2,967 | 690, 1,048 |
+| | | doc50k-flat-nudge, undo | 7,263, 7,461 | 1,271, 1,616 |
+| aec2d50f | symbol links found through a scene id map, not a walk of the scene | building 2,000 instances | 323,500 | 27,000 |
+| | | doc20k-symbols-nudge | 5,647 | 4,107 |
+| 4d6c4661 | PDF export: plain property copies, an ASCII fast path, direct rasters | export-pdf, export-doc20k-flat-pdf | 969, 3,232 | 651, 1,973 |
+| 9a52280a | a text's runs and formatting read once per change | type-long-text keyP95 | 286 | 215 |
+| 27cfe9f8 | selection counts and per-target listener counts instead of scans | doc20k-symbols-select-all | 2,173 | 1,214 |
+| | | clearing a 50k selection (untimed in the case) | 8,600 to 9,300 | 3,800 to 4,300 |
+| afa5aa73 | a pool of style canvases with a full reset; a cheaper separate-layer check | doc20k-flat-zoom-api | 635, 555 | 418, 434 |
+| | | doc50k-flat-zoom-api | 1,484 | 1,052 |
+| 9a5cb02b | a text's layout canvas becomes its fill canvas (Q-384) | import-svg-20000 | 19,172 | 16,868 |
+| dd399be0 | sibling indices renumbered on the next read, not per removed child | import-eps-4000 | 7,096 | 4,931 |
+| 06c6a7e6 | the selection's box kept until a selected element or its page changes | doc20k-flat-undo, redo | 1,184, 1,207 | 606, 597 |
+| 70bfb987 | angular gradient canvases and their patterns kept; effect results taken over, not copied | fx-zoom-api frame p95 | 550, 670 | 435, 420 |
+| | | fx-zoom-min | 614, 716 | 431, 431 |
+| 62a133bc | the start code built into four files that load side by side (Q-385) | cold-start docReadyMs | 924, 876 | 793, 782 |
+| 3520a261 | a word keeps its glyph outlines while its text, position, font and shaping options stay the same | type-long-text keyMedian | 115.9 | 99.1 |
+
+Tried and dropped, each because it didn't move its case or could change
+output:
+
+- A PDF export node proxy built with `Object.create(node)`: slower
+  (3,112 against 1,973 ms on doc20k), since the prototype chains make
+  the scene's property reads megamorphic.
+- Rasterising shadows for PDF export in a worker: it needs the engine
+  in the worker.
+- In typing, merging all formatting at once (no change) and spread
+  copies of runs (slower PDF import).
+- A parseFont cache and a measure cache keyed by nested Maps: both made
+  SVG imports slower. A lazily created text layout canvas only moved the
+  cost.
+- Pooling clone and border canvases next to the style canvases: within
+  the noise.
+- Panning without the tile cache (doc20k pan p95 50 to 100 ms) and
+  scrolling a canvas by drawing it onto itself (task time up 10 to 15%,
+  Chrome snapshots the canvas first). Panning has no `perf:` commit;
+  `cc603e41` corrects this document's description of it.
+- Coalescing the selection's invalidations, uniting the selection's box
+  incrementally and event-driven dirty flags: the repainted areas or the
+  rounding of the box could differ.
+- A pattern cache per image (no change: the cost was the angular
+  gradient canvases) and effect caches kept over several zoom levels
+  (their pixels depend on the fractional view offset).
+- Loading the importers lazily (the gain came only from the bundler
+  splitting chunks by accident, which 62a133bc now does on purpose),
+  preloading the fonts and the CMYK profile (start is bound by the CPU,
+  not the network), `strictExecutionOrder` (the app did not start), and
+  leaving the parity bridge out (the parity suite drives the production
+  build).
+- Keeping glyph outlines from a word's first draw (import-svg-20000
+  heap 534 to 968 MB; the kept version waits for the third draw and is
+  capped at 32 MB) and a measure-cache key without `JSON.stringify` (no
+  change; the cost is reading the run properties).
+
+Still slow, and why:
+
+- Panning with the API: 50 to 67 ms p95 on the 20k pages. Each scroll
+  clears and copies four full-size canvases, and the software canvas
+  of the benchmark rasterises in stretches of 0.4 to 1.4 s at varying
+  points.
+- Zoom on 50,000 shapes, about 0.7 s per frame: every visible shape is
+  painted again at the new scale. The effects page is at 0.47 s; half
+  of it is drawing finished drop-shadow and blur results (`drawImage`
+  in `_paintWithEffects`), and the WebGL blur
+  (`src/engine/paint/webgl/shader.ts` `_renderTile`) is 2 s of a 17 s
+  profile.
+- Select All on 20,000 flat shapes, 8 s on these runners: script is
+  0.2 s of it. The rest is browser work outside script that the CDP
+  metrics don't break down, and it grows with the heap. Clearing a selection of more than
+  about 32,000 still shifts every entry of a large array per removed
+  element (`_tryRemoveFromSelection`, `removeEditor`, about 1.3 s each
+  on 50,000).
+- Opening 20,000 to 50,000 shapes: 6 to 14 s, now script-bound (node
+  construction and the first paint).
+- Typing: 99 ms median per key. Each keystroke redraws the whole text
+  and rasterises it (`drawImage` in `_paintTextFill`,
+  `src/engine/text/text.ts`, 30 to 45 ms), and the inspector reads the
+  formatting again (`src/engine/text/gtl/range.ts`, `formatting.ts`,
+  `Word.runs`). A partial redraw went from 130 to 50 ms in an
+  experiment but needs a per-segment comparison of canvas calls and
+  clip bands that no parity scenario could prove pixel-identical.
+- PDF import, 20 pages: 8.5 s, mostly pdf.js in its worker and text
+  parsing (`parseContent`, `stringifyContent` in `text.ts`).
+- JPEG import of 6000×4000: 2.1 s, decoding the image.
+- Effect export to PDF: 4.5 s, the raster fallback painting effects.
+- Start: about 46 ms of locale setup at module evaluation
+  (`src/engine/core/locale/translation-loader.ts` `mapProjects`), 100
+  ms of `designer.init`, 27 ms of pattern choosers and 26 ms of the
+  HarfBuzz top-level await.
