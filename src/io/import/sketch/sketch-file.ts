@@ -69,7 +69,7 @@ export class SketchFile extends EventTarget {
   /** True while the pages are appended to the scratch scene. */
   declare _appending: boolean;
   /** Bitmap loads that came in while appending, handled after it (SketchBitmap). */
-  declare _afterAppend: (() => void)[];
+  declare _afterAppend: Map<object, () => void>;
 
   /** How long the import waits at most for its bitmaps to settle (ms). */
   static BITMAP_WAIT = 5000;
@@ -81,7 +81,7 @@ export class SketchFile extends EventTarget {
     this._symbolsMaster = {};
     this._symbolsInstance = {};
     this._loadingBitmaps = new Set();
-    this._afterAppend = [];
+    this._afterAppend = new Map();
     this.addEventListener(SketchProcessEvent, this._processEvent, this);
   }
 
@@ -107,6 +107,18 @@ export class SketchFile extends EventTarget {
   bitmapSettled(image: object): void {
     this._loadingBitmaps.delete(image);
     if (!this._loadingBitmaps.size && this._bitmapsSettled) this._bitmapsSettled();
+  }
+
+  /**
+   * Handles the postponed load of `image` now, if it has one: a symbol
+   * instance scales its layers once their images loaded, after the
+   * bitmap took its own bounds (SketchSymbolInstance._imageStatusEvent).
+   */
+  handlePendingLoad(image: object): void {
+    const handle = this._afterAppend.get(image);
+    if (!handle) return;
+    this._afterAppend.delete(image);
+    handle();
   }
 
   /**
@@ -348,8 +360,8 @@ export class SketchFile extends EventTarget {
         };
         const appended = (): void => {
           this._appending = false;
-          const loaded = this._afterAppend;
-          this._afterAppend = [];
+          const loaded = [...this._afterAppend.values()];
+          this._afterAppend = new Map();
           loaded.forEach((handle) => {
             try {
               handle();

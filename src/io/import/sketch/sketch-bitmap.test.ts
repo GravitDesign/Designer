@@ -75,12 +75,28 @@ describe("SketchBitmap", () => {
     file._appending = true;
     vi.spyOn(bitmap._node, "getStatus").mockReturnValue(Image.ImageStatus.Loaded);
     status(bitmap, Image.ImageStatus.Loaded);
-    expect(file._afterAppend).toHaveLength(1);
+    expect(file._afterAppend.has(bitmap._node)).toBe(true);
     const rotation = new Transform().rotated(0.5);
     bitmap.transform(rotation);
     expect(bitmap._deferredTransform).toBe(rotation);
     const loaded = vi.spyOn(bitmap, "_loaded").mockImplementation(() => undefined);
-    (file._afterAppend[0] as () => void)();
+    (file._afterAppend.get(bitmap._node) as () => void)();
+    expect(loaded).toHaveBeenCalledTimes(1);
+  });
+
+  // A symbol instance scales its layers when their images loaded, after
+  // each bitmap took its own bounds.
+  it("handles a postponed load at once for a symbol instance, and only once", () => {
+    const file = new SketchFile(new Blob([]));
+    const bitmap = makeBitmap(file);
+    bitmap.parse();
+    file._appending = true;
+    status(bitmap, Image.ImageStatus.Loaded);
+    const loaded = vi.spyOn(bitmap, "_loaded").mockImplementation(() => undefined);
+    file.handlePendingLoad(bitmap._node);
+    expect(loaded).toHaveBeenCalledTimes(1);
+    expect(file._afterAppend.size).toBe(0);
+    file.handlePendingLoad(bitmap._node);
     expect(loaded).toHaveBeenCalledTimes(1);
   });
 

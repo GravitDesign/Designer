@@ -78,7 +78,7 @@ export class SketchBitmap extends SketchElement {
         // first, as when the old app's image loaded a frame later.
         if (this._file._appending) {
           this._loadPending = true;
-          this._file._afterAppend.push(() => this._loaded());
+          this._file._afterAppend.set(this._node, () => this._loaded());
         } else this._loaded();
       }
       if (event.status === Image.ImageStatus.Error || event.status === Image.ImageStatus.Loaded)

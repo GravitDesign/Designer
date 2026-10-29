@@ -215,6 +215,7 @@ export class SketchSymbolInstance extends SketchBase {
   _imageStatusEvent(event: ImageStatusEvent): void {
     if (event.status === Image.ImageStatus.Loaded || event.status === Image.ImageStatus.Error) {
       (event.image as Image).removeEventListener(Image.StatusEvent, this._imageStatusEvent, this);
+      this._file.handlePendingLoad(event.image as Image);
       if (!this._hasImagesToResolve()) this._transform();
     }
   }
