@@ -674,3 +674,108 @@ round trip; "script ms" is the CDP ScriptDuration over the measured part.
 | import-png-6000x4000 | painted | 1,833 | 671 | 1,869 |  | 253 | 20 |
 | import-jpeg-6000x4000 | painted | 1,997 | 1,973 | 2,015 |  | 1,455 | 20 |
 | import-sketch-4000 | ms | 118,654 | 118,647 | 118,751 |  | 3,665 | 74 |
+
+## Second round: where the time goes
+
+From the profiled run of the same commit (Benchmark run 40826475935,
+`profile`, one profiled run per case after a warm-up). Ranked by how
+much a user notices it. File and line numbers are at `bf570f0e`. "Risk"
+is the risk to parity output (rendered pixels, saved and exported
+bytes).
+
+1. **Moving objects costs (objects moved × objects on the page).**
+   Nudging 200 of 20,000 shapes takes 5.8 s, undo and redo 6.2 s each;
+   on 50,000 shapes 13 to 14 s. Every moved element makes the page
+   recompute its paint box over all children:
+   `src/editor/editor.ts:1822` `applySelectionTransform` →
+   `src/engine/scene/page.ts:982` `_handleChange` → `page.ts:483` →
+   `src/engine/scene/element.ts:220` `_calculateChildrenPaintBBox`
+   (8.6 s self of the 13.2 s nudge profile, 8.6 s of 11.3 s for undo).
+   `page.ts:351` `_getGridPosition` and `editor.ts:557`
+   `getGroupGeometryBBox` follow. Fix: make the container's paint box
+   lazy (mark it dirty on a child change, compute it on the next read)
+   or batch it per transaction. Win: seconds to well under a second per
+   move, undo and redo on big pages. Risk: low to medium; every reader of
+   the box and every event carrying it must see the same values.
+2. **Select All grows faster than the number of objects.** 7.5 s on
+   20,000 shapes, 99 s on 50,000. `editor.ts:3152`
+   `_tryRemoveFromSelection` (0.7 s self of 3.4 s), `src/engine/paint/
+   dirty-list.ts:142` `dirty`, `editor.ts:1585` `getIndividualSelection`,
+   `src/editor/element-editors/base-editor.ts:282` `removeEditor`: linear
+   scans inside per-element loops. Fix: index the selection, merge
+   dirty areas without rescanning. Win: about linear, so under a second on
+   20,000. Risk: low for documents; the dirty areas decide what is
+   repainted and must stay the same.
+3. **Opening a large document: the scene's quadtree.** 12 s for 20,000
+   flat shapes, 72 s for 50,000. `src/engine/geometry/quadtree.ts:97`
+   `insert` is 4.4 s self of 11.8 s: every insert into a full node
+   checks all the boxes already there again, though in the scene's trees
+   a box left in a split node can never move down. Fix: only move boxes
+   down when a node splits, for trees whose boxes never change (the
+   scene's; the boolean operations' trees re-measure their boxes and keep
+   the rescan). Win: about a third of opening flat and symbol documents,
+   and part of every move. Risk: none; the tree comes out the same.
+4. **Opening nested and symbol documents mostly waits.** doc20k-nested
+   and doc20k-symbols take 40 s with 8 to 12 s of script; doc50k-nested
+   100 s with 20 s. The profiles show script only, so the rest is time
+   between tasks (timers or chained awaits in the asynchronous
+   deserialisation, `src/engine/core/async-executor.ts:50`,
+   `src/engine/serialize/deserialize-async.ts:65`). Fix: find the waits
+   and do the work in larger slices. Win: up to 30 s per open. Risk: low
+   if the nodes are built in the same order.
+5. **Sketch import mostly waits too.** 4,000 layers take 119 s with
+   3.7 s of script. Same kind of fix in `src/io/import/sketch`. Risk: low
+   if the nodes come out the same.
+6. **Zoom on big and effect-heavy pages.** A zoom frame takes 0.6 s on
+   20,000 shapes, 1.6 s on 50,000 and 0.9 s on the effects page. On the
+   20k page: `src/engine/scene/shape.ts:587` `_isSeparateStylePaintLayer`
+   (0.46 s self of 6.7 s), `src/engine/paint/recorder-state-context.ts:337`
+   `_set`, and canvas creation (`getContext`, `save`, `clearRect`)
+   through `src/engine/style/element-stylable.ts:744`
+   `_createStyleCanvas` (finding 3 of the first round). On the effects
+   page: `drawImage` 13.3 s and `createPattern` 6.6 s of 33 s, and
+   `src/engine/paint/webgl/shader.ts:257` `_renderTile` 4.1 s. Fix: a
+   canvas pool by size with a full reset, a cheaper separate-layer check,
+   then patterns made once per texture instead of per paint, and effect
+   results kept across zoom steps where they are identical. Win: 20 to 40%
+   per zoom frame. Risk: medium; a reused canvas or pattern with leftover
+   state changes pixels.
+7. **Symbol instances: each insert walks the whole scene.**
+   `src/engine/scene/scene.ts:646` `link` → `scene.ts:1660`
+   `_refreshLinks` → `scene.ts:1675` `nodesBySceneId`. Building 2,000
+   instances takes 35 s, quadratic. Fix: update the link index per
+   reference. Risk: low to medium; the links and notifications must be
+   those of a full rebuild.
+8. **Large SVG import: 24 s for 20,000 elements.** 5.6 s of it is the
+   first paint of the result; the rest is the per-node engine cost of the
+   first round's finding 11: a canvas per text (`getContext` 1.1 s),
+   change handling (`element.ts:761`, `src/engine/text/text.ts:2339`) and
+   1.5 s of garbage collection. Fix: a shared measuring context for text
+   layout, fewer change notifications while the tree is built detached.
+   Risk: low to medium (text measuring must give the same metrics).
+9. **Typing in a long text: 158 ms p95 per keystroke.**
+   `src/engine/text/gtl/list-util.ts:150` (1.7 s self of 6.7 s) and
+   `src/engine/text/gtl/formatting.ts:244` merge paragraph formatting per
+   read; `drawImage` (1.5 s) is the repaint of the whole text. Fix: a
+   formatting cache per document change. Risk: medium; every writer of
+   the formatting must clear it.
+10. **PDF export.** 3.4 s for the 20k page, 5.6 s for the effects page.
+    `src/engine/core/util.ts:27` `extend` (0.4 s self of 2.0 s) is the
+    node proxy of the first round's finding 10; on the effects page most
+    of the time is the raster fallback painting effects
+    (`src/io/export/pdf/raster-fallback.ts:50`). Fix: a proxy that
+    inherits from the node. Risk: medium; exported bytes are compared.
+11. **EPS import, 4,000 shapes: 7.3 s.**
+    `src/engine/scene/element-accelerated.ts:185` `_refreshIndicesForward`
+    (0.74 s self) and `:126` `_handleChildrenStructureChange` renumber
+    siblings each time the importer moves a child out of the parser's
+    group. Fix: move the children in one batch. Risk: low.
+12. **PDF import, 20 pages: 8.8 s, 3.3 s of it script**, mostly text:
+    `text.ts:217` `parseContent` and `:221` `stringifyContent`. The rest
+    is pdf.js in its worker.
+
+What is fine on the big documents: wheel panning holds 16.7 ms frames
+everywhere, the layers panel scrolls at 33 ms p95 on 50,000 rows (it is
+a virtual list), switching to multi-page view over 60 pages takes 64 ms,
+and API panning stays at 33 to 83 ms p95. PNG and JPEG import of a
+6000 × 4000 image take about 2 s, mostly decoding.
