@@ -14,6 +14,8 @@ import { SketchRect } from "./sketch-rect.ts";
 export class SketchBitmap extends SketchElement {
   declare _clones: SketchBitmap[] | null;
   declare _deferredTransform: Transform | null | undefined;
+  /** Its image loaded while the pages were being appended; handled after that (SketchFile._appending). */
+  declare _loadPending: boolean;
 
   override parse(): void {
     const reference = this._getReference((this._data.image as SketchFileReferenceData)._ref);
@@ -47,7 +49,8 @@ export class SketchBitmap extends SketchElement {
     const combined = this._deferredTransform
       ? this._deferredTransform.multiplied(transform as Transform)
       : transform;
-    if (this._node.getStatus() !== Image.ImageStatus.Loaded) this._deferredTransform = combined;
+    if (this._loadPending || this._node.getStatus() !== Image.ImageStatus.Loaded)
+      this._deferredTransform = combined;
     else {
       super.transform(combined);
       this._deferredTransform = null;
@@ -69,10 +72,14 @@ export class SketchBitmap extends SketchElement {
   _imageStatusEvent(event: ImageStatusEvent): void {
     if (event.image === (this._node as unknown)) {
       if (event.status === Image.ImageStatus.Loaded) {
-        SketchElement.prototype.parse.call(this, true);
-        const box = this._node.getGeometryBBox();
-        if (box) this.transform(SketchRect.getTransformation(box, this._getGeometryBBox() as Rect));
-        else this.transform(this._deferredTransform);
+        // Not in the old app: an image that loads while the pages are
+        // appended (at once, from an equal image's cached canvas) is
+        // handled after the append, so its group's transform is collected
+        // first, as when the old app's image loaded a frame later.
+        if (this._file._appending) {
+          this._loadPending = true;
+          this._file._afterAppend.push(() => this._loaded());
+        } else this._loaded();
       }
       if (event.status === Image.ImageStatus.Error || event.status === Image.ImageStatus.Loaded)
         this._node.removeEventListener(Image.StatusEvent, this._imageStatusEvent, this);
@@ -88,6 +95,15 @@ export class SketchBitmap extends SketchElement {
     }
   }
 
+  /** The image loaded: the layer's style, then its bounds with the collected transform. */
+  _loaded(): void {
+    this._loadPending = false;
+    SketchElement.prototype.parse.call(this, true);
+    const box = this._node.getGeometryBBox();
+    if (box) this.transform(SketchRect.getTransformation(box, this._getGeometryBBox() as Rect));
+    else this.transform(this._deferredTransform);
+  }
+
   override _getRelatedNodeClass(): new () => object {
     return Image;
   }
@@ -95,3 +111,4 @@ export class SketchBitmap extends SketchElement {
 
 SketchBitmap.prototype._clones = null;
 SketchBitmap.prototype._deferredTransform = null;
+SketchBitmap.prototype._loadPending = false;

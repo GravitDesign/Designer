@@ -66,6 +66,10 @@ export class SketchFile extends EventTarget {
   declare _loadingBitmaps: Set<object>;
   /** What _whenBitmapsSettled waits to call. */
   declare _bitmapsSettled: (() => void) | null;
+  /** True while the pages are appended to the scratch scene. */
+  declare _appending: boolean;
+  /** Bitmap loads that came in while appending, handled after it (SketchBitmap). */
+  declare _afterAppend: (() => void)[];
 
   /** How long the import waits at most for its bitmaps to settle (ms). */
   static BITMAP_WAIT = 5000;
@@ -77,6 +81,7 @@ export class SketchFile extends EventTarget {
     this._symbolsMaster = {};
     this._symbolsInstance = {};
     this._loadingBitmaps = new Set();
+    this._afterAppend = [];
     this.addEventListener(SketchProcessEvent, this._processEvent, this);
   }
 
@@ -338,7 +343,21 @@ export class SketchFile extends EventTarget {
         const appendPages = (): void => {
           this._objectsProcessed = 0;
           this._progressStage = 50;
-          executor.execute(pages, appendPage, () => this._whenBitmapsSettled(finish));
+          this._appending = true;
+          executor.execute(pages, appendPage, appended);
+        };
+        const appended = (): void => {
+          this._appending = false;
+          const loaded = this._afterAppend;
+          this._afterAppend = [];
+          loaded.forEach((handle) => {
+            try {
+              handle();
+            } catch (error) {
+              console.log(error);
+            }
+          });
+          this._whenBitmapsSettled(finish);
         };
         const appendPage = (page: SketchPage): void => {
           page.appendTo(scene, executor);
@@ -390,3 +409,4 @@ SketchFile.prototype._progressStage = 0;
 SketchFile.prototype._progressValue = 0;
 SketchFile.prototype._blockedEvents = null;
 SketchFile.prototype._bitmapsSettled = null;
+SketchFile.prototype._appending = false;

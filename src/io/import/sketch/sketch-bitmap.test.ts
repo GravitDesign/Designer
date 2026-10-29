@@ -3,6 +3,7 @@
 // waits for the images that are loading before it calls back
 // (SketchFile.bitmapLoading, _whenBitmapsSettled).
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { Transform } from "../../../engine/math/transform.ts";
 import { Image } from "../../../engine/scene/image.ts";
 import type { ImageStatusEvent } from "../../../engine/scene/image.ts";
 import { SketchBitmap } from "./sketch-bitmap.ts";
@@ -63,6 +64,24 @@ describe("SketchBitmap", () => {
     expect(file._loadingBitmaps.has(copy._node)).toBe(true);
     bitmap._settled();
     expect(loading(file)).toBe(false);
+  });
+
+  // An equal image's cached canvas loads it at once when it is appended,
+  // before its group's transform arrives.
+  it("handles a load that comes in while appending after the append, collecting transforms", () => {
+    const file = new SketchFile(new Blob([]));
+    const bitmap = makeBitmap(file);
+    bitmap.parse();
+    file._appending = true;
+    vi.spyOn(bitmap._node, "getStatus").mockReturnValue(Image.ImageStatus.Loaded);
+    status(bitmap, Image.ImageStatus.Loaded);
+    expect(file._afterAppend).toHaveLength(1);
+    const rotation = new Transform().rotated(0.5);
+    bitmap.transform(rotation);
+    expect(bitmap._deferredTransform).toBe(rotation);
+    const loaded = vi.spyOn(bitmap, "_loaded").mockImplementation(() => undefined);
+    (file._afterAppend[0] as () => void)();
+    expect(loaded).toHaveBeenCalledTimes(1);
   });
 
   it("doesn't count a clone made after the image data arrived", () => {

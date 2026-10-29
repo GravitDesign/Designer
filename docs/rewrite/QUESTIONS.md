@@ -4788,6 +4788,13 @@ data had arrived by then. A url that arrives after the layer was added
 stays a plain data url when an equal image already has an entry, so the
 saved file would differ.
 
+With the data there before the append, an image equal to one that has
+already loaded loads at once from that image's cached canvas, before its
+group's rotation reaches it, and gets a different transform than the
+old app gave it. So a bitmap whose image loads during the append is
+handled when the append is done, after its group's transform, as when
+the old app's image loaded a frame later.
+
 Why it's unclear: the old app had no such wait and no limit; with a
 large file whose images were still loading at the end (more data than
 the frames gave time for), it called back with those bitmaps
