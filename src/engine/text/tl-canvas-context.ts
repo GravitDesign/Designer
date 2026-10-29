@@ -25,9 +25,10 @@ import { RenderScheduler } from "../paint/render-scheduler.ts";
 import { Pattern } from "../style/pattern.ts";
 import type { Font, PositionedGlyph } from "./fonts/font.ts";
 import type { FontManager } from "./fonts/font-manager.ts";
+import { HarfBuzzFont } from "./fonts/harfbuzz.ts";
 import { RenderFlags } from "./gtl/render-flags.ts";
-import { RunDraw, type RunDrawContext } from "./gtl/run-draw.ts";
-import { TLUtil } from "./gtl/tl-util.ts";
+import { RunDraw, type RunDrawContext, type ShapedTextHolder } from "./gtl/run-draw.ts";
+import { TLUtil, type ParsedFont } from "./gtl/tl-util.ts";
 import type { GlyphPlacement, TextTransformer } from "./gtl/transformer-util.ts";
 import { TLDirectionTextTransformer } from "./tl-direction-text-transformer.ts";
 
@@ -71,6 +72,82 @@ export interface TLStyleEntry {
 }
 
 const NO_COORDINATE = undefined as unknown as number;
+
+/** The path commands of ShapedText.ops. */
+const OP_MOVE = 0;
+const OP_LINE = 1;
+const OP_QUAD = 2;
+const OP_CUBIC = 3;
+const OP_CLOSE = 4;
+const OP_CLOSE_OPEN = 5;
+
+/**
+ * The path calls drawText made for the glyph outlines of a text (ops),
+ * with everything the outlines depend on. Without a text transformer the
+ * outlines are in text space (the canvas transform applies when they are
+ * added to the path), so they only depend on the text, its position, the
+ * font and the shaping options. A text drawn again with the same inputs
+ * is neither shaped nor outlined: its path calls are made from ops.
+ */
+export class ShapedText {
+  /** The kept ShapedTexts, least recently drawn first, and the numbers in their ops. */
+  static kept = new Map<ShapedTextHolder, ShapedText>();
+  static keptSize = 0;
+  /** At most this many numbers (32 MB) of ops are kept; the least recently drawn go first. */
+  static keptLimit = 1 << 22;
+  /**
+   * The draw with the same inputs that keeps a text; the holder counts the
+   * draws before. Texts drawn once or twice (opening, importing) keep nothing.
+   */
+  static DRAWS_TO_KEEP = 3;
+
+  ops: Float64Array = null as unknown as Float64Array;
+  segments = 0;
+  lastText: string | null = null;
+
+  constructor(
+    readonly text: string,
+    readonly x: number,
+    readonly y: number,
+    readonly font: Font,
+    readonly fontSize: number,
+    readonly charSpacing: number,
+    readonly ligatures: boolean | undefined,
+    readonly stylisticSet: string | null | undefined,
+    readonly fractions: boolean,
+    readonly localizedForm: string | null | undefined,
+    readonly langScript: string | null | undefined,
+    readonly variant: string | null | undefined,
+    readonly variationsSet: number,
+  ) {}
+
+  /** Keeps `shaped` for `holder`, dropping the least recently drawn beyond the limit. */
+  static keep(holder: ShapedTextHolder, shaped: ShapedText): void {
+    const previous = ShapedText.kept.get(holder);
+    if (previous) ShapedText.release(holder, previous);
+    holder._shaped = shaped;
+    ShapedText.kept.set(holder, shaped);
+    ShapedText.keptSize += shaped.ops.length;
+    for (const [oldest, dropped] of ShapedText.kept) {
+      if (ShapedText.keptSize <= ShapedText.keptLimit) break;
+      ShapedText.release(oldest, dropped);
+    }
+  }
+
+  /** Marks `shaped` as just drawn. */
+  static touch(holder: ShapedTextHolder, shaped: ShapedText): void {
+    ShapedText.kept.delete(holder);
+    ShapedText.kept.set(holder, shaped);
+  }
+
+  static release(holder: ShapedTextHolder, shaped: ShapedText): void {
+    if (ShapedText.kept.get(holder) === shaped) {
+      ShapedText.kept.delete(holder);
+      ShapedText.keptSize -= shaped.ops.length;
+    }
+    if (holder._shaped === shaped) holder._shaped = null;
+  }
+}
 
 export class TLCanvasContext implements RunDrawContext {
   static FLAGS_DRAWING = RenderFlags.RENDERFLAG_FILL | RenderFlags.RENDERFLAG_STROKE;
@@ -364,7 +441,11 @@ export class TLCanvasContext implements RunDrawContext {
    * isn't resolved.
    */
   getCurrentFont(): Font | null {
-    const parsed = TLUtil.parseFont(this.font);
+    return this._getCurrentFont(TLUtil.parseFont(this.font));
+  }
+
+  /** getCurrentFont with the current CSS font parsed already. */
+  _getCurrentFont(parsed: ParsedFont): Font | null {
     let font = this._currentFont;
     if (
       null === font &&
@@ -491,8 +572,19 @@ export class TLCanvasContext implements RunDrawContext {
    * glyphs become outlines (passed through the text transformer one by
    * one), with underline and strikeout as rectangles of `width`; otherwise
    * the context's fillText / strokeText draw it.
+   *
+   * When it draws outlines without a text transformer, the outlines are
+   * kept in `holder` and drawn from there while nothing they depend on
+   * changes (ShapedText): the same path calls in the same order.
    */
-  drawText(text: string, x: number, y: number, ascent: number, width: number): void {
+  drawText(
+    text: string,
+    x: number,
+    y: number,
+    ascent: number,
+    width: number,
+    holder?: ShapedTextHolder | null,
+  ): void {
     if (
       !(this._renderMode & RenderFlags.RENDERFLAG_VERTEX) ||
       this._renderMode & TLCanvasContext.FLAGS_DRAWING
@@ -500,83 +592,108 @@ export class TLCanvasContext implements RunDrawContext {
       this._beforeDraw();
     }
     if (this._renderMode & RenderFlags.RENDERFLAG_VERTEX) {
-      const font = this.getCurrentFont() as TextFont | null;
+      const parsed = TLUtil.parseFont(this.font);
+      const font = this._getCurrentFont(parsed) as TextFont | null;
       if (!font) return;
       let rightToLeft: boolean | undefined;
       let styleVertices: VertexContainer | null = null;
-      const fontSize = TLUtil.parseFont(this.font).fontSize;
+      const fontSize = parsed.fontSize;
       if (
         !(this._renderMode & RenderFlags.RENDERFLAG_NODRAW) &&
         this._renderMode & TLCanvasContext.FLAGS_DRAWING
       ) {
         this._canvasContext.beginPath();
       }
-      const options: {
-        letterSpacing: number;
-        kerning: boolean;
-        direction: string;
-        features: {
-          stylisticSet: string | null | undefined;
-          liga: boolean | undefined;
-          rlig: boolean | undefined;
-          frac: boolean;
-        };
-        language?: string;
-        script?: string;
-        variant?: string;
-      } = {
-        letterSpacing: this.charSpacing,
-        kerning: true,
-        direction: "ltr",
-        features: {
-          stylisticSet: this.textStylisticSet,
-          liga: this.textLigatures,
-          rlig: this.textLigatures,
-          frac: this.textFractions,
-        },
-      };
-      if (this.textLocalizedForm) options.language = this.textLocalizedForm;
-      if (this.langScript && "auto" !== this.langScript) options.script = this.langScript;
-      if (this.textVariant) options.variant = this.textVariant;
       let lineCount = 0;
-      const placement: GlyphPlacement = {};
-      const glyphs = font.stringToGlyphs(text, x, y, fontSize, options);
-      const count = glyphs.length - 1;
-      let outline: VertexReader | null;
+      let glyphs: PositionedGlyph[] | null = null;
       let index = 0;
-      for (; index < count; index++) {
-        const glyph = glyphs[index] as PositionedGlyph;
-        outline =
-          ((glyph.glyph as GlyphLike).unicode || text.charCodeAt(index)) ===
-          RunDraw.NBSP.charCodeAt(0)
-            ? null
-            : font.getGlyphOutline(fontSize, glyph.x, glyph.y, glyph.glyph);
-        if (this._textTransformer && outline) {
-          if (void 0 === rightToLeft) {
-            const direction = this._textTransformer.get(
-              TLDirectionTextTransformer.TYPE,
-            ) as TLDirectionTextTransformer | null;
-            rightToLeft = !(
-              !direction || direction.getDirection() !== TLDirectionTextTransformer.RTL
-            );
+      // Drawn outlines without a text transformer are kept (ShapedText).
+      const keep =
+        !!holder && !this._textTransformer && !!(this._renderMode & TLCanvasContext.FLAGS_DRAWING);
+      const kept = keep ? this._findShaped(holder, text, x, y, font, fontSize) : null;
+      if (kept) {
+        ShapedText.touch(holder as ShapedTextHolder, kept);
+        lineCount += this._putShaped(kept);
+      } else {
+        const options: {
+          letterSpacing: number;
+          kerning: boolean;
+          direction: string;
+          features: {
+            stylisticSet: string | null | undefined;
+            liga: boolean | undefined;
+            rlig: boolean | undefined;
+            frac: boolean;
+          };
+          language?: string;
+          script?: string;
+          variant?: string;
+        } = {
+          letterSpacing: this.charSpacing,
+          kerning: true,
+          direction: "ltr",
+          features: {
+            stylisticSet: this.textStylisticSet,
+            liga: this.textLigatures,
+            rlig: this.textLigatures,
+            frac: this.textFractions,
+          },
+        };
+        if (this.textLocalizedForm) options.language = this.textLocalizedForm;
+        if (this.langScript && "auto" !== this.langScript) options.script = this.langScript;
+        if (this.textVariant) options.variant = this.textVariant;
+        const placement: GlyphPlacement = {};
+        glyphs = font.stringToGlyphs(text, x, y, fontSize, options);
+        const count = glyphs.length - 1;
+        // The path calls to keep (see ShapedText.DRAWS_TO_KEEP); none for
+        // an empty text, whose drawing may throw below.
+        const ops =
+          keep && count > 0 && this._countDraw(holder as ShapedTextHolder)
+            ? ([] as number[])
+            : null;
+        let outline: VertexReader | null;
+        for (; index < count; index++) {
+          const glyph = glyphs[index] as PositionedGlyph;
+          outline =
+            ((glyph.glyph as GlyphLike).unicode || text.charCodeAt(index)) ===
+            RunDraw.NBSP.charCodeAt(0)
+              ? null
+              : font.getGlyphOutline(fontSize, glyph.x, glyph.y, glyph.glyph);
+          if (this._textTransformer && outline) {
+            if (void 0 === rightToLeft) {
+              const direction = this._textTransformer.get(
+                TLDirectionTextTransformer.TYPE,
+              ) as TLDirectionTextTransformer | null;
+              rightToLeft = !(
+                !direction || direction.getDirection() !== TLDirectionTextTransformer.RTL
+              );
+            }
+            const bounds =
+              (glyph as { bounds?: Rect }).bounds ||
+              font.getGlyphBoundingRect(fontSize, glyph.glyph, true);
+            placement.next = (glyphs[index + 1] as PositionedGlyph).x - glyph.x;
+            placement.prev =
+              index > 0 ? glyph.x - (glyphs[index - 1] as PositionedGlyph).x : glyph.x - x;
+            placement.unicode = (glyph.glyph as GlyphLike).unicode;
+            placement.xoff = glyph.xOff;
+            outline = this._textTransformer.transform(outline, glyph.x, glyph.y, bounds, placement);
           }
-          const bounds =
-            (glyph as { bounds?: Rect }).bounds ||
-            font.getGlyphBoundingRect(fontSize, glyph.glyph, true);
-          placement.next = (glyphs[index + 1] as PositionedGlyph).x - glyph.x;
-          placement.prev =
-            index > 0 ? glyph.x - (glyphs[index - 1] as PositionedGlyph).x : glyph.x - x;
-          placement.unicode = (glyph.glyph as GlyphLike).unicode;
-          placement.xoff = glyph.xOff;
-          outline = this._textTransformer.transform(outline, glyph.x, glyph.y, bounds, placement);
+          if (this._renderMode & TLCanvasContext.FLAGS_DRAWING) {
+            if (outline) lineCount += this._putVertices(outline, undefined, ops);
+          } else if (this._renderMode & RenderFlags.RENDERFLAG_RENDERSTYLES) {
+            if (!styleVertices) styleVertices = new VertexContainer();
+            if (outline) styleVertices.appendVertices(outline);
+          } else if (outline) {
+            (this._vstack as VertexContainer).appendVertices(outline);
+          }
         }
-        if (this._renderMode & TLCanvasContext.FLAGS_DRAWING) {
-          if (outline) lineCount += this._putVertices(outline);
-        } else if (this._renderMode & RenderFlags.RENDERFLAG_RENDERSTYLES) {
-          if (!styleVertices) styleVertices = new VertexContainer();
-          if (outline) styleVertices.appendVertices(outline);
-        } else if (outline) {
-          (this._vstack as VertexContainer).appendVertices(outline);
+        if (ops) {
+          const shaped = this._newShaped(text, x, y, font, fontSize);
+          shaped.ops = new Float64Array(ops);
+          shaped.segments = lineCount;
+          shaped.lastText =
+            (glyphs[index - 1] as PositionedGlyph).text || text.charAt(index - 1) || null;
+          ShapedText.keep(holder as ShapedTextHolder, shaped);
         }
       }
       if (this.textUnderline || this.textStrikeout) {
@@ -601,8 +718,11 @@ export class TLCanvasContext implements RunDrawContext {
       if (this._renderMode & TLCanvasContext.FLAGS_DRAWING && !lineCount) return;
       if (this._renderMode & RenderFlags.RENDERFLAG_NODRAW) return;
       // Like the old code this throws for an empty text (no glyph before the end).
-      const lastText =
-        (glyphs[index - 1] as PositionedGlyph).text || text.charAt(index - 1) || null;
+      const lastText = kept
+        ? kept.lastText
+        : ((glyphs as PositionedGlyph[])[index - 1] as PositionedGlyph).text ||
+          text.charAt(index - 1) ||
+          null;
       if (lastText && this._renderMode & RenderFlags.RENDERFLAG_FILL) {
         if (this._textFillStyle) {
           const pattern = this._textFillStyle;
@@ -727,8 +847,11 @@ export class TLCanvasContext implements RunDrawContext {
     this._canvasContext.setTransform(m[0], m[1], m[2], m[3], m[4], m[5]);
   }
 
-  /** Adds the outline to the context's path; returns the number of drawn segments. */
-  _putVertices(source: VertexReader, openClose?: boolean): number {
+  /**
+   * Adds the outline to the context's path; returns the number of drawn
+   * segments. With `ops` the path calls are also written there (ShapedText.ops).
+   */
+  _putVertices(source: VertexReader, openClose?: boolean, ops?: number[] | null): number {
     let segments = 0;
     if (source.rewindVertices(0)) {
       const vertex = new Vertex();
@@ -736,9 +859,11 @@ export class TLCanvasContext implements RunDrawContext {
         switch (vertex.command) {
           case Vertex.Command.Move:
             this._canvasContext.moveTo(vertex.x, vertex.y);
+            if (ops) ops.push(OP_MOVE, vertex.x, vertex.y);
             break;
           case Vertex.Command.Line:
             this._canvasContext.lineTo(vertex.x, vertex.y);
+            if (ops) ops.push(OP_LINE, vertex.x, vertex.y);
             segments++;
             break;
           case Vertex.Command.Curve: {
@@ -746,6 +871,7 @@ export class TLCanvasContext implements RunDrawContext {
             const endY = vertex.y;
             if (source.readVertex(vertex)) {
               this._canvasContext.quadraticCurveTo(vertex.x, vertex.y, endX, endY);
+              if (ops) ops.push(OP_QUAD, vertex.x, vertex.y, endX, endY);
             }
             segments++;
             break;
@@ -765,6 +891,7 @@ export class TLCanvasContext implements RunDrawContext {
                   endX,
                   endY,
                 );
+                if (ops) ops.push(OP_CUBIC, control1X, control1Y, vertex.x, vertex.y, endX, endY);
               }
             }
             segments++;
@@ -776,6 +903,7 @@ export class TLCanvasContext implements RunDrawContext {
               this._canvasContext,
               !openClose,
             );
+            if (ops) ops.push(openClose ? OP_CLOSE_OPEN : OP_CLOSE);
             break;
           default:
             throw new Error("Unknown Command Type - " + String(vertex.command));
@@ -783,6 +911,115 @@ export class TLCanvasContext implements RunDrawContext {
       }
     }
     return segments;
+  }
+
+  /**
+   * Counts a draw of a text that may be kept (ShapedText); true on the
+   * draw that keeps it.
+   */
+  _countDraw(holder: ShapedTextHolder): boolean {
+    const shaped = holder._shaped;
+    if (shaped instanceof ShapedText) {
+      // Drawn with other inputs: counting starts again.
+      ShapedText.release(holder, shaped);
+      holder._shaped = 1;
+      return false;
+    }
+    const draws = ("number" == typeof shaped ? shaped : 0) + 1;
+    if (draws >= ShapedText.DRAWS_TO_KEEP) return true;
+    holder._shaped = draws;
+    return false;
+  }
+
+  /** The kept path calls of `holder` if they were made from the same inputs, else null. */
+  _findShaped(
+    holder: ShapedTextHolder,
+    text: string,
+    x: number,
+    y: number,
+    font: Font,
+    fontSize: number,
+  ): ShapedText | null {
+    const shaped = holder._shaped;
+    return shaped instanceof ShapedText &&
+      shaped.text === text &&
+      Object.is(shaped.x, x) &&
+      Object.is(shaped.y, y) &&
+      shaped.font === font &&
+      Object.is(shaped.fontSize, fontSize) &&
+      Object.is(shaped.charSpacing, this.charSpacing) &&
+      shaped.ligatures === this.textLigatures &&
+      shaped.stylisticSet === this.textStylisticSet &&
+      shaped.fractions === this.textFractions &&
+      shaped.localizedForm === this.textLocalizedForm &&
+      shaped.langScript === this.langScript &&
+      shaped.variant === this.textVariant &&
+      shaped.variationsSet === HarfBuzzFont.variationsSet
+      ? shaped
+      : null;
+  }
+
+  _newShaped(text: string, x: number, y: number, font: Font, fontSize: number): ShapedText {
+    return new ShapedText(
+      text,
+      x,
+      y,
+      font,
+      fontSize,
+      this.charSpacing,
+      this.textLigatures,
+      this.textStylisticSet,
+      this.textFractions,
+      this.textLocalizedForm,
+      this.langScript,
+      this.textVariant,
+      HarfBuzzFont.variationsSet,
+    );
+  }
+
+  /** Makes the kept path calls again; returns the number of drawn segments. */
+  _putShaped(shaped: ShapedText): number {
+    const context = this._canvasContext;
+    const ops = shaped.ops;
+    const length = ops.length;
+    let i = 0;
+    while (i < length) {
+      switch (ops[i]) {
+        case OP_MOVE:
+          context.moveTo(ops[i + 1] as number, ops[i + 2] as number);
+          i += 3;
+          break;
+        case OP_LINE:
+          context.lineTo(ops[i + 1] as number, ops[i + 2] as number);
+          i += 3;
+          break;
+        case OP_QUAD:
+          context.quadraticCurveTo(
+            ops[i + 1] as number,
+            ops[i + 2] as number,
+            ops[i + 3] as number,
+            ops[i + 4] as number,
+          );
+          i += 5;
+          break;
+        case OP_CUBIC:
+          context.bezierCurveTo(
+            ops[i + 1] as number,
+            ops[i + 2] as number,
+            ops[i + 3] as number,
+            ops[i + 4] as number,
+            ops[i + 5] as number,
+            ops[i + 6] as number,
+          );
+          i += 7;
+          break;
+        default:
+          // The argument _putVertices passes.
+          (context.closePath as (open: boolean) => void).call(context, OP_CLOSE === ops[i]);
+          i += 1;
+      }
+    }
+    return shaped.segments;
   }
 
   /** A closed rectangle outline; right to left runs the other way round. */

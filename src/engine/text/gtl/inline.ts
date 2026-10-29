@@ -1,7 +1,7 @@
 // Old: chunk.vendor.js module 510 (a measured run piece, carota's part.js).
 import type { Run } from "./formatting.ts";
 import { Measurement } from "./measurement.ts";
-import { RunDraw, type RunDrawContext } from "./run-draw.ts";
+import { RunDraw, type RunDrawContext, type ShapedTextHolder } from "./run-draw.ts";
 
 /** What a code's measure returns; list codes leave the ink extents out. */
 export interface CodeMeasurement {
@@ -74,7 +74,7 @@ const DefaultInline: TextCode = {
  * one character knows whether it is a line break (or a soft line break)
  * or a space; spaces add the run's word spacing.
  */
-export class Part {
+export class Part implements ShapedTextHolder {
   /** Stands in for code objects no code understands. */
   static DefaultInline = DefaultInline;
   /** When false, string parts are not measured (every metric undefined). */
@@ -93,6 +93,8 @@ export class Part {
   code: TextCode | null = null;
   lastGlyphWidth: number | undefined = 0;
   lastGlyphAdvance: number | undefined = 0;
+  /** What the drawing context keeps for this part (ShapedText in tl-canvas-context.ts). */
+  _shaped: unknown = null;
 
   constructor(run: Run, codes: CodeResolver) {
     let measured: CodeMeasurement | null;
@@ -136,7 +138,17 @@ export class Part {
 
   draw(context: RunDrawContext, x: number, y: number): void {
     if ("string" == typeof this.run.text) {
-      RunDraw.draw(context, this.run.text, this.run, x, y, this.width, this.ascent, this.descent);
+      RunDraw.draw(
+        context,
+        this.run.text,
+        this.run,
+        x,
+        y,
+        this.width,
+        this.ascent,
+        this.descent,
+        this,
+      );
     } else if (this.code && this.code.draw) {
       context.save();
       this.code.draw(context, x, y, this.width, this.ascent, this.descent, this.run);

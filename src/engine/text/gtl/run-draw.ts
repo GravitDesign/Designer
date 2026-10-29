@@ -34,6 +34,14 @@ interface FeatureQuery {
   hasFeature(feature: string): boolean;
 }
 
+/**
+ * Where drawText may keep what it made for a text (a Part) for the next
+ * draws. Only the drawing context reads or writes it.
+ */
+export interface ShapedTextHolder {
+  _shaped: unknown;
+}
+
 /** The context runs draw into: TLCanvasContext. */
 export interface RunDrawContext {
   fillStyle: unknown;
@@ -52,7 +60,14 @@ export interface RunDrawContext {
   textVariant: string | null | undefined;
   textFractions: boolean;
   getCurrentFont(): FeatureQuery | null;
-  drawText(text: string, x: number, y: number, ascent: number, width: number): void;
+  drawText(
+    text: string,
+    x: number,
+    y: number,
+    ascent: number,
+    width: number,
+    holder?: ShapedTextHolder | null,
+  ): void;
   drawMarker(source: VertexReader, x: number, y: number): void;
   save(): void;
   restore(): void;
@@ -206,7 +221,7 @@ function drawMarker(
 /**
  * Draws a run's text at the baseline. Superscript moves up by a third of
  * the ascent, subscript down by half the descent; a line break draws a
- * non-breaking space.
+ * non-breaking space. `holder` keeps the glyph outlines for later draws.
  */
 function draw(
   context: RunDrawContext,
@@ -217,6 +232,7 @@ function draw(
   width: number,
   ascent: number,
   descent: number,
+  holder?: ShapedTextHolder | null,
 ): void {
   prepareContext(context);
   applyRunStyle(context, run);
@@ -239,7 +255,7 @@ function draw(
   context.langScript = run.langScript;
   context.textVariant = run.variant;
   context.textFractions = true === run.fractions;
-  context.drawText("\n" === text || text === LS ? NBSP : text, x, y, ascent, width);
+  context.drawText("\n" === text || text === LS ? NBSP : text, x, y, ascent, width, holder);
 }
 
 /** The run measuring and drawing helpers under the names the old module exported. */

@@ -377,6 +377,13 @@ export class HarfBuzzBuffer {
 
 /** A HarfBuzz font (hb_font_t) plus the stylistic set to shape with. */
 export class HarfBuzzFont {
+  /**
+   * Counts the setVariations calls of all fonts. Variations stay on the
+   * font for later shaping, so shaped text kept for reuse
+   * (TLCanvasContext.drawText) is only valid while this is unchanged.
+   */
+  static variationsSet = 0;
+
   _font: number;
   _stylisticSet: string | null | undefined = null;
 
@@ -394,6 +401,7 @@ export class HarfBuzzFont {
    * every later shaping call, as before.
    */
   setVariations(variations: Record<string, number>): void {
+    HarfBuzzFont.variationsSet++;
     const tags = Object.keys(variations);
     const values = Object.values(variations);
     // BUG-001: the old code allocated `8 * variations.length`, which is NaN
