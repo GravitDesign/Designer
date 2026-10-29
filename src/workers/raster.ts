@@ -145,6 +145,37 @@ export class Raster {
     let maskOffset = 0;
     let transparent = false;
     const pixels = new Uint32Array(buffer);
+    const components = colorspace.length;
+    // RGB, RGBA and GRAY are bytes of the pixel: write them without the
+    // array fromRGBA makes per pixel. A whole number of pixels must fit,
+    // or the last set would have thrown.
+    const direct =
+      0 === out.length % components &&
+      (colorspace === ColorSpaces.RGB ||
+        colorspace === ColorSpaces.RGBA ||
+        colorspace === ColorSpaces.GRAY);
+    if (direct) {
+      const gray = colorspace === ColorSpaces.GRAY;
+      for (let i = 0, length = pixels.length; i < length; i++) {
+        const pixel = pixels[i] as number;
+        const alpha = (pixel >> 24) & 255;
+        if (outOffset >= out.length) break;
+        if (gray) {
+          out[outOffset] = alpha;
+        } else {
+          out[outOffset] = 255 & pixel;
+          out[outOffset + 1] = (pixel >> 8) & 255;
+          out[outOffset + 2] = (pixel >> 16) & 255;
+          if (4 === components) out[outOffset + 3] = alpha;
+        }
+        outOffset += components;
+        if (mask) {
+          mask[maskOffset++] = alpha;
+          if (alpha < 255) transparent = true;
+        }
+      }
+      return transparent;
+    }
     for (let i = 0, length = pixels.length; i < length; i++) {
       const pixel = pixels[i] as number;
       const red = 255 & pixel;

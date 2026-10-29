@@ -32,6 +32,16 @@ export class ByteBuffer {
     this._bytePosition += values.length;
   }
 
+  /** The char codes of a string that has only ASCII characters. */
+  writeAscii(text: string): void {
+    const length = text.length;
+    this._ensureCapacity(this._bytePosition + length);
+    const buffer = this._buffer;
+    const position = this._bytePosition;
+    for (let i = 0; i < length; i++) buffer[position + i] = text.charCodeAt(i);
+    this._bytePosition += length;
+  }
+
   /** The bytes written so far (a copy). */
   getBuffer(): Uint8ClampedArray {
     return this._buffer.slice(0, this._bytePosition);

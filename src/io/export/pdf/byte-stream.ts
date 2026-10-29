@@ -24,7 +24,19 @@ export class PDFByteStream extends PDFOutput {
   }
 
   override _write(value: PDFToken): void {
-    const latin = encodeURIComponent(value.toString()).replace(/%([0-9A-F]{2})/g, (_match, hex) =>
+    const text = value.toString();
+    // ASCII is its own UTF-8, and almost every token is ASCII.
+    for (let i = 0; i < text.length; i++) {
+      if (text.charCodeAt(i) > 127) {
+        this._writeEncoded(text);
+        return;
+      }
+    }
+    this._byteBuffer.writeAscii(text);
+  }
+
+  _writeEncoded(text: string): void {
+    const latin = encodeURIComponent(text).replace(/%([0-9A-F]{2})/g, (_match, hex) =>
       String.fromCharCode(parseInt(hex as string, 16)),
     );
     const bytes = new Uint8Array(latin.length);

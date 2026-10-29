@@ -268,6 +268,34 @@ describe("PDFExport.export error and abort paths", () => {
 });
 
 describe("PDFExportProxy", () => {
+  it("copies the node's own enumerable properties, as the old extend did", () => {
+    const rectangle = new Rectangle() as unknown as Record<string, unknown>;
+    rectangle.$custom = { shared: true };
+    Object.defineProperty(rectangle, "hidden", { value: 1, enumerable: false });
+    const inherited: string[] = [];
+    for (const key in rectangle) if (!Object.hasOwn(rectangle, key)) inherited.push(key);
+    expect(inherited.length).toBeGreaterThan(0);
+    const processor = { isVectorable: () => true };
+    const proxy = new PDFExportProxy(null as never, null as never, {}, processor as never).proxy(
+      rectangle,
+    );
+    expect(Object.getPrototypeOf(proxy)).toBe(Object.getPrototypeOf(rectangle));
+    for (const key of Object.keys(rectangle)) {
+      expect(Object.hasOwn(proxy, key)).toBe(true);
+      // The proxy sets these itself; its paint hooks are functions.
+      if (["_paintSharp", "_needToRaster"].includes(key) || "function" == typeof proxy[key]) {
+        continue;
+      }
+      expect(proxy[key]).toBe(rectangle[key]);
+    }
+    // Prototype defaults stay on the prototype, non-enumerable properties
+    // aren't copied, and writes on the proxy don't reach the node.
+    for (const key of inherited) expect(Object.hasOwn(proxy, key)).toBe(false);
+    expect(Object.hasOwn(proxy, "hidden")).toBe(false);
+    proxy.$custom = null;
+    expect(rectangle.$custom).toEqual({ shared: true });
+  });
+
   it("throws on an anchor without edge lists, like the old proxy", () => {
     const proxy = new PDFExportProxy(null as never, null as never, {}, null as never).proxy(
       new Anchor(),

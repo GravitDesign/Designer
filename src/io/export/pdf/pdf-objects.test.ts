@@ -76,3 +76,24 @@ describe("PDFPath.quadraticCurveTo", () => {
     expect([bezier.getPoint1().getX(), bezier.getPoint1().getY()]).toEqual([30 + (2 / 3) * 30, 30]);
   });
 });
+
+describe("PDFByteStream.write", () => {
+  it("writes tokens as UTF-8, ASCII or not, and grows its buffer", () => {
+    const output = new PDFByteStream(4);
+    output.write("/Name 12.5 ");
+    output.write("(Grüße €)");
+    output.write(true);
+    output.write(-0.25);
+    expect(Array.from(output.asArray())).toEqual(
+      Array.from(Buffer.from("/Name 12.5 (Grüße €)true-0.25", "utf8")),
+    );
+    expect(output.getPosition()).toBe(Buffer.byteLength("/Name 12.5 (Grüße €)true-0.25"));
+  });
+
+  it("throws on a lone surrogate, as the old encodeURIComponent did", () => {
+    const output = new PDFByteStream();
+    output.write("ok");
+    expect(() => output.write("(\uD800)")).toThrow(URIError);
+    expect(output.getPosition()).toBe(2);
+  });
+});

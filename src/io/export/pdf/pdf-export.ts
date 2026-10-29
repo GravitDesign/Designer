@@ -2,7 +2,6 @@
 import { Locale } from "../../../engine/core/locale/locale.ts";
 import { LocaleKey } from "../../../engine/core/locale/locale-key.ts";
 import { Platform } from "../../../engine/core/platform.ts";
-import { extend } from "../../../engine/core/util.ts";
 import { Length } from "../../../engine/math/length.ts";
 import { Point } from "../../../engine/math/point.ts";
 import { Rect } from "../../../engine/math/rect.ts";
@@ -127,12 +126,13 @@ export class PDFExportProxy {
   _instanceof(node: unknown, type: unknown): boolean {
     const candidate = node as { hasMixin?(mixin: unknown): boolean };
     // Mixins are factories here; in the old code instanceof a mixin was
-    // simply false, so only hasMixin counts for them.
+    // simply false, so only hasMixin counts for them. instanceof first:
+    // it's the cheaper check and true for most classes asked about.
     return (
-      !!(candidate.hasMixin && candidate.hasMixin(type)) ||
       ("function" == typeof type &&
         "object" == typeof type.prototype &&
-        node instanceof (type as new (...args: never[]) => unknown))
+        node instanceof (type as new (...args: never[]) => unknown)) ||
+      !!(candidate.hasMixin && candidate.hasMixin(type))
     );
   }
 
@@ -142,7 +142,14 @@ export class PDFExportProxy {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     const proxy = Object.create(Object.getPrototypeOf(node) as object) as ProxyNode;
-    extend(proxy, node);
+    // The own enumerable properties, as the old extend copied them. A
+    // for-in loop would also walk the defaults on the prototypes.
+    const source = node as Record<string, unknown>;
+    const keys = Object.keys(source);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i] as string;
+      proxy[key] = source[key];
+    }
     proxy.__source__ = node as unknown as Node;
     if (this._instanceof(proxy, Node)) {
       const vectorable = this._compatibilityProcessor.isVectorable(node as unknown as Node);
