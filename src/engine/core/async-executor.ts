@@ -5,12 +5,37 @@
  * time and yields to the next animation frame (a microtask outside the
  * browser) once `executionTime` ms have passed. `execute` called from
  * inside a callback pushes a nested list that finishes first.
+ *
+ * The old executor also waited for the next frame after every finished
+ * list, so a tree of 2,000 groups took 2,000 frames whatever the work.
+ * A finished list now yields only to a task (a message to itself), which
+ * still runs the promise callbacks queued so far before the next object,
+ * as the frame did, and keeps the time slice going.
  */
 interface Job<T> {
   idx: number;
   objects: readonly T[];
   callback: (object: T) => void;
   done: (() => void) | undefined;
+}
+
+// One channel for every executor; each message runs the oldest waiting
+// continuation.
+const waiting: (() => void)[] = [];
+let channel: MessageChannel | null = null;
+
+function postTask(task: () => void): void {
+  if (!channel) {
+    channel = new MessageChannel();
+    channel.port1.onmessage = () => {
+      const next = waiting.shift();
+      if (next) next();
+    };
+    // Node's ports keep the process alive; browsers have no unref.
+    (channel.port1 as { unref?: () => void }).unref?.();
+  }
+  waiting.push(task);
+  channel.port2.postMessage(null);
 }
 
 export class AsyncExecutor {
@@ -51,6 +76,14 @@ export class AsyncExecutor {
     else void Promise.resolve(undefined).then(() => this._next());
   }
 
+  /** After a finished list: a task while the slice has time left, else the next frame. */
+  private _scheduleAfterJob(): void {
+    if (typeof window === "undefined" || typeof MessageChannel === "undefined")
+      this._scheduleNext();
+    else if (Date.now() > this._endTime) this._scheduleNext();
+    else postTask(() => this._continue());
+  }
+
   private _next(): void {
     this._steps = 0;
     this._endTime = Date.now() + this._executionTime;
@@ -70,7 +103,7 @@ export class AsyncExecutor {
       if (job.idx >= job.objects.length) {
         const finished = this._stack.pop();
         if (finished && finished.done) finished.done();
-        this._scheduleNext();
+        this._scheduleAfterJob();
         return;
       }
       try {

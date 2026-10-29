@@ -1,7 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { AsyncExecutor } from "./async-executor.ts";
 
-afterEach(() => vi.restoreAllMocks());
+afterEach(() => {
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+});
 
 function flush(): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, 0));
@@ -47,6 +50,59 @@ describe("AsyncExecutor", () => {
     expect(seen).toEqual([1, 2, 3]);
     await flush();
     expect(seen.length).toBeGreaterThan(3);
+  });
+
+  it("goes on after a finished list without waiting for a frame while the slice lasts", async () => {
+    vi.spyOn(Date, "now").mockReturnValue(1000);
+    const frame = vi.fn((callback: () => void) => setTimeout(callback, 0));
+    vi.stubGlobal("window", { requestAnimationFrame: frame });
+    const log: string[] = [];
+    let finish!: () => void;
+    const finished = new Promise<void>((resolve) => (finish = resolve));
+    const executor = new AsyncExecutor(10, 15, () => {
+      log.push("done");
+      finish();
+    });
+    executor.execute(["a", "b", "c"], (group) => {
+      executor.execute([1, 2], (n) => {
+        log.push(group + n);
+        void Promise.resolve().then(() => log.push("then " + group + n));
+      });
+    });
+    await finished;
+    expect(frame).not.toHaveBeenCalled();
+    // Promise callbacks queued in a list still run before the next object,
+    // as they did when every finished list waited for a frame.
+    expect(log).toEqual([
+      "a1",
+      "a2",
+      "then a1",
+      "then a2",
+      "b1",
+      "b2",
+      "then b1",
+      "then b2",
+      "c1",
+      "c2",
+      "then c1",
+      "then c2",
+      "done",
+    ]);
+  });
+
+  it("waits for a frame after a finished list once the slice is used up", async () => {
+    let now = 1000;
+    vi.spyOn(Date, "now").mockImplementation(() => now);
+    const frame = vi.fn((callback: () => void) => setTimeout(callback, 0));
+    vi.stubGlobal("window", { requestAnimationFrame: frame });
+    let finish!: () => void;
+    const finished = new Promise<void>((resolve) => (finish = resolve));
+    const executor = new AsyncExecutor(100, 15, finish);
+    executor.execute([1], () => {
+      now += 20;
+    });
+    expect(frame).toHaveBeenCalledTimes(1);
+    await finished;
   });
 
   it("logs callback errors and keeps going, and stops on abort", async () => {
