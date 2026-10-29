@@ -18,6 +18,7 @@ import { Stylable } from "../style/stylable.ts";
 import { TransactionRecorder } from "../undo/transaction-recorder.ts";
 import { FontManager, type ResolveFontEvent } from "./fonts/font-manager.ts";
 import { OpenTypeFont } from "./fonts/open-type-font.ts";
+import { Formatting } from "./gtl/formatting.ts";
 import { TEXT_PROBE_FONTS, probeText } from "./text-probe.ts";
 import { Text } from "./text.ts";
 
@@ -287,6 +288,26 @@ describe("GText against the old engine", () => {
 });
 
 describe("GText", () => {
+  // The caret's formatting is that of the character before it; when that
+  // character is a whole run (here the space), the next-insert values are
+  // written into the run the document holds, as the old code did. The
+  // whole text's formatting and runs then include it.
+  it("reads the whole text again after a selection read changed a run in place", () => {
+    const text = new Text();
+    text._setWorkspace(workspace(fontManager));
+    text.setText("ab cd");
+    const core = text.getTLCore() as NonNullable<ReturnType<Text["getTLCore"]>>;
+    expect(core.getDocumentRange().getFormatting().underline).not.toBe(Formatting.multipleValues);
+    expect(core.getRichContent().some((run) => true === run.underline)).toBe(false);
+    core.select(3, 3);
+    core.getDocumentRange().doc.modifyInsertFormatting("underline", true);
+    expect(text.getProperty("_tdu", false, undefined, false, true)).toBe(true);
+    expect(core.getDocumentRange().getFormatting().underline).toBe(Formatting.multipleValues);
+    const runs = core.getRichContent();
+    expect(runs.map((run) => run.text).join("")).toBe("ab cd");
+    expect(runs.find((run) => " " === run.text)?.underline).toBe(true);
+  });
+
   it("widens the border's pattern box only for borders that aren't inside (BUG-022)", () => {
     const text = new Text();
     text._setWorkspace(workspace(fontManager));

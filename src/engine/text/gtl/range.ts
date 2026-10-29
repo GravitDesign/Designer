@@ -13,6 +13,16 @@ function codeName(run: Run | null | undefined): string | undefined {
 const concatAll = (all: Run[], runs: Run[]): Run[] => all.concat(runs);
 
 /**
+ * A copy of a run or formatting the document keeps: the same keys in the
+ * same order (a plain loop; spreading objects this wide is much slower).
+ */
+function copyRun(run: Run): Run {
+  const copy: Run = {};
+  for (const key in run) copy[key] = run[key];
+  return copy;
+}
+
+/**
  * A range of the document from `start` to `end` (swapped when given the
  * other way round): its runs, plain text and formatting, and the list
  * editing the text inspector offers.
@@ -177,6 +187,8 @@ export class TLRange {
           });
           items = items.map((run) => Object.create(run, { listDepth: { value: depth } }) as Run);
           Reflect.set(formatting, "listDepth", depth);
+          // A block of one run gives the run the document holds.
+          doc.clearRangeCache();
         }
         items.unshift(
           Formatting.format({ text: { $: TLCode.List.Item } }, formatting, true) as Run,
@@ -229,9 +241,19 @@ export class TLRange {
     return Per.create<Run>(this.runs, this).map(Formatting.getPlainText).all().join("");
   }
 
-  /** The runs of the range, joined where the formatting is the same. */
+  /**
+   * The runs of the range, joined where the formatting is the same. They
+   * are fresh plain objects the caller may change: the document keeps the
+   * runs of a range until its next change and hands out copies.
+   */
   save(): Run[] {
-    return Per.create<Run>(this.runs, this).per<Run>(Formatting.consolidate()).all();
+    const key = this.start + "," + this.end;
+    let saved = this.doc._savedRanges.get(key);
+    if (!saved) {
+      saved = Per.create<Run>(this.runs, this).per<Run>(Formatting.consolidate()).all();
+      this.doc._savedRanges.set(key, saved);
+    }
+    return saved.map(copyRun);
   }
 
   /** Whether every word the range starts in is the eof word. */
@@ -256,6 +278,11 @@ export class TLRange {
    * empty range is first widened to the character before it (and changed
    * in place). Falls back to the formatting of the emptied document, then
    * to the defaults.
+   *
+   * One run is returned as the document holds it, so writing into it
+   * changes the text (the old code did that too; such writers call
+   * clearRangeCache). A merge of several runs is a fresh object; the
+   * document keeps it until its next change and hands out copies.
    */
   getFormatting(): Run {
     if (this.start === this.end) {
@@ -264,13 +291,19 @@ export class TLRange {
       this.start = position;
       this.end = position + 1;
     }
-    return (
-      Per.create<Run>(this.runs, this)
-        .reduce<Run>((a, b) => Formatting.merge(a, b))
-        .last() ||
-      this.doc.emptyFormatting ||
-      Formatting.clone(Formatting.defaultFormatting)
-    );
+    const key = this.start + "," + this.end;
+    const known = this.doc._rangeFormatting.get(key);
+    if (known) return copyRun(known);
+    let count = 0;
+    let merged = undefined as Run | undefined;
+    this.runs((run) => {
+      merged = 0 === count++ ? run : Formatting.merge(merged as Run, run);
+    });
+    if (count > 1) {
+      this.doc._rangeFormatting.set(key, merged as Run);
+      return copyRun(merged as Run);
+    }
+    return merged || this.doc.emptyFormatting || Formatting.clone(Formatting.defaultFormatting);
   }
 
   isList(): boolean {
@@ -300,6 +333,8 @@ export class TLRange {
         }
         return undefined;
       });
+      // A block of one run gives the run the document holds.
+      this.doc.clearRangeCache();
     }
     return Formatting.format([{ text: { $: TLCode.List.Item } }], formatting, true) as Run[];
   }

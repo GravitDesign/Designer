@@ -1616,6 +1616,9 @@ export class Text extends TextBase {
         formatting = range.getFormatting();
         for (const key in range.doc.nextInsertFormatting) {
           formatting[key] = range.doc.nextInsertFormatting[key];
+          // The formatting of one character can be the run the document
+          // holds, which this changes (as the old code did).
+          range.doc.clearRangeCache();
         }
       } else formatting = range.getFormatting();
       const key = PropertyMapping[name] as string;

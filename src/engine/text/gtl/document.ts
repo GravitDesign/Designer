@@ -75,6 +75,16 @@ export class TLDocument extends TLNode implements EditFilterTarget {
   _lastSpacingPadding: number | null | undefined = null;
   /** Only present while splices run the edit filters (checked with `in`). */
   declare _filtersRunning?: number;
+  /**
+   * TLRange.save and TLRange.getFormatting results by range ("start,end"),
+   * for reads with no change in between: typing reads the runs of the
+   * whole text several times per keystroke (the inspector, the editor's
+   * content handler, the colour list, the outline). Cleared by every change
+   * to the words, by layout and by the writers that change a run the
+   * words hold in place (clearRangeCache).
+   */
+  _savedRanges = new Map<string, Run[]>();
+  _rangeFormatting = new Map<string, Run>();
 
   constructor() {
     super();
@@ -106,6 +116,7 @@ export class TLDocument extends TLNode implements EditFilterTarget {
     const selectionEnd = this.selection.end;
     return (log) => {
       this._wordOrdinals = [];
+      this.clearRangeCache();
       const removed = this.words.splice(start, count, ...words);
       log(this.makeEditCommand(start, words.length, removed));
       this._nextSelection = { start: selectionStart, end: selectionEnd };
@@ -136,6 +147,7 @@ export class TLDocument extends TLNode implements EditFilterTarget {
     this.undo = [];
     this.redo = [];
     this._wordOrdinals = [];
+    this.clearRangeCache();
     const characters = new Characters(runs);
     const splitter = new WordSplitter(this.codes);
     try {
@@ -159,6 +171,7 @@ export class TLDocument extends TLNode implements EditFilterTarget {
    */
   layout(): void {
     this.frame = null;
+    this.clearRangeCache();
     try {
       const frame = new Frame(
         0,
@@ -188,6 +201,12 @@ export class TLDocument extends TLNode implements EditFilterTarget {
       console.error("A bug somewhere has produced an invalid state - rolling back");
       this.performUndo();
     }
+  }
+
+  /** Drops the saved runs and formatting of ranges; see _savedRanges. */
+  clearRangeCache(): void {
+    this._savedRanges.clear();
+    this._rangeFormatting.clear();
   }
 
   range(start: number, end: number): TLRange {
