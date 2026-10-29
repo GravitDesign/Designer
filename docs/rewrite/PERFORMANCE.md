@@ -14,7 +14,38 @@ node scripts/bench/run.ts --ref HEAD               # build the committed sources
 node scripts/bench/run.ts --no-build               # reuse the last build
 node scripts/bench/run.ts --profile                # also one CPU-profiled run per case
 node scripts/bench/run.ts --gpu                    # Chromium's own GPU settings instead of the parity flags
+node scripts/bench/run.ts --group doc20k,fx-pages  # the cases of these groups
+node scripts/bench/run.ts --list                   # the cases, their groups and run limits; runs nothing
 ```
+
+The groups are `base` (the original cases), `doc20k`, `doc50k`,
+`fx-pages` and `import-export`. `--filter` and `--group` combine.
+
+### On GitHub Actions
+
+The full suite takes over an hour and loads every core, so it can run on
+a GitHub runner instead: the Benchmark workflow
+(`.github/workflows/bench.yml`), started by hand.
+
+```sh
+gh workflow run bench.yml --ref main                                  # every case, 5 runs
+gh workflow run bench.yml --ref main -f filter=doc20k-flat -f runs=1
+gh workflow run bench.yml --ref main -f refs="0e937670 44eaa5c5"      # before and after
+gh workflow run bench.yml --ref main -f split=true                    # one job per group
+gh workflow run bench.yml --ref main -f profile=true -f filter=fx-zoom
+gh run download <run id>                                              # the results
+```
+
+Inputs: `filter` and `runs` as on the command line, `refs` (git refs,
+built and measured one after the other in the same job, so before and
+after come from the same runner; empty means the checked-out commit),
+`profile`, and `split`. With `split` each group gets a job of its own
+that still measures every ref, so a before/after comparison stays on one
+runner while the groups run in parallel. The runner is ubuntu-latest:
+the benchmark measures time, not pixels, and nothing in it needs
+Windows. Its numbers are not comparable with the ones from the machine
+below. Each job uploads `scripts/bench/results/` (the JSON, and the
+profiles with `profile`) as the artifact `bench-results-<group>`.
 
 What it does:
 
@@ -30,7 +61,9 @@ What it does:
   is driven through `window.__parity` hooks and real mouse and keyboard
   input.
 - Runs each case once to warm up, then `--runs` times, and reports the
-  median. The table goes to stdout; everything (all runs, CDP metrics,
+  median. Slow cases have a run limit of their own (3 for the 50,000
+  object documents and the large imports), which `--runs` can lower but
+  not raise. The table goes to stdout; everything (all runs, CDP metrics,
   the cold-start request list, bundle composition) goes to
   `scripts/bench/results/<time>.json` and `latest.json`. That folder is
   ignored by git.
@@ -41,10 +74,13 @@ What it does:
   component renders through a minimal DevTools hook.
 
 The code is in `scripts/bench/`: `run.ts` (entry, table, JSON), `cases.ts`
-(the cases), `in-page.ts` (frame recorder, long-task observer, idle wait,
-render counter), `synthetic.ts` (generated inputs), `profile.ts` (CPU
-profiles), `bundle.ts` (sizes and composition), `lib.ts` (build, server,
-browser, statistics). It is a plain script, so neither the Playwright
+(the original cases), `cases-docs.ts` (large documents, many pages, the
+effects page and their exports), `cases-import.ts` (large imports),
+`drive.ts` (sessions, File > Open, measuring helpers), `in-page.ts`
+(frame recorder, long-task observer, idle wait, render counter),
+`synthetic.ts`, `synthetic-docs.ts` and `synthetic-files.ts` (generated
+inputs), `profile.ts` (CPU profiles), `bundle.ts` (sizes and
+composition), `lib.ts` (build, server, browser, statistics). It is a plain script, so neither the Playwright
 projects nor vitest pick it up.
 
 ### The cases
@@ -68,11 +104,112 @@ projects nor vitest pick it up.
 | import-eps-gradient | File > Open of `parity/fixtures/import/eps/gradient.eps` (small; worker start dominates) |
 | bundle | build size by file, gzip, and what the entry chunk is made of |
 
+Large documents (groups `doc20k` and `doc50k`). `<doc>` is one of
+doc20k-flat, doc50k-flat, doc20k-nested, doc20k-symbols and
+doc50k-nested; which operations each document gets is in the second
+table.
+
+| case | what it measures |
+| --- | --- |
+| \<doc\>-open | File > Open of the saved document until painted |
+| \<doc\>-zoom-api | `view.zoomAt` at the centre by 1.1 per frame, 10 in and 10 out |
+| \<doc\>-pan-api | `view.scrollBy(15, 8)` once per frame for 60 frames |
+| \<doc\>-pan-wheel | 60 wheel scrolls over the canvas, one per 16 ms |
+| \<doc\>-select-all | Edit > Select All until painted (`ms`; `actionMs` is the action alone) |
+| \<doc\>-nudge | select the topmost objects holding 200 shapes, then 2 arrow-key nudges; `nudgeMedian` is keydown until painted |
+| \<doc\>-drag | the same selection dragged by one of its shapes with the pointer tool, 10 moves; `moveMedian` as in drag-group, `upToPaintedMs` from release until painted |
+| \<doc\>-undo | the same selection nudged once, then Edit > Undo until painted |
+| \<doc\>-redo | the same selection nudged once and undone, then Edit > Redo until painted |
+| \<doc\>-layers-scroll | the layers list scrolled from top to bottom with 60 wheel events, one per 16 ms; frame times |
+
+The move cases (nudge, drag, undo, redo) move 200 shapes, not
+everything: 200 shapes or instances, or in the nested documents the
+topmost group of 1,000. Every moved object makes the page re-measure all
+its children (see the findings), so one nudge of all 20,000 shapes takes
+longer than the case's time limit of 40 minutes. They run without a
+warm-up, 3 times on the 20,000-object documents and once on 50,000.
+
+| document | objects | operations |
+| --- | --- | --- |
+| doc20k-flat | 20,000 shapes on the page | all |
+| doc50k-flat | 50,000 shapes on the page | all, 3 runs (moves 1) |
+| doc20k-nested | 20,000 shapes in 20 groups of 10 groups of 10 groups of 10 | all but layers-scroll (the list shows 20 collapsed groups) |
+| doc20k-symbols | 5 masters of 2 shapes, 1,999 instances (every tenth object), 17,996 shapes | all |
+| doc50k-nested | 50,000 shapes, 50 groups of 10 x 10 x 10 | open, select-all; 3 runs |
+
+The symbol documents are not all instances, and there is no 50,000
+version: putting an instance into a scene walks the whole scene
+(`Scene.link` → `_refreshLinks` → `nodesBySceneId`, see the findings),
+so building a document of 2,000 instances took 35 s on the runner and
+20,000 would take hours; opening one costs about 17 ms per instance, so
+20,000 instances would take some 6 minutes per open.
+
+Many pages, effects and exports (groups `fx-pages` and `import-export`):
+
+| case | what it measures |
+| --- | --- |
+| pages-open | File > Open of 60 pages of 1200 x 900 with 250 shapes each (15,000 shapes) until painted |
+| pages-multipage | the same document: switch to multi-page view (the action behind F6) until painted |
+| pages-zoom-api, pages-pan-api | the same in multi-page view: zoom by 1.1 per frame, 10 in and 10 out; scrollBy for 60 frames |
+| fx-zoom-api, fx-pan-api | the effects page: as zoom-api and pan-api on the heavy document |
+| fx-zoom-min | the effects page: from fitted, zoom to 6% at once; ms until painted. 6% is the editor's minimum zoom, so 1% can't be reached |
+| fx-zoom-max | the effects page: from fitted, zoom to 6,400% on one object at once; ms until painted |
+| fx-zoom-step-min, fx-zoom-step-max | the same in steps of 0.8 and 1.25 per frame; frame times, and `ms` until painted |
+| export-doc20k-flat-svg/pdf/png | the 20,000-shape page (10,328 x 7,746) through `Exporter.exportExportable`; 3 runs |
+| export-fx-svg/pdf/png | the effects page through `Exporter.exportExportable` |
+
+Large imports (group `import-export`, 3 runs each): File > Open until
+painted, with the number of nodes. A bitmap's document ends in the
+Loaded status, not Ready (it gets its scene, and with it Ready, before
+the importer reports Loaded), so the open counts as done at Loaded with
+a scene.
+
+| case | file |
+| --- | --- |
+| import-svg-20000 | SVG, 20,000 elements: paths, rects, circles, ellipses, texts (3 in 10), embedded PNG images (1 in 40), linear and radial gradients; 3.7 MB |
+| import-pdf-20pages | PDF, 20 pages, each with 600 curves, 150 text runs (Helvetica, Times), 4 images and 4 axial and radial shadings; 0.8 MB |
+| import-eps-4000 | EPS, 4,000 objects: curves, texts (1 in 10), 16 x 16 images (their data as a procedure; the interpreter has no ASCIIHexDecode, and an unknown filter ends the import) and shadings (1 in 100 each) |
+| import-sketch-4000 | Sketch 49, 4 artboards of 50 groups of 20 layers: shapes with colour and gradient fills, borders and shadows, texts (1 in 6), bitmaps (1 in 20); 7.3 MB. File > Open refuses .sketch (as the old app did), so this case runs the Sketch importer through the parity hook `app.sketchImport` until it calls back (`ms`; nothing is inserted or painted) |
+| import-png-6000x4000, import-jpeg-6000x4000 | a 6000 x 4000 bitmap drawn in the browser and encoded by `canvas.toBlob` |
+
+Not covered: .ai, which File > Open refuses like .sketch (an .ai saved
+as PDF would go through the PDF importer anyway); PostScript (.ps), which
+can't be opened, only .eps; and HEIC, since making a HEIC file needs an
+encoder the repo doesn't have.
+
 The heavy document is built in the page: 3,000 rectangles, ellipses, stars
 and paths with fills, every tenth with a drop shadow, on a 4000 x 3000
 page. The corpus has no large files (the biggest is 79 KB) and the import
 fixtures are all under 30 KB, so the heavy SVG and EPS are generated too.
 All generated content is seeded and the same on every run.
+
+The large documents have the heavy document's density (a 20,000-shape
+page is 10,328 x 7,746, a 50,000-shape page 16,330 x 12,247):
+rectangles, ellipses, stars and paths with random fills, a border on
+every third and a drop shadow on every fiftieth. In the nested documents
+each group's shapes lie together in one tile of its parent's area. The
+symbol document has five masters of two shapes (an ellipse and a star)
+along the top, and every tenth object is a copy of one of them. The pages document has 60 pages; every
+25th shape has a shadow. The effects page is a 24 x 18 grid of objects
+that cycle through eight styles: linear, radial and angular gradients,
+image textures (four generated 64 x 64 PNGs), up to three fills and two
+borders per shape with layer opacity and blend modes, element blend
+modes (multiply, screen) and opacity, drop and inner shadows, canvas
+blur, WebGL blur on one object in sixteen, and clipping masks.
+
+The documents are built in the page through `window.__parity` and the
+`G` namespace (`scripts/bench/synthetic-docs.ts`), each on a page that
+is filled before it joins the scene, then saved with File > Save As
+(`corpus.saveDocumentBytes`, the app's own save). The cases open the
+saved file through File > Open, so they measure what a user's open
+costs, not the build. The effects page is inserted straight into a new
+document from serialized nodes. The import files are written in Node
+(`synthetic-files.ts`: SVG and EPS as text, PDF with a minimal writer,
+Sketch as a store-only zip with archived strings in binary property
+lists). Everything generated is kept in `gd-bench/inputs` under the
+system temp folder; the file names carry a hash of the generator, so a
+changed generator makes new files. The first run on a machine builds
+them, which takes a few minutes and is not measured.
 
 ## Machine
 
@@ -338,11 +475,17 @@ thread; fix finding 1 first), shadow rasterising in PDF export, and SVG
 parsing. Each needs the result to be passed back as data the main thread
 can turn into the same nodes.
 
-A note on the benchmark itself: the idle wait polls the parity hook
-`corpus.assetsReady`, which walks the scene every frame. On the heavy
-document it shows up in the profiles as `src/parity/app/corpus.ts:54`
+A note on the benchmark itself: the idle wait polled the parity hook
+`corpus.assetsReady`, which walks the scene, on every frame. On the heavy
+document it showed up in the profiles as `src/parity/app/corpus.ts:54`
 (about 30 ms per case), only while waiting for the view to settle, not
-inside the measured frames.
+inside the measured frames. On 50,000 objects one walk takes longer than
+a frame, so the idle wait now asks it once, when the view and the fonts
+have been quiet for three frames (and again three frames later while an
+image is still loading). Images and textures only turn ready while the
+wait runs, never back, so the result is the same; the "painted" times of
+the original cases lose two walks of the scene, around a millisecond on
+the 3,000-shape document.
 
 ## After the speed-ups
 
