@@ -87,6 +87,13 @@ export class SketchFile extends EventTarget {
    * importer waited a frame after every list, so the images had always
    * loaded by then; it now goes on without frames, and waits for the
    * bitmaps (_whenBitmapsSettled) before it calls back.
+   *
+   * It also waits before it appends the pages, until every bitmap has its
+   * image data (outside a scene an image with a url goes Delayed): a layer
+   * appended with its url gets a dictionary url, sharing the entry of an
+   * equal image, as in the old app, where the data had always arrived by
+   * then. A url set after the append stays a plain url when another image
+   * already has an entry with it (Image._updateUrl).
    */
   bitmapLoading(image: object): void {
     this._loadingBitmaps.add(image);
@@ -357,7 +364,9 @@ export class SketchFile extends EventTarget {
           }
           this._postProcess(result);
         };
-        executor.execute(this._pages as SketchLayerData[], parsePage, appendPages);
+        executor.execute(this._pages as SketchLayerData[], parsePage, () =>
+          this._whenBitmapsSettled(appendPages),
+        );
       } catch (error) {
         capability.reject(error);
       }

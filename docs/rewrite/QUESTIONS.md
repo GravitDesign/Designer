@@ -4781,6 +4781,13 @@ for the bitmaps that are loading before it calls back: until each one
 has loaded, failed, or waits for a scene (an image outside a scene
 can't load), or 5 seconds have passed.
 
+It waits the same way before it adds the pages to its scene, until
+every bitmap has its image data. A layer added with its data url gets a
+dictionary url, shared with an equal image, as in the old app, where the
+data had arrived by then. A url that arrives after the layer was added
+stays a plain data url when an equal image already has an entry, so the
+saved file would differ.
+
 Why it's unclear: the old app had no such wait and no limit; with a
 large file whose images were still loading at the end (more data than
 the frames gave time for), it called back with those bitmaps
