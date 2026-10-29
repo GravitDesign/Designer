@@ -1,0 +1,87 @@
+name: Benchmark
+
+# The performance benchmark (scripts/bench, docs/rewrite/PERFORMANCE.md)
+# on a GitHub runner, so it doesn't load a developer's machine. Every ref
+# is measured one after the other in the same job, on the same runner, so
+# before and after numbers can be compared.
+#
+# Runs on Linux: the benchmark measures time, not pixels, and nothing in
+# it is Windows-only (the parity suite runs on Windows because its
+# expected renders were recorded there).
+
+on:
+  workflow_dispatch:
+    inputs:
+      filter:
+        description: Cases whose id contains one of these comma-separated strings (empty = all)
+        required: false
+        default: ""
+      runs:
+        description: Measured runs per case (cases with a lower limit of their own use that)
+        required: false
+        default: "5"
+      refs:
+        description: >-
+          Space-separated git refs to build and measure one after the other
+          (e.g. "0e937670 HEAD"); empty = the checked-out commit
+        required: false
+        default: ""
+      profile:
+        description: Also record one CPU-profiled run per case
+        type: boolean
+        default: false
+      split:
+        description: >-
+          One job per case group (base, doc20k, doc50k, fx-pages,
+          import-export) instead of one job for everything; each job still
+          measures every ref
+        type: boolean
+        default: false
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        group: ${{ fromJSON(inputs.split && '["base","doc20k","doc50k","fx-pages","import-export"]' || '["all"]') }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # --ref builds other commits with git archive.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Benchmark
+        env:
+          FILTER: ${{ inputs.filter }}
+          RUNS: ${{ inputs.runs }}
+          REFS: ${{ inputs.refs }}
+          PROFILE: ${{ inputs.profile }}
+          GROUP: ${{ matrix.group }}
+        run: |
+          args=(--runs "$RUNS")
+          if [ -n "$FILTER" ]; then args+=(--filter "$FILTER"); fi
+          if [ "$GROUP" != "all" ]; then args+=(--group "$GROUP"); fi
+          if [ "$PROFILE" = "true" ]; then args+=(--profile); fi
+          if [ -z "$REFS" ]; then
+            node scripts/bench/run.ts "${args[@]}"
+          else
+            for ref in $REFS; do
+              echo "::group::$ref"
+              node scripts/bench/run.ts --ref "$ref" "${args[@]}"
+              echo "::endgroup::"
+            done
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bench-results-${{ matrix.group }}
+          path: scripts/bench/results/
+          if-no-files-found: warn
