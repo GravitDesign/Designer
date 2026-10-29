@@ -51,6 +51,38 @@ export interface TLBox {
 type Canvas = HTMLCanvasElement;
 
 /**
+ * A core canvas that serves as the fill canvas. The old code painted into
+ * the core's canvas and copied the result into a separate fill canvas.
+ * Until something else draws into the core's canvas that copy equals the
+ * canvas, so a fill render keeps the canvas as the fill canvas, and the copy
+ * is made only when the canvas is about to change (TLCore._keepFill). The
+ * exporters copy a core's fields, so their cores share the adoption as they
+ * shared the old fill canvas.
+ */
+interface AdoptedFill {
+  canvas: Canvas;
+  /** The fill's own canvas, once the adopted canvas was about to change. */
+  copy: Canvas | null;
+}
+
+/** The adoption of each adopted core canvas. */
+const adoptions = new WeakMap<Canvas, AdoptedFill>();
+
+/** The core canvas render is drawing into, if any. */
+let canvasInRender: Canvas | null = null;
+
+/** How render copies its canvas into the fill or stroke canvas. */
+function copyInto(source: Canvas, target: Canvas): void {
+  if (source.width * source.height != 0) {
+    target.width = source.width;
+    target.height = source.height;
+    // The old code set the operator on the canvas element, where it does nothing.
+    Reflect.set(target, "globalCompositeOperation", PaintCanvas.CompositeOperator.Copy);
+    (target.getContext("2d") as CanvasRenderingContext2D).drawImage(source, 0, 0);
+  }
+}
+
+/**
  * The text layout engine of a GText: owns the document, lays it out at a
  * width (or automatically), maps glyphs through the path and direction
  * transformers and paints into its own canvases (fill and stroke) or
@@ -77,6 +109,8 @@ export class TLCore extends GObject implements Destroyable {
   _canvas: Canvas | null = null;
   _fillCanvas: Canvas | null = null;
   _strokeCanvas: Canvas | null = null;
+  /** Set while the fill canvas is the core's canvas (see AdoptedFill). */
+  _adoptedFill: AdoptedFill | null = null;
   _ctx: TLCanvasContext = null as unknown as TLCanvasContext;
   _maxWidth = 0;
   _width = 1;
@@ -715,114 +749,119 @@ export class TLCore extends GObject implements Destroyable {
     if (flags & RenderFlags.RENDERFLAG_SCALEBITMAP) bitmapScale *= scale;
     const pixelWidth = Math.ceil(bitmapScale * canvasWidth);
     const pixelHeight = Math.ceil(bitmapScale * canvasHeight);
-    let resized = false;
+    // Before the canvas changes: a fill that is still this canvas gets its own.
+    this._keepFill(!!(flags & RenderFlags.RENDERFLAG_FILL));
     const canvas = this.getCanvas() as Canvas;
-    if (canvas.width !== pixelWidth) {
-      canvas.width = pixelWidth <= 0 ? 1 : pixelWidth;
-      if (!RenderScheduler.isRenderPhase()) (this._canvas as Canvas).width = canvas.width;
-      resized = true;
-    }
-    if (canvas.height !== pixelHeight) {
-      canvas.height = pixelHeight <= 0 ? 1 : pixelHeight;
-      if (!RenderScheduler.isRenderPhase()) (this._canvas as Canvas).height = canvas.height;
-      resized = true;
-    }
-    if (!resized) {
-      this._ctx.setTranslate(0, 0);
-      this._ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    }
-    if (style.shapePaint) {
+    const outerCanvas = canvasInRender;
+    canvasInRender = canvas;
+    try {
+      let resized = false;
+      if (canvas.width !== pixelWidth) {
+        canvas.width = pixelWidth <= 0 ? 1 : pixelWidth;
+        if (!RenderScheduler.isRenderPhase()) (this._canvas as Canvas).width = canvas.width;
+        resized = true;
+      }
+      if (canvas.height !== pixelHeight) {
+        canvas.height = pixelHeight <= 0 ? 1 : pixelHeight;
+        if (!RenderScheduler.isRenderPhase()) (this._canvas as Canvas).height = canvas.height;
+        resized = true;
+      }
+      if (!resized) {
+        this._ctx.setTranslate(0, 0);
+        this._ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      }
+      if (style.shapePaint) {
+        if (flags & RenderFlags.RENDERFLAG_STROKE) {
+          flags |= RenderFlags.RENDERFLAG_LOCKSTROKE;
+          this._ctx.strokeStyle = Canvas2DPaintCanvas.prototype._convertStyle.call(
+            this as never,
+            style.shapePaint,
+          );
+        }
+        if (flags & RenderFlags.RENDERFLAG_FILL) {
+          this._ctx.defaultFill = Canvas2DPaintCanvas.prototype._convertStyle.call(
+            this as never,
+            style.shapePaint,
+          );
+        }
+      } else if (flags & RenderFlags.RENDERFLAG_FILL) {
+        this._ctx.defaultFill = "transparent";
+      }
+      this._ctx.globalAlpha = "number" == typeof style.opacity ? style.opacity : 1;
+      this._ctx.globalCompositeOperation = PaintCanvas.CompositeOperator.SourceOver;
       if (flags & RenderFlags.RENDERFLAG_STROKE) {
-        flags |= RenderFlags.RENDERFLAG_LOCKSTROKE;
-        this._ctx.strokeStyle = Canvas2DPaintCanvas.prototype._convertStyle.call(
-          this as never,
-          style.shapePaint,
-        );
+        this._ctx.lineWidth = "number" == typeof style.strokeWidth ? style.strokeWidth : 1;
+        this._ctx.lineCap = style.lineCap || "butt";
+        this._ctx.lineJoin = style.lineJoin || "miter";
+        this._ctx.miterLimit = "number" == typeof style.miterLimit ? style.miterLimit : 10;
+        if (flags & RenderFlags.RENDERFLAG_VERTEX) flags |= RenderFlags.RENDERFLAG_NODRAW;
       }
-      if (flags & RenderFlags.RENDERFLAG_FILL) {
-        this._ctx.defaultFill = Canvas2DPaintCanvas.prototype._convertStyle.call(
-          this as never,
-          style.shapePaint,
-        );
+      if (style.evenodd) flags |= RenderFlags.RENDERFLAG_EVENODDFILL;
+      const Stylable = getStylable();
+      if (style.strokeAlign === Stylable.BorderAlignment.Inside) {
+        flags |= RenderFlags.RENDERFLAG_INSIDEBRD;
+      } else if (style.strokeAlign === Stylable.BorderAlignment.Outside) {
+        flags |= RenderFlags.RENDERFLAG_OUTSIDEBRD;
       }
-    } else if (flags & RenderFlags.RENDERFLAG_FILL) {
-      this._ctx.defaultFill = "transparent";
-    }
-    this._ctx.globalAlpha = "number" == typeof style.opacity ? style.opacity : 1;
-    this._ctx.globalCompositeOperation = PaintCanvas.CompositeOperator.SourceOver;
-    if (flags & RenderFlags.RENDERFLAG_STROKE) {
-      this._ctx.lineWidth = "number" == typeof style.strokeWidth ? style.strokeWidth : 1;
-      this._ctx.lineCap = style.lineCap || "butt";
-      this._ctx.lineJoin = style.lineJoin || "miter";
-      this._ctx.miterLimit = "number" == typeof style.miterLimit ? style.miterLimit : 10;
-      if (flags & RenderFlags.RENDERFLAG_VERTEX) flags |= RenderFlags.RENDERFLAG_NODRAW;
-    }
-    if (style.evenodd) flags |= RenderFlags.RENDERFLAG_EVENODDFILL;
-    const Stylable = getStylable();
-    if (style.strokeAlign === Stylable.BorderAlignment.Inside) {
-      flags |= RenderFlags.RENDERFLAG_INSIDEBRD;
-    } else if (style.strokeAlign === Stylable.BorderAlignment.Outside) {
-      flags |= RenderFlags.RENDERFLAG_OUTSIDEBRD;
-    }
-    this._ctx.renderMode(flags);
-    let shift = 0;
-    if (style.valign && !this.hasPathTransformer()) {
-      if ("m" == style.valign) {
-        shift = (height - (this._doc.frame ? this._doc.frame.bounds().h : 0)) / 2;
-      } else if ("b" == style.valign) {
-        shift = height - (this._doc.frame ? this._doc.frame.bounds().h : 0);
+      this._ctx.renderMode(flags);
+      let shift = 0;
+      if (style.valign && !this.hasPathTransformer()) {
+        if ("m" == style.valign) {
+          shift = (height - (this._doc.frame ? this._doc.frame.bounds().h : 0)) / 2;
+        } else if ("b" == style.valign) {
+          shift = height - (this._doc.frame ? this._doc.frame.bounds().h : 0);
+        }
       }
-    }
-    this._verticalShift = -shift;
-    this._ctx.setTranslate(
-      offsetX * bitmapScale + (this.getLeftPadding() as number) * scale,
-      bitmapScale * (shift + offsetY) + padding * scale,
-    );
-    this._ctx.setScale(bitmapScale, bitmapScale);
-    const fillTransform = this._ctx.getFillTransform();
-    const alpha = this._ctx.globalAlpha;
-    if (style.paintTransform) this._ctx.appendFillTransform(style.paintTransform);
-    if (flags & RenderFlags.RENDERFLAG_NODRAW && flags & RenderFlags.RENDERFLAG_STROKE) {
-      this._ctx._canvasContext.beginPath();
-    }
-    this._doc.draw(
-      this._ctx,
-      new TLRect(
-        0,
-        Math.max(0, this._verticalShift),
-        width,
-        height + Math.max(0, this._verticalShift),
-      ),
-    );
-    if (flags & RenderFlags.RENDERFLAG_NODRAW && flags & RenderFlags.RENDERFLAG_STROKE) {
-      this._ctx.strokeVertices();
-      if (flags & RenderFlags.RENDERFLAG_INSIDEBRD) {
-        this._ctx.fillVertices("#000", 1, PaintCanvas.CompositeOperator.DestinationIn);
-      } else if (flags & RenderFlags.RENDERFLAG_OUTSIDEBRD) {
-        this._ctx.fillVertices("#000", 1, PaintCanvas.CompositeOperator.DestinationOut);
+      this._verticalShift = -shift;
+      this._ctx.setTranslate(
+        offsetX * bitmapScale + (this.getLeftPadding() as number) * scale,
+        bitmapScale * (shift + offsetY) + padding * scale,
+      );
+      this._ctx.setScale(bitmapScale, bitmapScale);
+      const fillTransform = this._ctx.getFillTransform();
+      const alpha = this._ctx.globalAlpha;
+      if (style.paintTransform) this._ctx.appendFillTransform(style.paintTransform);
+      if (flags & RenderFlags.RENDERFLAG_NODRAW && flags & RenderFlags.RENDERFLAG_STROKE) {
+        this._ctx._canvasContext.beginPath();
       }
-    }
-    this._ctx.renderMode(0);
-    if (style.paintTransform) {
-      this._ctx.setFillTransform(fillTransform);
-      if (flags & RenderFlags.RENDERFLAG_STROKE) {
-        this._ctx.globalAlpha = alpha;
-        this._ctx.globalCompositeOperation = PaintCanvas.CompositeOperator.SourceOver;
+      this._doc.draw(
+        this._ctx,
+        new TLRect(
+          0,
+          Math.max(0, this._verticalShift),
+          width,
+          height + Math.max(0, this._verticalShift),
+        ),
+      );
+      if (flags & RenderFlags.RENDERFLAG_NODRAW && flags & RenderFlags.RENDERFLAG_STROKE) {
+        this._ctx.strokeVertices();
+        if (flags & RenderFlags.RENDERFLAG_INSIDEBRD) {
+          this._ctx.fillVertices("#000", 1, PaintCanvas.CompositeOperator.DestinationIn);
+        } else if (flags & RenderFlags.RENDERFLAG_OUTSIDEBRD) {
+          this._ctx.fillVertices("#000", 1, PaintCanvas.CompositeOperator.DestinationOut);
+        }
       }
-    }
-    if (focused && flags & RenderFlags.RENDERFLAG_DRAWSELECTION) {
-      this._doc.drawSelection(this._ctx, focused || false);
-    }
-    const copyInto = (source: Canvas, target: Canvas) => {
-      if (source.width * source.height != 0) {
-        target.width = source.width;
-        target.height = source.height;
-        // The old code set the operator on the canvas element, where it does nothing.
-        Reflect.set(target, "globalCompositeOperation", PaintCanvas.CompositeOperator.Copy);
-        (target.getContext("2d") as CanvasRenderingContext2D).drawImage(source, 0, 0);
+      this._ctx.renderMode(0);
+      if (style.paintTransform) {
+        this._ctx.setFillTransform(fillTransform);
+        if (flags & RenderFlags.RENDERFLAG_STROKE) {
+          this._ctx.globalAlpha = alpha;
+          this._ctx.globalCompositeOperation = PaintCanvas.CompositeOperator.SourceOver;
+        }
       }
-    };
-    if (flags & RenderFlags.RENDERFLAG_FILL) {
+      if (focused && flags & RenderFlags.RENDERFLAG_DRAWSELECTION) {
+        this._doc.drawSelection(this._ctx, focused || false);
+      }
+    } finally {
+      canvasInRender = outerCanvas;
+    }
+    if (flags & RenderFlags.RENDERFLAG_FILL && !this._fillCanvas && !adoptions.has(canvas)) {
+      // Instead of a new fill canvas and a copy: the canvas itself (see AdoptedFill).
+      const adopted: AdoptedFill = { canvas, copy: null };
+      adoptions.set(canvas, adopted);
+      this._adoptedFill = adopted;
+      this._fillCanvas = canvas;
+    } else if (flags & RenderFlags.RENDERFLAG_FILL && this._fillCanvas !== canvas) {
       if (!this._fillCanvas) {
         this._fillCanvas = RenderScheduler.getRenderer(true, void 0, void 0, true).canvas;
       }
@@ -885,9 +924,47 @@ export class TLCore extends GObject implements Destroyable {
     }
   }
 
+  /**
+   * Gives an adopted fill (AdoptedFill) its own canvas before something
+   * draws into the core's canvas, except for a fill render of a core that
+   * shares the adoption: its result is the new fill. The copy is the one
+   * render would have made after the last fill render, which is the last
+   * time the canvas changed.
+   */
+  _keepFill(fillRender: boolean): void {
+    this._resolveFill();
+    const canvas = this._canvas;
+    const adopted = canvas && adoptions.get(canvas);
+    if (!canvas || !adopted || (fillRender && adopted === this._adoptedFill)) return;
+    const copy = RenderScheduler.getRenderer(true, void 0, void 0, true).canvas;
+    copyInto(canvas, copy);
+    adopted.copy = copy;
+    adoptions.delete(canvas);
+    this._resolveFill();
+  }
+
+  /** Moves the fill and stroke canvas to the fill's own canvas once it has one (see AdoptedFill). */
+  _resolveFill(): void {
+    const adopted = this._adoptedFill;
+    if (!adopted || !adopted.copy) return;
+    if (this._fillCanvas === adopted.canvas) this._fillCanvas = adopted.copy;
+    if (this._strokeCanvas === adopted.canvas) this._strokeCanvas = adopted.copy;
+    this._adoptedFill = null;
+  }
+
+  /**
+   * Called by the drawing context before it draws into the core's canvas.
+   * Within a render into that canvas (also one of a copy of this core)
+   * render has kept the fill already.
+   */
+  _beforeDraw(): void {
+    if (canvasInRender !== this._canvas) this._keepFill(false);
+  }
+
   /** The stroke canvas, the fill canvas or the core's canvas. */
   getCanvas(flags?: number): Canvas | null {
     if (!this.isInitialized()) throw new Error(TLCore.INITIALIZATION_ERROR);
+    this._resolveFill();
     // The old code unwrapped recorder canvases outside render phases; the
     // port's canvases are always real ones.
     return flags && flags & RenderFlags.RENDERFLAG_STROKE

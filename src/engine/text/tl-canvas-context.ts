@@ -35,6 +35,8 @@ import { TLDirectionTextTransformer } from "./tl-direction-text-transformer.ts";
 export interface TLCanvasCore {
   _fontManager: FontManager | null;
   requireFont(font: Font): void;
+  /** Told before anything is drawn (TLCore keeps its fill canvas then). */
+  _beforeDraw?(): void;
 }
 
 /** The font calls of the vertex text path besides the Font base. */
@@ -331,11 +333,13 @@ export class TLCanvasContext implements RunDrawContext {
   }
 
   fill(): void {
+    this._beforeDraw();
     this._canvasContext.fill();
   }
 
   /** Fills a rectangle under the fill transform, optionally in another style. */
   fillRect(x: number, y: number, width: number, height: number, style?: unknown): void {
+    this._beforeDraw();
     let previous: unknown;
     if (style) {
       previous = this._canvasContext.fillStyle;
@@ -348,6 +352,7 @@ export class TLCanvasContext implements RunDrawContext {
   }
 
   strokeRect(x: number, y: number, width: number, height: number): void {
+    this._beforeDraw();
     this._setMatrix(this._transform.preMultiplied(this._fillTransform));
     this._canvasContext.strokeRect(x, y, width, height);
     this._setMatrix(this._transform);
@@ -429,6 +434,7 @@ export class TLCanvasContext implements RunDrawContext {
   /** Draws (or collects) a list marker outline at (x, y). Only in vertex mode. */
   drawMarker(source: VertexReader, x: number, y: number): void {
     if (!(this._renderMode & RenderFlags.RENDERFLAG_VERTEX)) return;
+    if (this._renderMode & TLCanvasContext.FLAGS_DRAWING) this._beforeDraw();
     let styleVertices: VertexContainer | null = null;
     if (
       !(this._renderMode & RenderFlags.RENDERFLAG_NODRAW) &&
@@ -487,6 +493,12 @@ export class TLCanvasContext implements RunDrawContext {
    * the context's fillText / strokeText draw it.
    */
   drawText(text: string, x: number, y: number, ascent: number, width: number): void {
+    if (
+      !(this._renderMode & RenderFlags.RENDERFLAG_VERTEX) ||
+      this._renderMode & TLCanvasContext.FLAGS_DRAWING
+    ) {
+      this._beforeDraw();
+    }
     if (this._renderMode & RenderFlags.RENDERFLAG_VERTEX) {
       const font = this.getCurrentFont() as TextFont | null;
       if (!font) return;
@@ -799,6 +811,7 @@ export class TLCanvasContext implements RunDrawContext {
 
   /** Fills the current path under the fill transform, then restores style, alpha and operator. */
   fillVertices(fill?: unknown, alpha?: number, operation?: string): void {
+    this._beforeDraw();
     const previousFill = this.fillStyle;
     const previousAlpha = this.globalAlpha;
     const previousOperation = this.globalCompositeOperation;
@@ -815,6 +828,7 @@ export class TLCanvasContext implements RunDrawContext {
 
   /** Strokes the current path; sets (and restores) the fill style, not the stroke style. */
   strokeVertices(fill?: unknown, alpha?: number, operation?: string): void {
+    this._beforeDraw();
     const previousFill = this.fillStyle;
     const previousAlpha = this.globalAlpha;
     const previousOperation = this.globalCompositeOperation;
@@ -881,6 +895,12 @@ export class TLCanvasContext implements RunDrawContext {
   }
 
   clearRect(x: number, y: number, width: number, height: number): void {
+    this._beforeDraw();
     this._canvasContext.clearRect(x, y, width, height);
+  }
+
+  /** Lets the core know that the canvas is about to change. */
+  private _beforeDraw(): void {
+    if (this._core && this._core._beforeDraw) this._core._beforeDraw();
   }
 }
