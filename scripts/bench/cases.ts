@@ -253,7 +253,7 @@ const zoomWheel: Case = {
 
 const panApi: Case = {
   id: "pan-api",
-  what: "heavy document: view.scrollBy(15, 8) once per frame for 120 frames, through the view API (full repaint path)",
+  what: "heavy document: view.scrollBy(15, 8) once per frame for 120 frames, through the view API (the same strip repaint as the wheel, but every frame)",
   headline: "frameP95",
   setup: heavySession,
   async run(s) {

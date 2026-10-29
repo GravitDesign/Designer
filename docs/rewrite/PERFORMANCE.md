@@ -98,9 +98,9 @@ projects nor vitest pick it up.
 | --- | --- |
 | cold-start | fresh context: navigation until the app is ready (`window.__parity` set) and until an empty document is painted (`docReadyMs`) |
 | open-* | File > Open of the three largest corpus files (effects-webgl-2, fills-textures, effects-webgl-1, 65 to 79 KB) until the document is ready and painted |
-| pan-wheel | heavy document: 90 wheel scrolls, one per 16 ms; frame times |
+| pan-wheel | heavy document: 90 wheel scrolls, one per 16 ms; frame times. Each wheel event round-trips through CDP, so a scroll lands about every third frame |
 | zoom-wheel | heavy document: Ctrl + wheel, 20 steps in and 20 out |
-| pan-api | heavy document: `view.scrollBy(15, 8)` once per frame for 120 frames |
+| pan-api | heavy document: `view.scrollBy(15, 8)` once per frame for 120 frames. The same repaint as the wheel (tiles moved, only the new strips painted), but a scroll every frame |
 | zoom-api | heavy document: `view.zoomAt` by 1.05 per frame, 30 in and 30 out |
 | drag-group | heavy document: drag a selected group of 200 shapes with the pointer tool, 60 moves; `moveMedian` is the time until the page has handled one move |
 | type-long-text | 40-paragraph text (2,400 words, 600 pt wide), inline editing, 30 keystrokes at the end; time from keydown to the next frame |
