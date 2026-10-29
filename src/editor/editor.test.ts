@@ -3,12 +3,15 @@ import { Point } from "../engine/math/point.ts";
 import { Transform } from "../engine/math/transform.ts";
 import { Block } from "../engine/scene/block.ts";
 import { NodeFlag } from "../engine/scene/node-change.ts";
+import { BeforeRemoveEvent } from "../engine/scene/node-events.ts";
 import type { Node } from "../engine/scene/node.ts";
 import { Rectangle } from "../engine/scene/rectangle.ts";
 import { Scene } from "../engine/scene/scene.ts";
+import { Group } from "../engine/scene/group.ts";
 import { Editor, ModifiedEvent, SelectionChangedEvent } from "./editor.ts";
 import { EditorOptions } from "./editor-options.ts";
 import { EditorWorkspace } from "./editor-workspace.ts";
+import "./element-editors/group-editor.ts";
 import "./element-editors/rectangle-editor.ts";
 import "./element-editors/page-editor.ts";
 import "./element-editors/scene-editor.ts";
@@ -255,5 +258,160 @@ describe("Editor", () => {
     editor.highlightSelectablesUnderCollision(true, [a], everything);
     // c is outside the marquee list: its highlight goes.
     expect(c.hasFlag(NodeFlag.Highlighted)).toBe(false);
+  });
+});
+
+describe("Editor selection index", () => {
+  /** isInSelection must answer what a search of the selection list would, for every node. */
+  function expectInStep(editor: Editor, nodes: readonly Node[]): void {
+    const selection = editor.getSelection() || [];
+    for (const node of nodes) {
+      expect(editor.isInSelection(node), String((node as Rectangle).getProperty("name"))).toBe(
+        selection.includes(node),
+      );
+    }
+  }
+
+  function many(editor: Editor, count: number): Rectangle[] {
+    const nodes: Rectangle[] = [];
+    for (let i = 0; i < count; i++) nodes.push(rect(i * 20, "r" + i));
+    editor.insertElements(nodes, true);
+    return nodes;
+  }
+
+  it("follows nodes removed from the middle, the front and the back", () => {
+    const { editor } = setup();
+    const nodes = many(editor, 9);
+    expectInStep(editor, nodes);
+    for (const i of [4, 0, 8, 2]) (nodes[i] as Rectangle).removeFlag(NodeFlag.Selected);
+    expect(names(editor.getSelection())).toEqual(["r1", "r3", "r5", "r6", "r7"]);
+    expectInStep(editor, nodes);
+    (nodes[4] as Rectangle).setFlag(NodeFlag.Selected);
+    expect(names(editor.getSelection())).toEqual(["r1", "r3", "r5", "r6", "r7", "r4"]);
+    expectInStep(editor, nodes);
+  });
+
+  it("follows clearing, with and without nodes to keep", () => {
+    const { editor } = setup();
+    const nodes = many(editor, 6);
+    editor.clearSelection([nodes[1], nodes[4]]);
+    expect(names(editor.getSelection())).toEqual(["r1", "r4"]);
+    expectInStep(editor, nodes);
+    editor.clearSelection();
+    expect(editor.getSelection()).toBeNull();
+    expectInStep(editor, nodes);
+  });
+
+  it("follows a new selection in another order and a reordered page", () => {
+    const { scene, editor } = setup();
+    const nodes = many(editor, 5);
+    editor.updateSelection(false, [nodes[3], nodes[1], nodes[2]]);
+    expect(names(editor.getSelection())).toEqual(["r1", "r2", "r3"]);
+    expectInStep(editor, nodes);
+    editor.arrangeOrder(Editor.ArrangeOrderType.SendToBack);
+    const page = scene.getActivePage() as unknown as { getChildren(): Node[] };
+    expect(names(page.getChildren())).toEqual(["r1", "r2", "r3", "r0", "r4"]);
+    expectInStep(editor, nodes);
+    editor.updateSelection(true, [nodes[2], nodes[4]]);
+    expectInStep(editor, nodes);
+  });
+
+  it("follows delete, undo and redo", () => {
+    const { editor } = setup();
+    const nodes = many(editor, 4);
+    editor.updateSelection(false, [nodes[1], nodes[2]]);
+    editor.deleteSelection();
+    expect(editor.getSelection()).toBeNull();
+    expectInStep(editor, nodes);
+    editor.undoState();
+    expect(names(editor.getSelection())).toEqual(["r1", "r2"]);
+    expectInStep(editor, nodes);
+    editor.redoState();
+    expect(editor.getSelection()).toBeNull();
+    expectInStep(editor, nodes);
+    editor.undoState();
+    editor.undoState();
+    expectInStep(editor, nodes);
+  });
+
+  it("counts a node that is in the list twice and removes its last place", () => {
+    const { editor } = setup();
+    const nodes = many(editor, 3);
+    const a = nodes[0] as Rectangle;
+    // Adding a selected node again puts it in the list twice, as before.
+    editor._tryAddToSelection(a as never);
+    expect(names(editor.getSelection())).toEqual(["r0", "r1", "r2", "r0"]);
+    editor._tryRemoveFromSelection(a as never);
+    expect(names(editor.getSelection())).toEqual(["r0", "r1", "r2"]);
+    expect(editor.isInSelection(a)).toBe(true);
+    a.removeFlag(NodeFlag.Selected);
+    expect(names(editor.getSelection())).toEqual(["r1", "r2"]);
+    expectInStep(editor, nodes);
+  });
+});
+
+describe("Editor individual selection while the change is handed out", () => {
+  type Parent = Node & { appendChild(child: Node): void; removeChild(child: Node): void };
+
+  /** A group "g" holding "c", and a rectangle "r" next to it. */
+  function scene(): { editor: Editor; g: Group; c: Rectangle; r: Rectangle } {
+    const { editor } = setup();
+    const g = new Group();
+    g.setProperty("name", "g");
+    const c = rect(0, "c");
+    (g as unknown as Parent).appendChild(c);
+    const r = rect(40, "r");
+    editor.insertElements([g, r], false);
+    return { editor, g, c, r };
+  }
+
+  const individual = (editor: Editor): unknown[] =>
+    names(editor.getIndividualSelection() as unknown as Node[] | null);
+
+  const fresh = (editor: Editor): unknown[] =>
+    names(editor.filterIndividualElements(editor._selection || []) as unknown as Node[]);
+
+  it("answers what the selection is at each call, also after changes made by a listener", () => {
+    const { editor, g, c, r } = scene();
+    const seen: unknown[][] = [];
+    let changeInside = true;
+    editor.addEventListener(SelectionChangedEvent, () => {
+      seen.push(individual(editor));
+      if (!changeInside) return;
+      changeInside = false;
+      // A selected child drops its group, though the editor turns the
+      // child down and the selection list stays as it is.
+      const childEditor = ElementEditor.openEditor(c) as ElementEditor;
+      childEditor.validateSelectionChange = () => false;
+      c.setFlag(NodeFlag.Selected);
+      expect(names(editor.getSelection())).toEqual(["g", "r"]);
+      seen.push(individual(editor));
+      expect(individual(editor)).toEqual(fresh(editor));
+      // Someone asks while the child is on its way out; once it is gone
+      // the group counts again.
+      const scene = editor.getScene();
+      const ask = (): void => void editor.getIndividualSelection();
+      scene.addEventListener(BeforeRemoveEvent, ask);
+      (g as unknown as Parent).removeChild(c);
+      scene.removeEventListener(BeforeRemoveEvent, ask);
+      seen.push(individual(editor));
+      expect(individual(editor)).toEqual(fresh(editor));
+    });
+    editor.updateSelection(false, [g, r]);
+    expect(seen).toEqual([["g", "r"], ["r"], ["g", "r"]]);
+    expect(individual(editor)).toEqual(["g", "r"]);
+  });
+
+  it("hands out a copy each time", () => {
+    const { editor, g, r } = scene();
+    let first: Node[] | null = null;
+    let second: Node[] | null = null;
+    editor.addEventListener(SelectionChangedEvent, () => {
+      first = editor.getIndividualSelection() as unknown as Node[];
+      first.length = 0;
+      second = editor.getIndividualSelection() as unknown as Node[];
+    });
+    editor.updateSelection(false, [g, r]);
+    expect(names(second)).toEqual(["g", "r"]);
   });
 });

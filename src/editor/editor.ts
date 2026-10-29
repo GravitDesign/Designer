@@ -682,6 +682,22 @@ export class Editor extends EventTarget {
 
   declare _scene: Scene;
   declare _selection: EdNode[] | null;
+  /**
+   * How many times each node is in `_selection` (a node can be added
+   * twice), so membership tests don't search the selection. Changed only
+   * where `_selection` is.
+   */
+  declare _selectionCounts: Map<EdNode, number>;
+  /**
+   * The individual selection, worked out once while the selection change
+   * is handed out (the listeners and the selection editors each ask for
+   * it): null when it has to be worked out again. Anything that can change
+   * it drops it; `_individualCacheOff` stops the caching for the rest of
+   * the hand-out once a node is about to be removed.
+   */
+  declare _individualCache: EdNode[] | null;
+  declare _individualCaching: number;
+  declare _individualCacheOff: boolean;
   declare _lastCloneSelection: EdNode[] | null;
   declare _storedSelection: SelectionEntry[] | null;
   declare _selectionUpdateCounter: number;
@@ -705,6 +721,7 @@ export class Editor extends EventTarget {
     super();
     this._scene = scene;
     (this._scene as unknown as { __graphic_editor__: Editor }).__graphic_editor__ = this;
+    this._selectionCounts = new Map();
     this._transactionStack = [];
     this._undoStates = [];
     this._redoStates = [];
@@ -798,6 +815,11 @@ export class Editor extends EventTarget {
 
   getSelection(): Node[] | null {
     return this._selection as unknown as Node[] | null;
+  }
+
+  /** Whether `node` is in the selection list. */
+  isInSelection(node: unknown): boolean {
+    return this._selectionCounts.has(node as EdNode);
   }
 
   hasSelectionDetail(): boolean {
@@ -1415,9 +1437,10 @@ export class Editor extends EventTarget {
       }
       if (!partsOnly) {
         if (withParts && withParts.length) {
+          this._individualCache = null;
           if ((this._selection || (this._selection = []), toggle)) {
             for (let i = 0; i < withParts.length; ++i) {
-              if (this._selection.indexOf(withParts[i] as EdNode) < 0) {
+              if (!this.isInSelection(withParts[i] as EdNode)) {
                 this._tryAddToSelection(withParts[i] as EdNode);
               }
             }
@@ -1521,9 +1544,10 @@ export class Editor extends EventTarget {
     if (!equals(keep, this._selection)) {
       this._beginSelectionUpdate();
       try {
+        const kept = keep ? new Set(keep) : null;
         for (let i = 0; this._selection && i < this._selection.length;) {
           const node = this._selection[i] as EdNode;
-          if (keep && keep.indexOf(node) >= 0) i++;
+          if (kept && kept.has(node)) i++;
           else {
             const internal = node.hasMixin(Container) ? node.getInternalSelectedNodes() : null;
             node.removeFlag(NodeFlag.Selected);
@@ -1583,7 +1607,14 @@ export class Editor extends EventTarget {
   }
 
   getIndividualSelection(): EdNode[] | null {
-    return this._selection ? this.filterIndividualElements(this._selection) : null;
+    if (!this._selection) return null;
+    if (this._individualCaching > 0 && !this._individualCacheOff) {
+      if (!this._individualCache) {
+        this._individualCache = this.filterIndividualElements(this._selection);
+      }
+      return this._individualCache.slice();
+    }
+    return this.filterIndividualElements(this._selection);
   }
 
   /**
@@ -2980,12 +3011,16 @@ export class Editor extends EventTarget {
   }
 
   _afterNodeInsert(event: AfterInsertEvent): void {
+    this._individualCache = null;
     this._tryAddToSelection(asNode(event.node));
   }
 
   _beforeNodeRemove(event: BeforeRemoveEvent): void {
+    // The node is still there until the removal is done.
+    this._individualCache = null;
+    if (this._individualCaching > 0) this._individualCacheOff = true;
     if (event.node instanceof Element) {
-      if (this._selection && this._selection.indexOf(asNode(event.node)) >= 0) {
+      if (this.isInSelection(asNode(event.node))) {
         event.node.removeFlag(NodeFlag.Selected);
       } else this._closeEditor(asNode(event.node));
     }
@@ -2995,6 +3030,7 @@ export class Editor extends EventTarget {
   _beforeFlagChange(_event: BeforeFlagChangeEvent): void {}
 
   _afterFlagChange(event: AfterFlagChangeEvent): void {
+    this._individualCache = null;
     if (event.node instanceof Element) {
       const node = asNode(event.node);
       if (event.flag === NodeFlag.Selected) {
@@ -3015,7 +3051,7 @@ export class Editor extends EventTarget {
   }
 
   _geometryChange(event: InstanceType<typeof Element.GeometryChangeEvent>): void {
-    if (this._selection && this._selection.indexOf(asNode(event.element)) >= 0) {
+    if (this.isInSelection(asNode(event.element))) {
       switch (event.type) {
         case Element.GeometryChangeEvent.Type.Before:
         case Element.GeometryChangeEvent.Type.After:
@@ -3044,12 +3080,21 @@ export class Editor extends EventTarget {
   _updatedSelection(): void {
     if (0 === this._selectionUpdateCounter) {
       this._lastCloneSelection = null;
-      if (this.hasEventListeners(SelectionChangedEvent)) this.trigger(SELECTION_CHANGED_EVENT);
-      const styleEdManager = (
-        this._scene.getWorkspace() as unknown as EditorWorkspaceLike
-      ).getStyleEdManager();
-      if (styleEdManager.isActivated()) styleEdManager.deactivateEditor();
-      this.updateSelectionEditors();
+      this._individualCache = null;
+      this._individualCaching++;
+      try {
+        if (this.hasEventListeners(SelectionChangedEvent)) this.trigger(SELECTION_CHANGED_EVENT);
+        const styleEdManager = (
+          this._scene.getWorkspace() as unknown as EditorWorkspaceLike
+        ).getStyleEdManager();
+        if (styleEdManager.isActivated()) styleEdManager.deactivateEditor();
+        this.updateSelectionEditors();
+      } finally {
+        if (0 === --this._individualCaching) {
+          this._individualCache = null;
+          this._individualCacheOff = false;
+        }
+      }
     }
   }
 
@@ -3142,6 +3187,8 @@ export class Editor extends EventTarget {
         if (editor.validateSelectionChange()) {
           if (!this._selection) this._selection = [];
           this._selection.push(node);
+          this._individualCache = null;
+          this._selectionCounts.set(node, (this._selectionCounts.get(node) || 0) + 1);
           this._updatedSelection();
         }
       }
@@ -3156,14 +3203,33 @@ export class Editor extends EventTarget {
         editor.removeFlag(EditorFlag.Selected as number);
         this._tryCloseEditor(node, true);
       }
-      if (this._selection) {
+      const count = this._selectionCounts.get(node);
+      if (this._selection && count) {
+        // The last place it is at. When it is there once, search from both
+        // ends: clearing a selection removes from the front.
+        const selection = this._selection;
         let index = -1;
-        for (let i = 0; i < this._selection.length; ++i) {
-          if (this._selection[i] === node) index = i;
+        if (count > 1) index = selection.lastIndexOf(node);
+        else {
+          for (let front = 0, back = selection.length - 1; front <= back; ++front, --back) {
+            if (selection[front] === node) {
+              index = front;
+              break;
+            }
+            if (selection[back] === node) {
+              index = back;
+              break;
+            }
+          }
         }
         if (index >= 0) {
-          this._selection.splice(index, 1);
-          if (0 == this._selection.length) this._selection = null;
+          // shift can drop the first item without moving the rest.
+          if (0 === index) selection.shift();
+          else selection.splice(index, 1);
+          this._individualCache = null;
+          if (count > 1) this._selectionCounts.set(node, count - 1);
+          else this._selectionCounts.delete(node);
+          if (0 == selection.length) this._selection = null;
           this._updatedSelection();
         }
       }
@@ -3334,6 +3400,9 @@ export class Editor extends EventTarget {
 
 Object.assign(Editor.prototype, {
   _selection: null,
+  _individualCache: null,
+  _individualCaching: 0,
+  _individualCacheOff: false,
   _lastCloneSelection: null,
   _storedSelection: null,
   _selectionUpdateCounter: 0,

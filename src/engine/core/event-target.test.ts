@@ -141,6 +141,92 @@ describe("EventTarget", () => {
     target.trigger(new PingEvent());
     expect(log).toEqual(["by id"]);
   });
+
+  describe("listeners bound to targets", () => {
+    /** A listener shared by several targets, as editors share their prototype's method. */
+    class Owner {
+      constructor(
+        readonly name: string,
+        readonly log: string[],
+      ) {}
+      ping(this: Owner): void {
+        this.log.push(this.name);
+      }
+      pong(this: Owner): void {
+        this.log.push(this.name + "!");
+      }
+    }
+
+    /** The per-target counts must match the entries, or removal stops too early (or too late). */
+    function expectCountsInStep(target: EventTarget): void {
+      for (const group of target._listeners?.values() ?? []) {
+        const counts = new Map<unknown, number>();
+        for (const entry of group.listeners) {
+          if (entry.target) counts.set(entry.target, (counts.get(entry.target) || 0) + 1);
+        }
+        expect(new Map(group.targets)).toEqual(counts);
+      }
+    }
+
+    function ping(target: EventTarget, log: string[]): string[] {
+      log.length = 0;
+      target.trigger(new PingEvent());
+      return log.slice();
+    }
+
+    it("removes only the given target's registrations, duplicates included", () => {
+      const target = new EventTarget();
+      const log: string[] = [];
+      const [a, b, c] = ["a", "b", "c"].map((name) => new Owner(name, log)) as [
+        Owner,
+        Owner,
+        Owner,
+      ];
+      target.addEventListener(PingEvent, Owner.prototype.ping, a);
+      target.addEventListener(PingEvent, Owner.prototype.ping, b);
+      target.addEventListener(PingEvent, Owner.prototype.pong, a);
+      target.addEventListener(PingEvent, Owner.prototype.ping, c, null, true);
+      target.addEventListener(PingEvent, Owner.prototype.ping, a);
+      expectCountsInStep(target);
+      expect(ping(target, log)).toEqual(["c", "a", "b", "a!", "a"]);
+      expect(target.removeEventListener(PingEvent, Owner.prototype.ping, a)).toBe(true);
+      expectCountsInStep(target);
+      expect(ping(target, log)).toEqual(["c", "b", "a!"]);
+      expect(target.removeEventListener(PingEvent, Owner.prototype.ping, a)).toBe(false);
+      expect(target.removeEventListener(PingEvent, Owner.prototype.ping, c)).toBe(true);
+      expectCountsInStep(target);
+      expect(ping(target, log)).toEqual(["b", "a!"]);
+    });
+
+    it("keeps the counts through removal without a target and removeAllEventListeners", () => {
+      const target = new EventTarget();
+      const log: string[] = [];
+      const a = new Owner("a", log);
+      const b = new Owner("b", log);
+      target.addEventListener(PingEvent, Owner.prototype.ping, a);
+      target.addEventListener(PingEvent, Owner.prototype.ping, b);
+      target.addEventListener(PingEvent, Owner.prototype.pong, b, null, false, true);
+      // Without a target every registration of the listener goes.
+      expect(target.removeEventListener(PingEvent, Owner.prototype.ping)).toBe(true);
+      expectCountsInStep(target);
+      expect(ping(target, log)).toEqual(["b!"]);
+      target.addEventListener(PingEvent, Owner.prototype.ping, a);
+      target.addEventListener(PingEvent, Owner.prototype.ping, b);
+      target.removeAllEventListeners();
+      expectCountsInStep(target);
+      expect(ping(target, log)).toEqual(["b!"]);
+      target.addEventListener(PingEvent, Owner.prototype.ping, b);
+      expect(target.removeEventListener(PingEvent, Owner.prototype.ping, b)).toBe(true);
+      expectCountsInStep(target);
+      expect(ping(target, log)).toEqual(["b!"]);
+      target.removeAllEventListeners(true);
+      expect(target.hasEventListeners(PingEvent)).toBe(false);
+      target.addEventListener(PingEvent, Owner.prototype.ping, a);
+      expectCountsInStep(target);
+      expect(target.removeEventListener(PingEvent, Owner.prototype.ping, a)).toBe(true);
+      expect(target.hasEventListeners(PingEvent)).toBe(false);
+    });
+  });
 });
 
 describe("EventTargetMixin", () => {

@@ -129,6 +129,16 @@ export class DirtyList {
   _area: Rect | null = null;
   _dirties: (DirtyEntry | undefined)[] | null = null;
   _numDirties = 0;
+  /**
+   * The entries of `_dirties` in the same order, less some of the emptied
+   * ones (0 x 0, left behind by a merge or a covering rectangle). Emptied
+   * entries can't trim or merge with a rectangle that has an area, so such
+   * a rectangle only needs these; without this every merge left one more
+   * entry behind that each later rectangle had to step over.
+   */
+  _live: DirtyEntry[] = [];
+  /** Entries emptied since `_live` was last compacted (an entry may count twice). */
+  _emptied = 0;
 
   setArea(area: Rect | null): void {
     this._area = area;
@@ -162,11 +172,22 @@ export class DirtyList {
     } else if (this._numDirties == this._dirties.length) {
       this._dirties.length += DirtyList.options.bufferSize;
     }
-    const dirties = this._dirties;
+    // A rectangle without an area goes over every entry, emptied ones too,
+    // as before (it can stop on an emptied one at its corner).
+    let dirties = this._dirties;
+    let numDirties = this._numDirties;
+    if (width > 0 && height > 0) {
+      if (this._emptied > 32 && this._emptied * 2 > this._live.length) {
+        this._live = this._live.filter((entry) => entry[2] !== 0 || entry[3] !== 0);
+        this._emptied = 0;
+      }
+      dirties = this._live;
+      numDirties = this._live.length;
+    }
 
     // Trim the new rectangle against the existing ones (or the existing ones
     // against it); every change starts the scan over.
-    for (let i = 0; i < this._numDirties; i++) {
+    for (let i = 0; i < numDirties; i++) {
       const entry = dirties[i] as DirtyEntry;
       const ex = entry[0];
       const ey = entry[1];
@@ -197,6 +218,7 @@ export class DirtyList {
         if (y <= ey && x + width >= ex + ew && y + height >= ey + eh) {
           entry[2] = 0;
           entry[3] = 0;
+          this._emptied++;
         } else {
           if (ex < x + width && ey >= y && ey + eh <= y + height) {
             entry[2] = entry[2] - (x + width - entry[0]);
@@ -235,7 +257,7 @@ export class DirtyList {
     }
 
     // Merge with an existing rectangle when the union wastes little space.
-    for (let i = 0; i < this._numDirties; i++) {
+    for (let i = 0; i < numDirties; i++) {
       const entry = dirties[i] as DirtyEntry;
       if (
         width > 0 &&
@@ -252,10 +274,13 @@ export class DirtyList {
         const mergedHeight = Math.max(y + height, entry[1] + entry[3]) - Math.min(entry[1], y);
         entry[2] = 0;
         entry[3] = 0;
+        this._emptied++;
         return this.dirty(mergedX, mergedY, mergedWidth, mergedHeight);
       }
     }
-    dirties[this._numDirties++] = [x, y, width, height];
+    const added: DirtyEntry = [x, y, width, height];
+    this._dirties[this._numDirties++] = added;
+    this._live.push(added);
     return true;
   }
 
@@ -297,6 +322,8 @@ export class DirtyList {
     if (this._numDirties > 0) {
       (this._dirties as unknown[]).length = DirtyList.options.bufferSize;
       this._numDirties = 0;
+      this._live = [];
+      this._emptied = 0;
     }
   }
 

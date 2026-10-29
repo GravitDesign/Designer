@@ -35,6 +35,21 @@ interface ListenerEntry {
 interface ListenerGroup {
   eventClass: unknown;
   listeners: ListenerEntry[];
+  /**
+   * How many of `listeners` are bound to each target, so removing a
+   * target's listener can stop after that target's last entry instead of
+   * going through the whole list (the scene holds one per open editor of
+   * some kinds).
+   */
+  targets: Map<unknown, number>;
+}
+
+/** Drops a removed entry from its group's target counts. */
+function forgetTarget(group: ListenerGroup, entry: ListenerEntry): void {
+  if (!entry.target) return;
+  const count = group.targets.get(entry.target) as number;
+  if (count > 1) group.targets.set(entry.target, count - 1);
+  else group.targets.delete(entry.target);
 }
 
 /** The members of an event target, applied to any base class. */
@@ -93,7 +108,7 @@ function eventTargetMembers<TBase extends AnyConstructor>(Base: TBase) {
       }
       let group = this._listeners.get(typeId);
       if (!group) {
-        group = { eventClass, listeners: [] };
+        group = { eventClass, listeners: [], targets: new Map() };
         this._listeners.set(typeId, group);
       }
       const entry: ListenerEntry = {
@@ -105,6 +120,7 @@ function eventTargetMembers<TBase extends AnyConstructor>(Base: TBase) {
       };
       if (prepend) group.listeners.unshift(entry);
       else group.listeners.push(entry);
+      if (target) group.targets.set(target, (group.targets.get(target) || 0) + 1);
     }
 
     /**
@@ -122,11 +138,21 @@ function eventTargetMembers<TBase extends AnyConstructor>(Base: TBase) {
       const group = this._listeners?.get(typeId);
       if (this._listeners && group) {
         const list = group.listeners;
-        for (let i = 0; i < list.length; ++i) {
+        // With a target, entries of other targets can't match: stop after
+        // the last entry of this one.
+        let left = target ? group.targets.get(target) || 0 : list.length;
+        for (let i = 0; i < list.length && left > 0; ++i) {
           const entry = list[i] as ListenerEntry;
-          if (entry.sourceListener != listener || (target && entry.target !== target)) continue;
+          if (target) {
+            if (entry.target !== target) continue;
+            --left;
+          }
+          if (entry.sourceListener != listener) continue;
           entry.registered = false;
-          list.splice(i, 1);
+          forgetTarget(group, entry);
+          // shift can drop the first entry without moving the rest.
+          if (0 === i) list.shift();
+          else list.splice(i, 1);
           removed = true;
           --i;
         }
@@ -148,6 +174,7 @@ function eventTargetMembers<TBase extends AnyConstructor>(Base: TBase) {
           const entry = group.listeners[j] as ListenerEntry;
           if (!force && entry.persistent) continue;
           entry.registered = false;
+          forgetTarget(group, entry);
           group.listeners.splice(j, 1);
         }
         if (group.listeners.length === 0) this._listeners.delete(key);

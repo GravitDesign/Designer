@@ -282,7 +282,10 @@ export class BaseEditor extends GObject {
   removeEditor(editor: BaseEditor, invalidate?: unknown): void {
     const index = (this._editors as BaseEditor[]).indexOf(editor);
     if (index < 0) throw new Error("Unknown editor.");
-    (this._editors as BaseEditor[]).splice(index, 1);
+    // shift can drop the first editor without moving the rest (closing
+    // a large selection closes the editors from the front).
+    if (0 === index) (this._editors as BaseEditor[]).shift();
+    else (this._editors as BaseEditor[]).splice(index, 1);
     editor._parentEditor = null;
     if (invalidate) this.requestInvalidation();
   }
