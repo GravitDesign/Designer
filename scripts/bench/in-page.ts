@@ -82,8 +82,14 @@ export function installBench(options: { countRenders: boolean }): void {
         await frame();
         const p = (window as unknown as { __parity?: Parity }).__parity;
         const c = p && p.app.corpus;
-        if (c && c.viewIdle() && c.fontsReady() && c.assetsReady()) calm++;
-        else calm = 0;
+        // assetsReady walks the whole scene, which on tens of thousands
+        // of objects takes longer than a frame. Images and textures only
+        // turn ready while waiting, never back, so it is asked once, when
+        // the view and the fonts have been quiet for `quiet` frames.
+        if (c && c.viewIdle() && c.fontsReady()) {
+          calm++;
+          if (calm >= quiet && !c.assetsReady()) calm = 0;
+        } else calm = 0;
       }
       return performance.now() - start;
     },

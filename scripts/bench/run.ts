@@ -5,6 +5,8 @@
 //   node scripts/bench/run.ts                     every case, 5 runs each
 //   node scripts/bench/run.ts --filter pan        cases whose id contains "pan"
 //   node scripts/bench/run.ts --filter cold-start,export-svg --runs 9
+//   node scripts/bench/run.ts --group doc20k,fx-pages   cases of these groups
+//   node scripts/bench/run.ts --list              the cases and their groups, nothing run
 //   node scripts/bench/run.ts --ref HEAD          build the committed sources, not the working tree
 //   node scripts/bench/run.ts --no-build          reuse the last build
 //   node scripts/bench/run.ts --profile           also one CPU-profiled run per case
@@ -34,6 +36,8 @@ import { startProfile, stopProfile, summarise, type ProfileSummary } from "./pro
 const { values } = parseArgs({
   options: {
     filter: { type: "string", short: "f" },
+    group: { type: "string", short: "g" },
+    list: { type: "boolean", default: false },
     runs: { type: "string", short: "n", default: "5" },
     ref: { type: "string" },
     "no-build": { type: "boolean", default: false },
@@ -48,8 +52,15 @@ const filters = (values.filter ?? "")
   .split(",")
   .map((f) => f.trim())
   .filter(Boolean);
-const selected = (id: string): boolean =>
-  filters.length === 0 || filters.some((f) => id.includes(f));
+const groups = (values.group ?? "")
+  .split(",")
+  .map((g) => g.trim())
+  .filter(Boolean);
+const groupOf = (c: Case | null): string => (c ? (c.group ?? "base") : "base");
+/** A case (or the bundle report, with `c` null) matches --filter and --group. */
+const selected = (id: string, c: Case | null): boolean =>
+  (filters.length === 0 || filters.some((f) => id.includes(f))) &&
+  (groups.length === 0 || groups.includes(groupOf(c)));
 
 interface CaseResult {
   id: string;
@@ -61,6 +72,9 @@ interface CaseResult {
   median: Numbers;
   info?: unknown;
   error?: string;
+  /** Wall time of the setup (0 when the session was shared) and of the whole case, ms. */
+  setupMs?: number;
+  totalMs?: number;
   profile?: ProfileSummary & {
     file: string;
     renders?: { commits: number; top: [string, number][] };
@@ -79,22 +93,74 @@ function machine(browserVersion: string): Record<string, unknown> {
   };
 }
 
+/** The session cases with the same sessionKey share while they run one after the other. */
+let shared: { key: string; session: Session } | null = null;
+
+async function closeShared(): Promise<void> {
+  if (!shared) return;
+  const { session } = shared;
+  shared = null;
+  await session.context.close().catch(() => undefined);
+}
+
+/** A case that takes longer than this (setup and all runs) is stopped and reported as failed. */
+const CASE_TIMEOUT_MS = 40 * 60_000;
+
 async function runCase(c: Case, env: Env): Promise<CaseResult> {
   const result: CaseResult = { id: c.id, what: c.what, headline: c.headline, runs: [], median: {} };
   let session: Session | null = null;
-  try {
-    session = await c.setup(env);
-    if (!c.freshSession) result.warmup = await c.run(session, env, -1);
-    for (let i = 0; i < runs; i++) {
-      result.runs.push(await c.run(session, env, i));
+  let timedOut = false;
+  const started = performance.now();
+  const body = async (): Promise<void> => {
+    if (c.sessionKey && shared?.key === c.sessionKey) session = shared.session;
+    else {
+      await closeShared();
+      const opened = await c.setup(env);
+      // A setup that finishes after the time limit goes straight away.
+      if (timedOut) {
+        await opened.context.close().catch(() => undefined);
+        return;
+      }
+      session = opened;
+      if (c.sessionKey) shared = { key: c.sessionKey, session };
+    }
+    result.setupMs = performance.now() - started;
+    // Progress: setup time, then a "w" for the warm-up and a "." per run.
+    process.stdout.write(`[${fmt(result.setupMs / 1000)} s] `);
+    if (!c.freshSession && !c.noWarmup) {
+      result.warmup = await c.run(session, env, -1);
+      process.stdout.write("w");
+    }
+    const n = Math.min(runs, c.runs ?? runs);
+    for (let i = 0; i < n; i++) {
+      const r = await c.run(session, env, i);
+      if (timedOut) return;
+      result.runs.push(r);
       process.stdout.write(".");
     }
     result.median = medianOf(result.runs);
     if (c.info) result.info = await c.info(session, env);
+  };
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const limit = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => {
+      timedOut = true;
+      reject(new Error(`the case took longer than ${CASE_TIMEOUT_MS / 60_000} min`));
+    }, CASE_TIMEOUT_MS);
+  });
+  try {
+    await Promise.race([body(), limit]);
   } catch (error) {
     result.error = String(error instanceof Error ? (error.stack ?? error.message) : error);
+    // A failed case may leave its document in any state; closing the
+    // context also ends whatever the case still waits for.
+    const failed = session as Session | null;
+    if (shared && shared.session === failed) shared = null;
+    if (c.sessionKey) await failed?.context.close().catch(() => undefined);
   } finally {
-    await session?.context.close().catch(() => undefined);
+    clearTimeout(timer);
+    if (!c.sessionKey) await (session as Session | null)?.context.close().catch(() => undefined);
+    result.totalMs = performance.now() - started;
   }
   return result;
 }
@@ -238,9 +304,20 @@ function printBundle(b: BundleReport, cold: Composition[]): void {
   }
 }
 
+const mainStarted = performance.now();
+
 async function main(): Promise<void> {
-  const cases = allCases().filter((c) => selected(c.id));
-  const wantBundle = selected("bundle");
+  if (values.list) {
+    console.log(
+      table(
+        ["case", "group", "runs", "what"],
+        allCases().map((c) => [c.id, groupOf(c), String(c.runs ?? ""), c.what]),
+      ),
+    );
+    return;
+  }
+  const cases = allCases().filter((c) => selected(c.id, c));
+  const wantBundle = selected("bundle", null);
   if (cases.length === 0 && !wantBundle) {
     console.error(
       `no case matches ${filters.join(",")}; cases: bundle, ${allCases()
@@ -285,13 +362,16 @@ async function main(): Promise<void> {
         }
       }
       results.push(r);
+      // The results so far, in case the run is cut short (a CI timeout).
+      fs.writeFileSync(path.join(RESULTS, `${stamp}.partial.json`), JSON.stringify(results));
       console.log(
         r.error
           ? ` failed: ${r.error.split("\n")[0]}`
-          : ` ${r.headline} ${fmt(r.median[r.headline])}`,
+          : ` ${r.headline} ${fmt(r.median[r.headline])} (${fmt((r.totalMs ?? 0) / 1000)} s)`,
       );
     }
   } finally {
+    await closeShared();
     await browser.close();
     server?.stop();
   }
@@ -315,6 +395,8 @@ async function main(): Promise<void> {
   }
 
   printTable(results);
+  console.log(`
+wall time ${fmt((performance.now() - mainStarted) / 60000)} min`);
   if (bundle) printBundle(bundle, coldChunks);
   for (const r of results) {
     if (!r.profile) continue;
@@ -334,6 +416,9 @@ async function main(): Promise<void> {
     machine: machine(browserVersion),
     build: { source: build.source, commit: build.commit, gpu: values.gpu },
     runs,
+    filter: values.filter ?? null,
+    group: values.group ?? null,
+    wallMs: performance.now() - mainStarted,
     results,
     bundle: bundle ? { ...bundle, coldStartChunks: coldChunks } : undefined,
   };
@@ -344,6 +429,7 @@ async function main(): Promise<void> {
   const json = await prettier.format(JSON.stringify(out), { parser: "json" });
   fs.writeFileSync(file, json);
   fs.writeFileSync(path.join(RESULTS, "latest.json"), json);
+  fs.rmSync(path.join(RESULTS, `${stamp}.partial.json`), { force: true });
   console.log(`\nresults: ${path.relative(process.cwd(), file)}`);
 }
 

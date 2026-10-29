@@ -2,190 +2,32 @@
 // parity harness does (window.__parity hooks, File > Open through the
 // file input, Playwright mouse and keyboard input) and returns numbers.
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
-import { installBench, type BenchWindow, type FrameRecord } from "./in-page.ts";
 import {
-  cdpMetrics,
-  metricDelta,
-  newContext,
-  quantile,
-  REPO,
-  sleep,
-  type Browser,
-  type BrowserContext,
-  type CDPSession,
-  type Metrics,
-  type Page,
-} from "./lib.ts";
+  boot,
+  bootWithDocument,
+  canvasCenter,
+  closeActive,
+  frameStats,
+  generated,
+  idle,
+  newDocument,
+  openThroughUi,
+  resetView,
+  startFrames,
+  stopFrames,
+  withMetrics,
+  type AppWindow,
+  type Case,
+  type Env,
+  type Session,
+} from "./drive.ts";
+import { cdpMetrics, newContext, quantile, REPO, sleep } from "./lib.ts";
 import { bigEps, bigSvg, buildHeavy, HEAVY, longText } from "./synthetic.ts";
+import { docCases } from "./cases-docs.ts";
+import { fileImportCases } from "./cases-import.ts";
 
-export interface Env {
-  browser: Browser;
-  url: string;
-  buildDir: string;
-  /** Count React renders (slows the page a little; only for profiling runs). */
-  countRenders: boolean;
-}
-
-export interface Session {
-  context: BrowserContext;
-  page: Page;
-  cdp: CDPSession;
-}
-
-export type Numbers = Record<string, number>;
-
-export interface Case {
-  id: string;
-  /** What the case measures, one line. */
-  what: string;
-  /** The column the table shows as the case's headline number. */
-  headline: string;
-  /** A new session for every run (cold start) instead of one for all runs. */
-  freshSession?: boolean;
-  /** Prepares a session (boot, open documents). Not measured. */
-  setup(env: Env): Promise<Session>;
-  /** One measured run. */
-  run(session: Session, env: Env, index: number): Promise<Numbers>;
-  /** Extra information recorded once (not part of the medians). */
-  info?(session: Session, env: Env): Promise<unknown>;
-}
-
-type ParityApp = Record<string, unknown> & {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- the hooks are untyped in the page
-  [hook: string]: any;
-};
-type AppWindow = Window &
-  BenchWindow & { __parity: { G: Record<string, unknown>; app: ParityApp } };
-
-// ---------------------------------------------------------------------------
-// Sessions
-
-/** Opens the app in a fresh context and waits for window.__parity. */
-export async function boot(env: Env): Promise<Session & { requests: string[] }> {
-  const context = await newContext(env.browser);
-  await context.addInitScript(installBench, { countRenders: env.countRenders });
-  // Records when the parity bridge appears (main.tsx installs it once the app is ready).
-  await context.addInitScript(() => {
-    let value: unknown;
-    Object.defineProperty(window, "__parity", {
-      configurable: true,
-      get: () => value,
-      set: (v) => {
-        value = v;
-        (window as unknown as { __benchBooted: number }).__benchBooted = performance.now();
-      },
-    });
-  });
-  const requests: string[] = [];
-  context.on("request", (r) => requests.push(r.url()));
-  const page = await context.newPage();
-  const cdp = await context.newCDPSession(page);
-  await cdp.send("Performance.enable", { timeDomain: "timeTicks" });
-  await page.goto(env.url);
-  await page.waitForFunction(() => !!(window as unknown as AppWindow).__parity, null, {
-    timeout: 120_000,
-    polling: 20,
-  });
-  return { context, page, cdp, requests };
-}
-
-async function newDocument(page: Page): Promise<number> {
-  return page.evaluate(async () => {
-    const w = window as unknown as AppWindow;
-    w.__parity.app.newInfiniteDocument();
-    return w.__bench.idle();
-  });
-}
-
-async function bootWithDocument(env: Env): Promise<Session> {
-  const s = await boot(env);
-  await newDocument(s.page);
-  return s;
-}
-
-/** Opens a file through File > Open Local File; ms until the document is ready and until it is painted. */
-async function openThroughUi(
-  page: Page,
-  file: string,
-): Promise<{ ready: number; painted: number }> {
-  await page.evaluate(() => {
-    const w = window as unknown as AppWindow & {
-      __benchOpen?: Promise<{ ready: number; painted: number }>;
-    };
-    const before = w.__parity.app.corpus.documentStates().length;
-    const start = performance.now();
-    w.__benchOpen = (async () => {
-      for (;;) {
-        const states = w.__parity.app.corpus.documentStates() as { status: string }[];
-        const doc = w.__parity.app.document();
-        if (states.length > before && doc && states[states.length - 1]?.status === "ready") break;
-        if (performance.now() - start > 120_000) throw new Error("the file did not open");
-        await new Promise((r) => setTimeout(r, 5));
-      }
-      const ready = performance.now() - start;
-      await w.__bench.idle();
-      return { ready, painted: performance.now() - start };
-    })();
-  });
-  const chooser = page.waitForEvent("filechooser");
-  await page.evaluate(() => (window as unknown as AppWindow).__parity.app.execute("file.open"));
-  await (await chooser).setFiles(file);
-  return page.evaluate(
-    () =>
-      (window as unknown as { __benchOpen: Promise<{ ready: number; painted: number }> })
-        .__benchOpen,
-  );
-}
-
-async function closeActive(page: Page): Promise<void> {
-  await page.evaluate(async () => {
-    const w = window as unknown as AppWindow;
-    const before = w.__parity.app.corpus.documentStates().length;
-    w.__parity.app.execute("file.close-active-window");
-    for (let i = 0; i < 400 && w.__parity.app.corpus.documentStates().length >= before; i++) {
-      await new Promise((r) => setTimeout(r, 10));
-    }
-  });
-}
-
-// ---------------------------------------------------------------------------
-// Measuring helpers
-
-function frameStats(r: FrameRecord): Numbers {
-  const f = r.frames;
-  return {
-    frames: f.length,
-    frameMedian: quantile(f, 0.5),
-    frameP95: quantile(f, 0.95),
-    frameMax: f.length ? Math.max(...f) : NaN,
-    slowFrames: f.filter((x) => x > 33.4).length,
-    longTasks: r.longTasks.length,
-    longTaskMs: r.longTasks.reduce((a, b) => a + b, 0),
-    wallMs: r.wall,
-  };
-}
-
-async function withMetrics(cdp: CDPSession, body: () => Promise<Numbers>): Promise<Numbers> {
-  const before: Metrics = await cdpMetrics(cdp);
-  const out = await body();
-  const after: Metrics = await cdpMetrics(cdp);
-  return { ...out, ...metricDelta(before, after) };
-}
-
-async function canvasCenter(page: Page): Promise<{ x: number; y: number }> {
-  const box = await page.locator(".g-editor-widget").first().boundingBox();
-  if (!box) throw new Error("no editor widget");
-  return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
-}
-
-const startFrames = (page: Page): Promise<void> =>
-  page.evaluate(() => (window as unknown as AppWindow).__bench.startFrames());
-const stopFrames = (page: Page): Promise<FrameRecord> =>
-  page.evaluate(() => (window as unknown as AppWindow).__bench.stopFrames());
-const idle = (page: Page): Promise<number> =>
-  page.evaluate(() => (window as unknown as AppWindow).__bench.idle());
+export type { Case, Env, Numbers, Session } from "./drive.ts";
 
 /** A document with the heavy synthetic scene, fitted into the view. */
 async function heavySession(env: Env): Promise<Session> {
@@ -201,25 +43,8 @@ async function heavySession(env: Env): Promise<Session> {
   return s;
 }
 
-async function resetView(page: Page): Promise<void> {
-  await page.evaluate(() => {
-    const w = window as unknown as AppWindow;
-    if (w.__parity.app.canExecute("view.zoom.fit.all")) w.__parity.app.execute("view.zoom.fit.all");
-  });
-  await idle(page);
-}
-
 // ---------------------------------------------------------------------------
 // Files
-
-const TMP = path.join(os.tmpdir(), "gd-bench", "inputs");
-
-function generated(name: string, content: string): string {
-  fs.mkdirSync(TMP, { recursive: true });
-  const file = path.join(TMP, name);
-  fs.writeFileSync(file, content);
-  return file;
-}
 
 /** The three largest corpus documents. */
 export function largestCorpus(n = 3): string[] {
@@ -661,5 +486,7 @@ export function allCases(): Case[] {
     exportCase("pdf"),
     exportCase("png"),
     ...IMPORTS.map(importCase),
+    ...docCases(),
+    ...fileImportCases(),
   ];
 }
