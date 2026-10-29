@@ -25,7 +25,11 @@ The groups are `base` (the original cases), `doc20k`, `doc50k`,
 
 The full suite takes over an hour and loads every core, so it can run on
 a GitHub runner instead: the Benchmark workflow
-(`.github/workflows/bench.yml`), started by hand.
+(`.github/workflows/bench.yml`), started by hand. On ubuntu-latest every
+case at 5 runs took 69 minutes in one job; with `split` the longest job
+(doc50k) took 36 minutes and the five jobs 80 minutes together. The first
+run in a job also builds the generated documents and files, which is
+part of those times (a few minutes) but not of any measurement.
 
 ```sh
 gh workflow run bench.yml --ref main                                  # every case, 5 runs
@@ -56,17 +60,21 @@ What it does:
 - Serves the build with `server/main.ts` on port 3197 (`GD_CLIENT_ROOT`).
 - Drives headless Chromium through Playwright with the parity flags
   (software canvas, SwiftShader, sRGB, 1600 x 1000, scale 1). Each case
-  gets a fresh browser context. Files are opened through File > Open Local
+  gets a fresh browser context, except that cases on the same large
+  document share one while they run one after the other (each leaves
+  the document and the view as it found them). Files are opened through File > Open Local
   File with the file input, as the parity corpus scenarios do, and the app
   is driven through `window.__parity` hooks and real mouse and keyboard
   input.
 - Runs each case once to warm up, then `--runs` times, and reports the
   median. Slow cases have a run limit of their own (3 for the 50,000
   object documents and the large imports), which `--runs` can lower but
-  not raise. The table goes to stdout; everything (all runs, CDP metrics,
-  the cold-start request list, bundle composition) goes to
-  `scripts/bench/results/<time>.json` and `latest.json`. That folder is
-  ignored by git.
+  not raise. A case that takes more than 40 minutes in all is stopped
+  and reported as failed. The table goes to stdout; everything (all runs,
+  CDP metrics, the cold-start request list, bundle composition) goes to
+  `scripts/bench/results/<time>.json` and `latest.json`, and the results
+  so far to `<time>.partial.json` after each case, in case a run is cut
+  short. That folder is ignored by git.
 - With `--profile` it records one more run with the CDP profiler (200 us
   sampling), saves the `.cpuprofile` next to the results and summarises
   top self and total time by function, mapped to the TypeScript sources
