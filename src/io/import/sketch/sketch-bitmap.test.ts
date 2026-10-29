@@ -100,6 +100,20 @@ describe("SketchBitmap", () => {
     expect(loaded).toHaveBeenCalledTimes(1);
   });
 
+  // A clone's image is restored, so it is Delayed before its url arrives
+  // and reports no new status when it does.
+  it("settles itself and a clone outside a scene when the image data arrives", () => {
+    const file = new SketchFile(new Blob([]));
+    const bitmap = makeBitmap(file);
+    bitmap.parse();
+    const copy = bitmap.clone();
+    expect(copy._node.getStatus()).toBe(Image.ImageStatus.Delayed);
+    expect(file._loadingBitmaps.has(copy._node)).toBe(true);
+    bitmap._dataArrived("data:image/png;base64,");
+    expect(copy._node.getProperty("url")).toBe("data:image/png;base64,");
+    expect(loading(file)).toBe(false);
+  });
+
   it("doesn't count a clone made after the image data arrived", () => {
     const file = new SketchFile(new Blob([]));
     const bitmap = makeBitmap(file);

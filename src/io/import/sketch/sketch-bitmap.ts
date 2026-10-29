@@ -22,13 +22,7 @@ export class SketchBitmap extends SketchElement {
     void reference.then((blob) => {
       const reader = new window.FileReader();
       reader.readAsDataURL(blob);
-      reader.onload = () => {
-        this._node.setProperty("url", reader.result);
-        if (this._clones)
-          this._clones.forEach((clone) => {
-            clone._node.setProperty("url", reader.result);
-          });
-      };
+      reader.onload = () => this._dataArrived(reader.result);
       reader.onerror = () => this._settled();
     });
     // The image never gets a url: the import needn't wait for it. (The
@@ -37,6 +31,21 @@ export class SketchBitmap extends SketchElement {
     this._node.__sketchNode__ = this;
     this._node.addEventListener(Image.StatusEvent, this._imageStatusEvent, this);
     this._file.bitmapLoading(this._node);
+  }
+
+  /**
+   * The image data arrived: this bitmap and its clones get it as their
+   * url. One that isn't loading now (outside a scene) is settled here, as
+   * a clone's image is Delayed already and reports no new status.
+   */
+  _dataArrived(url: unknown): void {
+    const bitmaps: SketchBitmap[] = [this, ...(this._clones ?? [])];
+    bitmaps.forEach((bitmap) => bitmap._node.setProperty("url", url));
+    bitmaps.forEach((bitmap) => {
+      const status = bitmap._node.getStatus();
+      if (status !== Image.ImageStatus.Resolving && status !== Image.ImageStatus.Loading)
+        bitmap._file.bitmapSettled(bitmap._node);
+    });
   }
 
   /** Tells the file that this bitmap and its clones won't load any more (see SketchFile.bitmapLoading). */
