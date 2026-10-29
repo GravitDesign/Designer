@@ -4693,3 +4693,29 @@ phase would mean a new border property, saved in files.
 
 Kept. BUG-117 scales the phase with the CTM in the worker, but the page
 still leaves it out (src/io/import/eps/eps-parser.ts, stroke()).
+
+## Q-383 A page moved several times between two reads goes into the scene's quadtree once
+
+Old location: chunk.vendor.js, GElement.Accelerated (the scene's child
+quadtrees), now src/engine/scene/element-accelerated.ts.
+
+What it does: the old scene took a page's entry out of its paint and
+geometry quadtrees and put it back after every change of the page's box,
+so moving 200 shapes on a page measured the page over all its children
+200 times. Since the second performance round the entry waits for the
+next read of the trees (or any other change to them) and is then moved
+once, to the page's box at that point, in the order of the pages' last
+updates.
+
+Why it's unclear: the trees get the same final boxes, but not the same
+history of removes and inserts. With more than 10 pages a node of the
+tree can split, and where a page's entry ends up (so the order
+retrieveChildrenInPaintBBox and retrieveChildrenInGeometryBBox return
+pages in) can then depend on that history. Hit tests, page labels and the
+multi-page paint sort their results by index or by the active page; the
+multi-page collision checks keep the tree's order, which only matters for
+pages whose paint boxes overlap.
+
+Decided: the entry moves once (the whole speed-up depends on it). No
+parity scenario changes; a document with more than 10 overlapping pages
+could get its collision results in a different order.
