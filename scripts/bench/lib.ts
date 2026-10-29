@@ -109,7 +109,9 @@ function removeStaging(dir: string): void {
   const link = path.join(dir, "node_modules");
   if (fs.existsSync(link) || isLink(link)) {
     if (!isLink(link)) throw new Error(`${link} is not a link; not removing ${dir}`);
-    fs.rmdirSync(link);
+    // A junction on Windows (removed like a folder), a symlink elsewhere.
+    if (process.platform === "win32") fs.rmdirSync(link);
+    else fs.unlinkSync(link);
     if (fs.existsSync(link) || isLink(link)) throw new Error(`could not unlink ${link}`);
   }
   fs.rmSync(dir, { recursive: true, force: true });
