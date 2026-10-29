@@ -929,6 +929,16 @@ after). The commit messages have the full numbers.
 | 62a133bc | the start code built into four files that load side by side (Q-385) | cold-start docReadyMs | 924, 876 | 793, 782 |
 | 3520a261 | a word keeps its glyph outlines while its text, position, font and shaping options stay the same | type-long-text keyMedian | 115.9 | 99.1 |
 
+97fe23b1 changed the output of Sketch files with bitmap layers. The
+frame waits it removed had given each bitmap's image data time to
+arrive before its layer was appended, and its image time to load
+before the import called back. The fixes from fded9a91 to 82d307cf
+wait for those two things explicitly, at most 5 seconds each (Q-386),
+and keep the old order of a bitmap's own transform against its group's
+and its symbol instance's. import-sketch-4000 stays where 97fe23b1 put
+it: 3,025 and 2,458 ms before, 2,659 and 2,521 ms after (run
+40963437378).
+
 Tried and dropped, each because it didn't move its case or could change
 output:
 
