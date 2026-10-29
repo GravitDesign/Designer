@@ -4742,3 +4742,25 @@ Decided: keep the shared canvas. Kept as found: the pixel read after
 each text fill (Text._paintTextFill, `getPixelValue(0, 0)` on the
 previous canvas), which the old code made and which costs about 1 s on a
 20,000-element SVG import, stays.
+
+## Q-385 The app is ready sooner, but the loader shows a little later
+
+Old location: the old app's build (one entry chunk), now the
+`codeSplitting` groups in vite.config.ts.
+
+What it does: since the second performance round the code the app
+starts with is built into four files (packages, engine, editor, the
+rest) instead of one 4.7 MB entry. On the benchmark runner the app is
+ready about 90 to 130 ms sooner, but the first paint (the Next loader;
+the classic look paints nothing at that point) comes about 50 ms later,
+because the 2.3 MB theme stylesheet now downloads next to four scripts
+instead of one.
+
+Why it's unclear: the old app showed its loader sooner and was ready
+later. On a slow HTTP/1.1 link the stylesheet gets an even smaller share
+of the bandwidth, so the gap before the loader could grow there.
+
+Decided: keep the split. The loader and the rendered content look the
+same; only the time to a usable app changes, and it gets shorter. If
+the loader's timing matters more, splitting or trimming the theme
+stylesheet is the lever, or this one config can be reverted.
