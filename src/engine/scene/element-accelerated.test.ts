@@ -37,7 +37,7 @@ function names(layer: Layer): string[] {
   for (let child = layer.getFirstChild(); child; child = child.getNext()) {
     const element = child as Indexed;
     out.push(
-      `${element.getProperty("name") as string}:${element._elementIndex}:` +
+      `${element.getProperty("name") as string}:${element.getElementIndex()}:` +
         (element._containingPaintQTreeElement ? "p" : "-") +
         (element._containingGeometryQTreeElement ? "g" : "-") +
         (element._dirtyIndex ? "d" : ""),
@@ -105,7 +105,7 @@ describe("GElement.Accelerated index upkeep", () => {
     // A middle child removed (it gets its index - 1) and inserted further up.
     layer.removeChild(d);
     out.removedMiddle = names(layer);
-    out.removedMiddleOwnIndex = (d as unknown as Indexed)._elementIndex;
+    out.removedMiddleOwnIndex = d.getElementIndex();
     layer.insertChild(d, a);
     out.reinsertedMiddle = names(layer);
     out.hitsReinsertedMiddle = hits(layer, 45, 45);

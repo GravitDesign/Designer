@@ -34,6 +34,7 @@ import type {
   StoreOptions,
 } from "../serialize/blob.ts";
 import { installDeserializeAsync, type DeserializeAsync } from "../serialize/deserialize-async.ts";
+import { settleElementIndex } from "./element-index.ts";
 import { NodeChange, NodeFlag } from "./node-change.ts";
 import { Container, hasContainer, linkChild, type ContainerNode } from "./node-container.ts";
 import {
@@ -1023,6 +1024,9 @@ export class MapContainer extends Container(Store(Node)) {
     }
     if (this.isLocked()) return;
     this._notifyChange(NodeChange.BeforeChildInsert, child);
+    if (null !== this._indexAnchor) {
+      settleElementIndex(null != reference ? reference._previous : this._lastChild);
+    }
     linkChild(this, child, reference);
     child._setParent(this);
     this._children[(child as IdentityNode).getId()] = child;
@@ -1033,6 +1037,7 @@ export class MapContainer extends Container(Store(Node)) {
     if (child._parent != this) throw new Error("Child is not a child of this node");
     if (!child.validateRemoval()) throw new Error("Child removal validation failed.");
     this._notifyChange(NodeChange.BeforeChildRemove, child);
+    if (null !== this._indexAnchor) settleElementIndex(child);
     const id = (child as IdentityNode).getId();
     if (this._children[id]) {
       Reflect.deleteProperty(this._children, id);

@@ -89,7 +89,7 @@ function state(scene: Scene): unknown {
     bck: String(page.getProperty("bck")),
     scenePaintEntry: entry(page._containingPaintQTreeElement),
     sceneGeometryEntry: entry(page._containingGeometryQTreeElement),
-    pageIndex: page._elementIndex,
+    pageIndex: page.getElementIndex(),
     pagePaint: box(page.getPaintBBox()),
     sceneGeometry: box(scene.getGeometryBBox()),
     children: page.getChildren().map((node) => {
@@ -100,7 +100,7 @@ function state(scene: Scene): unknown {
             "trf",
           ) as Transform
         ).getMatrix(),
-        index: child._elementIndex,
+        index: child.getElementIndex(),
         paint: entry(child._containingPaintQTreeElement),
         geometry: entry(child._containingGeometryQTreeElement),
       };

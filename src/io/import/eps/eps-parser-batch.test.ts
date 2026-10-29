@@ -18,7 +18,7 @@ type Inspected = Group & {
   _childrenGeometryQTree: Tree;
 };
 type Child = {
-  _elementIndex: number;
+  getElementIndex(): number;
   getChildren(): unknown[];
   getPaintBBox(): Box;
   getGeometryBBox(): Box;
@@ -115,7 +115,7 @@ function state(group: Group): unknown {
     children: children.map((node) => {
       const child = node as unknown as Child;
       return {
-        index: child._elementIndex,
+        index: child.getElementIndex(),
         inside: child.getChildren ? child.getChildren().length : 0,
         paint: box(child.getPaintBBox()),
         geometry: box(child.getGeometryBBox()),

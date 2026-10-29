@@ -3,7 +3,8 @@
  * Containers with many children (layers, pages) keep two quadtrees over
  * their element children, by paint box and by geometry box, so hit tests
  * and collisions only look at the children near the point or area.
- * `_elementIndex` keeps the children's stacking order for sorting hits.
+ * `_elementIndex` keeps the children's stacking order for sorting hits;
+ * its renumbering waits for the next read (element-index.ts).
  */
 import { defineMixin, type AnyConstructor } from "../core/object.ts";
 import { QuadTree, type QuadTreeElement } from "../geometry/quadtree.ts";
@@ -12,6 +13,11 @@ import type { Rect } from "../math/rect.ts";
 import type { PaintContext } from "../paint/paint-context.ts";
 import type { PaintCanvas } from "../paint/paint-canvas.ts";
 import { ElementChange, isElement } from "./element-change.ts";
+import {
+  renumberElementIndices,
+  settleElementIndex,
+  settleElementIndices,
+} from "./element-index.ts";
 import type { Element } from "./element.ts";
 import { NodeChange } from "./node-change.ts";
 import { hasContainer, type ContainerNode } from "./node-container.ts";
@@ -103,6 +109,7 @@ const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => 
 
     _updateQTree(): void {
       this._applyPendingAccelUpdates();
+      settleElementIndices(this);
       this._createQTreeIfNotExists();
       let index = 0;
       const self = this as unknown as ContainerNode;
@@ -205,6 +212,7 @@ const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => 
         }
       }
       if (change === NodeChange.Restore) {
+        settleElementIndices(this);
         this._createQTreeIfNotExists();
         let index = 0;
         const self = this as unknown as ContainerNode;
@@ -217,7 +225,10 @@ const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => 
           }
         }
       } else if (change === NodeChange.BeforeChildRemove) {
-        if (isElement(args)) this._refreshIndicesForward(args, args._elementIndex - 1);
+        if (isElement(args)) {
+          settleElementIndex(args);
+          this._refreshIndicesForward(args, args._elementIndex - 1);
+        }
       } else if (change === NodeChange.AfterChildRemove) {
         if (isElement(args)) {
           this._removeAccelElement(args);
@@ -263,19 +274,25 @@ const acceleratedBody = <TBase extends AnyConstructor<Element>>(Base: TBase) => 
       }
     }
 
-    /** Numbers `element` and the siblings after it from `startIndex` (0 if not a number). */
+    /**
+     * Numbers `element` and the siblings after it from `startIndex` (0 if
+     * not a number), on their next read.
+     */
     _refreshIndicesForward(element: Node, startIndex: unknown): void {
       if (!isElement(element)) return;
-      let index = "number" != typeof startIndex || isNaN(startIndex) ? 0 : startIndex;
-      for (let node: Node | null = element; null !== node; node = node.getNext()) {
-        (node as Element)._elementIndex = index++;
-      }
+      renumberElementIndices(
+        element,
+        "number" != typeof startIndex || isNaN(startIndex) ? 0 : startIndex,
+      );
     }
 
     _getIndexOfPrevious(element: Node | null | undefined): number {
       if (!element) return -1;
       for (let node = element.getPrevious(); null !== node; node = node.getPrevious()) {
-        if (isElement(node)) return node._elementIndex;
+        if (isElement(node)) {
+          settleElementIndex(node);
+          return node._elementIndex;
+        }
       }
       return -1;
     }

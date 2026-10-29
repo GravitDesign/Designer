@@ -37,6 +37,7 @@ import type { VertexReader } from "../geometry/vertex-source.ts";
 import { Accelerated, type AcceleratedApi } from "./element-accelerated.ts";
 import { Anchor } from "./element-anchor.ts";
 import { bindElementClass, CollisionFlag, ElementChange, ElementFlag } from "./element-change.ts";
+import { settleElementIndices } from "./element-index.ts";
 import { Layout, type LayoutApi } from "./element-layout.ts";
 import { Transform as TransformMixin } from "./element-transform.ts";
 import { NodeChange, NodeFlag } from "./node-change.ts";
@@ -142,6 +143,7 @@ export class Element extends SceneNode {
   }
 
   getElementIndex(): number {
+    settleElementIndices(this._parent);
     return this._elementIndex;
   }
 
@@ -302,6 +304,7 @@ export class Element extends SceneNode {
           QuadTree.RETRIEVE_MODE_INTERSECT,
         );
         if (candidates) {
+          settleElementIndices(this);
           candidates.sort((a, b) => b._elementIndex - a._elementIndex);
           for (let i = 0; i < candidates.length; i++) {
             const childHits = (candidates[i] as Element).hitTest(

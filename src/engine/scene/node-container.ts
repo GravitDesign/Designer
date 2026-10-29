@@ -7,6 +7,7 @@
  * workspace's transaction recorder for undo.
  */
 import { defineMixin, type AnyConstructor } from "../core/object.ts";
+import { settleElementIndex } from "./element-index.ts";
 import { NodeChange, NodeFlag } from "./node-change.ts";
 import { hasMultireference } from "./node-identity.ts";
 import type { Node, NodeVisitor } from "./node.ts";
@@ -15,6 +16,12 @@ import type { Node, NodeVisitor } from "./node.ts";
 export interface ContainerApi {
   _firstChild: Node | null;
   _lastChild: Node | null;
+  /**
+   * The first child of a renumbering not written out yet (see
+   * element-index.ts), and the number it is owed.
+   */
+  _indexAnchor: Node | null;
+  _indexStart: number;
   getChildren(): Node[];
   getFirstChild(): Node | null;
   getLastChild(): Node | null;
@@ -44,6 +51,8 @@ export const Container = defineMixin(
     abstract class ContainerMixin extends Base implements ContainerApi {
       declare _firstChild: Node | null;
       declare _lastChild: Node | null;
+      declare _indexAnchor: Node | null;
+      declare _indexStart: number;
 
       getChildren(): Node[] {
         const children: Node[] = [];
@@ -74,6 +83,9 @@ export const Container = defineMixin(
           throw new Error("Child insertion validation failed.");
         }
         this._notifyChange(NodeChange.BeforeChildInsert, child);
+        if (null !== this._indexAnchor) {
+          settleElementIndex(null != reference ? reference._previous : this._lastChild);
+        }
         linkChild(this, child, reference);
         child._setParent(this as unknown as ContainerNode);
         const recorder = this._workspace ? this._workspace.getTransactionRecorder() : null;
@@ -88,6 +100,7 @@ export const Container = defineMixin(
         this._notifyChange(NodeChange.BeforeChildRemove, child);
         const recorder = this._workspace ? this._workspace.getTransactionRecorder() : null;
         if (recorder) recorder.beforeChildRemove(child, this, child._next);
+        if (null !== this._indexAnchor) settleElementIndex(child);
         child._setParent(null);
         if (this._firstChild == child) this._firstChild = child._next;
         if (this._lastChild == child) this._lastChild = child._previous;
@@ -175,6 +188,8 @@ export const Container = defineMixin(
     }
     ContainerMixin.prototype._firstChild = null;
     ContainerMixin.prototype._lastChild = null;
+    ContainerMixin.prototype._indexAnchor = null;
+    ContainerMixin.prototype._indexStart = 0;
     return ContainerMixin;
   },
 );
