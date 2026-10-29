@@ -4719,3 +4719,26 @@ pages whose paint boxes overlap.
 Decided: the entry moves once (the whole speed-up depends on it). No
 parity scenario changes; a document with more than 10 overlapping pages
 could get its collision results in a different order.
+
+## Q-384 A text render that throws partway leaves the half-drawn glyphs as the fill
+
+Old location: chunk.vendor.js, GTLCore.render (the copy of the core
+canvas into the fill canvas at the end of a fill render), now
+src/engine/text/gtl/tl-core.ts.
+
+What it does: the old core drew a fill render into its own canvas and
+copied the result into a separate fill canvas at the end. If the render
+threw partway, the copy was skipped and the fill canvas kept the
+previous render. Since the second performance round the core's canvas
+is the fill canvas until something else draws into it, so a render that
+throws leaves what it drew so far as the fill.
+
+Why it's unclear: the next paint renders the text again, so only a hit
+test (which reads the fill's pixels) between the failed render and the
+next paint could see the difference, and a render that throws is a bug
+of its own.
+
+Decided: keep the shared canvas. Kept as found: the pixel read after
+each text fill (Text._paintTextFill, `getPixelValue(0, 0)` on the
+previous canvas), which the old code made and which costs about 1 s on a
+20,000-element SVG import, stays.
