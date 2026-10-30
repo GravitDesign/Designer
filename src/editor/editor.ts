@@ -146,6 +146,7 @@ interface EdEditor {
   hasFlag(flag: number): boolean;
   getElement(): EdNode;
   getEditors(): unknown[] | null;
+  hasEditors(): boolean;
   getParentEditor(): EdEditor | null;
   getPartSelection(): unknown[] | null;
   updatePartSelection(toggle: boolean, parts: unknown[] | null): void;
@@ -681,7 +682,17 @@ export class Editor extends EventTarget {
   }
 
   declare _scene: Scene;
-  declare _selection: EdNode[] | null;
+  /**
+   * The selection list as stored. While clearSelection runs, the nodes it
+   * deselects from the front are left there: the first `_selectionHead`
+   * entries, dropped when it ends or on the next read of `_selection`.
+   * Once the list is too large for V8 to move its start (about 32,000
+   * entries), every shift moved all the other entries.
+   */
+  declare _selectionList: EdNode[] | null;
+  declare _selectionHead: number;
+  /** Set while clearSelection deselects (nested calls count). */
+  declare _selectionClearing: number;
   /**
    * How many times each node is in `_selection` (a node can be added
    * twice), so membership tests don't search the selection. Changed only
@@ -787,6 +798,17 @@ export class Editor extends EventTarget {
 
   getScene(): Scene {
     return this._scene;
+  }
+
+  /** The selection list, null when nothing is selected. */
+  get _selection(): EdNode[] | null {
+    if (this._selectionHead > 0) this._dropDeselected();
+    return this._selectionList;
+  }
+
+  set _selection(selection: EdNode[] | null) {
+    if (this._selectionHead > 0) this._dropDeselected();
+    this._selectionList = selection;
   }
 
   /** Whether anything is selected; null (not false) while there is no selection list, as before. */
@@ -1543,10 +1565,16 @@ export class Editor extends EventTarget {
   clearSelection(keep?: readonly unknown[] | null): void {
     if (!equals(keep, this._selection)) {
       this._beginSelectionUpdate();
+      this._selectionClearing++;
       try {
         const kept = keep ? new Set(keep) : null;
-        for (let i = 0; this._selection && i < this._selection.length;) {
-          const node = this._selection[i] as EdNode;
+        // `i` counts the kept nodes at the front of the selection, which
+        // starts `_selectionHead` entries into the stored list.
+        for (let i = 0; ;) {
+          const selection = this._selectionList;
+          const index = this._selectionHead + i;
+          if (!selection || index >= selection.length) break;
+          const node = selection[index] as EdNode;
           if (kept && kept.has(node)) i++;
           else {
             const internal = node.hasMixin(Container) ? node.getInternalSelectedNodes() : null;
@@ -1556,6 +1584,7 @@ export class Editor extends EventTarget {
           }
         }
       } finally {
+        if (0 === --this._selectionClearing && this._selectionHead > 0) this._dropDeselected();
         this._finishSelectionUpdate();
       }
     }
@@ -3185,8 +3214,10 @@ export class Editor extends EventTarget {
           editor.setEditMode(true);
         }
         if (editor.validateSelectionChange()) {
-          if (!this._selection) this._selection = [];
-          this._selection.push(node);
+          // The stored list: a container deselected by clearSelection adds
+          // its children while deselected nodes are still at the front.
+          if (!this._selectionList) this._selectionList = [];
+          this._selectionList.push(node);
           this._individualCache = null;
           this._selectionCounts.set(node, (this._selectionCounts.get(node) || 0) + 1);
           this._updatedSelection();
@@ -3204,14 +3235,16 @@ export class Editor extends EventTarget {
         this._tryCloseEditor(node, true);
       }
       const count = this._selectionCounts.get(node);
-      if (this._selection && count) {
+      const selection = this._selectionList;
+      if (selection && count) {
         // The last place it is at. When it is there once, search from both
-        // ends: clearing a selection removes from the front.
-        const selection = this._selection;
+        // ends: clearing a selection removes from the front. The entries
+        // clearSelection left at the front are emptied, so they never match.
+        const head = this._selectionHead;
         let index = -1;
         if (count > 1) index = selection.lastIndexOf(node);
         else {
-          for (let front = 0, back = selection.length - 1; front <= back; ++front, --back) {
+          for (let front = head, back = selection.length - 1; front <= back; ++front, --back) {
             if (selection[front] === node) {
               index = front;
               break;
@@ -3223,17 +3256,32 @@ export class Editor extends EventTarget {
           }
         }
         if (index >= 0) {
-          // shift can drop the first item without moving the rest.
-          if (0 === index) selection.shift();
-          else selection.splice(index, 1);
+          if (index === head && this._selectionClearing > 0) {
+            // Left at the front until clearSelection ends (see _selectionList).
+            selection[head] = undefined as unknown as EdNode;
+            this._selectionHead = head + 1;
+          } else if (0 === index) {
+            // shift can drop the first item without moving the rest.
+            selection.shift();
+          } else selection.splice(index, 1);
+          if (this._selectionHead === selection.length) {
+            selection.length = 0;
+            this._selectionHead = 0;
+          }
           this._individualCache = null;
           if (count > 1) this._selectionCounts.set(node, count - 1);
           else this._selectionCounts.delete(node);
-          if (0 == selection.length) this._selection = null;
+          if (0 == selection.length) this._selectionList = null;
           this._updatedSelection();
         }
       }
     }
+  }
+
+  /** Drops the nodes clearSelection left at the front of the selection list, in one splice. */
+  _dropDeselected(): void {
+    (this._selectionList as EdNode[]).splice(0, this._selectionHead);
+    this._selectionHead = 0;
   }
 
   /**
@@ -3246,7 +3294,9 @@ export class Editor extends EventTarget {
       editor &&
       !editor.hasFlag(EditorFlag.Selected as number) &&
       !editor.hasFlag(EditorFlag.Highlighted as number) &&
-      (force || null == editor.getEditors() || 0 == (editor.getEditors() as unknown[]).length)
+      // Asked of the parent after each closed child: hasEditors leaves the
+      // removed children at the front of its list (BaseEditor.removeEditor).
+      (force || !editor.hasEditors())
     ) {
       const parent = editor.getParentEditor();
       this._closeEditor(node);
@@ -3399,7 +3449,9 @@ export class Editor extends EventTarget {
 }
 
 Object.assign(Editor.prototype, {
-  _selection: null,
+  _selectionList: null,
+  _selectionHead: 0,
+  _selectionClearing: 0,
   _individualCache: null,
   _individualCaching: 0,
   _individualCacheOff: false,

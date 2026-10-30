@@ -187,6 +187,16 @@ function eventTargetMembers<TBase extends AnyConstructor>(Base: TBase) {
     }
 
     /**
+     * The target of the listener that is called last for the event class
+     * (null without listeners, or when it was added without a target).
+     */
+    getLastEventListenerTarget(eventClass: EventClass | number): unknown {
+      const group = this._listeners?.get(getTypeId(eventClass));
+      const last = group ? group.listeners[group.listeners.length - 1] : undefined;
+      return (last && last.target) || null;
+    }
+
+    /**
      * Calls the listeners for the event's class with `this` as the sender,
      * in order, over a copy of the list: listeners removed during the call
      * are skipped, listeners added during it wait for the next trigger.

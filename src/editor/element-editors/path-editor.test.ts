@@ -1,6 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { getTypeId } from "../../engine/core/object.ts";
 import { Point } from "../../engine/math/point.ts";
 import { Transform } from "../../engine/math/transform.ts";
+import { GeometryChangeEvent } from "../../engine/scene/element.ts";
 import { NodeFlag } from "../../engine/scene/node-change.ts";
 import type { Page } from "../../engine/scene/page.ts";
 import { AnchorPoint } from "../../engine/scene/path-base.ts";
@@ -229,5 +231,88 @@ describe("GPathEditor", () => {
     expect(editor.isDeletePartsAllowed()).toBe(true);
     editor.updatePartSelection(true, [{ type: PathEditor.PartType.Point, point: anchors[1] }]);
     expect(editor.isDeletePartsAllowed()).toBe(false);
+  });
+});
+
+describe("GPathEditor geometry changes in the scene", () => {
+  /** Paths p0, p1, ... on one page, without editors yet. */
+  function scenePaths(count: number) {
+    const scene = new Scene(new Workspace());
+    const host = { requestInvalidation: () => undefined };
+    (scene as unknown as { __graphic_editor__: unknown }).__graphic_editor__ = host;
+    const paths: Path[] = [];
+    for (let i = 0; i < count; i++) {
+      const path = new Path();
+      for (const [x, y] of [
+        [i * 20, 0],
+        [i * 20 + 10, 10],
+      ]) {
+        const point = new AnchorPoint();
+        point.setProperties(["x", "y"], [x, y]);
+        path.getAnchorPoints().appendChild(point);
+      }
+      (scene.getActivePage() as Page).appendChild(path);
+      paths.push(path);
+    }
+    return { scene, paths };
+  }
+
+  const open = (path: Path): PathEditor => ElementEditor.openEditor(path) as PathEditor;
+  const move = (path: Path): void => path.transform(new Transform(1, 0, 0, 1, 5, 0));
+  /** The scene's listeners for geometry changes. */
+  const listeners = (scene: Scene): number =>
+    scene._listeners?.get(getTypeId(GeometryChangeEvent))?.listeners.length ?? 0;
+
+  it("drops the preview of the changed path's editor only", () => {
+    const { paths } = scenePaths(2);
+    const [first, second] = paths.map(open) as [PathEditor, PathEditor];
+    first.getPathPreview(true);
+    second.getPathPreview(true);
+    move(paths[0] as Path);
+    expect(first._elementPreview).toBeNull();
+    expect(second._elementPreview).not.toBeNull();
+  });
+
+  it("gives editors opened one after another one listener on the scene", () => {
+    const { scene, paths } = scenePaths(4);
+    const before = listeners(scene);
+    paths.forEach(open);
+    expect(listeners(scene)).toBe(before + 1);
+  });
+
+  it("keeps each editor's place among the scene's other listeners", () => {
+    const { scene, paths } = scenePaths(3);
+    const log: string[] = [];
+    const editors = [open(paths[0] as Path), open(paths[1] as Path)];
+    scene.addEventListener(GeometryChangeEvent, () => void log.push("other"));
+    editors.push(open(paths[2] as Path));
+    editors.forEach((editor, i) => {
+      vi.spyOn(editor, "_geometryChange").mockImplementation(() => void log.push("p" + i));
+    });
+    for (const path of paths) {
+      scene.trigger(new GeometryChangeEvent(path, GeometryChangeEvent.Type.After));
+    }
+    // p2 was opened after the other listener, so it hears of changes after it.
+    expect(log).toEqual(["p0", "other", "p1", "other", "other", "p2"]);
+  });
+
+  it("lets a closed editor go, and the listener with the last one", () => {
+    const { scene, paths } = scenePaths(3);
+    const before = listeners(scene);
+    const editors = paths.map(open);
+    ElementEditor.closeElementEditor(paths[1] as Path);
+    expect(listeners(scene)).toBe(before + 1);
+    const closed = vi.spyOn(editors[1] as PathEditor, "_geometryChange");
+    move(paths[1] as Path);
+    expect(closed).not.toHaveBeenCalled();
+    ElementEditor.closeElementEditor(paths[0] as Path);
+    ElementEditor.closeElementEditor(paths[2] as Path);
+    expect(listeners(scene)).toBe(before);
+    // Opened again, it hears of its path's changes.
+    const reopened = open(paths[1] as Path);
+    expect(listeners(scene)).toBe(before + 1);
+    reopened.getPathPreview(true);
+    move(paths[1] as Path);
+    expect(reopened._elementPreview).toBeNull();
   });
 });

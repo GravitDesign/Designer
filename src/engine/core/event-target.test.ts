@@ -142,6 +142,27 @@ describe("EventTarget", () => {
     expect(log).toEqual(["by id"]);
   });
 
+  it("names the target of the listener called last", () => {
+    const target = new EventTarget();
+    const first = { name: "first" };
+    const second = { name: "second" };
+    const listener = () => undefined;
+    const untargeted = () => undefined;
+    expect(target.getLastEventListenerTarget(PingEvent)).toBeNull();
+    target.addEventListener(PingEvent, listener, first);
+    target.addEventListener(PingEvent, listener, second);
+    target.addEventListener(OtherEvent, listener, first);
+    expect(target.getLastEventListenerTarget(PingEvent)).toBe(second);
+    target.addEventListener(PingEvent, listener, first, null, true);
+    expect(target.getLastEventListenerTarget(PingEvent)).toBe(second);
+    target.addEventListener(PingEvent, untargeted);
+    expect(target.getLastEventListenerTarget(PingEvent)).toBeNull();
+    target.removeEventListener(PingEvent, untargeted);
+    expect(target.getLastEventListenerTarget(PingEvent)).toBe(second);
+    target.removeEventListener(PingEvent, listener, second);
+    expect(target.getLastEventListenerTarget(PingEvent)).toBe(first);
+  });
+
   describe("listeners bound to targets", () => {
     /** A listener shared by several targets, as editors share their prototype's method. */
     class Owner {

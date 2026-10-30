@@ -81,6 +81,15 @@ export class SelectionPositionEditor extends BoxEditor {
   declare _graphicEditor: SelectionHost | null;
   declare _activated: boolean;
   declare _groupBox: GroupBoxCache | null;
+  /**
+   * How many calls of getBBox, paint and getPartInfoAt are running. They
+   * read the box several times (the box outline, each handle) and nothing
+   * changes the selection in between, so `_groupBox` is checked once per
+   * outermost call: `_groupBoxCheckedFor` is the selection it was checked
+   * for, until that call returns.
+   */
+  declare _boxReads: number;
+  declare _groupBoxCheckedFor: readonly EditedElement[] | null;
 
   /** Starts editing the selection of `editor` in `scene`. */
   activate(scene: unknown, editor: SelectionHost): void {
@@ -132,6 +141,19 @@ export class SelectionPositionEditor extends BoxEditor {
    * grid position once per read instead of once per element.
    */
   _getGroupBox(selection: readonly EditedElement[], positions: Map<PageLike, Point>): Rect | null {
+    if (this._boxReads > 0 && this._groupBox && this._groupBoxCheckedFor === selection) {
+      return this._groupBox.box;
+    }
+    const box = this._checkGroupBox(selection, positions);
+    if (this._boxReads > 0) this._groupBoxCheckedFor = selection;
+    return box;
+  }
+
+  /** `_groupBox` if it still holds for `selection`, else the box computed again. */
+  _checkGroupBox(
+    selection: readonly EditedElement[],
+    positions: Map<PageLike, Point>,
+  ): Rect | null {
     const cache = this._groupBox;
     if (cache && cache.elements.length === selection.length) {
       let valid = true;
@@ -247,7 +269,21 @@ export class SelectionPositionEditor extends BoxEditor {
           new Transform(1, 0, 0, 1, position.getX(), position.getY()),
         );
     }
-    super.paint(paged || transform, context);
+    this._readingBox(() => super.paint(paged || transform, context));
+  }
+
+  override getBBox(transform: Transform): Rect | null {
+    return this._readingBox(() => super.getBBox(transform));
+  }
+
+  /** Calls `read`, checking `_groupBox` at most once meanwhile (see `_boxReads`). */
+  _readingBox<T>(read: () => T): T {
+    this._boxReads++;
+    try {
+      return read();
+    } finally {
+      if (0 === --this._boxReads) this._groupBoxCheckedFor = null;
+    }
   }
 
   /**
@@ -421,15 +457,17 @@ export class SelectionPositionEditor extends BoxEditor {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars -- the old signature
     extra?: unknown,
   ): PartInfo | null {
-    tolerance = tolerance || 0;
+    const pick = tolerance || 0;
     if (filter && true !== filter.call(null, this)) return null;
     const matrix = transform || new Transform();
-    const box = this.getBBox(matrix);
-    if (box && box.expanded(tolerance, tolerance, tolerance, tolerance).containsPoint(location)) {
-      const hit = this._getPartInfoAt(location, matrix, tolerance);
-      if (hit) return hit;
-    }
-    return null;
+    return this._readingBox(() => {
+      const box = this.getBBox(matrix);
+      if (box && box.expanded(pick, pick, pick, pick).containsPoint(location)) {
+        const hit = this._getPartInfoAt(location, matrix, pick);
+        if (hit) return hit;
+      }
+      return null;
+    });
   }
 
   override isRelativeToPage(): boolean {
@@ -456,4 +494,6 @@ Object.assign(SelectionPositionEditor.prototype, {
   _graphicEditor: null,
   _activated: false,
   _groupBox: null,
+  _boxReads: 0,
+  _groupBoxCheckedFor: null,
 });

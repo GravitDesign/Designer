@@ -3,7 +3,7 @@ import { Point } from "../engine/math/point.ts";
 import { Transform } from "../engine/math/transform.ts";
 import { Block } from "../engine/scene/block.ts";
 import { NodeFlag } from "../engine/scene/node-change.ts";
-import { BeforeRemoveEvent } from "../engine/scene/node-events.ts";
+import { AfterFlagChangeEvent, BeforeRemoveEvent } from "../engine/scene/node-events.ts";
 import type { Node } from "../engine/scene/node.ts";
 import { Rectangle } from "../engine/scene/rectangle.ts";
 import { Scene } from "../engine/scene/scene.ts";
@@ -17,6 +17,7 @@ import "./element-editors/page-editor.ts";
 import "./element-editors/scene-editor.ts";
 import "./element-editors/layer-editor.ts";
 import "./element-editors/selection-position-editor.ts";
+import type { BaseEditor } from "./element-editors/base-editor.ts";
 import { ElementEditor } from "./element-editors/element-editor.ts";
 
 function setup(): { scene: Scene; editor: Editor } {
@@ -347,6 +348,103 @@ describe("Editor selection index", () => {
     a.removeFlag(NodeFlag.Selected);
     expect(names(editor.getSelection())).toEqual(["r1", "r2"]);
     expectInStep(editor, nodes);
+  });
+});
+
+describe("Editor clearing a selection from the front", () => {
+  function many(editor: Editor, count: number): Rectangle[] {
+    const nodes: Rectangle[] = [];
+    for (let i = 0; i < count; i++) nodes.push(rect(i * 20, "r" + i));
+    editor.insertElements(nodes, true);
+    return nodes;
+  }
+
+  /** Calls `listener` after the editor has handled each node's deselection. */
+  function onDeselect(scene: Scene, listener: (node: Node) => void): void {
+    scene.addEventListener(AfterFlagChangeEvent, (event: AfterFlagChangeEvent) => {
+      if (event.flag === NodeFlag.Selected && !event.set) listener(event.node as Node);
+    });
+  }
+
+  const editorNames = (editors: readonly unknown[] | null): unknown[] =>
+    names((editors || []).map((e) => (e as ElementEditor).getElement()));
+
+  it("leaves the deselected nodes and their closed editors at the front until it ends", () => {
+    const { scene, editor } = setup();
+    const nodes = many(editor, 5);
+    const parent = (ElementEditor.getEditor(nodes[0]) as ElementEditor).getParentEditor();
+    const stored = editor._selectionList;
+    const heads: number[][] = [];
+    onDeselect(scene, () => {
+      heads.push([
+        editor._selectionHead,
+        (parent as BaseEditor)._editorsHead,
+        (editor._selectionList || []).length,
+      ]);
+    });
+    editor.clearSelection();
+    // Nothing moved until the last one went; then both lists emptied.
+    expect(heads).toEqual([
+      [1, 1, 5],
+      [2, 2, 5],
+      [3, 3, 5],
+      [4, 4, 5],
+      [0, 0, 0],
+    ]);
+    expect(editor.getSelection()).toBeNull();
+    expect(stored).toEqual([]);
+    expect((parent as BaseEditor).getEditors()).toEqual([]);
+  });
+
+  it("shows readers the selection and the editors that are left at each step", () => {
+    const { scene, editor } = setup();
+    const nodes = many(editor, 4);
+    const parent = (ElementEditor.getEditor(nodes[0]) as ElementEditor).getParentEditor();
+    const seen: unknown[] = [];
+    onDeselect(scene, (node) => {
+      seen.push([
+        names([node]),
+        names(editor.getSelection()),
+        editor.hasSelection(),
+        editorNames((parent as BaseEditor).getEditors()),
+        nodes.map((n) => editor.isInSelection(n)),
+      ]);
+    });
+    editor.clearSelection();
+    expect(seen).toEqual([
+      [["r0"], ["r1", "r2", "r3"], true, ["r1", "r2", "r3"], [false, true, true, true]],
+      [["r1"], ["r2", "r3"], true, ["r2", "r3"], [false, false, true, true]],
+      [["r2"], ["r3"], true, ["r3"], [false, false, false, true]],
+      [["r3"], [], null, [], [false, false, false, false]],
+    ]);
+  });
+
+  it("keeps nodes in their order and takes nodes selected meanwhile", () => {
+    const { scene, editor } = setup();
+    const nodes = many(editor, 5);
+    const extra = rect(200, "x");
+    editor.insertElements([extra], false);
+    editor.updateSelection(false, nodes);
+    const held = editor.getSelection() as Node[];
+    onDeselect(scene, (node) => {
+      if (node === nodes[0]) extra.setFlag(NodeFlag.Selected);
+    });
+    // Inside an outer update the selection change isn't handed out yet,
+    // so nothing reads the list before the clear has tidied it.
+    editor._beginSelectionUpdate();
+    editor.clearSelection([nodes[1], nodes[3], extra]);
+    expect(names(held)).toEqual(["r1", "r3", "x"]);
+    editor._finishSelectionUpdate();
+    expect(editor.getSelection()).toBe(held);
+    const parent = (ElementEditor.getEditor(nodes[1]) as ElementEditor).getParentEditor();
+    expect(editorNames((parent as BaseEditor).getEditors())).toEqual(["r1", "r3", "x"]);
+    expect(nodes.map((n) => n.hasFlag(NodeFlag.Selected))).toEqual([
+      false,
+      true,
+      false,
+      true,
+      false,
+    ]);
   });
 });
 

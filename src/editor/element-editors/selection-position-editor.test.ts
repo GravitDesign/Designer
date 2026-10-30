@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import { RGBColor } from "../../engine/color/rgb-color.ts";
 import { Point } from "../../engine/math/point.ts";
 import { Rect } from "../../engine/math/rect.ts";
 import { Transform } from "../../engine/math/transform.ts";
@@ -10,6 +11,7 @@ import { Workspace } from "../../engine/scene/workspace.ts";
 import { Text } from "../../engine/text/text.ts";
 import { Editor } from "../editor.ts";
 import { EditorWorkspace } from "../editor-workspace.ts";
+import { EditorAnnotation } from "../handles/editor-annotation.ts";
 import { BaseEditor } from "./base-editor.ts";
 import { BoxEditor, EdTransformOptions } from "./box-editor.ts";
 import { ElementEditor } from "./element-editor.ts";
@@ -320,6 +322,75 @@ describe("GSelectionPositionEditor", () => {
       expect(second.getPosition(true).getX()).not.toBe(at);
       expect(rect(editor.getBox())).toEqual(rect(measured(editor)));
       expect(rect(editor.getBox())).not.toEqual(before);
+    });
+
+    /**
+     * Paints with the drawing stubbed out (the box is still read for the
+     * outline and every handle); returns the outlined boxes.
+     */
+    function paint(editor: SelectionPositionEditor): unknown[] {
+      const drawn: unknown[] = [];
+      const draw = vi.spyOn(EditorAnnotation, "paintAnnotation").mockImplementation(() => {});
+      editor._paintTransformedQuadrilateral = (transform: Transform, box: Rect) =>
+        void drawn.push(rect(box));
+      editor._computedOutlineColor = RGBColor.BLACK;
+      const context = { configuration: { multiPageView: false }, canvas: { strokeLine() {} } };
+      editor.paint(new Transform(), context as never);
+      draw.mockRestore();
+      return drawn;
+    }
+
+    it("checks it once per bbox, hit test or paint, however often they read it", () => {
+      const { a, b, editor } = setup();
+      editor.setFlag(BaseEditor.Flag.Selected);
+      expect(rect(editor.getBox())).toEqual([0, 0, 100, 60]);
+      const spies = ([a, b] as PathBase[]).map((element) => vi.spyOn(element, "getGeometryBBox"));
+      const checks = () => spies.map((spy) => spy.mock.calls.length);
+      expect(rect(editor.getBBox(new Transform()))).not.toBeNull();
+      expect(checks()).toEqual([1, 1]);
+      expect(editor.getPartInfoAt(new Point(100, 60), new Transform())?.id).toBe(
+        BoxEditor.RESIZE_HANDLE_PART_ID,
+      );
+      expect(checks()).toEqual([2, 2]);
+      expect(paint(editor)).toEqual([[0, 0, 100, 60]]);
+      expect(checks()).toEqual([3, 3]);
+      // Other reads check each time.
+      editor.getBox();
+      editor.getBox();
+      expect(checks()).toEqual([5, 5]);
+    });
+
+    it("checks it again in the next bbox, hit test or paint", () => {
+      const { a, b, editor } = setup();
+      editor.setFlag(BaseEditor.Flag.Selected);
+      const view = new Transform();
+      const before = rect(editor.getBBox(view));
+      expect(editor.getPartInfoAt(new Point(100, 60), view)?.id).toBe(
+        BoxEditor.RESIZE_HANDLE_PART_ID,
+      );
+      expect(paint(editor)).toEqual([[0, 0, 100, 60]]);
+      b.transform(new Transform(1, 0, 0, 1, 50, 0));
+      expect(editor.getPartInfoAt(new Point(100, 60), view)).toBeNull();
+      expect(editor.getPartInfoAt(new Point(150, 60), view)?.id).toBe(
+        BoxEditor.RESIZE_HANDLE_PART_ID,
+      );
+      const moved = rect(editor.getBBox(view));
+      expect(moved).not.toEqual(before);
+      a.transform(new Transform(1, 0, 0, 1, -30, 0));
+      expect(paint(editor)).toEqual([[-30, 0, 180, 60]]);
+      const read = rect(editor.getBBox(view));
+      expect(read).not.toEqual(moved);
+      editor._groupBox = null;
+      expect(rect(editor.getBBox(view))).toEqual(read);
+    });
+
+    it("measures a new selection list given within the same read", () => {
+      const { b, editor } = setup();
+      editor._readingBox(() => {
+        expect(rect(editor.getBox())).toEqual([0, 0, 100, 60]);
+        editor._selection = [b];
+        expect(rect(editor.getBox())).toEqual([60, 20, 40, 40]);
+      });
     });
 
     it("measures again after a move is undone and redone", () => {

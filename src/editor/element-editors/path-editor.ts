@@ -128,6 +128,38 @@ function pointOf(point: AnchorPoint): Point {
 
 const MIRROR = AnchorPoint.Type.Mirror;
 
+/**
+ * Path editors attached one after the other, sharing one listener for
+ * the scene's geometry changes. An editor only reacts to a change of its
+ * own element, but with a listener each, every change in the scene called
+ * all open path editors (one per selected path) and closing one searched
+ * the scene's list. An editor joins the run only while the run's listener
+ * is the scene's last one for the event, so it keeps its place among the
+ * scene's other listeners, as if it had been added on its own.
+ */
+class GeometryRun {
+  readonly editors = new Map<unknown, PathEditor>();
+  constructor(readonly scene: Scene) {}
+}
+
+/** A run's listener: hands the change to the editor of the changed element. */
+function runGeometryChange(this: GeometryRun, event: GeometryChangeEvent): void {
+  const editor = this.editors.get(event.element);
+  if (editor) editor._geometryChange(event);
+}
+
+function joinGeometryRun(scene: Scene, editor: PathEditor): GeometryRun {
+  const last = scene.getLastEventListenerTarget(GeometryChangeEvent);
+  let run = last instanceof GeometryRun ? last : null;
+  // A second editor of the same element gets a run of its own behind it.
+  if (!run || run.editors.has(editor._element)) {
+    run = new GeometryRun(scene);
+    scene.addEventListener(GeometryChangeEvent, runGeometryChange, run);
+  }
+  run.editors.set(editor._element, editor);
+  return run;
+}
+
 export class PathEditor<E extends EditedPath = EditedPath> extends PathBaseEditor<E> {
   static {
     registerClass(this, "GPathEditor");
@@ -144,6 +176,8 @@ export class PathEditor<E extends EditedPath = EditedPath> extends PathBaseEdito
   declare _constrainPainted: boolean;
   declare _activeExtedingMode: unknown;
   declare _partSelection: PathPartId[] | null;
+  /** The run of path editors this one gets the scene's geometry changes through, while attached. */
+  declare _geometryRun: GeometryRun | null;
 
   constructor(element: E) {
     super(element);
@@ -851,7 +885,7 @@ export class PathEditor<E extends EditedPath = EditedPath> extends PathBaseEdito
 
   override _attach(): void {
     const scene = this._element.getScene() as Scene | null;
-    if (null != scene) scene.addEventListener(GeometryChangeEvent, this._geometryChange, this);
+    if (null != scene) this._geometryRun = joinGeometryRun(scene, this);
     this._element.addEventListener(Node.AfterInsertEvent, this._afterInsert, this);
   }
 
@@ -866,8 +900,16 @@ export class PathEditor<E extends EditedPath = EditedPath> extends PathBaseEdito
       point.removeFlag(NodeFlag.Highlighted);
     }
     this.requestInvalidation();
+    // As before, only the element's scene lets the editor go.
     const scene = this._element.getScene() as Scene | null;
-    if (null != scene) scene.removeEventListener(GeometryChangeEvent, this._geometryChange, this);
+    const run = this._geometryRun;
+    if (run && run.scene === scene && run.editors.get(this._element) === this) {
+      run.editors.delete(this._element);
+      if (0 === run.editors.size) {
+        scene.removeEventListener(GeometryChangeEvent, runGeometryChange, run);
+      }
+      this._geometryRun = null;
+    }
     this._element.removeEventListener(Node.AfterInsertEvent, this._afterInsert, this);
     super._detach();
   }
@@ -2001,4 +2043,5 @@ Object.assign(PathEditor.prototype, {
   _constrainPair: null,
   _constrainPainted: false,
   _activeExtedingMode: false,
+  _geometryRun: null,
 });

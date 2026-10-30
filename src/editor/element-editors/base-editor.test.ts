@@ -1,10 +1,10 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { RGBColor } from "../../engine/color/rgb-color.ts";
 import { Point } from "../../engine/math/point.ts";
 import { Rect } from "../../engine/math/rect.ts";
 import { Transform } from "../../engine/math/transform.ts";
 import { Rectangle } from "../../engine/scene/rectangle.ts";
-import type { PaintLayers } from "../../engine/style/paint-layers.ts";
+import { PaintLayers } from "../../engine/style/paint-layers.ts";
 import { FillPaintLayer } from "../../engine/style/fill-paint-layer.ts";
 import { BaseEditor, PartInfo, type EditorPaintContext } from "./base-editor.ts";
 
@@ -23,6 +23,20 @@ class BoxedEditor extends BaseEditor {
 
   override _getPartInfoAt(): PartInfo | null {
     return new PartInfo(this, this.label, null, false, true);
+  }
+}
+
+/** An editor that notes its label when it paints. */
+class PaintingEditor extends BaseEditor {
+  constructor(
+    readonly label: string,
+    private readonly painted: string[],
+  ) {
+    super();
+  }
+
+  override paint(): void {
+    this.painted.push(this.label);
   }
 }
 
@@ -72,6 +86,45 @@ describe("GBaseEditor", () => {
     BaseEditor.closeEditor(b);
     expect(parent.getEditors()).toEqual([a, c]);
     expect(b.getParentEditor()).toBeNull();
+  });
+
+  it("takes child editors out from the front and drops them from its list on the next read", () => {
+    const painted: string[] = [];
+    const parent = new BaseEditor();
+    const [a, b, c, d] = ["a", "b", "c", "d"].map((label) => new PaintingEditor(label, painted));
+    for (const child of [a, b, c, d]) parent.appendEditor(child as BaseEditor);
+    const stored = parent._editorList as BaseEditor[];
+    parent.removeEditor(a as BaseEditor);
+    parent.removeEditor(b as BaseEditor);
+    // Nothing moved yet.
+    expect([parent._editorsHead, stored.length, parent.hasEditors()]).toEqual([2, 4, true]);
+    expect((a as BaseEditor).getParentEditor()).toBeNull();
+    expect(() => parent.removeEditor(a as BaseEditor)).toThrow("Unknown editor.");
+    parent.paint(new Transform(), {} as EditorPaintContext);
+    expect(painted).toEqual(["c", "d"]);
+    expect(parent._editorsHead).toBe(0);
+    expect(parent.getEditors()).toBe(stored);
+    expect(stored).toEqual([c, d]);
+    // A reference is looked up among the editors left.
+    parent.removeEditor(c as BaseEditor);
+    const e = new BaseEditor();
+    parent.insertEditor(e, d as BaseEditor);
+    expect(parent.getEditors()).toEqual([e, d]);
+  });
+
+  it("empties its list when the last child editor goes", () => {
+    const parent = new BaseEditor();
+    const [a, b, c] = [new BaseEditor(), new BaseEditor(), new BaseEditor()];
+    for (const child of [a, b, c]) parent.appendEditor(child);
+    const stored = parent._editorList as BaseEditor[];
+    parent.removeEditor(a);
+    parent.removeEditor(c);
+    expect(stored).toHaveLength(2);
+    parent.removeEditor(b);
+    expect([stored.length, parent._editorsHead, parent.hasEditors()]).toEqual([0, 0, false]);
+    expect(parent.getEditors()).toEqual([]);
+    parent.appendEditor(a);
+    expect(parent.getEditors()).toEqual([a]);
   });
 
   it("toggles parts in and out of the selection only while selected", () => {
@@ -162,5 +215,23 @@ describe("GBaseEditor", () => {
     expect(BaseEditor.getOutlineColor(onBlue(), 0, 0, blue, shape).toScreen()).toEqual([
       255, 255, 255,
     ]);
+  });
+
+  it("reads the fills only over a background close to the outline colour", () => {
+    const shape = new Rectangle();
+    const fill = new FillPaintLayer(new RGBColor([250, 250, 250]));
+    (shape.getPaintLayers() as PaintLayers).appendChild(fill);
+    const average = vi.spyOn(fill.getProperty("_pt") as RGBColor, "getAverageColor");
+    const onWhite = () => context(() => [255, 255, 255]);
+    expect(BaseEditor.getOutlineColor(onWhite(), 0, 0, blue, shape)).toBe(blue);
+    expect(average).not.toHaveBeenCalled();
+    const onBlue = context(() => [33, 130, 226]);
+    expect(BaseEditor.getOutlineColor(onBlue, 0, 0, blue, shape).toScreen()).toEqual([0, 0, 40]);
+    expect(average).toHaveBeenCalledTimes(1);
+    // The fills' container is made on first use, as before.
+    const bare = new Rectangle() as Rectangle & { _paintLayers?: PaintLayers | null };
+    bare._paintLayers = null;
+    expect(BaseEditor.getOutlineColor(onWhite(), 0, 0, blue, bare)).toBe(blue);
+    expect(bare._paintLayers).toBeInstanceOf(PaintLayers);
   });
 });

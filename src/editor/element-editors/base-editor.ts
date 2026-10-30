@@ -148,11 +148,18 @@ export class BaseEditor extends GObject {
     const closeToDefault = RGBColor.closeEnough(background, defaultColor.toScreen(), 100);
     let blended: RGBColor | null = null;
     if (element && element.hasMixin(Stylable) && (element as unknown as Visible).isVisible()) {
+      const stylable = element as unknown as StylableLike;
+      if (!closeToDefault) {
+        // The fills only count over a background close to the default
+        // colour. Their container is asked for all the same: it is made
+        // on first use.
+        stylable.getPaintLayers();
+        return defaultColor;
+      }
       let red = 0;
       let green = 0;
       let blue = 0;
       let opacity = 1;
-      const stylable = element as unknown as StylableLike;
       if (stylable.hasProperty("_stop")) opacity = stylable.getProperty("_stop") as number;
       const layers = stylable.getPaintLayers();
       const list = layers ? layers.getLayers() : [];
@@ -219,7 +226,15 @@ export class BaseEditor extends GObject {
   declare _temporalOutlineFlag: boolean;
   declare _transform: Transform | null;
   declare _parentEditor: BaseEditor | null;
-  declare _editors: BaseEditor[] | null;
+  /**
+   * The child editors as stored: the first `_editorsHead` entries are
+   * editors removeEditor took out from the front and are dropped on the
+   * next read of `_editors`. Clearing a large selection closes the
+   * editors from the front, and once the list is too large for V8 to move
+   * its start (about 32,000 entries) every shift moved all the others.
+   */
+  declare _editorList: BaseEditor[] | null;
+  declare _editorsHead: number;
   declare _partSelection: unknown[] | null;
   declare _blockDeletion: boolean;
   declare _blockRemoval: boolean | undefined;
@@ -258,8 +273,26 @@ export class BaseEditor extends GObject {
     return this._parentEditor;
   }
 
+  /** The child editors (null before the first is added). */
+  get _editors(): BaseEditor[] | null {
+    if (this._editorsHead > 0) this._dropRemovedEditors();
+    return this._editorList;
+  }
+
+  set _editors(editors: BaseEditor[] | null) {
+    if (this._editorsHead > 0) this._dropRemovedEditors();
+    this._editorList = editors;
+  }
+
   getEditors(): BaseEditor[] | null {
     return this._editors;
+  }
+
+  /** Whether there are child editors, without dropping the removed ones (see removeEditor). */
+  hasEditors(): boolean {
+    // Removed entries at the front never fill the list: removeEditor
+    // empties it when the last one goes.
+    return !!this._editorList && this._editorList.length > 0;
   }
 
   appendEditor(editor: BaseEditor): void {
@@ -280,12 +313,19 @@ export class BaseEditor extends GObject {
   }
 
   removeEditor(editor: BaseEditor, invalidate?: unknown): void {
-    const index = (this._editors as BaseEditor[]).indexOf(editor);
+    const list = this._editorList as BaseEditor[];
+    const head = this._editorsHead;
+    const index = list.indexOf(editor, head);
     if (index < 0) throw new Error("Unknown editor.");
-    // shift can drop the first editor without moving the rest (closing
-    // a large selection closes the editors from the front).
-    if (0 === index) (this._editors as BaseEditor[]).shift();
-    else (this._editors as BaseEditor[]).splice(index, 1);
+    if (index === head) {
+      // The first editor only moves the list's start (see _editorList).
+      list[head] = undefined as unknown as BaseEditor;
+      this._editorsHead = head + 1;
+    } else list.splice(index, 1);
+    if (this._editorsHead === list.length) {
+      list.length = 0;
+      this._editorsHead = 0;
+    }
     editor._parentEditor = null;
     if (invalidate) this.requestInvalidation();
   }
@@ -671,6 +711,12 @@ export class BaseEditor extends GObject {
     return -1;
   }
 
+  /** Drops the editors removeEditor took out from the front, in one splice. */
+  _dropRemovedEditors(): void {
+    (this._editorList as BaseEditor[]).splice(0, this._editorsHead);
+    this._editorsHead = 0;
+  }
+
   _updatePartSelection(selection: unknown[] | null): void {
     this.requestInvalidation();
     this._partSelection = selection;
@@ -708,7 +754,8 @@ const defaults: Record<string, unknown> = {
   _temporalOutlineFlag: false,
   _transform: null,
   _parentEditor: null,
-  _editors: null,
+  _editorList: null,
+  _editorsHead: 0,
   _partSelection: null,
   _blockDeletion: false,
   _color: null,
