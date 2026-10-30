@@ -4,9 +4,10 @@ name: Check a branch
 # unit tests (all, or some files) and, when asked, the parity suite. With
 # `expect_failure` the unit test step must fail instead, which proves a
 # new test fails without its fix (push the test without the fix to a
-# ci/ branch and run this there). With `record` it records the expected
-# output of new parity scenarios from the old app instead, and uploads the
-# new files as the artifact parity-recording.
+# ci/ branch and run this there). With `scenarios` it runs only those
+# parity scenarios instead, three times in a row on one Windows runner;
+# with `record` as well it records their expected output from the old app
+# and uploads the new files as the artifact parity-recording.
 
 on:
   workflow_dispatch:
@@ -23,17 +24,23 @@ on:
         description: Also run the parity suite
         type: boolean
         default: false
-      record:
+      scenarios:
         description: >-
-          Instead of checking: record the expected output of new parity
-          scenarios from the old app and upload it. Playwright arguments,
-          e.g. "parity/scenarios/editor-tools/text.spec.ts --grep textedit/long-"
+          Instead of the checks: run only these parity scenarios, three
+          times each. Playwright arguments, e.g.
+          "parity/scenarios/editor-tools/text-long.spec.ts --grep long-type"
         required: false
         default: ""
+      record:
+        description: >-
+          With scenarios: record their expected output from the old app
+          instead and upload the new files (only for new scenarios)
+        type: boolean
+        default: false
 
 jobs:
   checks:
-    if: inputs.record == ''
+    if: inputs.scenarios == ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -114,11 +121,10 @@ jobs:
           name: parity-results-${{ matrix.shard }}
           path: test-results/
 
-  record:
-    # On Windows like the parity jobs, which compare against what this
-    # records. Only for new scenarios: expected files of existing ones are
-    # never recorded again.
-    if: inputs.record != ''
+  scenarios:
+    # On Windows like the parity jobs. Recording is only for new
+    # scenarios: expected files of existing ones are never recorded again.
+    if: inputs.scenarios != ''
     runs-on: windows-latest
     defaults:
       run:
@@ -143,16 +149,25 @@ jobs:
         shell: pwsh
         run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
       - name: Record
+        if: inputs.record
         env:
           CI: "1"
           GD_RECORD: "1"
-          RECORD_ARGS: ${{ inputs.record }}
+          SCENARIOS: ${{ inputs.scenarios }}
         run: |
           # Word splitting on purpose: a path and a --grep pattern.
           # shellcheck disable=SC2086
-          npx playwright test --project parity $RECORD_ARGS
+          npx playwright test --project parity $SCENARIOS
+      - name: Run three times
+        if: ${{ !inputs.record }}
+        env:
+          CI: "1"
+          SCENARIOS: ${{ inputs.scenarios }}
+        run: |
+          # shellcheck disable=SC2086
+          npx playwright test --project parity --repeat-each 3 $SCENARIOS
       - name: Collect the new and changed expected files
-        if: always()
+        if: always() && inputs.record
         run: |
           mkdir -p recorded
           git ls-files --others --modified --exclude-standard parity/expected |
@@ -161,7 +176,12 @@ jobs:
               cp "$file" "recorded/$file"
             done
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && inputs.record
         with:
           name: parity-recording
           path: recorded/
+      - uses: actions/upload-artifact@v4
+        if: failure() && !inputs.record
+        with:
+          name: parity-results
+          path: test-results/
