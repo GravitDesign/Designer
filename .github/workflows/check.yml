@@ -157,7 +157,7 @@ jobs:
         run: |
           # Word splitting on purpose: a path and a --grep pattern.
           # shellcheck disable=SC2086
-          npx playwright test --project parity $SCENARIOS
+          npx playwright test --project=parity $SCENARIOS
       - name: Run three times
         if: ${{ !inputs.record }}
         env:
@@ -165,7 +165,7 @@ jobs:
           SCENARIOS: ${{ inputs.scenarios }}
         run: |
           # shellcheck disable=SC2086
-          npx playwright test --project parity --repeat-each 3 $SCENARIOS
+          npx playwright test --project=parity --repeat-each=3 $SCENARIOS
       - name: Collect the new and changed expected files
         if: always() && inputs.record
         run: |
