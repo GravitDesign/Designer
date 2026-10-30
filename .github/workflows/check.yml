@@ -4,7 +4,9 @@ name: Check a branch
 # unit tests (all, or some files) and, when asked, the parity suite. With
 # `expect_failure` the unit test step must fail instead, which proves a
 # new test fails without its fix (push the test without the fix to a
-# ci/ branch and run this there).
+# ci/ branch and run this there). With `record` it records the expected
+# output of new parity scenarios from the old app instead, and uploads the
+# new files as the artifact parity-recording.
 
 on:
   workflow_dispatch:
@@ -21,9 +23,17 @@ on:
         description: Also run the parity suite
         type: boolean
         default: false
+      record:
+        description: >-
+          Instead of checking: record the expected output of new parity
+          scenarios from the old app and upload it. Playwright arguments,
+          e.g. "parity/scenarios/editor-tools/text.spec.ts --grep textedit/long-"
+        required: false
+        default: ""
 
 jobs:
   checks:
+    if: inputs.record == ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -103,3 +113,55 @@ jobs:
         with:
           name: parity-results-${{ matrix.shard }}
           path: test-results/
+
+  record:
+    # On Windows like the parity jobs, which compare against what this
+    # records. Only for new scenarios: expected files of existing ones are
+    # never recorded again.
+    if: inputs.record != ''
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: parity-reference
+          path: legacy
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - name: Install the old app's dependencies
+        working-directory: legacy
+        run: npm install --no-save --no-package-lock express@5.1.0 send@1.2.0 serve-static@2.2.0 mime-types@3.0.1 mime-db@1.54.0 ws@8.18.2 electron@33.4.11
+      - run: npm ci
+      - run: npx playwright install chromium
+      - name: Set the screen resolution
+        shell: pwsh
+        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+      - name: Record
+        env:
+          CI: "1"
+          GD_RECORD: "1"
+          RECORD_ARGS: ${{ inputs.record }}
+        run: |
+          # Word splitting on purpose: a path and a --grep pattern.
+          # shellcheck disable=SC2086
+          npx playwright test --project parity $RECORD_ARGS
+      - name: Collect the new and changed expected files
+        if: always()
+        run: |
+          mkdir -p recorded
+          git ls-files --others --modified --exclude-standard parity/expected |
+            while IFS= read -r file; do
+              mkdir -p "recorded/$(dirname "$file")"
+              cp "$file" "recorded/$file"
+            done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: parity-recording
+          path: recorded/
