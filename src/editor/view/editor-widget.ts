@@ -707,7 +707,13 @@ export class EditorWidget extends SceneWidget {
       firefoxShadowWarned = true;
       console.warn("Due to browser bug (Firefox), shadow under canvas isn't displayed.");
     }
+    // A zoom gesture's steps (ZoomFromTiles) fill the page without its
+    // shadow: blurring the shadow of a page that fills the view takes
+    // longer than a frame on a software canvas. The tiles drawn over the
+    // fill may not reach the page's edges, so it is always filled then.
+    const zoomStep = !!this._zoomTilesTransform;
     let withShadow =
+      !zoomStep &&
       (decoration.shadow as number) > 0 &&
       !isFirefoxOnWindows &&
       !(SceneOptions.pagesCanOverlap && this._viewConfiguration.multiPageView);
@@ -735,6 +741,7 @@ export class EditorWidget extends SceneWidget {
       }
       if (
         !withShadow &&
+        !zoomStep &&
         this._viewConfiguration.paintMode !== ScenePaintConfiguration.PaintMode.Outline &&
         !this._sceneCanvas.isMasked() &&
         1 == page.getProperty("bop")

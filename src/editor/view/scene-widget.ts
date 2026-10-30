@@ -10,7 +10,8 @@
  * renders and composites both. Scrolling moves the existing pixels and
  * renders only the strips that came into view (_panSubAreas); while a pan
  * or zoom lasts the renderer runs without WebGL, and when it ends the view
- * renders everything that was skipped (finishPan, finishZoom).
+ * renders everything that was skipped (finishPan, finishZoom). The steps
+ * of a zoom gesture scale the tiles painted before it (ZoomFromTiles).
  *
  * Left out: the old RendererConfig.ENABLE_TIMING console timers in
  * _paintScene and the render callbacks of _repaint. ENABLE_TIMING is
@@ -64,6 +65,19 @@ RenderScheduler.setRenderParameters({ offscreen: RendererConfig.USE_OFFSCREEN_AL
  * running (one flag for every view, as in the old module).
  */
 let renderInProgress = false;
+
+/**
+ * Not in the old app, which rendered the whole scene again on every step
+ * of a zoom gesture (beginZoom to finishZoom: Ctrl + wheel, a trackpad
+ * pinch). With `enabled`, a step only draws the tiles painted before the
+ * gesture scaled to the view, without the page shadow, and the scene is
+ * rendered once no step came for `renderAfterMs`, with the gesture's
+ * render parameters: the render the old app made after each step, made
+ * after the last one. finishZoom then renders everything at full
+ * quality, as before. Kept out of RendererConfig, whose keys the parity
+ * suite records.
+ */
+export const ZoomFromTiles = { enabled: true, renderAfterMs: 100 };
 
 /** Fired after the view's zoom or scroll changed. */
 export class SceneWidgetTransformEvent extends Event {
@@ -167,6 +181,12 @@ export class SceneWidget extends Widget {
   declare _wheelScrollingOrZooming: ReturnType<typeof setTimeout> | boolean | null;
   declare _isPanning: boolean;
   declare _isZooming: boolean;
+  /** The copy the tiles are scaled through when a zoom gesture stops drawing them scaled. */
+  declare _zoomTiles: Canvas2DPaintCanvas | null;
+  /** World to view of what the tiles show while a zoom gesture draws them scaled, null otherwise. */
+  declare _zoomTilesTransform: Transform | null;
+  /** The render a zoom gesture owes once its steps pause (ZoomFromTiles). */
+  declare _zoomRenderTimer: ReturnType<typeof setTimeout> | null;
 
   constructor(scene: Scene, container?: HTMLElement | null, setup?: SceneWidgetSetup) {
     super(container);
@@ -703,6 +723,9 @@ export class SceneWidget extends Widget {
    * runs).
    */
   invalidate(area?: Rect | null, scene?: boolean, elementArea?: Rect | null): boolean {
+    // A scene change during a zoom gesture is painted over the scaled
+    // tiles; the gesture's render still follows when its steps pause.
+    if (scene && this._zoomTilesTransform) this._endZoomFromTiles();
     const list = scene ? this._dirtySceneList : this._dirtyElementList;
     if (area) {
       if (area.isEmpty()) return false;
@@ -791,6 +814,12 @@ export class SceneWidget extends Widget {
       page.removeAllEventListeners(true);
     }, true);
     this._scene.decreaseReferenceCounter();
+    this._cancelZoomRender();
+    this._zoomTilesTransform = null;
+    if (this._zoomTiles) {
+      this._zoomTiles.destroy();
+      this._zoomTiles = null;
+    }
     this._sceneCanvas.destroy();
     if (this._debugCanvas) this._debugCanvas.destroy();
     this._panHelperCanvas.destroy();
@@ -914,7 +943,11 @@ export class SceneWidget extends Widget {
     );
   }
 
-  /** Composites the tiles into the element canvas; subclasses paint over them. */
+  /**
+   * Composites the tiles into the element canvas; subclasses paint over
+   * them. During a zoom gesture's steps the tiles still show the view
+   * before it, and are drawn scaled to the current one (ZoomFromTiles).
+   */
   _paintElement(
     worldToView?: Transform | null,
     viewToWorld?: Transform | null,
@@ -922,7 +955,9 @@ export class SceneWidget extends Widget {
     graphic?: HTMLCanvasElement | null,
   ): void {
     const dirty = this._elementPaintContext.dirtyMatcher;
-    if (RendererConfig.DRAW_DURING_RENDERING || RendererConfig.SHOW_LOWRES_GIMMICK)
+    if (this._zoomTilesTransform)
+      this._sceneCanvas.drawScaledTo(this._elementCanvas, this._zoomTilesToView());
+    else if (RendererConfig.DRAW_DURING_RENDERING || RendererConfig.SHOW_LOWRES_GIMMICK)
       this._sceneCanvas.drawTo(this._elementCanvas, dirty, graphic);
     else this._sceneCanvas.drawTo(this._elementCanvas, dirty);
   }
@@ -1179,10 +1214,80 @@ export class SceneWidget extends Widget {
     );
   }
 
+  /**
+   * A step of a zoom gesture (ZoomFromTiles): from the first step on, the
+   * tiles keep what they showed before it and are drawn scaled to the
+   * view, and the scene renders once the steps pause. False when the step
+   * must render as before: outside a zoom gesture, or before anything was
+   * painted.
+   */
+  _zoomFromTiles(): boolean {
+    if (!this._isZooming || !ZoomFromTiles.enabled) return false;
+    if (!this._zoomTilesTransform) {
+      // The tiles show the view as of the last repaint.
+      const shown = this._lastInvalidatedWtoVtransform;
+      if (!shown) return false;
+      this._zoomTilesTransform = shown;
+      // Made now, while the view is set up: the copy is taken when the
+      // gesture stops drawing the tiles scaled, on a timer.
+      if (!this._zoomTiles) this._zoomTiles = new PaintCanvas(false, true);
+      // Areas still waiting for a render, and pan strips, are rendered with
+      // everything else when the steps pause.
+      this._dirtySceneList.reset();
+      this._panSubAreas = null;
+    }
+    this._cancelZoomRender();
+    this._zoomRenderTimer = setTimeout(() => {
+      this._zoomRenderTimer = null;
+      this._endZoomFromTiles();
+      this.invalidate(null, true);
+    }, ZoomFromTiles.renderAfterMs);
+    this.invalidate(null, false);
+    return true;
+  }
+
+  /** From the view the tiles show during a zoom gesture's steps to the current view. */
+  _zoomTilesToView(): Transform {
+    const shown = this._zoomTilesTransform as Transform;
+    return (shown.inverted() as Transform).multiplied(this._worldToViewTransform as Transform);
+  }
+
+  /**
+   * Stops drawing the tiles scaled: they are scaled to the current view
+   * themselves (through a copy), and count as showing it from now on. A
+   * render the gesture owes stays due.
+   */
+  _endZoomFromTiles(): void {
+    if (!this._zoomTilesTransform) return;
+    const copy = this._zoomTiles as Canvas2DPaintCanvas;
+    this._sceneCanvas.copyTo(copy);
+    this._sceneCanvas.drawScaled(copy, this._zoomTilesToView());
+    this._zoomTilesTransform = null;
+    this._lastInvalidatedWtoVtransform = this._worldToViewTransform;
+    this._lastInvalidatedVtoWtransform = this._viewToWorldTransform;
+  }
+
+  _cancelZoomRender(): void {
+    if (null !== this._zoomRenderTimer) {
+      clearTimeout(this._zoomRenderTimer);
+      this._zoomRenderTimer = null;
+    }
+  }
+
+  /**
+   * The zoom gesture ended (finishZoom, or a pan took over): what follows
+   * renders everything, so the render the gesture owes is dropped.
+   */
+  _stopZooming(): void {
+    this._isZooming = false;
+    this._endZoomFromTiles();
+    this._cancelZoomRender();
+  }
+
   /** Ends a zoom gesture and renders everything again at full quality. */
   finishZoom(): void {
     if (this._isZooming && !this._isPanning) {
-      this._isZooming = false;
+      this._stopZooming();
       this._scheduleRendering(() => {
         RenderScheduler.setRenderParameters({ quickRender: false, noWebGL: false });
         const sceneRect = this._getSceneRect();
@@ -1222,7 +1327,7 @@ export class SceneWidget extends Widget {
         clearTimeout(this._wheelScrollingOrZooming);
         this._wheelScrollingOrZooming = null;
       }
-      this._isZooming = false;
+      this._stopZooming();
       this._cumulativeInvalidationArea = [this._getSceneRect()];
     }
     this._isPanning = false;
@@ -1266,8 +1371,10 @@ export class SceneWidget extends Widget {
       this._viewToWorldTransform = worldToView.inverted() as Transform;
       SceneOptions.scaleLabelFactor = this._viewToWorldTransform.getScaleFactor();
       if (!noInvalidation) {
-        let panned = false;
-        if (previousViewToWorld && this._viewToWorldTransform) {
+        // A zoom gesture's step (scrolling included) is drawn from the tiles.
+        const fromTiles = this._zoomFromTiles();
+        let panned = fromTiles;
+        if (!fromTiles && previousViewToWorld && this._viewToWorldTransform) {
           const dpi = PaintCanvas.getScreenDPI();
           const before = previousViewToWorld.mapRect(
             new Rect(0, 0, this.getWidth() * dpi, this.getHeight() * dpi),
@@ -1426,7 +1533,7 @@ export class SceneWidget extends Widget {
       if ("number" == typeof this._wheelScrollingOrZooming) {
         clearTimeout(this._wheelScrollingOrZooming);
         if (this._isZooming) {
-          this._isZooming = false;
+          this._stopZooming();
           this._cumulativeInvalidationArea = [this._getSceneRect()];
         }
         this._wheelScrollingOrZooming = null;
@@ -1534,3 +1641,6 @@ prototype._zoomSteps = ZOOM_STOPS;
 prototype._wheelScrollingOrZooming = false;
 prototype._isPanning = false;
 prototype._isZooming = false;
+prototype._zoomTiles = null;
+prototype._zoomTilesTransform = null;
+prototype._zoomRenderTimer = null;

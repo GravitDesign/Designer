@@ -114,8 +114,17 @@ async function openedSession(env: Env, file: string): Promise<Session> {
 // ---------------------------------------------------------------------------
 // Operations, each leaving the document and the view as it found them
 
-/** view.zoomAt(point or view centre) by `factor` per frame, `steps` in and `steps` out. */
-async function zoomFrames(
+/**
+ * A zoom gesture through the view API, the calls Ctrl + wheel makes:
+ * view.beginZoom(), then view.zoomAt(point or view centre) by `factor` per
+ * frame, `steps` in and `steps` - 1 out, then view.finishZoom(). Frame
+ * times cover the steps; settledMs runs from finishZoom until the
+ * full-quality render is painted (and the view quiet for three frames).
+ * The gesture ends one step from where it started, and the tile cache is
+ * emptied before finishZoom: an earlier run's render at the same zoom
+ * would serve it otherwise.
+ */
+export async function zoomFrames(
   s: Session,
   steps: number,
   factor: number,
@@ -132,7 +141,8 @@ async function zoomFrames(
         const centre = at
           ? new G.GPoint(at.x, at.y)
           : new G.GPoint(box.getX() + box.getWidth() / 2, box.getY() + box.getHeight() / 2);
-        for (let i = 0; i < steps * 2; i++) {
+        view.beginZoom();
+        for (let i = 0; i < steps * 2 - 1; i++) {
           view.zoomAt(centre, view.getZoom() * (i < steps ? factor : 1 / factor));
           await w.__bench.nextFrame();
         }
@@ -140,11 +150,27 @@ async function zoomFrames(
       { steps, factor, at },
     );
     const rec = await stopFrames(s.page);
-    const settle = await idle(s.page, LONG);
-    return { ...frameStats(rec), settleMs: settle };
+    const settledMs = await finishZoomSettled(s.page);
+    return { ...frameStats(rec), settledMs };
   });
   await resetView(s.page, LONG);
   return out;
+}
+
+/**
+ * view.finishZoom() with the tile cache emptied first; ms until the view
+ * has painted everything again and is quiet.
+ */
+export function finishZoomSettled(page: Page): Promise<number> {
+  return page.evaluate(async (timeout) => {
+    const w = window as unknown as AppWindow;
+    const view = w.__parity.app.view();
+    view.cleanCache();
+    const start = performance.now();
+    view.finishZoom();
+    await w.__bench.idle(3, timeout);
+    return performance.now() - start;
+  }, LONG);
 }
 
 /** view.scrollBy(15, 8) once per frame, `frames` frames, half forth and half back. */
@@ -579,7 +605,7 @@ const DOCS: DocDef[] = [
 
 const OP_WHAT: Record<Op, string> = {
   open: "File > Open of the saved document until painted",
-  "zoom-api": "view.zoomAt(centre) by 1.1 per frame, 10 in and 10 out",
+  "zoom-api": "a zoom gesture: view.zoomAt(centre) by 1.1 per frame, 10 in and 9 out",
   "pan-api": "view.scrollBy(15, 8) once per frame for 60 frames",
   "pan-wheel": "60 wheel scrolls over the canvas, one per 16 ms",
   "select-all": "Edit > Select All until painted",
@@ -743,7 +769,7 @@ function pagesCases(spec: PagesSpec): Case[] {
     {
       ...shared,
       id: "pages-zoom-api",
-      what: `${what}, multi-page view: view.zoomAt(centre) by 1.1 per frame, 10 in and 10 out`,
+      what: `${what}, multi-page view: a zoom gesture: view.zoomAt(centre) by 1.1 per frame, 10 in and 9 out`,
       headline: "frameP95",
       async run(s) {
         await setMultiPage(s.page, true);
@@ -829,18 +855,23 @@ function effectsCases(): Case[] {
     return out;
   };
 
-  /** Zooms at `focus` by `factor` per frame until the zoom reaches `limit`; frame times, then ms until painted. */
+  /**
+   * A zoom gesture at `focus` (beginZoom, steps, finishZoom) by `factor` per
+   * frame until the zoom reaches `limit`; frame times of the steps, ms
+   * until painted at full quality.
+   */
   const step = async (s: Session, factor: number, limit: number): Promise<Numbers> => {
     const out = await withMetrics(s.cdp, async () => {
       await startFrames(s.page);
       const r = await s.page.evaluate(
-        async ({ factor, limit, focus, timeout }) => {
+        async ({ factor, limit, focus }) => {
           const w = window as unknown as AppWindow;
           const G = w.__parity.G as { GPoint: new (x: number, y: number) => unknown };
           const view = w.__parity.app.view();
           const at = new G.GPoint(focus.x, focus.y);
           const start = performance.now();
           let steps = 0;
+          view.beginZoom();
           for (; steps < 200; steps++) {
             const zoom = view.getZoom() as number;
             if (factor > 1 ? zoom >= limit * 0.999 : zoom <= limit * 1.001) break;
@@ -850,19 +881,17 @@ function effectsCases(): Case[] {
             );
             await w.__bench.nextFrame();
           }
-          const stepped = performance.now() - start;
-          await w.__bench.idle(3, timeout);
           return {
             steps,
-            steppedMs: stepped,
-            ms: performance.now() - start,
+            steppedMs: performance.now() - start,
             zoom: view.getZoom() as number,
           };
         },
-        { factor, limit, focus, timeout: LONG },
+        { factor, limit, focus },
       );
       const rec = await stopFrames(s.page);
-      return { ...frameStats(rec), ...r };
+      const settledMs = await finishZoomSettled(s.page);
+      return { ...frameStats(rec), ...r, settledMs, ms: r.steppedMs + settledMs };
     });
     await resetView(s.page, LONG);
     return out;
@@ -872,7 +901,7 @@ function effectsCases(): Case[] {
     {
       ...base,
       id: "fx-zoom-api",
-      what: `${what}: view.zoomAt(centre) by 1.05 per frame, 30 in and 30 out`,
+      what: `${what}: a zoom gesture: view.zoomAt(centre) by 1.05 per frame, 30 in and 29 out`,
       headline: "frameP95",
       run: (s) => zoomFrames(s, 30, 1.05),
     },

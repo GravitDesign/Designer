@@ -24,7 +24,7 @@ import {
 } from "./drive.ts";
 import { cdpMetrics, newContext, quantile, REPO, sleep } from "./lib.ts";
 import { bigEps, bigSvg, buildHeavy, HEAVY, longText } from "./synthetic.ts";
-import { docCases } from "./cases-docs.ts";
+import { docCases, zoomFrames } from "./cases-docs.ts";
 import { fileImportCases } from "./cases-import.ts";
 
 export type { Case, Env, Numbers, Session } from "./drive.ts";
@@ -228,7 +228,7 @@ const panWheel: Case = {
 
 const zoomWheel: Case = {
   id: "zoom-wheel",
-  what: "heavy document: Ctrl + wheel, 20 steps in and 20 out at the canvas centre, one per 30 ms",
+  what: "heavy document: Ctrl + wheel, 20 steps in and 19 out at the canvas centre, one per 30 ms (ending away from the start, which the tile cache would serve)",
   headline: "frameP95",
   setup: heavySession,
   async run(s) {
@@ -237,14 +237,26 @@ const zoomWheel: Case = {
     const out = await withMetrics(s.cdp, async () => {
       await startFrames(s.page);
       await s.page.keyboard.down("Control");
-      for (let i = 0; i < 40; i++) {
+      for (let i = 0; i < 39; i++) {
         await s.page.mouse.wheel(0, i < 20 ? -20 : 20);
         await sleep(30);
       }
       await s.page.keyboard.up("Control");
       const rec = await stopFrames(s.page);
-      const settle = await idle(s.page);
-      return { ...frameStats(rec), settleMs: settle };
+      // The wheel's timer renders at full quality RERENDER_ZOOM_AFTER_MS
+      // after the last step; settledMs runs until that is painted. The
+      // tile cache is emptied first, or an earlier run's render at the
+      // same zoom would serve it.
+      const settledMs = await s.page.evaluate(async () => {
+        const w = window as unknown as AppWindow;
+        const view = w.__parity.app.view();
+        view.cleanCache();
+        const start = performance.now();
+        while (typeof view._wheelScrollingOrZooming === "number") await w.__bench.nextFrame();
+        await w.__bench.idle(3);
+        return performance.now() - start;
+      });
+      return { ...frameStats(rec), settledMs };
     });
     await resetView(s.page);
     return out;
@@ -278,33 +290,10 @@ const panApi: Case = {
 
 const zoomApi: Case = {
   id: "zoom-api",
-  what: "heavy document: view.zoomAt(centre) by 1.05 per frame, 30 in and 30 out, through the view API",
+  what: "heavy document: a zoom gesture through the view API (beginZoom, view.zoomAt(centre) by 1.05 per frame, 30 in and 29 out, finishZoom); frame times of the steps, settledMs from finishZoom until painted",
   headline: "frameP95",
   setup: heavySession,
-  async run(s) {
-    const out = await withMetrics(s.cdp, async () => {
-      await startFrames(s.page);
-      await s.page.evaluate(async () => {
-        const w = window as unknown as AppWindow;
-        const view = w.__parity.app.view();
-        const box = view.getViewBox();
-        const G = w.__parity.G as { GPoint: new (x: number, y: number) => unknown };
-        const centre = new G.GPoint(
-          box.getX() + box.getWidth() / 2,
-          box.getY() + box.getHeight() / 2,
-        );
-        for (let i = 0; i < 60; i++) {
-          view.zoomAt(centre, view.getZoom() * (i < 30 ? 1.05 : 1 / 1.05));
-          await w.__bench.nextFrame();
-        }
-      });
-      const rec = await stopFrames(s.page);
-      const settle = await idle(s.page);
-      return { ...frameStats(rec), settleMs: settle };
-    });
-    await resetView(s.page);
-    return out;
-  },
+  run: (s) => zoomFrames(s, 30, 1.05),
 };
 
 const dragGroup: Case = {

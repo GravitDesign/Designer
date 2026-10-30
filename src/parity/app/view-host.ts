@@ -19,12 +19,19 @@ export function activeView(): EditorWidget | null {
 /**
  * The active view has no repaint scheduled and its tile renderer nothing
  * queued: what corpus.viewIdle reports (parity/scenarios/corpus/old-hooks.js).
+ * A zoom gesture's render that waits for its steps to pause counts as a
+ * repaint: the old app had made it with the step (ZoomFromTiles in
+ * scene-widget.ts).
  */
 export function activeViewIdle(): boolean {
   const view = activeView();
   if (!view) return true;
   const queue = view._sceneCanvas._renderQueue;
-  return view._repaintRequestFrameId == null && (!queue || queue.length === 0);
+  return (
+    view._repaintRequestFrameId == null &&
+    view._zoomRenderTimer == null &&
+    (!queue || queue.length === 0)
+  );
 }
 
 export const viewHostHooks = {

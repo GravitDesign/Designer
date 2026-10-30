@@ -154,6 +154,29 @@ describe("EditorWidget", () => {
     expect(log.filter((entry) => entry.startsWith("shadowBlur=4"))).toEqual([]);
   });
 
+  it("fills the page without its shadow while a zoom gesture draws the tiles scaled", () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    try {
+      const { view, page } = setup(true);
+      page.setProperties(["bck", "bop"], [new RGBColor([255, 255, 255]), 1]);
+      runAllFrames();
+      const log = elementLog(view);
+      log.length = 0;
+      const shadows = () => log.filter((entry) => entry.startsWith("shadowBlur=4"));
+      view.beginZoom();
+      view.zoomAt(new Point(200, 150), 0.5);
+      runAllFrames();
+      expect(shadows()).toEqual([]);
+      // Filled although the page is opaque: the scaled tiles may not reach its edges.
+      expect(log.filter((entry) => entry.startsWith("fillRect("))).toHaveLength(1);
+      vi.advanceTimersByTime(100);
+      runAllFrames();
+      expect(shadows()).toEqual(["shadowBlur=4"]);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("adds a guide line dragged out of the ruler as one undo step", () => {
     const { view, editor, scene } = setup(true);
     view.setRulers(true);

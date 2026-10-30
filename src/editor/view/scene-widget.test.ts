@@ -1,9 +1,11 @@
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { MouseEvent, MouseWheelEvent } from "../../engine/core/mouse-event.ts";
 import { Platform } from "../../engine/core/platform.ts";
 import { Hardware, System } from "../../engine/core/system.ts";
 import { Point } from "../../engine/math/point.ts";
 import { Rect } from "../../engine/math/rect.ts";
+import { Transform } from "../../engine/math/transform.ts";
+import { RenderScheduler } from "../../engine/paint/render-scheduler.ts";
 import {
   InvalidationFinishedEvent,
   InvalidationRequestEvent,
@@ -14,7 +16,7 @@ import { ScenePaintConfiguration } from "../../engine/paint/scene-paint-configur
 import type { FakeCanvas, FakeContext2D } from "../../engine/paint/testing/fake-canvas.ts";
 import type { Page } from "../../engine/scene/page.ts";
 import { Workspace } from "../../engine/scene/workspace.ts";
-import { SceneWidget } from "./scene-widget.ts";
+import { SceneWidget, ZoomFromTiles } from "./scene-widget.ts";
 import {
   installFakeDom,
   pendingFrames,
@@ -416,6 +418,222 @@ describe("SceneWidget", () => {
       "clearRect(10,10,20,20)",
       expect.stringMatching(/^drawImage\(canvas#\d+,10,10,20,20,10,10,20,20\)$/),
     ]);
+  });
+});
+
+describe("SceneWidget zoom gestures drawn from the tiles", () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  interface Render {
+    areas: number[][];
+    noWebGL: boolean;
+  }
+
+  /** Records every scene render: its dirty areas and whether it ran without WebGL. */
+  function recordRenders(view: SceneWidget): Render[] {
+    const renders: Render[] = [];
+    const tiles = view._sceneCanvas;
+    const original = tiles.paintAndRender.bind(tiles);
+    tiles.paintAndRender = (scene, context, ...rest) => {
+      const rects = context.dirtyMatcher ? context.dirtyMatcher.getDirtyRectangles() : null;
+      renders.push({
+        areas: (rects ?? []).map(box),
+        noWebGL: !!RenderScheduler.getRenderParameters().noWebGL,
+      });
+      original(scene, context, ...rest);
+    };
+    return renders;
+  }
+
+  /** Records the scale and translation of every scaled draw of the tiles into the view. */
+  function recordScaled(view: SceneWidget): number[][] {
+    const scaled: number[][] = [];
+    const tiles = view._sceneCanvas;
+    const original = tiles.drawScaledTo.bind(tiles);
+    tiles.drawScaledTo = (target, transform) => {
+      const [a, , , d, x, y] = transform.getMatrix() as number[];
+      scaled.push([a, d, x, y] as number[]);
+      original(target, transform);
+    };
+    return scaled;
+  }
+
+  function countCopies(view: SceneWidget): { copies: number } {
+    const count = { copies: 0 };
+    const tiles = view._sceneCanvas;
+    const original = tiles.copyTo.bind(tiles);
+    tiles.copyTo = (target) => {
+      count.copies++;
+      original(target);
+    };
+    return count;
+  }
+
+  const FULL = [[0, 0, 1600, 1000]];
+  const at = new Point(100, 100);
+
+  it("draws the painted tiles scaled for each step and renders once the steps pause", () => {
+    const { view } = appView();
+    view.zoomAtCenter(new Point(40, 30), 0.8);
+    runAllFrames();
+    const shown = view.getWorldTransform();
+    const renders = recordRenders(view);
+    const scaled = recordScaled(view);
+    const count = countCopies(view);
+    view.beginZoom();
+    view.zoomAt(at, 1);
+    runAllFrames();
+    view.zoomAt(at, 1.2);
+    runAllFrames();
+    expect(renders).toEqual([]);
+    // Both steps draw the tiles painted at 80%, which stay as they were.
+    expect(count.copies).toBe(0);
+    expect(scaled.map(([a, d]) => [a, d])).toEqual([
+      [1.25, 1.25],
+      [1.5, 1.5],
+    ]);
+    // A world point lands where the view shows it now.
+    const world = new Point(300, 200);
+    const old = shown.mapPoint(world);
+    const now = view.getWorldTransform().mapPoint(world);
+    const [a, d, x, y] = scaled[1] as [number, number, number, number];
+    expect(old.getX() * a + x).toBeCloseTo(now.getX(), 6);
+    expect(old.getY() * d + y).toBeCloseTo(now.getY(), 6);
+    vi.advanceTimersByTime(99);
+    runAllFrames();
+    expect(renders).toEqual([]);
+    expect(view._zoomRenderTimer).not.toBeNull();
+    vi.advanceTimersByTime(1);
+    // The tiles are scaled to the view themselves before the render.
+    expect(count.copies).toBe(1);
+    runAllFrames();
+    // The render the old app made with each step, made once, with the
+    // gesture's render parameters.
+    expect(renders).toEqual([{ areas: FULL, noWebGL: true }]);
+    expect(view._zoomRenderTimer).toBeNull();
+    expect(view._zoomTilesTransform).toBeNull();
+    view.finishZoom();
+    runAllFrames();
+    expect(renders).toEqual([
+      { areas: FULL, noWebGL: true },
+      { areas: FULL, noWebGL: false },
+    ]);
+  });
+
+  it("drops the owed render when the gesture finishes first", () => {
+    const { view } = appView();
+    const renders = recordRenders(view);
+    view.beginZoom();
+    view.zoomAt(at, 2);
+    runAllFrames();
+    view.finishZoom();
+    runAllFrames();
+    vi.advanceTimersByTime(1000);
+    runAllFrames();
+    expect(renders).toEqual([{ areas: FULL, noWebGL: false }]);
+  });
+
+  it("draws the next gesture from the tiles the last one left", () => {
+    const { view } = appView();
+    const count = countCopies(view);
+    const scaled = recordScaled(view);
+    view.beginZoom();
+    view.zoomAt(at, 2);
+    runAllFrames();
+    view.finishZoom();
+    runAllFrames();
+    expect(count.copies).toBe(1);
+    view.beginZoom();
+    view.zoomAt(at, 3);
+    runAllFrames();
+    // Scaled from the tiles painted at 200% by finishZoom, not as if they
+    // still showed the first gesture's 100%.
+    const last = scaled[scaled.length - 1] as number[];
+    expect(last[0]).toBeCloseTo(1.5, 9);
+  });
+
+  it("scales the tiles before a scene change is painted on them, and draws the next step from them", () => {
+    const { view, scene } = appView();
+    const renders = recordRenders(view);
+    const count = countCopies(view);
+    const scaled = recordScaled(view);
+    view.beginZoom();
+    view.zoomAt(new Point(0, 0), 2);
+    runAllFrames();
+    scene.trigger(new InvalidationRequestEvent(new Rect(100, 100, 10, 10)));
+    runAllFrames();
+    // The tiles show the view at 200% now, and the change is painted there.
+    const area = view
+      .getWorldTransform()
+      .mapRect(new Rect(100, 100, 10, 10))
+      .expanded(2, 2, 2, 2);
+    expect(renders).toEqual([{ areas: [box(area)], noWebGL: true }]);
+    expect(count.copies).toBe(1);
+    view.zoomAt(new Point(0, 0), 2.5);
+    runAllFrames();
+    expect((scaled[scaled.length - 1] as number[])[0]).toBeCloseTo(1.25, 9);
+    vi.advanceTimersByTime(100);
+    runAllFrames();
+    expect(renders).toHaveLength(2);
+    expect(renders[1]).toEqual({ areas: FULL, noWebGL: true });
+  });
+
+  it("lets a pan that ends the zoom gesture render everything once", () => {
+    const { view } = appView();
+    const renders = recordRenders(view);
+    view.beginZoom();
+    view.zoomAt(at, 2);
+    view.beginPan();
+    // Scrolls during the zoom gesture are steps of it too.
+    view.scrollBy(0, 60);
+    runAllFrames();
+    expect(renders).toEqual([]);
+    view.finishPan();
+    // Before the pan finish's frame, the tiles get the current view.
+    expect(view._isZooming).toBe(false);
+    expect(view._zoomRenderTimer).toBeNull();
+    expect(view._zoomTilesTransform).toBeNull();
+    expect(Transform.equals(view._lastInvalidatedWtoVtransform, view.getWorldTransform())).toBe(
+      true,
+    );
+    runAllFrames();
+    vi.advanceTimersByTime(1000);
+    runAllFrames();
+    expect(renders).toEqual([{ areas: FULL, noWebGL: false }]);
+  });
+
+  it("renders every step as before without ZoomFromTiles", () => {
+    ZoomFromTiles.enabled = false;
+    try {
+      const { view } = appView();
+      const renders = recordRenders(view);
+      view.beginZoom();
+      view.zoomAt(at, 1.25);
+      runAllFrames();
+      view.zoomAt(at, 1.5);
+      runAllFrames();
+      expect(renders).toEqual([
+        { areas: FULL, noWebGL: true },
+        { areas: FULL, noWebGL: true },
+      ]);
+      expect(view._zoomRenderTimer).toBeNull();
+    } finally {
+      ZoomFromTiles.enabled = true;
+    }
+  });
+
+  it("forgets the owed render when released", () => {
+    const { view } = appView();
+    view.beginZoom();
+    view.zoomAt(at, 2);
+    runAllFrames();
+    view.release();
+    expect(vi.getTimerCount()).toBe(0);
   });
 });
 

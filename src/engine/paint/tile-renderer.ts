@@ -460,6 +460,76 @@ export class TileRenderer extends GObject implements Destroyable {
     });
   }
 
+  /**
+   * Not in the old app. Copies what the tiles show into `target`, resized
+   * to the grid: the picture a zoom gesture scales (drawScaled).
+   */
+  copyTo(target: Canvas2DPaintCanvas): void {
+    target.resize(this.getWidth(), this.getHeight());
+    const context = target._canvasContext;
+    context.clearRect(0, 0, target.getWidth(), target.getHeight());
+    this._iterateGrid((canvas, x, y) => {
+      // drawImage throws on an empty canvas.
+      if (canvas.getWidth() && canvas.getHeight())
+        context.drawImage(canvas._canvasContext.canvas, x, y);
+    });
+  }
+
+  /**
+   * Not in the old app. Replaces what the tiles show with `source` (a
+   * copyTo picture) drawn through `transform`, a scale and a translation
+   * from the picture's pixels to the grid's. What the picture doesn't cover
+   * stays clear.
+   */
+  drawScaled(source: Canvas2DPaintCanvas, transform: Transform): void {
+    this._consolidatedCanvas = null;
+    const matrix = transform.getMatrix();
+    const scaleX = matrix[0] as number;
+    const scaleY = matrix[3] as number;
+    const image = source._canvasContext.canvas;
+    this._iterateGrid((canvas, x, y) => {
+      const context = canvas.getRendererContext();
+      // As in moveContent: a tile without a first render has nothing to show.
+      const real = context && context.hasRealContext ? context.real : null;
+      if (!real) return undefined;
+      real.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+      // drawImage throws on an empty canvas.
+      if (!image.width || !image.height) return undefined;
+      real.drawImage(
+        image,
+        (matrix[4] as number) - x,
+        (matrix[5] as number) - y,
+        image.width * scaleX,
+        image.height * scaleY,
+      );
+      return undefined;
+    });
+  }
+
+  /**
+   * Not in the old app. Draws the tiles into `target` through `transform`,
+   * a scale and a translation of the grid: how a zoom gesture shows them
+   * between its renders.
+   */
+  drawScaledTo(target: Canvas2DPaintCanvas, transform: Transform): void {
+    const matrix = transform.getMatrix();
+    const scaleX = matrix[0] as number;
+    const scaleY = matrix[3] as number;
+    const context = target._canvasContext;
+    this._iterateGrid((canvas, x, y) => {
+      // drawImage throws on an empty canvas.
+      if (!canvas.getWidth() || !canvas.getHeight()) return undefined;
+      context.drawImage(
+        canvas._canvasContext.canvas,
+        x * scaleX + (matrix[4] as number),
+        y * scaleY + (matrix[5] as number),
+        canvas.getWidth() * scaleX,
+        canvas.getHeight() * scaleY,
+      );
+      return undefined;
+    });
+  }
+
   drawFragmentTo(
     target: TileTarget,
     x: number,
