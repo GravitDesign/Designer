@@ -70,6 +70,8 @@ const classesByOldName = new Map<string, object>();
  * so a late markMixins must still show up in hasMixin).
  */
 let mergedMixins = new WeakMap<object, ReadonlySet<number>>();
+/** Counts those drops, so caches built on hasMixin elsewhere can tell they are stale. */
+let mixinsVersion = 0;
 
 interface TypeIdCarrier {
   [TYPE_ID]?: number;
@@ -184,6 +186,7 @@ export function getName(value: unknown): string {
 /** The mixin ids a prototype records itself; callers add to it, so the cache goes. */
 function ownMixins(proto: object): Set<number> {
   mergedMixins = new WeakMap();
+  mixinsVersion++;
   const carrier = proto as TypeIdCarrier;
   if (!Object.hasOwn(carrier, MIXINS)) {
     Object.defineProperty(carrier, MIXINS, { value: new Set<number>(), enumerable: false });
@@ -271,6 +274,15 @@ export function hasMixin(obj: unknown, mixin: unknown): boolean {
   // Start at the prototype for instances, so the cache is per class.
   const start = Object.hasOwn(obj, MIXINS) ? obj : (Object.getPrototypeOf(obj) as object | null);
   return start !== null && collectMixins(start).has(id);
+}
+
+/**
+ * Changes whenever a mixin id is recorded anywhere. A cache of hasMixin
+ * answers per class keeps the version it was filled at and is stale once
+ * this differs.
+ */
+export function getMixinsVersion(): number {
+  return mixinsVersion;
 }
 
 /**

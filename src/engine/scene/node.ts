@@ -24,7 +24,13 @@
 import type { Event } from "../core/event.ts";
 import { EventTarget, type EventTargetLike } from "../core/event-target.ts";
 import { Locale } from "../core/locale/locale.ts";
-import { GObject, getTypeId, registerClass, type AnyConstructor } from "../core/object.ts";
+import {
+  GObject,
+  getMixinsVersion,
+  getTypeId,
+  registerClass,
+  type AnyConstructor,
+} from "../core/object.ts";
 import type {
   NodeBlob,
   ProgressCallback,
@@ -132,14 +138,47 @@ function throwOnDeletedBlockRecord(): never {
   throw new TypeError("Cannot use 'in' operator to search for a change in undefined");
 }
 
+/**
+ * Whether the instances of a prototype are event targets. `_sendEvent` asks
+ * for the node and every ancestor on every event, and the instanceof walks
+ * the whole prototype chain each time, so the answer is kept per class
+ * until a mixin is recorded somewhere (getMixinsVersion).
+ */
+let eventTargetPrototypes = new WeakMap<object, boolean>();
+let eventTargetPrototypesVersion = getMixinsVersion();
+
 function asEventTarget(node: Node): (Node & EventTargetLike) | null {
-  return node instanceof EventTarget || node.hasMixin(EventTarget)
-    ? (node as unknown as Node & EventTargetLike)
-    : null;
+  if (eventTargetPrototypesVersion !== getMixinsVersion()) {
+    eventTargetPrototypes = new WeakMap();
+    eventTargetPrototypesVersion = getMixinsVersion();
+  }
+  const proto = Object.getPrototypeOf(node) as object;
+  let isTarget = eventTargetPrototypes.get(proto);
+  if (undefined === isTarget) {
+    isTarget = node instanceof EventTarget || node.hasMixin(EventTarget);
+    eventTargetPrototypes.set(proto, isTarget);
+  }
+  return isTarget ? (node as unknown as Node & EventTargetLike) : null;
 }
 
 const nodeClassToNameMap = new Map<number | null, string>();
 const nameToNodeClassMap = new Map<string, NodeClass>();
+
+/** The class `_restore` is constructing, until a constructor claims it. */
+let restoreConstruction: NodeClass | null = null;
+
+/**
+ * Whether the node under construction is one `_restore` makes and restores
+ * right away. `cls` is the class whose constructor asks, compared with the
+ * class `_restore` constructs; true only once per restored node. The
+ * constructor can then leave out what its Restore change builds again
+ * (Rectangle and Ellipse skip their default points).
+ */
+export function claimRestoreConstruction(cls: unknown): boolean {
+  if (null === restoreConstruction || cls !== restoreConstruction) return false;
+  restoreConstruction = null;
+  return true;
+}
 
 /**
  * Gives a node class its node name (the `@` of its blobs) and its type id
@@ -339,7 +378,14 @@ export class Node extends GObject {
     if (!blob || !Object.hasOwn(blob, "@")) return null;
     const cls = nameToNodeClassMap.get(blob["@"] as string);
     if (!cls) return null;
-    const node = constructorArg ? new cls(constructorArg) : new cls();
+    const outerConstruction = restoreConstruction;
+    restoreConstruction = cls;
+    let node: Node;
+    try {
+      node = constructorArg ? new cls(constructorArg) : new cls();
+    } finally {
+      restoreConstruction = outerConstruction;
+    }
     restoreInstance(blob, node, onRestored, progress, total, () => {
       if (onRestored) onRestored(node);
       done(node);
@@ -837,8 +883,8 @@ export class Node extends GObject {
   }
 
   _canEventBeSent(eventClass: unknown): boolean {
-    const typeId = getTypeId(eventClass);
-    return !this._blockedEvents || !this._blockedEvents.counts.get(typeId);
+    // Most nodes never block events: no type id needed then.
+    return !this._blockedEvents || !this._blockedEvents.counts.get(getTypeId(eventClass));
   }
 
   /**

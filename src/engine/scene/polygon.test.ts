@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { Transform } from "../math/transform.ts";
 import { BorderPaintLayer } from "../style/border-paint-layer.ts";
 import { Node } from "./node.ts";
@@ -64,5 +64,31 @@ describe("GPolygon", () => {
     expect([blob["pts"], blob["or"], blob["ir"], blob["oa"]]).toEqual([7, 40, 10, undefined]);
     const back = Node.deserialize(JSON.stringify(blob)) as Polygon;
     expect(back.getAnchorPoints().getChildren()).toHaveLength(14);
+  });
+
+  it("builds a restored polygon's points once, after all its properties are back", () => {
+    const pointsOf = (polygon: Polygon): unknown[][] =>
+      (polygon.getAnchorPoints().getChildren() as AnchorPoint[]).map((p) =>
+        ["tp", "x", "y", "cl", "cr"].map((k) => p.getProperty(k)),
+      );
+    const star = new Polygon();
+    star.setProperties(
+      ["pts", "or", "ir", "oa", "ia", "oct", "ocr", "icr"],
+      [5, 40, 10, 0.2, 0.9, "B", 3, 1],
+    );
+    const json = Node.serialize(star) as string;
+    const builds = vi.spyOn(Polygon.prototype, "_invalidatePath");
+    let back: Polygon;
+    try {
+      back = Node.deserialize(json) as Polygon;
+      expect(builds).toHaveBeenCalledTimes(1);
+    } finally {
+      builds.mockRestore();
+    }
+    expect(pointsOf(back)).toEqual(pointsOf(star));
+    // Once restored, a changed property builds them again.
+    back.setProperty("or", 20);
+    star.setProperty("or", 20);
+    expect(pointsOf(back)).toEqual(pointsOf(star));
   });
 });

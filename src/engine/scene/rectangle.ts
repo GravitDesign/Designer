@@ -19,8 +19,8 @@ import type { RestoreChangeArgs, StoreChangeArgs } from "../serialize/blob.ts";
 import type { BorderPaintLayer } from "../style/border-paint-layer.ts";
 import { NodeChange } from "./node-change.ts";
 import type { PropertiesChangeArgs } from "./node-properties.ts";
-import { registerNodeClass, type Node } from "./node.ts";
-import { AnchorPoint, PathBase } from "./path-base.ts";
+import { claimRestoreConstruction, registerNodeClass, type Node } from "./node.ts";
+import { AnchorPoint, PathBase, type AnchorPoints } from "./path-base.ts";
 
 const GeometryProperties = {
   uf: true,
@@ -138,8 +138,17 @@ export class Rectangle extends PathBase {
     if (height) this._h = height;
     this.$closed = true;
     this._setDefaultProperties(GeometryProperties);
-    this._invalidatePath();
+    // One that _restore makes gets its points from the corners its Restore
+    // change sets; points from the defaults would be thrown away unseen.
+    this._pathPending = new.target === Rectangle && claimRestoreConstruction(Rectangle);
+    if (!this._pathPending) this._invalidatePath();
     this._paintSharp = true;
+  }
+
+  /** Builds pending points first (see PathBase._pathPending). */
+  override getAnchorPoints(): AnchorPoints {
+    if (this._pathPending) this._invalidatePath();
+    return super.getAnchorPoints();
   }
 
   /** A property of this node by its computed name ("tl_ct", ...). */
@@ -208,6 +217,15 @@ export class Rectangle extends PathBase {
   }
 
   override _handleChange(change: number, args?: unknown): void {
+    // Anything but the restore itself first gets the points the
+    // constructor would have built.
+    if (
+      this._pathPending &&
+      change !== NodeChange.PrepareRestore &&
+      change !== NodeChange.Restore
+    ) {
+      this._invalidatePath();
+    }
     const fields = this as unknown as Record<string, unknown>;
     if (change === NodeChange.Store) {
       const blob = (args as StoreChangeArgs).blob;
@@ -358,6 +376,7 @@ export class Rectangle extends PathBase {
 
   /** Rebuilds the anchor points from the corners. */
   _invalidatePath(): void {
+    this._pathPending = false;
     const points = this.getAnchorPoints();
     this.beginUpdate();
     points._beginBlockCompositeEvents(true, true, true);

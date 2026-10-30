@@ -241,6 +241,26 @@ describe("helpers", () => {
     expect(Util.find([1], (x) => x > 1)).toBeNull();
   });
 
+  it("finds the keys a for-in loop would list, on plain tables and others", () => {
+    const table = { tp: "R", x: 0, y: 0 };
+    expect(Util.containsObjectKey(["hlx", "y"], table)).toBe(true);
+    expect(Util.containsObjectKey(["hlx", "toString", "constructor"], table)).toBe(false);
+    expect(Util.containsObjectKey([], table)).toBe(false);
+    // for-in lists string keys only, so a number never matches "1".
+    expect(Util.containsObjectKey([1], { "1": true })).toBe(false);
+    expect(Util.containsObjectKey(["1"], { "1": true })).toBe(true);
+    // Not enumerated, not found.
+    const hidden = { a: 1 };
+    Object.defineProperty(hidden, "b", { value: 2, enumerable: false });
+    expect(Util.containsObjectKey(["b"], hidden)).toBe(false);
+    // Inherited keys count, with a prototype or without one.
+    expect(Util.containsObjectKey(["x"], Object.create(table) as object)).toBe(true);
+    const bare = Object.create(null) as Record<string, unknown>;
+    bare["x"] = 1;
+    expect(Util.containsObjectKey(["x"], bare)).toBe(true);
+    expect(Util.containsObjectKey(["y"], bare)).toBe(false);
+  });
+
   it("maps and iterates arrays and objects", () => {
     expect(Util.map([1, 2], (v, i) => v * 10 + i)).toEqual([10, 21]);
     expect(Util.map({ a: 1, b: 2 }, (v, k) => k + v)).toEqual(["a1", "b2"]);

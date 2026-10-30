@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
+import type { Event } from "../core/event.ts";
 import { EventTarget, EventTargetMixin } from "../core/event-target.ts";
-import { getTypeId } from "../core/object.ts";
+import { getTypeId, markMixins } from "../core/object.ts";
 import { Transform } from "../math/transform.ts";
 import type { NodeBlob } from "../serialize/blob.ts";
 import { NodeChange, NodeFlag } from "./node-change.ts";
@@ -343,6 +344,35 @@ describe("events and changes", () => {
     inner.addEventListener(AfterInsertEvent, (e) => log.push("inner:" + Node.getName(e.node)));
     inner.appendChild(leaf());
     expect(log).toEqual(["inner:testleaf", "root:testleaf"]);
+  });
+
+  it("finds an event-target mixin recorded after its class has sent events", () => {
+    // The class gets GEventTarget's id only after its "not an event target"
+    // answer was kept, the way a late markMixins can.
+    class LateTarget extends Container(Identity(Store(Properties(Node)))) {
+      static {
+        registerNodeClass(this, "testlatetarget", "GTestLateTarget");
+      }
+      declare triggered: string[];
+      hasEventListeners(): boolean {
+        return true;
+      }
+      trigger(event: Event): void {
+        this.triggered.push(event instanceof BeforePropertiesChangeEvent ? "before" : "after");
+      }
+      override validateInsertion(): boolean {
+        return true;
+      }
+    }
+    const root = new LateTarget();
+    root.triggered = [];
+    const child = leaf();
+    root.appendChild(child);
+    child.setProperty("size", 2);
+    expect(root.triggered).toEqual([]);
+    markMixins(LateTarget, [EventTarget]);
+    child.setProperty("size", 3);
+    expect(root.triggered).toEqual(["before", "after"]);
   });
 
   it("sends temporary property events only to temporary receivers above the node", () => {

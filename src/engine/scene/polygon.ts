@@ -190,7 +190,9 @@ export class Polygon extends PathBase {
     if (
       this._canHandleGeometryChangeForProperties(change, args, GeometryProperties) &&
       change == NodeChange.AfterPropertiesChange &&
-      !this.isRecordedTransaction()
+      !this.isRecordedTransaction() &&
+      // While restoring, the Restore change builds them once all properties are back.
+      !this._isRestoring
     ) {
       this._invalidatePath();
     }

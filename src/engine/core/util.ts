@@ -166,8 +166,27 @@ export function containsOneOf(list: readonly unknown[], values: readonly unknown
   return false;
 }
 
+const propertyIsEnumerable = Object.prototype.propertyIsEnumerable;
+
 /** Whether `list` contains any key of `object` (own or inherited). */
 export function containsObjectKey(list: readonly unknown[], object: object): boolean {
+  // Every property change asks this of the defaults tables of each class
+  // it passes. A plain table's keys are its own enumerable ones, so the
+  // few changed names are looked up instead of walking all its keys.
+  const proto = Object.getPrototypeOf(object) as object | null;
+  if (proto === Object.prototype || null === proto) {
+    for (let i = 0; i < list.length; ++i) {
+      const name = list[i];
+      if (
+        "string" === typeof name &&
+        Object.hasOwn(object, name) &&
+        propertyIsEnumerable.call(object, name)
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
   for (const key in object) if (list.indexOf(key) >= 0) return true;
   return false;
 }

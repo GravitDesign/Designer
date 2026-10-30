@@ -3,6 +3,7 @@ import {
   FIRST_FRESH_TYPE_ID,
   GObject,
   defineMixin,
+  getMixinsVersion,
   getName,
   getOldName,
   getRegisteredClass,
@@ -211,6 +212,18 @@ describe("mixins", () => {
     markMixins(Early, [Unused]);
     expect(new EarlySub().hasMixin(Unused)).toBe(true);
     expect(new Early().hasMixin(Unused)).toBe(true);
+  });
+
+  it("changes the mixins version whenever a mixin is recorded", () => {
+    class Late extends GObject {}
+    const before = getMixinsVersion();
+    expect(new Late().hasMixin(Unused)).toBe(false);
+    expect(getMixinsVersion()).toBe(before);
+    markMixins(Late, [Unused]);
+    const marked = getMixinsVersion();
+    expect(marked).not.toBe(before);
+    Tag(Base);
+    expect(getMixinsVersion()).not.toBe(marked);
   });
 
   it("marks whole classes as mixins", () => {

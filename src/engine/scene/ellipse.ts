@@ -12,7 +12,7 @@ import { GMath } from "../math/math.ts";
 import { Rect } from "../math/rect.ts";
 import type { RestoreChangeArgs, StoreChangeArgs } from "../serialize/blob.ts";
 import { NodeChange } from "./node-change.ts";
-import { registerNodeClass, type Node } from "./node.ts";
+import { claimRestoreConstruction, registerNodeClass, type Node } from "./node.ts";
 import { AnchorPoint, PathBase, type AnchorPoints } from "./path-base.ts";
 
 const Type = {
@@ -60,6 +60,66 @@ function prop(point: AnchorPoint | null, name: string): number {
   return (point as AnchorPoint).getProperty(name) as number;
 }
 
+/**
+ * What `_invalidatePath` reads from `quarterPath(start, end)`: the first
+ * segment's x, y and right handle of the first point and left handle, x
+ * and y of the second.
+ */
+export interface QuarterSegment {
+  readonly start: number;
+  readonly end: number;
+  readonly x0: number;
+  readonly y0: number;
+  readonly hrx0: number;
+  readonly hry0: number;
+  readonly hlx1: number;
+  readonly hly1: number;
+  readonly x1: number;
+  readonly y1: number;
+}
+
+/**
+ * Quarter segments by start angle. The temporary path depends on the two
+ * angles only, building it costs more than the ellipse's own points, and
+ * the angles are nearly always the same few multiples of PI/2 (every full
+ * circle uses the same pair). Bounded.
+ */
+const quarterSegments = new Map<number, QuarterSegment>();
+const MAX_QUARTER_SEGMENTS = 64;
+
+/**
+ * The first segment of `quarterPath(start, end)`, kept per angle pair.
+ * Both angles are compared with Object.is, since the Map would take -0 for
+ * 0. Exported for tests.
+ */
+export function quarterSegment(start: number, end: number): QuarterSegment {
+  let segment = quarterSegments.get(start);
+  if (!segment || !Object.is(segment.start, start) || !Object.is(segment.end, end)) {
+    const first = quarterPath(start, end).getFirstChild();
+    const second = (first as AnchorPoint).getNext() as AnchorPoint;
+    segment = {
+      start,
+      end,
+      x0: prop(first, "x"),
+      y0: prop(first, "y"),
+      hrx0: prop(first, "hrx"),
+      hry0: prop(first, "hry"),
+      hlx1: prop(second, "hlx"),
+      hly1: prop(second, "hly"),
+      x1: prop(second, "x"),
+      y1: prop(second, "y"),
+    };
+    if (quarterSegments.size >= MAX_QUARTER_SEGMENTS) quarterSegments.clear();
+    quarterSegments.set(start, segment);
+  }
+  return segment;
+}
+
+/** Forgets the kept quarter segments (for tests). */
+export function clearQuarterSegments(): void {
+  quarterSegments.clear();
+}
+
 export class Ellipse extends PathBase {
   static {
     registerNodeClass(this, "ellipse", "GEllipse");
@@ -76,13 +136,38 @@ export class Ellipse extends PathBase {
   constructor() {
     super();
     this._setDefaultProperties(GeometryProperties);
-    this._invalidatePath();
+    // One that _restore makes gets its points from the angles its Restore
+    // change sets; points from the defaults would be thrown away unseen.
+    this._pathPending = new.target === Ellipse && claimRestoreConstruction(Ellipse);
+    if (!this._pathPending) this._invalidatePath();
+  }
+
+  /** Builds pending points first (see PathBase._pathPending). */
+  override getAnchorPoints(): AnchorPoints {
+    if (this._pathPending) this._invalidatePath();
+    return super.getAnchorPoints();
   }
 
   override _handleChange(change: number, args?: unknown): void {
+    // Anything but the restore itself first gets the points the
+    // constructor would have built.
+    if (
+      this._pathPending &&
+      change !== NodeChange.PrepareRestore &&
+      change !== NodeChange.Restore
+    ) {
+      this._invalidatePath();
+    }
     if (change === NodeChange.Store) {
       this.storeProperties((args as StoreChangeArgs).blob, GeometryProperties);
     } else if (change === NodeChange.Restore) {
+      if (this._pathPending) {
+        // The default points are never built, but the points below are
+        // built on the path they would have closed (auto handles follow
+        // the neighbours of each point as it is added).
+        this._pathPending = false;
+        this.$closed = true;
+      }
       this.restoreProperties((args as RestoreChangeArgs).blob, GeometryProperties);
       this._invalidatePath();
     }
@@ -115,6 +200,7 @@ export class Ellipse extends PathBase {
 
   /** Rebuilds the anchor points from the angles and the type. */
   _invalidatePath(): void {
+    this._pathPending = false;
     const points = this.getAnchorPoints();
     this.beginUpdate();
     points._beginBlockCompositeEvents(true, true, true);
@@ -152,32 +238,14 @@ export class Ellipse extends PathBase {
         );
         points.appendChild(point);
       } else {
-        const quarter = quarterPath(quarterStart, quarterEnd);
+        const quarter = quarterSegment(quarterStart, quarterEnd);
         const t0 = (this.$sa - quarterStart) / GMath.PIHALF;
         let t1 = 1;
         startX = new Float64Array(4);
         startY = new Float64Array(4);
         if (end <= quarterEnd) t1 = (end - quarterStart) / GMath.PIHALF;
-        const first = quarter.getFirstChild();
-        const second = (first as AnchorPoint).getNext() as AnchorPoint;
-        GMath.getCtrlPts(
-          prop(first, "x"),
-          prop(second, "x"),
-          prop(first, "hrx"),
-          prop(second, "hlx"),
-          t0,
-          t1,
-          startX,
-        );
-        GMath.getCtrlPts(
-          prop(first, "y"),
-          prop(second, "y"),
-          prop(first, "hry"),
-          prop(second, "hly"),
-          t0,
-          t1,
-          startY,
-        );
+        GMath.getCtrlPts(quarter.x0, quarter.x1, quarter.hrx0, quarter.hlx1, t0, t1, startX);
+        GMath.getCtrlPts(quarter.y0, quarter.y1, quarter.hry0, quarter.hly1, t0, t1, startY);
         point.setProperties(
           ["x", "y", "hrx", "hry", "tp", "ah"],
           [startX[0], startY[0], startX[1], startY[1], Asymmetric, false],
@@ -214,30 +282,12 @@ export class Ellipse extends PathBase {
         } else {
           quarterStart = Math.floor(end / GMath.PIHALF) * GMath.PIHALF;
           quarterEnd = (Math.floor(end / GMath.PIHALF) + 1) * GMath.PIHALF;
-          const quarter = quarterPath(quarterStart, quarterEnd);
+          const quarter = quarterSegment(quarterStart, quarterEnd);
           const t = (end - quarterStart) / GMath.PIHALF;
           endX = new Float64Array(4);
           endY = new Float64Array(4);
-          const first = quarter.getFirstChild();
-          const second = (first as AnchorPoint).getNext() as AnchorPoint;
-          GMath.getCtrlPtsCasteljau(
-            prop(first, "x"),
-            prop(first, "hrx"),
-            prop(second, "hlx"),
-            prop(second, "x"),
-            t,
-            1,
-            endX,
-          );
-          GMath.getCtrlPtsCasteljau(
-            prop(first, "y"),
-            prop(first, "hry"),
-            prop(second, "hly"),
-            prop(second, "y"),
-            t,
-            1,
-            endY,
-          );
+          GMath.getCtrlPtsCasteljau(quarter.x0, quarter.hrx0, quarter.hlx1, quarter.x1, t, 1, endX);
+          GMath.getCtrlPtsCasteljau(quarter.y0, quarter.hry0, quarter.hly1, quarter.y1, t, 1, endY);
           if (!full) {
             point = new AnchorPoint();
             point.setProperties(

@@ -1552,6 +1552,12 @@ export class PathBase extends Shape {
   declare _vertices: VertexContainer;
   declare _verticesDirty: boolean;
   declare _anchorPoints: AnchorPoints | null;
+  /**
+   * The points are still to be built from properties a restore is setting
+   * (a Rectangle or Ellipse that `_restore` made, until its Restore
+   * change). The subclasses that set it build them in getAnchorPoints.
+   */
+  declare _pathPending: boolean;
   /** Texts and connector anchors restored with the path, linked once it is in a scene. */
   declare _referencedNodes: Node[] | null;
   declare _delayedRefresh: boolean;
@@ -1618,8 +1624,10 @@ export class PathBase extends Shape {
   /** Regenerates the vertices (styled, mapped by `trf`) when the anchor points changed. */
   override rewindVertices(index?: number): boolean {
     if (this._verticesDirty || null == this._vertices || 0 == this._vertices.getCount()) {
+      // The points first: building pending ones fills the vertices already.
+      const points = this.getAnchorPoints();
       this._vertices.clearVertices();
-      this.getAnchorPoints()._generateVertices(this._vertices, this.$trf, true);
+      points._generateVertices(this._vertices, this.$trf, true);
       this._verticesDirty = false;
     }
     return this._vertices.rewindVertices(index as number);
@@ -1660,14 +1668,16 @@ export class PathBase extends Shape {
   override getSubnodeIds(ids: Record<string, Node>): void {
     super.getSubnodeIds(ids);
     if (this._anchorPoints) {
-      if (ids[this._anchorPoints.getMultireferenceId()]) this._anchorPoints.resetMultireference();
-      ids[this._anchorPoints.getMultireferenceId()] = this._anchorPoints;
-      this._anchorPoints.getSubnodeIds(ids);
+      // Through getAnchorPoints, so pending points are built first.
+      const points = this.getAnchorPoints();
+      if (ids[points.getMultireferenceId()]) points.resetMultireference();
+      ids[points.getMultireferenceId()] = points;
+      points.getSubnodeIds(ids);
     }
   }
 
   cloneAnchorPoints(): AnchorPoints {
-    return (this._anchorPoints as AnchorPoints).clone();
+    return this.getAnchorPoints().clone();
   }
 
   override _isEvenOddFill(): boolean {
@@ -1822,6 +1832,8 @@ export class PathBase extends Shape {
 
   setAnchorPoints(anchorPoints: AnchorPoints): void {
     if (this._anchorPoints) this._anchorPoints._detachFromParent(this);
+    // The given points take the place of the ones still to be built.
+    if (this._pathPending) this._pathPending = false;
     this._anchorPoints = anchorPoints;
     this._anchorPoints._setParent(this as unknown as ContainerNode);
   }
@@ -2066,5 +2078,6 @@ const pathBasePrototype = PathBase.prototype;
 pathBasePrototype._vertices = null as unknown as VertexContainer;
 pathBasePrototype._verticesDirty = false;
 pathBasePrototype._anchorPoints = null;
+pathBasePrototype._pathPending = false;
 pathBasePrototype._referencedNodes = null;
 pathBasePrototype._delayedRefresh = false;
