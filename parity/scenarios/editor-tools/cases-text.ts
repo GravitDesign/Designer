@@ -512,3 +512,131 @@ export const textEditCases: ToolCase[] = [
     ],
   },
 ];
+
+/**
+ * Five paragraphs in a 320 wide box: a one-line title (so the line below
+ * it starts a paragraph), two that wrap over several lines, a short one
+ * and a last one of two lines.
+ */
+const LONG: Fixture = {
+  shapes: [
+    {
+      type: "text",
+      x: 40,
+      y: 40,
+      w: 320,
+      text: [
+        "Long text edits:",
+        "Typing into a long text should only redraw the lines that change, while every other line keeps the pixels it had before the keystroke.",
+        "This paragraph wraps over several lines as well, so inserting words near its start pushes the rest of it down and moves words from one line to the next.",
+        "A short one.",
+        "The last paragraph ends the text with a few more words.",
+      ].join("\n"),
+    },
+  ],
+  select: [0],
+};
+
+/**
+ * Opens the inline editor at the start of LONG's text with the caret
+ * frozen visible. The caret's blink repaints the whole text, so after this
+ * only the edits repaint it.
+ */
+const openLong: Step[] = [...openInline, press("ArrowLeft"), freezeCaret()];
+
+const linesDown = (lines: number): Step[] =>
+  Array.from({ length: lines }, () => press("ArrowDown"));
+const wordsRight = (words: number): Step[] =>
+  Array.from({ length: words }, () => ctrl("ArrowRight")).flat();
+
+/** The whole text box with the caret and some margin. */
+const longShot = (): Step[] => [move(600, 500), shot(30, 30, 350, 560)];
+
+/**
+ * Edits in a long multi-line text, each shot right after them: the text is
+ * not repainted as a whole in between (the shot only composites the
+ * view again), so a repaint of only the changed lines must give the same
+ * pixels as the old app's repaint of the whole text.
+ */
+export const textLongEditCases: ToolCase[] = [
+  {
+    id: "textedit/long-type-middle",
+    covers: [...EDIT, "EDT-TEXTEDIT-014", "EDT-TEXTEDIT-024"],
+    fixture: LONG,
+    steps: [...openLong, ...linesDown(5), ...wordsRight(2), type("many new "), ...longShot()],
+  },
+  {
+    id: "textedit/long-type-start",
+    covers: [...EDIT, "EDT-TEXTEDIT-024"],
+    fixture: LONG,
+    steps: [...openLong, type("Start: "), ...longShot()],
+  },
+  {
+    id: "textedit/long-type-end",
+    covers: [...EDIT, "EDT-TEXTEDIT-014", "EDT-TEXTEDIT-024"],
+    fixture: LONG,
+    steps: [...openLong, press("PageDown"), type(" One more line at the end."), ...longShot()],
+  },
+  {
+    id: "textedit/long-enter-splits",
+    covers: [...EDIT, "EDT-TEXTEDIT-014", "EDT-TEXTEDIT-018"],
+    fixture: LONG,
+    steps: [
+      ...openLong,
+      ...linesDown(2),
+      ...wordsRight(3),
+      press("Enter"),
+      type("split"),
+      ...longShot(),
+    ],
+  },
+  {
+    id: "textedit/long-backspace-joins",
+    covers: [...EDIT, "EDT-TEXTEDIT-014", "EDT-TEXTEDIT-016"],
+    fixture: LONG,
+    // At the start of the second paragraph: the first Backspace joins it
+    // with the title, the second deletes the title's colon.
+    steps: [...openLong, ...linesDown(1), press("Backspace"), press("Backspace"), ...longShot()],
+  },
+  {
+    id: "textedit/long-delete-words",
+    covers: [...EDIT, "EDT-TEXTEDIT-014", "EDT-TEXTEDIT-016"],
+    fixture: LONG,
+    steps: [
+      ...openLong,
+      ...linesDown(1),
+      ...wordsRight(1),
+      ...Array.from({ length: 12 }, () => press("Delete")),
+      ...longShot(),
+    ],
+  },
+  {
+    id: "textedit/long-underline-strikeout",
+    covers: [...EDIT, "EDT-TEXTEDIT-015", "EDT-TEXTEDIT-023"],
+    fixture: LONG,
+    steps: [
+      ...openLong,
+      ...linesDown(1),
+      ...wordsRight(2),
+      ...shift("ArrowDown"),
+      ...shift("ArrowDown"),
+      ...ctrl("u"),
+      ...shift("ArrowRight"),
+      ...ctrl("d"),
+      ...longShot(),
+    ],
+  },
+  {
+    id: "textedit/long-bold",
+    covers: [...EDIT, "EDT-TEXTEDIT-015", "EDT-TEXTEDIT-023", "EDT-TEXTEDIT-001"],
+    fixture: LONG,
+    steps: [
+      ...openLong,
+      ...linesDown(4),
+      ...wordsRight(1),
+      ...shift("ArrowDown"),
+      ...ctrl("b"),
+      ...longShot(),
+    ],
+  },
+];
