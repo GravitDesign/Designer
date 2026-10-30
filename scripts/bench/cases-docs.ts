@@ -242,11 +242,16 @@ async function selectMoveSet(page: Page): Promise<number> {
   return shapes;
 }
 
-async function clearSelection(page: Page): Promise<void> {
-  await page.evaluate(() =>
-    (window as unknown as AppWindow).__parity.app.editor().clearSelection(),
-  );
-  await idle(page, LONG);
+/** Clears the selection; ms until the call returned and until the view is painted. */
+async function clearSelection(page: Page): Promise<{ clearMs: number; clearPaintedMs: number }> {
+  return page.evaluate(async (timeout) => {
+    const w = window as unknown as AppWindow;
+    const start = performance.now();
+    w.__parity.app.editor().clearSelection();
+    const clearMs = performance.now() - start;
+    await w.__bench.idle(3, timeout);
+    return { clearMs, clearPaintedMs: performance.now() - start };
+  }, LONG);
 }
 
 /** The left edge of the first selected object (to see a move and its undo). */
@@ -657,8 +662,9 @@ function docCase(d: DocDef, op: Op): Case {
             const selected = await s.page.evaluate(
               () => (window as unknown as AppWindow).__parity.app.selection().length,
             );
-            await clearSelection(s.page);
-            return { ...out, selected };
+            // Untimed in the headline: clearing a large selection.
+            const clear = await clearSelection(s.page);
+            return { ...out, selected, ...clear };
           })();
         case "nudge":
           return nudgeRun(s);
