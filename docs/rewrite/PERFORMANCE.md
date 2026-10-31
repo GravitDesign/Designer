@@ -99,9 +99,9 @@ projects nor vitest pick it up.
 | cold-start | fresh context: navigation until the app is ready (`window.__parity` set) and until an empty document is painted (`docReadyMs`) |
 | open-* | File > Open of the three largest corpus files (effects-webgl-2, fills-textures, effects-webgl-1, 65 to 79 KB) until the document is ready and painted |
 | pan-wheel | heavy document: 90 wheel scrolls, one per 16 ms; frame times. Each wheel event round-trips through CDP, so a scroll lands about every third frame |
-| zoom-wheel | heavy document: Ctrl + wheel, 20 steps in and 20 out |
+| zoom-wheel | heavy document: Ctrl + wheel, 20 steps in and 19 out (20 out before the third round); `settledMs` from the last step until the wheel's full-quality render has painted, the tile cache emptied first |
 | pan-api | heavy document: `view.scrollBy(15, 8)` once per frame for 120 frames. The same repaint as the wheel (tiles moved, only the new strips painted), but a scroll every frame |
-| zoom-api | heavy document: `view.zoomAt` by 1.05 per frame, 30 in and 30 out |
+| zoom-api | heavy document: a zoom gesture through the view API, `view.beginZoom()`, then `view.zoomAt` by 1.05 per frame, 30 in and 29 out, then `view.finishZoom()`; frame times of the steps, `settledMs` from finishZoom until painted, the tile cache emptied first. Before the third round: `view.zoomAt` alone, 30 in and 30 out |
 | drag-group | heavy document: drag a selected group of 200 shapes with the pointer tool, 60 moves; `moveMedian` is the time until the page has handled one move |
 | type-long-text | 40-paragraph text (2,400 words, 600 pt wide), inline editing, 30 keystrokes at the end; time from keydown to the next frame |
 | export-svg/pdf/png | the heavy document's page (4000 x 3000) through `Exporter.exportExportable`, the export dialog's code path |
@@ -121,10 +121,10 @@ table.
 | case | what it measures |
 | --- | --- |
 | \<doc\>-open | File > Open of the saved document until painted |
-| \<doc\>-zoom-api | `view.zoomAt` at the centre by 1.1 per frame, 10 in and 10 out |
+| \<doc\>-zoom-api | a zoom gesture as in zoom-api, at the centre by 1.1 per frame, 10 in and 9 out |
 | \<doc\>-pan-api | `view.scrollBy(15, 8)` once per frame for 60 frames |
 | \<doc\>-pan-wheel | 60 wheel scrolls over the canvas, one per 16 ms |
-| \<doc\>-select-all | Edit > Select All until painted (`ms`; `actionMs` is the action alone) |
+| \<doc\>-select-all | Edit > Select All until painted (`ms`; `actionMs` is the action alone); then, untimed in the headline, clearing the selection (`clearMs` until the call returned, `clearPaintedMs` until painted) |
 | \<doc\>-nudge | select the topmost objects holding 200 shapes, then 2 arrow-key nudges; `nudgeMedian` is keydown until painted |
 | \<doc\>-drag | the same selection dragged by one of its shapes with the pointer tool, 10 moves; `moveMedian` as in drag-group, `upToPaintedMs` from release until painted |
 | \<doc\>-undo | the same selection nudged once, then Edit > Undo until painted |
@@ -159,11 +159,11 @@ Many pages, effects and exports (groups `fx-pages` and `import-export`):
 | --- | --- |
 | pages-open | File > Open of 60 pages of 1200 x 900 with 250 shapes each (15,000 shapes) until painted |
 | pages-multipage | the same document: switch to multi-page view (the action behind F6) until painted |
-| pages-zoom-api, pages-pan-api | the same in multi-page view: zoom by 1.1 per frame, 10 in and 10 out; scrollBy for 60 frames |
-| fx-zoom-api, fx-pan-api | the effects page: as zoom-api and pan-api on the heavy document |
+| pages-zoom-api, pages-pan-api | the same in multi-page view: a zoom gesture by 1.1 per frame, 10 in and 9 out; scrollBy for 60 frames |
+| fx-zoom-api, fx-pan-api | the effects page: as zoom-api (a gesture) and pan-api on the heavy document |
 | fx-zoom-min | the effects page: from fitted, zoom to 6% at once; ms until painted. 6% is the editor's minimum zoom, so 1% can't be reached |
 | fx-zoom-max | the effects page: from fitted, zoom to 6,400% on one object at once; ms until painted |
-| fx-zoom-step-min, fx-zoom-step-max | the same in steps of 0.8 and 1.25 per frame; frame times, and `ms` until painted |
+| fx-zoom-step-min, fx-zoom-step-max | the same as one zoom gesture in steps of 0.8 and 1.25 per frame; frame times, `settledMs` from finishZoom until painted (tile cache emptied), and `ms` from the first step until painted |
 | export-doc20k-flat-svg/pdf/png | the 20,000-shape page (10,328 x 7,746) through `Exporter.exportExportable`; 3 runs |
 | export-fx-svg/pdf/png | the effects page through `Exporter.exportExportable` |
 
@@ -1010,3 +1010,423 @@ Still slow, and why:
   (`src/engine/core/locale/translation-loader.ts` `mapProjects`), 100
   ms of `designer.init`, 27 ms of pattern choosers and 26 ms of the
   HarfBuzz top-level await.
+
+## Third round
+
+The third round goes after what is left once the slow code paths are
+gone: the view redrawing every visible shape on each step of a zoom,
+the cost of building each node when a large document opens, Select All
+on tens of thousands of objects, and typing in a long text. Its
+baseline is `5976cc13`, the main branch when it started. Every number
+in it comes from GitHub Actions; before and after of each change come
+from one job that measured both commits, mostly alternated (base,
+change, base, change).
+
+What the round added to the benchmark:
+
+- The zoom cases (zoom-api, \<doc\>-zoom-api, pages-zoom-api,
+  fx-zoom-api, fx-zoom-step-min and -max) run as a zoom gesture through
+  `view.beginZoom()` and `view.finishZoom()`, the calls Ctrl + wheel
+  makes, end one step away from where they started, and report
+  `settledMs`: from finishZoom until the full-quality render is
+  painted. The tile cache is emptied before finishZoom; without that the
+  render at the end came from an earlier run's tiles at the same zoom
+  (about 120 ms on doc50k). zoom-wheel reports `settledMs` until the
+  wheel's own full-quality render, 750 ms after the last step, has
+  painted.
+- The select-all cases time clearing the selection afterwards
+  (`clearMs`, `clearPaintedMs`).
+- Eight new parity scenarios, `editor-tools/textedit/long-*`, recorded
+  from the old app: edits in a long multi-line text (typing at the
+  start, middle and end, splitting and joining paragraphs, deleting
+  words, underline, strikeout and bold across lines), each shot after
+  the edits without a repaint of the whole text in between. They were
+  recorded and repeated three times on CI with the new `scenarios` and
+  `record` inputs of the Check a branch workflow (check.yml).
+
+A note on "script ms": the CDP ScriptDuration metric doesn't count code
+that runs inside `page.evaluate`, which is how the select-all and
+typing cases start their action. The second round's "0.2 s of script"
+for Select All was that: the action itself took 1.1 s of JavaScript on
+its runner. The CPU profiles count it.
+
+### The changes
+
+| commit | what | case | before | after |
+| --- | --- | --- | ---: | ---: |
+| dd08cb6e | zoom gestures drawn from the painted tiles (Q-387) | doc50k-flat-zoom-api frame p95 | 718, 835 | 18.3, 16.7 |
+| | | doc20k-flat-zoom-api frame p95 | 318, 468 | 16.7, 16.7 |
+| | | fx-zoom-api frame p95 | 167, 119 | 33.3, 33.3 |
+| | | zoom-wheel frame p95 | 41.7, 70.0 | 16.7, 16.7 |
+| 3beb1fd1 | each restored shape's path built once; event-target checks kept per class | doc20k-flat-open | 5,774, 6,410 | 3,615, 3,576 |
+| | | doc50k-flat-open | 13,904, 13,589 | 11,189, 8,788 |
+| | | pages-open | 4,156, 4,150 | 1,892, 1,938 |
+| 3f6cadc4 | selections of over 32,000 objects cleared without moving the list per object | clearing the doc50k-flat selection | 3,297, 2,887 | 537, 521 |
+| 6b834de3 | only the changed lines of a text redrawn while typing | type-long-text keyMedian | 82.4, 82.1 | 49.4, 49.4 |
+| | | type-long-text keyP95 | 122, 109 | 88.9, 83.1 |
+| e6e23e3f | Select All without walking the page once per object | doc20k-flat-select-all after a hover | 5,215, 5,252 | 1,378, 1,448 |
+| | | doc50k-flat-select-all after a hover | 90,774, 137,116 | 4,427, 3,198 |
+
+Runs: 41137128685 (zoom), 41132947574 (open and selection, three refs
+alternated), 41141149573 (typing), 41156775127 (Select All after a
+hover). The commit messages have the rest.
+
+How a zoom gesture is drawn now: a step draws the tiles painted before
+the gesture, scaled to the new view, straight into the view canvas, and
+the editor overlay is painted over them as before. 100 ms after the
+last step the view makes the render the old app made with every step
+(the gesture's render parameters, no WebGL), and finishZoom still
+renders everything at full quality. A first version scaled the tiles
+in place and then composited them as usual; its frames stayed at 50 ms
+p95 on doc50k. The profile showed almost no JavaScript in those frames:
+the time went to the browser rasterising two full-size canvas draws
+and, above all, the page's drop shadow, which the editor draws with a
+canvas shadow blur on every full composite. Drawing the tiles straight
+into the view and filling the page without its shadow during the steps
+brought the frames to 16.7 ms.
+
+What the parity suite needed for it: the view scenarios that shoot
+during a wheel zoom (editor-tools/view/zoom-quick-render at 200 ms and
+zoom-render-after-wheel at 1 s, both on a paused clock) see the same
+renders as before, since the render after the steps comes at 100 ms;
+and the parity hook's idle check (`activeViewIdle` in
+src/parity/app/view-host.ts) counts a render the steps still owe as a
+pending repaint, since the old app had already made it.
+
+How typing is drawn now: a fill render for the screen while editing
+records, per line, what it drew and where. The next render clears the
+rows of the lines that changed, adds every line whose outlines reach
+into those rows, and draws those lines again, whole and in order,
+without a clip; the rest of the bitmap stays. The edit invalidates only
+those rows. Anything that could make a difference (no record, another
+size, scale, transform, fill or alignment, gradient or texture fills,
+lists, a path, effects, borders, several fills, masks, a changed paint
+box) falls back to the whole render, and exports never take the partial
+path. The text editor paints the caret and the selection in the
+overlay, so a caret move or blink no longer repaints the text at all.
+
+### Tried and dropped
+
+- Scaling the tiles in place during a zoom gesture and compositing them
+  as usual: 50 ms frames, see above.
+- One shared editor for the whole selection. It would have to repeat,
+  per element, each element class's repaint areas (in order), its paint
+  order among the hovered elements' editors and the outline colour each
+  editor reads from the canvas at its first paint, so Select All would
+  do the same work; creating the editors is 28 ms of the action and
+  about 2 MB.
+- Reusing an element's handle box between its Selected and Outline
+  repaint requests, and skipping the empty request before Selected is
+  set: both need a cache keyed on everything each editor class's box
+  reads, the event-driven dirty flags the second round dropped.
+- Building the points of any rectangle, ellipse or star on first read:
+  the quadtree insert and the first paint read them right after open
+  anyway, and outside a restore the build would move its geometry
+  events and undo entries to whoever reads first. The deferral stays
+  limited to the restore.
+- Lazy child quadtrees for leaf shapes (two empty trees per shape,
+  about 300,000 objects on 50,000 shapes): `retrieveChildrenIn*BBox`
+  returns [] or null depending on whether the trees exist.
+- In the partial text redraw: clipping the redraw to the changed band
+  (Skia chops path edges at the clip, so the band's pixels could
+  differ), and drawing into a scratch or band-sized canvas (twice the
+  memory, or different rounding of device coordinates).
+- Drawing pans from the tiles like zooms. A pan step already moves the
+  painted tiles and renders only the strips that come into view; its
+  JavaScript takes 5 to 7 ms, and the slow frames come from the browser
+  compositing the full-size canvas. Leaving the strips for later would
+  also change what corpus/view/pan-and-partial-repaint shoots during a
+  pan, unless strips rendered in one piece always looked exactly like
+  strips rendered one by one, which effects clipped to the dirty area
+  don't promise.
+
+## After the third round
+
+Measured on GitHub Actions on 2026-10-31: Benchmark run 41148597444,
+one job, refs `5976cc13` (the round's baseline) and `6b834de3` (main
+after steps 1 to 3), 5 runs plus a warm-up (fewer where a case sets its
+own limit), median, times in ms. The runner was an AMD EPYC 7763 (4
+logical cores, 16 GB), the slowest type this round met: the same code
+ran Select All 4 to 5 times slower and typing about 1.6 times slower
+there than on the Xeon 8573C and EPYC 9V45 runners of the per-change
+runs. Both columns come from this one job.
+
+"settled" is `settledMs` of the zoom cases (see "Third round"): from the
+end of the gesture until the full-quality render has painted
+(zoom-wheel's includes the wheel's 750 ms wait). Where effects dominate
+it got slower: the old code had rendered the final zoom with the last
+step, so the full-quality render found that zoom's shadows and blurs in
+the effect caches, while the new code renders them there for the first
+time (zoom-api 160 to 281 ms, fx-zoom-api 207 to 265 ms). "script ms"
+leaves out code run from `page.evaluate` (the select-all and typing
+actions).
+
+The Select All rows here are from before e6e23e3f (see "Select All
+after a hover" below), which changes them most.
+
+| case | headline | before | after | change | settled before | settled after | script ms before | script ms after |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| cold-start | docReadyMs | 750 | 724 | -3% |  |  | 178 | 177 |
+| open-effects-webgl-2 | painted | 1,619 | 1,336 | -17% |  |  | 1,465 | 1,179 |
+| open-fills-textures | painted | 307 | 308 | 0% |  |  | 143 | 135 |
+| open-effects-webgl-1 | painted | 375 | 384 | 2% |  |  | 225 | 234 |
+| pan-wheel | frameP95 | 16.7 | 16.7 | 0% |  |  | 501 | 526 |
+| zoom-wheel | frameP95 | 73.3 | 16.7 | -77% | 939 | 918 | 1,224 | 194 |
+| pan-api | frameP95 | 51.7 | 51.7 | 0% |  |  | 876 | 855 |
+| zoom-api | frameP95 | 118 | 16.7 | -86% | 160 | 281 | 1,943 | 206 |
+| drag-group | moveMedian | 33.9 | 34.0 | 0% |  |  | 867 | 858 |
+| type-long-text | keyP95 | 194 | 151 | -22% |  |  | 3,318 | 2,117 |
+| export-svg | ms | 78.4 | 80.7 | 3% |  |  | 0.0 | 0.0 |
+| export-pdf | ms | 663 | 661 | 0% |  |  | 512 | 517 |
+| export-png | ms | 296 | 322 | 9% |  |  | 0.0 | 0.0 |
+| import-svg-3000 | painted | 2,648 | 2,288 | -14% |  |  | 2,412 | 2,074 |
+| import-svg-welcome | painted | 238 | 254 | 7% |  |  | 118 | 140 |
+| import-pdf-print | painted | 551 | 542 | -2% |  |  | 87.0 | 88.0 |
+| import-pdf-2pages | painted | 508 | 508 | 0% |  |  | 60.0 | 58.0 |
+| import-eps-2000 | painted | 1,567 | 1,474 | -6% |  |  | 1,323 | 1,238 |
+| import-eps-gradient | painted | 194 | 197 | 2% |  |  | 54.8 | 53.4 |
+| doc20k-flat-open | painted | 9,705 | 5,528 | -43% |  |  | 8,165 | 4,415 |
+| doc20k-flat-zoom-api | frameP95 | 418 | 16.7 | -96% | 573 | 463 | 5,244 | 387 |
+| doc20k-flat-pan-api | frameP95 | 68.3 | 50.0 | -27% |  |  | 371 | 379 |
+| doc20k-flat-pan-wheel | frameP95 | 16.7 | 16.7 | 0% |  |  | 356 | 330 |
+| doc20k-flat-select-all | ms | 6,516 | 5,183 | -20% |  |  | 297 | 177 |
+| doc20k-flat-nudge | nudgeMedian | 649 | 548 | -16% |  |  | 1,012 | 859 |
+| doc20k-flat-drag | moveMedian | 116 | 83.9 | -27% |  |  | 1,598 | 1,206 |
+| doc20k-flat-undo | ms | 660 | 463 | -30% |  |  | 319 | 264 |
+| doc20k-flat-redo | ms | 648 | 461 | -29% |  |  | 302 | 258 |
+| doc20k-flat-layers-scroll | frameP95 | 33.3 | 33.3 | 0% |  |  | 332 | 304 |
+| export-doc20k-flat-svg | ms | 681 | 653 | -4% |  |  | 0.0 | 0.0 |
+| export-doc20k-flat-pdf | ms | 2,084 | 2,076 | 0% |  |  | 1,338 | 1,327 |
+| export-doc20k-flat-png | ms | 1,561 | 1,595 | 2% |  |  | 0.0 | 0.0 |
+| doc50k-flat-open | painted | 21,986 | 11,405 | -48% |  |  | 18,836 | 9,325 |
+| doc50k-flat-zoom-api | frameP95 | 737 | 16.7 | -98% | 1,038 | 1,038 | 9,302 | 931 |
+| doc50k-flat-pan-api | frameP95 | 66.7 | 66.7 | 0% |  |  | 377 | 340 |
+| doc50k-flat-pan-wheel | frameP95 | 16.7 | 16.7 | 0% |  |  | 357 | 341 |
+| doc50k-flat-select-all | ms | 70,945 | 33,742 | -52% |  |  | 586 | 453 |
+| doc50k-flat-nudge | nudgeMedian | 861 | 802 | -7% |  |  | 1,415 | 1,318 |
+| doc50k-flat-drag | moveMedian | 170 | 155 | -9% |  |  | 2,510 | 2,288 |
+| doc50k-flat-undo | ms | 864 | 699 | -19% |  |  | 488 | 449 |
+| doc50k-flat-redo | ms | 863 | 747 | -14% |  |  | 487 | 478 |
+| doc50k-flat-layers-scroll | frameP95 | 33.3 | 33.3 | 0% |  |  | 392 | 387 |
+| doc20k-nested-open | painted | 8,591 | 6,903 | -20% |  |  | 6,901 | 5,163 |
+| doc20k-nested-zoom-api | frameP95 | 333 | 16.7 | -95% | 462 | 548 | 3,789 | 458 |
+| doc20k-nested-pan-api | frameP95 | 33.3 | 66.7 | 100% |  |  | 427 | 402 |
+| doc20k-nested-pan-wheel | frameP95 | 16.7 | 16.7 | 0% |  |  | 326 | 345 |
+| doc20k-nested-select-all | ms | 162 | 235 | 45% |  |  | 40.3 | 53.5 |
+| doc20k-nested-nudge | nudgeMedian | 374 | 440 | 18% |  |  | 601 | 709 |
+| doc20k-nested-drag | moveMedian | 66.8 | 82.4 | 23% |  |  | 679 | 829 |
+| doc20k-nested-undo | ms | 165 | 180 | 10% |  |  | 24.1 | 28.5 |
+| doc20k-nested-redo | ms | 167 | 178 | 7% |  |  | 22.4 | 27.0 |
+| doc20k-symbols-open | painted | 11,591 | 7,833 | -32% |  |  | 9,371 | 5,900 |
+| doc20k-symbols-zoom-api | frameP95 | 417 | 16.7 | -96% | 577 | 505 | 5,261 | 431 |
+| doc20k-symbols-pan-api | frameP95 | 66.7 | 50.0 | -25% |  |  | 406 | 401 |
+| doc20k-symbols-pan-wheel | frameP95 | 16.7 | 16.7 | 0% |  |  | 341 | 325 |
+| doc20k-symbols-select-all | ms | 1,666 | 1,336 | -20% |  |  | 256 | 178 |
+| doc20k-symbols-nudge | nudgeMedian | 674 | 640 | -5% |  |  | 1,102 | 1,032 |
+| doc20k-symbols-drag | moveMedian | 101 | 82.9 | -18% |  |  | 1,596 | 1,394 |
+| doc20k-symbols-undo | ms | 727 | 563 | -23% |  |  | 343 | 323 |
+| doc20k-symbols-redo | ms | 719 | 555 | -23% |  |  | 329 | 318 |
+| doc20k-symbols-layers-scroll | frameP95 | 33.3 | 33.3 | 0% |  |  | 314 | 384 |
+| doc50k-nested-open | painted | 23,111 | 13,483 | -42% |  |  | 19,364 | 9,956 |
+| doc50k-nested-select-all | ms | 321 | 303 | -6% |  |  | 53.2 | 50.6 |
+| pages-open | painted | 5,343 | 2,675 | -50% |  |  | 4,564 | 1,990 |
+| pages-multipage | ms | 69.1 | 96.5 | 40% |  |  | 23.7 | 30.0 |
+| pages-zoom-api | frameP95 | 16.7 | 16.7 | 0% | 75.3 | 81.3 | 180 | 36.6 |
+| pages-pan-api | frameP95 | 33.3 | 33.3 | 0% |  |  | 477 | 656 |
+| fx-zoom-api | frameP95 | 117 | 16.7 | -86% | 207 | 265 | 3,122 | 198 |
+| fx-pan-api | frameP95 | 50.0 | 50.0 | 0% |  |  | 846 | 857 |
+| fx-zoom-min | ms | 684 | 681 | 0% |  |  | 619 | 614 |
+| fx-zoom-max | ms | 64.6 | 64.6 | 0% |  |  | 19.2 | 17.9 |
+| fx-zoom-step-min | frameP95 | 100.0 | 16.7 | -83% | 702 | 710 | 1,039 | 669 |
+| fx-zoom-step-max | frameP95 | 95.0 | 30.8 | -68% | 59.3 | 40.2 | 683 | 23.4 |
+| export-fx-svg | ms | 1,662 | 1,603 | -4% |  |  | 0.0 | 0.0 |
+| export-fx-pdf | ms | 4,436 | 4,510 | 2% |  |  | 1,359 | 1,401 |
+| export-fx-png | ms | 2,855 | 2,871 | 1% |  |  | 0.0 | 0.0 |
+| import-svg-20000 | painted | 22,584 | 19,749 | -13% |  |  | 21,754 | 18,545 |
+| import-pdf-20pages | painted | 8,882 | 8,659 | -3% |  |  | 3,242 | 3,011 |
+| import-eps-4000 | painted | 5,156 | 4,881 | -5% |  |  | 4,831 | 4,560 |
+| import-png-6000x4000 | painted | 1,884 | 1,969 | 4% |  |  | 262 | 365 |
+| import-jpeg-6000x4000 | painted | 2,016 | 1,992 | -1% |  |  | 1,453 | 1,466 |
+| import-sketch-4000 | ms | 2,552 | 2,418 | -5% |  |  | 2,151 | 2,027 |
+
+### Select All after a hover
+
+The final run above showed Select All on doc20k-flat at 6.5 and 5.2 s,
+while a fresh session on the same runner type took 1.1 s. The
+difference was the case before it: doc20k-flat-pan-wheel moves the
+pointer over the canvas, which opens an editor for the shape under it
+(the hover outline). `ElementEditor.openEditor` finds where a new
+editor goes among its siblings by walking the scene forward from each
+open sibling editor's element; with an editor open in the middle of the
+page, every element before it walked from that element to the end of
+the page, 10,000 steps each on 20,000 shapes. The same happens when one
+shape is selected before Ctrl+A, so this was the second round's "8 s,
+of which 0.2 s script" too. The walk now stops after 64 siblings and
+looks their positions up (a map per container, dropped whenever any
+container's children change), with the same result.
+
+| commit | case | before | after |
+| --- | --- | ---: | ---: |
+| e6e23e3f | doc20k-flat-select-all after a hover | 5,215, 5,252 | 1,378, 1,448 |
+| | doc50k-flat-select-all after a hover | 90,774, 137,116 | 4,427, 3,198 |
+| | doc20k-symbols-select-all after a hover | 1,922, 1,568 | 2,344, 1,670 (noise) |
+
+Run 41156775127 (an EPYC 7763 like the final run), refs alternated, 3
+runs; each select-all ran right after its document's pan-wheel case, so
+the pointer had hovered a shape.
+
+### Targets
+
+- Zoom frames at or under 33 ms p95 on doc50k-flat and the effects
+  page: met. doc50k-flat-zoom-api 737 to 16.7 ms, fx-zoom-api 117 to
+  16.7 ms in the final run; 18.3 and 16.7 / 33.3 and 33.3 ms in the
+  change's own run. The view still waits for one full render after the
+  gesture (settled): 1.0 s on doc50k-flat, 0.5 s on the doc20k pages,
+  0.27 s on the effects page.
+- doc50k-flat-open under 5 s and the doc20k opens under 3 s: not met.
+  doc50k-flat-open is 11.4 s here (22.0 s before) and 8.8 to 11.2 s on
+  the faster runner; doc20k-flat-open 5.5 s here (9.7 s before) and
+  3.6 s on the faster runner. See "Still slow".
+- doc20k-flat-select-all under 1 s: not met reliably. With e6e23e3f,
+  Select All right after a hover takes 1.4 s on the EPYC 7763 (5.2 s
+  before). Without a hover it took 0.88 to 1.15 s on a Xeon 8573C
+  (run 41132947574) and 1.1 s on an EPYC 7763 (run 41154857138). What
+  is left is per element (see "Still slow").
+- type-long-text key median under 50 ms: met on the EPYC 9V45 runner
+  of the change's own run (82.4 and 82.1 to 49.4 and 49.4 ms), not on
+  the EPYC 7763 of the final run (116 to 82 ms).
+
+### Still slow, and why
+
+- Opening large documents: the remaining time is the restore itself.
+  Of 12.6 s profiled on doc50k-flat after the round, 6.8 s are the
+  change handlers each node runs while it is restored (every class's
+  Restore change: styles, paint layers, geometry and paint boxes,
+  quadtree entries), 0.9 s setProperties, 0.7 s garbage collection,
+  and 2.2 s the first paint of all 50,000 shapes at the fitted zoom.
+  Getting under 5 s needs a restore that sets a node's state without
+  running the change handlers one property at a time, or nodes that are
+  not built until they are needed. Both change the order of the events,
+  undo records and caches that listeners (and the parity suite's saved
+  bytes and screenshots) see, so they are a rewrite of the restore, not
+  a speed-up of it. Not done; this round stops there for the open
+  target.
+- The settled render after a zoom gesture: 1.0 s on 50,000 shapes. It
+  is the full-quality render the old app made too; only a renderer that
+  doesn't redraw every shape on the main thread changes it (see the next
+  two sections).
+- Select All: what is left is per element: the editor each selected
+  element gets (about 0.6 s of 1 s on doc20k-flat) and its repaint area
+  (0.5 s). A shared editor was dropped (see above).
+- Panning with the API: 50 to 67 ms p95, unchanged; the slow frames
+  are the browser compositing the full-size canvas.
+- Typing a key that grows or shrinks the text box still repaints the
+  whole text (keyP95 83 to 151 ms depending on the runner).
+
+### Painting in a worker (not done)
+
+The engine can paint into an OffscreenCanvas (`RenderScheduler.
+usingOffscreenCanvas`), but a worker would need the scene: either the
+engine running there with its own copy of the document, or a mirror the
+main thread keeps in step. After steps 1 to 3 the measurements don't
+justify that:
+
+- Gestures no longer paint the scene: zoom steps are 16.7 ms frames
+  with about 7 ms of script on doc50k-flat, and pan steps were already
+  moving the painted tiles.
+- What still blocks the main thread is mostly not painting: opening a
+  document (node construction; a worker can't build the nodes the main
+  thread edits) and Select All (editors on the main thread).
+- The one paint stall left is the settled render after a gesture (1.0 s
+  on 50,000 shapes, 0.5 s on 20,000). Moving it to a worker means a
+  second copy of the scene: building it costs what opening the document
+  costs (seconds, see above) and doubles the memory, every change (each property, insert, remove, undo)
+  has to reach the worker in order, fonts, images, textures, the WebGL
+  effects and the CMYK profile have to be loaded there too, and the
+  parity suite's idle checks would have to wait for the worker's tiles.
+  A render that arrives asynchronously also changes when the view shows
+  an edit, which the editor's overlay and the parity screenshots depend
+  on.
+
+So the cost is a second scene and an asynchronous paint path, for one
+stall of up to a second after a gesture. Left for later; a GPU renderer
+(next section) would remove the same stall without a second scene.
+
+### A GPU renderer (design note, not built)
+
+This round keeps Canvas 2D and moves work out of the moments a user
+feels. What is left is the full-quality render itself: 1.0 s after a
+zoom gesture on 50,000 shapes, 0.5 s on 20,000 and 0.27 s on the effects
+page, and the first paint after open (2.2 s of doc50k-flat-open). A
+WebGL2 or WebGPU renderer could make those much cheaper. It can't match
+Canvas 2D pixel for pixel, so the parity rules rule it out as things
+stand; this note is for deciding whether to change them (Q-388).
+
+What it would gain:
+
+- The settled redraw. Paths are tessellated (or turned into GPU path
+  data) once per change, kept in GPU buffers, and drawn at any zoom and
+  scroll with one transform. A redraw of 50,000 shapes becomes one or a
+  few draw calls per style batch, likely a few milliseconds instead of
+  1.0 s on the runner. Effects (blur, shadows, blend modes) become
+  shaders over offscreen targets, which is where the effects page
+  spends its time today (drawImage of finished effect results, the WebGL
+  blur's tile loop).
+- The first paint after open (the paint part of doc50k-flat-open), but
+  not node construction, which the GPU doesn't help with.
+- Gestures need nothing more: zoom steps are drawn from the painted
+  tiles now, and pan steps move them.
+
+What it would cost:
+
+- A second renderer for every paint feature the scene has: solid,
+  linear, radial and angular gradient fills, image textures with their
+  transforms and smoothing, several fills and borders per shape with
+  their own opacity and blend mode, border alignment, joins, caps,
+  dashes and arrowheads, element and layer blend modes, opacity groups,
+  clipping masks, drop and inner shadows, canvas blur and the existing
+  WebGL effects, text (glyph outlines from the font engine, tessellated
+  or as signed distance fields, with underline and strikeout), images,
+  page backgrounds and the view's decorations. Every later paint
+  feature has to be built twice and kept in step.
+- Antialiasing: Canvas 2D (Skia) computes exact coverage per pixel;
+  a GPU renderer uses multisampling or a coverage shader, so edge
+  pixels differ slightly everywhere, and hairlines differ most.
+- Blur and shadows: Skia approximates a Gaussian blur its own way (box
+  passes on the CPU) with its own edge handling; a shader blur matches
+  it only approximately.
+- Gradients: interpolation and dithering differ, so gradient pixels can
+  differ by a step or two in each channel.
+- Running it: context loss and restore, GPU memory for buffers and
+  textures, driver differences between machines, and the software
+  fallback (SwiftShader in CI and on machines without a usable GPU),
+  where WebGL is slower than Canvas 2D.
+- Effort: months, not weeks, plus a second parity suite.
+
+How exports stay byte-identical:
+
+- Only the view would draw with the GPU. PNG and JPEG export, the
+  thumbnails, the clipboard image, symbol previews and anything else that
+  produces bytes keep calling the scene's Canvas 2D paint into a
+  PaintCanvas, as now; SVG and PDF export don't use the screen renderer
+  at all. Saved files don't contain pixels.
+- The renderer is chosen per paint target, never globally, so a view on
+  the GPU and an export on Canvas 2D can run at the same time.
+- The few places that read screen pixels (the editors' adaptive outline
+  colour, the colour picker) would read from a Canvas 2D render of the
+  area under them, or accept the GPU's pixels as UI only.
+
+What on-screen parity tolerance it would need:
+
+- Screen scenarios would compare the GPU view against the new app's own
+  Canvas 2D render of the same view (which keeps the exact comparison
+  with the old app), not against the old app directly.
+- A per-pixel tolerance: interior pixels within 2/255 per channel;
+  pixels within one device pixel of a geometric edge within 48/255; at
+  most 0.5% of the image's pixels outside those bounds. Blurs and
+  shadows compared separately with a structural similarity of 0.99 or
+  more, since their kernels differ.
+- The exact rules (old app vs expected files, unchanged) stay for every
+  export, save and Canvas 2D render, and the parity suite would run the
+  view in Canvas 2D mode as well, so a GPU difference can never hide a
+  change in the shared scene code.

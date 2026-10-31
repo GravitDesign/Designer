@@ -4804,3 +4804,50 @@ seconds.
 Decided: wait, with the 5 second limit, so an image that never settles
 can't keep the import from calling back. The parity recordings are the
 old app's output with every bitmap finished.
+
+## Q-387 A zoom gesture shows the painted tiles scaled until its steps pause
+
+Old location: chunk.vendor.js, GSceneWidget (module 363), now
+src/editor/view/scene-widget.ts (ZoomFromTiles) and editor-widget.ts
+(_renderPageBackground).
+
+What it does: the old view rendered the whole scene again on every step
+of a zoom gesture (Ctrl + wheel, a trackpad pinch), without WebGL
+effects, and rendered it once more at full quality 750 ms after the last
+wheel event. Since the third performance round a step only draws the
+tiles painted before the gesture, scaled to the new zoom, with the
+editor overlay painted over them as before. The page is filled without
+its drop shadow while that lasts. 100 ms after the last step the view
+makes the render the old app made with each step (same parameters), and
+the full-quality render still comes 750 ms after the last wheel event.
+
+Why it's unclear: between a step and the render 100 ms later the view
+looks different from the old app's: the content is a scaled copy of the
+earlier render (softer when zooming in, blank where nothing was painted
+when zooming out), and the page shadow is missing. On large documents
+the old app showed nothing new at all during that time, since each step
+took 0.3 to 0.8 s to render.
+
+Decided: keep it. Everything the view shows once the steps pause, and
+everything that is saved or exported, is the same as before; the parity
+suite's shots after a wheel zoom (at 200 ms and after 1 s) match the old
+app. Touch pinches (startTouchMode) still render every step, as before.
+
+## Q-388 A GPU renderer for the view
+
+Old location: none; the old app and the rewrite paint with Canvas 2D on
+the main thread (src/engine/paint).
+
+What it does: nothing yet. docs/rewrite/PERFORMANCE.md, "A GPU renderer
+(design note)", describes a WebGL2 or WebGPU renderer for the view
+only, with exports, saves and thumbnails staying on Canvas 2D.
+
+Why it's unclear: it can't match Canvas 2D pixel for pixel
+(antialiasing, blurs, gradients), so it needs an on-screen parity
+tolerance, which the current rules don't allow, and it doubles the paint
+code that has to be kept in step. What it would still gain is the
+settled redraw after a gesture and the first paint after open.
+
+Decided: not built. This is for you to decide: whether the on-screen
+tolerance in the note is acceptable, and whether the gain is worth a
+second renderer.
