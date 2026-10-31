@@ -1249,6 +1249,14 @@ after a hover" below), which changes them most.
 | import-jpeg-6000x4000 | painted | 2,016 | 1,992 | -1% |  |  | 1,453 | 1,466 |
 | import-sketch-4000 | ms | 2,552 | 2,418 | -5% |  |  | 2,151 | 2,027 |
 
+Rows that got slower in this one run were checked again with refs
+alternated on the desktop machine (`5976cc13` against `e06c00bd`, 3
+runs): pages-multipage 104 and 106 to 162 and 110 ms, and
+doc20k-nested-nudge and -drag, are within the noise.
+doc20k-nested-select-all went from 240 and 237 to 265 and 268 ms, about
+10% slower in both pairs; its cause wasn't found in this round.
+doc20k-nested-pan-api (33 to 67 ms) is one frame in the slowest 5%.
+
 ### Select All after a hover
 
 The final run above showed Select All on doc20k-flat at 6.5 and 5.2 s,
