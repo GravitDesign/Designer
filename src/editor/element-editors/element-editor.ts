@@ -24,7 +24,7 @@ import { ElementFlag } from "../../engine/scene/element-change.ts";
 import type { LayoutApi } from "../../engine/scene/element-layout.ts";
 import type { TransformApi } from "../../engine/scene/element-transform.ts";
 import { Element } from "../../engine/scene/element.ts";
-import type { ContainerApi } from "../../engine/scene/node-container.ts";
+import { getChildrenVersion, type ContainerApi } from "../../engine/scene/node-container.ts";
 import type { PropertiesApi } from "../../engine/scene/node-properties.ts";
 import type { Node } from "../../engine/scene/node.ts";
 import { Shape } from "../../engine/scene/shape.ts";
@@ -78,6 +78,66 @@ export type ElementEditorClass = new (element: never) => ElementEditor;
 interface EditorSlot {
   __editor__?: ElementEditor | null;
   _scene?: unknown;
+}
+
+/**
+ * How many siblings reachedBefore walks before it looks their positions up
+ * instead. With an editor open on an element in the middle of a page, the
+ * walk from it ran to the end of the page for every element opened before
+ * it: Select All with one shape selected or hovered walked the page once
+ * per shape.
+ */
+const SIBLING_WALK = 64;
+
+/** Positions of a container's children; dropped once any container's children change. */
+let siblingPositions = new WeakMap<Node, Map<Node, number>>();
+let siblingPositionsVersion = getChildrenVersion();
+
+function positionAmongSiblings(parent: Node, node: Node): number {
+  if (siblingPositionsVersion !== getChildrenVersion()) {
+    siblingPositions = new WeakMap();
+    siblingPositionsVersion = getChildrenVersion();
+  }
+  let positions = siblingPositions.get(parent);
+  if (!positions) {
+    positions = new Map();
+    let index = 0;
+    for (
+      let child = (parent as Node & ContainerApi).getFirstChild();
+      child;
+      child = child.getNext()
+    )
+      positions.set(child, index++);
+    siblingPositions.set(parent, positions);
+  }
+  return positions.get(node) as number;
+}
+
+/**
+ * Whether walking the siblings after `from` reaches `target` before
+ * `stop`: the old openEditor's walk, which looks positions up once it has
+ * walked SIBLING_WALK siblings.
+ */
+function reachedBefore(from: Node, target: Node, stop: Node | null): boolean {
+  let steps = 0;
+  for (let node = from.getNext(); null != node; node = node.getNext()) {
+    if (node === target) return true;
+    if (node === stop) return false;
+    if (++steps === SIBLING_WALK) {
+      const parent = from.getParent();
+      // The walk stays among `from`'s siblings.
+      if (!parent || target.getParent() !== parent) return false;
+      const start = positionAmongSiblings(parent, node);
+      const at = positionAmongSiblings(parent, target);
+      if (at < start) return false;
+      if (stop && stop.getParent() === parent) {
+        const stopAt = positionAmongSiblings(parent, stop);
+        if (stopAt > start && stopAt < at) return false;
+      }
+      return true;
+    }
+  }
+  return false;
 }
 
 export class ElementEditor<E extends EditedElement = EditedElement> extends BoxEditor {
@@ -137,19 +197,17 @@ export class ElementEditor<E extends EditedElement = EditedElement> extends BoxE
             const siblings = parentEditor.getEditors() || [];
             reference = siblings[0] || null;
             let next: BaseEditor | null = null;
-            search: for (let i = siblings.length - 1; i >= 0; i--) {
+            for (let i = siblings.length - 1; i >= 0; i--) {
               const sibling = siblings[i] as BaseEditor;
               if (sibling instanceof ElementEditor) {
-                for (
-                  let node = sibling.getElement().getNext();
-                  null != node;
-                  node = node.getNext()
-                ) {
-                  if (node === element) {
-                    reference = next;
-                    break search;
-                  }
-                  if (next && ElementEditor.getEditor(node) === next) break;
+                // The walk from the sibling stops at the node whose editor is `next`.
+                const stop =
+                  next && ElementEditor.getEditor((next as ElementEditor).getElement()) === next
+                    ? (next as ElementEditor).getElement()
+                    : null;
+                if (reachedBefore(sibling.getElement(), element, stop)) {
+                  reference = next;
+                  break;
                 }
                 next = sibling;
               }

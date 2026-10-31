@@ -42,7 +42,13 @@ import type {
 import { installDeserializeAsync, type DeserializeAsync } from "../serialize/deserialize-async.ts";
 import { settleElementIndex } from "./element-index.ts";
 import { NodeChange, NodeFlag } from "./node-change.ts";
-import { Container, hasContainer, linkChild, type ContainerNode } from "./node-container.ts";
+import {
+  childUnlinked,
+  Container,
+  hasContainer,
+  linkChild,
+  type ContainerNode,
+} from "./node-container.ts";
 import {
   AfterFlagChangeEvent,
   AfterInsertEvent,
@@ -1089,6 +1095,7 @@ export class MapContainer extends Container(Store(Node)) {
       Reflect.deleteProperty(this._children, id);
       if (!this._children) this._children = Object.create(null) as Record<string, Node>;
     }
+    childUnlinked();
     if (this._firstChild == child) this._firstChild = child._next;
     if (this._lastChild == child) this._lastChild = child._previous;
     if (null != child._previous) child._previous._setNext(child._next);

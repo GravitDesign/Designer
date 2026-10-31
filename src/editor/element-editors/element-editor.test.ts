@@ -253,3 +253,74 @@ describe("GElementEditor", () => {
     });
   });
 });
+
+describe("GElementEditor among many siblings", () => {
+  /** `count` rectangles in a group in a scene. */
+  function row(count: number) {
+    const scene = new Scene(new Workspace());
+    (scene as unknown as { __graphic_editor__: unknown }).__graphic_editor__ = {
+      requestInvalidation: () => {},
+    };
+    const group = new Group();
+    const shapes: Rectangle[] = [];
+    for (let i = 0; i < count; i++) {
+      const shape = rect(i * 2, 0, 1, 1);
+      group.appendChild(shape);
+      shapes.push(shape);
+    }
+    scene.appendChild(group);
+    return { group, shapes };
+  }
+
+  const elementsOfEditors = (group: Group) =>
+    ((ElementEditor.getEditor(group) as GroupEditor).getEditors() as ElementEditor[]).map(
+      (editor) => editor.getElement(),
+    );
+
+  /** Counts the steps from a node to the next while `body` runs. */
+  function countSteps(body: () => void): number {
+    const proto = Object.getPrototypeOf(Rectangle.prototype) as object;
+    let owner: { getNext: () => unknown } | null = null;
+    for (let p: object | null = proto; p && !owner; p = Object.getPrototypeOf(p) as object | null)
+      if (Object.hasOwn(p, "getNext")) owner = p as { getNext: () => unknown };
+    const target = owner as { getNext: () => unknown };
+    const original = target.getNext;
+    let steps = 0;
+    target.getNext = function (this: unknown) {
+      steps++;
+      return original.call(this);
+    };
+    try {
+      body();
+    } finally {
+      target.getNext = original;
+    }
+    return steps;
+  }
+
+  it("keeps paint order with an editor open in the middle, without walking the siblings", () => {
+    const { group, shapes } = row(1200);
+    ElementEditor.openEditor(shapes[600] as Rectangle);
+    const steps = countSteps(() => {
+      for (const shape of shapes) ElementEditor.openEditor(shape);
+    });
+    expect(elementsOfEditors(group)).toEqual(shapes);
+    // Each of the 600 shapes before the open editor walked the 599 after
+    // it before; now the walk stops after 64 and looks positions up.
+    expect(steps).toBeLessThan(100_000);
+  });
+
+  it("looks up an element where it is after a sibling moved", () => {
+    const { group, shapes } = row(300);
+    const at = (i: number) => shapes[i] as Rectangle;
+    ElementEditor.openEditor(at(150));
+    // A walk of more than 64 siblings, which looks up their positions.
+    ElementEditor.openEditor(at(10));
+    expect(elementsOfEditors(group)).toEqual([at(10), at(150)]);
+    // Shape 5 moves far behind shape 150.
+    group.removeChild(at(5));
+    group.insertChild(at(5), at(290));
+    ElementEditor.openEditor(at(5));
+    expect(elementsOfEditors(group)).toEqual([at(10), at(150), at(5)]);
+  });
+});

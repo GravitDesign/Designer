@@ -101,6 +101,7 @@ export const Container = defineMixin(
         const recorder = this._workspace ? this._workspace.getTransactionRecorder() : null;
         if (recorder) recorder.beforeChildRemove(child, this, child._next);
         if (null !== this._indexAnchor) settleElementIndex(child);
+        childUnlinked();
         child._setParent(null);
         if (this._firstChild == child) this._firstChild = child._next;
         if (this._lastChild == child) this._lastChild = child._previous;
@@ -200,6 +201,22 @@ export function hasContainer(node: Node): node is ContainerNode {
 }
 
 /**
+ * Counts the changes to any container's list of children: a child linked in
+ * (linkChild) or taken out (removeChild). Something that keeps what it
+ * learnt about the order of siblings is stale once this differs.
+ */
+let childrenVersion = 0;
+
+export function getChildrenVersion(): number {
+  return childrenVersion;
+}
+
+/** Called by every removeChild when it takes a child out of its list. */
+export function childUnlinked(): void {
+  childrenVersion++;
+}
+
+/**
  * Links `child` into the sibling list before `reference` (or at the end).
  * Shared with MapContainer, whose insertChild repeats these steps.
  */
@@ -208,6 +225,7 @@ export function linkChild(
   child: Node,
   reference: Node | null | undefined,
 ): void {
+  childrenVersion++;
   if (null != reference) {
     child._setNext(reference);
     child._setPrevious(reference._previous);
