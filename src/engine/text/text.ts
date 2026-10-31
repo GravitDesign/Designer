@@ -192,6 +192,10 @@ const MetaProperties = {
 
 const GEOMETRY_UPDATE = [ElementChange.PrepareGeometryUpdate, ElementChange.FinishGeometryUpdate];
 
+/** How _paintTextFill lets the core render the fill. */
+const FILL_RENDER =
+  RenderFlags.RENDERFLAG_FILL | RenderFlags.RENDERFLAG_VERTEX | RenderFlags.RENDERFLAG_SCALEBITMAP;
+
 const ParagraphAlignment = Stylable.ParagraphAlignment;
 const TextTransformation = Stylable.TextTransformation;
 const BorderAlignment = Stylable.BorderAlignment;
@@ -240,6 +244,17 @@ function copyPath(source: PathBase): PathBase {
 /** `new Transform(...matrix)`. */
 function transformOf(matrix: number[]): Transform {
   return new Transform(...(matrix as [number, number, number, number, number, number]));
+}
+
+/** Whether a transform only moves (keeps one unit one pixel, no turn or flip). */
+function movesOnly(transform: Transform): boolean {
+  const matrix = transform.getMatrix() as number[];
+  return (
+    Math.abs((matrix[0] as number) - 1) < 1e-9 &&
+    Math.abs((matrix[3] as number) - 1) < 1e-9 &&
+    0 === matrix[1] &&
+    0 === matrix[2]
+  );
 }
 
 /** Whether the code runs under node (the old code checked `process.release.name`). */
@@ -337,6 +352,16 @@ export class Text extends TextBase {
   declare _vertexIterator: number;
   declare _hasEmbeddedFonts: boolean;
   declare _isEdited: boolean;
+  /**
+   * The last fill render made for the screen while inline editing: its
+   * scale and style, and whether the last paint placed its bitmap pixel for
+   * pixel. _editedArea asks the core what an edit changes against it.
+   */
+  declare _lastFill: { scale: number; style: TLRenderStyle; aligned: boolean } | null;
+  /** Set while _editChange runs; the invalidations it defers; the paint box before it. */
+  declare _editChanges: boolean;
+  declare _editInvalidations: number;
+  declare _editPaintBBox: Rect | null;
   declare _contentChangedHandler: {
     handler: (param: unknown) => unknown;
     removeSub: boolean | undefined;
@@ -1077,6 +1102,123 @@ export class Text extends TextBase {
     if (void 0 !== edited) this._isEdited = edited;
     this._notifyChange(ElementChange.PrepareGeometryUpdate);
     this._notifyChange(ElementChange.FinishGeometryUpdate);
+  }
+
+  /**
+   * repaint() after the inline editor changed the core (its text, its
+   * formatting, the selection, the caret's blink): repaints only what
+   * changed (_editChange).
+   */
+  repaintEdited(edited?: boolean): void {
+    this._editChange(() => {
+      this.repaint(edited);
+    });
+  }
+
+  /**
+   * Runs `change`, the updates that follow an inline edit of the core
+   * (writing `content` back, repainting), and repaints only the rows of the
+   * fill bitmap that the edit changed (_editedArea). When anything else
+   * changed, such as the paint box, it repaints what `change` asked for.
+   * The caret and the selection are painted by the text editor, which
+   * repaints on the geometry change events as before.
+   */
+  _editChange(change: () => void): void {
+    if (this._editChanges) {
+      change();
+      return;
+    }
+    const before = this._visiblePaintBBox();
+    this._editChanges = true;
+    this._editInvalidations = 0;
+    this._editPaintBBox = before;
+    try {
+      change();
+    } finally {
+      this._editChanges = false;
+      this._editPaintBBox = null;
+      if (this._editInvalidations) {
+        const after = this._visiblePaintBBox();
+        const areas = Rect.equals(before, after) ? this._editedArea() : undefined;
+        if (undefined === areas) {
+          if (before && !before.isEmpty() && !Rect.equals(before, after)) {
+            this._requestInvalidationArea(before);
+          }
+          super._requestInvalidation();
+        } else if (areas) {
+          for (const area of areas) this._requestInvalidationArea(area);
+        }
+      }
+    }
+  }
+
+  /** Inside _editChange, it decides what to repaint at the end. */
+  override _requestInvalidation(): void {
+    if (this._editChanges) this._editInvalidations++;
+    else super._requestInvalidation();
+  }
+
+  /** The paint box as a geometry update saves it before a change. */
+  _visiblePaintBBox(): Rect | null {
+    return (this.isPaintable() && this.isVisible() && this.getPaintBBox()) || null;
+  }
+
+  /**
+   * The scene areas an inline edit of the core changes: the rows of the
+   * fill bitmap that the next fill render draws again (TLCore.changedRows,
+   * against the last render for the screen), where the last paint put
+   * them. Null when the bitmap stays as it is, undefined when the whole
+   * text must be repainted: no such render yet, a bitmap that the paint
+   * scales or turns, or paint that spreads past the fill bitmap's pixels
+   * (effects, borders, several or mask fills, a mask).
+   */
+  _editedArea(): Rect[] | null | undefined {
+    const core = this._tlCore;
+    const fill = this._lastFill;
+    if (
+      !fill ||
+      !fill.aligned ||
+      !core ||
+      !this._isEdited ||
+      !this.isPaintable() ||
+      this.isFakeText() ||
+      this.hasPathAttached()
+    ) {
+      return undefined;
+    }
+    const effects = this.getEffects();
+    const layers = this.getPaintLayers();
+    if (
+      (effects && effects.getFirstChild()) ||
+      this.hasStyleBorder() ||
+      (layers && (layers.getFillLayers(true).length > 1 || layers.hasFillMaskLayers())) ||
+      "m" === this.$_sbl ||
+      "!m" === this.$_sbl
+    ) {
+      return undefined;
+    }
+    // Without a change of the runs the next paint doesn't render.
+    if (!this._runsDirty) return null;
+    const rows = core.changedRows(fill.scale, fill.style, FILL_RENDER);
+    if (!rows) return undefined;
+    if (!rows.length) return null;
+    const box = this.getPaintBBox();
+    if (!box) return undefined;
+    // Where the paint puts bitmap row 0 (_paintTextFill), before it moves
+    // the bitmap by up to half a pixel onto whole pixels.
+    const top = Text.VMARGIN - core.getTopPadding() * fill.scale;
+    const areas: Rect[] = [];
+    for (let i = 0; i < rows.length; i += 2) {
+      let area = new Rect(
+        0,
+        (top + (rows[i] as number) - 1) / fill.scale,
+        1,
+        ((rows[i + 1] as number) - (rows[i] as number) + 2) / fill.scale,
+      );
+      if (this.$trf) area = this.$trf.mapRect(area);
+      areas.push(new Rect(box.getX(), area.getY(), box.getWidth(), area.getHeight()));
+    }
+    return areas;
   }
 
   /** Fits the text box into x, y, width, height (fixed size from then on). */
@@ -2340,6 +2482,18 @@ export class Text extends TextBase {
   }
 
   override _handleChange(change: number, args?: unknown): void {
+    // Writing `content` back writes `trf` too (setProperties), so a second
+    // geometry update runs inside the first. Element keeps one saved paint
+    // box and the second would find none, count the box as changed, and a
+    // parent page would repaint all of it. Inside an edit it compares with
+    // the box from before the edit.
+    if (
+      change === ElementChange.FinishGeometryUpdate &&
+      this._editChanges &&
+      !this._savedPaintBBox
+    ) {
+      this._savedPaintBBox = this._editPaintBBox;
+    }
     if (change === NodeChange.Store) {
       this._store(args as StoreChangeArgs);
     } else if (change === NodeChange.Restore) {
@@ -2907,6 +3061,10 @@ export class Text extends TextBase {
       );
       const previous = context.pushCanvas(canvas) as PaintCanvas;
       const scale = (canvas.getScale() as number) * (this.$trf ? this.$trf.getScaleFactor() : 1);
+      // While inline editing on screen (a paint of dirty areas, not an
+      // export), the core draws only the lines that changed again.
+      const onlyChanged =
+        this._isEdited && !!(context as ShapePaintContext & Partial<PaintContext>).dirtyMatcher;
       try {
         let bitmap = core.getCanvas(RenderFlags.RENDERFLAG_FILL);
         const rendered = !!bitmap;
@@ -2929,17 +3087,11 @@ export class Text extends TextBase {
             evenodd: this._isEvenOddFill(),
             valign: this.$va,
           };
-          core.render(
-            this._isEdited,
-            1 * scale,
-            style,
-            RenderFlags.RENDERFLAG_FILL |
-              RenderFlags.RENDERFLAG_VERTEX |
-              RenderFlags.RENDERFLAG_SCALEBITMAP,
-          );
+          core.render(this._isEdited, 1 * scale, style, FILL_RENDER, onlyChanged);
           bitmap = core.getCanvas(RenderFlags.RENDERFLAG_FILL);
           this._lastResolutionFill = 1 * scale;
           this._lastFillPaintLayer = fill;
+          this._lastFill = onlyChanged ? { scale: 1 * scale, style, aligned: false } : null;
         }
         const saved = canvas.getTransform(true);
         const inverseScale = 1 / (1 * scale);
@@ -2947,6 +3099,7 @@ export class Text extends TextBase {
         const view = (
           this.$trf ? saved.preMultiplied(this.$trf) : transformOf(saved.getMatrix())
         ).preMultiplied(unscale);
+        if (this._lastFill) this._lastFill.aligned = movesOnly(view);
         canvas.setTransform(view);
         const correction = canvas.getTranslateCorrection(
           new Point(0, 0),
@@ -3320,6 +3473,10 @@ textPrototype._isVirgin = true;
 textPrototype._vertexIterator = 0;
 textPrototype._hasEmbeddedFonts = false;
 textPrototype._isEdited = false;
+textPrototype._lastFill = null;
+textPrototype._editChanges = false;
+textPrototype._editInvalidations = 0;
+textPrototype._editPaintBBox = null;
 textPrototype._contentChangedHandler = null;
 textPrototype.deferredLoadHandler = null;
 textPrototype._serializedBackupPaths = null;

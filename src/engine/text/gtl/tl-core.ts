@@ -1,21 +1,26 @@
 // Old: chunk.vendor.js module 367 (the GTL core: the text layout engine behind GText).
 import { GObject } from "../../core/object.ts";
+import { VertexCommand } from "../../geometry/vertex.ts";
 import { VertexContainer } from "../../geometry/vertex-container.ts";
 import { VertexInfo } from "../../geometry/vertex-info.ts";
 import { Rect } from "../../math/rect.ts";
 import { Transform } from "../../math/transform.ts";
+import { Color } from "../../color/color.ts";
 import { RGBColor } from "../../color/rgb-color.ts";
 import type { Destroyable } from "../../paint/destroyable.ts";
 import { Canvas2DPaintCanvas, PaintCanvas, type PaintStyle } from "../../paint/paint-canvas.ts";
 import { RenderScheduler } from "../../paint/render-scheduler.ts";
 import type { Font } from "../fonts/font.ts";
 import type { FontManager } from "../fonts/font-manager.ts";
-import { TLCanvasContext } from "../tl-canvas-context.ts";
+import { HarfBuzzFont } from "../fonts/harfbuzz.ts";
+import { TLCanvasContext, emptyBounds, extendBounds } from "../tl-canvas-context.ts";
 import { TLDirectionTextTransformer } from "../tl-direction-text-transformer.ts";
 import { TLPathTextTransformer, type TextBasePath } from "../tl-path-text-transformer.ts";
 import { defaultFontMeasure } from "./default-font-measure.ts";
 import { TLDocument, type Selection } from "./document.ts";
 import { Formatting, type Run } from "./formatting.ts";
+import type { Frame } from "./frame.ts";
+import type { Part } from "./inline.ts";
 import { getStylable, type PropertySetDefaults } from "./late-bound.ts";
 import type { Line } from "./line.ts";
 import { openTypeMeasure } from "./measure.ts";
@@ -23,9 +28,10 @@ import type { TLNode } from "./node.ts";
 import type { TLRange } from "./range.ts";
 import { TLRect } from "./rect.ts";
 import { RenderFlags } from "./render-flags.ts";
-import { textMeterSlot, type TextMeter } from "./run-draw.ts";
+import { RunDraw, textMeterSlot, type TextMeter } from "./run-draw.ts";
 import { TLUtil } from "./tl-util.ts";
 import type { TextTransformer } from "./transformer-util.ts";
+import type { Word } from "./word.ts";
 
 /** How render paints: GText passes its fill or border settings. */
 export interface TLRenderStyle {
@@ -82,6 +88,356 @@ function copyInto(source: Canvas, target: Canvas): void {
   }
 }
 
+/** What render works out before it draws (TLCore._renderSetup). */
+interface RenderSetup {
+  /** The scale argument, 1 when none was given. */
+  scale: number;
+  width: number;
+  height: number;
+  canvasWidth: number;
+  canvasHeight: number;
+  offsetX: number;
+  offsetY: number;
+  bitmapScale: number;
+  pixelWidth: number;
+  pixelHeight: number;
+  renderBounds: Rect;
+  /** How far vertical alignment moves the text down. */
+  shift: number;
+  translateX: number;
+  translateY: number;
+  /** What render hands the document to draw. */
+  viewport: TLRect;
+}
+
+/**
+ * What a recording fill render (render's `onlyChanged`) left in a core
+ * canvas: the settings the pixels depend on besides the lines, and what
+ * every line drew. The next recording render draws only the lines that
+ * differ from it again (TLCore._planRedraw). Kept per canvas, as the
+ * exporters' copies of a core render into the same canvas; any other render
+ * or draw into the canvas drops it.
+ */
+interface CanvasRecord {
+  key: string;
+  lines: LineRecord[];
+}
+
+/**
+ * What a line drew: lines with equal records draw the same paths. `bounds`
+ * are those of the points of its paths, in text space ([minX, minY, maxX,
+ * maxY]), null when it drew none.
+ */
+interface LineRecord {
+  /** Whether the document draws it (Frame.forDrawnLines); the rest is empty when not. */
+  drawn: boolean;
+  baseline: number;
+  /** Where each word starts and what it draws (wordSignature). */
+  lefts: number[];
+  words: string[];
+  bounds: number[] | null;
+}
+
+/** What a recording render draws again (TLCore._planRedraw). */
+interface RedrawPlan {
+  /** The canvas rows to clear and draw again: pairs of top and bottom (exclusive), in order. */
+  rows: number[];
+  /** The record of the lines after the render. */
+  lines: LineRecord[];
+  /** Which lines reach into the rows; render draws them again whole. */
+  redraw: boolean[];
+}
+
+const records = new WeakMap<Canvas, CanvasRecord>();
+
+/**
+ * Rows added above and below the points of a line's paths: a filled path
+ * colours only pixels inside the bounds of its points, rounded out, and the
+ * margin covers the rounding of the canvas.
+ */
+const PATH_MARGIN = 2;
+
+/** The run values drawing reads as they are (RunDraw.draw). */
+const DRAWN_VALUES = [
+  "script",
+  "transformation",
+  "ligatures",
+  "stylisticSet",
+  "localizedForm",
+  "langScript",
+  "variant",
+] as const;
+
+/** A string in a signature, after its length, so that no two different sequences read the same. */
+function sigString(value: string): string {
+  return value.length + ":" + value;
+}
+
+/** A run value in a signature; null for objects, which a signature can't hold. */
+function sigValue(value: unknown): string | null {
+  if ("string" == typeof value) return sigString(value);
+  return null !== value && ("object" == typeof value || "function" == typeof value)
+    ? null
+    : String(value);
+}
+
+/**
+ * Numbers for fonts in signatures: a font that replaced another under the
+ * same CSS font draws other outlines.
+ */
+const fontIds = new WeakMap<Font, number>();
+let nextFontId = 1;
+
+function fontId(font: Font): number {
+  let id = fontIds.get(font);
+  if (undefined === id) {
+    id = nextFontId++;
+    fontIds.set(font, id);
+  }
+  return id;
+}
+
+/** canvasColor's answers, by color. */
+const canvasColors = new Map<string, boolean>();
+let colorProbe: CanvasRenderingContext2D | null | undefined;
+
+/**
+ * Whether the canvas takes a fill style string. For one it doesn't take
+ * it keeps the fill it had, so a part would paint in the color of the part
+ * drawn before it, which drawing only some of the lines can't repeat.
+ */
+function canvasColor(color: string): boolean {
+  let taken = canvasColors.get(color);
+  if (undefined === taken) {
+    if (undefined === colorProbe) {
+      colorProbe =
+        "undefined" != typeof document
+          ? (document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D | null)
+          : null;
+    }
+    if (colorProbe) {
+      colorProbe.fillStyle = "#000000";
+      colorProbe.fillStyle = color;
+      const onBlack = colorProbe.fillStyle;
+      colorProbe.fillStyle = "#ffffff";
+      colorProbe.fillStyle = color;
+      taken = onBlack === colorProbe.fillStyle;
+    } else {
+      taken = true;
+    }
+    canvasColors.set(color, taken);
+  }
+  return taken;
+}
+
+/**
+ * A part's signature (partSignature) and the values it was made from: the
+ * part's measures, the run values RunDraw.draw reads, the defaults it falls
+ * back to, the fill of a color object, the CSS font and the font that
+ * resolves it. Kept per part, and used again while every one of them is
+ * the same; a run can change in place without a new layout.
+ */
+interface PartRecord {
+  values: unknown[];
+  css: string;
+  font: number;
+  signature: string | null;
+}
+
+/** A word's signature and the records of the parts it was made from. */
+interface WordRecord {
+  parts: PartRecord[];
+  signature: string | null;
+}
+
+/** What signatures look up once per pass over the lines (TLCore._lineRecords). */
+interface Resolve {
+  /** The number of the font drawText takes for a CSS font, 0 for none. */
+  font(css: string): number;
+  /** The canvas style drawText fills with for a color object (TLCanvasContext._patternStyle). */
+  fill(color: Color): unknown;
+}
+
+const partRecords = new WeakMap<Part, PartRecord>();
+const wordRecords = new WeakMap<Word, WordRecord>();
+
+/** Reads what partSignature depends on (besides the font) into `values`. */
+function readPart(part: Part, values: unknown[], resolve: Resolve): void {
+  const run = part.run;
+  const defaults = Formatting.defaultFormatting;
+  const color = run.fontColor || defaults.fontColor;
+  values[0] = part.width;
+  values[1] = part.ascent;
+  values[2] = part.descent;
+  values[3] = run.text;
+  values[4] = run.fontColor;
+  values[5] = run.fontStyle;
+  values[6] = run.fontWeight;
+  values[7] = run.fontSize;
+  values[8] = run.fontFamily;
+  values[9] = run.charSpacing;
+  values[10] = run.underline;
+  values[11] = run.strikeout;
+  values[12] = run.fractions;
+  for (let i = 0; i < DRAWN_VALUES.length; i++) values[13 + i] = run[DRAWN_VALUES[i] as string];
+  values[20] = defaults.fontColor;
+  values[21] = defaults.fontStyle;
+  values[22] = defaults.fontWeight;
+  values[23] = defaults.fontSize;
+  values[24] = defaults.fontFamily;
+  // A color object counts by the fill it gives now: the same object can
+  // change its value, and a CMYK color's fill follows the color profile.
+  values[25] = color instanceof Color ? resolve.fill(color) : undefined;
+}
+
+function sameValues(a: unknown[], b: unknown[]): boolean {
+  for (let i = 0; i < b.length; i++) if (!Object.is(a[i], b[i])) return false;
+  return true;
+}
+
+/**
+ * What a part draws besides where: what RunDraw.draw and drawText read of
+ * it (its text and measures, the CSS font and the font that resolves it,
+ * the color, the run values). A color object signs as the fill drawText
+ * makes of it (readPart). Null for what a signature can't describe: a code
+ * (list markers draw through it), a color that isn't a color object or a
+ * string the canvas takes (gradients, textures), a font that isn't
+ * resolved.
+ */
+function partSignature(part: Part, values: unknown[], resolve: Resolve): PartRecord {
+  const run = part.run;
+  const text = run.text;
+  const color = run.fontColor || Formatting.defaultFormatting.fontColor;
+  const fill = color instanceof Color ? values[25] : color;
+  if ("string" != typeof text || "string" != typeof fill || !canvasColor(fill)) {
+    return { values, css: "", font: 0, signature: null };
+  }
+  const css = RunDraw.getFontString(run);
+  const id = resolve.font(css);
+  const noSignature = { values, css, font: id, signature: null };
+  const charSpacing = sigValue(run.charSpacing || 0);
+  if (!id || null === charSpacing) return noSignature;
+  let signature =
+    sigString(text) +
+    sigString(css) +
+    id +
+    ";" +
+    sigString(color instanceof Color ? "C" + fill : fill) +
+    part.width +
+    "," +
+    part.ascent +
+    "," +
+    part.descent +
+    "," +
+    charSpacing +
+    "," +
+    (true === run.underline) +
+    "," +
+    (true === run.strikeout) +
+    "," +
+    (true === run.fractions);
+  for (const key of DRAWN_VALUES) {
+    const value = sigValue(run[key]);
+    if (null === value) return noSignature;
+    signature += "," + value;
+  }
+  return { values, css, font: id, signature: signature + ";" };
+}
+
+const readValues: unknown[] = [];
+
+/** The part's record, the kept one while what it was made from is the same. */
+function partRecord(part: Part, resolve: Resolve): PartRecord {
+  readPart(part, readValues, resolve);
+  const known = partRecords.get(part);
+  if (
+    known &&
+    sameValues(known.values, readValues) &&
+    (!known.css || resolve.font(known.css) === known.font)
+  ) {
+    return known;
+  }
+  const record = partSignature(part, readValues.slice(), resolve);
+  partRecords.set(part, record);
+  return record;
+}
+
+/**
+ * What a word draws besides where: its parts in order (Word.draw). Kept
+ * per word while its parts keep their records, so that unchanged words
+ * compare as the same string.
+ */
+function wordSignature(word: Word, resolve: Resolve): string | null {
+  const parts: PartRecord[] = [];
+  for (const part of word.text.parts) parts.push(partRecord(part, resolve));
+  for (const part of word.space.parts) parts.push(partRecord(part, resolve));
+  const known = wordRecords.get(word);
+  if (
+    known &&
+    known.parts.length === parts.length &&
+    known.parts.every((record, i) => record === parts[i])
+  ) {
+    return known.signature;
+  }
+  let signature: string | null = "";
+  for (const record of parts) {
+    if (null === record.signature) {
+      signature = null;
+      break;
+    }
+    signature += record.signature;
+  }
+  wordRecords.set(word, { parts, signature });
+  return signature;
+}
+
+function sameLine(a: LineRecord, b: LineRecord): boolean {
+  if (a.drawn !== b.drawn) return false;
+  if (!a.drawn) return true;
+  if (a.baseline !== b.baseline || a.words.length !== b.words.length) return false;
+  for (let i = 0; i < a.words.length; i++) {
+    if (a.lefts[i] !== b.lefts[i] || a.words[i] !== b.words[i]) return false;
+  }
+  return true;
+}
+
+/** A line's record as one string, for TLCore._measuredLines. */
+function lineKey(line: LineRecord): string {
+  let key = line.baseline + ";";
+  for (let i = 0; i < line.words.length; i++) {
+    key += line.lefts[i] + ";" + sigString(line.words[i] as string);
+  }
+  return key;
+}
+
+/** Adds rows top to bottom to `rows` (pairs of top and bottom, in order and apart). */
+function addRows(rows: number[], top: number, bottom: number): void {
+  if (top >= bottom) return;
+  let i = 0;
+  while (i < rows.length && (rows[i + 1] as number) < top) i += 2;
+  let j = i;
+  while (j < rows.length && (rows[j] as number) <= bottom) {
+    top = Math.min(top, rows[j] as number);
+    bottom = Math.max(bottom, rows[j + 1] as number);
+    j += 2;
+  }
+  rows.splice(i, j - i, top, bottom);
+}
+
+function rowsIntersect(rows: number[], top: number, bottom: number): boolean {
+  for (let i = 0; i < rows.length; i += 2) {
+    if ((rows[i] as number) < bottom && top < (rows[i + 1] as number)) return true;
+  }
+  return false;
+}
+
+function rowsContain(rows: number[], top: number, bottom: number): boolean {
+  for (let i = 0; i < rows.length; i += 2) {
+    if ((rows[i] as number) <= top && bottom <= (rows[i + 1] as number)) return true;
+  }
+  return false;
+}
+
 /**
  * The text layout engine of a GText: owns the document, lays it out at a
  * width (or automatically), maps glyphs through the path and direction
@@ -122,6 +478,12 @@ export class TLCore extends GObject implements Destroyable {
   _padding: number | null = null;
   _wasEdited = false;
   _isInlineEdit = false;
+  /**
+   * The bounds _planRedraw measured on its last call, by line (lineKey):
+   * GText plans a redraw when it invalidates after an edit, and the render
+   * that follows plans the same lines again.
+   */
+  _measuredLines = new Map<string, number[] | null>();
 
   /**
    * Sets the engine up: the default formatting from the text style
@@ -712,46 +1074,31 @@ export class TLCore extends GObject implements Destroyable {
    * and/or the stroke canvas (getCanvas(flags) returns them). `scale`
    * scales the bitmap with RENDERFLAG_SCALEBITMAP; the selection is
    * painted with RENDERFLAG_DRAWSELECTION when `focused`.
+   *
+   * With `onlyChanged` a fill render records what each line drew, and when
+   * the canvas still shows such a record made with the same settings, it
+   * clears and draws again only the rows of the lines that changed
+   * (_planRedraw). The pixels come out as those of a whole render.
    */
   render(
     focused: boolean | undefined,
     scale: number | undefined,
     style: TLRenderStyle,
     flags: number,
+    onlyChanged?: boolean,
   ): void {
     if (!this.isInitialized()) throw new Error(TLCore.INITIALIZATION_ERROR);
-    const horizontalPadding = Math.max(
-      this.getLeftPadding() as number,
-      this.getRightPadding() as number,
-    );
-    const padding = this._padding || 0;
-    let width = this.getWidth() + 2 * horizontalPadding;
-    let height = this.getHeight() + 2 * padding;
-    let offsetX = 0;
-    let offsetY = 0;
-    let bitmapScale = 1;
-    let canvasWidth = width;
-    let canvasHeight = height;
-    if (this.hasPathTransformer()) {
-      const bounds = this.getRenderBounds() as Rect;
-      offsetX = -bounds.getX();
-      offsetY = -bounds.getY();
-      canvasWidth = bounds.getWidth() + Math.max(2 * horizontalPadding, 2 * padding);
-      canvasHeight = bounds.getHeight() + Math.max(2 * horizontalPadding, 2 * padding);
-      this._renderBounds = bounds;
-      width = this.getActualWidth();
-      height = this.getActualHeight();
-    } else {
-      this._renderBounds = new Rect(0, 0, width, height);
-    }
+    const setup = this._renderSetup(scale, style, flags);
+    const { canvasWidth, canvasHeight, bitmapScale, pixelWidth, pixelHeight } = setup;
+    this._renderBounds = setup.renderBounds;
     this._ctx.renderMode(0);
-    if (!scale) scale = 1;
-    if (flags & RenderFlags.RENDERFLAG_SCALEBITMAP) bitmapScale *= scale;
-    const pixelWidth = Math.ceil(bitmapScale * canvasWidth);
-    const pixelHeight = Math.ceil(bitmapScale * canvasHeight);
     // Before the canvas changes: a fill that is still this canvas gets its own.
     this._keepFill(!!(flags & RenderFlags.RENDERFLAG_FILL));
     const canvas = this.getCanvas() as Canvas;
+    // The canvas changes now; this render records it again if it records.
+    const record = records.get(canvas);
+    records.delete(canvas);
+    const key = onlyChanged ? this._recordKey(setup, style, flags) : null;
     const outerCanvas = canvasInRender;
     canvasInRender = canvas;
     try {
@@ -766,7 +1113,10 @@ export class TLCore extends GObject implements Destroyable {
         if (!RenderScheduler.isRenderPhase()) (this._canvas as Canvas).height = canvas.height;
         resized = true;
       }
-      if (!resized) {
+      const plan = key && !resized ? this._planRedraw(record, setup, key) : null;
+      if (plan) {
+        this._clearRows(plan.rows, setup);
+      } else if (!resized) {
         this._ctx.setTranslate(0, 0);
         this._ctx.clearRect(0, 0, canvasWidth, canvasHeight);
       }
@@ -804,19 +1154,8 @@ export class TLCore extends GObject implements Destroyable {
         flags |= RenderFlags.RENDERFLAG_OUTSIDEBRD;
       }
       this._ctx.renderMode(flags);
-      let shift = 0;
-      if (style.valign && !this.hasPathTransformer()) {
-        if ("m" == style.valign) {
-          shift = (height - (this._doc.frame ? this._doc.frame.bounds().h : 0)) / 2;
-        } else if ("b" == style.valign) {
-          shift = height - (this._doc.frame ? this._doc.frame.bounds().h : 0);
-        }
-      }
-      this._verticalShift = -shift;
-      this._ctx.setTranslate(
-        offsetX * bitmapScale + (this.getLeftPadding() as number) * scale,
-        bitmapScale * (shift + offsetY) + padding * scale,
-      );
+      this._verticalShift = -setup.shift;
+      this._ctx.setTranslate(setup.translateX, setup.translateY);
       this._ctx.setScale(bitmapScale, bitmapScale);
       const fillTransform = this._ctx.getFillTransform();
       const alpha = this._ctx.globalAlpha;
@@ -824,15 +1163,18 @@ export class TLCore extends GObject implements Destroyable {
       if (flags & RenderFlags.RENDERFLAG_NODRAW && flags & RenderFlags.RENDERFLAG_STROKE) {
         this._ctx._canvasContext.beginPath();
       }
-      this._doc.draw(
-        this._ctx,
-        new TLRect(
-          0,
-          Math.max(0, this._verticalShift),
-          width,
-          height + Math.max(0, this._verticalShift),
-        ),
-      );
+      if (plan) {
+        this._drawLines(setup.viewport, plan.lines, plan.redraw);
+        records.set(canvas, { key: key as string, lines: plan.lines });
+      } else {
+        const lines = key ? this._lineRecords(setup.viewport) : null;
+        if (lines) {
+          this._drawLines(setup.viewport, lines, null);
+          records.set(canvas, { key: key as string, lines });
+        } else {
+          this._doc.draw(this._ctx, setup.viewport);
+        }
+      }
       if (flags & RenderFlags.RENDERFLAG_NODRAW && flags & RenderFlags.RENDERFLAG_STROKE) {
         this._ctx.strokeVertices();
         if (flags & RenderFlags.RENDERFLAG_INSIDEBRD) {
@@ -885,6 +1227,346 @@ export class TLCore extends GObject implements Destroyable {
         }
         copyInto(canvas, this.getCanvas(RenderFlags.RENDERFLAG_STROKE) as Canvas);
       }
+    }
+  }
+
+  /**
+   * The rows of the core's canvas that a fill render with these arguments
+   * and `onlyChanged` would clear and draw again, as pairs of top and
+   * bottom: empty when nothing changed, null when it would draw it all.
+   * GText repaints only these rows after an inline edit.
+   */
+  changedRows(scale: number | undefined, style: TLRenderStyle, flags: number): number[] | null {
+    if (!this.isInitialized() || !this._canvas) return null;
+    const setup = this._renderSetup(scale, style, flags);
+    const key = this._recordKey(setup, style, flags);
+    const plan = key ? this._planRedraw(records.get(this._canvas), setup, key) : null;
+    return plan && plan.rows;
+  }
+
+  /** The sizes, scale and placement render works out before it draws; changes nothing. */
+  _renderSetup(scale: number | undefined, style: TLRenderStyle, flags: number): RenderSetup {
+    const horizontalPadding = Math.max(
+      this.getLeftPadding() as number,
+      this.getRightPadding() as number,
+    );
+    const padding = this._padding || 0;
+    let width = this.getWidth() + 2 * horizontalPadding;
+    let height = this.getHeight() + 2 * padding;
+    let offsetX = 0;
+    let offsetY = 0;
+    let bitmapScale = 1;
+    let canvasWidth = width;
+    let canvasHeight = height;
+    let renderBounds: Rect;
+    if (this.hasPathTransformer()) {
+      const bounds = this.getRenderBounds() as Rect;
+      offsetX = -bounds.getX();
+      offsetY = -bounds.getY();
+      canvasWidth = bounds.getWidth() + Math.max(2 * horizontalPadding, 2 * padding);
+      canvasHeight = bounds.getHeight() + Math.max(2 * horizontalPadding, 2 * padding);
+      renderBounds = bounds;
+      width = this.getActualWidth();
+      height = this.getActualHeight();
+    } else {
+      renderBounds = new Rect(0, 0, width, height);
+    }
+    if (!scale) scale = 1;
+    if (flags & RenderFlags.RENDERFLAG_SCALEBITMAP) bitmapScale *= scale;
+    let shift = 0;
+    if (style.valign && !this.hasPathTransformer()) {
+      if ("m" == style.valign) {
+        shift = (height - (this._doc.frame ? this._doc.frame.bounds().h : 0)) / 2;
+      } else if ("b" == style.valign) {
+        shift = height - (this._doc.frame ? this._doc.frame.bounds().h : 0);
+      }
+    }
+    const top = Math.max(0, -shift);
+    return {
+      scale,
+      width,
+      height,
+      canvasWidth,
+      canvasHeight,
+      offsetX,
+      offsetY,
+      bitmapScale,
+      pixelWidth: Math.ceil(bitmapScale * canvasWidth),
+      pixelHeight: Math.ceil(bitmapScale * canvasHeight),
+      renderBounds,
+      shift,
+      translateX: offsetX * bitmapScale + (this.getLeftPadding() as number) * scale,
+      translateY: bitmapScale * (shift + offsetY) + padding * scale,
+      viewport: new TLRect(0, top, width, height + top),
+    };
+  }
+
+  /**
+   * The settings a record of a render keeps (CanvasRecord.key), or null
+   * when such a render isn't recorded: anything but a fill of glyph
+   * outlines, a text on a path or in another direction (a transformer
+   * places each glyph), a fill that isn't a color string.
+   */
+  _recordKey(setup: RenderSetup, style: TLRenderStyle, flags: number): string | null {
+    const recorded = RenderFlags.RENDERFLAG_FILL | RenderFlags.RENDERFLAG_VERTEX;
+    if ((flags & ~RenderFlags.RENDERFLAG_SCALEBITMAP) !== recorded || this._textTransformer) {
+      return null;
+    }
+    const fill = style.shapePaint
+      ? Canvas2DPaintCanvas.prototype._convertStyle.call(this as never, style.shapePaint)
+      : "transparent";
+    if ("string" != typeof fill || !canvasColor(fill)) return null;
+    return [
+      setup.pixelWidth,
+      setup.pixelHeight,
+      setup.canvasWidth,
+      setup.canvasHeight,
+      setup.bitmapScale,
+      setup.translateX,
+      setup.translateY,
+      setup.viewport.t,
+      setup.viewport.w,
+      setup.viewport.h,
+      flags,
+      !!style.evenodd,
+      "number" == typeof style.opacity ? style.opacity : 1,
+      style.paintTransform ? style.paintTransform.getMatrix().join(" ") : "",
+      HarfBuzzFont.variationsSet,
+      sigString(fill),
+    ].join(",");
+  }
+
+  /**
+   * What each line of the frame draws, as a record holds it (bounds not
+   * known yet), or null when they can't be recorded: lists, or a part
+   * without a signature (partSignature).
+   */
+  _lineRecords(viewport: TLRect): LineRecord[] | null {
+    const frame = this._doc.frame;
+    if (!frame) return null;
+    const drawn: boolean[] = [];
+    frame.forDrawnLines(viewport, (_line, index) => {
+      drawn[index] = true;
+    });
+    // The fonts and color fills drawText would take, looked up once per pass.
+    const ids = new Map<string, number>();
+    const fills = new Map<Color, unknown>();
+    const resolve: Resolve = {
+      font: (css) => {
+        let id = ids.get(css);
+        if (undefined === id) {
+          const parsed = TLUtil.parseFont(css);
+          const resolved = this._ctx._getFont(
+            parsed.fontFamily,
+            parsed.fontStyle as string,
+            parsed.fontWeight as number,
+          );
+          id = resolved ? fontId(resolved) : 0;
+          ids.set(css, id);
+        }
+        return id;
+      },
+      fill: (color) => {
+        if (!fills.has(color)) fills.set(color, this._ctx._patternStyle(color, null));
+        return fills.get(color);
+      },
+    };
+    const lines: LineRecord[] = [];
+    for (let i = 0; i < frame.lines.length; i++) {
+      const item = frame.lines[i] as TLNode;
+      if ("line" !== item.type) return null;
+      if (!drawn[i]) {
+        lines.push({ drawn: false, baseline: 0, lefts: [], words: [], bounds: null });
+        continue;
+      }
+      const line = item as unknown as Line;
+      const lefts: number[] = [];
+      const words: string[] = [];
+      for (const positioned of line.positionedWords) {
+        const signature = wordSignature(positioned.word, resolve);
+        if (null === signature) return null;
+        lefts.push((line.left as number) + positioned.left);
+        words.push(signature);
+      }
+      lines.push({ drawn: true, baseline: line.baseline, lefts, words, bounds: null });
+    }
+    return lines;
+  }
+
+  /**
+   * What a recording render draws again when the canvas shows `record`:
+   * the rows of the lines whose records differ (before and after), and of
+   * the lines that reach an edge the whole clear leaves (see below), grown
+   * until every line that reaches into them lies inside them. Those lines
+   * are drawn again whole over the cleared rows; every pixel in them gets
+   * the paths that cover it in the order a whole render draws them, and no
+   * pixel outside changes. Null when the record doesn't fit: other
+   * settings, another canvas size, lines that can't be recorded.
+   */
+  _planRedraw(
+    record: CanvasRecord | undefined,
+    setup: RenderSetup,
+    key: string,
+  ): RedrawPlan | null {
+    const canvas = this._canvas as Canvas;
+    if (
+      !record ||
+      record.key !== key ||
+      canvas.width !== setup.pixelWidth ||
+      canvas.height !== setup.pixelHeight
+    ) {
+      return null;
+    }
+    const lines = this._lineRecords(setup.viewport);
+    if (!lines) return null;
+    const frame = this._doc.frame as Frame;
+    const measured = new Map<string, number[] | null>();
+    const rows: number[] = [];
+    const extent = (line: LineRecord): number[] | null =>
+      line.drawn ? this._lineRows(line.bounds, setup) : null;
+    const add = (line: LineRecord): void => {
+      const lineRows = extent(line);
+      if (lineRows) addRows(rows, lineRows[0] as number, lineRows[1] as number);
+    };
+    const count = Math.max(record.lines.length, lines.length);
+    for (let i = 0; i < count; i++) {
+      const before = record.lines[i];
+      const after = lines[i];
+      if (before && after && sameLine(before, after)) {
+        after.bounds = before.bounds;
+        continue;
+      }
+      if (before) add(before);
+      if (after && after.drawn) {
+        const known = lineKey(after);
+        let bounds = this._measuredLines.get(known);
+        if (undefined === bounds) bounds = this._measureLine(frame.lines[i] as TLNode);
+        measured.set(known, bounds);
+        after.bounds = bounds;
+        add(after);
+      }
+    }
+    this._measuredLines = measured;
+    // The whole clear clears the canvas size at the scale of the last
+    // render, rounded to whole pixels, so it can leave the last column or
+    // row. A whole render draws over what is there, so the lines that
+    // reach them are drawn again at every render.
+    const transform = this._ctx.getTransform().getMatrix();
+    const keepsColumn = (transform[0] as number) * setup.canvasWidth < setup.pixelWidth;
+    const keepsRow = (transform[3] as number) * setup.canvasHeight < setup.pixelHeight;
+    for (const line of lines) {
+      const lineRows = extent(line);
+      if (!lineRows) continue;
+      const right =
+        Math.ceil(setup.bitmapScale * ((line.bounds as number[])[2] as number) + setup.translateX) +
+        PATH_MARGIN;
+      if (
+        (keepsColumn && right >= setup.pixelWidth) ||
+        (keepsRow && lineRows[1] === setup.pixelHeight)
+      ) {
+        addRows(rows, lineRows[0] as number, lineRows[1] as number);
+      }
+    }
+    for (let grown = true; grown;) {
+      grown = false;
+      for (const line of lines) {
+        const lineRows = extent(line);
+        if (
+          lineRows &&
+          rowsIntersect(rows, lineRows[0] as number, lineRows[1] as number) &&
+          !rowsContain(rows, lineRows[0] as number, lineRows[1] as number)
+        ) {
+          addRows(rows, lineRows[0] as number, lineRows[1] as number);
+          grown = true;
+        }
+      }
+    }
+    const redraw = lines.map((line) => {
+      const lineRows = extent(line);
+      return !!lineRows && rowsIntersect(rows, lineRows[0] as number, lineRows[1] as number);
+    });
+    return { rows, lines, redraw };
+  }
+
+  /** The canvas rows (top, bottom) the paths of a line with `bounds` can colour, or null for none. */
+  _lineRows(bounds: number[] | null, setup: RenderSetup): number[] | null {
+    if (!bounds) return null;
+    const scale = setup.bitmapScale;
+    const top = Math.max(
+      0,
+      Math.floor(scale * (bounds[1] as number) + setup.translateY) - PATH_MARGIN,
+    );
+    const bottom = Math.min(
+      setup.pixelHeight,
+      Math.ceil(scale * (bounds[3] as number) + setup.translateY) + PATH_MARGIN,
+    );
+    return top < bottom ? [top, bottom] : null;
+  }
+
+  /**
+   * The bounds of the path points `line` draws, from its outlines collected
+   * without drawing: drawText makes the same points for them as it draws
+   * (a part's kept path calls were made from such outlines).
+   */
+  _measureLine(line: TLNode): number[] | null {
+    const ctx = this._ctx;
+    const mode = ctx._renderMode;
+    ctx.clearVertices();
+    ctx.renderMode(RenderFlags.RENDERFLAG_VERTEX);
+    try {
+      line.draw(ctx);
+    } finally {
+      ctx.renderMode(mode);
+    }
+    const bounds = emptyBounds();
+    for (const vertex of (ctx._vstack as VertexContainer)._vertices) {
+      if (vertex.command !== VertexCommand.Close) extendBounds(bounds, vertex.x, vertex.y);
+    }
+    ctx.clearVertices();
+    return Infinity === bounds[0] ? null : bounds;
+  }
+
+  /**
+   * Clears `rows` as the whole clear in render would clear them: the same
+   * clearRect, under a clip to the rows, which are whole pixels.
+   */
+  _clearRows(rows: number[], setup: RenderSetup): void {
+    if (!rows.length) return;
+    const context = this._ctx._canvasContext;
+    context.save();
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.beginPath();
+    for (let i = 0; i < rows.length; i += 2) {
+      const top = rows[i] as number;
+      const bottom = rows[i + 1] as number;
+      context.moveTo(0, top);
+      context.lineTo(setup.pixelWidth, top);
+      context.lineTo(setup.pixelWidth, bottom);
+      context.lineTo(0, bottom);
+    }
+    context.clip();
+    this._ctx.setTranslate(0, 0);
+    this._ctx.clearRect(0, 0, setup.canvasWidth, setup.canvasHeight);
+    context.restore();
+  }
+
+  /**
+   * Draws the lines as the document draws them (Frame.forDrawnLines), or
+   * of them only those `redraw` marks, and keeps the bounds of the points
+   * each one drew in its record.
+   */
+  _drawLines(viewport: TLRect, lines: LineRecord[], redraw: boolean[] | null): void {
+    const ctx = this._ctx;
+    try {
+      (this._doc.frame as Frame).forDrawnLines(viewport, (line, index) => {
+        if (redraw && !redraw[index]) return;
+        const bounds = emptyBounds();
+        ctx._drawnBounds = bounds;
+        line.draw(ctx, viewport);
+        (lines[index] as LineRecord).bounds = Infinity === bounds[0] ? null : bounds;
+      });
+    } finally {
+      ctx._drawnBounds = null;
     }
   }
 
@@ -955,10 +1637,14 @@ export class TLCore extends GObject implements Destroyable {
   /**
    * Called by the drawing context before it draws into the core's canvas.
    * Within a render into that canvas (also one of a copy of this core)
-   * render has kept the fill already.
+   * render has kept the fill already. A draw outside a render makes the
+   * canvas differ from its record.
    */
   _beforeDraw(): void {
-    if (canvasInRender !== this._canvas) this._keepFill(false);
+    if (canvasInRender !== this._canvas) {
+      if (this._canvas) records.delete(this._canvas);
+      this._keepFill(false);
+    }
   }
 
   /** The stroke canvas, the fill canvas or the core's canvas. */

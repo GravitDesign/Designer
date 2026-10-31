@@ -261,13 +261,27 @@ export class Frame extends TLNode {
 
   /** Draws the lines that overlap the viewport's vertical range; stops below it. */
   override draw(context: unknown, viewport?: TLRect | null): void {
+    this.forDrawnLines(viewport, (line) => {
+      line.draw(context, viewport);
+    });
+  }
+
+  /**
+   * Calls `fn` with each line draw draws and its index: those that overlap
+   * the viewport's vertical range, up to the first one below it. TLCore
+   * draws lines one by one through this when it records them.
+   */
+  forDrawnLines(
+    viewport: TLRect | null | undefined,
+    fn: (line: FrameItem, index: number) => void,
+  ): void {
     const top = viewport ? viewport.t : 0;
     const bottom = viewport ? viewport.t + viewport.h : Number.MAX_VALUE;
-    this.lines.some((line) => {
+    this.lines.some((line, index) => {
       const bounds = line.bounds();
       if (bounds.t + bounds.h < top) return false;
       if (bounds.t > bottom) return true;
-      line.draw(context, viewport);
+      fn(line, index);
       return undefined;
     });
   }

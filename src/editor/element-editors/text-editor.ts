@@ -293,16 +293,19 @@ export class TextEditor extends ShapeEditor<EditedText> {
         if (serialized !== text.getProperty("content")) {
           if (!noTransaction && editor) editor.beginTransaction();
           try {
-            text.setProperties(
-              ["content"],
-              [serialized],
-              false,
-              false,
-              false,
-              false,
-              false,
-              this._dontSetContent,
-            );
+            // Repaints only the lines the edit changed.
+            text._editChange(() => {
+              text.setProperties(
+                ["content"],
+                [serialized],
+                false,
+                false,
+                false,
+                false,
+                false,
+                this._dontSetContent,
+              );
+            });
             if (text.getProperty("afs")) text.adaptFontSizeToFitBBox();
           } finally {
             if (!noTransaction && editor) {
@@ -1200,7 +1203,8 @@ export class TextEditor extends ShapeEditor<EditedText> {
         if (now > this._nextCaretToggle) {
           core = this._element.getTLCore();
           this._nextCaretToggle = now + 500;
-          if (core && core.toggleCaret()) this.getElement().repaint(true);
+          // The caret is ours to paint; the text repaints only for an edit.
+          if (core && core.toggleCaret()) this.getElement().repaintEdited(true);
         }
       } else if ((core = this._element.getTLCore()) && core.isCaretVisible()) core.toggleCaret();
     }
@@ -1240,7 +1244,7 @@ export class TextEditor extends ShapeEditor<EditedText> {
           (() => {
             if (!this.getParentEditor()) return TLUtil.UNSUBSCRIBE;
             this._triggerSelectionChanged();
-            this.getElement().repaint();
+            this.getElement().repaintEdited();
             return undefined;
           }) as (...args: never[]) => unknown,
           true,

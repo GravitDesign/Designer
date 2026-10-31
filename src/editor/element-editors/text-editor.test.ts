@@ -7,8 +7,12 @@ import { Rect } from "../../engine/math/rect.ts";
 import { Transform } from "../../engine/math/transform.ts";
 import { installFakeCanvas } from "../../engine/paint/testing/fake-canvas.ts";
 import type { PaintContext } from "../../engine/paint/paint-context.ts";
+import { Element } from "../../engine/scene/element.ts";
 import { Path } from "../../engine/scene/path.ts";
 import { PathBase } from "../../engine/scene/path-base.ts";
+import { Scene } from "../../engine/scene/scene.ts";
+import { RenderFlags } from "../../engine/text/gtl/render-flags.ts";
+import type { TLCore, TLRenderStyle } from "../../engine/text/gtl/tl-core.ts";
 import { Text } from "../../engine/text/text.ts";
 import { Editor } from "../editor.ts";
 import { EditorOptions } from "../editor-options.ts";
@@ -318,6 +322,121 @@ describe("GTextEditor", () => {
     const event = host.events[0] as InstanceType<typeof Editor.HotkeyEvent>;
     expect(event).toBeInstanceOf(Editor.HotkeyEvent);
     expect(event.keys).toEqual([Key.Constant.CONTROL, "B"]);
+  });
+
+  // The text repaints only the rows of its fill bitmap that an inline edit
+  // changes (Text._editChange); the caret is the editor's to repaint.
+  describe("repaints after inline edits", () => {
+    const FILL_RENDER =
+      RenderFlags.RENDERFLAG_FILL |
+      RenderFlags.RENDERFLAG_VERTEX |
+      RenderFlags.RENDERFLAG_SCALEBITMAP;
+    const LINES =
+      "The first line is the longest one.\nSecond line.\nThird line here.\nFourth.\nLast";
+
+    /** A text being edited inline, as a paint of its fill on screen leaves it. */
+    function editing() {
+      const setup = textSetup(LINES);
+      const { text, editor, scene } = setup;
+      editor.beginInlineEdit(new FakeView(scene).asWidget());
+      inlineOpen.push(editor._inlineEditor as InlineTextEditor);
+      const core = text.getTLCore() as TLCore;
+      // What Text._paintTextFill does for the screen while editing.
+      const style: TLRenderStyle = { shapePaint: null, valign: text.$va };
+      core.render(true, 1, style, FILL_RENDER, true);
+      text._lastFill = { scale: 1, style, aligned: true };
+      text._runsDirty = false;
+      const areas: (Rect | null)[] = [];
+      scene.addEventListener(
+        Scene.InvalidationRequestEvent,
+        (event: InstanceType<typeof Scene.InvalidationRequestEvent>) => {
+          areas.push(event.area);
+        },
+      );
+      // The text's own events, which the editors repaint the caret from.
+      const changes: (number | null)[] = [];
+      scene.addEventListener(
+        Element.GeometryChangeEvent,
+        (event: InstanceType<typeof Element.GeometryChangeEvent>) => {
+          if (event.element === text) changes.push(event.type);
+        },
+      );
+      return { ...setup, core, areas, changes, style };
+    }
+
+    /**
+     * Types as a key press in the view does. The inline editor writes the
+     * content back without loading it into the core again (contentSetEnabled),
+     * which would turn the runs' "transparent" color into a color object.
+     */
+    function type(editor: TextEditor, keys: string): void {
+      (editor._inlineEditor as InlineTextEditor)._keyPress({
+        keyUTF: keys,
+        preventDefault: () => {},
+        stopPropagation: () => {},
+      });
+    }
+
+    // The text sits right on the page, which repaints the whole box of a
+    // child whose box changed: the second geometry update of an edit
+    // (Text._handleChange) must not count as such a change.
+    it("repaints only the rows of the lines an edit changed", () => {
+      const { text, editor, core, areas, style } = editing();
+      const box = text.getPaintBBox() as Rect;
+      const at = LINES.indexOf("Second");
+      core.select(at, at);
+      type(editor, "x");
+      // The core can still tell which rows the next render draws.
+      expect(core.changedRows(1, style, FILL_RENDER)).not.toBeNull();
+      expect(areas.length).toBeGreaterThan(0);
+      for (const area of areas) {
+        expect(area).not.toBeNull();
+        expect((area as Rect).getHeight()).toBeLessThan(box.getHeight() / 2);
+      }
+      // The middle of the edited line (the text sits at 100, 100).
+      const caret = core.getCaretCoords(at) as NonNullable<ReturnType<TLCore["getCaretCoords"]>>;
+      const middle = 100 + caret.t + caret.h / 2;
+      expect(
+        areas.some((area) => {
+          const y = (area as Rect).getY();
+          return y <= middle && middle <= y + (area as Rect).getHeight();
+        }),
+      ).toBe(true);
+    });
+
+    it("repaints the whole text when the edit changes its box", () => {
+      const { text, editor, core, areas } = editing();
+      core.select(core.getLength() - 1);
+      type(editor, "\nmore");
+      const box = text.getPaintBBox() as Rect;
+      expect(areas.some((area) => Rect.equals(area, box))).toBe(true);
+    });
+
+    it("repaints nothing for a caret move, and tells the editors", () => {
+      const { text, areas, changes } = editing();
+      text.repaintEdited();
+      expect(areas).toEqual([]);
+      expect(changes).toEqual([
+        Element.GeometryChangeEvent.Type.Before,
+        Element.GeometryChangeEvent.Type.After,
+      ]);
+    });
+
+    it("repaints the whole text when its bitmap isn't drawn pixel for pixel", () => {
+      const { text, editor, core, areas } = editing();
+      (text._lastFill as NonNullable<Text["_lastFill"]>).aligned = false;
+      core.select(LINES.indexOf("Second"));
+      type(editor, "x");
+      expect(areas.some((area) => Rect.equals(area, text.getPaintBBox()))).toBe(true);
+    });
+
+    it("repaints the whole text when a border paints past the fill", () => {
+      const { text, editor, core, areas } = editing();
+      vi.spyOn(text, "hasStyleBorder").mockReturnValue(true);
+      core.select(LINES.indexOf("Second"));
+      type(editor, "x");
+      expect(areas.some((area) => Rect.equals(area, text.getPaintBBox()))).toBe(true);
+    });
   });
 
   describe("matches values recorded from the old app", () => {

@@ -338,6 +338,51 @@ describe("GText", () => {
     ]);
   });
 
+  // Only a paint of the screen's dirty areas while editing lets the core
+  // draw just the changed lines; exports have no dirty areas and render
+  // the whole text.
+  it("renders only the changed lines for the screen while editing, not for exports", () => {
+    const text = new Text();
+    text._setWorkspace(workspace(fontManager));
+    text.setText("paint me");
+    const core = text.getTLCore() as NonNullable<ReturnType<Text["getTLCore"]>>;
+    const onlyChanged: unknown[] = [];
+    vi.spyOn(core, "render").mockImplementation((...args: unknown[]) => {
+      onlyChanged.push(args[4]);
+    });
+    const stubbed = text as unknown as Record<string, unknown>;
+    stubbed.createShapePaint = () => null;
+    stubbed._createStyleCanvas = () => ({
+      getScale: () => 1,
+      getTransform: () => new Transform(),
+      setTransform: () => {},
+      getTranslateCorrection: () => new Point(0, 0),
+      finish: () => {},
+    });
+    const paint = (dirty: boolean): void => {
+      text._runsDirty = true;
+      text._paintTextFill(
+        {
+          configuration: {},
+          isIncludingInvisible: () => false,
+          pushCanvas: () => ({}),
+          popCanvas: () => {},
+          dirtyMatcher: dirty ? {} : null,
+        } as never,
+        { hasStyle: () => false } as never,
+      );
+    };
+    text._isEdited = true;
+    paint(true);
+    expect(text._lastFill).toMatchObject({ scale: 1, aligned: true });
+    paint(false);
+    expect(text._lastFill).toBeNull();
+    text._isEdited = false;
+    paint(true);
+    expect(onlyChanged).toEqual([true, false, false]);
+    expect(text._lastFill).toBeNull();
+  });
+
   it("registers GStylable with the GTL core, so a core initializes", () => {
     const text = new Text();
     text._setWorkspace(workspace(fontManager));

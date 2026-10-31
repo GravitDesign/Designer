@@ -81,6 +81,40 @@ const OP_CUBIC = 3;
 const OP_CLOSE = 4;
 const OP_CLOSE_OPEN = 5;
 
+/** Bounds no point has extended yet ([minX, minY, maxX, maxY]). */
+export function emptyBounds(): number[] {
+  return [Infinity, Infinity, -Infinity, -Infinity];
+}
+
+/** Extends bounds ([minX, minY, maxX, maxY]) by a point. */
+export function extendBounds(bounds: number[], x: number, y: number): void {
+  if (x < (bounds[0] as number)) bounds[0] = x;
+  if (y < (bounds[1] as number)) bounds[1] = y;
+  if (x > (bounds[2] as number)) bounds[2] = x;
+  if (y > (bounds[3] as number)) bounds[3] = y;
+}
+
+/** The bounds of every point in path calls (ShapedText.ops), control points included. */
+function opsBounds(ops: Float64Array): number[] {
+  const bounds = emptyBounds();
+  let i = 0;
+  while (i < ops.length) {
+    const count =
+      OP_MOVE === ops[i] || OP_LINE === ops[i]
+        ? 2
+        : OP_QUAD === ops[i]
+          ? 4
+          : OP_CUBIC === ops[i]
+            ? 6
+            : 0;
+    for (let j = i + 1; j < i + count; j += 2) {
+      extendBounds(bounds, ops[j] as number, ops[j + 1] as number);
+    }
+    i += 1 + count;
+  }
+  return bounds;
+}
+
 /**
  * The path calls drawText made for the glyph outlines of a text (ops),
  * with everything the outlines depend on. Without a text transformer the
@@ -102,6 +136,8 @@ export class ShapedText {
   static DRAWS_TO_KEEP = 3;
 
   ops: Float64Array = null as unknown as Float64Array;
+  /** The bounds of the points in ops, for TLCanvasContext._drawnBounds. */
+  bounds: number[] = null as unknown as number[];
   segments = 0;
   lastText: string | null = null;
 
@@ -178,6 +214,13 @@ export class TLCanvasContext implements RunDrawContext {
   _textLocalizedForm: string | null | undefined = null;
   /** Set by the run drawing; nothing reads it here. */
   wordSpacing: number | undefined = undefined;
+  /**
+   * While set, every point of a path drawn into the canvas extends these
+   * bounds ([minX, minY, maxX, maxY], before the canvas transform): TLCore
+   * records how far each line's paths reach (control points included, as
+   * the canvas counts them).
+   */
+  _drawnBounds: number[] | null = null;
 
   constructor(core: TLCanvasCore, context: Context2D | HTMLCanvasElement) {
     // The old constructor also unwrapped a RendererCanvas (t.parent); that
@@ -690,6 +733,7 @@ export class TLCanvasContext implements RunDrawContext {
         if (ops) {
           const shaped = this._newShaped(text, x, y, font, fontSize);
           shaped.ops = new Float64Array(ops);
+          shaped.bounds = opsBounds(shaped.ops);
           shaped.segments = lineCount;
           shaped.lastText =
             (glyphs[index - 1] as PositionedGlyph).text || text.charAt(index - 1) || null;
@@ -727,20 +771,10 @@ export class TLCanvasContext implements RunDrawContext {
         if (this._textFillStyle) {
           const pattern = this._textFillStyle;
           const bounds = font.getGlyphBoundingRect(fontSize, lastText);
-          // The paint canvas methods run with this context as `this`, as in
-          // the old code; it has the fields they read, not the class type.
-          const paint = Canvas2DPaintCanvas.prototype.createPatternPaint.call(
-            this as never,
-            pattern,
-            bounds,
-          ) as PatternPaint;
           // Kept: the next line assigns this.fillStyle, whose getter reads
           // this canvas fillStyle back, so the pattern style stays unless a
           // default fill other than transparent is set (as in the old code).
-          this._canvasContext.fillStyle = Canvas2DPaintCanvas.prototype._convertStyle.call(
-            this as never,
-            paint.paint as PaintStyle,
-          ) as string;
+          this._canvasContext.fillStyle = this._patternStyle(pattern, bounds) as string;
         }
         this._canvasContext.fillStyle = this.fillStyle as string;
         this._setMatrix(this._transform.preMultiplied(this._fillTransform));
@@ -753,17 +787,7 @@ export class TLCanvasContext implements RunDrawContext {
         if (this._textStrokeStyle) {
           const pattern = this._textStrokeStyle;
           const bounds = font.getGlyphBoundingRect(fontSize, lastText);
-          // The paint canvas methods run with this context as `this`, as in
-          // the old code; it has the fields they read, not the class type.
-          const paint = Canvas2DPaintCanvas.prototype.createPatternPaint.call(
-            this as never,
-            pattern,
-            bounds,
-          ) as PatternPaint;
-          this._canvasContext.strokeStyle = Canvas2DPaintCanvas.prototype._convertStyle.call(
-            this as never,
-            paint.paint as PaintStyle,
-          ) as string;
+          this._canvasContext.strokeStyle = this._patternStyle(pattern, bounds) as string;
         }
         this._setMatrix(this._transform.preMultiplied(this._fillTransform));
         this._canvasContext.stroke();
@@ -833,6 +857,24 @@ export class TLCanvasContext implements RunDrawContext {
     }
   }
 
+  /**
+   * The canvas style a pattern text color (or border) paints a glyph of
+   * `bounds` with. TLCore signs color objects with it too.
+   */
+  _patternStyle(pattern: Pattern, bounds: Rect | null): unknown {
+    // The paint canvas methods run with this context as `this`, as in the
+    // old code; it has the fields they read, not the class type.
+    const paint = Canvas2DPaintCanvas.prototype.createPatternPaint.call(
+      this as never,
+      pattern,
+      bounds,
+    ) as PatternPaint;
+    return Canvas2DPaintCanvas.prototype._convertStyle.call(
+      this as never,
+      paint.paint as PaintStyle,
+    );
+  }
+
   /** After a stroke: knocks the stroke out inside or outside the outline for border alignment. */
   private _clipBorder(): void {
     if (this._renderMode & RenderFlags.RENDERFLAG_INSIDEBRD) {
@@ -853,6 +895,7 @@ export class TLCanvasContext implements RunDrawContext {
    */
   _putVertices(source: VertexReader, openClose?: boolean, ops?: number[] | null): number {
     let segments = 0;
+    const bounds = this._drawnBounds;
     if (source.rewindVertices(0)) {
       const vertex = new Vertex();
       while (source.readVertex(vertex)) {
@@ -860,10 +903,12 @@ export class TLCanvasContext implements RunDrawContext {
           case Vertex.Command.Move:
             this._canvasContext.moveTo(vertex.x, vertex.y);
             if (ops) ops.push(OP_MOVE, vertex.x, vertex.y);
+            if (bounds) extendBounds(bounds, vertex.x, vertex.y);
             break;
           case Vertex.Command.Line:
             this._canvasContext.lineTo(vertex.x, vertex.y);
             if (ops) ops.push(OP_LINE, vertex.x, vertex.y);
+            if (bounds) extendBounds(bounds, vertex.x, vertex.y);
             segments++;
             break;
           case Vertex.Command.Curve: {
@@ -872,6 +917,10 @@ export class TLCanvasContext implements RunDrawContext {
             if (source.readVertex(vertex)) {
               this._canvasContext.quadraticCurveTo(vertex.x, vertex.y, endX, endY);
               if (ops) ops.push(OP_QUAD, vertex.x, vertex.y, endX, endY);
+              if (bounds) {
+                extendBounds(bounds, vertex.x, vertex.y);
+                extendBounds(bounds, endX, endY);
+              }
             }
             segments++;
             break;
@@ -892,6 +941,11 @@ export class TLCanvasContext implements RunDrawContext {
                   endY,
                 );
                 if (ops) ops.push(OP_CUBIC, control1X, control1Y, vertex.x, vertex.y, endX, endY);
+                if (bounds) {
+                  extendBounds(bounds, control1X, control1Y);
+                  extendBounds(bounds, vertex.x, vertex.y);
+                  extendBounds(bounds, endX, endY);
+                }
               }
             }
             segments++;
@@ -981,6 +1035,13 @@ export class TLCanvasContext implements RunDrawContext {
   _putShaped(shaped: ShapedText): number {
     const context = this._canvasContext;
     const ops = shaped.ops;
+    const bounds = this._drawnBounds;
+    if (bounds) {
+      bounds[0] = Math.min(bounds[0] as number, shaped.bounds[0] as number);
+      bounds[1] = Math.min(bounds[1] as number, shaped.bounds[1] as number);
+      bounds[2] = Math.max(bounds[2] as number, shaped.bounds[2] as number);
+      bounds[3] = Math.max(bounds[3] as number, shaped.bounds[3] as number);
+    }
     const length = ops.length;
     let i = 0;
     while (i < length) {
