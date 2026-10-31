@@ -1,0 +1,108 @@
+#!/bin/bash
+# Deploys GravitDesign Next on the web server (VM 100, web.rath.li).
+#
+# Installed there as /usr/local/bin/gravit-next-deploy and set as the
+# forced command of the GitHub deploy key in ubuntu's authorized_keys, so
+# that key can run nothing else. This file is the source; after changing
+# it, copy it to the server:
+#
+#   scp scripts/server/gravit-next-deploy ubuntu@62.176.249.203:/tmp/
+#   ssh ubuntu@62.176.249.203 'sudo install -m 755 /tmp/gravit-next-deploy /usr/local/bin/'
+#
+# Reads a tar.gz of dist, server, assets, guide, package.json and
+# package-lock.json from stdin (see .github/workflows/deploy.yml) and
+# unpacks it into a new folder under /var/lib/gravit/releases. It copies
+# node_modules from the running release when the lock file is the same and
+# runs npm ci otherwise, points the /var/lib/gravit/next symlink at the new
+# folder and restarts gravit-next. If the app doesn't then serve the new
+# index.html, it switches back. The last three releases are kept.
+#
+# The client's SSH command (the forced command ignores it) names the
+# release, e.g. "v2.0.1-1a2b3c4".
+set -euo pipefail
+umask 022
+
+if [ "$(id -u)" != 0 ]; then
+  label=$(printf '%s' "${SSH_ORIGINAL_COMMAND:-manual}" | tr -c 'A-Za-z0-9._-' '_' | cut -c1-64)
+  exec sudo "$0" "$label"
+fi
+
+BASE=/var/lib/gravit
+RELEASES=$BASE/releases
+CURRENT=$BASE/next
+NAME=$(date -u +%Y%m%d-%H%M%S)-${1:-manual}
+NEW=$RELEASES/$NAME
+URL=http://127.0.0.1:3101/
+
+exec 9> /run/lock/gravit-next-deploy.lock
+flock -w 900 9
+
+TMP=$(mktemp /tmp/gravit-next-deploy-XXXXXX.tar.gz)
+trap 'rm -f "$TMP"' EXIT
+
+# At most 1 GiB (a release is about 400 MB).
+head -c 1073741824 > "$TMP"
+listing=$(tar tvzf "$TMP")
+if grep -qE '^[lh]' <<< "$listing"; then
+  echo "The archive contains links, stopping." >&2
+  exit 1
+fi
+names=$(tar tzf "$TMP" | sed 's|^\./||')
+for required in dist/index.html server/main.ts package.json package-lock.json assets/ guide/; do
+  if ! grep -qxF "$required" <<< "$names"; then
+    echo "The archive has no $required, stopping." >&2
+    exit 1
+  fi
+done
+
+install -d -o gravit -g gravit -m 755 "$RELEASES"
+
+# The first time, the release that was copied by hand moves into releases/.
+if [ -d "$CURRENT" ] && [ ! -L "$CURRENT" ]; then
+  mv -T "$CURRENT" "$RELEASES/before-releases"
+  ln -s releases/before-releases "$CURRENT"
+  chown -h gravit:gravit "$CURRENT"
+fi
+PREVIOUS=$(readlink "$CURRENT")
+
+runuser -u gravit -- mkdir "$NEW"
+runuser -u gravit -- tar xzf - -C "$NEW" --no-same-owner --no-same-permissions < "$TMP"
+
+if cmp -s "$BASE/$PREVIOUS/package-lock.json" "$NEW/package-lock.json" &&
+  [ -d "$BASE/$PREVIOUS/node_modules" ]; then
+  runuser -u gravit -- cp -al "$BASE/$PREVIOUS/node_modules" "$NEW/node_modules"
+else
+  echo "package-lock.json changed, installing the dependencies."
+  (cd "$NEW" && runuser -u gravit -- npm ci --omit=dev --ignore-scripts --no-audit --no-fund)
+fi
+
+switch_to() {
+  ln -sfn "$1" "$BASE/next.new"
+  chown -h gravit:gravit "$BASE/next.new"
+  mv -T "$BASE/next.new" "$CURRENT"
+  systemctl restart gravit-next
+}
+
+# Waits until the app serves the index.html of the given release.
+serves() {
+  for _ in $(seq 1 30); do
+    sleep 1
+    if curl -sf "$URL" | cmp -s - "$BASE/$1/dist/index.html"; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+switch_to "releases/$NAME"
+if ! serves "releases/$NAME"; then
+  echo "The new release doesn't answer, switching back to $PREVIOUS." >&2
+  journalctl -u gravit-next -n 30 --no-pager >&2 || true
+  switch_to "$PREVIOUS"
+  serves "$PREVIOUS" || echo "The previous release doesn't answer either!" >&2
+  exit 1
+fi
+
+# Keep the three newest releases; the running one is the newest.
+ls -1dt "$RELEASES"/*/ | tail -n +4 | xargs -r rm -rf --
+echo "Deployed $NAME."

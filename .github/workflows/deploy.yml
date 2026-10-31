@@ -1,0 +1,59 @@
+name: Deploy
+
+# Puts the app on gravitdesign.com. Publishing a release (the draft
+# desktop.yml makes for a version tag) deploys its tag; running the
+# workflow by hand deploys the branch or tag it runs on. Pre-releases are
+# not deployed.
+#
+# The job builds the client and streams dist, server, assets, guide and
+# the package files over SSH to the web server. The key in the production
+# environment can only run scripts/server/gravit-next-deploy there, which
+# unpacks them into a new release folder, switches the site over and
+# switches back if the app doesn't answer. The environment's secrets are
+# only given to runs on main and on v* tags.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: github.event_name != 'release' || !github.event.release.prerelease
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://gravitdesign.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - run: npm run build:client
+      - name: Pack
+        run: >-
+          tar czf "$RUNNER_TEMP/next.tar.gz" --exclude="*.test.ts"
+          dist server assets guide package.json package-lock.json
+      - name: Deploy
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+          DEPLOY_KNOWN_HOSTS: ${{ vars.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          # The server runs its forced command instead of the one given
+          # here, which only names the release.
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes \
+            "ubuntu@$DEPLOY_HOST" "$GITHUB_REF_NAME-${GITHUB_SHA::7}" < "$RUNNER_TEMP/next.tar.gz"
